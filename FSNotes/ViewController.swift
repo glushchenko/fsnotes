@@ -32,6 +32,12 @@ NSTableViewDelegate {
         //textView.textContainerInset = NSMakeSize(0, 5);
         
         textView.string = notesItem[0].content!
+        
+        let font = NSFont(name: "Source Code Pro", size: 12)
+        noteList.cell?.font = font
+        textView.font = font
+        
+        search.becomeFirstResponder()
     }
     
     override var representedObject: Any? {
@@ -45,8 +51,10 @@ NSTableViewDelegate {
     }
     
     override func controlTextDidChange(_ obj: Notification) {
+
         self.notesItem.removeAll();
         self.populateTable(search: search.stringValue)
+        
         noteList.reloadData()
     }
     

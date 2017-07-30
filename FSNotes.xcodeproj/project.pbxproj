@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D735E5AC1F2E027D00173215 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5AB1F2E027D00173215 /* Note.swift */; };
+		D735E5BB1F2E462500173215 /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
-		D7793C771F211C6000CA39B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7793C761F211C6000CA39B7 /* Assets.xcassets */; };
 		D7793C7A1F211C6000CA39B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D7793C861F211C6000CA39B7 /* FSNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C851F211C6000CA39B7 /* FSNotesTests.swift */; };
 		D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */; };
@@ -35,10 +35,10 @@
 
 /* Begin PBXFileReference section */
 		D735E5AB1F2E027D00173215 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		D735E5B81F2E45CC00173215 /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icons.icns; path = FSNotes/Assets.xcassets/icons.icns; sourceTree = "<group>"; };
 		D7793C6F1F211C6000CA39B7 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C721F211C6000CA39B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7793C741F211C6000CA39B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D7793C761F211C6000CA39B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D7793C791F211C6000CA39B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D7793C7B1F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FSNotes.entitlements; sourceTree = "<group>"; };
@@ -78,6 +78,7 @@
 		D7793C661F211C6000CA39B7 = {
 			isa = PBXGroup;
 			children = (
+				D735E5B81F2E45CC00173215 /* icons.icns */,
 				D7793C711F211C6000CA39B7 /* FSNotes */,
 				D7793C841F211C6000CA39B7 /* FSNotesTests */,
 				D7793C8F1F211C6000CA39B7 /* FSNotesUITests */,
@@ -100,7 +101,6 @@
 			children = (
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
-				D7793C761F211C6000CA39B7 /* Assets.xcassets */,
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
@@ -231,7 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7793C771F211C6000CA39B7 /* Assets.xcassets in Resources */,
+				D735E5BB1F2E462500173215 /* icons.icns in Resources */,
 				D7793C7A1F211C6000CA39B7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -415,7 +415,6 @@
 		D7793C961F211C6000CA39B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 866P6MTE92;
@@ -430,7 +429,6 @@
 		D7793C971F211C6000CA39B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 866P6MTE92;
