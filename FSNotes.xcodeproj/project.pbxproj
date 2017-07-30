@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D735E5AC1F2E027D00173215 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5AB1F2E027D00173215 /* Note.swift */; };
 		D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7793C771F211C6000CA39B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7793C761F211C6000CA39B7 /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D735E5AB1F2E027D00173215 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7793C6F1F211C6000CA39B7 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C721F211C6000CA39B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7793C741F211C6000CA39B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
+				D735E5AB1F2E027D00173215 /* Note.swift */,
 			);
 			path = FSNotes;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 			files = (
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
+				D735E5AC1F2E027D00173215 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +523,7 @@
 				D7793C971F211C6000CA39B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D7793C981F211C6000CA39B7 /* Build configuration list for PBXNativeTarget "FSNotesTests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +532,7 @@
 				D7793C9A1F211C6000CA39B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D7793C9B1F211C6000CA39B7 /* Build configuration list for PBXNativeTarget "FSNotesUITests" */ = {
 			isa = XCConfigurationList;
@@ -535,6 +541,7 @@
 				D7793C9D1F211C6000CA39B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
