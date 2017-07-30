@@ -9,9 +9,9 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTextViewDelegate,
-NSTextFieldDelegate,
-NSTableViewDataSource,
-NSTableViewDelegate {
+    NSTextFieldDelegate,
+    NSTableViewDataSource,
+    NSTableViewDelegate {
     
     var notesItem = [Note]()
     
@@ -51,9 +51,12 @@ NSTableViewDelegate {
     }
     
     override func controlTextDidChange(_ obj: Notification) {
-
         self.notesItem.removeAll();
         self.populateTable(search: search.stringValue)
+        
+        if (self.notesItem.count > 0) {
+            textView.string = self.notesItem[0].content!
+        }
         
         noteList.reloadData()
     }
@@ -150,6 +153,15 @@ NSTableViewDelegate {
             
         } catch let error as NSError {
             print(error.localizedDescription)
+        }
+    }
+    
+    /**
+     * Focus search bar on ESC
+     */
+    override func keyUp(with event: NSEvent) {
+        if (event.keyCode == 53) {
+            search.becomeFirstResponder()
         }
     }
 }
