@@ -18,6 +18,12 @@ class ViewController: NSViewController, NSTextViewDelegate,
     @IBOutlet weak var noteList: NSTableView!
     @IBOutlet var textView: NSTextView!
     @IBOutlet weak var search: NSTextField!
+    @IBOutlet weak var notesTableView: NotesTableView!
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        self.view.window!.title = "FSNotes"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +35,6 @@ class ViewController: NSViewController, NSTextViewDelegate,
         noteList.delegate = self
         
         self.populateTable(search: "")
-        //textView.textContainerInset = NSMakeSize(0, 5);
-        
         textView.string = notesItem[0].content!
         
         let font = NSFont(name: "Source Code Pro", size: 12)
@@ -47,32 +51,50 @@ class ViewController: NSViewController, NSTextViewDelegate,
     }
     
     func textDidChange(_ notification: Notification) {
-        print(textView.string)
+        if (notesItem.indices.contains(noteList.selectedRow)) {
+            let note = notesItem[noteList.selectedRow]
+            let content = textView.string
+            
+            note.content = content
+            writeContent(note: note, content: content)
+            populateTable(search:"")
+            noteList.reloadData()
+            noteList.scrollRowToVisible(0)
+            selectNullTableRow()
+        }
+
     }
     
     override func controlTextDidChange(_ obj: Notification) {
+        
         self.notesItem.removeAll();
         self.populateTable(search: search.stringValue)
         
         if (self.notesItem.count > 0) {
             textView.string = self.notesItem[0].content!
+            self.selectNullTableRow()
         }
-        
+        print("changed")
         noteList.reloadData()
     }
     
-    @IBAction func demo(_ sender: NSTextField) {
-        print(222)
-    }
-    
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        self.view.window!.title = "FSNotes"
-    }
-    
-    // populate table
-    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return self.notesItem[row].name! + "\n\n" + self.notesItem[row].content!
+    @IBAction func makeNote(_ sender: NSTextField) {
+        let note = Note()
+        note.name = search.stringValue
+        note.content = ""
+        
+        let fileUrl = self.makeUniqueFileName(name: search.stringValue)
+        
+        let someText = ""
+        
+        do {
+            try someText.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+        }
+        catch { }
+        
+        self.populateTable(search: "")
+        noteList.reloadData()
+        self.selectNullTableRow()
     }
     
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -111,58 +133,133 @@ class ViewController: NSViewController, NSTextViewDelegate,
             myTable.selectedRowIndexes.map {
                 textView.string = self.notesItem[$0].content!
             }
-            
-            //myTable.hideRows(at: <#T##IndexSet#>, withAnimation: <#T##NSTableView.AnimationOptions#>)
         }
     }
     
     func populateTable(search: String) {
-        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let markdownFiles = self.readDocuments()
+        var noteList = [Note]()
         
-        //self.notes = ["documentsUrl", "sss"];
-        
-        do {
-            let keys = [URLResourceKey.isDirectoryKey, URLResourceKey.localizedNameKey, URLResourceKey.contentModificationDateKey]
+        for (markdownPath) in markdownFiles {
+            let url = self.getDefaultDocumentsUrl().appendingPathComponent(markdownPath)
+            let preview = self.getPreviewText(url: url)
             
-            // Get the directory contents urls (including subfolders urls)
-            let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: keys, options: [])
-            
-            // if you want to filter the directory contents you can do like this:
-            var markdownFiles = directoryContents.filter{$0.pathExtension == "md"}
-            
-            var noteList = [Note]()
-            for (markdownPath) in markdownFiles {
-                
-                //print(markdownFiles)
-                var modDate = self.getModificationDate(url: markdownPath)
-                var preview = self.getPreviewText(url: markdownPath)
-                
-                
-                var note = Note()
-                note.date = modDate
-                note.content = preview
-                note.name = markdownPath.pathComponents.last
-                
-                if (search.count == 0 || preview.contains(search)) {
-                    noteList.append(note)
-                }
-                
-                
+            var name = ""
+            if (url.pathComponents.count > 0) {
+                name = url.pathComponents.last!
             }
-            self.notesItem = noteList
+        
+            let note = Note()
+            note.date = self.getModificationDate(url: url)
+            note.content = preview
+            note.name = name
             
-        } catch let error as NSError {
-            print(error.localizedDescription)
+            if (search.count == 0 || preview.contains(search) || name.contains(search)) {
+                noteList.append(note)
+            }
+
         }
+        
+        self.notesItem = noteList
+        notesTableView.notesList = noteList
     }
     
-    /**
-     * Focus search bar on ESC
-     */
     override func keyUp(with event: NSEvent) {
+        /**
+         * Focus search bar on ESC
+         */
         if (event.keyCode == 53) {
             search.becomeFirstResponder()
         }
+        
+        /**
+         * Focus notes lsit on down arrow
+         */
+        if (event.keyCode == 125) {
+            
+        }
     }
+    
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        search.focusRingType = .none
+        
+        //print("1")
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        if let cell = noteList.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
+        {
+            cell.preview.stringValue = notesItem[row].content!
+            cell.name.stringValue = notesItem[row].name!            
+            return cell
+        }
+        return NoteCellView();
+    }
+    
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        let myCustomView = NoteRowView()
+        return myCustomView
+    }
+    
+    func getDefaultDocumentsUrl() -> URL {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        return documentsUrl
+    }
+    
+    func makeUniqueFileName(name: String, i: Int = 0) -> URL {
+        let defaultUrl = self.getDefaultDocumentsUrl()
+        
+        var fileUrl = defaultUrl
+        fileUrl.appendPathComponent(name + ".md")
+        
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: fileUrl.path) {
+            let j = i + 1
+            let newName = "Untitled note" + " " + String(j)
+            return self.makeUniqueFileName(name: newName, i: j)
+        }
+        
+        return fileUrl
+    }
+    
+    func readDocuments() -> Array<String> {
+        let urlArray: [String] = [""]
+        
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        if let urlArray = try? FileManager.default.contentsOfDirectory(at: directory,
+                                                                       includingPropertiesForKeys: [.contentModificationDateKey],
+                                                                       options:.skipsHiddenFiles) {
+            
+            let markdownFiles = urlArray.filter{$0.pathExtension == "md"}
+            return markdownFiles.map { url in
+                    (
+                        url.lastPathComponent,
+                        (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast)
+                }
+                .sorted(by: { $0.1 > $1.1 })
+                .map { $0.0 }
+        }
+        
+        return urlArray
+    }
+    
+    func selectNullTableRow() {
+        self.noteList.selectRowIndexes([0], byExtendingSelection: false)
+    }
+    
+    func writeContent(note: Note, content: String) {
+        let fileUrl = self.getDefaultDocumentsUrl().appendingPathComponent(note.name!)
+        
+        do {
+            try content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+        }
+        catch { }
+    }
+    
+    func tableView(_ tableView: NSTableView, didRemove rowView: NSTableRowView, forRow row: Int) {
+        print(row)
+    }
+
 }
 

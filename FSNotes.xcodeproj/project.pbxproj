@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		D735E5AC1F2E027D00173215 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5AB1F2E027D00173215 /* Note.swift */; };
 		D735E5BB1F2E462500173215 /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
+		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
+		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7793C7A1F211C6000CA39B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D7793C861F211C6000CA39B7 /* FSNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C851F211C6000CA39B7 /* FSNotesTests.swift */; };
 		D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */; };
+		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,8 @@
 /* Begin PBXFileReference section */
 		D735E5AB1F2E027D00173215 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D735E5B81F2E45CC00173215 /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icons.icns; path = FSNotes/Assets.xcassets/icons.icns; sourceTree = "<group>"; };
+		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D7793C6F1F211C6000CA39B7 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C721F211C6000CA39B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7793C741F211C6000CA39B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +53,7 @@
 		D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesUITests.swift; sourceTree = "<group>"; };
 		D7793C921F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,9 @@
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
 				D735E5AB1F2E027D00173215 /* Note.swift */,
+				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
+				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
+				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
 			);
 			path = FSNotes;
 			sourceTree = "<group>";
@@ -259,6 +268,9 @@
 			files = (
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
+				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
+				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
+				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D735E5AC1F2E027D00173215 /* Note.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
