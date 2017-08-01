@@ -9,9 +9,7 @@
 import Cocoa
 
 class ViewController: NSViewController, NSTextViewDelegate,
-    NSTextFieldDelegate,
-    NSTableViewDataSource,
-    NSTableViewDelegate {
+    NSTextFieldDelegate {
     
     var notesItem = [Note]()
     
@@ -31,10 +29,8 @@ class ViewController: NSViewController, NSTextViewDelegate,
         textView.delegate = self
         search.delegate = self
         
-        noteList.dataSource = self
-        noteList.delegate = self
-        
         self.populateTable(search: "")
+        self.notesTableView.reloadData()
         textView.string = notesItem[0].content!
         
         let font = NSFont(name: "Source Code Pro", size: 12)
@@ -97,11 +93,6 @@ class ViewController: NSViewController, NSTextViewDelegate,
         self.selectNullTableRow()
     }
     
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        print(self.notesItem.count)
-        return self.notesItem.count
-    }
-    
     func getPreviewText(url: URL) -> String {
         var fullNote: String = ""
         
@@ -127,15 +118,6 @@ class ViewController: NSViewController, NSTextViewDelegate,
         return modificationDate!
     }
     
-    func tableViewSelectionDidChange(_ notification: Notification) {
-        if let myTable = notification.object as? NSTableView {
-            // we create an [Int] array from the index set
-            myTable.selectedRowIndexes.map {
-                textView.string = self.notesItem[$0].content!
-            }
-        }
-    }
-    
     func populateTable(search: String) {
         let markdownFiles = self.readDocuments()
         var noteList = [Note]()
@@ -153,6 +135,7 @@ class ViewController: NSViewController, NSTextViewDelegate,
             note.date = self.getModificationDate(url: url)
             note.content = preview
             note.name = name
+            note.url = url
             
             if (search.count == 0 || preview.contains(search) || name.contains(search)) {
                 noteList.append(note)
@@ -186,20 +169,9 @@ class ViewController: NSViewController, NSTextViewDelegate,
         //print("1")
     }
     
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let cell = noteList.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
-        {
-            cell.preview.stringValue = notesItem[row].content!
-            cell.name.stringValue = notesItem[row].name!            
-            return cell
-        }
-        return NoteCellView();
-    }
+
     
-    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
-        let myCustomView = NoteRowView()
-        return myCustomView
-    }
+
     
     func getDefaultDocumentsUrl() -> URL {
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
