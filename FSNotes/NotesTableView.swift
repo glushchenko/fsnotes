@@ -22,7 +22,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     // Remove note
     override func keyDown(with event: NSEvent) {
         if (event.keyCode == 51) {
-            if (notesList.indices.contains(selectedRow)) {
+            if (!notesList.indices.contains(selectedRow)) {
                 return
             }
             
@@ -31,11 +31,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             note.remove()
             
             let viewController = self.window?.contentViewController as? ViewController
+            
+            viewController?.editArea.string = ""
             viewController?.populateTable(search: "")
             self.reloadData()
             
-            //print(selectedRow)
-            // select next if exist
+            // select next note if exist
             if (notesList.indices.contains(nextRow)) {
                 self.selectRowIndexes([nextRow], byExtendingSelection: false)
             }
@@ -53,7 +54,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if let cell = self.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
         {
-            cell.preview.stringValue = notesList[row].content!
+            let text = notesList[row].content!
+            //let trimmed = String(text.characters.filter { !" \n\t\r".characters.contains($0) })
+            //let trimmed = notesList[row].content!.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
+            print("trimmed")
+            //print(trimmed)
+            cell.preview.sizeToFit()
+            cell.preview.maximumNumberOfLines = 3
+            cell.preview.stringValue = text
             cell.name.stringValue = notesList[row].name!
             return cell
         }
@@ -65,10 +73,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return notesList.count
     }
     
-    // On selected row action
+    // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
         let viewController = self.window?.contentViewController as? ViewController
-        
-        viewController?.textView.string = notesList[selectedRow].content!
+        viewController?.lastSelectedNote = notesList[selectedRow]
+        viewController?.editArea.string = notesList[selectedRow].content!
+        //viewController?.textView.becomeFirstResponder()
     }
 }

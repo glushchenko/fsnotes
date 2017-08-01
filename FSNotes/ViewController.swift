@@ -8,13 +8,16 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSTextViewDelegate,
+class ViewController: NSViewController,
+    NSTextViewDelegate,
     NSTextFieldDelegate {
     
-    var notesItem = [Note]()
+    var lastSelectedNote: Note?
     
+    @IBOutlet weak var searchWrapper: NSTextField!
     @IBOutlet weak var noteList: NSTableView!
-    @IBOutlet var textView: NSTextView!
+    @IBOutlet var editArea: NSTextView!
+    @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: NSTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     
@@ -26,18 +29,24 @@ class ViewController: NSViewController, NSTextViewDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        textView.delegate = self
+        //editArea.delegate = s
+        editArea.delegate = self
         search.delegate = self
         
         self.populateTable(search: "")
         self.notesTableView.reloadData()
-        textView.string = notesItem[0].content!
         
-        let font = NSFont(name: "Source Code Pro", size: 12)
-        noteList.cell?.font = font
-        textView.font = font
+        if (self.notesTableView.notesList.indices.contains(0)) {
+            self.lastSelectedNote = self.notesTableView.notesList[0]
+            editArea.string = notesTableView.notesList[0].content!
+        }
         
-        search.becomeFirstResponder()
+        let font = NSFont(name: "Source Code Pro", size: 13)
+        editArea.font = font
+        
+        //searchWrapper.resignFirstResponder()
+        //editArea.addSubview(NSView())
+        //editAreaScroll.becomeFirstResponder()
     }
     
     override var representedObject: Any? {
@@ -46,41 +55,39 @@ class ViewController: NSViewController, NSTextViewDelegate,
         }
     }
     
+    // On change text in main editor
     func textDidChange(_ notification: Notification) {
-        if (notesItem.indices.contains(noteList.selectedRow)) {
-            let note = notesItem[noteList.selectedRow]
-            let content = textView.string
-            
-            note.content = content
-            writeContent(note: note, content: content)
-            populateTable(search:"")
-            noteList.reloadData()
-            noteList.scrollRowToVisible(0)
-            selectNullTableRow()
-        }
-
+        let content = editArea.string
+    
+        lastSelectedNote?.content = content
+        writeContent(note: lastSelectedNote!, content: content)
+        populateTable(search:"")
+        
+        notesTableView.reloadData()
+        notesTableView.scrollRowToVisible(0)
+        
+        //selectNullTableRow()
+        //textView.becomeFirstResponder()
     }
     
     override func controlTextDidChange(_ obj: Notification) {
         
-        self.notesItem.removeAll();
+        notesTableView.notesList.removeAll();
         self.populateTable(search: search.stringValue)
         
-        if (self.notesItem.count > 0) {
-            textView.string = self.notesItem[0].content!
+        if (notesTableView.notesList.count > 0) {
+            editArea.string = notesTableView.notesList[0].content!
             self.selectNullTableRow()
         }
         print("changed")
-        noteList.reloadData()
+        notesTableView.reloadData()
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
         let note = Note()
         note.name = search.stringValue
-        note.content = ""
         
         let fileUrl = self.makeUniqueFileName(name: search.stringValue)
-        
         let someText = ""
         
         do {
@@ -90,9 +97,17 @@ class ViewController: NSViewController, NSTextViewDelegate,
         
         self.populateTable(search: "")
         noteList.reloadData()
+        
+        //search.resignFirstResponder()
+        //textView.becomeFirstResponder()
         self.selectNullTableRow()
+        
+        DispatchQueue.main.async() {
+            self.editArea.window?.makeFirstResponder(self.editArea)
+            //return
+        }
     }
-    
+
     func getPreviewText(url: URL) -> String {
         var fullNote: String = ""
         
@@ -143,7 +158,6 @@ class ViewController: NSViewController, NSTextViewDelegate,
 
         }
         
-        self.notesItem = noteList
         notesTableView.notesList = noteList
     }
     
@@ -165,13 +179,7 @@ class ViewController: NSViewController, NSTextViewDelegate,
     
     override func controlTextDidEndEditing(_ obj: Notification) {
         search.focusRingType = .none
-        
-        //print("1")
     }
-    
-
-    
-
     
     func getDefaultDocumentsUrl() -> URL {
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -228,10 +236,5 @@ class ViewController: NSViewController, NSTextViewDelegate,
         }
         catch { }
     }
-    
-    func tableView(_ tableView: NSTableView, didRemove rowView: NSTableRowView, forRow row: Int) {
-        print(row)
-    }
-
 }
 

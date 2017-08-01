@@ -15,5 +15,10 @@ class NoteCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        let font = NSFont(name: "Source Code Pro", size: 11)
+        //name.font = font
+        preview.font = font
+        
+        
     }
 }
