@@ -11,6 +11,6 @@ FSNotes features:
 - blazing fast
 - lightweight
 - maintainable (< 1000 code strings)
-- open source
+- open source (swift 3)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-02-03-01-34.png)
