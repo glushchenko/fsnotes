@@ -13,6 +13,10 @@ FSNotes features:
 - maintainable (< 1000 code strings)
 - open source (swift 3)
 
+Markdown files import/export directory:
+
+```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
+
 ### Keyboard shortcuts
 
 Esc - search bar
