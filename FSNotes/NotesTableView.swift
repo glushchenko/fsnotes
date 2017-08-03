@@ -52,13 +52,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // Custom cell style
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let cell = self.makeView(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
+        if let cell = self.make(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
         {
             let text = notesList[row].content!
-            //let trimmed = String(text.characters.filter { !" \n\t\r".characters.contains($0) })
-            //let trimmed = notesList[row].content!.replacingOccurrences(of: "^\\s*", with: "", options: .regularExpression)
-            print("trimmed")
-            //print(trimmed)
             cell.preview.sizeToFit()
             cell.preview.maximumNumberOfLines = 3
             cell.preview.stringValue = text
@@ -78,6 +74,5 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let viewController = self.window?.contentViewController as? ViewController
         viewController?.lastSelectedNote = notesList[selectedRow]
         viewController?.editArea.string = notesList[selectedRow].content!
-        //viewController?.textView.becomeFirstResponder()
     }
 }

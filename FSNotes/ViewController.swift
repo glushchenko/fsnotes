@@ -22,14 +22,21 @@ class ViewController: NSViewController,
     @IBOutlet weak var notesTableView: NotesTableView!
     
     override func viewDidAppear() {
-        super.viewDidAppear()
         self.view.window!.title = "FSNotes"
+        
+        // autosave size and position
+        self.view.window?.setFrameAutosaveName("MainWindow")
+        
+        // editarea paddings
+        editArea.textContainerInset.height = 5
+        editArea.textContainerInset.width = 5
+        
+        super.viewDidAppear()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //editArea.delegate = s
         editArea.delegate = self
         search.delegate = self
         
@@ -43,10 +50,6 @@ class ViewController: NSViewController,
         
         let font = NSFont(name: "Source Code Pro", size: 13)
         editArea.font = font
-        
-        //searchWrapper.resignFirstResponder()
-        //editArea.addSubview(NSView())
-        //editAreaScroll.becomeFirstResponder()
     }
     
     override var representedObject: Any? {
@@ -60,14 +63,11 @@ class ViewController: NSViewController,
         let content = editArea.string
     
         lastSelectedNote?.content = content
-        writeContent(note: lastSelectedNote!, content: content)
+        writeContent(note: lastSelectedNote!, content: content!)
         populateTable(search:"")
         
         notesTableView.reloadData()
         notesTableView.scrollRowToVisible(0)
-        
-        //selectNullTableRow()
-        //textView.becomeFirstResponder()
     }
     
     override func controlTextDidChange(_ obj: Notification) {
@@ -79,7 +79,7 @@ class ViewController: NSViewController,
             editArea.string = notesTableView.notesList[0].content!
             self.selectNullTableRow()
         }
-        print("changed")
+
         notesTableView.reloadData()
     }
     
@@ -98,13 +98,11 @@ class ViewController: NSViewController,
         self.populateTable(search: "")
         noteList.reloadData()
         
-        //search.resignFirstResponder()
-        //textView.becomeFirstResponder()
         self.selectNullTableRow()
         
+        // cursor position hack
         DispatchQueue.main.async() {
             self.editArea.window?.makeFirstResponder(self.editArea)
-            //return
         }
     }
 
@@ -162,18 +160,9 @@ class ViewController: NSViewController,
     }
     
     override func keyUp(with event: NSEvent) {
-        /**
-         * Focus search bar on ESC
-         */
+        // Focus search bar on ESC
         if (event.keyCode == 53) {
             search.becomeFirstResponder()
-        }
-        
-        /**
-         * Focus notes lsit on down arrow
-         */
-        if (event.keyCode == 125) {
-            
         }
     }
     
