@@ -14,22 +14,31 @@ class ViewController: NSViewController,
     
     var lastSelectedNote: Note?
     
+    @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
-    @IBOutlet weak var noteList: NSTableView!
+    //@IBOutlet weak var noteList: NSTableView!
     @IBOutlet var editArea: NSTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
-    @IBOutlet weak var search: NSTextField!
+    @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
-        
+                
         // autosave size and position
         self.view.window?.setFrameAutosaveName("MainWindow")
+        splitView.autosaveName = "SplitView"
         
         // editarea paddings
         editArea.textContainerInset.height = 5
         editArea.textContainerInset.width = 5
+    
+        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
+            if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool) {
+                self.splitView.isVertical = false
+                notesTableView.rowHeight = 25
+            }
+        }
         
         super.viewDidAppear()
     }
@@ -44,7 +53,6 @@ class ViewController: NSViewController,
         self.notesTableView.reloadData()
         
         if (self.notesTableView.notesList.indices.contains(0)) {
-            self.lastSelectedNote = self.notesTableView.notesList[0]
             editArea.string = notesTableView.notesList[0].content!
         }
         
@@ -61,13 +69,23 @@ class ViewController: NSViewController,
     // On change text in main editor
     func textDidChange(_ notification: Notification) {
         let content = editArea.string
-    
-        lastSelectedNote?.content = content
-        writeContent(note: lastSelectedNote!, content: content!)
-        populateTable(search:"")
+        var selected = notesTableView.selectedRow
         
-        notesTableView.reloadData()
-        notesTableView.scrollRowToVisible(0)
+        if (selected < 0) {
+            selected = 0
+        }
+        
+        if (notesTableView.notesList.indices.contains(selected)) {
+            let note = notesTableView.notesList.remove(at: selected)
+            note.content = content
+            
+            notesTableView.notesList.insert(note, at: 0)
+            notesTableView.moveRow(at: selected, to: 0)
+            notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
+            notesTableView.scrollRowToVisible(0)
+            
+            writeContent(note: note, content: content!)
+        }
     }
     
     override func controlTextDidChange(_ obj: Notification) {
@@ -96,14 +114,11 @@ class ViewController: NSViewController,
         catch { }
         
         self.populateTable(search: "")
-        noteList.reloadData()
+        notesTableView.reloadData()
         
         self.selectNullTableRow()
         
-        // cursor position hack
-        DispatchQueue.main.async() {
-            self.editArea.window?.makeFirstResponder(self.editArea)
-        }
+        focusEditArea()
     }
 
     func getPreviewText(url: URL) -> String {
@@ -153,16 +168,20 @@ class ViewController: NSViewController,
             if (search.count == 0 || preview.contains(search) || name.contains(search)) {
                 noteList.append(note)
             }
-
         }
         
         notesTableView.notesList = noteList
     }
     
-    override func keyUp(with event: NSEvent) {
+    override func keyUp(with event: NSEvent) {        
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             search.becomeFirstResponder()
+        }
+        
+        if event.modifierFlags.contains(.control) {
+            if let chars = event.charactersIgnoringModifiers {
+            }
         }
     }
     
@@ -214,7 +233,8 @@ class ViewController: NSViewController,
     }
     
     func selectNullTableRow() {
-        self.noteList.selectRowIndexes([0], byExtendingSelection: false)
+        notesTableView.selectRowIndexes([0], byExtendingSelection: false)
+        notesTableView.scrollRowToVisible(0)
     }
     
     func writeContent(note: Note, content: String) {
@@ -224,6 +244,19 @@ class ViewController: NSViewController,
             try content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
         }
         catch { }
+    }
+    
+    func focusEditArea() {
+        DispatchQueue.main.async() {
+            self.editArea.window?.makeFirstResponder(self.editArea)
+        }
+    }
+    
+    func focusTable() {
+        DispatchQueue.main.async {
+            self.notesTableView.window?.makeFirstResponder(self.notesTableView)
+            self.selectNullTableRow()
+        }
     }
 }
 

@@ -55,14 +55,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if let cell = self.make(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
         {
             let text = notesList[row].content!
-            cell.preview.sizeToFit()
-            cell.preview.maximumNumberOfLines = 3
-            cell.preview.stringValue = text
             cell.name.stringValue = notesList[row].name!
+            //cell.preview.maximumNumberOfLines = 2
+            cell.preview.stringValue = text
             return cell
         }
+        
         return NoteCellView();
     }
+ 
     
     // Populate table data
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -74,5 +75,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let viewController = self.window?.contentViewController as? ViewController
         viewController?.lastSelectedNote = notesList[selectedRow]
         viewController?.editArea.string = notesList[selectedRow].content!
+    }
+    
+    func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+        return notesList[row]
     }
 }

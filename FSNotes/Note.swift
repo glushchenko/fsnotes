@@ -8,11 +8,13 @@
 
 import Foundation
 
-class Note {
+class Note: NSObject {
     var name: String?
     var content: String?
     var date: Date?
     var url: URL?
+    
+    override init(){}
     
     func remove() {
         let fileManager = FileManager.default
