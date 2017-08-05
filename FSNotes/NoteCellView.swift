@@ -40,12 +40,14 @@ class NoteCellView: NSTableCellView {
             } else {
                 let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor)
                 let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 2)
+                let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0)
                 let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 2)
                 let previewBottom = preview.bottomAnchor.constraint(equalTo: self.bottomAnchor)
                 
                 self.preview.translatesAutoresizingMaskIntoConstraints = false
                 
-                NSLayoutConstraint.activate([nameTop, nameLeft, previewTop, previewBottom])
+                NSLayoutConstraint.activate([nameTop, nameLeft, nameRight,
+                    previewTop, previewBottom])
             }
         }
     }

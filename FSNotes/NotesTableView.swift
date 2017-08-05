@@ -50,19 +50,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return NoteRowView()
     }
     
-    // Custom cell style
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let cell = self.make(withIdentifier: tableColumn!.identifier, owner: nil) as? NoteCellView
-        {
-            let text = notesList[row].content!
-            cell.name.stringValue = notesList[row].name!
-            //cell.preview.maximumNumberOfLines = 2
-            cell.preview.stringValue = text
-            return cell
-        }
-        
-        return NoteCellView();
-    }
+
  
     
     // Populate table data

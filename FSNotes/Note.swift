@@ -26,4 +26,21 @@ class Note: NSObject {
             print("Remove went wrong: \(error)")
         }
     }
+    
+    func getPreviewForLabel() -> String {
+        var preview: String = content!
+    
+        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
+            let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool
+            
+            if (isUseHorizontalMode
+                && content!.hasPrefix(" – ") == false
+                && content!.characters.count > 0
+            ) {
+                preview = " – " + content!.replacingOccurrences(of: "\n", with: " ")
+            }
+        }
+    
+        return preview
+    }
 }

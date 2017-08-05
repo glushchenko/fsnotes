@@ -16,7 +16,6 @@ class ViewController: NSViewController,
     
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
-    //@IBOutlet weak var noteList: NSTableView!
     @IBOutlet var editArea: NSTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
