@@ -21,6 +21,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     
+    @IBAction func fileName(_ sender: Any) {
+    }
+    
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
                 
@@ -143,7 +146,6 @@ class ViewController: NSViewController,
         var modificationDate: Date?
         
         do {
-            //print(url.path)
             let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
             
             modificationDate = fileAttribute[FileAttributeKey.modificationDate] as! Date
@@ -256,8 +258,6 @@ class ViewController: NSViewController,
     
     func writeContent(note: Note, content: String) {
         let fileUrl = self.getDefaultDocumentsUrl().appendingPathComponent(note.name!)
-        
-        //print(fileUrl)
         
         do {
             try content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)

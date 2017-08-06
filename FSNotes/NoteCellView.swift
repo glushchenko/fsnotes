@@ -35,16 +35,10 @@ class NoteCellView: NSTableCellView {
     }
     
     func applyVerticalConstrainst() {
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor)
-        let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 2)
-        let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0)
-        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 2)
-        let previewBottom = preview.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        
-        self.preview.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([nameTop, nameLeft, nameRight,
-                                     previewTop, previewBottom])
+        preview.translatesAutoresizingMaskIntoConstraints = false
+        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 10)
+        let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
+        NSLayoutConstraint.activate([previewTop, previewLeft])
     }
     
     func applyHorizontalConstrains() {
@@ -52,14 +46,9 @@ class NoteCellView: NSTableCellView {
             self.preview.stringValue = " – " + preview.stringValue.replacingOccurrences(of: "\n", with: " ")
         }
         
-        self.preview.translatesAutoresizingMaskIntoConstraints = false
-        
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 10)
-        let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 120)
-        let nameRight = name.rightAnchor.constraint(equalTo: self.preview.leftAnchor, constant: 0)
+        preview.translatesAutoresizingMaskIntoConstraints = false
         let previewTop = preview.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
-        
-        NSLayoutConstraint.activate([nameTop, nameLeft, nameRight, previewTop])
-
+        let previewLeft = preview.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 0)
+        NSLayoutConstraint.activate([previewTop, previewLeft])
     }
 }

@@ -16,6 +16,21 @@ class Note: NSObject {
     
     override init(){}
     
+    func rename(newName: String) {
+        let fileManager = FileManager.default
+        
+        print(url?.lastPathComponent)
+        
+        /*
+        do {
+            try fileManager.moveItem(at: url, to: <#T##URL#>)
+        }
+        catch let error as NSError {
+            print("Remove went wrong: \(error)")
+        }
+         */
+    }
+    
     func remove() {
         let fileManager = FileManager.default
         
@@ -30,10 +45,10 @@ class Note: NSObject {
     func getPreviewForLabel() -> String {
         var preview: String = content!
     
-        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
-            let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool
-            
-            if (isUseHorizontalMode
+        let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode")
+        
+        if (isUseHorizontalMode != nil) {
+            if (isUseHorizontalMode as! Bool
                 && content!.hasPrefix(" – ") == false
                 && content!.characters.count > 0
             ) {

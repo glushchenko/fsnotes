@@ -15,7 +15,6 @@ class SandboxBookmark {
     func bookmarkPath() -> String
     {
         var url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        
         url = url.appendingPathComponent("Bookmarks.dict")
         
         return url.path
@@ -27,9 +26,7 @@ class SandboxBookmark {
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: path) {
             bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as! [URL: Data]
-            
-            print(bookmarks)
-            
+                        
             for bookmark in bookmarks {
                 restore(bookmark)
             }
@@ -53,12 +50,9 @@ class SandboxBookmark {
     
     func restore(_ bookmark: (key: URL, value: Data))
     {
-        print("restore")
-        
         let restoredUrl: URL?
         var isStale = false
         
-        Swift.print ("Restoring \(bookmark.key)")
         do {
             restoredUrl = try URL.init(resolvingBookmarkData: bookmark.value, options: NSURL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
         } catch {

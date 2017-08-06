@@ -788,19 +788,8 @@
                                     <action selector="previewApp:" target="IAM-xZ-Bfs" id="ACE-PI-oej"/>
                                 </connections>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIY-4d-DBG">
-                                <rect key="frame" x="349" y="197" width="117" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Choose folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oCw-Ym-pl0">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="selectDefaultFileStorage:" target="IAM-xZ-Bfs" id="pZe-Js-dji"/>
-                                </connections>
-                            </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Re-Xc-h66">
-                                <rect key="frame" x="40" y="203" width="300" height="22"/>
+                                <rect key="frame" x="40" y="203" width="283" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="fGD-g1-Iyt">
                                     <font key="font" metaFont="system"/>
@@ -818,7 +807,7 @@
                                 </textFieldCell>
                             </textField>
                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lkd-Oe-1Xz">
-                                <rect key="frame" x="340" y="126" width="84" height="18"/>
+                                <rect key="frame" x="342" y="126" width="84" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Horizontal" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="K2F-dD-Jhr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -826,6 +815,17 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="horizontalOrientation:" target="IAM-xZ-Bfs" id="SyP-jT-wAh"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BIY-4d-DBG">
+                                <rect key="frame" x="325" y="197" width="117" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Choose folder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oCw-Ym-pl0">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="selectDefaultFileStorage:" target="IAM-xZ-Bfs" id="pZe-Js-dji"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -942,11 +942,14 @@
                                                                                             <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.name" id="isc-2k-ZuS"/>
                                                                                         </connections>
                                                                                     </textFieldCell>
+                                                                                    <connections>
+                                                                                        <action selector="fileName:" target="XfG-lQ-9wD" id="ZV9-vc-kbh"/>
+                                                                                    </connections>
                                                                                 </textField>
                                                                             </subviews>
                                                                             <connections>
-                                                                                <outlet property="name" destination="UvD-jB-7Ok" id="K8w-rd-MTj"/>
-                                                                                <outlet property="preview" destination="EXQ-Ld-D5r" id="Igo-1o-mLy"/>
+                                                                                <outlet property="name" destination="UvD-jB-7Ok" id="5Mo-lm-FHk"/>
+                                                                                <outlet property="preview" destination="EXQ-Ld-D5r" id="aS2-51-odI"/>
                                                                             </connections>
                                                                         </tableCellView>
                                                                     </prototypeCellViews>
