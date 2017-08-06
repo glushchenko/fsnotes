@@ -13,7 +13,7 @@ FSNotes features:
 - maintainable (< 1000 code strings)
 - open source (swift 3)
 
-Markdown files import/export directory:
+Markdown files default directory:
 
 ```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
 
@@ -27,4 +27,4 @@ Up, Down arrows - select note
 Delete - remove note  
 Tab - go to edit area
 
-![](http://files.og.uk.to/Screen-Shot-2017-08-02-03-01-34.png)
+![](http://files.og.uk.to/Screen-Shot-2017-08-06-16-30-55.png)
