@@ -1,6 +1,6 @@
 ## Plain text note manager
 
-Lightweight notational velocity reinvention.
+Lightweight notational velocity reinvention. 
 
 FSNotes features:
 
@@ -32,3 +32,6 @@ Control + Command + E – open in external editor (predefined in setings)
 Control + Command + P – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-06-16-30-55.png)
+
+Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.4/FSNotes.app.zip).
+
