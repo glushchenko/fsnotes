@@ -21,7 +21,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     
-    @IBAction func fileName(_ sender: Any) {
+    @IBAction func fileName(_ sender: NSTextField) {
+        let note = notesTableView.getNoteFromSelectedRow()
+        note.rename(newName: sender.stringValue)
     }
     
     override func viewDidAppear() {

@@ -18,17 +18,16 @@ class Note: NSObject {
     
     func rename(newName: String) {
         let fileManager = FileManager.default
+        var newUrl = url?.deletingLastPathComponent()
+            newUrl?.appendPathComponent(newName)
         
-        print(url?.lastPathComponent)
-        
-        /*
         do {
-            try fileManager.moveItem(at: url, to: <#T##URL#>)
+            try fileManager.moveItem(at: url!, to: newUrl!)
+            self.url = newUrl
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
         }
-         */
     }
     
     func remove() {

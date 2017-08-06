@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openInMenu(_ sender: Any) {
         let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
         
-        let selected = controller?.notesTableView.getSelectedRow()
+        let selected = controller?.notesTableView.getNoteFromSelectedRow()
         let fileUrl = selected?.url
         
         let defaultApp = UserDefaults.standard.object(forKey: "externalEditorApp")
@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openInPreviewApp(_ sender: Any) {
         let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
         
-        let selected = controller?.notesTableView.getSelectedRow()
+        let selected = controller?.notesTableView.getNoteFromSelectedRow()
         let fileUrl = selected?.url
         
         let defaultApp = UserDefaults.standard.object(forKey: "previewApp")
@@ -41,9 +41,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-    
-    
-
-
 }
 

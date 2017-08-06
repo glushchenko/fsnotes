@@ -92,6 +92,7 @@
 		D773DE811F36F4AF00A39C9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D735E5AB1F2E027D00173215 /* Note.swift */,
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
 			);
 			path = Model;
@@ -127,7 +128,6 @@
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
-				D735E5AB1F2E027D00173215 /* Note.swift */,
 				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
 				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
 				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
