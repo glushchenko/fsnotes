@@ -12,7 +12,7 @@ FSNotes features:
 - lightweight
 - maintainable (< 1000 code strings)
 - open source (swift 3)
-- secure (app sandboxed)
+- secure (macOS sandbox)
 
 Markdown files default directory:
 
