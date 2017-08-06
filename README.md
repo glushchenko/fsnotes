@@ -6,7 +6,7 @@ FSNotes features:
 
 - high sierra compatible
 - keyboard centric
-- md plain/text
+- md plain/text file storage
 - elastic 2 pane view with global search
 - blazing fast
 - lightweight
