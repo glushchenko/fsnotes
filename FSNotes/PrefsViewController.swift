@@ -10,10 +10,45 @@ import Cocoa
 
 class PrefsViewController: NSViewController {
 
+    @IBOutlet var storageField: NSTextField!
+    @IBOutlet var externalEditorApp: NSTextField!
+    @IBOutlet var previewApp: NSTextField!
+    
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     
     let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+    
+    @IBAction func selectDefaultFileStorage(_ sender: Any) {
+        
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+       
+        openPanel.begin { (result) -> Void in
+            if result == NSFileHandlingPanelOKButton {
+                let bookmark = SandboxBookmark()
+                let url = openPanel.url
+                
+                bookmark.store(url: url!)
+                bookmark.save()
+                
+                UserDefaults.standard.set(openPanel.url, forKey: "storageUrl")
+                    
+                self.restart()
+            }
+        }
+    }
+    
+    @IBAction func previewApp(_ sender: Any) {
+        UserDefaults.standard.set(previewApp.stringValue, forKey: "previewApp")
+    }
+    
+    @IBAction func extrenalEditor(_ sender: Any) {
+        UserDefaults.standard.set(externalEditorApp.stringValue, forKey: "externalEditorApp")
+    }
     
     @IBAction func verticalOrientation(_ sender: Any) {
         UserDefaults.standard.set(false, forKey: "isUseHorizontalMode")
@@ -44,6 +79,21 @@ class PrefsViewController: NSViewController {
     override func viewDidAppear() {
         self.view.window!.title = "Preferences"
         
+        let storageUrl = UserDefaults.standard.object(forKey: "storageUrl")
+        if (storageUrl != nil) {
+            storageField.stringValue = storageUrl as! String
+        }
+        
+        let previewAppKey = UserDefaults.standard.object(forKey: "previewApp")
+        if (previewAppKey != nil) {
+            previewApp.stringValue = previewAppKey as! String
+        }
+        
+        let externalEditorAppKey = UserDefaults.standard.object(forKey: "externalEditorApp")
+        if (externalEditorAppKey != nil) {
+            externalEditorApp.stringValue = externalEditorAppKey as! String
+        }
+        
         if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
             let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool
             
@@ -52,6 +102,8 @@ class PrefsViewController: NSViewController {
             } else {
                 verticalRadio.cell?.state = 1
             }
+        } else {
+            verticalRadio.cell?.state = 1
         }
     }
     
@@ -64,5 +116,4 @@ class PrefsViewController: NSViewController {
         task.launch()
         exit(0)
     }
-    
 }

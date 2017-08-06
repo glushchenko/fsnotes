@@ -45,6 +45,9 @@ class ViewController: NSViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let bookmark = SandboxBookmark()
+        bookmark.load()
+        
         editArea.delegate = self
         search.delegate = self
         
@@ -57,6 +60,10 @@ class ViewController: NSViewController,
         
         let font = NSFont(name: "Source Code Pro", size: 13)
         editArea.font = font
+    }
+    
+    func restoreSandboxPermissions() {
+     
     }
     
     override var representedObject: Any? {
@@ -110,7 +117,7 @@ class ViewController: NSViewController,
         do {
             try someText.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
         }
-        catch { }
+        catch {}
         
         self.populateTable(search: "")
         notesTableView.reloadData()
@@ -136,7 +143,9 @@ class ViewController: NSViewController,
         var modificationDate: Date?
         
         do {
+            //print(url.path)
             let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
+            
             modificationDate = fileAttribute[FileAttributeKey.modificationDate] as! Date
         } catch {
             print(error.localizedDescription)
@@ -189,15 +198,23 @@ class ViewController: NSViewController,
     }
     
     func getDefaultDocumentsUrl() -> URL {
-        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        var documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        let storageUrl = UserDefaults.standard.object(forKey: "storageUrl")
+        
+        if (storageUrl != nil) {
+            //let urlArray = try? FileManager.default.contentsOfDirectory(atPath: storageUrl)
+            
+            documentsUrl = URL.init(fileURLWithPath: storageUrl as! String)
+        }
         
         return documentsUrl
     }
     
     func makeUniqueFileName(name: String, i: Int = 0) -> URL {
         let defaultUrl = self.getDefaultDocumentsUrl()
-        
         var fileUrl = defaultUrl
+        
         fileUrl.appendPathComponent(name + ".md")
         
         let fileManager = FileManager.default
@@ -213,7 +230,8 @@ class ViewController: NSViewController,
     func readDocuments() -> Array<String> {
         let urlArray: [String] = [""]
         
-        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directory = self.getDefaultDocumentsUrl()
+        
         if let urlArray = try? FileManager.default.contentsOfDirectory(at: directory,
                                                                        includingPropertiesForKeys: [.contentModificationDateKey],
                                                                        options:.skipsHiddenFiles) {
@@ -238,6 +256,8 @@ class ViewController: NSViewController,
     
     func writeContent(note: Note, content: String) {
         let fileUrl = self.getDefaultDocumentsUrl().appendingPathComponent(note.name!)
+        
+        //print(fileUrl)
         
         do {
             try content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)

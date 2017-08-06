@@ -50,9 +50,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return NoteRowView()
     }
     
-
- 
-    
     // Populate table data
     func numberOfRows(in tableView: NSTableView) -> Int {
         return notesList.count
@@ -61,11 +58,28 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
         let viewController = self.window?.contentViewController as? ViewController
-        viewController?.lastSelectedNote = notesList[selectedRow]
-        viewController?.editArea.string = notesList[selectedRow].content!
+        
+        if (notesList.indices.contains(selectedRow)) {
+            viewController?.editArea.string = notesList[selectedRow].content!
+        }
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
         return notesList[row]
+    }
+    
+    func getSelectedRow() -> Note {
+        var note = Note()
+        var selected = self.selectedRow
+        
+        if (selected < 0) {
+            selected = 0
+        }
+        
+        if (notesList.indices.contains(selected)) {
+            note = notesList[selected]
+        }
+        
+        return note
     }
 }
