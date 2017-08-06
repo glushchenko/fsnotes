@@ -12,6 +12,7 @@ FSNotes features:
 - lightweight
 - maintainable (< 1000 code strings)
 - open source (swift 3)
+- secure (app sandboxed)
 
 Markdown files default directory:
 
@@ -19,12 +20,15 @@ Markdown files default directory:
 
 ### Keyboard shortcuts
 
-Esc - search bar
+Esc - move cursor into search bar
 
 Table view: 
 
 Up, Down arrows - select note  
 Delete - remove note  
 Tab - go to edit area
+
+Control + Command + E – open in external editor (predefined in setings)  
+Control + Command + P – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-06-16-30-55.png)
