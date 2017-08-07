@@ -105,6 +105,8 @@ class PrefsViewController: NSViewController {
         } else {
             verticalRadio.cell?.state = 1
         }
+        
+        fileExtensionOutlet.stringValue = (controller?.getDefaultFileExtension())!
     }
     
     func restart() {
@@ -116,4 +118,11 @@ class PrefsViewController: NSViewController {
         task.launch()
         exit(0)
     }
+    
+    @IBOutlet var fileExtensionOutlet: NSTextField!
+    @IBAction func fileExtensionAction(_ sender: NSTextField) {
+        let value = sender.stringValue
+        UserDefaults.standard.set(value, forKey: "fileExtension")
+    }
+    
 }

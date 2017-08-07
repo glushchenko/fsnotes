@@ -216,19 +216,29 @@ class ViewController: NSViewController,
     }
     
     func makeUniqueFileName(name: String, i: Int = 0) -> URL {
-        let defaultUrl = self.getDefaultDocumentsUrl()
+        let defaultUrl = getDefaultDocumentsUrl()
+        let defaultExtension = getDefaultFileExtension()
         var fileUrl = defaultUrl
         
-        fileUrl.appendPathComponent(name + ".md")
+        fileUrl.appendPathComponent(name)
+        fileUrl.appendPathExtension(defaultExtension)
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {
             let j = i + 1
-            let newName = "Untitled note" + " " + String(j)
+            let newName = "Untitled Note" + " " + String(j)
             return self.makeUniqueFileName(name: newName, i: j)
         }
         
         return fileUrl
+    }
+    
+    func getDefaultFileExtension() -> String {
+        let fileExtension = UserDefaults.standard.object(forKey: "fileExtension")
+        if (fileExtension == nil) {
+            return "md"
+        }
+        return fileExtension as! String
     }
     
     func readDocuments() -> Array<String> {
@@ -240,7 +250,7 @@ class ViewController: NSViewController,
                                                                        includingPropertiesForKeys: [.contentModificationDateKey],
                                                                        options:.skipsHiddenFiles) {
             
-            let markdownFiles = urlArray.filter{$0.pathExtension == "md"}
+            let markdownFiles = urlArray.filter{$0.pathExtension == "md" || $0.pathExtension == "txt"}
             return markdownFiles.map { url in
                     (
                         url.lastPathComponent,
