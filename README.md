@@ -33,5 +33,5 @@ Control + Command + P – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-06-16-30-55.png)
 
-Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.4/FSNotes.app.zip).
+Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.5/FSNotes.app.zip)
 
