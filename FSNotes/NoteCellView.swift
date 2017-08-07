@@ -12,12 +12,12 @@ class NoteCellView: NSTableCellView {
 
     @IBOutlet var name: NSTextField!
     @IBOutlet var preview: NSTextField!
-    
-    //let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+    @IBOutlet var date: NSTextField!
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
+                
+        date.font = NSFont(name: "Source Code Pro", size: 10)
         let font = NSFont(name: "Source Code Pro", size: 11)
         preview.font = font
         
@@ -35,10 +35,22 @@ class NoteCellView: NSTableCellView {
     }
     
     func applyVerticalConstrainst() {
+    
         preview.translatesAutoresizingMaskIntoConstraints = false
+        date.translatesAutoresizingMaskIntoConstraints = false
+        name.translatesAutoresizingMaskIntoConstraints = false
+        
         let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 3)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
-        NSLayoutConstraint.activate([previewTop, previewLeft])
+        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
+        let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -8)
+        let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
+        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)
+
+        date.sizeToFit()
+        
+        NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, nameLeft, nameRight, nameTop])
     }
     
     func applyHorizontalConstrains() {

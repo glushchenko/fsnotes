@@ -968,8 +968,21 @@
                                                                                         <action selector="fileName:" target="XfG-lQ-9wD" id="ZV9-vc-kbh"/>
                                                                                     </connections>
                                                                                 </textField>
+                                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
+                                                                                    <rect key="frame" x="157" y="5" width="68" height="17"/>
+                                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2/23/11" id="9w3-fa-di3">
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                        <color key="textColor" name="keyboardFocusIndicatorColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                                                        <connections>
+                                                                                            <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getDateForLabel" id="VH2-T1-K75"/>
+                                                                                        </connections>
+                                                                                    </textFieldCell>
+                                                                                </textField>
                                                                             </subviews>
                                                                             <connections>
+                                                                                <outlet property="date" destination="abw-Lq-K7d" id="k6D-i6-nTL"/>
                                                                                 <outlet property="name" destination="UvD-jB-7Ok" id="5Mo-lm-FHk"/>
                                                                                 <outlet property="preview" destination="EXQ-Ld-D5r" id="aS2-51-odI"/>
                                                                             </connections>

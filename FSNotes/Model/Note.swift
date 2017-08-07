@@ -57,4 +57,10 @@ class Note: NSObject {
     
         return preview
     }
+    
+    func getDateForLabel() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        return dateFormatter.string(from: self.date!)
+    }
 }
