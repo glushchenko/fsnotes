@@ -56,7 +56,7 @@ class PrefsViewController: NSViewController {
         horizontalRadio.cell?.state = 0
         controller?.splitView.isVertical = true
         controller?.splitView.setPosition(215, ofDividerAt: 0)
-        controller?.notesTableView.rowHeight = 90
+        controller?.notesTableView.rowHeight = 63
         
         restart()
     }

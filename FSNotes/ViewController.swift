@@ -250,7 +250,16 @@ class ViewController: NSViewController,
                                                                        includingPropertiesForKeys: [.contentModificationDateKey],
                                                                        options:.skipsHiddenFiles) {
             
-            let markdownFiles = urlArray.filter{$0.pathExtension == "md" || $0.pathExtension == "txt"}
+            let allowedExtensions = [
+                "md",
+                "txt",
+                getDefaultFileExtension()
+            ]
+            
+            let markdownFiles = urlArray.filter{
+                allowedExtensions.contains($0.pathExtension)
+            }
+            
             return markdownFiles.map { url in
                     (
                         url.lastPathComponent,

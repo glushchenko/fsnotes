@@ -36,7 +36,7 @@ class NoteCellView: NSTableCellView {
     
     func applyVerticalConstrainst() {
         preview.translatesAutoresizingMaskIntoConstraints = false
-        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 10)
+        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 3)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
         NSLayoutConstraint.activate([previewTop, previewLeft])
     }
