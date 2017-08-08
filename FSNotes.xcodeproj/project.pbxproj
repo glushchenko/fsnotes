@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F2592741F39913200307D71 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F2592731F39913200307D71 /* SourceCodePro-Regular.ttf */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
-		D7166F881F330A64001A883F /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7166F871F330A64001A883F /* SourceCodePro-Regular.ttf */; };
 		D735E5AC1F2E027D00173215 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5AB1F2E027D00173215 /* Note.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
@@ -41,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F2592731F39913200307D71 /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "Resources/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
 		D7166F871F330A64001A883F /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "../../../Downloads/source-code-pro-2.030R-ro-1-2.050R-it/TTF/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
 		D735E5AB1F2E027D00173215 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D735E5B81F2E45CC00173215 /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icons.icns; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 		D7793C661F211C6000CA39B7 = {
 			isa = PBXGroup;
 			children = (
+				6F2592731F39913200307D71 /* SourceCodePro-Regular.ttf */,
 				D7D61FCC1F32EEA1004357C2 /* Resources */,
 				D7793C711F211C6000CA39B7 /* FSNotes */,
 				D7793C841F211C6000CA39B7 /* FSNotesTests */,
@@ -277,7 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
-				D7166F881F330A64001A883F /* SourceCodePro-Regular.ttf in Resources */,
+				6F2592741F39913200307D71 /* SourceCodePro-Regular.ttf in Resources */,
 				D7166F531F32F751001A883F /* icons.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +474,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
