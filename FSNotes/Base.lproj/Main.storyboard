@@ -895,7 +895,7 @@
                         <subviews>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gaD-Xx-kYm" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="8" y="570" width="784" height="22"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="All hail the crimson king" usesSingleLineMode="YES" bezelStyle="round" id="o2l-IY-X2S">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="All hail the crimson king" bezelStyle="round" id="o2l-IY-X2S">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

@@ -114,23 +114,20 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
-        let note = Note()
-        note.name = search.stringValue
-        
-        let fileUrl = self.makeUniqueFileName(name: search.stringValue)
-        let someText = ""
+        let content = search.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        let fileUrl = makeUniqueFileName(name: "Untitled Note")
         
         do {
-            try someText.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+            try content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
         }
         catch {}
         
         self.populateTable(search: "")
         notesTableView.reloadData()
-        
         self.selectNullTableRow()
         
         focusEditArea()
+        search.stringValue.removeAll()
     }
 
     func getPreviewText(url: URL) -> String {
