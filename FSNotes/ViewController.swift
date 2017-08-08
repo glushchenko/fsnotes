@@ -178,7 +178,7 @@ class ViewController: NSViewController,
             note.name = name
             note.url = url
             
-            if (search.count == 0 || preview.contains(search) || name.contains(search)) {
+            if (search.count == 0 || preview.localizedCaseInsensitiveContains(search) || name.localizedCaseInsensitiveContains(search)) {
                 noteList.append(note)
             }
         }
