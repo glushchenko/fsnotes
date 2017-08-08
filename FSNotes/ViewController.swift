@@ -89,6 +89,7 @@ class ViewController: NSViewController,
         if (notesTableView.notesList.indices.contains(selected)) {
             let note = notesTableView.notesList.remove(at: selected)
             note.content = content
+            note.date = Date.init()
             
             notesTableView.notesList.insert(note, at: 0)
             notesTableView.moveRow(at: selected, to: 0)
@@ -150,7 +151,7 @@ class ViewController: NSViewController,
         do {
             let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
             
-            modificationDate = fileAttribute[FileAttributeKey.modificationDate] as! Date
+            modificationDate = fileAttribute[FileAttributeKey.modificationDate] as? Date
         } catch {
             print(error.localizedDescription)
         }

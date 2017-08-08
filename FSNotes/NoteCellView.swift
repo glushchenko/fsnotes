@@ -59,8 +59,13 @@ class NoteCellView: NSTableCellView {
         }
         
         preview.translatesAutoresizingMaskIntoConstraints = false
+        date.translatesAutoresizingMaskIntoConstraints = false
+        
         let previewTop = preview.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
         let previewLeft = preview.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 0)
-        NSLayoutConstraint.activate([previewTop, previewLeft])
+        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
+        let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -65)
+        NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, previewRight])
     }
 }
