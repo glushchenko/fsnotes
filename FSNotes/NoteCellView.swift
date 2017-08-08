@@ -16,10 +16,13 @@ class NoteCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-                
-        date.font = NSFont(name: "Source Code Pro", size: 10)
-        let font = NSFont(name: "Source Code Pro", size: 11)
-        preview.font = font
+        
+        var fontName = UserDefaults.standard.object(forKey: "noteFont") as? String
+        if (fontName == nil) {
+            fontName = "Source Code Pro"
+        }
+//        date.font    = NSFont(name: fontName!, size: 10)
+        preview.font = NSFont(name: fontName!, size: 11)
         
         name.sizeToFit()
         
@@ -67,5 +70,29 @@ class NoteCellView: NSTableCellView {
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
         let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -65)
         NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, previewRight])
+    }
+    
+    
+    // This NoteCellView has multiple contained views; this method changes
+    // these views' color when the cell is selected.
+    override var backgroundStyle: NSView.BackgroundStyle {
+        set {
+            super.backgroundStyle = newValue
+            self.udpateSelectionHighlight()
+        }
+        get {
+            return super.backgroundStyle;
+        }
+    }
+    
+    func udpateSelectionHighlight() {
+        if ( self.backgroundStyle == NSView.BackgroundStyle.dark ) {
+            preview.textColor = NSColor.white
+            date.textColor = NSColor.white
+        } else if( self.backgroundStyle == NSView.BackgroundStyle.light ) {
+            let lightGray = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+            preview.textColor = lightGray
+            date.textColor = lightGray
+        }
     }
 }

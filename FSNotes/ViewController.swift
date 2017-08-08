@@ -63,7 +63,15 @@ class ViewController: NSViewController,
             editArea.string = notesTableView.notesList[0].content!
         }
         
-        let font = NSFont(name: "Source Code Pro", size: 13)
+        setEditAreaFont()
+    }
+    
+    func setEditAreaFont() {
+        var fontName = UserDefaults.standard.object(forKey: "noteFont") as? String
+        if (fontName == nil) {
+            fontName = "Source Code Pro"
+        }
+        let font = NSFont(name: fontName!, size: 13)
         editArea.font = font
     }
     
