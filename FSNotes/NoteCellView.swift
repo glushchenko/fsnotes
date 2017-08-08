@@ -16,10 +16,13 @@ class NoteCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-                
-        date.font = NSFont(name: "Source Code Pro", size: 10)
-        let font = NSFont(name: "Source Code Pro", size: 11)
-        preview.font = font
+        
+        var fontName = UserDefaults.standard.object(forKey: "noteFont") as? String
+        if (fontName == nil) {
+            fontName = "Source Code Pro"
+        }
+//        date.font    = NSFont(name: fontName!, size: 10)
+        preview.font = NSFont(name: fontName!, size: 11)
         
         name.sizeToFit()
         

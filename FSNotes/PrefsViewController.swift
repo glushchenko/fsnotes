@@ -14,6 +14,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var previewApp: NSTextField!
     
+    @IBOutlet weak var noteFont: NSPopUpButton!
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     
@@ -72,6 +73,14 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
+    @IBAction func changedNoteFont(_ sender: NSPopUpButton) {
+        guard let selectedNoteFont = noteFont.selectedItem?.title
+            else {return}
+        
+        UserDefaults.standard.set(selectedNoteFont, forKey: "noteFont")
+        controller?.setEditAreaFont()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -107,6 +116,15 @@ class PrefsViewController: NSViewController {
         }
         
         fileExtensionOutlet.stringValue = (controller?.getDefaultFileExtension())!
+
+        noteFont.addItems(withTitles: NSFontManager.shared().availableFontFamilies)
+        if (UserDefaults.standard.object(forKey: "noteFont") != nil) {
+            let chosenNoteFont = UserDefaults.standard.object(forKey: "noteFont") as! String
+            noteFont.selectItem(withTitle: chosenNoteFont)
+        }
+        else {
+            noteFont.selectItem(withTitle: "Source Code Pro")
+        }
     }
     
     func restart() {
