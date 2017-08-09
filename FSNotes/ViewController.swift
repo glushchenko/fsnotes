@@ -37,11 +37,9 @@ class ViewController: NSViewController,
         editArea.textContainerInset.height = 5
         editArea.textContainerInset.width = 5
     
-        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
-            if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool) {
-                self.splitView.isVertical = false
-                notesTableView.rowHeight = 25
-            }
+        if (UserDefaultsManagement.horizontalOrientation) {
+            self.splitView.isVertical = false
+            notesTableView.rowHeight = 25
         }
         
         super.viewDidAppear()
@@ -63,7 +61,8 @@ class ViewController: NSViewController,
             editArea.string = notesTableView.notesList[0].content!
         }
         
-        let font = NSFont(name: "Source Code Pro", size: 13)
+        let fontName = UserDefaultsManagement.fontName
+        let font = NSFont(name: fontName, size: 13)
         editArea.font = font
     }
     
@@ -205,8 +204,6 @@ class ViewController: NSViewController,
         let storageUrl = UserDefaults.standard.object(forKey: "storageUrl")
         
         if (storageUrl != nil) {
-            //let urlArray = try? FileManager.default.contentsOfDirectory(atPath: storageUrl)
-            
             documentsUrl = URL.init(fileURLWithPath: storageUrl as! String)
         }
         

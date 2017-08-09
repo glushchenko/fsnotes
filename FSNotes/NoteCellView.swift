@@ -16,19 +16,15 @@ class NoteCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-                
-        date.font = NSFont(name: "Source Code Pro", size: 10)
-        let font = NSFont(name: "Source Code Pro", size: 11)
-        preview.font = font
+        
+        let fontName = UserDefaultsManagement.fontName
+        date.font = NSFont(name: fontName, size: 10)
+        preview.font = NSFont(name: fontName, size: 11)
         
         name.sizeToFit()
         
-        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
-            if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool) {
-                applyHorizontalConstrains()
-            } else {
-                applyVerticalConstrainst()
-            }
+        if (UserDefaultsManagement.horizontalOrientation) {
+            applyHorizontalConstrains()
         } else {
             applyVerticalConstrainst()
         }

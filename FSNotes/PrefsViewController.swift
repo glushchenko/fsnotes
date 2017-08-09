@@ -51,7 +51,7 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func verticalOrientation(_ sender: Any) {
-        UserDefaults.standard.set(false, forKey: "isUseHorizontalMode")
+        UserDefaultsManagement.horizontalOrientation = false
         
         horizontalRadio.cell?.state = 0
         controller?.splitView.isVertical = true
@@ -62,7 +62,7 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func horizontalOrientation(_ sender: Any) {
-        UserDefaults.standard.set(true, forKey: "isUseHorizontalMode")
+        UserDefaultsManagement.horizontalOrientation = true
         
         verticalRadio.cell?.state = 0
         controller?.splitView.isVertical = false
@@ -94,14 +94,8 @@ class PrefsViewController: NSViewController {
             externalEditorApp.stringValue = externalEditorAppKey as! String
         }
         
-        if (UserDefaults.standard.object(forKey: "isUseHorizontalMode") != nil) {
-            let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode") as! Bool
-            
-            if (isUseHorizontalMode) {
-                horizontalRadio.cell?.state = 1
-            } else {
-                verticalRadio.cell?.state = 1
-            }
+        if (UserDefaultsManagement.horizontalOrientation) {
+            horizontalRadio.cell?.state = 1
         } else {
             verticalRadio.cell?.state = 1
         }

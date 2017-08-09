@@ -44,15 +44,12 @@ class Note: NSObject {
     func getPreviewForLabel() -> String {
         var preview: String = content!
     
-        let isUseHorizontalMode = UserDefaults.standard.object(forKey: "isUseHorizontalMode")
-        
-        if (isUseHorizontalMode != nil) {
-            if (isUseHorizontalMode as! Bool
-                && content!.hasPrefix(" – ") == false
-                && content!.characters.count > 0
-            ) {
+        if (
+            UserDefaultsManagement.horizontalOrientation
+            && content!.hasPrefix(" – ") == false
+            && content!.characters.count > 0
+        ) {
                 preview = " – " + content!.replacingOccurrences(of: "\n", with: " ")
-            }
         }
     
         return preview
