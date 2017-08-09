@@ -63,8 +63,17 @@ class Note: NSObject {
     }
     
     func getPreviewForLabel() -> String {
-        var preview: String = content!
-    
+        var preview: String = ""
+        let count: Int = (content?.characters.count)!
+        
+        if count > 150 {
+            let startIndex = content?.index((content?.startIndex)!, offsetBy: 0)
+            let endIndex = content?.index((content?.startIndex)!, offsetBy: 150)
+            preview = content![startIndex!...endIndex!]
+        } else {
+            preview = content!
+        }
+        
         if (
             UserDefaultsManagement.horizontalOrientation
             && content!.hasPrefix(" – ") == false
