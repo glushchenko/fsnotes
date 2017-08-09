@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		6F2592741F39913200307D71 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F2592731F39913200307D71 /* SourceCodePro-Regular.ttf */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		6F2592731F39913200307D71 /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "Resources/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
 		D7166F871F330A64001A883F /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "../../../Downloads/source-code-pro-2.030R-ro-1-2.050R-it/TTF/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
 		D735E5AB1F2E027D00173215 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			children = (
 				D773DE811F36F4AF00A39C9F /* Model */,
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
+				275592961F3AE9B5006B8988 /* MainWindowController.swift */,
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
@@ -316,6 +319,7 @@
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
+				275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D735E5AC1F2E027D00173215 /* Note.swift in Sources */,
 			);
@@ -481,7 +485,7 @@
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 866P6MTE92;
+				DEVELOPMENT_TEAM = Q2N8L37H44;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
@@ -504,7 +508,7 @@
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
-				DEVELOPMENT_TEAM = 866P6MTE92;
+				DEVELOPMENT_TEAM = Q2N8L37H44;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_TESTABILITY = YES;
