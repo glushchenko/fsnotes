@@ -23,6 +23,7 @@
 		D7793C861F211C6000CA39B7 /* FSNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C851F211C6000CA39B7 /* FSNotesTests.swift */; };
 		D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
+		D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesUITests.swift; sourceTree = "<group>"; };
 		D7793C921F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
+		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				D735E5AB1F2E027D00173215 /* Note.swift */,
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
 				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
+				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
+				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,

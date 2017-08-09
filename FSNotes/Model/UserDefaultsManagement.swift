@@ -14,6 +14,8 @@ public class UserDefaultsManagement {
     private struct Constants {
         static let FontNameKey = "font"
         static let TableOrientation = "isUseHorizontalMode"
+        static let StoragePathKey = "storageUrl"
+        static let StorageExtensionKey = "fileExtension"
     }
         
     static var fontName: String {
@@ -39,6 +41,38 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.TableOrientation)
+        }
+    }
+    
+    static var storagePath: String {
+        get {
+            if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
+                return storagePath as! String
+            } else {
+                return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.absoluteString
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
+        }
+    }
+    
+    static var storageUrl: URL {
+        get {
+            return URL.init(fileURLWithPath: self.storagePath)
+        }
+    }
+    
+    static var storageExtension: String {
+        get {
+            if let storageExtension = UserDefaults.standard.object(forKey: Constants.StorageExtensionKey) {
+                return storageExtension as! String
+            } else {
+                return "md"
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
         }
     }
 }

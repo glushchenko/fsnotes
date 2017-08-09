@@ -16,6 +16,18 @@ class Note: NSObject {
     
     override init(){}
     
+    func make() {
+        url = getUniqueFileName(name: "Untitled Note")
+        name = url?.pathComponents.last
+        save()
+        load()
+    }
+    
+    func load() {
+        content = getContent(url: url!)
+        date = getDate(url: url!)
+    }
+    
     func rename(newName: String) {
         let fileManager = FileManager.default
         var newUrl = url?.deletingLastPathComponent()
@@ -41,6 +53,15 @@ class Note: NSObject {
         }
     }
     
+    func save() {
+        let fileUrl = UserDefaultsManagement.storageUrl.appendingPathComponent(name!)
+        
+        do {
+            try content?.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+        }
+        catch { }
+    }
+    
     func getPreviewForLabel() -> String {
         var preview: String = content!
     
@@ -59,5 +80,49 @@ class Note: NSObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy"
         return dateFormatter.string(from: self.date!)
+    }
+    
+    func getContent(url: URL) -> String {
+        var content: String = ""
+        
+        do {
+            content = try String(contentsOf: url, encoding: String.Encoding.utf8)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        return content
+    }
+    
+    func getDate(url: URL) -> Date {
+        var modificationDate: Date?
+        
+        do {
+            let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
+            
+            modificationDate = fileAttribute[FileAttributeKey.modificationDate] as? Date
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return modificationDate!
+    }
+    
+    func getUniqueFileName(name: String, i: Int = 0) -> URL {
+        let defaultUrl = UserDefaultsManagement.storageUrl
+        let defaultExtension = UserDefaultsManagement.storageExtension
+        var fileUrl = defaultUrl
+        
+        fileUrl.appendPathComponent(name)
+        fileUrl.appendPathExtension(defaultExtension)
+        
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: fileUrl.path) {
+            let j = i + 1
+            let newName = "Untitled Note" + " " + String(j)
+            return getUniqueFileName(name: newName, i: j)
+        }
+        
+        return fileUrl
     }
 }

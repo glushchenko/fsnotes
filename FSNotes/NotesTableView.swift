@@ -31,10 +31,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             note.remove()
             
             let viewController = self.window?.contentViewController as? ViewController
-            
+            viewController?.storage.noteList.remove(at: selectedRow)
             viewController?.editArea.string = ""
-            viewController?.populateTable(search: "")
-            self.reloadData()
+            viewController?.updateTable(filter: "")
             
             // select next note if exist
             if (notesList.indices.contains(nextRow)) {

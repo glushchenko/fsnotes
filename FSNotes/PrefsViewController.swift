@@ -109,7 +109,7 @@ class PrefsViewController: NSViewController {
             verticalRadio.cell?.state = 1
         }
         
-        fileExtensionOutlet.stringValue = (controller?.getDefaultFileExtension())!
+        fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         
         // populate fonts
         var availableFonts = NSFontManager.shared().availableFontFamilies
