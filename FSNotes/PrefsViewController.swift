@@ -13,6 +13,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var previewApp: NSTextField!
+    @IBOutlet weak var noteFont: NSPopUpButton!
     
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
@@ -72,6 +73,14 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
+    @IBAction func changedFont(_ sender: Any) {
+        guard let selectedNoteFont = noteFont.selectedItem?.title
+            else {return}
+        
+        UserDefaultsManagement.fontName = selectedNoteFont
+        controller?.editArea.font = NSFont(name: selectedNoteFont, size: 13)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -101,6 +110,14 @@ class PrefsViewController: NSViewController {
         }
         
         fileExtensionOutlet.stringValue = (controller?.getDefaultFileExtension())!
+        
+        // populate fonts
+        var availableFonts = NSFontManager.shared().availableFontFamilies
+        if (availableFonts.contains(UserDefaultsManagement.DefaultFont) == false) {
+            availableFonts.append(UserDefaultsManagement.DefaultFont)
+        }
+        noteFont.addItems(withTitles: availableFonts)
+        noteFont.selectItem(withTitle: UserDefaultsManagement.fontName)
     }
     
     func restart() {

@@ -9,6 +9,8 @@
 import Foundation
 
 public class UserDefaultsManagement {
+    static var DefaultFont = "Source Code Pro"
+    
     private struct Constants {
         static let FontNameKey = "font"
         static let TableOrientation = "isUseHorizontalMode"
@@ -19,7 +21,7 @@ public class UserDefaultsManagement {
             if let returnFontName = UserDefaults.standard.object(forKey: Constants.FontNameKey) {
                 return returnFontName as! String
             } else {
-                return "Source Code Pro"
+                return self.DefaultFont
             }
         }
         set {
