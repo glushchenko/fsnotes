@@ -21,7 +21,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // Remove note
     override func keyDown(with event: NSEvent) {
-        if (event.keyCode == 51) {
+        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
             if (!notesList.indices.contains(selectedRow)) {
                 return
             }
