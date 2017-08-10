@@ -50,7 +50,10 @@ class ViewController: NSViewController,
         editArea.delegate = self
         search.delegate = self
         
-        updateTable(filter: "")
+        if storage.noteList.count == 0 {
+            storage.loadFiles()
+            updateTable(filter: "")
+        }
         
         if (notesTableView.notesList.indices.contains(0)) {
             editArea.string = notesTableView.notesList[0].content!
@@ -122,10 +125,6 @@ class ViewController: NSViewController,
     }
     
     func updateTable(filter: String) {
-        if storage.noteList.count == 0 {
-            storage.loadFiles()
-        }
-        
         if filter.characters.count > 0 {
             notesTableView.notesList = storage.noteList.filter() {
                 if ($0.content?.localizedCaseInsensitiveContains(filter))! || ($0.name?.localizedCaseInsensitiveContains(filter))! {
