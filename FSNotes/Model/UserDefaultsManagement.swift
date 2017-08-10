@@ -59,7 +59,9 @@ public class UserDefaultsManagement {
     
     static var storageUrl: URL {
         get {
-            return URL.init(fileURLWithPath: self.storagePath)
+            let expanded = NSString(string: self.storagePath).expandingTildeInPath
+
+            return URL.init(fileURLWithPath: expanded)
         }
     }
     

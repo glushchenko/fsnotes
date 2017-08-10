@@ -50,9 +50,9 @@ class ViewController: NSViewController,
         editArea.delegate = self
         search.delegate = self
         
-        self.updateTable(filter: "")
+        updateTable(filter: "")
         
-        if (self.notesTableView.notesList.indices.contains(0)) {
+        if (notesTableView.notesList.indices.contains(0)) {
             editArea.string = notesTableView.notesList[0].content!
         }
         
@@ -70,14 +70,16 @@ class ViewController: NSViewController,
     @IBAction func makeNote(_ sender: NSTextField) {
         let note = Note()
         note.content = sender.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        note.make()
-        storage.noteList.insert(note, at: 0)
         
-        self.updateTable(filter: "")
-        self.selectNullTableRow()
-        
-        focusEditArea()
-        search.stringValue.removeAll()
+        if note.make() {
+            storage.noteList.insert(note, at: 0)
+            
+            self.updateTable(filter: "")
+            self.selectNullTableRow()
+            
+            focusEditArea()
+            search.stringValue.removeAll()
+        }
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
@@ -98,12 +100,13 @@ class ViewController: NSViewController,
             let note = notesTableView.notesList.remove(at: selected)
             note.content = content
             note.date = Date.init()
-            note.save()
             
-            notesTableView.notesList.insert(note, at: 0)
-            notesTableView.moveRow(at: selected, to: 0)
-            notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
-            notesTableView.scrollRowToVisible(0)
+            if note.save() {
+                notesTableView.notesList.insert(note, at: 0)
+                notesTableView.moveRow(at: selected, to: 0)
+                notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
+                notesTableView.scrollRowToVisible(0)
+            }
         }
     }
     

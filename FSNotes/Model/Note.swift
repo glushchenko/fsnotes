@@ -16,14 +16,18 @@ class Note: NSObject {
     
     override init(){}
     
-    func make() {
+    func make() -> Bool {
         url = getUniqueFileName(name: "Untitled Note")
         name = url?.pathComponents.last
-        save()
-        load()
+        if save() {
+            load()
+            return true
+        }
+        return false
     }
     
     func load() {
+        //print(FileManager.default.fileExists(atPath: (url?.path)!))
         content = getContent(url: url!)
         date = getDate(url: url!)
     }
@@ -53,13 +57,18 @@ class Note: NSObject {
         }
     }
     
-    func save() {
+    func save() -> Bool {
         let fileUrl = UserDefaultsManagement.storageUrl.appendingPathComponent(name!)
         
         do {
             try content?.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+            
+            return true
+        } catch {
+            print("Note write error: " + fileUrl.path)
+            
+            return false
         }
-        catch { }
     }
     
     func getPreviewForLabel() -> String {
