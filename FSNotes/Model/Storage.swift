@@ -32,8 +32,7 @@ class Storage {
     }
     
     func readDocuments() -> Array<String> {
-        let urlArray: [String] = [""]
-        
+        let urlArray = [String]()
         let directory = UserDefaultsManagement.storageUrl
         
         if let urlArray = try? FileManager.default.contentsOfDirectory(at: directory,
