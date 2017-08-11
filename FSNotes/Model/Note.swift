@@ -73,24 +73,29 @@ class Note: NSObject {
     
     func getPreviewForLabel() -> String {
         var preview: String = ""
+        
+        if (UserDefaultsManagement.hidePreview) {
+            return preview
+        }
+        
         let count: Int = (content?.characters.count)!
         
-        if count > 150 {
+        if count > 250 {
             let startIndex = content?.index((content?.startIndex)!, offsetBy: 0)
-            let endIndex = content?.index((content?.startIndex)!, offsetBy: 150)
+            let endIndex = content?.index((content?.startIndex)!, offsetBy: 250)
             preview = content![startIndex!...endIndex!]
         } else {
             preview = content!
         }
         
+        preview = preview.replacingOccurrences(of: "\n", with: " ")
         if (
             UserDefaultsManagement.horizontalOrientation
             && content!.hasPrefix(" – ") == false
-            && content!.characters.count > 0
         ) {
-                preview = " – " + content!.replacingOccurrences(of: "\n", with: " ")
+                preview = " – " + preview
         }
-    
+        
         return preview
     }
     
