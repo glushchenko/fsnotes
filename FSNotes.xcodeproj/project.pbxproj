@@ -22,6 +22,7 @@
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7793C861F211C6000CA39B7 /* FSNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C851F211C6000CA39B7 /* FSNotesTests.swift */; };
 		D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */; };
+		D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 		D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesUITests.swift; sourceTree = "<group>"; };
 		D7793C921F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D797004B1F3DD10700BAD94D /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -144,6 +146,7 @@
 				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
 				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
 				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
+				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
 			);
 			path = FSNotes;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
+				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,

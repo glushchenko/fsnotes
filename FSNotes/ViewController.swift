@@ -17,7 +17,7 @@ class ViewController: NSViewController,
     
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
-    @IBOutlet var editArea: NSTextView!
+    @IBOutlet var editArea: EditTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
@@ -56,7 +56,8 @@ class ViewController: NSViewController,
         }
         
         if (notesTableView.notesList.indices.contains(0)) {
-            editArea.string = notesTableView.notesList[0].content!
+            let firstNote = notesTableView.notesList[0]
+            editArea!.fill(note: firstNote)
         }
         
         let fontName = UserDefaultsManagement.fontName
@@ -102,6 +103,7 @@ class ViewController: NSViewController,
         if (notesTableView.notesList.indices.contains(selected)) {
             let note = notesTableView.notesList.remove(at: selected)
             note.content = content
+            note.textStorage = editArea.textStorage!
             note.date = Date.init()
             
             if note.save() {
@@ -119,7 +121,8 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue)
         
         if (notesTableView.notesList.count > 0) {
-            editArea.string = notesTableView.notesList[0].content!
+            //attibutedString.string
+            editArea.fill(note: notesTableView.notesList[0])
             self.selectNullTableRow()
         }
     }

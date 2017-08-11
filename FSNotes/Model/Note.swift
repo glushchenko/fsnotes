@@ -6,6 +6,7 @@
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Cocoa
 import Foundation
 
 class Note: NSObject {
@@ -13,8 +14,14 @@ class Note: NSObject {
     var content: String?
     var date: Date?
     var url: URL?
+    var textStorage = NSTextStorage()
     
     override init(){}
+    
+    struct Extensions {
+        static let Markdown = "md"
+        static let RichTextFormat = "rtf"
+    }
     
     func make() -> Bool {
         url = getUniqueFileName(name: "Untitled Note")
@@ -61,7 +68,16 @@ class Note: NSObject {
         let fileUrl = UserDefaultsManagement.storageUrl.appendingPathComponent(name!)
         
         do {
-            try content?.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+            
+            if (url?.pathExtension == Extensions.RichTextFormat) {
+                let range = NSRange(0..<textStorage.length)
+                
+                let textTSave = try textStorage.fileWrapper(from: range, documentAttributes: [NSDocumentTypeDocumentAttribute:NSRTFTextDocumentType])
+                
+                try textTSave.write(to: url!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            } else {
+                try content?.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+            }
             
             return true
         } catch {
