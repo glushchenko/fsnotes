@@ -31,7 +31,7 @@ Tab - go to edit area
 Control + Command + E – open in external editor (predefined in setings)  
 Control + Command + P – preview in external app (predefined in setings)
 
-![](http://files.og.uk.to/Screen-Shot-2017-08-08-09-36-51.png)
+![](http://files.og.uk.to/Screen-Shot-2017-08-11-08-59-14.png)
 
-Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.7/FSNotes.app.zip)
+Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.8/FSNotes.app.zip)
 
