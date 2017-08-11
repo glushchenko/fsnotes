@@ -7,27 +7,23 @@
 //
 
 import Foundation
+import Cocoa
 
 class Note: NSObject {
     var name: String?
-    var content: String?
+    var content: String = ""
     var date: Date?
     var url: URL?
     
     override init(){}
     
-    func make() -> Bool {
+    func make() {
         url = getUniqueFileName(name: "Untitled Note")
         name = url?.pathComponents.last
-        if save() {
-            load()
-            return true
-        }
-        return false
+        date = Date.init()
     }
-    
+
     func load() {
-        //print(FileManager.default.fileExists(atPath: (url?.path)!))
         content = getContent(url: url!)
         date = getDate(url: url!)
     }
@@ -56,21 +52,7 @@ class Note: NSObject {
             print("Remove went wrong: \(error)")
         }
     }
-    
-    func save() -> Bool {
-        let fileUrl = UserDefaultsManagement.storageUrl.appendingPathComponent(name!)
         
-        do {
-            try content?.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
-            
-            return true
-        } catch {
-            print("Note write error: " + fileUrl.path)
-            
-            return false
-        }
-    }
-    
     func getPreviewForLabel() -> String {
         var preview: String = ""
         
@@ -78,20 +60,20 @@ class Note: NSObject {
             return preview
         }
         
-        let count: Int = (content?.characters.count)!
+        let count: Int = (content.characters.count)
         
         if count > 250 {
-            let startIndex = content?.index((content?.startIndex)!, offsetBy: 0)
-            let endIndex = content?.index((content?.startIndex)!, offsetBy: 250)
-            preview = content![startIndex!...endIndex!]
+            let startIndex = content.index((content.startIndex), offsetBy: 0)
+            let endIndex = content.index((content.startIndex), offsetBy: 250)
+            preview = content[startIndex...endIndex]
         } else {
-            preview = content!
+            preview = content
         }
         
         preview = preview.replacingOccurrences(of: "\n", with: " ")
         if (
             UserDefaultsManagement.horizontalOrientation
-            && content!.hasPrefix(" – ") == false
+                && content.hasPrefix(" – ") == false
         ) {
                 preview = " – " + preview
         }
@@ -102,14 +84,18 @@ class Note: NSObject {
     func getDateForLabel() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy"
+        
         return dateFormatter.string(from: self.date!)
     }
     
     func getContent(url: URL) -> String {
         var content: String = ""
+        let attributes = DocumentAttributes.getDocumentAttributes(fileExtension: url.pathExtension)
         
         do {
-            content = try String(contentsOf: url, encoding: String.Encoding.utf8)
+            let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
+            
+            content = NSTextStorage(attributedString: attributedString).string
         } catch let error as NSError {
             print(error.localizedDescription)
         }

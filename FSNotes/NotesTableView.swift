@@ -78,7 +78,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let viewController = self.window?.contentViewController as? ViewController
         
         if (notesList.indices.contains(selectedRow)) {
-            viewController?.editArea.string = notesList[selectedRow].content!
+            viewController?.editArea.fill(note: notesList[selectedRow])
         }
     }
     

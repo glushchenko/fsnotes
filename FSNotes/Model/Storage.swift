@@ -42,10 +42,11 @@ class Storage {
             let allowedExtensions = [
                 "md",
                 "txt",
+                "rtf",
                 UserDefaultsManagement.storageExtension
             ]
             
-            let markdownFiles = urlArray.filter{
+            let markdownFiles = urlArray.filter {
                 allowedExtensions.contains($0.pathExtension)
             }
             

@@ -17,7 +17,7 @@ class ViewController: NSViewController,
     
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
-    @IBOutlet var editArea: NSTextView!
+    @IBOutlet var editArea: EditTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
@@ -56,7 +56,8 @@ class ViewController: NSViewController,
         }
         
         if (notesTableView.notesList.indices.contains(0)) {
-            editArea.string = notesTableView.notesList[0].content!
+            let firstNote = notesTableView.notesList[0]
+            editArea!.fill(note: firstNote)
         }
         
         let fontName = UserDefaultsManagement.fontName
@@ -71,10 +72,12 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
-        let note = Note()
-        note.content = sender.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        editArea.string = ""
         
-        if note.make() {
+        let note = Note()
+        note.make()
+        
+        if editArea.save(note: note) {
             storage.noteList.insert(note, at: 0)
             
             self.updateTable(filter: "")
@@ -101,10 +104,11 @@ class ViewController: NSViewController,
         
         if (notesTableView.notesList.indices.contains(selected)) {
             let note = notesTableView.notesList.remove(at: selected)
-            note.content = content
+            note.content = content!
+            //note.textStorage = editArea.textStorage!
             note.date = Date.init()
             
-            if note.save() {
+            if editArea.save(note: note) {
                 notesTableView.notesList.insert(note, at: 0)
                 notesTableView.moveRow(at: selected, to: 0)
                 notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
@@ -119,7 +123,8 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue)
         
         if (notesTableView.notesList.count > 0) {
-            editArea.string = notesTableView.notesList[0].content!
+            //attibutedString.string
+            editArea.fill(note: notesTableView.notesList[0])
             self.selectNullTableRow()
         }
     }
@@ -127,7 +132,7 @@ class ViewController: NSViewController,
     func updateTable(filter: String) {
         if filter.characters.count > 0 {
             notesTableView.notesList = storage.noteList.filter() {
-                if ($0.content?.localizedCaseInsensitiveContains(filter))! || ($0.name?.localizedCaseInsensitiveContains(filter))! {
+                if ($0.content.localizedCaseInsensitiveContains(filter)) || ($0.name?.localizedCaseInsensitiveContains(filter))! {
                     return true
                 } else {
                     return false
