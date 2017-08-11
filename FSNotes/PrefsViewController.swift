@@ -10,6 +10,7 @@ import Cocoa
 
 class PrefsViewController: NSViewController {
 
+    @IBOutlet var previewCheckbox: NSButton!
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet var previewApp: NSTextField!
@@ -19,6 +20,15 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var verticalRadio: NSButton!
     
     let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+    
+    @IBAction func changePreview(_ sender: Any) {
+        if (sender as AnyObject).state == NSOffState {
+            UserDefaultsManagement.hidePreview = false
+        } else {
+            UserDefaultsManagement.hidePreview = true
+        }
+        restart()
+    }
     
     @IBAction func selectDefaultFileStorage(_ sender: Any) {
         
@@ -118,6 +128,10 @@ class PrefsViewController: NSViewController {
         }
         noteFont.addItems(withTitles: availableFonts)
         noteFont.selectItem(withTitle: UserDefaultsManagement.fontName)
+        
+        if (!UserDefaultsManagement.hidePreview) {
+            previewCheckbox.state = NSOffState
+        }
     }
     
     func restart() {
