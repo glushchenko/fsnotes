@@ -50,7 +50,7 @@ class Note: NSObject {
         let fileManager = FileManager.default
         
         do {
-            try fileManager.removeItem(at: self.url!)
+            try fileManager.trashItem(at: self.url!, resultingItemURL: nil)
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")

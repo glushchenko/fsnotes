@@ -26,22 +26,41 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 return
             }
             
-            let nextRow = selectedRow
             let note = notesList[selectedRow]
-            note.remove()
-            
-            let viewController = self.window?.contentViewController as? ViewController
-            viewController?.storage.noteList.remove(at: selectedRow)
-            viewController?.editArea.string = ""
-            viewController?.updateTable(filter: "")
-            
-            // select next note if exist
-            if (notesList.indices.contains(nextRow)) {
-                self.selectRowIndexes([nextRow], byExtendingSelection: false)
+
+            let alert = NSAlert.init()
+            if note.name == nil {
+                alert.messageText = "Are you sure you want to move the selected note to the trash?"
+            }
+            else {
+                alert.messageText = "Are you sure you want to move \(note.name!)\" to the trash?"
+            }
+            alert.informativeText = "This action cannot be undone."
+            alert.addButton(withTitle: "Remove note")
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: self.window!) { (returnCode: NSModalResponse) -> Void in
+                if returnCode == NSAlertFirstButtonReturn {
+                    self.removeNote(note)
+                }
             }
         }
         
         super.keyDown(with: event)
+    }
+            
+    func removeNote(_ note: Note) {
+        note.remove()
+        
+        let viewController = self.window?.contentViewController as? ViewController
+        viewController?.storage.noteList.remove(at: selectedRow)
+        viewController?.editArea.string = ""
+        viewController?.updateTable(filter: "")
+        
+        // select next note if exist
+        let nextRow = selectedRow
+        if (notesList.indices.contains(nextRow)) {
+            self.selectRowIndexes([nextRow], byExtendingSelection: false)
+        }
     }
     
     // Custom note highlight style
