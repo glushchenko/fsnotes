@@ -67,9 +67,11 @@ class NoteCellView: NSTableCellView {
 
     // This NoteCellView has multiple contained views; this method changes
     // these views' color when the cell is selected.
-    override var backgroundStyle: NSView.BackgroundStyle {
+    override var backgroundStyle: NSBackgroundStyle {
         set {
-            super.backgroundStyle = newValue
+            if let rowView = self.superview as? NSTableRowView {
+                super.backgroundStyle = rowView.isSelected ? NSBackgroundStyle.dark : NSBackgroundStyle.light
+            }
             self.udpateSelectionHighlight()
         }
         get {
@@ -78,11 +80,10 @@ class NoteCellView: NSTableCellView {
     }
     
     func udpateSelectionHighlight() {
-        if (self.backgroundStyle == NSView.BackgroundStyle.dark) {
+        if ( self.backgroundStyle == NSBackgroundStyle.dark ) {
             preview.textColor = NSColor.white
             date.textColor = NSColor.white
-        }
-        else if( self.backgroundStyle == NSView.BackgroundStyle.light ) {
+        } else {
             let lightGray = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
             preview.textColor = lightGray
             date.textColor = lightGray

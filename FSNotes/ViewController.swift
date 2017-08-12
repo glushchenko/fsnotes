@@ -145,10 +145,11 @@ class ViewController: NSViewController,
         notesTableView.reloadData()
     }
     
-    override func keyUp(with event: NSEvent) {        
+    override func keyUp(with event: NSEvent) {
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             search.becomeFirstResponder()
+            notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         }
     }
     
