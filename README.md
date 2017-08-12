@@ -6,7 +6,7 @@ FSNotes features:
 
 - high sierra compatible
 - keyboard centric
-- md plain/text file storage
+- markdown and RTF markup (files stored on disk as plain/text and rich text)
 - elastic 2 pane view with global search
 - blazing fast
 - lightweight
@@ -17,6 +17,8 @@ FSNotes features:
 Markdown files default directory:
 
 ```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
+
+Of course you can change directory (i.e Dropbox or iCloud for synchronization)
 
 ### Keyboard shortcuts
 
@@ -34,5 +36,5 @@ ctrl + cmd + p – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-12-10-17-38.png)
 
-Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.9/FSNotes.app.zip)
+Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.9/FSNotes.app.zip)
 
