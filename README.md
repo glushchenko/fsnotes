@@ -20,18 +20,19 @@ Markdown files default directory:
 
 ### Keyboard shortcuts
 
-Esc - move cursor into search bar
+esc - move cursor into search bar and clear edit/search fields 
+cmd + L - move cursor into search bar
+tab - go to next field
 
 Table view: 
 
-Up, Down arrows - select note  
-Delete - remove note  
-Tab - go to edit area
+up, down arrows - select note  
+cmd + delete - remove note  
 
-Control + Command + E – open in external editor (predefined in setings)  
-Control + Command + P – preview in external app (predefined in setings)
+ctrl + cmd + e – open in external editor (predefined in setings)  
+ctrl + cmd + p – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-11-08-59-14.png)
 
-Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.8/FSNotes.app.zip)
+Download link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.9/FSNotes.app.zip)
 
