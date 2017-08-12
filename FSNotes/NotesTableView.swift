@@ -19,8 +19,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.draw(dirtyRect)
     }
     
-    // Remove note
+    
     override func keyDown(with event: NSEvent) {
+        
+        // Remove note (cmd-delete)
         if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
             if (!notesList.indices.contains(selectedRow)) {
                 return
@@ -43,6 +45,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     self.removeNote(note)
                 }
             }
+        }
+        
+        // Rename note (cmd-R)
+        if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
+            // TODO
         }
         
         super.keyDown(with: event)

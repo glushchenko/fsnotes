@@ -105,10 +105,10 @@ class ViewController: NSViewController,
         if (notesTableView.notesList.indices.contains(selected)) {
             let note = notesTableView.notesList.remove(at: selected)
             note.content = content!
-            //note.textStorage = editArea.textStorage!
-            note.date = Date.init()
             
             if editArea.save(note: note) {
+                storage.noteList.remove(at: selected)
+                storage.noteList.insert(note, at: 0)
                 notesTableView.notesList.insert(note, at: 0)
                 notesTableView.moveRow(at: selected, to: 0)
                 notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
@@ -123,9 +123,10 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue)
         
         if (notesTableView.notesList.count > 0) {
-            //attibutedString.string
             editArea.fill(note: notesTableView.notesList[0])
             self.selectNullTableRow()
+        } else {
+            editArea.clear()
         }
     }
     
@@ -150,7 +151,21 @@ class ViewController: NSViewController,
         if (event.keyCode == 53) {
             search.becomeFirstResponder()
             notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
+            search.stringValue = ""
+            editArea.clear()
+            updateTable(filter: "")
         }
+        
+        super.keyUp(with: event)
+    }
+    
+    // Focus search field shortcut (cmd-L)
+    override func keyDown(with event: NSEvent) {
+        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
+            search.becomeFirstResponder()
+        }
+        
+        super.keyDown(with: event)
     }
     
     override func controlTextDidEndEditing(_ obj: Notification) {
@@ -163,6 +178,7 @@ class ViewController: NSViewController,
     }
     
     func focusEditArea() {
+        editArea.isEditable = true
         DispatchQueue.main.async() {
             self.editArea.window?.makeFirstResponder(self.editArea)
         }

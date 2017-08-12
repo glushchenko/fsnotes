@@ -14,6 +14,7 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note) {
+        isEditable = true
         let attributedString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attributedString)
         self.textStorage?.font = NSFont(name: UserDefaultsManagement.fontName, size: 13.0)
@@ -38,6 +39,11 @@ class EditTextView: NSTextView {
         return false
     }
     
+    func clear() {
+        textStorage?.mutableString.setString("")
+        isEditable = false
+    }
+    
     func createAttributedString(note: Note) -> NSAttributedString {
         let url = note.url!
         let fileExtension = url.pathExtension
@@ -51,5 +57,15 @@ class EditTextView: NSTextView {
         }
         
         return attributedString
+    }
+    
+    // Focus search field shortcut (cmd-L)
+    override func keyDown(with event: NSEvent) {
+        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
+            let viewController = self.window?.contentViewController as? ViewController
+            viewController?.search.becomeFirstResponder()
+        }
+        
+        super.keyDown(with: event)
     }
 }
