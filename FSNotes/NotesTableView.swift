@@ -29,8 +29,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             let note = notesList[selectedRow]
-
             let alert = NSAlert.init()
+            
             if note.name == nil {
                 alert.messageText = "Are you sure you want to move the selected note to the trash?"
             }
@@ -69,7 +69,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         note.remove()
         
         let viewController = self.window?.contentViewController as? ViewController
-        viewController?.storage.noteList.remove(at: selectedRow)
         viewController?.editArea.string = ""
         viewController?.updateTable(filter: "")
         

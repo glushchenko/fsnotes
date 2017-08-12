@@ -10,6 +10,8 @@ import Foundation
 
 class Storage {
     var noteList = [Note]()
+    var filterList = [Note]()
+    var i: Int = 0
     
     func loadFiles() {
         let markdownFiles = readDocuments()
@@ -26,6 +28,9 @@ class Storage {
             note.name = name
             note.url = url
             note.load()
+            note.id = i
+            
+            i += 1
             
             noteList.append(note)
         }
@@ -65,4 +70,19 @@ class Storage {
     func add(note: Note) {
         noteList.append(note)
     }
+    
+    func remove(id: Int) {
+        noteList[id].isRemoved = true
+    }
+    
+    func get(id: Int) -> Note {
+        let note = noteList[id]
+        return note
+    }
+    
+    func getNextId() -> Int {
+        i += 1
+        return i
+    }
+
 }

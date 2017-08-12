@@ -70,11 +70,12 @@ class ViewController: NSViewController,
     @IBAction func makeNote(_ sender: NSTextField) {
         editArea.string = ""
         
+        let nextId: Int = storage.noteList.count
         let note = Note()
-        note.make()
+        note.make(id: nextId)
         
         if editArea.save(note: note) {
-            storage.noteList.insert(note, at: 0)
+            storage.add(note: note)
             
             self.updateTable(filter: "")
             self.selectNullTableRow()
@@ -91,23 +92,31 @@ class ViewController: NSViewController,
     
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
-        let content = editArea.string
         let selected = notesTableView.selectedRow
         
         if (
             notesTableView.notesList.indices.contains(selected)
             && selected > -1
         ) {
-            let note = notesTableView.notesList.remove(at: selected)
+            let content = editArea.string!
+            
+            let note = storage.filterList[selected]
+            note.content = content
+            
+            let storageKey = note.id
+            
+            storage.noteList[storageKey].date = Date()
+            storage.noteList[storageKey].content = content
+            
+            storage.filterList.remove(at: selected)
+            storage.filterList.insert(note, at: 0)
+            
+            notesTableView.notesList.remove(at: selected)
             notesTableView.notesList.insert(note, at: 0)
             
-            note.content = content!
-            
             if editArea.save(note: note) {
-                storage.noteList.remove(at: selected)
-                storage.noteList.insert(note, at: 0)
                 notesTableView.moveRow(at: selected, to: 0)
-                notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
+                notesTableView.reloadData(forRowIndexes: [0, selected], columnIndexes: [0])
                 notesTableView.scrollRowToVisible(0)
             }
         }
@@ -128,17 +137,28 @@ class ViewController: NSViewController,
     
     func updateTable(filter: String) {
         if filter.characters.count > 0 {
-            notesTableView.notesList = storage.noteList.filter() {
-                if ($0.content.localizedCaseInsensitiveContains(filter)) || ($0.name?.localizedCaseInsensitiveContains(filter))! {
+            storage.filterList = storage.noteList.filter() {
+                if ($0.content.localizedCaseInsensitiveContains(filter)) || ($0.name?.localizedCaseInsensitiveContains(filter))!
+                {
                     return true
                 } else {
                     return false
                 }
             }
+            .sorted(by: { $0.date! > $1.date! })
+            .filter() {
+                return ($0.isRemoved == false)
+            }
         } else {
-            notesTableView.notesList = storage.noteList
+            storage.filterList =
+                storage.noteList
+                    .sorted(by: { $0.date! > $1.date! })
+                    .filter() {
+                        return ($0.isRemoved == false)
+                    }
         }
         
+        notesTableView.notesList = storage.filterList
         notesTableView.reloadData()
     }
     

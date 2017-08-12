@@ -10,17 +10,20 @@ import Foundation
 import Cocoa
 
 class Note: NSObject {
+    var id: Int = 0
     var name: String?
     var content: String = ""
     var date: Date?
     var url: URL?
+    var isRemoved: Bool = false
     
     override init(){}
     
-    func make() {
+    func make(id: Int) {
         url = getUniqueFileName(name: "Untitled Note")
         name = url?.pathComponents.last
         date = Date.init()
+        self.id = id
     }
 
     func load() {
@@ -43,6 +46,7 @@ class Note: NSObject {
     }
     
     func remove() {
+        isRemoved = true
         let fileManager = FileManager.default
         
         do {
