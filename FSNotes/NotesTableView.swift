@@ -61,6 +61,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let viewController = self.window?.contentViewController as? ViewController
             viewController?.focusEditArea()
         }
+        
+        super.keyUp(with: event)
     }
     
     func removeNote(_ note: Note) {

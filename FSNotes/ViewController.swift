@@ -32,6 +32,7 @@ class ViewController: NSViewController,
         // editarea paddings
         editArea.textContainerInset.height = 5
         editArea.textContainerInset.width = 5
+        editArea.isEditable = false
         
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
@@ -53,14 +54,6 @@ class ViewController: NSViewController,
         if storage.noteList.count == 0 {
             storage.loadFiles()
             updateTable(filter: "")
-        }
-        
-        if (notesTableView.notesList.indices.contains(0)) {
-            let firstNote = notesTableView.notesList[0]
-            print(firstNote)
-            selectNullTableRow()
-            editArea!.fill(note: firstNote)
-            
         }
         
         let fontName = UserDefaultsManagement.fontName
@@ -182,8 +175,8 @@ class ViewController: NSViewController,
     
     func focusEditArea() {
         if (self.notesTableView.selectedRow > -1) {
-            editArea.isEditable = true
             DispatchQueue.main.async() {
+                self.editArea.isEditable = true
                 self.editArea.window?.makeFirstResponder(self.editArea)
             }
         }

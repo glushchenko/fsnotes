@@ -25,11 +25,14 @@ class EditTextView: NSTextView {
         let fileExtension = fileUrl.pathExtension
         
         do {
-            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension)
-            let range = NSRange(0..<textStorage!.length)
-            let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-            
-            try text?.write(to: fileUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            if (fileExtension == "rtf") {
+                let range = NSRange(0..<textStorage!.length)
+                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension)
+                let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
+                try text?.write(to: fileUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            } else {
+                try note.content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+            }
             
             return true
         } catch {
