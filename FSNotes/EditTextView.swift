@@ -31,7 +31,7 @@ class EditTextView: NSTextView {
                 let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
                 try text?.write(to: fileUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             } else {
-                try note.content.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+                try textStorage?.string.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
             }
             
             return true
