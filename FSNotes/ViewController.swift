@@ -56,8 +56,7 @@ class ViewController: NSViewController,
             updateTable(filter: "")
         }
         
-        let fontName = UserDefaultsManagement.fontName
-        let font = NSFont(name: fontName, size: 13)
+        let font = UserDefaultsManagement.noteFont
         editArea.font = font
     }
     

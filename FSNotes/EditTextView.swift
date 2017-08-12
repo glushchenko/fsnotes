@@ -17,7 +17,7 @@ class EditTextView: NSTextView {
         isEditable = true
         let attributedString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attributedString)
-        self.textStorage?.font = NSFont(name: UserDefaultsManagement.fontName, size: 13.0)
+        self.textStorage?.font = UserDefaultsManagement.noteFont
     }
     
     func save(note: Note) -> Bool {
