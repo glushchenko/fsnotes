@@ -32,7 +32,7 @@ class ViewController: NSViewController,
         // editarea paddings
         editArea.textContainerInset.height = 5
         editArea.textContainerInset.width = 5
-    
+        
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
             notesTableView.rowHeight = 25
@@ -57,7 +57,10 @@ class ViewController: NSViewController,
         
         if (notesTableView.notesList.indices.contains(0)) {
             let firstNote = notesTableView.notesList[0]
+            print(firstNote)
+            selectNullTableRow()
             editArea!.fill(note: firstNote)
+            
         }
         
         let fontName = UserDefaultsManagement.fontName
@@ -96,20 +99,20 @@ class ViewController: NSViewController,
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
         let content = editArea.string
-        var selected = notesTableView.selectedRow
+        let selected = notesTableView.selectedRow
         
-        if (selected < 0) {
-            selected = 0
-        }
-        
-        if (notesTableView.notesList.indices.contains(selected)) {
+        if (
+            notesTableView.notesList.indices.contains(selected)
+            && selected > -1
+        ) {
             let note = notesTableView.notesList.remove(at: selected)
+            notesTableView.notesList.insert(note, at: 0)
+            
             note.content = content!
             
             if editArea.save(note: note) {
                 storage.noteList.remove(at: selected)
                 storage.noteList.insert(note, at: 0)
-                notesTableView.notesList.insert(note, at: 0)
                 notesTableView.moveRow(at: selected, to: 0)
                 notesTableView.reloadData(forRowIndexes: [0], columnIndexes: [0])
                 notesTableView.scrollRowToVisible(0)
@@ -178,16 +181,21 @@ class ViewController: NSViewController,
     }
     
     func focusEditArea() {
-        editArea.isEditable = true
-        DispatchQueue.main.async() {
-            self.editArea.window?.makeFirstResponder(self.editArea)
+        if (self.notesTableView.selectedRow > -1) {
+            editArea.isEditable = true
+            DispatchQueue.main.async() {
+                self.editArea.window?.makeFirstResponder(self.editArea)
+            }
         }
     }
     
     func focusTable() {
         DispatchQueue.main.async {
+            let index = self.notesTableView.selectedRow > -1 ? 1 : 0
+            
             self.notesTableView.window?.makeFirstResponder(self.notesTableView)
-            self.selectNullTableRow()
+            self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+            self.notesTableView.scrollRowToVisible(0)
         }
     }
 }

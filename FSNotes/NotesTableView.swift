@@ -54,7 +54,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         super.keyDown(with: event)
     }
-            
+        
+    override func keyUp(with event: NSEvent) {
+        // Tab
+        if (event.keyCode == 48) {
+            let viewController = self.window?.contentViewController as? ViewController
+            viewController?.focusEditArea()
+        }
+    }
+    
     func removeNote(_ note: Note) {
         note.remove()
         
