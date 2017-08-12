@@ -109,6 +109,10 @@ class PrefsViewController: NSViewController {
         fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
     }
     
+    override func validModesForFontPanel(_ fontPanel: NSFontPanel) -> Int {
+        return Int(NSFontPanelSizeModeMask | NSFontPanelCollectionModeMask | NSFontPanelFaceModeMask)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setFontPreview()
