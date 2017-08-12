@@ -20,9 +20,9 @@ Markdown files default directory:
 
 ### Keyboard shortcuts
 
-esc - move cursor into search bar and clear edit/search fields 
-cmd + L - move cursor into search bar
-tab - go to next field
+esc - move cursor into search bar and clear edit/search fields   
+cmd + L - move cursor into search bar  
+tab - go to next field  
 
 Table view: 
 
