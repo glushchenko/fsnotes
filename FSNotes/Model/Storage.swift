@@ -10,7 +10,6 @@ import Foundation
 
 class Storage {
     var noteList = [Note]()
-    var filterList = [Note]()
     var i: Int = 0
     
     func loadFiles() {
@@ -75,14 +74,8 @@ class Storage {
         noteList[id].isRemoved = true
     }
     
-    func get(id: Int) -> Note {
-        let note = noteList[id]
-        return note
-    }
-    
     func getNextId() -> Int {
-        i += 1
-        return i
+        return noteList.count
     }
 
 }

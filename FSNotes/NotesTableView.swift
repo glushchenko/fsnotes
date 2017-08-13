@@ -11,7 +11,7 @@ import Cocoa
 class NotesTableView: NSTableView, NSTableViewDataSource,
     NSTableViewDelegate {
     
-    var notesList = [Note]()
+    var noteList = [Note]()
     
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
@@ -24,11 +24,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         // Remove note (cmd-delete)
         if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            if (!notesList.indices.contains(selectedRow)) {
+            if (!noteList.indices.contains(selectedRow)) {
                 return
             }
             
-            let note = notesList[selectedRow]
+            let note = noteList[selectedRow]
             let alert = NSAlert.init()
             
             if note.name == nil {
@@ -68,13 +68,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func removeNote(_ note: Note) {
         note.remove()
         
-        let viewController = self.window?.contentViewController as? ViewController
-        viewController?.editArea.string = ""
-        viewController?.updateTable(filter: "")
+        let viewController = self.window?.contentViewController as! ViewController
+        viewController.editArea.string = ""
+        viewController.updateTable(filter: "")
         
         // select next note if exist
         let nextRow = selectedRow
-        if (notesList.indices.contains(nextRow)) {
+        if (noteList.indices.contains(nextRow)) {
             self.selectRowIndexes([nextRow], byExtendingSelection: false)
         }
     }
@@ -86,20 +86,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // Populate table data
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return notesList.count
+        return noteList.count
     }
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
         let viewController = self.window?.contentViewController as? ViewController
         
-        if (notesList.indices.contains(selectedRow)) {
-            viewController?.editArea.fill(note: notesList[selectedRow])
+        if (noteList.indices.contains(selectedRow)) {
+            viewController?.editArea.fill(note: noteList[selectedRow])
         }
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return notesList[row]
+        return noteList[row]
     }
     
     func getNoteFromSelectedRow() -> Note {
@@ -110,8 +110,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             selected = 0
         }
         
-        if (notesList.indices.contains(selected)) {
-            note = notesList[selected]
+        if (noteList.indices.contains(selected)) {
+            note = noteList[selected]
         }
         
         return note
