@@ -39,6 +39,10 @@ class ViewController: NSViewController,
             notesTableView.rowHeight = 25
         }
         
+        if (UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation) {
+            notesTableView.rowHeight = 28
+        }
+        
         super.viewDidAppear()
     }
     
