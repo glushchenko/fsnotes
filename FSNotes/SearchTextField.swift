@@ -15,9 +15,16 @@ class SearchTextField: NSTextField {
     }
     
     override func keyUp(with event: NSEvent) {
+        // Down arrow
         if (event.keyCode == 125) {
             let viewController = self.window?.contentViewController as? ViewController
             viewController?.focusTable()
+        }
+        
+        // ESC
+        if (event.keyCode == 53) {
+            let viewController = self.window?.contentViewController as! ViewController
+            viewController.cleanSearchAndEditArea()
         }
     }
     

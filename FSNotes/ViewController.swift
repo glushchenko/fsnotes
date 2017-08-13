@@ -157,11 +157,7 @@ class ViewController: NSViewController,
     override func keyUp(with event: NSEvent) {
         // Focus search bar on ESC
         if (event.keyCode == 53) {
-            search.becomeFirstResponder()
-            notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
-            search.stringValue = ""
-            editArea.clear()
-            updateTable(filter: "")
+            cleanSearchAndEditArea()
         }
         
         super.keyUp(with: event)
@@ -202,6 +198,14 @@ class ViewController: NSViewController,
             self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
             self.notesTableView.scrollRowToVisible(0)
         }
+    }
+    
+    func cleanSearchAndEditArea() {
+        search.becomeFirstResponder()
+        notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
+        search.stringValue = ""
+        editArea.clear()
+        updateTable(filter: "")
     }
 }
 
