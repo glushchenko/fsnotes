@@ -85,6 +85,8 @@ class PrefsViewController: NSViewController {
     
     @IBOutlet weak var fontPreview: NSTextField!
 
+    var fontPanelOpen: Bool = false
+    
     @IBAction func setFont(_ sender: NSButton) {
         let fontManager = NSFontManager.shared()
         if UserDefaultsManagement.noteFont != nil {
@@ -92,6 +94,7 @@ class PrefsViewController: NSViewController {
         }
         
         fontManager.orderFrontFontPanel(self)
+        fontPanelOpen = true
     }
     
     // changeFont is sent by the Font Panel.
@@ -105,12 +108,8 @@ class PrefsViewController: NSViewController {
     }
 
     func setFontPreview() {
-        fontPreview.font = UserDefaultsManagement.noteFont
+        fontPreview.font = NSFont(name: UserDefaultsManagement.fontName, size: 13)
         fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
-    }
-    
-    override func validModesForFontPanel(_ fontPanel: NSFontPanel) -> Int {
-        return Int(NSFontPanelSizeModeMask | NSFontPanelCollectionModeMask | NSFontPanelFaceModeMask)
     }
     
     override func viewDidLoad() {

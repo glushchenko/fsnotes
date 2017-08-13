@@ -38,7 +38,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        // Ensure the font panel is closed when the app starts, in case it was
+        // left open when the app quit.
+        NSFontManager.shared().fontPanel(false)?.orderOut(self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
