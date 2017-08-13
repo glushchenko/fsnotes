@@ -39,7 +39,7 @@ class NoteCellView: NSTableCellView {
         let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 3)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
         let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -8)
         let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
         let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)

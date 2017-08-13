@@ -39,6 +39,10 @@ class ViewController: NSViewController,
             notesTableView.rowHeight = 25
         }
         
+        if (UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation) {
+            notesTableView.rowHeight = 28
+        }
+        
         super.viewDidAppear()
     }
     
@@ -69,8 +73,8 @@ class ViewController: NSViewController,
     @IBAction func makeNote(_ sender: NSTextField) {
         editArea.string = ""
         
-        let nextId: Int = storage.noteList.count
         let note = Note()
+        let nextId = storage.getNextId()
         note.make(id: nextId)
         
         if editArea.save(note: note) {
@@ -94,24 +98,19 @@ class ViewController: NSViewController,
         let selected = notesTableView.selectedRow
         
         if (
-            notesTableView.notesList.indices.contains(selected)
+            notesTableView.noteList.indices.contains(selected)
             && selected > -1
         ) {
             let content = editArea.string!
-            
-            let note = storage.filterList[selected]
+            let note = notesTableView.noteList[selected]
+            let storageId = note.id
             note.content = content
             
-            let storageKey = note.id
+            storage.noteList[storageId].date = Date()
+            storage.noteList[storageId].content = content
             
-            storage.noteList[storageKey].date = Date()
-            storage.noteList[storageKey].content = content
-            
-            storage.filterList.remove(at: selected)
-            storage.filterList.insert(note, at: 0)
-            
-            notesTableView.notesList.remove(at: selected)
-            notesTableView.notesList.insert(note, at: 0)
+            notesTableView.noteList.remove(at: selected)
+            notesTableView.noteList.insert(note, at: 0)
             
             if editArea.save(note: note) {
                 notesTableView.moveRow(at: selected, to: 0)
@@ -123,11 +122,11 @@ class ViewController: NSViewController,
     
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
-        notesTableView.notesList.removeAll();
+        notesTableView.noteList.removeAll();
         self.updateTable(filter: search.stringValue)
         
-        if (notesTableView.notesList.count > 0) {
-            editArea.fill(note: notesTableView.notesList[0])
+        if (notesTableView.noteList.count > 0) {
+            editArea.fill(note: notesTableView.noteList[0])
             self.selectNullTableRow()
         } else {
             editArea.clear()
@@ -135,40 +134,29 @@ class ViewController: NSViewController,
     }
     
     func updateTable(filter: String) {
-        if filter.characters.count > 0 {
-            storage.filterList = storage.noteList.filter() {
-                if ($0.content.localizedCaseInsensitiveContains(filter)) || ($0.name?.localizedCaseInsensitiveContains(filter))!
-                {
-                    return true
-                } else {
-                    return false
+        notesTableView.noteList =
+            storage.noteList
+                .filter() {
+                    return (
+                        $0.isRemoved == false && filter.isEmpty
+                        || (
+                            !filter.isEmpty
+                            && (
+                                $0.content.localizedCaseInsensitiveContains(filter)
+                                || ($0.name?.localizedCaseInsensitiveContains(filter))!
+                            )
+                        )
+                    )
                 }
-            }
-            .sorted(by: { $0.date! > $1.date! })
-            .filter() {
-                return ($0.isRemoved == false)
-            }
-        } else {
-            storage.filterList =
-                storage.noteList
-                    .sorted(by: { $0.date! > $1.date! })
-                    .filter() {
-                        return ($0.isRemoved == false)
-                    }
-        }
+                .sorted(by: { $0.date! > $1.date! })
         
-        notesTableView.notesList = storage.filterList
         notesTableView.reloadData()
     }
     
     override func keyUp(with event: NSEvent) {
         // Focus search bar on ESC
         if (event.keyCode == 53) {
-            search.becomeFirstResponder()
-            notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
-            search.stringValue = ""
-            editArea.clear()
-            updateTable(filter: "")
+            cleanSearchAndEditArea()
         }
         
         super.keyUp(with: event)
@@ -209,6 +197,14 @@ class ViewController: NSViewController,
             self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
             self.notesTableView.scrollRowToVisible(0)
         }
+    }
+    
+    func cleanSearchAndEditArea() {
+        search.becomeFirstResponder()
+        notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
+        search.stringValue = ""
+        editArea.clear()
+        updateTable(filter: "")
     }
 }
 
