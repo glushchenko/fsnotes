@@ -1,0 +1,1 @@
+../../../MASShortcut/Framework/MASShortcut.h

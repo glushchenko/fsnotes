@@ -62,6 +62,15 @@ class ViewController: NSViewController,
         
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
+        
+        // Global shortcuts
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.newNoteShortcut, withAction: {
+            self.makeNoteShortcut()
+        })
+        
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.searchNoteShortcut, withAction: {
+            self.searchShortcut()
+        })
     }
     
     override var representedObject: Any? {
@@ -208,6 +217,22 @@ class ViewController: NSViewController,
         search.stringValue = ""
         editArea.clear()
         updateTable(filter: "")
+    }
+    
+    func makeNoteShortcut() {
+        NSApp.activate(ignoringOtherApps: true)
+        
+        if (notesTableView.noteList[0].content.characters.count == 0) {
+            selectNullTableRow()
+            focusEditArea()
+        } else {
+            makeNote(NSTextField())
+        }
+    }
+    
+    func searchShortcut() {
+        NSApp.activate(ignoringOtherApps: true)
+        cleanSearchAndEditArea()
     }
 }
 

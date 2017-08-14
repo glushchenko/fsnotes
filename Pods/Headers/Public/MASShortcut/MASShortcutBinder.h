@@ -1,0 +1,1 @@
+../../../MASShortcut/Framework/MASShortcutBinder.h

@@ -20,6 +20,10 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
         static let HidePreviewKey = "hidePreview"
+        static let NewNoteKeyCode = "newNoteKeyCode"
+        static let NewNoteKeyModifier = "newNoteKeyModifier"
+        static let SearchNoteKeyCode = "searchNoteKeyCode"
+        static let SearchNoteKeyModifier = "searchNoteKeyModifier"
     }
         
     static var fontName: String {
@@ -117,6 +121,40 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewKey)
+        }
+    }
+    
+    static var newNoteShortcut: MASShortcut {
+        get {
+            let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
+            let modifier = UserDefaults.standard.object(forKey: Constants.NewNoteKeyModifier)
+            
+            if (code != nil && modifier != nil) {
+                return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
+            } else {
+                return MASShortcut(keyCode: 45, modifierFlags: 917504)
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.NewNoteKeyCode)
+            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.NewNoteKeyModifier)
+        }
+    }
+    
+    static var searchNoteShortcut: MASShortcut {
+        get {
+            let code = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyCode)
+            let modifier = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyModifier)
+            
+            if (code != nil && modifier != nil) {
+                return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
+            } else {
+                return MASShortcut(keyCode: 37, modifierFlags: 917504)
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.SearchNoteKeyCode)
+            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
         }
     }
 }

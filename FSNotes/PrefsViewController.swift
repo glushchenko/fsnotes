@@ -115,6 +115,7 @@ class PrefsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setFontPreview()
+        initGlobalShortcuts()
     }
     
     override func viewDidAppear() {
@@ -164,4 +165,43 @@ class PrefsViewController: NSViewController {
         UserDefaults.standard.set(value, forKey: "fileExtension")
     }
     
+    @IBOutlet var newNoteshortcutView: MASShortcutView!
+    @IBOutlet var searchNotesShortcut: MASShortcutView!
+    
+    func initGlobalShortcuts() {
+        newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
+        searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
+        
+        newNoteshortcutView.shortcutValueChange = { (sender) in
+            if ((self.newNoteshortcutView.shortcutValue) != nil) {
+                let keyCode = self.newNoteshortcutView.shortcutValue.keyCode
+                let modifierFlags = self.newNoteshortcutView.shortcutValue.modifierFlags
+                
+                UserDefaultsManagement.newNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+                
+                MASShortcutMonitor.shared().register(self.newNoteshortcutView.shortcutValue, withAction: {
+                    self.controller?.makeNoteShortcut()
+                })
+            } else {
+                UserDefaultsManagement.newNoteShortcut = MASShortcut(keyCode: 45, modifierFlags: 917504)
+            }
+        }
+        
+        searchNotesShortcut.shortcutValueChange = { (sender) in
+            
+            if ((self.searchNotesShortcut.shortcutValue) != nil) {
+                let keyCode = self.searchNotesShortcut.shortcutValue.keyCode
+                let modifierFlags = self.searchNotesShortcut.shortcutValue.modifierFlags
+                                print(keyCode)
+                
+                UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
+                
+                MASShortcutMonitor.shared().register(self.searchNotesShortcut.shortcutValue, withAction: {
+                    self.controller?.searchShortcut()
+                })
+            } else {
+                UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: 37, modifierFlags: 917504)
+            }
+        }
+    }
 }
