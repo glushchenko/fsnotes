@@ -7,12 +7,15 @@
 //
 
 import Foundation
+import Cocoa
 
 public class UserDefaultsManagement {
     static var DefaultFont = "Source Code Pro"
-    
+    static var DefaultFontSize = 13
+
     private struct Constants {
         static let FontNameKey = "font"
+        static let FontSizeKey = "fontsize"
         static let TableOrientation = "isUseHorizontalMode"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
@@ -32,6 +35,31 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var fontSize: Int {
+        get {
+            if let returnFontSize = UserDefaults.standard.object(forKey: Constants.FontSizeKey) {
+                return returnFontSize as! Int
+            } else {
+                return self.DefaultFontSize
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.FontSizeKey)
+        }
+    }
+    
+    static var noteFont: NSFont? {
+        get {
+            return NSFont(name: self.fontName, size: CGFloat(self.fontSize))
+        }
+        set {
+            guard let newValue = newValue else {return}
+            
+            self.fontName = newValue.fontName
+            self.fontSize = Int(newValue.pointSize)
+        }
+    }
+
     static var horizontalOrientation: Bool {
         get {
             if let returnMode = UserDefaults.standard.object(forKey: Constants.TableOrientation) {

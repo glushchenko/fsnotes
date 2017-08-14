@@ -83,16 +83,38 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
-    @IBAction func changedFont(_ sender: Any) {
-        guard let selectedNoteFont = noteFont.selectedItem?.title
-            else {return}
+    @IBOutlet weak var fontPreview: NSTextField!
+
+    var fontPanelOpen: Bool = false
+    
+    @IBAction func setFont(_ sender: NSButton) {
+        let fontManager = NSFontManager.shared()
+        if UserDefaultsManagement.noteFont != nil {
+            fontManager.setSelectedFont(UserDefaultsManagement.noteFont!, isMultiple: false)
+        }
         
-        UserDefaultsManagement.fontName = selectedNoteFont
-        controller?.editArea.font = NSFont(name: selectedNoteFont, size: 13)
+        fontManager.orderFrontFontPanel(self)
+        fontPanelOpen = true
+    }
+    
+    // changeFont is sent by the Font Panel.
+    override func changeFont(_ sender: Any?) {
+        let fontManager = NSFontManager.shared()
+        let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
+        UserDefaultsManagement.noteFont = newFont
+        
+        controller?.editArea.font = UserDefaultsManagement.noteFont
+        setFontPreview()
+    }
+
+    func setFontPreview() {
+        fontPreview.font = NSFont(name: UserDefaultsManagement.fontName, size: 13)
+        fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setFontPreview()
     }
     
     override func viewDidAppear() {
@@ -120,14 +142,6 @@ class PrefsViewController: NSViewController {
         }
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-        
-        // populate fonts
-        var availableFonts = NSFontManager.shared().availableFontFamilies
-        if (availableFonts.contains(UserDefaultsManagement.DefaultFont) == false) {
-            availableFonts.append(UserDefaultsManagement.DefaultFont)
-        }
-        noteFont.addItems(withTitles: availableFonts)
-        noteFont.selectItem(withTitle: UserDefaultsManagement.fontName)
         
         if (!UserDefaultsManagement.hidePreview) {
             previewCheckbox.state = NSOffState
