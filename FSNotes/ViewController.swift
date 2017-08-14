@@ -30,7 +30,7 @@ class ViewController: NSViewController,
         splitView.autosaveName = "SplitView"
         
         // editarea paddings
-        editArea.textContainerInset.height = 5
+        editArea.textContainerInset.height = 10
         editArea.textContainerInset.width = 5
         editArea.isEditable = false
         
