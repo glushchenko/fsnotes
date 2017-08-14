@@ -139,4 +139,8 @@ class Note: NSObject {
         
         return fileUrl
     }
+    
+    func isRTF() -> Bool {        
+        return (url.pathExtension == "rtf")
+    }
 }

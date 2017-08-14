@@ -14,7 +14,9 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note) {
-        isEditable = true
+        self.isEditable = true
+        self.isRichText = note.isRTF()
+        
         let attributedString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attributedString)
         self.textStorage?.font = UserDefaultsManagement.noteFont
