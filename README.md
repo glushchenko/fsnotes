@@ -5,7 +5,7 @@ Lightweight notational velocity reinvention.
 FSNotes features:
 
 - high sierra compatible
-- keyboard centric
+- keyboard centric (with global shortcuts)
 - markdown and RTF markup (files stored on disk as plain/text and rich text)
 - elastic 2 pane view with global search
 - blazing fast
