@@ -91,7 +91,10 @@ class ViewController: NSViewController,
     
     @IBAction func fileName(_ sender: NSTextField) {
         let note = notesTableView.getNoteFromSelectedRow()
-        note.rename(newName: sender.stringValue)
+        sender.isEditable = false
+        if (!note.rename(newName: sender.stringValue)) {
+            sender.stringValue = note.name
+        }
     }
     
     // Changed main edit view
@@ -144,7 +147,7 @@ class ViewController: NSViewController,
                             !filter.isEmpty
                             && (
                                 $0.content.localizedCaseInsensitiveContains(filter)
-                                || ($0.name?.localizedCaseInsensitiveContains(filter))!
+                                || $0.name.localizedCaseInsensitiveContains(filter)
                             )
                         )
                     )

@@ -21,22 +21,22 @@ class EditTextView: NSTextView {
     }
     
     func save(note: Note) -> Bool {
-        let fileUrl = note.url!
-        let fileExtension = fileUrl.pathExtension
+        let fileUrl = note.url
+        let fileExtension = fileUrl?.pathExtension
         
         do {
             if (fileExtension == "rtf") {
                 let range = NSRange(0..<textStorage!.length)
-                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension)
+                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
                 let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-                try text?.write(to: fileUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+                try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             } else {
-                try textStorage?.string.write(to: fileUrl, atomically: false, encoding: String.Encoding.utf8)
+                try textStorage?.string.write(to: fileUrl!, atomically: false, encoding: String.Encoding.utf8)
             }
             
             return true
         } catch {
-            NSLog("Note write error: " + fileUrl.path)
+            NSLog("Note write error: " + (fileUrl?.path)!)
         }
         
         return false
@@ -48,13 +48,13 @@ class EditTextView: NSTextView {
     }
     
     func createAttributedString(note: Note) -> NSAttributedString {
-        let url = note.url!
-        let fileExtension = url.pathExtension
-        let options = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension)
+        let url = note.url
+        let fileExtension = url?.pathExtension
+        let options = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
         var attributedString = NSAttributedString()
         
         do {
-            attributedString = try NSAttributedString(url: url, options: options, documentAttributes: nil)
+            attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
         } catch {
             NSLog("No text content found!")
         }

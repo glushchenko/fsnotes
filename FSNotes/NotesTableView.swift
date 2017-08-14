@@ -35,7 +35,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 alert.messageText = "Are you sure you want to move the selected note to the trash?"
             }
             else {
-                alert.messageText = "Are you sure you want to move \(note.name!)\" to the trash?"
+                alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
             }
             alert.informativeText = "This action cannot be undone."
             alert.addButton(withTitle: "Remove note")
@@ -47,9 +47,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
         
-        // Rename note (cmd-R)
+        // Note edit mode and select file name (cmd-R)
         if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
-            // TODO
+            let row = rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
+            let cell = row.view(atColumn: 0) as! NoteCellView
+            
+            cell.name.isEditable = true
+            cell.name.becomeFirstResponder()
+            
+            let fileName = cell.name.currentEditor()!.string! as NSString
+            let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
+            
+            cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
         }
         
         super.keyDown(with: event)
@@ -111,7 +120,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         if (noteList.indices.contains(selected)) {
-            note = noteList[selected]
+            let viewController = self.window?.contentViewController as! ViewController
+            let id = noteList[selected].id
+            note = viewController.storage.noteList[id]
         }
         
         return note

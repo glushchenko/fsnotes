@@ -30,6 +30,7 @@ Table view:
 
 up, down arrows - select note  
 cmd + delete - remove note  
+cmd + r - rename note  
 
 ctrl + cmd + e – open in external editor (predefined in setings)  
 ctrl + cmd + p – preview in external app (predefined in setings)

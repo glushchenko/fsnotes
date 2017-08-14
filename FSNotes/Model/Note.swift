@@ -11,37 +11,38 @@ import Cocoa
 
 class Note: NSObject {
     var id: Int = 0
-    var name: String?
+    var name: String = ""
     var content: String = ""
     var date: Date?
-    var url: URL?
+    var url: URL!
     var isRemoved: Bool = false
     
     override init(){}
     
     func make(id: Int) {
         url = getUniqueFileName(name: "Untitled Note")
-        name = url?.pathComponents.last
+        name = (url.pathComponents.last)!
         date = Date.init()
         self.id = id
     }
 
     func load() {
-        content = getContent(url: url!)
-        date = getDate(url: url!)
+        content = getContent(url: url)
+        date = getDate(url: url)
     }
     
-    func rename(newName: String) {
+    func rename(newName: String) -> Bool {
         let fileManager = FileManager.default
-        var newUrl = url?.deletingLastPathComponent()
-            newUrl?.appendPathComponent(newName)
+        var newUrl = url.deletingLastPathComponent()
+            newUrl.appendPathComponent(newName)
         
         do {
-            try fileManager.moveItem(at: url!, to: newUrl!)
-            self.url = newUrl
-        }
-        catch let error as NSError {
-            print("Remove went wrong: \(error)")
+            try fileManager.moveItem(at: url, to: newUrl)
+            url = newUrl
+            return true
+        } catch {
+            name = url.lastPathComponent
+            return false
         }
     }
     
@@ -50,7 +51,7 @@ class Note: NSObject {
         let fileManager = FileManager.default
         
         do {
-            try fileManager.trashItem(at: self.url!, resultingItemURL: nil)
+            try fileManager.trashItem(at: self.url, resultingItemURL: nil)
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")

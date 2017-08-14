@@ -22,7 +22,7 @@ class Storage {
             if (url.pathComponents.count > 0) {
                 name = url.pathComponents.last!
             }
-            
+                        
             let note = Note()
             note.name = name
             note.url = url
