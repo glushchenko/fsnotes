@@ -37,5 +37,5 @@ ctrl + cmd + p – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-12-10-17-38.png)
 
-Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.10/FSNotes.app.zip)
+Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.11/FSNotes.app.zip)
 
