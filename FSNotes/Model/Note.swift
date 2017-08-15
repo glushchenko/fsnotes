@@ -123,17 +123,23 @@ class Note: NSObject {
     }
     
     func getUniqueFileName(name: String, i: Int = 0) -> URL {
+        let defaultName = "Untitled Note"
         let defaultUrl = UserDefaultsManagement.storageUrl
         let defaultExtension = UserDefaultsManagement.storageExtension
-        var fileUrl = defaultUrl
         
+        var name = name.trimmingCharacters(in: CharacterSet.whitespaces)
+        if (name.characters.count == 0) {
+            name = defaultName
+        }
+        
+        var fileUrl = defaultUrl
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(defaultExtension)
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {
             let j = i + 1
-            let newName = "Untitled Note" + " " + String(j)
+            let newName = defaultName + " " + String(j)
             return getUniqueFileName(name: newName, i: j)
         }
         

@@ -150,12 +150,15 @@ class ViewController: NSViewController,
             storage.noteList
                 .filter() {
                     return (
-                        $0.isRemoved == false && filter.isEmpty
-                        || (
-                            !filter.isEmpty
-                            && (
-                                $0.content.localizedCaseInsensitiveContains(filter)
-                                || $0.name.localizedCaseInsensitiveContains(filter)
+                        $0.isRemoved == false
+                        && (
+                            filter.isEmpty
+                            || (
+                                !filter.isEmpty
+                                && (
+                                    $0.content.localizedCaseInsensitiveContains(filter)
+                                    || $0.name.localizedCaseInsensitiveContains(filter)
+                                )
                             )
                         )
                     )
