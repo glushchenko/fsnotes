@@ -170,8 +170,6 @@ class ViewController: NSViewController,
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
         }
-        
-        super.keyUp(with: event)
     }
     
     // Focus search field shortcut (cmd-L)
@@ -179,8 +177,6 @@ class ViewController: NSViewController,
         if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
             search.becomeFirstResponder()
         }
-        
-        super.keyDown(with: event)
     }
     
     override func controlTextDidEndEditing(_ obj: Notification) {
@@ -221,6 +217,7 @@ class ViewController: NSViewController,
     
     func makeNoteShortcut() {
         NSApp.activate(ignoringOtherApps: true)
+        self.view.window?.makeKeyAndOrderFront(self)
         
         if (notesTableView.noteList[0].content.characters.count == 0) {
             selectNullTableRow()
@@ -232,6 +229,8 @@ class ViewController: NSViewController,
     
     func searchShortcut() {
         NSApp.activate(ignoringOtherApps: true)
+        self.view.window?.makeKeyAndOrderFront(self)
+        
         cleanSearchAndEditArea()
     }
 }
