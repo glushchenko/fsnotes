@@ -84,7 +84,7 @@ class ViewController: NSViewController,
         
         let note = Note()
         let nextId = storage.getNextId()
-        note.make(id: nextId)
+        note.make(id: nextId, newName: sender.stringValue)
         
         if editArea.save(note: note) {
             storage.add(note: note)

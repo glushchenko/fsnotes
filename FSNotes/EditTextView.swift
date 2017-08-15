@@ -70,5 +70,8 @@ class EditTextView: NSTextView {
             let viewController = self.window?.contentViewController as? ViewController
             viewController?.search.becomeFirstResponder()
         }
+        
+        super.keyDown(with: event)
     }
+    
 }

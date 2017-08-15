@@ -20,12 +20,26 @@ class SearchTextField: NSTextField {
             let viewController = self.window?.contentViewController as? ViewController
             viewController?.focusTable()
         }
-        
+    }
+    
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
         // ESC
         if (event.keyCode == 53) {
             let viewController = self.window?.contentViewController as! ViewController
             viewController.cleanSearchAndEditArea()
+            return true
         }
+        
+        // Tab
+        if (event.keyCode == 48) {
+            let viewController = self.window?.contentViewController as? ViewController
+            if (viewController?.editArea.isEditable)! {
+                viewController?.focusEditArea()
+                return true
+            }
+        }
+        
+        return super.performKeyEquivalent(with: event)
     }
     
 }

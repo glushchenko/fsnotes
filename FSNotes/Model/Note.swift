@@ -19,8 +19,8 @@ class Note: NSObject {
     
     override init(){}
     
-    func make(id: Int) {
-        url = getUniqueFileName(name: "Untitled Note")
+    func make(id: Int, newName: String) {
+        url = getUniqueFileName(name: newName)
         name = (url.pathComponents.last)!
         date = Date.init()
         self.id = id
