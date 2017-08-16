@@ -109,6 +109,7 @@ class ViewController: NSViewController,
             alert.addButton(withTitle: "Cancel")
             alert.beginSheetModal(for: self.view.window!) { (returnCode: NSModalResponse) -> Void in
                 if returnCode == NSAlertFirstButtonReturn {
+                    self.editArea.clear()
                     self.notesTableView.removeNote(note)
                 }
             }
