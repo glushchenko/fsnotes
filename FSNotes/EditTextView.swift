@@ -20,6 +20,9 @@ class EditTextView: NSTextView {
         let attributedString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attributedString)
         self.textStorage?.font = UserDefaultsManagement.noteFont
+        
+        let viewController = self.window?.contentViewController as! ViewController
+        viewController.emptyEditAreaImage.isHidden = true
     }
     
     func save(note: Note) -> Bool {
@@ -47,6 +50,9 @@ class EditTextView: NSTextView {
     func clear() {
         textStorage?.mutableString.setString("")
         isEditable = false
+        
+        let viewController = self.window?.contentViewController as! ViewController
+        viewController.emptyEditAreaImage.isHidden = false
     }
     
     func createAttributedString(note: Note) -> NSAttributedString {
@@ -62,5 +68,12 @@ class EditTextView: NSTextView {
         }
         
         return attributedString
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        let viewController = self.window?.contentViewController as! ViewController
+        if (!viewController.emptyEditAreaImage.isHidden) {
+            viewController.makeNote(NSTextField())
+        }
     }
 }

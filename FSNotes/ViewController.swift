@@ -15,6 +15,7 @@ class ViewController: NSViewController,
     var lastSelectedNote: Note?
     let storage = Storage()
     
+    @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
     @IBOutlet var editArea: EditTextView!
@@ -130,6 +131,11 @@ class ViewController: NSViewController,
             
             cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
         }
+        
+        // Make note shortcut (cmd-n)
+        if (event.keyCode == 45 && event.modifierFlags.contains(.command)) {
+            makeNote(NSTextField())
+        }
     }
         
     override var representedObject: Any? {
@@ -240,6 +246,7 @@ class ViewController: NSViewController,
         if (self.notesTableView.selectedRow > -1) {
             DispatchQueue.main.async() {
                 self.editArea.isEditable = true
+                self.emptyEditAreaImage.isHidden = true
                 self.editArea.window?.makeFirstResponder(self.editArea)
             }
         }
@@ -281,5 +288,6 @@ class ViewController: NSViewController,
         
         cleanSearchAndEditArea()
     }
+    
 }
 

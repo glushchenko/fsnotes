@@ -26,7 +26,7 @@ class SearchTextField: NSTextField {
         if (
             event.keyCode == 53
             || (
-                event.keyCode == 37
+                [37, 45].contains(event.keyCode)
                 && event.modifierFlags.contains(.command)
             )
         ) {
