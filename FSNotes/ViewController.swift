@@ -63,7 +63,7 @@ class ViewController: NSViewController,
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
         
-        // Global shortcuts
+        // Global shortcuts monitoring
         MASShortcutMonitor.shared().register(UserDefaultsManagement.newNoteShortcut, withAction: {
             self.makeNoteShortcut()
         })
@@ -71,8 +71,67 @@ class ViewController: NSViewController,
         MASShortcutMonitor.shared().register(UserDefaultsManagement.searchNoteShortcut, withAction: {
             self.searchShortcut()
         })
+        
+        // Local shortcuts monitoring
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
+            return $0
+        }
+        
+        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+            self.keyDown(with: $0)
+            return $0
+        }
     }
-    
+        
+    override func keyDown(with event: NSEvent) {        
+        // Focus search bar on ESC
+        if (event.keyCode == 53) {
+            cleanSearchAndEditArea()
+        }
+        
+        // Focus search field shortcut (cmd-L)
+        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
+            search.becomeFirstResponder()
+        }
+        
+        // Remove note (cmd-delete)
+        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
+            if (!notesTableView.noteList.indices.contains(notesTableView.selectedRow)) {
+                return
+            }
+            
+            let note = notesTableView.noteList[notesTableView.selectedRow]
+            let alert = NSAlert.init()
+            alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
+            alert.informativeText = "This action cannot be undone."
+            alert.addButton(withTitle: "Remove note")
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: self.view.window!) { (returnCode: NSModalResponse) -> Void in
+                if returnCode == NSAlertFirstButtonReturn {
+                    self.notesTableView.removeNote(note)
+                }
+            }
+        }
+        
+        // Note edit mode and select file name (cmd-r)
+        if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
+            if (!notesTableView.noteList.indices.contains(notesTableView.selectedRow)) {
+                return
+            }
+            
+            let row = notesTableView.rowView(atRow: notesTableView.selectedRow, makeIfNecessary: false) as! NoteRowView
+            let cell = row.view(atColumn: 0) as! NoteCellView
+            
+            cell.name.isEditable = true
+            cell.name.becomeFirstResponder()
+            
+            let fileName = cell.name.currentEditor()!.string! as NSString
+            let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
+            
+            cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
+        }
+    }
+        
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
@@ -167,21 +226,7 @@ class ViewController: NSViewController,
         
         notesTableView.reloadData()
     }
-    
-    override func keyUp(with event: NSEvent) {
-        // Focus search bar on ESC
-        if (event.keyCode == 53) {
-            cleanSearchAndEditArea()
-        }
-    }
-    
-    // Focus search field shortcut (cmd-L)
-    override func keyDown(with event: NSEvent) {
-        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
-            search.becomeFirstResponder()
-        }
-    }
-    
+        
     override func controlTextDidEndEditing(_ obj: Notification) {
         search.focusRingType = .none
     }

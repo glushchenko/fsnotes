@@ -63,15 +63,4 @@ class EditTextView: NSTextView {
         
         return attributedString
     }
-    
-    // Focus search field shortcut (cmd-L)
-    override func keyDown(with event: NSEvent) {
-        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
-            let viewController = self.window?.contentViewController as? ViewController
-            viewController?.search.becomeFirstResponder()
-        }
-        
-        super.keyDown(with: event)
-    }
-    
 }

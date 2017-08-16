@@ -19,51 +19,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.draw(dirtyRect)
     }
     
-    
-    override func keyDown(with event: NSEvent) {
-        
-        // Remove note (cmd-delete)
-        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            if (!noteList.indices.contains(selectedRow)) {
-                return
-            }
-            
-            let note = noteList[selectedRow]
-            let alert = NSAlert.init()
-            
-            if note.name == nil {
-                alert.messageText = "Are you sure you want to move the selected note to the trash?"
-            }
-            else {
-                alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
-            }
-            alert.informativeText = "This action cannot be undone."
-            alert.addButton(withTitle: "Remove note")
-            alert.addButton(withTitle: "Cancel")
-            alert.beginSheetModal(for: self.window!) { (returnCode: NSModalResponse) -> Void in
-                if returnCode == NSAlertFirstButtonReturn {
-                    self.removeNote(note)
-                }
-            }
-        }
-        
-        // Note edit mode and select file name (cmd-R)
-        if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
-            let row = rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
-            let cell = row.view(atColumn: 0) as! NoteCellView
-            
-            cell.name.isEditable = true
-            cell.name.becomeFirstResponder()
-            
-            let fileName = cell.name.currentEditor()!.string! as NSString
-            let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
-            
-            cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
-        }
-        
-        super.keyDown(with: event)
-    }
-        
     override func keyUp(with event: NSEvent) {
         // Tab
         if (event.keyCode == 48) {
