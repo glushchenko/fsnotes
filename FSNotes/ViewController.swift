@@ -171,6 +171,10 @@ class ViewController: NSViewController,
             self.updateTable(filter: "")
             self.selectNullTableRow()
             
+            let index = Storage.pinned
+            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+            notesTableView.scrollRowToVisible(index)
+            
             focusEditArea()
             search.stringValue.removeAll()
         }
