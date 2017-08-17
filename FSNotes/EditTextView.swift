@@ -75,5 +75,6 @@ class EditTextView: NSTextView {
         if (!viewController.emptyEditAreaImage.isHidden) {
             viewController.makeNote(NSTextField())
         }
+        return super.mouseDown(with: event)
     }
 }

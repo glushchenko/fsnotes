@@ -11,9 +11,11 @@ import Foundation
 class Storage {
     var noteList = [Note]()
     var i: Int = 0
+    static var pinned: Int = 0
     
     func loadFiles() {
         let markdownFiles = readDocuments()
+        let pinnedNotes = UserDefaultsManagement.pinnedNotes
         
         for (markdownPath) in markdownFiles {
             let url = UserDefaultsManagement.storageUrl.appendingPathComponent(markdownPath)
@@ -28,6 +30,11 @@ class Storage {
             note.url = url
             note.load()
             note.id = i
+            
+            if (pinnedNotes.contains(url.absoluteString)) {
+                note.isPinned = true
+                Storage.pinned += 1
+            }
             
             i += 1
             

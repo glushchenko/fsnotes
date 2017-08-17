@@ -137,6 +137,19 @@ class ViewController: NSViewController,
         if (event.keyCode == 45 && event.modifierFlags.contains(.command)) {
             makeNote(NSTextField())
         }
+        
+        // Pin note shortcut (cmd-y)
+        if (event.keyCode == 16 && event.modifierFlags.contains(.command)) {
+            let row = notesTableView.rowView(atRow: notesTableView.selectedRow, makeIfNecessary: false) as! NoteRowView
+            let cell = row.view(atColumn: 0) as! NoteCellView
+            
+            let note = cell.objectValue as! Note
+            let selected = notesTableView.selectedRow
+            
+            note.togglePin()
+            moveAtTop(id: selected)
+            cell.renderPin()
+        }
     }
         
     override var representedObject: Any? {
@@ -187,13 +200,8 @@ class ViewController: NSViewController,
             storage.noteList[storageId].date = Date()
             storage.noteList[storageId].content = content
             
-            notesTableView.noteList.remove(at: selected)
-            notesTableView.noteList.insert(note, at: 0)
-            
             if editArea.save(note: note) {
-                notesTableView.moveRow(at: selected, to: 0)
-                notesTableView.reloadData(forRowIndexes: [0, selected], columnIndexes: [0])
-                notesTableView.scrollRowToVisible(0)
+                moveAtTop(id: selected)
             }
         }
     }
@@ -229,7 +237,12 @@ class ViewController: NSViewController,
                         )
                     )
                 }
-                .sorted(by: { $0.date! > $1.date! })
+                .sorted(by: {
+                    $0.date! > $1.date!
+                })
+                .sorted(by: {
+                    $0.isPinned && !$1.isPinned
+                })
         
         notesTableView.reloadData()
     }
@@ -288,6 +301,17 @@ class ViewController: NSViewController,
         self.view.window?.makeKeyAndOrderFront(self)
         
         cleanSearchAndEditArea()
+    }
+    
+    func moveAtTop(id: Int) {
+        let isPinned = notesTableView.noteList[id].isPinned
+        let position = isPinned ? 0 : Storage.pinned
+        let note = notesTableView.noteList.remove(at: id)
+        
+        notesTableView.noteList.insert(note, at: position)
+        notesTableView.moveRow(at: id, to: position)
+        notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
+        notesTableView.scrollRowToVisible(0)
     }
     
 }

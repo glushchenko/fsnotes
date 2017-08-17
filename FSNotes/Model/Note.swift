@@ -16,6 +16,7 @@ class Note: NSObject {
     var date: Date?
     var url: URL!
     var isRemoved: Bool = false
+    var isPinned: Bool = false
     
     override init(){}
     
@@ -52,6 +53,10 @@ class Note: NSObject {
         
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
+            
+            if (isPinned) {
+                removePin()
+            }
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
@@ -148,5 +153,36 @@ class Note: NSObject {
     
     func isRTF() -> Bool {        
         return (url.pathExtension == "rtf")
+    }
+    
+    func addPin() {
+        let urlString = url.absoluteString
+        var pinnedNotes = UserDefaultsManagement.pinnedNotes
+        pinnedNotes.append(urlString)
+        UserDefaultsManagement.pinnedNotes = pinnedNotes
+        Storage.pinned += 1
+        
+        isPinned = true
+    }
+    
+    func removePin() {
+        let urlString = url.absoluteString
+        var pinnedNotes = UserDefaultsManagement.pinnedNotes
+        
+        if let itemToRemoveIndex = pinnedNotes.index(of: urlString) {
+            pinnedNotes.remove(at: itemToRemoveIndex)
+            UserDefaultsManagement.pinnedNotes = pinnedNotes
+            Storage.pinned -= 1
+        }
+        
+        isPinned = false
+    }
+    
+    func togglePin() {
+        if (!isPinned) {
+            addPin()
+        } else {
+            removePin()
+        }
     }
 }

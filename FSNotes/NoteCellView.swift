@@ -13,14 +13,16 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var name: NSTextField!
     @IBOutlet var preview: NSTextField!
     @IBOutlet var date: NSTextField!
+    @IBOutlet var pin: NSImageView!
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
+        renderPin()
+            
         let fontName = UserDefaultsManagement.fontName
         date.font = NSFont(name: fontName, size: 10)
         preview.font = NSFont(name: fontName, size: 11)
-        
         name.sizeToFit()
         
         if (UserDefaultsManagement.horizontalOrientation) {
@@ -31,7 +33,6 @@ class NoteCellView: NSTableCellView {
     }
     
     func applyVerticalConstrainst() {
-    
         preview.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
         name.translatesAutoresizingMaskIntoConstraints = false
@@ -40,13 +41,13 @@ class NoteCellView: NSTableCellView {
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
-        let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -8)
-        let nameLeft = name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
+        let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: 5)
         let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)
-
-        date.sizeToFit()
+        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 0)
         
         NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, nameLeft, nameRight, nameTop])
+        
+        date.sizeToFit()
     }
     
     func applyHorizontalConstrains() {
@@ -88,5 +89,10 @@ class NoteCellView: NSTableCellView {
             preview.textColor = lightGray
             date.textColor = lightGray
         }
+    }
+    
+    func renderPin() {
+        pin.isHidden = !(objectValue as! Note).isPinned
+        pin.frame.size.width = !pin.isHidden ? 20 : 5
     }
 }

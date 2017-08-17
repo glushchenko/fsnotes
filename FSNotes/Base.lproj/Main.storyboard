@@ -1072,7 +1072,7 @@
                                                                                     </textFieldCell>
                                                                                 </textField>
                                                                                 <textField autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok">
-                                                                                    <rect key="frame" x="3" y="28" width="42" height="17"/>
+                                                                                    <rect key="frame" x="36" y="28" width="42" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                                                     <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                         <font key="font" metaFont="system"/>
@@ -1098,10 +1098,16 @@
                                                                                         </connections>
                                                                                     </textFieldCell>
                                                                                 </textField>
+                                                                                <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
+                                                                                    <rect key="frame" x="3" y="21" width="23" height="23"/>
+                                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pin" id="MIi-Yg-aUg"/>
+                                                                                </imageView>
                                                                             </subviews>
                                                                             <connections>
                                                                                 <outlet property="date" destination="abw-Lq-K7d" id="k6D-i6-nTL"/>
                                                                                 <outlet property="name" destination="UvD-jB-7Ok" id="5Mo-lm-FHk"/>
+                                                                                <outlet property="pin" destination="9h5-Ob-Nej" id="vPu-Ic-vSj"/>
                                                                                 <outlet property="preview" destination="EXQ-Ld-D5r" id="aS2-51-odI"/>
                                                                             </connections>
                                                                         </tableCellView>
@@ -1208,5 +1214,6 @@
     </scenes>
     <resources>
         <image name="makeNote" width="512" height="512"/>
+        <image name="pin" width="128" height="128"/>
     </resources>
 </document>

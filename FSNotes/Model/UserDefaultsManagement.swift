@@ -24,6 +24,7 @@ public class UserDefaultsManagement {
         static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
+        static let PinListKey = "pinList"
     }
         
     static var fontName: String {
@@ -155,6 +156,19 @@ public class UserDefaultsManagement {
         set {
             UserDefaults.standard.set(newValue.keyCode, forKey: Constants.SearchNoteKeyCode)
             UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
+        }
+    }
+    
+    static var pinnedNotes: [String] {
+        get {
+            if let pinList = UserDefaults.standard.object(forKey: Constants.PinListKey) {
+                return pinList as! [String]
+            } else {
+                return []
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.PinListKey)
         }
     }
 }
