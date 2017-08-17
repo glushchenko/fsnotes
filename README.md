@@ -36,7 +36,8 @@ cmd + y - pin note
 ctrl + cmd + e – open in external editor (predefined in setings)  
 ctrl + cmd + p – preview in external app (predefined in setings)
 
-![](http://files.og.uk.to/Screen-Shot-2017-08-17-09-59-34.png)
+![](http://files.og.uk.to/Screen-Shot-2017-08-17-10-04-08.png)
 
 Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.13/FSNotes.app.zip)
+
 
