@@ -53,16 +53,16 @@ class NoteCellView: NSTableCellView {
     func applyHorizontalConstrains() {
         preview.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
+        name.translatesAutoresizingMaskIntoConstraints = false
         
-        let previewTop = preview.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
-        let previewLeft = preview.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 0)
-        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
+        preview.isHidden =  true
+        
+        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10)
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
-        let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -65)
-        NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, previewRight])
- 
-        name.sizeToFit()
+        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 5)
+        let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -7)
         
+        NSLayoutConstraint.activate([dateRight, dateTop,  nameLeft, nameRight])
     }
 
     // This NoteCellView has multiple contained views; this method changes
