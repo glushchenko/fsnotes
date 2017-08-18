@@ -23,7 +23,6 @@ class NoteCellView: NSTableCellView {
         let fontName = UserDefaultsManagement.fontName
         date.font = NSFont(name: fontName, size: 10)
         preview.font = NSFont(name: fontName, size: 11)
-        name.sizeToFit()
         
         if (UserDefaultsManagement.horizontalOrientation) {
             applyHorizontalConstrains()
@@ -36,6 +35,7 @@ class NoteCellView: NSTableCellView {
         preview.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
         name.translatesAutoresizingMaskIntoConstraints = false
+        pin.translatesAutoresizingMaskIntoConstraints = true
         
         let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 3)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
@@ -48,13 +48,10 @@ class NoteCellView: NSTableCellView {
         NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, nameLeft, nameRight, nameTop])
         
         date.sizeToFit()
+        name.sizeToFit()
     }
     
     func applyHorizontalConstrains() {
-        if (preview.stringValue.hasPrefix(" – ") == false && preview.stringValue.characters.count > 0) {
-            self.preview.stringValue = " – " + preview.stringValue.replacingOccurrences(of: "\n", with: " ")
-        }
-        
         preview.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
         
@@ -64,6 +61,9 @@ class NoteCellView: NSTableCellView {
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
         let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -65)
         NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, previewRight])
+ 
+        name.sizeToFit()
+        
     }
 
     // This NoteCellView has multiple contained views; this method changes
@@ -93,6 +93,5 @@ class NoteCellView: NSTableCellView {
     
     func renderPin() {
         pin.isHidden = !(objectValue as! Note).isPinned
-        pin.frame.size.width = !pin.isHidden ? 20 : 5
     }
 }

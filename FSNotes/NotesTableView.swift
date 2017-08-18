@@ -12,6 +12,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     NSTableViewDelegate {
     
     var noteList = [Note]()
+    var defaultCell = NoteCellView()
+    var pinnedCell = NoteCellView()
     
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
@@ -91,6 +93,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         return super.performKeyEquivalent(with: event)
+    }
+    
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        
+        let note = noteList[row]
+        if (note.isPinned) {
+            pinnedCell = makeCell()
+            pinnedCell.pin.frame.size.width = 20
+            return pinnedCell
+        }
+        
+        defaultCell = makeCell()
+        defaultCell.pin.frame.size.width = 0
+        return defaultCell
+    }
+    
+    func makeCell() -> NoteCellView {
+        return make(withIdentifier: "NoteCellView", owner: self) as! NoteCellView
     }
     
 }
