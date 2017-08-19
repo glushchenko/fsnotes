@@ -1114,6 +1114,9 @@
                                                                     </prototypeCellViews>
                                                                 </tableColumn>
                                                             </tableColumns>
+                                                            <connections>
+                                                                <outlet property="menu" destination="AaK-Xd-i52" id="yGM-be-YIO"/>
+                                                            </connections>
                                                         </tableView>
                                                     </subviews>
                                                 </clipView>
@@ -1208,6 +1211,40 @@
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="AaK-Xd-i52">
+                    <items>
+                        <menuItem title="New note" id="bF9-1E-bzg">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="makeMenu:" target="XfG-lQ-9wD" id="Vf5-ax-zBr"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Rename note" id="XBB-Sr-T1D">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Delete note" id="fHG-zk-g0k">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Pin/unpin note" id="jFN-Dp-LON">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Open in Finder" id="xSO-lW-k8f">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openInFinder:" target="XfG-lQ-9wD" id="g9t-o8-jaP"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="75" y="682"/>
         </scene>

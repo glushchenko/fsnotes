@@ -97,40 +97,12 @@ class ViewController: NSViewController,
         
         // Remove note (cmd-delete)
         if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            if (!notesTableView.noteList.indices.contains(notesTableView.selectedRow)) {
-                return
-            }
-            
-            let note = notesTableView.noteList[notesTableView.selectedRow]
-            let alert = NSAlert.init()
-            alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
-            alert.informativeText = "This action cannot be undone."
-            alert.addButton(withTitle: "Remove note")
-            alert.addButton(withTitle: "Cancel")
-            alert.beginSheetModal(for: self.view.window!) { (returnCode: NSModalResponse) -> Void in
-                if returnCode == NSAlertFirstButtonReturn {
-                    self.editArea.clear()
-                    self.notesTableView.removeNote(note)
-                }
-            }
+            deleteNote(selectedRow: notesTableView.selectedRow)
         }
         
         // Note edit mode and select file name (cmd-r)
         if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
-            if (!notesTableView.noteList.indices.contains(notesTableView.selectedRow)) {
-                return
-            }
-            
-            let row = notesTableView.rowView(atRow: notesTableView.selectedRow, makeIfNecessary: false) as! NoteRowView
-            let cell = row.view(atColumn: 0) as! NoteCellView
-            
-            cell.name.isEditable = true
-            cell.name.becomeFirstResponder()
-            
-            let fileName = cell.name.currentEditor()!.string! as NSString
-            let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
-            
-            cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
+            renameNote(selectedRow: notesTableView.selectedRow)
         }
         
         // Make note shortcut (cmd-n)
@@ -140,15 +112,7 @@ class ViewController: NSViewController,
         
         // Pin note shortcut (cmd-y)
         if (event.keyCode == 16 && event.modifierFlags.contains(.command)) {
-            let row = notesTableView.rowView(atRow: notesTableView.selectedRow, makeIfNecessary: false) as! NoteRowView
-            let cell = row.view(atColumn: 0) as! NoteCellView
-            
-            let note = cell.objectValue as! Note
-            let selected = notesTableView.selectedRow
-            
-            note.togglePin()
-            moveAtTop(id: selected)
-            cell.renderPin()
+            pin(selectedRow: notesTableView.selectedRow)
         }
     }
         
@@ -186,6 +150,27 @@ class ViewController: NSViewController,
         if (!note.rename(newName: sender.stringValue)) {
             sender.stringValue = note.name
         }
+    }
+    
+    @IBAction func makeMenu(_ sender: Any) {
+        makeNote(NSTextField())
+    }
+    
+    @IBAction func pinMenu(_ sender: Any) {
+        pin(selectedRow: notesTableView.clickedRow)
+    }
+    
+    @IBAction func renameMenu(_ sender: Any) {
+        renameNote(selectedRow: notesTableView.clickedRow)
+    }
+    
+    @IBAction func deleteNote(_ sender: Any) {
+        deleteNote(selectedRow: notesTableView.clickedRow)
+    }
+    
+    @IBAction func openInFinder(_ sender: Any) {
+        let note = notesTableView.noteList[notesTableView.clickedRow]
+        NSWorkspace.shared().activateFileViewerSelecting([note.url])
     }
     
     // Changed main edit view
@@ -316,6 +301,58 @@ class ViewController: NSViewController,
         notesTableView.moveRow(at: id, to: position)
         notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
         notesTableView.scrollRowToVisible(0)
+    }
+    
+    func pin(selectedRow: Int) {
+        let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
+        let cell = row.view(atColumn: 0) as! NoteCellView
+        
+        let note = cell.objectValue as! Note
+        let selected = selectedRow
+        
+        note.togglePin()
+        moveAtTop(id: selected)
+        cell.renderPin()
+    }
+    
+    func deleteNote() {
+        
+    }
+    
+    func renameNote(selectedRow: Int) {
+        if (!notesTableView.noteList.indices.contains(selectedRow)) {
+            return
+        }
+        
+        let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
+        let cell = row.view(atColumn: 0) as! NoteCellView
+        
+        cell.name.isEditable = true
+        cell.name.becomeFirstResponder()
+        
+        let fileName = cell.name.currentEditor()!.string! as NSString
+        let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
+        
+        cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
+    }
+    
+    func deleteNote(selectedRow: Int) {
+        if (!notesTableView.noteList.indices.contains(selectedRow)) {
+            return
+        }
+        
+        let note = notesTableView.noteList[selectedRow]
+        let alert = NSAlert.init()
+        alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
+        alert.informativeText = "This action cannot be undone."
+        alert.addButton(withTitle: "Remove note")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSModalResponse) -> Void in
+            if returnCode == NSAlertFirstButtonReturn {
+                self.editArea.clear()
+                self.notesTableView.removeNote(note)
+            }
+        }
     }
     
 }
