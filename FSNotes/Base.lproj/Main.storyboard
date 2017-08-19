@@ -1074,7 +1074,7 @@
                                                                                 <textField autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok">
                                                                                     <rect key="frame" x="36" y="28" width="42" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                                                                    <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
+                                                                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
