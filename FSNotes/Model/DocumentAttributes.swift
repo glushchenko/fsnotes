@@ -10,17 +10,19 @@ import Foundation
 import Cocoa
 
 class DocumentAttributes {
-    static func getDocumentAttributes(fileExtension: String) -> [String : AnyObject] {
-        var options: [String : AnyObject]
+    static func getDocumentAttributes(fileExtension: String) -> [String : Any] {
+        var options: [String : Any]
         
         if (fileExtension == "rtf") {
             options = [
-                NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType
-                ] as [String : AnyObject]
+                NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType]
         } else {
+            let font = NSFont(name: UserDefaultsManagement.fontName, size: CGFloat(UserDefaultsManagement.fontSize))
+            
             options = [
-                NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType
-                ] as [String : AnyObject]
+                NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType,
+                NSFontAttributeName: font
+            ]
         }
         
         return options

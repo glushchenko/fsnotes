@@ -16,9 +16,9 @@ class EditTextView: NSTextView {
     func fill(note: Note) {
         self.isEditable = true
         self.isRichText = note.isRTF()
-        
-        let attributedString = createAttributedString(note: note)
-        self.textStorage?.setAttributedString(attributedString)
+
+        let attrString = createAttributedString(note: note)
+        self.textStorage?.setAttributedString(attrString)
         self.textStorage?.font = UserDefaultsManagement.noteFont
         
         let viewController = self.window?.contentViewController as! ViewController
@@ -30,18 +30,22 @@ class EditTextView: NSTextView {
         let fileExtension = fileUrl?.pathExtension
         
         do {
+            let range = NSRange(location:0, length: (textStorage?.string.characters.count)!)
+            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
+            
             if (fileExtension == "rtf") {
-                let range = NSRange(0..<textStorage!.length)
-                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
                 let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
+                
                 try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             } else {
+                textStorage?.setAttributes(documentAttributes, range: range)
+                
                 try textStorage?.string.write(to: fileUrl!, atomically: false, encoding: String.Encoding.utf8)
             }
             
             return true
-        } catch {
-            NSLog("Note write error: " + (fileUrl?.path)!)
+        } catch let error {
+            NSLog(error.localizedDescription)
         }
         
         return false
