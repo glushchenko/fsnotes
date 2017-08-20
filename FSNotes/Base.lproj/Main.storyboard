@@ -778,7 +778,7 @@
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <connections>
-                                                        <action selector="extrenalEditor:" target="IAM-xZ-Bfs" id="wUH-ob-2nH"/>
+                                                        <action selector="externalEditor:" target="IAM-xZ-Bfs" id="wUH-ob-2nH"/>
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
