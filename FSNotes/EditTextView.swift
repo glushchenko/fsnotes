@@ -12,8 +12,12 @@ class EditTextView: NSTextView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
+    
+    var currentNote = Note()
         
     func fill(note: Note) {
+        self.currentNote = note
+        
         self.isEditable = true
         self.isRichText = note.isRTF()
 
@@ -80,5 +84,45 @@ class EditTextView: NSTextView {
             viewController.makeNote(NSTextField())
         }
         return super.mouseDown(with: event)
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if (event.modifierFlags.contains(.command)) {
+            let range = selectedRange()
+            let text = textStorage!.string as NSString
+            let selectedText = text.substring(with: range) as NSString
+            let attributedText = NSMutableAttributedString(string: selectedText as String)
+            let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
+            
+            attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
+            
+            switch event.keyCode {
+            case 11: // cmd - b
+                if (!currentNote.isRTF()) {
+                    attributedText.mutableString.setString("**" + attributedText.string + "**")
+                }
+                break
+            case 34: // cmd - i
+                if (!currentNote.isRTF()) {
+                    attributedText.mutableString.setString("_" + attributedText.string + "_")
+                }
+                break
+            case 32: // cmd - u
+                if (currentNote.isRTF()) {
+                    attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
+                }
+                break
+            default: break
+            }
+            
+            textStorage!.replaceCharacters(in: range, with: attributedText)
+            save(note: currentNote)
+        }
+        
+        super.keyDown(with: event)
+    }
+    
+    func formatRTF() {
+        
     }
 }

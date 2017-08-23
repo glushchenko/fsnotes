@@ -314,11 +314,7 @@ class ViewController: NSViewController,
         moveAtTop(id: selected)
         cell.renderPin()
     }
-    
-    func deleteNote() {
         
-    }
-    
     func renameNote(selectedRow: Int) {
         if (!notesTableView.noteList.indices.contains(selectedRow)) {
             return

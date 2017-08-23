@@ -13,12 +13,14 @@ class DocumentAttributes {
     static func getDocumentAttributes(fileExtension: String) -> [String : Any] {
         var options: [String : Any]
         
+        let font = NSFont(name: UserDefaultsManagement.fontName, size: CGFloat(UserDefaultsManagement.fontSize))
+        
         if (fileExtension == "rtf") {
             options = [
-                NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType]
+                NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType,
+                NSFontAttributeName: font
+            ]
         } else {
-            let font = NSFont(name: UserDefaultsManagement.fontName, size: CGFloat(UserDefaultsManagement.fontSize))
-            
             options = [
                 NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType,
                 NSFontAttributeName: font
