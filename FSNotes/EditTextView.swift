@@ -89,6 +89,22 @@ class EditTextView: NSTextView {
         return super.mouseDown(with: event)
     }
     
+    /*
+    override func keyDown(with event: NSEvent) {
+        
+        if (event.keyCode == 36) {
+            if (!currentNote.isRTF()) {
+                let range = selectedRange()
+                textStorage?.insert(NSAttributedString(string: "\n ###"), at: range.location)
+                setSelectedRange(NSRange.init(location: range.location + 5, length: 0))
+                Swift.print(range.location)
+            }
+        }
+        
+        super.keyDown(with: event)
+    }
+     */
+    
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (event.modifierFlags.contains(.command) && isEditable) {
             let range = selectedRange()
@@ -125,6 +141,24 @@ class EditTextView: NSTextView {
                 } else {
                     attributedText.mutableString.setString("~~" + attributedText.string + "~~")
                 }
+            case (18...23): // cmd-1/6 (headers 1/6)
+                if (!currentNote.isRTF()) {
+                    var string = ""
+                    var offset = 2
+    
+                    for index in [18,19,20,21,23,22] {
+                        string = string + "#"
+                        offset = offset + 1
+                        if event.keyCode == index {
+                            break
+                        }
+                    }
+                    
+                    let range = selectedRange()
+                    textStorage?.insert(NSAttributedString(string: string + " "), at: range.location)
+                    setSelectedRange(NSRange.init(location: range.location + offset, length: 0))
+                }
+                break
             default:
                 return super.performKeyEquivalent(with: event)
             }
@@ -134,6 +168,10 @@ class EditTextView: NSTextView {
             }
             
             return save(note: currentNote)
+        }
+        
+        if (event.keyCode == 36) {
+            return false
         }
         
         return super.performKeyEquivalent(with: event)
