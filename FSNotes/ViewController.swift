@@ -111,7 +111,7 @@ class ViewController: NSViewController,
         }
         
         // Pin note shortcut (cmd-y)
-        if (event.keyCode == 16 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
             pin(selectedRow: notesTableView.selectedRow)
         }
     }

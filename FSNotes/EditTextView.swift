@@ -23,7 +23,10 @@ class EditTextView: NSTextView {
 
         let attrString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attrString)
-        self.textStorage?.font = UserDefaultsManagement.noteFont
+        
+        if (!currentNote.isRTF()) {
+            self.textStorage?.font = UserDefaultsManagement.noteFont
+        }
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
@@ -86,8 +89,8 @@ class EditTextView: NSTextView {
         return super.mouseDown(with: event)
     }
     
-    override func keyDown(with event: NSEvent) {
-        if (event.modifierFlags.contains(.command)) {
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if (event.modifierFlags.contains(.command) && isEditable) {
             let range = selectedRange()
             let text = textStorage!.string as NSString
             let selectedText = text.substring(with: range) as NSString
@@ -97,32 +100,42 @@ class EditTextView: NSTextView {
             attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
             
             switch event.keyCode {
-            case 11: // cmd - b
+            case 11: // cmd-b
                 if (!currentNote.isRTF()) {
                     attributedText.mutableString.setString("**" + attributedText.string + "**")
+                } else {
+                    textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), range: range)
                 }
                 break
-            case 34: // cmd - i
+            case 34: // cmd-i
                 if (!currentNote.isRTF()) {
                     attributedText.mutableString.setString("_" + attributedText.string + "_")
+                } else {
+                    textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontItalicTrait)), range: range)
                 }
                 break
-            case 32: // cmd - u
+            case 32: // cmd-u
                 if (currentNote.isRTF()) {
                     attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
                 }
                 break
-            default: break
+            case 16: // cmd-y
+                if (currentNote.isRTF()) {
+                    attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
+                } else {
+                    attributedText.mutableString.setString("~~" + attributedText.string + "~~")
+                }
+            default:
+                return super.performKeyEquivalent(with: event)
             }
             
-            textStorage!.replaceCharacters(in: range, with: attributedText)
-            save(note: currentNote)
+            if (![11, 34].contains(event.keyCode) || !currentNote.isRTF()) {
+                textStorage!.replaceCharacters(in: range, with: attributedText)
+            }
+            
+            return save(note: currentNote)
         }
         
-        super.keyDown(with: event)
-    }
-    
-    func formatRTF() {
-        
+        return super.performKeyEquivalent(with: event)
     }
 }

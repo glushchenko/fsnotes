@@ -53,7 +53,7 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var noteFont: NSFont? {
+    static var noteFont: NSFont! {
         get {
             return NSFont(name: self.fontName, size: CGFloat(self.fontSize))
         }
