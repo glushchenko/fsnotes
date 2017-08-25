@@ -87,7 +87,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (
-            event.keyCode == 16
+            event.keyCode == 28
             && event.modifierFlags.contains(.command)) {
             return true
         }

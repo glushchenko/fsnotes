@@ -111,7 +111,7 @@ class ViewController: NSViewController,
         }
         
         // Pin note shortcut (cmd-y)
-        if (event.keyCode == 16 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
             pin(selectedRow: notesTableView.selectedRow)
         }
     }
@@ -314,11 +314,7 @@ class ViewController: NSViewController,
         moveAtTop(id: selected)
         cell.renderPin()
     }
-    
-    func deleteNote() {
         
-    }
-    
     func renameNote(selectedRow: Int) {
         if (!notesTableView.noteList.indices.contains(selectedRow)) {
             return
