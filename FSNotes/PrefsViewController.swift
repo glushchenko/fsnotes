@@ -57,7 +57,7 @@ class PrefsViewController: NSViewController {
         UserDefaults.standard.set(previewApp.stringValue, forKey: "previewApp")
     }
     
-    @IBAction func extrenalEditor(_ sender: Any) {
+    @IBAction func externalEditor(_ sender: Any) {
         UserDefaults.standard.set(externalEditorApp.stringValue, forKey: "externalEditorApp")
     }
     
