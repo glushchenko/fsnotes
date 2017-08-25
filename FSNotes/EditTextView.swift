@@ -13,18 +13,21 @@ class EditTextView: NSTextView {
         super.draw(dirtyRect)
     }
     
-    var currentNote = Note()
+    func getSelectedNote() -> Note {
+        let mainWindow = NSApplication.shared().windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        let note = viewController.notesTableView.getNoteFromSelectedRow()
+        return note
+    }
         
     func fill(note: Note) {
-        self.currentNote = note
-        
         self.isEditable = true
         self.isRichText = note.isRTF()
 
         let attrString = createAttributedString(note: note)
         self.textStorage?.setAttributedString(attrString)
         
-        if (!currentNote.isRTF()) {
+        if (!getSelectedNote().isRTF()) {
             self.textStorage?.font = UserDefaultsManagement.noteFont
         }
         
@@ -89,91 +92,142 @@ class EditTextView: NSTextView {
         return super.mouseDown(with: event)
     }
     
-    /*
-    override func keyDown(with event: NSEvent) {
-        
-        if (event.keyCode == 36) {
-            if (!currentNote.isRTF()) {
-                let range = selectedRange()
-                textStorage?.insert(NSAttributedString(string: "\n ###"), at: range.location)
-                setSelectedRange(NSRange.init(location: range.location + 5, length: 0))
-                Swift.print(range.location)
-            }
-        }
-        
-        super.keyDown(with: event)
-    }
-     */
-    
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (event.modifierFlags.contains(.command) && isEditable) {
-            let range = selectedRange()
-            let text = textStorage!.string as NSString
-            let selectedText = text.substring(with: range) as NSString
-            let attributedText = NSMutableAttributedString(string: selectedText as String)
-            let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
-            
-            attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
-            
-            switch event.keyCode {
-            case 11: // cmd-b
-                if (!currentNote.isRTF()) {
-                    attributedText.mutableString.setString("**" + attributedText.string + "**")
-                } else {
-                    textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), range: range)
-                }
-                break
-            case 34: // cmd-i
-                if (!currentNote.isRTF()) {
-                    attributedText.mutableString.setString("_" + attributedText.string + "_")
-                } else {
-                    textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontItalicTrait)), range: range)
-                }
-                break
-            case 32: // cmd-u
-                if (currentNote.isRTF()) {
-                    attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
-                }
-                break
-            case 16: // cmd-y
-                if (currentNote.isRTF()) {
-                    attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
-                } else {
-                    attributedText.mutableString.setString("~~" + attributedText.string + "~~")
-                }
-            case (18...23): // cmd-1/6 (headers 1/6)
-                if (!currentNote.isRTF()) {
-                    var string = ""
-                    var offset = 2
-    
-                    for index in [18,19,20,21,23,22] {
-                        string = string + "#"
-                        offset = offset + 1
-                        if event.keyCode == index {
-                            break
-                        }
-                    }
-                    
-                    let range = selectedRange()
-                    textStorage?.insert(NSAttributedString(string: string + " "), at: range.location)
-                    setSelectedRange(NSRange.init(location: range.location + offset, length: 0))
-                }
-                break
-            default:
-                return super.performKeyEquivalent(with: event)
+            if (formatter(keyCode: event.keyCode)) {
+                return true
             }
-            
-            if (![11, 34].contains(event.keyCode) || !currentNote.isRTF()) {
-                textStorage!.replaceCharacters(in: range, with: attributedText)
-            }
-            
-            return save(note: currentNote)
-        }
-        
-        if (event.keyCode == 36) {
-            return false
         }
         
         return super.performKeyEquivalent(with: event)
     }
+    
+    func formatter(keyCode: UInt16) -> Bool {
+        let mainWindow = NSApplication.shared().windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        let editArea = viewController.editArea!
+        
+        let currentNote = getSelectedNote()
+        let range = editArea.selectedRange()
+        let text = editArea.textStorage!.string as NSString
+        let selectedText = text.substring(with: range) as NSString
+    
+        let attributedText = NSMutableAttributedString(string: selectedText as String)
+        let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
+        
+        attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
+        
+        if (!editArea.isEditable) {
+            return false
+        }
+        
+        switch keyCode {
+        case 11: // cmd-b
+            if (!currentNote.isRTF()) {
+                attributedText.mutableString.setString("**" + attributedText.string + "**")
+            } else {
+                editArea.textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), range: range)
+            }
+            break
+        case 34: // cmd-i
+            if (!currentNote.isRTF()) {
+                attributedText.mutableString.setString("_" + attributedText.string + "_")
+            } else {
+                editArea.textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontItalicTrait)), range: range)
+            }
+            break
+        case 32: // cmd-u
+            if (currentNote.isRTF()) {
+                attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
+            }
+            break
+        case 16: // cmd-y
+            if (currentNote.isRTF()) {
+                attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
+            } else {
+                attributedText.mutableString.setString("~~" + attributedText.string + "~~")
+            }
+        case (18...23): // cmd-1/6 (headers 1/6)
+            if (!currentNote.isRTF()) {
+                var string = ""
+                var offset = 2
+                
+                for index in [18,19,20,21,23,22] {
+                    string = string + "#"
+                    if keyCode == index {
+                        break
+                    }
+                    offset = offset + 1
+                }
+                
+                attributedText.mutableString.setString(string + " " + attributedText.string)
+            }
+            break
+        case 4: // cmd-h (image)
+            if (!currentNote.isRTF()) {
+                attributedText.mutableString.setString("![](" + attributedText.string + ")")
+            }
+        case 38: // cmd-j (link)
+            if (!currentNote.isRTF()) {
+                attributedText.mutableString.setString("[](" + attributedText.string + ")")
+            }
+        default:
+            return false
+        }
+        
+        if (![11, 34].contains(keyCode) || !currentNote.isRTF()) {
+            editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        }
+        
+        return save(note: currentNote)
+    }
+
+    @IBAction func editorBold(_ sender: Any) {
+        formatter(keyCode: 11)
+    }
+    
+    @IBAction func editorItalic(_ sender: Any) {
+        formatter(keyCode: 34)
+    }
+    
+    @IBAction func editorStrike(_ sender: Any) {
+        formatter(keyCode: 16)
+    }
+    
+    @IBAction func editorUnderline(_ sender: Any) {
+        formatter(keyCode: 32)
+    }
+    
+    @IBAction func editorHeader1(_ sender: Any) {
+        formatter(keyCode: 18)
+    }
+    
+    @IBAction func editorHeader2(_ sender: Any) {
+        formatter(keyCode: 19)
+    }
+    
+    @IBAction func editorHeader3(_ sender: Any) {
+        formatter(keyCode: 20)
+    }
+    
+    @IBAction func editorHeader4(_ sender: Any) {
+        formatter(keyCode: 21)
+    }
+    
+    @IBAction func editorHeader5(_ sender: Any) {
+        formatter(keyCode: 23)
+    }
+    
+    @IBAction func editorHeader6(_ sender: Any) {
+        formatter(keyCode: 22)
+    }
+    
+    @IBAction func editorImage(_ sender: Any) {
+        formatter(keyCode: 4)
+    }
+    
+    @IBAction func editorLink(_ sender: Any) {
+        formatter(keyCode: 38)
+    }
+    
 }
