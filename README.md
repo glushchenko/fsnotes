@@ -31,13 +31,13 @@ Table view:
 up, down arrows - select note  
 cmd + delete - remove note  
 cmd + r - rename note  
-cmd + y - pin note
+cmd + * - pin note
 
 ctrl + cmd + e – open in external editor (predefined in setings)  
 ctrl + cmd + p – preview in external app (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-17-10-04-08.png)
 
-Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.15/FSNotes.app.zip)
+Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.16/FSNotes.app.zip)
 
 
