@@ -43,7 +43,7 @@ class NoteCellView: NSTableCellView {
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
         let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60)
         let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)
-        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 0)
+        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 3)
         
         NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, nameLeft, nameRight, nameTop])
     }

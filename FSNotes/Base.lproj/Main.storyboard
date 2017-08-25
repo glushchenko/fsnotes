@@ -575,7 +575,7 @@
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9nb-3d-S0s">
-                                                    <rect key="frame" x="19" y="158" width="396" height="5"/>
+                                                    <rect key="frame" x="19" y="158" width="396" height="4"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Hz-R4-h7D">
@@ -1022,26 +1022,25 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="New note" id="bF9-1E-bzg">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="New note" keyEquivalent="n" id="bF9-1E-bzg">
                             <connections>
                                 <action selector="makeMenu:" target="XfG-lQ-9wD" id="Vf5-ax-zBr"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename note" id="XBB-Sr-T1D">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Rename note" keyEquivalent="r" id="XBB-Sr-T1D">
                             <connections>
                                 <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Delete note" id="fHG-zk-g0k">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
                             <connections>
                                 <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Pin/unpin note" id="jFN-Dp-LON">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Pin/unpin note" keyEquivalent="8" id="jFN-Dp-LON">
                             <connections>
                                 <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
                             </connections>
