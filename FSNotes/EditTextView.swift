@@ -93,8 +93,8 @@ class EditTextView: NSTextView {
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if (event.modifierFlags.contains(.command) && isEditable) {
-            if (formatter(keyCode: event.keyCode)) {
+        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
+            if (formatter(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
                 return true
             }
         }
@@ -102,7 +102,7 @@ class EditTextView: NSTextView {
         return super.performKeyEquivalent(with: event)
     }
     
-    func formatter(keyCode: UInt16) -> Bool {
+    func formatter(keyCode: UInt16, modifier: UInt = 0) -> Bool {
         let mainWindow = NSApplication.shared().windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
@@ -129,7 +129,14 @@ class EditTextView: NSTextView {
                 editArea.textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), range: range)
             }
             break
-        case 34: // cmd-i
+        case 34:
+            // control-shift-i
+            if (!currentNote.isRTF() && modifier == 393475) {
+                attributedText.mutableString.setString("![](" + attributedText.string + ")")
+                break
+            }
+        
+            // cmd-i
             if (!currentNote.isRTF()) {
                 attributedText.mutableString.setString("_" + attributedText.string + "_")
             } else {
@@ -163,19 +170,15 @@ class EditTextView: NSTextView {
                 attributedText.mutableString.setString(string + " " + attributedText.string)
             }
             break
-        case 4: // cmd-h (image)
-            if (!currentNote.isRTF()) {
-                attributedText.mutableString.setString("![](" + attributedText.string + ")")
-            }
-        case 38: // cmd-j (link)
-            if (!currentNote.isRTF()) {
+        case 38: // control-shift-j (link)
+            if (!currentNote.isRTF() && modifier == 393475) {
                 attributedText.mutableString.setString("[](" + attributedText.string + ")")
             }
         default:
             return false
         }
         
-        if (![11, 34].contains(keyCode) || !currentNote.isRTF()) {
+        if (![11, 34].contains(keyCode) || !currentNote.isRTF() || modifier == 393475) {
             editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
         }
         
@@ -223,11 +226,11 @@ class EditTextView: NSTextView {
     }
     
     @IBAction func editorImage(_ sender: Any) {
-        formatter(keyCode: 4)
+        formatter(keyCode: 34, modifier: 393475)
     }
     
     @IBAction func editorLink(_ sender: Any) {
-        formatter(keyCode: 38)
+        formatter(keyCode: 37, modifier: 393475)
     }
     
 }
