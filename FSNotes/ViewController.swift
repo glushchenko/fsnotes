@@ -360,8 +360,6 @@ class ViewController: NSViewController,
         for note in notesTableView.noteList {
             if (note.isPinned) {
                 i += 1
-            } else {
-                break
             }
         }
         return i
