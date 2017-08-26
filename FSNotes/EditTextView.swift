@@ -40,7 +40,7 @@ class EditTextView: NSTextView {
         let fileExtension = fileUrl?.pathExtension
         
         do {
-            let range = NSRange(location:0, length: (textStorage?.string.characters.count)!)
+            let range = NSRange(location: 0, length: (textStorage?.string.characters.count)!)
             let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
             
             if (fileExtension == "rtf") {

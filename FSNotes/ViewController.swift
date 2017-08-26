@@ -123,24 +123,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
-        editArea.string = ""
-        
-        let note = Note()
-        let nextId = storage.getNextId()
-        note.make(id: nextId, newName: sender.stringValue)
-        
-        if editArea.save(note: note) {
-            storage.add(note: note)
-            
-            self.updateTable(filter: "")
-            
-            let index = Storage.pinned
-            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            notesTableView.scrollRowToVisible(index)
-            
-            focusEditArea()
-            search.stringValue.removeAll()
-        }
+        createNote()
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
@@ -152,7 +135,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeMenu(_ sender: Any) {
-        makeNote(NSTextField())
+        createNote()
     }
     
     @IBAction func pinMenu(_ sender: Any) {
@@ -273,15 +256,14 @@ class ViewController: NSViewController,
     }
     
     func makeNoteShortcut() {
-        NSApp.activate(ignoringOtherApps: true)
-        self.view.window?.makeKeyAndOrderFront(self)
+        let clipboard = NSPasteboard.general().string(forType: NSPasteboardTypeString)
+        createNote(content: clipboard!)
         
-        if (notesTableView.noteList[0].content.characters.count == 0) {
-            selectNullTableRow()
-            focusEditArea()
-        } else {
-            makeNote(NSTextField())
-        }
+        let notification = NSUserNotification()
+        notification.title = "FSNotes"
+        notification.informativeText = "Clipboard successfully saved"
+        notification.soundName = NSUserNotificationDefaultSoundName
+        NSUserNotificationCenter.default.deliver(notification)
     }
     
     func searchShortcut() {
@@ -300,6 +282,28 @@ class ViewController: NSViewController,
         notesTableView.moveRow(at: id, to: position)
         notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
         notesTableView.scrollRowToVisible(0)
+    }
+    
+    func createNote(name: String = "", content: String = "") {
+        editArea.string = content
+        
+        let note = Note()
+        let nextId = storage.getNextId()
+        note.make(id: nextId, newName: name)
+        note.content = content
+        
+        if editArea.save(note: note) {
+            storage.add(note: note)
+            
+            self.updateTable(filter: "")
+            
+            let index = Storage.pinned
+            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+            notesTableView.scrollRowToVisible(index)
+            
+            focusEditArea()
+            search.stringValue.removeAll()
+        }
     }
     
     func pin(selectedRow: Int) {
