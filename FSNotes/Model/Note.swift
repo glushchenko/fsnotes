@@ -12,17 +12,18 @@ import Cocoa
 class Note: NSObject {
     var id: Int = 0
     var name: String = ""
+    var type: String = "md"
     var content: String = ""
     var date: Date?
     var url: URL!
     var isRemoved: Bool = false
     var isPinned: Bool = false
-    
+        
     override init(){}
     
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
-        name = (url.pathComponents.last)!
+        name = (url.deletingPathExtension().pathComponents.last)!
         date = Date.init()
         self.id = id
     }
@@ -35,14 +36,14 @@ class Note: NSObject {
     func rename(newName: String) -> Bool {
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-            newUrl.appendPathComponent(newName)
+            newUrl.appendPathComponent(newName + "." + type)
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
             url = newUrl
             return true
         } catch {
-            name = url.lastPathComponent
+            name = (url.deletingPathExtension().pathComponents.last)!
             return false
         }
     }

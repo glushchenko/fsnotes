@@ -20,13 +20,12 @@ class Storage {
         for (markdownPath) in markdownFiles {
             let url = UserDefaultsManagement.storageUrl.appendingPathComponent(markdownPath)
             
-            var name = ""
-            if (url.pathComponents.count > 0) {
-                name = url.pathComponents.last!
-            }
-                        
             let note = Note()
-            note.name = name
+            if (url.pathComponents.count > 0) {
+                note.name = url.deletingPathExtension().pathComponents.last!
+                note.type = url.pathExtension
+            }
+            
             note.url = url
             note.load()
             note.id = i

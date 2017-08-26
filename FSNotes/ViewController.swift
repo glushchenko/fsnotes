@@ -327,7 +327,7 @@ class ViewController: NSViewController,
         cell.name.becomeFirstResponder()
         
         let fileName = cell.name.currentEditor()!.string! as NSString
-        let fileNameLength = fileName.length - fileName.pathExtension.characters.count - 1
+        let fileNameLength = fileName.length
         
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
     }
