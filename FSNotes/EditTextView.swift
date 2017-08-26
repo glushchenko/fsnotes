@@ -101,6 +101,7 @@ class EditTextView: NSTextView {
         
         return super.performKeyEquivalent(with: event)
     }
+
     
     func formatter(keyCode: UInt16, modifier: UInt = 0) -> Bool {
         let mainWindow = NSApplication.shared().windows.first
@@ -108,17 +109,23 @@ class EditTextView: NSTextView {
         let editArea = viewController.editArea!
         
         let currentNote = getSelectedNote()
-        let range = editArea.selectedRange()
-        let text = editArea.textStorage!.string as NSString
-        let selectedText = text.substring(with: range) as NSString
-    
-        let attributedText = NSMutableAttributedString(string: selectedText as String)
-        let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
-        
-        attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
-        
-        if (!editArea.isEditable) {
+        if (currentNote.url == nil || !editArea.isEditable) {
             return false
+        }
+
+        let text = editArea.textStorage!.string as NSString
+        let range = editArea.selectedRange()
+        let selectedText = text.substring(with: range) as NSString
+        let selectedRange = NSMakeRange(0, selectedText.length)
+        
+        let attributedSelected = editArea.attributedSubstring(forProposedRange: range, actualRange: nil)
+        var attributedText = NSMutableAttributedString()
+        
+        if (attributedSelected == nil) {
+            let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
+            attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
+        } else {
+            attributedText = NSMutableAttributedString(attributedString: attributedSelected!)
         }
         
         switch keyCode {
@@ -126,7 +133,13 @@ class EditTextView: NSTextView {
             if (!currentNote.isRTF()) {
                 attributedText.mutableString.setString("**" + attributedText.string + "**")
             } else {
-                editArea.textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), range: range)
+                if (selectedText.length > 0) {
+                    let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
+                    let newFont = toggleBoldFont(font: fontAttributes!["NSFont"] as! NSFont)
+                    attributedText.addAttribute("NSFont", value: newFont, range: selectedRange)
+                }
+
+                typingAttributes["NSFont"] = toggleBoldFont(font: typingAttributes["NSFont"] as! NSFont)
             }
             break
         case 34:
@@ -140,17 +153,41 @@ class EditTextView: NSTextView {
             if (!currentNote.isRTF()) {
                 attributedText.mutableString.setString("_" + attributedText.string + "_")
             } else {
-                editArea.textStorage?.applyFontTraits(NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontItalicTrait)), range: range)
+                if (selectedText.length > 0) {
+                    let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
+                    let newFont = toggleItalicFont(font: fontAttributes!["NSFont"] as! NSFont)
+                    attributedText.addAttribute("NSFont", value: newFont, range: selectedRange)
+                }
+                
+                typingAttributes["NSFont"] = toggleItalicFont(font: typingAttributes["NSFont"] as! NSFont)
             }
             break
         case 32: // cmd-u
             if (currentNote.isRTF()) {
-                attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
+                if (selectedText.length > 0) {
+                    attributedText.removeAttribute("NSUnderline", range: NSMakeRange(0, selectedText.length))
+                }
+                
+                if (typingAttributes["NSUnderline"] == nil) {
+                    attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
+                    typingAttributes["NSUnderline"] = 1
+                } else {
+                    typingAttributes.removeValue(forKey: "NSUnderline")
+                }
             }
             break
         case 16: // cmd-y
             if (currentNote.isRTF()) {
-                attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
+                if (selectedText.length > 0) {
+                    attributedText.removeAttribute("NSStrikethrough", range: NSMakeRange(0, selectedText.length))
+                }
+                
+                if (typingAttributes["NSStrikethrough"] == nil) {
+                    attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
+                    typingAttributes["NSStrikethrough"] = 2
+                } else {
+                    typingAttributes.removeValue(forKey: "NSStrikethrough")
+                }
             } else {
                 attributedText.mutableString.setString("~~" + attributedText.string + "~~")
             }
@@ -178,11 +215,45 @@ class EditTextView: NSTextView {
             return false
         }
         
-        if (![11, 34].contains(keyCode) || !currentNote.isRTF() || modifier == 393475) {
-            editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        
+        return editArea.save(note: currentNote)
+    }
+    
+    func toggleBoldFont(font: NSFont) -> NSFont {
+        var mask = 0
+        
+        if (font.isBold) {
+            if (font.isItalic) {
+                mask = NSFontItalicTrait
+            }
+        } else {
+            if (font.isItalic) {
+                mask = NSFontBoldTrait|NSFontItalicTrait
+            } else {
+                mask = NSFontBoldTrait
+            }
+        }
+       
+        return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
+    }
+    
+    func toggleItalicFont(font: NSFont) -> NSFont {
+        var mask = 0
+        
+        if (font.isItalic) {
+            if (font.isBold) {
+                mask = NSFontBoldTrait
+            }
+        } else {
+            if (font.isBold) {
+                mask = NSFontBoldTrait|NSFontItalicTrait
+            } else {
+                mask = NSFontItalicTrait
+            }
         }
         
-        return save(note: currentNote)
+        return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
 
     @IBAction func editorBold(_ sender: Any) {
