@@ -293,9 +293,9 @@ class ViewController: NSViewController,
     
     func moveAtTop(id: Int) {
         let isPinned = notesTableView.noteList[id].isPinned
-        let position = isPinned ? 0 : Storage.pinned
+        let position = isPinned ? 0 : countVisiblePinned()
         let note = notesTableView.noteList.remove(at: id)
-        
+
         notesTableView.noteList.insert(note, at: position)
         notesTableView.moveRow(at: id, to: position)
         notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
@@ -353,6 +353,18 @@ class ViewController: NSViewController,
                 }
             }
         }
+    }
+    
+    func countVisiblePinned() -> Int {
+        var i = 0
+        for note in notesTableView.noteList {
+            if (note.isPinned) {
+                i += 1
+            } else {
+                break
+            }
+        }
+        return i
     }
     
 }
