@@ -209,10 +209,10 @@ class ViewController: NSViewController,
                     )
                 }
                 .sorted(by: {
-                    $0.date! > $1.date!
-                })
-                .sorted(by: {
-                    $0.isPinned && !$1.isPinned
+                    if $0.isPinned == $1.isPinned {
+                        return $0.date! > $1.date!
+                    }
+                    return $0.isPinned && !$1.isPinned
                 })
         
         notesTableView.reloadData()
