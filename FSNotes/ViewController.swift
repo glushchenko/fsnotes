@@ -289,7 +289,7 @@ class ViewController: NSViewController,
         NSApp.activate(ignoringOtherApps: true)
         self.view.window?.makeKeyAndOrderFront(self)
         
-        cleanSearchAndEditArea()
+        search.becomeFirstResponder()
     }
     
     func moveAtTop(id: Int) {
