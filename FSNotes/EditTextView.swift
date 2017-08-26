@@ -301,7 +301,7 @@ class EditTextView: NSTextView {
     }
     
     @IBAction func editorLink(_ sender: Any) {
-        formatter(keyCode: 37, modifier: 393475)
+        formatter(keyCode: 38, modifier: 393475)
     }
     
 }
