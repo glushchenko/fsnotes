@@ -133,7 +133,6 @@ class ViewController: NSViewController,
             storage.add(note: note)
             
             self.updateTable(filter: "")
-            self.selectNullTableRow()
             
             let index = Storage.pinned
             notesTableView.selectRowIndexes([index], byExtendingSelection: false)
@@ -347,6 +346,11 @@ class ViewController: NSViewController,
             if returnCode == NSAlertFirstButtonReturn {
                 self.editArea.clear()
                 self.notesTableView.removeNote(note)
+                
+                if (self.notesTableView.noteList.indices.contains(selectedRow)) {
+                    self.notesTableView.selectRowIndexes([selectedRow], byExtendingSelection: false)
+                    self.notesTableView.scrollRowToVisible(selectedRow)
+                }
             }
         }
     }
