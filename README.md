@@ -34,8 +34,7 @@ cmd + delete - remove note
 cmd + r - rename note  
 cmd + * - pin note
 
-ctrl + cmd + e – open in external editor (predefined in setings)  
-ctrl + cmd + p – preview in external app (predefined in setings)
+ctrl + cmd + e – open in external editor (predefined in setings)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-27-22-29-10.png)
 
