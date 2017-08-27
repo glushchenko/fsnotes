@@ -9,7 +9,13 @@
 import AppKit
 
 
-class MainWindowController: NSWindowController {
+class MainWindowController: NSWindowController,
+NSWindowDelegate {
+    
+    func windowDidResize(_ notification: Notification) {
+        let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+        controller?.refillEditArea()
+    }
     
     override func windowDidLoad() {
         

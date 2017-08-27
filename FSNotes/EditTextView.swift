@@ -44,7 +44,6 @@ class EditTextView: NSTextView {
                     downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: bundle) {
                         // Optional callback for loading finished
                         self.addSubview(self.downView!)
-                        self.downView?.rightAnchor.constraint(equalTo: (self.rightAnchor), constant: 20)
                     }
                 }
             } else {

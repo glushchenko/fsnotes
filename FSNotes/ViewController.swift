@@ -84,10 +84,6 @@ class ViewController: NSViewController,
         }
     }
     
-    func windowDidResize(_ notification: Notification) {
-        refillEditArea()
-    }
-    
     func refillEditArea() {
         let selected = notesTableView.selectedRow
         if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
