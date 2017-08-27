@@ -36,7 +36,7 @@ cmd + * - pin note
 
 ctrl + cmd + e – open in external editor (predefined in setings)
 
-![](http://files.og.uk.to/Screen-Shot-2017-08-27-22-29-10.png)
+![](http://files.og.uk.to/Screen-Shot-2017-08-27-23-16-57.png)
 
 Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.18/FSNotes.app.zip)
 
