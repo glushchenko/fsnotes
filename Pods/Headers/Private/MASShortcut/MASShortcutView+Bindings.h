@@ -1,1 +1,0 @@
-../../../MASShortcut/Framework/MASShortcutView+Bindings.h

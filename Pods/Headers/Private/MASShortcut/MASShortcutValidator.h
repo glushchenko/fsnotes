@@ -1,1 +1,0 @@
-../../../MASShortcut/Framework/MASShortcutValidator.h

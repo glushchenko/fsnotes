@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import MASShortcut
 
 class PrefsViewController: NSViewController {
 

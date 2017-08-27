@@ -8,6 +8,7 @@
 
 import Foundation
 import Cocoa
+import MASShortcut
 
 public class UserDefaultsManagement {
     static var DefaultFont = "Source Code Pro"
