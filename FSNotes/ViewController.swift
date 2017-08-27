@@ -83,8 +83,28 @@ class ViewController: NSViewController,
             return $0
         }
     }
+    
+    func windowDidResize(_ notification: Notification) {
+        refillEditArea()
+    }
+    
+    func refillEditArea() {
+        let selected = notesTableView.selectedRow
+        if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
+            editArea.fill(note: notesTableView.noteList[notesTableView.selectedRow])
+        }
+    }
         
-    override func keyDown(with event: NSEvent) {        
+    override func keyDown(with event: NSEvent) {
+        if (event.keyCode == 50 && event.modifierFlags.contains(.command)) {
+            if (UserDefaultsManagement.preview) {
+                disablePreview()
+            } else {
+                enablePreview()
+            }
+            refillEditArea()
+        }
+        
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
@@ -162,6 +182,7 @@ class ViewController: NSViewController,
         if (
             notesTableView.noteList.indices.contains(selected)
             && selected > -1
+            && !UserDefaultsManagement.preview
         ) {
             let content = editArea.string!
             let note = notesTableView.noteList[selected]
@@ -285,6 +306,7 @@ class ViewController: NSViewController,
     }
     
     func createNote(name: String = "", content: String = "") {
+        disablePreview()
         editArea.string = content
         
         let note = Note()
@@ -367,6 +389,18 @@ class ViewController: NSViewController,
             }
         }
         return i
+    }
+    
+    func enablePreview() {
+        self.view.window!.title = "FSNotes [preview]"
+        UserDefaultsManagement.preview = true
+        refillEditArea()
+    }
+    
+    func disablePreview() {
+        self.view.window!.title = "FSNotes [edit]"
+        UserDefaultsManagement.preview = false
+        refillEditArea()
     }
     
 }

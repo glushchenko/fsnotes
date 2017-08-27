@@ -7,11 +7,14 @@
 //
 
 import Cocoa
+import Down
 
 class EditTextView: NSTextView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
+    
+    var downView: DownView?
     
     func getSelectedNote() -> Note {
         let mainWindow = NSApplication.shared().windows.first
@@ -24,11 +27,34 @@ class EditTextView: NSTextView {
         self.isEditable = true
         self.isRichText = note.isRTF()
 
-        let attrString = createAttributedString(note: note)
-        self.textStorage?.setAttributedString(attrString)
+        self.subviews.removeAll()
         
         if (!getSelectedNote().isRTF()) {
-            self.textStorage?.font = UserDefaultsManagement.noteFont
+            if (UserDefaultsManagement.preview) {
+                self.isEditable = false
+                
+                self.string = ""
+                self.subviews.removeAll()
+                
+                let urlpath     = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+                let url         = NSURL.fileURL(withPath: urlpath!)
+                let ttt = Bundle(url: url)
+                
+                do {
+                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: ttt) {
+                        // Optional callback for loading finished
+                        self.addSubview(self.downView!)
+                        self.downView?.rightAnchor.constraint(equalTo: (self.rightAnchor), constant: 20)
+                    }
+                }
+            } else {
+                let attrString = createAttributedString(note: note)
+                self.textStorage?.setAttributedString(attrString)
+                self.textStorage?.font = UserDefaultsManagement.noteFont
+            }
+        } else {
+            let attrString = createAttributedString(note: note)
+            self.textStorage?.setAttributedString(attrString)
         }
         
         let viewController = self.window?.contentViewController as! ViewController
@@ -63,6 +89,7 @@ class EditTextView: NSTextView {
     
     func clear() {
         textStorage?.mutableString.setString("")
+        subviews.removeAll()
         isEditable = false
         
         let viewController = self.window?.contentViewController as! ViewController
@@ -215,9 +242,13 @@ class EditTextView: NSTextView {
             return false
         }
         
-        editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        if (!UserDefaultsManagement.preview) {
+            editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
         
-        return editArea.save(note: currentNote)
+            return editArea.save(note: currentNote)
+        }
+        
+        return false
     }
     
     func toggleBoldFont(font: NSFont) -> NSFont {

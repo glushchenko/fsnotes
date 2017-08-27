@@ -24,7 +24,8 @@ Of course you can change directory (i.e Dropbox or iCloud for synchronization)
 
 esc - move cursor into search bar and clear edit/search fields   
 cmd + L - move cursor into search bar  
-tab - go to next field  
+tab - go to next field
+cmd + ~ - markdown preview mode
 
 Table view: 
 

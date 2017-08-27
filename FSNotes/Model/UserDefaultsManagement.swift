@@ -171,4 +171,17 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.PinListKey)
         }
     }
+    
+    static var preview: Bool {
+        get {
+            if let preview = UserDefaults.standard.object(forKey: "preview") {
+                return preview as! Bool
+            } else {
+                return false
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "preview")
+        }
+    }
 }
