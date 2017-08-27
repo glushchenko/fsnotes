@@ -91,16 +91,7 @@ class ViewController: NSViewController,
         }
     }
         
-    override func keyDown(with event: NSEvent) {
-        if (event.keyCode == 50 && event.modifierFlags.contains(.command)) {
-            if (UserDefaultsManagement.preview) {
-                disablePreview()
-            } else {
-                enablePreview()
-            }
-            refillEditArea()
-        }
-        
+    override func keyDown(with event: NSEvent) {        
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
@@ -397,6 +388,14 @@ class ViewController: NSViewController,
         self.view.window!.title = "FSNotes [edit]"
         UserDefaultsManagement.preview = false
         refillEditArea()
+    }
+    
+    func togglePreview() {
+        if (UserDefaultsManagement.preview) {
+            disablePreview()
+        } else {
+            enablePreview()
+        }
     }
     
 }

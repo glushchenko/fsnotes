@@ -64,6 +64,19 @@ public class UserDefaultsManagement {
             self.fontSize = Int(newValue.pointSize)
         }
     }
+    
+    static var externalEditor: String {
+        get {
+            if let name = UserDefaults.standard.object(forKey: "externalEditorApp") {
+                return name as! String
+            } else {
+                return "Text Edit"
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "externalEditorApp")
+        }
+    }
 
     static var horizontalOrientation: Bool {
         get {

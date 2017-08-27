@@ -13,7 +13,6 @@ class PrefsViewController: NSViewController {
     @IBOutlet var previewCheckbox: NSButton!
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
-    @IBOutlet var previewApp: NSTextField!
     @IBOutlet weak var noteFont: NSPopUpButton!
     
     @IBOutlet weak var horizontalRadio: NSButton!
@@ -53,12 +52,8 @@ class PrefsViewController: NSViewController {
         }
     }
     
-    @IBAction func previewApp(_ sender: Any) {
-        UserDefaults.standard.set(previewApp.stringValue, forKey: "previewApp")
-    }
-    
     @IBAction func externalEditor(_ sender: Any) {
-        UserDefaults.standard.set(externalEditorApp.stringValue, forKey: "externalEditorApp")
+        UserDefaultsManagement.externalEditor = externalEditorApp.stringValue
     }
     
     @IBAction func verticalOrientation(_ sender: Any) {
@@ -125,16 +120,8 @@ class PrefsViewController: NSViewController {
         if (storageUrl != nil) {
             storageField.stringValue = storageUrl as! String
         }
-        
-        let previewAppKey = UserDefaults.standard.object(forKey: "previewApp")
-        if (previewAppKey != nil) {
-            previewApp.stringValue = previewAppKey as! String
-        }
-        
-        let externalEditorAppKey = UserDefaults.standard.object(forKey: "externalEditorApp")
-        if (externalEditorAppKey != nil) {
-            externalEditorApp.stringValue = externalEditorAppKey as! String
-        }
+                
+        externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
         
         if (UserDefaultsManagement.horizontalOrientation) {
             horizontalRadio.cell?.state = 1

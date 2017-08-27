@@ -19,22 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let selected = controller?.notesTableView.getNoteFromSelectedRow()
         let fileUrl = selected?.url
         
-        let defaultApp = UserDefaults.standard.object(forKey: "externalEditorApp")
-        if (defaultApp != nil) {
-            NSWorkspace.shared().openFile(fileUrl!.path, withApplication: defaultApp as? String)
-        }
-    }
-    
-    @IBAction func openInPreviewApp(_ sender: Any) {
-        let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
-        
-        let selected = controller?.notesTableView.getNoteFromSelectedRow()
-        let fileUrl = selected?.url
-        
-        let defaultApp = UserDefaults.standard.object(forKey: "previewApp")
-        if (defaultApp != nil) {
-            NSWorkspace.shared().openFile(fileUrl!.path, withApplication: defaultApp as? String)
-        }
+        NSWorkspace.shared().openFile(fileUrl!.path, withApplication: UserDefaultsManagement.externalEditor)
     }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {

@@ -334,4 +334,10 @@ class EditTextView: NSTextView {
         formatter(keyCode: 38, modifier: 393475)
     }
     
+    @IBAction func togglePreview(_ sender: Any) {
+        let mainWindow = NSApplication.shared().windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        
+        viewController.togglePreview()
+    }
 }
