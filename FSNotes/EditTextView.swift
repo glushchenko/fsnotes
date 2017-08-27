@@ -36,12 +36,12 @@ class EditTextView: NSTextView {
                 self.string = ""
                 self.subviews.removeAll()
                 
-                let urlpath     = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
-                let url         = NSURL.fileURL(withPath: urlpath!)
-                let ttt = Bundle(url: url)
+                let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+                let url = NSURL.fileURL(withPath: path!)
+                let bundle = Bundle(url: url)
                 
                 do {
-                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: ttt) {
+                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: bundle) {
                         // Optional callback for loading finished
                         self.addSubview(self.downView!)
                         self.downView?.rightAnchor.constraint(equalTo: (self.rightAnchor), constant: 20)
