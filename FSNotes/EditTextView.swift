@@ -10,11 +10,48 @@ import Cocoa
 import Down
 
 class EditTextView: NSTextView {
+    var downView: DownView?
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
     
-    var downView: DownView?
+    @IBAction func editorMenuItem(_ sender: Any) {
+        let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
+        
+        let dict = ["b": 11, "i": 34, "j": 38, "y": 16, "u": 32, "1": 18, "2": 19, "3": 20, "4": 21, "5": 23, "6": 22] as [String: UInt16]
+        
+        if (dict[keyEquivalent] != nil) {
+            let keyCode = dict[keyEquivalent]!
+            let modifier = (sender as AnyObject).keyEquivalentModifierMask.rawValue == 262144 ? 393475 : 0
+            
+            _ = formatShortcut(keyCode: keyCode, modifier: UInt(modifier))
+        }
+    }
+    
+    @IBAction func togglePreview(_ sender: Any) {
+        let mainWindow = NSApplication.shared().windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        
+        viewController.togglePreview()
+    }
+    
+    override func mouseDown(with event: NSEvent) {
+        let viewController = self.window?.contentViewController as! ViewController
+        if (!viewController.emptyEditAreaImage.isHidden) {
+            viewController.makeNote(NSTextField())
+        }
+        return super.mouseDown(with: event)
+    }
+    
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
+            if (formatShortcut(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
+                return true
+            }
+        }
+        return super.performKeyEquivalent(with: event)
+    }
     
     func getSelectedNote() -> Note {
         let mainWindow = NSApplication.shared().windows.first
@@ -110,26 +147,7 @@ class EditTextView: NSTextView {
         return attributedString
     }
     
-    override func mouseDown(with event: NSEvent) {
-        let viewController = self.window?.contentViewController as! ViewController
-        if (!viewController.emptyEditAreaImage.isHidden) {
-            viewController.makeNote(NSTextField())
-        }
-        return super.mouseDown(with: event)
-    }
-    
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
-            if (formatter(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
-                return true
-            }
-        }
-        
-        return super.performKeyEquivalent(with: event)
-    }
-
-    
-    func formatter(keyCode: UInt16, modifier: UInt = 0) -> Bool {
+    func formatShortcut(keyCode: UInt16, modifier: UInt = 0) -> Bool {
         let mainWindow = NSApplication.shared().windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
@@ -284,60 +302,5 @@ class EditTextView: NSTextView {
         }
         
         return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
-    }
-
-    @IBAction func editorBold(_ sender: Any) {
-        formatter(keyCode: 11)
-    }
-    
-    @IBAction func editorItalic(_ sender: Any) {
-        formatter(keyCode: 34)
-    }
-    
-    @IBAction func editorStrike(_ sender: Any) {
-        formatter(keyCode: 16)
-    }
-    
-    @IBAction func editorUnderline(_ sender: Any) {
-        formatter(keyCode: 32)
-    }
-    
-    @IBAction func editorHeader1(_ sender: Any) {
-        formatter(keyCode: 18)
-    }
-    
-    @IBAction func editorHeader2(_ sender: Any) {
-        formatter(keyCode: 19)
-    }
-    
-    @IBAction func editorHeader3(_ sender: Any) {
-        formatter(keyCode: 20)
-    }
-    
-    @IBAction func editorHeader4(_ sender: Any) {
-        formatter(keyCode: 21)
-    }
-    
-    @IBAction func editorHeader5(_ sender: Any) {
-        formatter(keyCode: 23)
-    }
-    
-    @IBAction func editorHeader6(_ sender: Any) {
-        formatter(keyCode: 22)
-    }
-    
-    @IBAction func editorImage(_ sender: Any) {
-        formatter(keyCode: 34, modifier: 393475)
-    }
-    
-    @IBAction func editorLink(_ sender: Any) {
-        formatter(keyCode: 38, modifier: 393475)
-    }
-    
-    @IBAction func togglePreview(_ sender: Any) {
-        let mainWindow = NSApplication.shared().windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        
-        viewController.togglePreview()
     }
 }
