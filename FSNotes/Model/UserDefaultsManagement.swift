@@ -97,7 +97,7 @@ public class UserDefaultsManagement {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 return storagePath as! String
             } else {
-                return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.absoluteString
+                return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
             }
         }
         set {
