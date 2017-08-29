@@ -200,19 +200,18 @@ class ViewController: NSViewController,
     }
     
     func updateTable(filter: String) {
+        let searchTermsArray = filter.split(separator: " ")
+        
         notesTableView.noteList =
             storage.noteList
                 .filter() {
+                    let searchContent = "\($0.name) \($0.content)"
                     return (
                         $0.isRemoved == false
                         && (
                             filter.isEmpty
                             || (
-                                !filter.isEmpty
-                                && (
-                                    $0.content.localizedCaseInsensitiveContains(filter)
-                                    || $0.name.localizedCaseInsensitiveContains(filter)
-                                )
+                                searchContent.localizedCaseInsensitiveContainsTerms(searchTermsArray)
                             )
                         )
                     )
