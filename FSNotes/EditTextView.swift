@@ -261,7 +261,10 @@ class EditTextView: NSTextView {
         
         if (!UserDefaultsManagement.preview) {
             editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
-            editArea.setSelectedRange(range)
+            
+            if (currentNote.isRTF()) {
+                editArea.setSelectedRange(range)
+            }
         
             return editArea.save(note: currentNote)
         }
