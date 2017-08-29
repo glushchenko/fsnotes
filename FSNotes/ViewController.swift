@@ -39,6 +39,8 @@ class ViewController: NSViewController,
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
             notesTableView.rowHeight = 25
+        } else {
+            notesTableView.rowHeight = 48
         }
         
         if (UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation) {

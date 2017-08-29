@@ -10,10 +10,10 @@ import Cocoa
 
 extension NSFont {
     var isBold: Bool {
-        return fontDescriptor.symbolicTraits.contains(.NSFontDescriptorTraitBold)
+        return (fontDescriptor.symbolicTraits == 1026)
     }
     
     var isItalic: Bool {
-        return fontDescriptor.symbolicTraits.contains(.NSFontDescriptorTraitItalic)
+        return (fontDescriptor.symbolicTraits == 1025)
     }
 }
