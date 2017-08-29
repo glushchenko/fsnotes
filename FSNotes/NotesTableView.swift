@@ -112,5 +112,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func makeCell() -> NoteCellView {
         return make(withIdentifier: "NoteCellView", owner: self) as! NoteCellView
     }
+        
+    override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        if (clickedRow > -1) {
+            selectRowIndexes([clickedRow], byExtendingSelection: false)
+        }
+    }
     
 }

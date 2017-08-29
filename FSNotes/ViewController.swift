@@ -124,6 +124,24 @@ class ViewController: NSViewController,
         if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
             pin(selectedRow: notesTableView.selectedRow)
         }
+        
+        // Open in external editor (cmd-control-e)
+        if (
+            event.keyCode == 14
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.control)
+        ) {
+            external(selectedRow: notesTableView.selectedRow)
+        }
+        
+        // Open in finder (cmd-control-o)
+        if (
+            event.keyCode == 31
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.control)
+        ) {
+            finder(selectedRow: notesTableView.selectedRow)
+        }
     }
         
     override var representedObject: Any? {
@@ -144,6 +162,14 @@ class ViewController: NSViewController,
         }
     }
     
+    @IBAction func editorMenu(_ sender: Any) {
+        external(selectedRow: notesTableView.selectedRow)
+    }
+    
+    @IBAction func finderMenu(_ sender: Any) {
+        finder(selectedRow: notesTableView.selectedRow)
+    }
+    
     @IBAction func makeMenu(_ sender: Any) {
         createNote()
     }
@@ -158,11 +184,6 @@ class ViewController: NSViewController,
     
     @IBAction func deleteNote(_ sender: Any) {
         deleteNote(selectedRow: notesTableView.clickedRow)
-    }
-    
-    @IBAction func openInFinder(_ sender: Any) {
-        let note = notesTableView.noteList[notesTableView.clickedRow]
-        NSWorkspace.shared().activateFileViewerSelecting([note.url])
     }
     
     // Changed main edit view
@@ -369,6 +390,21 @@ class ViewController: NSViewController,
                     self.notesTableView.scrollRowToVisible(selectedRow)
                 }
             }
+        }
+    }
+    
+    func finder(selectedRow: Int) {
+        if (self.notesTableView.noteList.indices.contains(selectedRow)) {
+            let note = notesTableView.noteList[selectedRow]
+            NSWorkspace.shared().activateFileViewerSelecting([note.url])
+        }
+    }
+    
+    func external(selectedRow: Int) {
+        if (notesTableView.noteList.indices.contains(selectedRow)) {
+            let note = notesTableView.noteList[selectedRow]
+            
+            NSWorkspace.shared().openFile(note.url.path, withApplication: UserDefaultsManagement.externalEditor)
         }
     }
     

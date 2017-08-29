@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13189.4" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13178.6"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13189.4"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -168,13 +168,6 @@
                                         <menuItem title="Select All" keyEquivalent="a" id="Ruw-6m-B2m">
                                             <connections>
                                                 <action selector="selectAll:" target="Ady-hI-5gd" id="VNm-Mi-diN"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="5px-ya-An2"/>
-                                        <menuItem title="Open in external editor" keyEquivalent="e" id="dzN-Zr-CfX">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="openInMenu:" target="Voe-Tx-rLC" id="7RS-cu-f5t"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="uyl-h8-XO2"/>
@@ -1001,17 +994,17 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="New note" keyEquivalent="n" id="bF9-1E-bzg">
+                        <menuItem title="Make new" keyEquivalent="n" id="bF9-1E-bzg">
                             <connections>
                                 <action selector="makeMenu:" target="XfG-lQ-9wD" id="Vf5-ax-zBr"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename note" keyEquivalent="r" id="XBB-Sr-T1D">
+                        <menuItem title="Rename" keyEquivalent="r" id="XBB-Sr-T1D">
                             <connections>
                                 <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete note" id="fHG-zk-g0k">
+                        <menuItem title="Delete" id="fHG-zk-g0k">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -1019,15 +1012,21 @@ CA
                                 <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Pin/unpin note" keyEquivalent="8" id="jFN-Dp-LON">
+                        <menuItem title="Pin/unpin" keyEquivalent="8" id="jFN-Dp-LON">
                             <connections>
                                 <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Open in Finder" id="xSO-lW-k8f">
-                            <modifierMask key="keyEquivalentModifierMask"/>
+                        <menuItem title="Open" keyEquivalent="e" id="3tV-h0-YEb">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                             <connections>
-                                <action selector="openInFinder:" target="XfG-lQ-9wD" id="g9t-o8-jaP"/>
+                                <action selector="editorMenu:" target="XfG-lQ-9wD" id="rG9-zd-fZp"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Show in Finder" alternate="YES" keyEquivalent="o" id="xSO-lW-k8f">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                            <connections>
+                                <action selector="finderMenu:" target="XfG-lQ-9wD" id="xPJ-Ag-5hy"/>
                             </connections>
                         </menuItem>
                     </items>

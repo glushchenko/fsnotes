@@ -18,14 +18,12 @@ NSWindowDelegate {
     }
     
     override func windowDidLoad() {
-        
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
         appDelegate.mainWindowController = self
     }
     
     
     func activateMainWindow() {
-        
         self.window?.makeKeyAndOrderFront(self)
         NSApp.activate(ignoringOtherApps: true)
     }

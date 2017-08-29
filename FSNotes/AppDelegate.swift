@@ -10,17 +10,7 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
     var mainWindowController: MainWindowController?
-    
-    @IBAction func openInMenu(_ sender: Any) {
-        let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
-        
-        let selected = controller?.notesTableView.getNoteFromSelectedRow()
-        let fileUrl = selected?.url
-        
-        NSWorkspace.shared().openFile(fileUrl!.path, withApplication: UserDefaultsManagement.externalEditor)
-    }
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
@@ -33,9 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-
         mainWindowController?.activateMainWindow()
-
         return true
     }
 }
