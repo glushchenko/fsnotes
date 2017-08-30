@@ -61,15 +61,13 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note) {
-        self.isEditable = true
+        self.isEditable = !UserDefaultsManagement.preview
         self.isRichText = note.isRTF()
 
         self.subviews.removeAll()
         
         if (!getSelectedNote().isRTF()) {
             if (UserDefaultsManagement.preview) {
-                self.isEditable = false
-                
                 self.string = ""
                 self.subviews.removeAll()
                 
@@ -79,7 +77,6 @@ class EditTextView: NSTextView {
                 
                 do {
                     downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: bundle) {
-                        // Optional callback for loading finished
                         self.addSubview(self.downView!)
                     }
                 }
