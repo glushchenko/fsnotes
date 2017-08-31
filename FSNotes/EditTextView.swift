@@ -239,7 +239,7 @@ class EditTextView: NSTextView {
                 
                 for index in [18,19,20,21,23,22] {
                     string = string + "#"
-                    if keyCode == index {
+                    if Int(keyCode) == index {
                         break
                     }
                     offset = offset + 1

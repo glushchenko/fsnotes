@@ -8,6 +8,7 @@
 
 import Foundation
 
+#if swift(>=3.2)
 extension String {
     // Search the string for the existence of any of the terms in the
     // provided array of terms.
@@ -17,3 +18,4 @@ extension String {
     }
     
 }
+#endif
