@@ -252,6 +252,7 @@ class EditTextView: NSTextView {
             if (!currentNote.isRTF() && modifier == 393475) {
                 attributedText.mutableString.setString("[](" + attributedText.string + ")")
             }
+            break
         default:
             return false
         }
