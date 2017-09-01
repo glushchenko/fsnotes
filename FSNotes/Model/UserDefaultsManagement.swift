@@ -71,7 +71,7 @@ public class UserDefaultsManagement {
             if let name = UserDefaults.standard.object(forKey: "externalEditorApp") {
                 return name as! String
             } else {
-                return "Text Edit"
+                return "TextEdit"
             }
         }
         set {
