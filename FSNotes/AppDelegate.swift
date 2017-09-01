@@ -26,5 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         mainWindowController?.activateMainWindow()
         return true
     }
+    
+    @IBAction func bringAllToFront(_ sender: Any) {
+        mainWindowController?.activateMainWindow()
+    }
 }
 
