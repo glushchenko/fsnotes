@@ -12,6 +12,10 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
     
+    @IBAction func openHelp(_ sender: Any) {
+        NSWorkspace.shared().open(URL(string: "https://github.com/glushchenko/fsnotes")!)
+    }
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
@@ -27,8 +31,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     
-    @IBAction func bringAllToFront(_ sender: Any) {
-        mainWindowController?.activateMainWindow()
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
     }
+    
 }
 
