@@ -51,6 +51,7 @@ class Storage {
             
             let allowedExtensions = [
                 "md",
+                "markdown",
                 "txt",
                 "rtf",
                 UserDefaultsManagement.storageExtension

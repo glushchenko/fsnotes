@@ -18,12 +18,12 @@ class DocumentAttributes {
         if (fileExtension == "rtf") {
             options = [
                 NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType,
-                NSFontAttributeName: font
+                NSFontAttributeName: font!
             ]
         } else {
             options = [
                 NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType,
-                NSFontAttributeName: font
+                NSFontAttributeName: font!
             ]
         }
         
