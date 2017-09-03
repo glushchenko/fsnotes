@@ -186,4 +186,42 @@ class Note: NSObject {
             removePin()
         }
     }
+    
+    func cleanMetaData(content: String) -> String {
+        var extractedTitle: String = ""
+        
+        if (content.hasPrefix("---\n")) {
+            var list = content.components(separatedBy: "---")
+            
+            if (list.count > 2) {
+                let headerList = list[1].split(separator: "\n")
+                for header in headerList {
+                    let nsHeader = header as NSString
+                    let regex = try! NSRegularExpression(pattern: "title: \"(.*?)\"", options: [])
+                    let matches = regex.matches(in: String(nsHeader), options: [], range: NSMakeRange(0, (nsHeader as String).characters.count))
+                    
+                    if let match = matches.first {
+                        let range = match.rangeAt(1)
+                        extractedTitle = nsHeader.substring(with: range)
+                        break
+                    }
+                }
+
+                if (extractedTitle.characters.count > 0) {
+                    list.removeSubrange(Range(0...1))
+                    
+                    return "## " + extractedTitle + "\n\n" + list.joined()
+                }
+                
+                return list.joined()
+            }
+        }
+        
+        return content
+    }
+    
+    func getPrettifiedContent() -> String {
+        let content = self.content
+        return cleanMetaData(content: content)
+    }
 }
