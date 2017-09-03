@@ -76,7 +76,7 @@ class EditTextView: NSTextView {
                 let bundle = Bundle(url: url)
                 
                 do {
-                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.content, templateBundle: bundle) {
+                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
                         self.addSubview(self.downView!)
                     }
                 }
