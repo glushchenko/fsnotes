@@ -194,7 +194,7 @@ class Note: NSObject {
             var list = content.components(separatedBy: "---")
             
             if (list.count > 2) {
-                let headerList = list[1].split(separator: "\n")
+                let headerList = list[1].components(separatedBy: "\n")
                 for header in headerList {
                     let nsHeader = header as NSString
                     let regex = try! NSRegularExpression(pattern: "title: \"(.*?)\"", options: [])
