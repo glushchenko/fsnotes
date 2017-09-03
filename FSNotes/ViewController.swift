@@ -154,6 +154,8 @@ class ViewController: NSViewController,
         let value = sender.stringValue
         if (value.characters.count > 0) {
             createNote(name: value)
+        } else {
+            createNote()
         }
     }
     
