@@ -14,10 +14,15 @@ class Storage {
     static var pinned: Int = 0
     
     func loadFiles() {
-        let markdownFiles = readDocuments()
+        var markdownFiles = readDocuments()
         let pinnedNotes = UserDefaultsManagement.pinnedNotes
         
-        for (markdownPath) in markdownFiles {
+        if (markdownFiles.count == 0) {
+            copyInitialNote()
+            markdownFiles.append("Hello world.md")
+        }
+        
+        for markdownPath in markdownFiles {
             let url = UserDefaultsManagement.storageUrl.appendingPathComponent(markdownPath)
             
             let note = Note()
@@ -83,6 +88,19 @@ class Storage {
     
     func getNextId() -> Int {
         return noteList.count
+    }
+    
+    func copyInitialNote() {
+        let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
+        var destination = UserDefaultsManagement.storageUrl
+        destination.appendPathComponent("Hello world.md")
+        
+        do {
+            let manager = FileManager.default
+            try manager.copyItem(at: initialDoc!, to: destination)
+        } catch {
+            print("Initial copy error: \(error)")
+        }
     }
 
 }

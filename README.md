@@ -18,23 +18,7 @@ Markdown files default directory:
 
 ```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
 
-Of course you can change directory (i.e Dropbox or iCloud for synchronization)
-
-### Keyboard shortcuts
-
-esc - move cursor into search bar and clear edit/search fields   
-cmd + L - move cursor into search bar  
-tab - go to next field  
-cmd + ~ - preview mode (markdown only)
-
-Table view: 
-
-up, down arrows - select note  
-cmd + delete - remove note  
-cmd + r - rename note  
-cmd + * - pin note
-
-ctrl + cmd + e – open in external editor (predefined in setings)
+Of course you can change directory (i.e. Dropbox or iCloud for synchronization)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-29-17-04-08.png)
 

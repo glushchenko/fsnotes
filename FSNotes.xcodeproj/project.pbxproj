@@ -33,6 +33,7 @@
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D7D6FA351F5C6AE300E08068 /* Hello world.md in Resources */ = {isa = PBXBuildFile; fileRef = D7D6FA341F5C68E000E08068 /* Hello world.md */; };
 		D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
 		D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */; };
 		D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
@@ -94,6 +95,7 @@
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
+		D7D6FA341F5C68E000E08068 /* Hello world.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Hello world.md"; sourceTree = "<group>"; };
 		D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
 		D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Black.ttf"; sourceTree = "<group>"; };
 		D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				D735E5B81F2E45CC00173215 /* icons.icns */,
 				D7D3D5191F4483EA00D152FE /* pin.png */,
 				D7D3D5171F44794A00D152FE /* makeNote.png */,
+				D7D6FA341F5C68E000E08068 /* Hello world.md */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D6FA351F5C6AE300E08068 /* Hello world.md in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,

@@ -192,7 +192,7 @@ public class UserDefaultsManagement {
             if let preview = UserDefaults.standard.object(forKey: "preview") {
                 return preview as! Bool
             } else {
-                return false
+                return true
             }
         }
         set {
