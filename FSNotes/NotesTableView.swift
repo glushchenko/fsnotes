@@ -57,10 +57,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let viewController = self.window?.contentViewController as? ViewController
+        let viewController = self.window?.contentViewController as! ViewController
         
         if (noteList.indices.contains(selectedRow)) {
-            viewController?.editArea.fill(note: noteList[selectedRow])
+            viewController.editArea.fill(note: noteList[selectedRow])
+        } else {
+            viewController.editArea.clear()
         }
     }
     
