@@ -207,9 +207,9 @@ class Note: NSObject {
                     }
                 }
 
-                list.removeSubrange(Range(0...1))
-                
                 if (extractedTitle.characters.count > 0) {
+                    list.removeSubrange(Range(0...1))
+                    
                     return "## " + extractedTitle + "\n\n" + list.joined()
                 }
                 
