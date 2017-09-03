@@ -151,7 +151,10 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
-        createNote()
+        let value = sender.stringValue
+        if (value.characters.count > 0) {
+            createNote(name: value)
+        }
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
