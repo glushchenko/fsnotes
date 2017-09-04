@@ -26,6 +26,7 @@ class ViewController: NSViewController,
     
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
+        self.view.window!.titlebarAppearsTransparent = true
                 
         // autosave size and position
         self.view.window?.setFrameAutosaveName("MainWindow")
@@ -262,9 +263,9 @@ class ViewController: NSViewController,
                                 filter.isEmpty
                                 || (
                                     !filter.isEmpty
-                                        && (
-                                            $0.content.localizedCaseInsensitiveContains(filter)
-                                            || $0.name.localizedCaseInsensitiveContains(filter)
+                                    && (
+                                        $0.content.localizedCaseInsensitiveContains(filter)
+                                        || $0.name.localizedCaseInsensitiveContains(filter)
                                     )
                                 )
                             )
