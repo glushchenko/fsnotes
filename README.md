@@ -22,6 +22,6 @@ Of course you can change directory (i.e. Dropbox or iCloud for synchronization)
 
 ![](http://files.og.uk.to/Screen-Shot-2017-08-29-17-04-08.png)
 
-Link: [FSNotes.app.zip](https://github.com/glushchenko/fsnotes/releases/download/0.20/FSNotes.app.zip)
+Link: [Mac App Store](https://itunes.apple.com/app/fsnotes/id1277179284)
 
 
