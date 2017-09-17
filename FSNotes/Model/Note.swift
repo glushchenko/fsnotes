@@ -63,7 +63,11 @@ class Note: NSObject {
             print("Remove went wrong: \(error)")
         }
     }
-        
+    
+    func getEscapedName() -> String {
+        return self.name.replacingOccurrences(of: ":", with: "/")
+    }
+    
     func getPreviewForLabel() -> String {
         var preview: String = ""
         
@@ -133,7 +137,11 @@ class Note: NSObject {
         let defaultUrl = UserDefaultsManagement.storageUrl
         let defaultExtension = UserDefaultsManagement.storageExtension
         
-        var name = name.trimmingCharacters(in: CharacterSet.whitespaces)
+        var name = name
+            .trimmingCharacters(in: CharacterSet.whitespaces)
+            .replacingOccurrences(of: ":", with: "-")
+            .replacingOccurrences(of: "/", with: ":")
+        
         if (name.characters.count == 0) {
             name = defaultName
         }
