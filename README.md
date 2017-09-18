@@ -20,7 +20,7 @@ Markdown files default directory:
 
 Of course you can change directory (i.e. Dropbox or iCloud for synchronization)
 
-![](http://files.og.uk.to/Screen-Shot-2017-08-29-17-04-08.png)
+![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/macos.png)
 
 Link: [Mac App Store](https://itunes.apple.com/app/fsnotes/id1277179284)
 
