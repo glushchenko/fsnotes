@@ -26,11 +26,15 @@ class NoteCellView: NSTableCellView {
         
         if (UserDefaultsManagement.horizontalOrientation) {
             applyHorizontalConstrains()
-        } else {
-            pin.frame.origin.y = 26
-            applyPreviewStyle(labelColor)
-            applyVerticalConstrainst()
+            return
         }
+        
+        if (!UserDefaultsManagement.hidePreview) {
+            pin.frame.origin.y = 26
+        }
+        
+        applyPreviewStyle(labelColor)
+        applyVerticalConstrainst()
     }
     
     func applyPreviewStyle(_ color: NSColor) {
