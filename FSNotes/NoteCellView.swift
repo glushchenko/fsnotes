@@ -33,7 +33,7 @@ class NoteCellView: NSTableCellView {
             pin.frame.origin.y = 26
         }
         
-        applyPreviewStyle(labelColor)
+        udpateSelectionHighlight()
         applyVerticalConstrainst()
     }
     
@@ -110,10 +110,8 @@ class NoteCellView: NSTableCellView {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
         } else {
-            
-            let lightGray = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            applyPreviewStyle(lightGray)
-            date.textColor = lightGray
+            applyPreviewStyle(labelColor)
+            date.textColor = labelColor
         }
     }
     
