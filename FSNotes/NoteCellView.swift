@@ -15,20 +15,43 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var date: NSTextField!
     @IBOutlet var pin: NSImageView!
     
+    let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        renderPin()
-            
         let fontName = UserDefaultsManagement.fontName
         date.font = NSFont(name: fontName, size: 10)
-        preview.font = NSFont(name: fontName, size: 11)
+        renderPin()
         
         if (UserDefaultsManagement.horizontalOrientation) {
             applyHorizontalConstrains()
         } else {
+            pin.frame.origin.y = 26
+            applyPreviewStyle(labelColor)
             applyVerticalConstrainst()
         }
+    }
+    
+    func applyPreviewStyle(_ color: NSColor) {
+        let string = preview.stringValue
+        
+        let fontName = UserDefaultsManagement.fontName
+        let font = NSFont(name: fontName, size: 11)!
+        let textColor = color
+        
+        let textParagraph = NSMutableParagraphStyle()
+            textParagraph.lineSpacing = 1
+            textParagraph.maximumLineHeight = 12.0
+        
+        let attribs = [
+            NSFontAttributeName: font,
+            NSForegroundColorAttributeName: textColor,
+            NSParagraphStyleAttributeName: textParagraph
+        ]
+        
+        preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
+        preview.maximumNumberOfLines = 2
     }
     
     func applyVerticalConstrainst() {
@@ -37,15 +60,16 @@ class NoteCellView: NSTableCellView {
         name.translatesAutoresizingMaskIntoConstraints = false
         pin.translatesAutoresizingMaskIntoConstraints = true
         
-        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 3)
+        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
+        let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -3)
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 1)
         let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60)
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 5)
+        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
         let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 3)
         
-        NSLayoutConstraint.activate([previewTop, previewLeft, dateRight, dateTop, nameLeft, nameRight, nameTop])
+        NSLayoutConstraint.activate([previewTop, previewLeft, previewRight, dateRight, dateTop, nameLeft, nameRight, nameTop])
     }
     
     func applyHorizontalConstrains() {
@@ -79,11 +103,12 @@ class NoteCellView: NSTableCellView {
     
     func udpateSelectionHighlight() {
         if ( self.backgroundStyle == NSBackgroundStyle.dark ) {
-            preview.textColor = NSColor.white
+            applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
         } else {
+            
             let lightGray = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-            preview.textColor = lightGray
+            applyPreviewStyle(lightGray)
             date.textColor = lightGray
         }
     }

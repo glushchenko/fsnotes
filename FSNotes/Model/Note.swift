@@ -101,12 +101,14 @@ class Note: NSObject {
                 preview = " – " + preview
         }
         
-        return preview
+        return preview.condenseWhitespace()
     }
     
     func getDateForLabel() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yy"
+        dateFormatter.dateStyle = DateFormatter.Style.short
+        dateFormatter.timeStyle = DateFormatter.Style.none
+        dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
         
         return dateFormatter.string(from: self.date!)
     }
