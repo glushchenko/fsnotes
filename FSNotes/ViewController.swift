@@ -112,7 +112,11 @@ class ViewController: NSViewController,
         }
         
         // Note edit mode and select file name (cmd-r)
-        if (event.keyCode == 15 && event.modifierFlags.contains(.command)) {
+        if (
+            event.keyCode == 15
+            && event.modifierFlags.contains(.command)
+            && !event.modifierFlags.contains(.shift)
+        ) {
             renameNote(selectedRow: notesTableView.selectedRow)
         }
         
@@ -135,11 +139,11 @@ class ViewController: NSViewController,
             external(selectedRow: notesTableView.selectedRow)
         }
         
-        // Open in finder (cmd-control-o)
+        // Open in finder (cmd-shift-r)
         if (
-            event.keyCode == 31
+            event.keyCode == 15
             && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.control)
+            && event.modifierFlags.contains(.shift)
         ) {
             finder(selectedRow: notesTableView.selectedRow)
         }
@@ -163,9 +167,12 @@ class ViewController: NSViewController,
     @IBAction func fileName(_ sender: NSTextField) {
         let note = notesTableView.getNoteFromSelectedRow()
         sender.isEditable = false
+        
         if (!note.rename(newName: sender.stringValue)) {
-            sender.stringValue = note.name
+            Swift.print("Error: rename")
         }
+        
+        sender.stringValue = note.name
     }
     
     @IBAction func editorMenu(_ sender: Any) {

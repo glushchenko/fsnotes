@@ -23,7 +23,12 @@ class Note: NSObject {
     
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
-        name = (url.deletingPathExtension().pathComponents.last)!
+        name = url
+            .deletingPathExtension()
+            .pathComponents
+            .last!
+            .replacingOccurrences(of: ":", with: "/")
+        
         date = Date.init()
         self.id = id
     }
@@ -34,13 +39,20 @@ class Note: NSObject {
     }
     
     func rename(newName: String) -> Bool {
+        let escapedName = newName
+            .replacingOccurrences(of: ":", with: "-")
+        
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-            newUrl.appendPathComponent(newName + "." + type)
+            newUrl.appendPathComponent(
+                escapedName.replacingOccurrences(of: "/", with: ":")
+                + "." + type
+            )
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
             url = newUrl
+            name = escapedName
             return true
         } catch {
             name = (url.deletingPathExtension().pathComponents.last)!
@@ -62,10 +74,6 @@ class Note: NSObject {
         catch let error as NSError {
             print("Remove went wrong: \(error)")
         }
-    }
-    
-    func getEscapedName() -> String {
-        return self.name.replacingOccurrences(of: ":", with: "/")
     }
     
     func getPreviewForLabel() -> String {

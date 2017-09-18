@@ -27,7 +27,12 @@ class Storage {
             
             let note = Note()
             if (url.pathComponents.count > 0) {
-                note.name = url.deletingPathExtension().pathComponents.last!
+                note.name = url
+                    .deletingPathExtension()
+                    .pathComponents
+                    .last!
+                    .replacingOccurrences(of: ":", with: "/")
+                
                 note.type = url.pathExtension
             }
             

@@ -794,7 +794,7 @@
                                                                                         <color key="textColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         <connections>
-                                                                                            <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getEscapedName" id="337-O6-Quv"/>
+                                                                                            <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.name" id="7iK-bY-gWu"/>
                                                                                         </connections>
                                                                                     </textFieldCell>
                                                                                     <connections>
@@ -957,8 +957,7 @@ CA
                                 <action selector="editorMenu:" target="XfG-lQ-9wD" id="rG9-zd-fZp"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show in Finder" alternate="YES" keyEquivalent="o" id="xSO-lW-k8f">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                        <menuItem title="Reveal in Finder" alternate="YES" keyEquivalent="R" id="xSO-lW-k8f">
                             <connections>
                                 <action selector="finderMenu:" target="XfG-lQ-9wD" id="xPJ-Ag-5hy"/>
                             </connections>
