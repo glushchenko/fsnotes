@@ -236,58 +236,29 @@ class ViewController: NSViewController,
     }
     
     func updateTable(filter: String) {
-        #if swift(>=3.2)
-            let searchTermsArray = filter.split(separator: " ")
-            
-            notesTableView.noteList =
-                storage.noteList.filter() {
-                    let searchContent = "\($0.name) \($0.content)"
-                    return (
-                        $0.isRemoved == false
-                        && (
-                            filter.isEmpty
-                            || (
-                                searchContent.localizedCaseInsensitiveContainsTerms(searchTermsArray)
-                            )
+        let searchTermsArray = filter.split(separator: " ")
+        
+        notesTableView.noteList =
+            storage.noteList.filter() {
+                let searchContent = "\($0.name) \($0.content)"
+                return (
+                    $0.isRemoved == false
+                    && (
+                        filter.isEmpty
+                        || (
+                            searchContent.localizedCaseInsensitiveContainsTerms(searchTermsArray)
                         )
                     )
+                )
+            }
+            .sorted(by: {
+                if $0.isPinned == $1.isPinned {
+                    return $0.date! > $1.date!
                 }
-                .sorted(by: {
-                    if $0.isPinned == $1.isPinned {
-                        return $0.date! > $1.date!
-                    }
-                    return $0.isPinned && !$1.isPinned
-                })
-            
-                notesTableView.reloadData()
-        #else
-            notesTableView.noteList =
-                storage.noteList
-                    .filter() {
-                        return (
-                            $0.isRemoved == false
-                            && (
-                                filter.isEmpty
-                                || (
-                                    !filter.isEmpty
-                                    && (
-                                        $0.content.localizedCaseInsensitiveContains(filter)
-                                        || $0.name.localizedCaseInsensitiveContains(filter)
-                                    )
-                                )
-                            )
-                        )
-                    }
-                    .sorted(by: {
-                        if $0.isPinned == $1.isPinned {
-                            return $0.date! > $1.date!
-                        }
-                        return $0.isPinned && !$1.isPinned
-                    })
-            
+                return $0.isPinned && !$1.isPinned
+            })
+        
             notesTableView.reloadData()
-        #endif
-
     }
         
     override func controlTextDidEndEditing(_ obj: Notification) {

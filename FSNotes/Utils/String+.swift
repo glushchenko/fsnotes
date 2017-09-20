@@ -13,12 +13,11 @@ extension String {
         let components = self.components(separatedBy: NSCharacterSet.whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
     }
-#if swift(>=3.2)
+
     // Search the string for the existence of any of the terms in the
     // provided array of terms.
     func localizedCaseInsensitiveContainsTerms(_ terms: [Substring]) -> Bool {        
         // Use magic from https://stackoverflow.com/a/41902740/2778502
         return terms.first(where: { !self.localizedLowercase.contains($0) }) == nil
     }
-#endif
 }

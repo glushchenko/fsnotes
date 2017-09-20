@@ -305,4 +305,8 @@ class EditTextView: NSTextView {
         
         return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
+    
+    override func paste(_ sender: Any?) {
+        super.pasteAsPlainText(nil)
+    }
 }
