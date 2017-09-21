@@ -22,10 +22,4 @@ NSWindowDelegate {
         appDelegate.mainWindowController = self
     }
     
-    
-    func activateMainWindow() {
-        self.window?.makeKeyAndOrderFront(self)
-        NSApp.activate(ignoringOtherApps: true)
-    }
-    
 }

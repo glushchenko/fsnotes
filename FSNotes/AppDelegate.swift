@@ -27,13 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        mainWindowController?.activateMainWindow()
-        return true
-    }
-    
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        if (!flag) {
+            mainWindowController?.window?.makeKeyAndOrderFront(self)
+            NSApp.activate(ignoringOtherApps: true)
+        }
         return true
     }
     
 }
-
