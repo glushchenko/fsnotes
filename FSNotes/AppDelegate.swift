@@ -16,6 +16,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSWorkspace.shared().open(URL(string: "https://github.com/glushchenko/fsnotes")!)
     }
     
+    @IBAction func openMainWindow(_ sender: Any) {
+        mainWindowController?.makeNew()
+    }
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
@@ -28,8 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
-            mainWindowController?.window?.makeKeyAndOrderFront(self)
-            NSApp.activate(ignoringOtherApps: true)
+            mainWindowController?.makeNew()
         }
         return true
     }
