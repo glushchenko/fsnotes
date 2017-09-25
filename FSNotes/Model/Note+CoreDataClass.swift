@@ -1,26 +1,25 @@
 //
-//  Note.swift
+//  NoteMO+CoreDataClass.swift
 //  FSNotes
 //
-//  Created by Oleksandr Glushchenko on 7/30/17.
+//  Created by Oleksandr Glushchenko on 9/24/17.
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
+//
 //
 
 import Foundation
-import Cocoa
+import CoreData
 
-class Note: NSObject {
+@objc(Note)
+public class Note: NSManagedObject {
     var id: Int = 0
-    var name: String = ""
     var type: String = "md"
     var content: String = ""
     var date: Date?
     var url: URL!
     var isRemoved: Bool = false
-    var isPinned: Bool = false
+    var attributedContent: NSAttributedString?
         
-    override init(){}
-    
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
         name = url
@@ -32,7 +31,7 @@ class Note: NSObject {
         date = Date.init()
         self.id = id
     }
-
+    
     func load() {
         content = getContent(url: url)
         date = getDate(url: url)
@@ -44,10 +43,10 @@ class Note: NSObject {
         
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-            newUrl.appendPathComponent(
-                escapedName.replacingOccurrences(of: "/", with: ":")
+        newUrl.appendPathComponent(
+            escapedName.replacingOccurrences(of: "/", with: ":")
                 + "." + type
-            )
+        )
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
@@ -67,7 +66,7 @@ class Note: NSObject {
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
             
-            if (isPinned) {
+            if isPinned {
                 removePin()
             }
         }
@@ -97,8 +96,8 @@ class Note: NSObject {
         if (
             UserDefaultsManagement.horizontalOrientation
                 && content.hasPrefix(" – ") == false
-        ) {
-                preview = " – " + preview
+            ) {
+            preview = " – " + preview
         }
         
         return preview.condenseWhitespace()
@@ -170,35 +169,31 @@ class Note: NSObject {
         return fileUrl
     }
     
-    func isRTF() -> Bool {        
+    func isRTF() -> Bool {
         return (url.pathExtension == "rtf")
     }
     
     func addPin() {
-        let urlString = url.absoluteString
-        var pinnedNotes = UserDefaultsManagement.pinnedNotes
-        pinnedNotes.append(urlString)
-        UserDefaultsManagement.pinnedNotes = pinnedNotes
-        Storage.pinned += 1
+        print("pin")
         
+        Storage.pinned += 1
         isPinned = true
+        CoreDataManager.instance.saveContext()
     }
     
     func removePin() {
-        let urlString = url.absoluteString
-        var pinnedNotes = UserDefaultsManagement.pinnedNotes
+        print("unpin")
         
-        if let itemToRemoveIndex = pinnedNotes.index(of: urlString) {
-            pinnedNotes.remove(at: itemToRemoveIndex)
-            UserDefaultsManagement.pinnedNotes = pinnedNotes
+        if isPinned {
+            print("unpin 2")
             Storage.pinned -= 1
+            isPinned = false
+            CoreDataManager.instance.saveContext()
         }
-        
-        isPinned = false
     }
     
     func togglePin() {
-        if (!isPinned) {
+        if !isPinned {
             addPin()
         } else {
             removePin()
@@ -224,7 +219,7 @@ class Note: NSObject {
                         break
                     }
                 }
-
+                
                 if (extractedTitle.characters.count > 0) {
                     list.removeSubrange(Range(0...1))
                     
@@ -241,5 +236,54 @@ class Note: NSObject {
     func getPrettifiedContent() -> String {
         let content = self.content
         return cleanMetaData(content: content)
+    }
+    
+    func extractUrl() {
+        if (url.pathComponents.count > 0) {
+            name = url.deletingPathExtension().pathComponents.last!
+            type = url.pathExtension
+        }
+    }
+    
+    func writeContent() -> Bool {
+        do {
+            try content.write(to: url!, atomically: false, encoding: String.Encoding.utf8)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    func getFileName() -> String {
+        return name + "." + type
+    }
+    
+    func save(textStorage: NSTextStorage? = nil) {
+        // save plain text file content
+        do {
+            if let textStorage = textStorage {
+                let range = NSRange(location: 0, length: textStorage.string.characters.count)
+                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)
+                let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
+                try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            }
+        } catch let error {
+            NSLog(error.localizedDescription)
+        }
+        
+        // save state to core database
+        isSynced = false
+        CoreDataManager.instance.saveContext()
+        
+        if !Storage.instance.noteList.contains(where: { $0.name == name }) {
+            Storage.instance.add(note: self)
+        }
+        
+        // save cloudkit record
+        if cloudKitRecord.count == 0 {
+            CloudKitManager.instance.make(self)
+        } else {
+            CloudKitManager.instance.save(self)
+        }
     }
 }

@@ -53,7 +53,7 @@ class EditTextView: NSTextView {
         return super.performKeyEquivalent(with: event)
     }
     
-    func getSelectedNote() -> Note {
+    func getSelectedNote() -> Note? {
         let mainWindow = NSApplication.shared().windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let note = viewController.notesTableView.getNoteFromSelectedRow()
@@ -66,7 +66,7 @@ class EditTextView: NSTextView {
 
         self.subviews.removeAll()
         
-        if (!getSelectedNote().isRTF()) {
+        if (!(getSelectedNote()?.isRTF())!) {
             if (UserDefaultsManagement.preview) {
                 self.string = ""
                 self.subviews.removeAll()
@@ -101,17 +101,9 @@ class EditTextView: NSTextView {
         do {
             let range = NSRange(location: 0, length: (textStorage?.string.characters.count)!)
             let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
-            
-            if (fileExtension == "rtf") {
-                let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-                
-                try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-            } else {
-                textStorage?.setAttributes(documentAttributes, range: range)
-                
-                try textStorage?.string.write(to: fileUrl!, atomically: false, encoding: String.Encoding.utf8)
-            }
-            
+            let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
+            try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+           
             return true
         } catch let error {
             NSLog(error.localizedDescription)
@@ -149,8 +141,11 @@ class EditTextView: NSTextView {
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
         
-        let currentNote = getSelectedNote()
-        if (currentNote.url == nil || !editArea.isEditable) {
+        guard let currentNote = getSelectedNote() else {
+            return false
+        }
+        
+        if (!editArea.isEditable) {
             return false
         }
 
@@ -264,7 +259,8 @@ class EditTextView: NSTextView {
                 editArea.setSelectedRange(range)
             }
         
-            return editArea.save(note: currentNote)
+            currentNote.save(textStorage: editArea.textStorage!)
+            return true
         }
         
         return false

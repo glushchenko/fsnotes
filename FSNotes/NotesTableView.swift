@@ -70,8 +70,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return noteList[row]
     }
     
-    func getNoteFromSelectedRow() -> Note {
-        var note = Note()
+    func getNoteFromSelectedRow() -> Note? {
+        var note: Note? = nil
         var selected = self.selectedRow
         
         if (selected < 0) {

@@ -8,13 +8,14 @@
 
 import Cocoa
 import MASShortcut
+import CoreData
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate {
     
     var lastSelectedNote: Note?
-    let storage = Storage()
+    let storage = Storage.instance
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -86,6 +87,8 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
+        
+        CloudKitManager.instance.fetchNew()
     }
     
     func refillEditArea() {
@@ -165,7 +168,10 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
-        let note = notesTableView.getNoteFromSelectedRow()
+        guard let note = notesTableView.getNoteFromSelectedRow() else {
+            return
+        }
+        
         sender.isEditable = false
         
         if (!note.rename(newName: sender.stringValue)) {
@@ -212,13 +218,14 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selected]
             let storageId = note.id
             note.content = content
+            note.attributedContent = editArea.attributedString()
             
             storage.noteList[storageId].date = Date()
             storage.noteList[storageId].content = content
             
-            if editArea.save(note: note) {
-                moveAtTop(id: selected)
-            }
+            
+            note.save(textStorage: editArea.textStorage!)
+            moveAtTop(id: selected)
         }
     }
     
@@ -333,23 +340,18 @@ class ViewController: NSViewController,
         disablePreview()
         editArea.string = content
         
-        let note = Note()
+        let note = CoreDataManager.instance.createNote()
         let nextId = storage.getNextId()
         note.make(id: nextId, newName: name)
         note.content = content
+        note.isSynced = false
+        note.save()
         
-        if editArea.save(note: note) {
-            storage.add(note: note)
-            
-            self.updateTable(filter: "")
-            
-            let index = Storage.pinned
-            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            notesTableView.scrollRowToVisible(index)
-            
-            focusEditArea()
-            search.stringValue.removeAll()
-        }
+        updateTable(filter: "")
+        notesTableView.selectRowIndexes([Storage.pinned], byExtendingSelection: false)
+        notesTableView.scrollRowToVisible(Storage.pinned)
+        focusEditArea()
+        search.stringValue.removeAll()
     }
     
     func pin(selectedRow: Int) {

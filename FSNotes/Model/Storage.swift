@@ -9,39 +9,52 @@
 import Foundation
 
 class Storage {
+    static let instance = Storage()
+    
     var noteList = [Note]()
     var i: Int = 0
     static var pinned: Int = 0
     
     func loadFiles() {
         var markdownFiles = readDocuments()
-        let pinnedNotes = UserDefaultsManagement.pinnedNotes
-        
+
         if (markdownFiles.count == 0) {
             copyInitialNote()
             markdownFiles.append("Hello world.md")
         }
         
+        let existNotes = CoreDataManager.instance.fetchNotes()
+        
         for markdownPath in markdownFiles {
             let url = UserDefaultsManagement.storageUrl.appendingPathComponent(markdownPath)
+            let name = url
+                .deletingPathExtension()
+                .pathComponents
+                .last!
+                .replacingOccurrences(of: ":", with: "/")
             
-            let note = Note()
-            if (url.pathComponents.count > 0) {
-                note.name = url
-                    .deletingPathExtension()
-                    .pathComponents
-                    .last!
-                    .replacingOccurrences(of: ":", with: "/")
-                
-                note.type = url.pathExtension
+            if (url.pathComponents.count == 0) {
+                continue
             }
             
+            var note: Note
+            
+            if !existNotes.contains(where: { $0.name == name }) {
+                note = CoreDataManager.instance.createNote()
+                note.name = name
+                note.type = url.pathExtension
+                CoreDataManager.instance.saveContext()
+                print("saved \(note.name)")
+            } else {
+                note = existNotes.first(where: { $0.name == name })!
+            }
+
             note.url = url
+            note.extractUrl()
             note.load()
             note.id = i
             
-            if (pinnedNotes.contains(url.absoluteString)) {
-                note.isPinned = true
+            if note.isPinned {
                 Storage.pinned += 1
             }
             
@@ -105,6 +118,28 @@ class Storage {
             try manager.copyItem(at: initialDoc!, to: destination)
         } catch {
             print("Initial copy error: \(error)")
+        }
+    }
+    
+    func getOrCreateNote(name: String) -> Note {
+        let list = Storage.instance.noteList.filter() {
+            return ($0.name == name)
+        }
+        if list.count > 0 {
+            return list.first!
+        }
+        
+        let note = CoreDataManager.instance.createNote()
+        add(note: note)
+        return note
+    }
+    
+    func getModifiedLatestThen() -> [Note] {
+        return
+            Storage.instance.noteList.filter() {
+                return (
+                    !$0.isSynced
+                )
         }
     }
 

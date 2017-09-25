@@ -105,6 +105,8 @@ public class UserDefaultsManagement {
                 }
             }
 #endif
+            
+            
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 return storagePath as! String
             } else {
@@ -184,20 +186,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
         }
     }
-    
-    static var pinnedNotes: [String] {
-        get {
-            if let pinList = UserDefaults.standard.object(forKey: Constants.PinListKey) {
-                return pinList as! [String]
-            } else {
-                return []
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.PinListKey)
-        }
-    }
-    
+        
     static var preview: Bool {
         get {
             if let preview = UserDefaults.standard.object(forKey: "preview") {
@@ -208,6 +197,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "preview")
+        }
+    }
+    
+    static var lastSync: Date {
+        get {
+            if let sync = UserDefaults.standard.object(forKey: "lastSync") {
+                return sync as! Date
+            } else {
+                return Date(timeIntervalSince1970: 0)
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastSync")
         }
     }
 }
