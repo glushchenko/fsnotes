@@ -25,7 +25,7 @@ class Storage {
             documents.append((helloUrl, helloDate))
         }
         
-        let existNotes = CoreDataManager.instance.fetchNotes()
+        let existNotes = CoreDataManager.instance.fetchAll()
         
         for document in documents {
             let url = document.0
@@ -35,16 +35,13 @@ class Storage {
                 .pathComponents
                 .last!
             
-            print(name)
-            //print(url.deletingPathExtension().pathComponents.last!)
-            
             if (url.pathComponents.count == 0) {
                 continue
             }
             
             var note: Note
             if !existNotes.contains(where: { $0.name == name }) {
-                note = CoreDataManager.instance.createNote()
+                note = CoreDataManager.instance.make()
                 note.isSynced = false
                 
                 print("saved \(note.name)")
@@ -59,7 +56,7 @@ class Storage {
             note.load()
             note.loadModifiedLocalAt()
             note.id = i
-            CoreDataManager.instance.saveContext()
+            CoreDataManager.instance.save()
             
             if note.isPinned {
                 Storage.pinned += 1
@@ -120,7 +117,7 @@ class Storage {
             return list.first!
         }
         
-        let note = CoreDataManager.instance.createNote()
+        let note = CoreDataManager.instance.make()
         add(note: note)
         return note
     }

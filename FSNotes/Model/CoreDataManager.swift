@@ -17,38 +17,38 @@ class CoreDataManager {
         context = appDel.persistentContainer.viewContext
     }
     
-/*
-    func addNote(name: String) {
-        let note = NSEntityDescription.entity(forEntityName: "Note", in: context)
-        let options = NSManagedObject(entity: note!, insertInto: context)
-        options.setValue(name, forKey: "name")
-        do {
-            try context.save()
-        } catch {}
+    func make() -> Note {
+        return Note(context: context)
     }
- */
     
-    func fetchNotes() -> [Note] {
+    func fetchAll() -> [Note] {
         let request = NSFetchRequest<Note>(entityName: "Note")
         var results = [Note]()
         
         do {
             results = try context.fetch(request)
         } catch {
-            print("Not fetched\(error)")
+            print("Not fetched \(error)")
         }
         
         return results
     }
     
-    func createNote() -> Note {
-        return Note(context: context)
-    }
-    
-    func saveContext() {
+    func save() {
         do {
             try context.save()
-        } catch {}
+        } catch {
+            print("Save error \(error)")
+        }
+    }
+    
+    func remove(_ note: Note) {
+        do {
+            context.delete(note)
+            try context.save()
+        } catch {
+            print("Remove error \(error)")
+        }
     }
     
 }

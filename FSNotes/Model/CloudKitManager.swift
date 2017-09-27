@@ -9,6 +9,11 @@
 import Foundation
 import CloudKit
 
+enum CloudKitResult {
+    case success(CKRecord)
+    case failure(String)
+}
+
 class CloudKitManager {
     static let instance = CloudKitManager()
     
@@ -160,7 +165,7 @@ class CloudKitManager {
             
             note.cloudKitRecord = record.data()
             note.isSynced = true
-            CoreDataManager.instance.saveContext()
+            CoreDataManager.instance.save()
             
             print("Successfully saved: \(note.getFileName())")
         }
@@ -193,7 +198,7 @@ class CloudKitManager {
             guard let error = error as? CKError else {
                 note.cloudKitRecord = savedRecords![0].data()
                 note.isSynced = true
-                CoreDataManager.instance.saveContext()
+                CoreDataManager.instance.save()
                 
                 print("Successfully modified: \(note.getFileName())")
                 return
@@ -204,11 +209,43 @@ class CloudKitManager {
         self.database.add(modifyRecords)
     }
     
+    func remove(note: Note) {
+        getRecord(note: note, completion: { result in
+            switch result {
+            case .success(let record):
+                self.database.delete(withRecordID: record.recordID, completionHandler: { record, error in
+                    CoreDataManager.instance.remove(note)
+                    print("Success removed note \(note.name)")
+                })
+            case .failure(let error):
+                print("Remove cloud kit error \(error)")
+            }
+        })
+    }
+ 
     func reloadView() {
         DispatchQueue.main.async() {
             let viewController = NSApplication.shared().windows.first!.contentViewController as! ViewController
             viewController.updateTable(filter: "")
         }
+    }
+    
+    func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
+        if (!note.cloudKitRecord.isEmpty) {
+            let record = CKRecord(archivedData: note.cloudKitRecord)
+            completion(.success(record!))
+            return
+        }
+        
+        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
+        database.fetch(withRecordID: recordID, completionHandler: { record, error in
+            if error != nil {
+                completion(.failure("Fetch error \(error!.localizedDescription)"))
+                return
+            }
+            
+            completion(.success(record!))
+        })
     }
     
 }

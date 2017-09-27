@@ -17,7 +17,6 @@ public class Note: NSManagedObject {
     var content: String = ""
     var date: Date?
     var url: URL!
-    var isRemoved: Bool = false
     var attributedContent: NSAttributedString?
         
     func make(id: Int, newName: String) {
@@ -66,10 +65,9 @@ public class Note: NSManagedObject {
         
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
-            
-            if isPinned {
-                removePin()
-            }
+            removePin()
+            CoreDataManager.instance.save()
+            CloudKitManager.instance.remove(note: self)
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
@@ -179,17 +177,13 @@ public class Note: NSManagedObject {
         
         Storage.pinned += 1
         isPinned = true
-        CoreDataManager.instance.saveContext()
+        CoreDataManager.instance.save()
     }
     
     func removePin() {
-        print("unpin")
-        
         if isPinned {
-            print("unpin 2")
             Storage.pinned -= 1
             isPinned = false
-            CoreDataManager.instance.saveContext()
         }
     }
     
@@ -198,6 +192,7 @@ public class Note: NSManagedObject {
             addPin()
         } else {
             removePin()
+            CoreDataManager.instance.save()
         }
     }
     
@@ -274,7 +269,7 @@ public class Note: NSManagedObject {
         // save state to core database
         loadModifiedLocalAt()
         isSynced = false
-        CoreDataManager.instance.saveContext()
+        CoreDataManager.instance.save()
         
         if !Storage.instance.noteList.contains(where: { $0.name == name }) {
             Storage.instance.add(note: self)

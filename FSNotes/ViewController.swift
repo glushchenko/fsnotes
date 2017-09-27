@@ -341,7 +341,7 @@ class ViewController: NSViewController,
         editArea.string = content
         print(content)
         
-        let note = CoreDataManager.instance.createNote()
+        let note = CoreDataManager.instance.make()
         let nextId = storage.getNextId()
         note.make(id: nextId, newName: name)
         note.content = content
