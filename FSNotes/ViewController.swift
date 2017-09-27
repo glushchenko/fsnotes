@@ -224,7 +224,7 @@ class ViewController: NSViewController,
             storage.noteList[storageId].content = content
             
             
-            note.save(textStorage: editArea.textStorage!)
+            note.save(editArea.textStorage!)
             moveAtTop(id: selected)
         }
     }
@@ -339,13 +339,16 @@ class ViewController: NSViewController,
     func createNote(name: String = "", content: String = "") {
         disablePreview()
         editArea.string = content
+        print(content)
         
         let note = CoreDataManager.instance.createNote()
         let nextId = storage.getNextId()
         note.make(id: nextId, newName: name)
         note.content = content
         note.isSynced = false
-        note.save()
+        
+        let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
+        note.save(textStorage)
         
         updateTable(filter: "")
         notesTableView.selectRowIndexes([Storage.pinned], byExtendingSelection: false)

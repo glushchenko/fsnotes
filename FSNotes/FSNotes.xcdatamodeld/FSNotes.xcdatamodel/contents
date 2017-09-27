@@ -4,9 +4,10 @@
         <attribute name="cloudKitRecord" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="isPinned" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSynced" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="modifiedLocalAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Note" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Note" positionX="-54" positionY="-9" width="128" height="120"/>
     </elements>
 </model>

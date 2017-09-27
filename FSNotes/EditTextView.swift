@@ -259,7 +259,7 @@ class EditTextView: NSTextView {
                 editArea.setSelectedRange(range)
             }
         
-            currentNote.save(textStorage: editArea.textStorage!)
+            currentNote.save(editArea.textStorage!)
             return true
         }
         

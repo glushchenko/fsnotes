@@ -21,5 +21,6 @@ extension Note {
     @NSManaged public var isPinned: Bool
     @NSManaged public var isSynced: Bool
     @NSManaged public var cloudKitRecord: Data
+    @NSManaged public var modifiedLocalAt: Date
 
 }

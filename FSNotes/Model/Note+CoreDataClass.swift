@@ -26,7 +26,6 @@ public class Note: NSManagedObject {
             .deletingPathExtension()
             .pathComponents
             .last!
-            .replacingOccurrences(of: ":", with: "/")
         
         date = Date.init()
         self.id = id
@@ -37,16 +36,18 @@ public class Note: NSManagedObject {
         date = getDate(url: url)
     }
     
+    func loadModifiedLocalAt() {
+        modifiedLocalAt = getDate(url: url)!
+    }
+    
     func rename(newName: String) -> Bool {
         let escapedName = newName
             .replacingOccurrences(of: ":", with: "-")
-        
+            .replacingOccurrences(of: "/", with: ":")
+    
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-        newUrl.appendPathComponent(
-            escapedName.replacingOccurrences(of: "/", with: ":")
-                + "." + type
-        )
+        newUrl.appendPathComponent(escapedName + "." + type)
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
@@ -127,18 +128,18 @@ public class Note: NSManagedObject {
         return content
     }
     
-    func getDate(url: URL) -> Date {
-        var modificationDate: Date?
+    func getDate(url: URL) -> Date? {
+        var modifiedLocalAt: Date?
         
         do {
             let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
             
-            modificationDate = fileAttribute[FileAttributeKey.modificationDate] as? Date
+            modifiedLocalAt = fileAttribute[FileAttributeKey.modificationDate] as? Date
         } catch {
             print(error.localizedDescription)
         }
         
-        return modificationDate!
+        return modifiedLocalAt
     }
     
     func getUniqueFileName(name: String, i: Int = 0) -> URL {
@@ -258,20 +259,20 @@ public class Note: NSManagedObject {
         return name + "." + type
     }
     
-    func save(textStorage: NSTextStorage? = nil) {
+    func save(_ textStorage: NSTextStorage = NSTextStorage()) {
+        
         // save plain text file content
         do {
-            if let textStorage = textStorage {
-                let range = NSRange(location: 0, length: textStorage.string.characters.count)
-                let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)
-                let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
-                try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-            }
+            let range = NSRange(location: 0, length: textStorage.string.characters.count)
+            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)
+            let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
+            try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {
             NSLog(error.localizedDescription)
         }
         
         // save state to core database
+        loadModifiedLocalAt()
         isSynced = false
         CoreDataManager.instance.saveContext()
         
@@ -281,9 +282,28 @@ public class Note: NSManagedObject {
         
         // save cloudkit record
         if cloudKitRecord.count == 0 {
-            CloudKitManager.instance.make(self)
+            CloudKitManager.instance.createNote(self)
         } else {
-            CloudKitManager.instance.save(self)
+            CloudKitManager.instance.modifyNote(self)
+        }
+    }
+        
+    func checkLocalSyncState(_ currentDate: Date) {
+        if currentDate != modifiedLocalAt {
+            isSynced = false
+        }
+    }
+    
+    var formattedName: String {
+        set {
+            name = newValue.replacingOccurrences(of: "/", with: ":")
+        }
+        get {
+            return url
+                .deletingPathExtension()
+                .pathComponents
+                .last!
+                .replacingOccurrences(of: ":", with: "/")
         }
     }
 }

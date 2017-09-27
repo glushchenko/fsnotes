@@ -55,7 +55,7 @@ class CloudKitManager {
                 
                 recordNameList.append(name)
                 
-                let note = storage.getOrCreateNote(name: name)
+                let note = Storage.instance.getOrCreate(name: name)
                 note.content = content
                 note.date = record["modifiedAt"] as? Date
                 note.cloudKitRecord = record.data()
@@ -68,18 +68,16 @@ class CloudKitManager {
             } catch {}
         }
         
-        print(recordNameList)
-        
         pushLocalChanges(exceptList: recordNameList)
     }
     
     func pushLocalChanges(exceptList: [String] = []) {
-        let hostNotes = storage.getModifiedLatestThen()
+        let hostNotes = Storage.instance.getModifiedLatestThen()
         
         print("Local modified records found: \(hostNotes.count)")
         
         if hostNotes.count > 0 {
-            getAndSaveRecord(note: hostNotes.first!)
+            pushNote(note: hostNotes.first!)
         } else {
             UserDefaultsManagement.lastSync = Date.init()
         }
@@ -116,10 +114,10 @@ class CloudKitManager {
         database.add(operation)
     }
     
-    func getAndSaveRecord(note: Note) {
+    func pushNote(note: Note) {
         guard note.cloudKitRecord.count == 0 else {
             Swift.print("get and save")
-            self.save(note)
+            self.modifyNote(note)
             return
         }
         
@@ -128,7 +126,7 @@ class CloudKitManager {
             if error != nil {
                 let error = error as! CKError
                 if error.errorCode == CKError.Code.unknownItem.rawValue {
-                    self.make(note)
+                    self.createNote(note)
                     return
                 }
             }
@@ -138,11 +136,11 @@ class CloudKitManager {
             }
             
             note.cloudKitRecord = record.data()
-            self.save(note)
+            self.modifyNote(note)
         })
     }
     
-    func make(_ note: Note) {
+    func createNote(_ note: Note) {
         let file = CKAsset(fileURL: note.url)
         let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
         let record = CKRecord(recordType: "Note", recordID: recordID)
@@ -168,7 +166,7 @@ class CloudKitManager {
         }
     }
     
-    func save(_ note: Note) {
+    func modifyNote(_ note: Note) {
         if isActiveModifyOperation {
             return
         }
@@ -184,8 +182,6 @@ class CloudKitManager {
         
         record["file"] = file
         record["modifiedAt"] = note.date! as CKRecordValue
-        
-       // print("Date save: \(note.date)")
         
         let modifyRecords = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: [])
         modifyRecords.savePolicy = CKRecordSavePolicy.allKeys
