@@ -18,27 +18,27 @@ class CloudKitManager {
     static let instance = CloudKitManager()
     
     let identifier = "iCloud.co.fluder.fsnotes-dev"
+    let zone = "NotesZone"
+    
     var container: CKContainer
-    var modifiedRecords: [CKRecord]
+    var modifiedRecords: [CKRecord] = []
     var database: CKDatabase
     var recordZone: CKRecordZone?
     var storage = Storage.instance
     var queryCompletionBlock: (CKQueryCursor?, Error?) -> Void = { (_,_) in }
     let modifyQueueList = [String: Note]()
-    var isActiveModifyOperation: Bool = false
+    var hasActivePushConnection: Bool = false
     
     init() {
         container = CKContainer.init(identifier: identifier)
         database = container.privateCloudDatabase
-        recordZone = CKRecordZone(zoneName: "NotesZone")
+        recordZone = CKRecordZone(zoneName: zone)
         
         database.save(recordZone!, completionHandler: {(recordzone, error) in
             if (error != nil) {
                 print("Zone creation error")
             }
         })
-        
-        modifiedRecords = []
     }
     
     func getZone() -> CKRecordZoneID {
@@ -46,46 +46,53 @@ class CloudKitManager {
     }
     
     func sync() {
-        print("Remote modified records found: \(modifiedRecords.count)")
-        
+        push()
+        pull()
+    }
+    
+    func pull() {
         var recordNameList: [String] = []
         for record in modifiedRecords {
             do {
                 let file = record.object(forKey: "file") as! CKAsset
                 let recordName = record.recordID.recordName
                 let fileName = recordName as NSString
-                //let type = fileName.pathExtension
                 let name = fileName.deletingPathExtension
                 let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
                 
                 recordNameList.append(name)
                 
                 let note = Storage.instance.getOrCreate(name: name)
+                if (note.modifiedLocalAt == record["modifiedAt"] as! Date) {
+                    continue
+                }
+                
                 note.content = content
-                note.date = record["modifiedAt"] as? Date
                 note.cloudKitRecord = record.data()
                 note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName as String)
                 note.extractUrl()
                 
                 if (note.writeContent()) {
+                    note.loadModifiedLocalAt()
                     reloadView()
                 }
+                
+                print("Note downloaded: \(note.name)")
             } catch {}
         }
         
-        pushLocalChanges(exceptList: recordNameList)
+        UserDefaultsManagement.lastSync = Date.init()
     }
     
-    func pushLocalChanges(exceptList: [String] = []) {
-        let hostNotes = Storage.instance.getModifiedLatestThen()
-        
-        print("Local modified records found: \(hostNotes.count)")
-        
-        if hostNotes.count > 0 {
-            pushNote(note: hostNotes.first!)
-        } else {
-            UserDefaultsManagement.lastSync = Date.init()
+    func push() {
+        guard let note = Storage.instance.getModified() else {
+            return
         }
+        
+        getRecord(note: note, completion: { result in
+            print("Local modified record found: \(note.getFileName())")
+            self.saveNote(note)
+        })
     }
     
     func fetchNew(_ inputCursor: CKQueryCursor? = nil) {
@@ -119,97 +126,49 @@ class CloudKitManager {
         database.add(operation)
     }
     
-    func pushNote(note: Note) {
-        guard note.cloudKitRecord.count == 0 else {
-            Swift.print("get and save")
-            self.modifyNote(note)
-            return
+    func saveNote(_ note: Note) {
+        var record: CKRecord
+        
+        if (note.cloudKitRecord.isEmpty) {
+            record = createRecord(note)
+        } else {
+            record = CKRecord(archivedData: note.cloudKitRecord)!
+            record = fillRecord(note: note, record: record)
         }
         
-        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
-        database.fetch(withRecordID: recordID, completionHandler: { record, error in
-            if error != nil {
-                let error = error as! CKError
-                if error.errorCode == CKError.Code.unknownItem.rawValue {
-                    self.createNote(note)
+        saveRecord(note: note, sRecord: record)
+    }
+    
+    func saveRecord(note: Note, sRecord: CKRecord) {
+        if !hasActivePushConnection {
+            hasActivePushConnection = true
+            
+            database.save(sRecord) { (record, error) in
+                self.hasActivePushConnection = false
+                
+                guard error == nil else {
+                    NSLog("Save error \(error.debugDescription)")
                     return
                 }
-            }
-            
-            guard let record = record else {
-                return
-            }
-            
-            note.cloudKitRecord = record.data()
-            self.modifyNote(note)
-        })
-    }
-    
-    func createNote(_ note: Note) {
-        let file = CKAsset(fileURL: note.url)
-        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
-        let record = CKRecord(recordType: "Note", recordID: recordID)
-        record["file"] = file
-        record["modifiedAt"] = note.date! as CKRecordValue
-        
-        database.save(record) {
-            (record, error) in
-            if error != nil {
-                print("Save error \(error.debugDescription)")
-                return
-            }
-            
-            guard let record = record else {
-                return
-            }
-            
-            note.cloudKitRecord = record.data()
-            note.isSynced = true
-            CoreDataManager.instance.save()
-            
-            print("Successfully saved: \(note.getFileName())")
-        }
-    }
-    
-    func modifyNote(_ note: Note) {
-        if isActiveModifyOperation {
-            return
-        }
-        
-        isActiveModifyOperation = true
-        
-        if note.cloudKitRecord.count == 0 {
-            return
-        }
-        
-        let record = CKRecord(archivedData: note.cloudKitRecord)!
-        let file = CKAsset(fileURL: note.url)
-        
-        record["file"] = file
-        record["modifiedAt"] = note.date! as CKRecordValue
-        
-        let modifyRecords = CKModifyRecordsOperation(recordsToSave: [record], recordIDsToDelete: [])
-        modifyRecords.savePolicy = CKRecordSavePolicy.allKeys
-        modifyRecords.qualityOfService = QualityOfService.userInitiated
-        modifyRecords.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
-            self.isActiveModifyOperation = false
-            self.pushLocalChanges()
-            
-            guard let error = error as? CKError else {
-                note.cloudKitRecord = savedRecords![0].data()
-                note.isSynced = true
-                CoreDataManager.instance.save()
                 
-                print("Successfully modified: \(note.getFileName())")
-                return
+                guard let record = record else {
+                    NSLog("Record not found")
+                    return
+                }
+                
+                note.cloudKitRecord = record.data()
+                if (note.modifiedLocalAt == record["modifiedAt"] as! Date) {
+                    note.isSynced = true
+                }
+                
+                CoreDataManager.instance.save()
+                print("Successfully saved: \(note.getFileName())")
+                self.push()
             }
-            print("Error: \(error.localizedDescription), note: \(note.getFileName())")
         }
-        
-        self.database.add(modifyRecords)
     }
     
-    func remove(note: Note) {
+    func removeRecord(note: Note) {
         getRecord(note: note, completion: { result in
             switch result {
             case .success(let record):
@@ -223,13 +182,6 @@ class CloudKitManager {
         })
     }
  
-    func reloadView() {
-        DispatchQueue.main.async() {
-            let viewController = NSApplication.shared().windows.first!.contentViewController as! ViewController
-            viewController.updateTable(filter: "")
-        }
-    }
-    
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
         if (!note.cloudKitRecord.isEmpty) {
             let record = CKRecord(archivedData: note.cloudKitRecord)
@@ -248,4 +200,54 @@ class CloudKitManager {
         })
     }
     
+    func createRecord(_ note: Note) -> CKRecord {
+        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
+        let record = CKRecord(recordType: "Note", recordID: recordID)
+        return fillRecord(note: note, record: record)
+    }
+    
+    func fillRecord(note: Note, record: CKRecord) -> CKRecord{
+        record["file"] = CKAsset(fileURL: note.url)
+        record["modifiedAt"] = note.modifiedLocalAt as! CKRecordValue
+        return record
+    }
+    
+    func reloadView() {
+        DispatchQueue.main.async() {
+            let viewController = NSApplication.shared().windows.first!.contentViewController as! ViewController
+            viewController.updateTable(filter: "")
+        }
+    }
+    
+    func fetchChanges(completion: @escaping ([CKRecord], [CKRecordID], CKServerChangeToken?) -> Void) {
+        let zonedId = getZone()
+        let options = CKFetchRecordZoneChangesOptions()
+        options.previousServerChangeToken = UserDefaults.standard.serverChangeToken
+    
+        let operation = CKFetchRecordZoneChangesOperation(recordZoneIDs: [zonedId], optionsByRecordZoneID: [zonedId: options])
+        
+        var changedRecords: [CKRecord] = []
+        operation.recordChangedBlock = { (record: CKRecord) in
+            changedRecords.append(record)
+        }
+        
+        var deletedRecordIDs: [CKRecordID] = []
+        operation.recordWithIDWasDeletedBlock = { (recordID: CKRecordID, identifier: String) in
+            deletedRecordIDs.append(recordID)
+        }
+        
+        var serverChangesToken: CKServerChangeToken?
+        operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, _: Error?) in
+            if (token != UserDefaults.standard.serverChangeToken) {
+                print("Record zone has changes!")
+                serverChangesToken = token
+            }
+        }
+        
+        operation.fetchRecordZoneChangesCompletionBlock = { (error: Error?) in
+            completion(changedRecords, deletedRecordIDs, serverChangesToken)
+        }
+        
+        database.add(operation)
+    }
 }

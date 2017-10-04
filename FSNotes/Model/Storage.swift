@@ -15,7 +15,7 @@ class Storage {
     var i: Int = 0
     static var pinned: Int = 0
     
-    func loadFiles() {
+    func loadDocuments() {
         var documents = readDirectory()
         
         if (documents.isEmpty) {
@@ -30,10 +30,7 @@ class Storage {
         for document in documents {
             let url = document.0
             let date = document.1
-            let name = url
-                .deletingPathExtension()
-                .pathComponents
-                .last!
+            let name = url.deletingPathExtension().pathComponents.last!
             
             if (url.pathComponents.count == 0) {
                 continue
@@ -43,25 +40,19 @@ class Storage {
             if !existNotes.contains(where: { $0.name == name }) {
                 note = CoreDataManager.instance.make()
                 note.isSynced = false
-                
-                print("saved \(note.name)")
             } else {
                 note = existNotes.first(where: { $0.name == name })!
                 note.checkLocalSyncState(date)
             }
 
-            note.modifiedLocalAt = date
-            note.url = url
-            note.extractUrl()
-            note.load()
-            note.loadModifiedLocalAt()
-            note.id = i
+            note.load(url)
             CoreDataManager.instance.save()
             
             if note.isPinned {
                 Storage.pinned += 1
             }
             
+            note.id = i
             i += 1
             
             noteList.append(note)
@@ -122,13 +113,13 @@ class Storage {
         return note
     }
     
-    func getModifiedLatestThen() -> [Note] {
+    func getModified() -> Note? {
         return
-            noteList.filter() {
+            noteList.first(where: {
                 return (
                     !$0.isSynced
                 )
-        }
+            })
     }
 
 }

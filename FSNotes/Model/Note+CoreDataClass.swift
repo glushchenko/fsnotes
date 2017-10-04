@@ -15,28 +15,27 @@ public class Note: NSManagedObject {
     var id: Int = 0
     var type: String = "md"
     var content: String = ""
-    var date: Date?
     var url: URL!
-    var attributedContent: NSAttributedString?
         
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
-        name = url
-            .deletingPathExtension()
-            .pathComponents
-            .last!
-        
-        date = Date.init()
+        name = url.deletingPathExtension().pathComponents.last!
         self.id = id
     }
     
-    func load() {
+    func load(_ newUrl: URL) {
+        url = newUrl
         content = getContent(url: url)
-        date = getDate(url: url)
+        extractUrl()
+        loadModifiedLocalAt()
     }
     
     func loadModifiedLocalAt() {
-        modifiedLocalAt = getDate(url: url)!
+        do {
+            modifiedLocalAt = (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
+        } catch {
+            NSLog("Note modification date load error: \(error.localizedDescription)")
+        }
     }
     
     func rename(newName: String) -> Bool {
@@ -65,9 +64,13 @@ public class Note: NSManagedObject {
         
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
-            removePin()
-            CoreDataManager.instance.save()
-            CloudKitManager.instance.remove(note: self)
+            
+            // -- CloudKit --
+            //removePin()
+            //CoreDataManager.instance.save()
+            //CloudKitManager.instance.removeRecord(note: self)
+
+            CoreDataManager.instance.remove(self)
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
@@ -108,7 +111,7 @@ public class Note: NSManagedObject {
         dateFormatter.timeStyle = DateFormatter.Style.none
         dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
         
-        return dateFormatter.string(from: self.date!)
+        return dateFormatter.string(from: self.modifiedLocalAt)
     }
     
     func getContent(url: URL) -> String {
@@ -173,8 +176,6 @@ public class Note: NSManagedObject {
     }
     
     func addPin() {
-        print("pin")
-        
         Storage.pinned += 1
         isPinned = true
         CoreDataManager.instance.save()
@@ -275,15 +276,11 @@ public class Note: NSManagedObject {
             Storage.instance.add(note: self)
         }
         
-        // save cloudkit record
-        if cloudKitRecord.count == 0 {
-            CloudKitManager.instance.createNote(self)
-        } else {
-            CloudKitManager.instance.modifyNote(self)
-        }
+        // -- CloudKit --
+        //CloudKitManager.instance.saveNote(self)
     }
         
-    func checkLocalSyncState(_ currentDate: Date) {
+    func checkLocalSyncState(_ currentDate: Date) {        
         if currentDate != modifiedLocalAt {
             isSynced = false
         }
@@ -301,4 +298,5 @@ public class Note: NSManagedObject {
                 .replacingOccurrences(of: ":", with: "/")
         }
     }
+    
 }

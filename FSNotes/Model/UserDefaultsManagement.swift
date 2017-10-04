@@ -97,15 +97,15 @@ public class UserDefaultsManagement {
         get {
 #if DEBUG
             var isDirectory: ObjCBool = true
-            let debugFodler = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
-    
-            if FileManager.default.fileExists(atPath: debugFodler, isDirectory: &isDirectory) {
+            let debugFolder = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
+
+            if FileManager.default.fileExists(atPath: debugFolder, isDirectory: &isDirectory) {
                 if isDirectory.boolValue {
-                    return debugFodler
+                    print(debugFolder)
+                    return debugFolder
                 }
             }
 #endif
-            
             
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 return storagePath as! String
