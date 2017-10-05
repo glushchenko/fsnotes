@@ -21,6 +21,14 @@ class PrefsViewController: NSViewController {
     
     let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
     
+    @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
+        // We don't need to set the user defaults value here as the checkbox is
+        // bound to it. We do need to update each window's hideOnDeactivate.
+        for window in NSApplication.shared().windows {
+            window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
+        }
+    }
+    
     @IBAction func changePreview(_ sender: Any) {
         if (sender as AnyObject).state == NSOffState {
             UserDefaultsManagement.hidePreview = false

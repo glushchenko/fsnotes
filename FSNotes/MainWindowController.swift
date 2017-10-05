@@ -20,6 +20,7 @@ NSWindowDelegate {
     override func windowDidLoad() {
         let appDelegate = NSApplication.shared().delegate as! AppDelegate
         appDelegate.mainWindowController = self
+        self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
     }
     
     func makeNew() {
