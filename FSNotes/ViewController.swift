@@ -8,13 +8,14 @@
 
 import Cocoa
 import MASShortcut
+import CoreData
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate {
     
     var lastSelectedNote: Note?
-    let storage = Storage()
+    let storage = Storage.instance
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -27,7 +28,7 @@ class ViewController: NSViewController,
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
-                
+        
         // autosave size and position
         self.view.window?.setFrameAutosaveName("MainWindow")
         splitView.autosaveName = "SplitView"
@@ -61,7 +62,7 @@ class ViewController: NSViewController,
         search.delegate = self
         
         if storage.noteList.count == 0 {
-            storage.loadFiles()
+            storage.loadDocuments()
             updateTable(filter: "")
         }
         
@@ -165,7 +166,10 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
-        let note = notesTableView.getNoteFromSelectedRow()
+        guard let note = notesTableView.getNoteFromSelectedRow() else {
+            return
+        }
+        
         sender.isEditable = false
         
         if (!note.rename(newName: sender.stringValue)) {
@@ -210,15 +214,9 @@ class ViewController: NSViewController,
         ) {
             let content = editArea.string!
             let note = notesTableView.noteList[selected]
-            let storageId = note.id
             note.content = content
-            
-            storage.noteList[storageId].date = Date()
-            storage.noteList[storageId].content = content
-            
-            if editArea.save(note: note) {
-                moveAtTop(id: selected)
-            }
+            note.save(editArea.textStorage!)
+            moveAtTop(id: selected)
         }
     }
     
@@ -242,7 +240,8 @@ class ViewController: NSViewController,
             storage.noteList.filter() {
                 let searchContent = "\($0.name) \($0.content)"
                 return (
-                    $0.isRemoved == false
+                    !$0.name.isEmpty
+                    && $0.isRemoved == false
                     && (
                         filter.isEmpty
                         || (
@@ -253,7 +252,7 @@ class ViewController: NSViewController,
             }
             .sorted(by: {
                 if $0.isPinned == $1.isPinned {
-                    return $0.date! > $1.date!
+                    return $0.modifiedLocalAt > $1.modifiedLocalAt
                 }
                 return $0.isPinned && !$1.isPinned
             })
@@ -333,23 +332,20 @@ class ViewController: NSViewController,
         disablePreview()
         editArea.string = content
         
-        let note = Note()
+        let note = CoreDataManager.instance.make()
         let nextId = storage.getNextId()
         note.make(id: nextId, newName: name)
         note.content = content
+        note.isSynced = false
         
-        if editArea.save(note: note) {
-            storage.add(note: note)
-            
-            self.updateTable(filter: "")
-            
-            let index = Storage.pinned
-            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            notesTableView.scrollRowToVisible(index)
-            
-            focusEditArea()
-            search.stringValue.removeAll()
-        }
+        let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
+        note.save(textStorage)
+        
+        updateTable(filter: "")
+        notesTableView.selectRowIndexes([Storage.pinned], byExtendingSelection: false)
+        notesTableView.scrollRowToVisible(Storage.pinned)
+        focusEditArea()
+        search.stringValue.removeAll()
     }
     
     func pin(selectedRow: Int) {

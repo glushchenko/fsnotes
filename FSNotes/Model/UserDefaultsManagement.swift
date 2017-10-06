@@ -97,13 +97,13 @@ public class UserDefaultsManagement {
     
     static var storagePath: String {
         get {
-#if DEBUG
+#if USEDEBUGFOLDER
             var isDirectory: ObjCBool = true
-            let debugFodler = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
-    
-            if FileManager.default.fileExists(atPath: debugFodler, isDirectory: &isDirectory) {
+            let debugFolder = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
+
+            if FileManager.default.fileExists(atPath: debugFolder, isDirectory: &isDirectory) {
                 if isDirectory.boolValue {
-                    return debugFodler
+                    return debugFolder
                 }
             }
 #endif
@@ -186,20 +186,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
         }
     }
-    
-    static var pinnedNotes: [String] {
-        get {
-            if let pinList = UserDefaults.standard.object(forKey: Constants.PinListKey) {
-                return pinList as! [String]
-            } else {
-                return []
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.PinListKey)
-        }
-    }
-    
+        
     static var preview: Bool {
         get {
             if let preview = UserDefaults.standard.object(forKey: Constants.Preview) {
@@ -210,6 +197,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.Preview)
+        }
+    }
+    
+    static var lastSync: Date {
+        get {
+            if let sync = UserDefaults.standard.object(forKey: "lastSync") {
+                return sync as! Date
+            } else {
+                return Date(timeIntervalSince1970: 0)
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastSync")
         }
     }
     

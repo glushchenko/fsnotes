@@ -23,7 +23,8 @@ class DocumentAttributes {
         } else {
             options = [
                 NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType,
-                NSFontAttributeName: font!
+                NSFontAttributeName: font!,
+                NSCharacterEncodingDocumentAttribute : NSNumber(value: String.Encoding.utf8.rawValue)
             ]
         }
         

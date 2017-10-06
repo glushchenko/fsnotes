@@ -1,53 +1,51 @@
 //
-//  Note.swift
+//  NoteMO+CoreDataClass.swift
 //  FSNotes
 //
-//  Created by Oleksandr Glushchenko on 7/30/17.
+//  Created by Oleksandr Glushchenko on 9/24/17.
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
+//
 //
 
 import Foundation
-import Cocoa
+import CoreData
 
-class Note: NSObject {
+@objc(Note)
+public class Note: NSManagedObject {
     var id: Int = 0
-    var name: String = ""
     var type: String = "md"
     var content: String = ""
-    var date: Date?
     var url: URL!
-    var isRemoved: Bool = false
-    var isPinned: Bool = false
         
-    override init(){}
-    
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
-        name = url
-            .deletingPathExtension()
-            .pathComponents
-            .last!
-            .replacingOccurrences(of: ":", with: "/")
-        
-        date = Date.init()
+        name = url.deletingPathExtension().pathComponents.last!
         self.id = id
     }
-
-    func load() {
+    
+    func load(_ newUrl: URL) {
+        url = newUrl
         content = getContent(url: url)
-        date = getDate(url: url)
+        extractUrl()
+        loadModifiedLocalAt()
+    }
+    
+    func loadModifiedLocalAt() {
+        do {
+            modifiedLocalAt = (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
+        } catch {
+            NSLog("Note modification date load error: \(error.localizedDescription)")
+        }
     }
     
     func rename(newName: String) -> Bool {
         let escapedName = newName
             .replacingOccurrences(of: ":", with: "-")
-        
+            .replacingOccurrences(of: "/", with: ":")
+    
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-            newUrl.appendPathComponent(
-                escapedName.replacingOccurrences(of: "/", with: ":")
-                + "." + type
-            )
+        newUrl.appendPathComponent(escapedName + "." + type)
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
@@ -61,15 +59,18 @@ class Note: NSObject {
     }
     
     func remove() {
-        isRemoved = true
         let fileManager = FileManager.default
         
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
             
-            if (isPinned) {
-                removePin()
-            }
+        #if CLOUDKIT
+            isRemoved = true
+            CoreDataManager.instance.save()
+            CloudKitManager.instance.removeRecord(note: self)
+        #else
+            CoreDataManager.instance.remove(self)
+        #endif
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
@@ -97,8 +98,8 @@ class Note: NSObject {
         if (
             UserDefaultsManagement.horizontalOrientation
                 && content.hasPrefix(" – ") == false
-        ) {
-                preview = " – " + preview
+            ) {
+            preview = " – " + preview
         }
         
         return preview.condenseWhitespace()
@@ -110,7 +111,7 @@ class Note: NSObject {
         dateFormatter.timeStyle = DateFormatter.Style.none
         dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
         
-        return dateFormatter.string(from: self.date!)
+        return dateFormatter.string(from: self.modifiedLocalAt)
     }
     
     func getContent(url: URL) -> String {
@@ -128,18 +129,18 @@ class Note: NSObject {
         return content
     }
     
-    func getDate(url: URL) -> Date {
-        var modificationDate: Date?
+    func getDate(url: URL) -> Date? {
+        var modifiedLocalAt: Date?
         
         do {
             let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
             
-            modificationDate = fileAttribute[FileAttributeKey.modificationDate] as? Date
+            modifiedLocalAt = fileAttribute[FileAttributeKey.modificationDate] as? Date
         } catch {
             print(error.localizedDescription)
         }
         
-        return modificationDate!
+        return modifiedLocalAt
     }
     
     func getUniqueFileName(name: String, i: Int = 0) -> URL {
@@ -170,38 +171,29 @@ class Note: NSObject {
         return fileUrl
     }
     
-    func isRTF() -> Bool {        
+    func isRTF() -> Bool {
         return (url.pathExtension == "rtf")
     }
     
     func addPin() {
-        let urlString = url.absoluteString
-        var pinnedNotes = UserDefaultsManagement.pinnedNotes
-        pinnedNotes.append(urlString)
-        UserDefaultsManagement.pinnedNotes = pinnedNotes
         Storage.pinned += 1
-        
         isPinned = true
+        CoreDataManager.instance.save()
     }
     
     func removePin() {
-        let urlString = url.absoluteString
-        var pinnedNotes = UserDefaultsManagement.pinnedNotes
-        
-        if let itemToRemoveIndex = pinnedNotes.index(of: urlString) {
-            pinnedNotes.remove(at: itemToRemoveIndex)
-            UserDefaultsManagement.pinnedNotes = pinnedNotes
+        if isPinned {
             Storage.pinned -= 1
+            isPinned = false
         }
-        
-        isPinned = false
     }
     
     func togglePin() {
-        if (!isPinned) {
+        if !isPinned {
             addPin()
         } else {
             removePin()
+            CoreDataManager.instance.save()
         }
     }
     
@@ -224,7 +216,7 @@ class Note: NSObject {
                         break
                     }
                 }
-
+                
                 if (extractedTitle.characters.count > 0) {
                     list.removeSubrange(Range(0...1))
                     
@@ -242,4 +234,72 @@ class Note: NSObject {
         let content = self.content
         return cleanMetaData(content: content)
     }
+    
+    func extractUrl() {
+        if (url.pathComponents.count > 0) {
+            name = url.deletingPathExtension().pathComponents.last!
+            type = url.pathExtension
+        }
+    }
+    
+    func writeContent() -> Bool {
+        do {
+            try content.write(to: url!, atomically: false, encoding: String.Encoding.utf8)
+            return true
+        } catch {
+            return false
+        }
+    }
+    
+    func getFileName() -> String {
+        return name + "." + type
+    }
+    
+    func save(_ textStorage: NSTextStorage = NSTextStorage()) {
+        
+        // save plain text file content
+        do {
+            let range = NSRange(location: 0, length: textStorage.string.characters.count)
+            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)
+            let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
+            try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+        } catch let error {
+            NSLog(error.localizedDescription)
+        }
+        
+        if !Storage.instance.noteList.contains(where: { $0.name == name }) {
+            Storage.instance.add(note: self)
+        }
+        
+        loadModifiedLocalAt()
+        
+        #if CLOUDKIT
+            // save state to core database
+            isSynced = false
+            CoreDataManager.instance.save()
+            
+            // save cloudkit
+            CloudKitManager.instance.saveNote(self)
+        #endif
+    }
+        
+    func checkLocalSyncState(_ currentDate: Date) {        
+        if currentDate != modifiedLocalAt {
+            isSynced = false
+        }
+    }
+    
+    var formattedName: String {
+        set {
+            name = newValue.replacingOccurrences(of: "/", with: ":")
+        }
+        get {
+            return url
+                .deletingPathExtension()
+                .pathComponents
+                .last!
+                .replacingOccurrences(of: ":", with: "/")
+        }
+    }
+    
 }

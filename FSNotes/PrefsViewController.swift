@@ -188,7 +188,6 @@ class PrefsViewController: NSViewController {
             if ((self.searchNotesShortcut.shortcutValue) != nil) {
                 let keyCode = self.searchNotesShortcut.shortcutValue.keyCode
                 let modifierFlags = self.searchNotesShortcut.shortcutValue.modifierFlags
-                                print(keyCode)
                 
                 UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
                 

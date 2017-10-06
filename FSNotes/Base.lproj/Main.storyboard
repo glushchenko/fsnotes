@@ -807,7 +807,7 @@
                                                                                         <color key="textColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         <connections>
-                                                                                            <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.name" id="7iK-bY-gWu"/>
+                                                                                            <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.formattedName" id="WSn-y3-Hby"/>
                                                                                         </connections>
                                                                                     </textFieldCell>
                                                                                     <connections>
