@@ -337,6 +337,7 @@ class ViewController: NSViewController,
         note.make(id: nextId, newName: name)
         note.content = content
         note.isSynced = false
+        note.type = UserDefaultsManagement.storageExtension
         
         let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
         note.save(textStorage)

@@ -130,7 +130,7 @@ class EditTextView: NSTextView {
         do {
             attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
         } catch {
-            NSLog("No text content found!")
+            attributedString = NSAttributedString(string: "", attributes: options)
         }
         
         return attributedString
