@@ -26,6 +26,8 @@ public class UserDefaultsManagement {
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
         static let PinListKey = "pinList"
+        static let Preview = "preview"
+        static let HideOnDeactivate = "hideOnDeactivate"
     }
         
     static var fontName: String {
@@ -200,14 +202,27 @@ public class UserDefaultsManagement {
     
     static var preview: Bool {
         get {
-            if let preview = UserDefaults.standard.object(forKey: "preview") {
+            if let preview = UserDefaults.standard.object(forKey: Constants.Preview) {
                 return preview as! Bool
             } else {
                 return true
             }
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "preview")
+            UserDefaults.standard.set(newValue, forKey: Constants.Preview)
+        }
+    }
+    
+    static var hideOnDeactivate: Bool {
+        get {
+            if let hideOnDeactivate = UserDefaults.standard.object(forKey: Constants.HideOnDeactivate) {
+                return hideOnDeactivate as! Bool
+            } else {
+                return true
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HideOnDeactivate)
         }
     }
 }
