@@ -59,18 +59,18 @@ public class Note: NSManagedObject {
     }
     
     func remove() {
-        isRemoved = true
         let fileManager = FileManager.default
         
         do {
             try fileManager.trashItem(at: self.url, resultingItemURL: nil)
             
-            // -- CloudKit --
-            //removePin()
-            //CoreDataManager.instance.save()
-            //CloudKitManager.instance.removeRecord(note: self)
-
+        #if CLOUDKIT
+            isRemoved = true
+            CoreDataManager.instance.save()
+            CloudKitManager.instance.removeRecord(note: self)
+        #else
             CoreDataManager.instance.remove(self)
+        #endif
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
@@ -267,17 +267,20 @@ public class Note: NSManagedObject {
             NSLog(error.localizedDescription)
         }
         
-        // save state to core database
-        loadModifiedLocalAt()
-        isSynced = false
-        CoreDataManager.instance.save()
-        
         if !Storage.instance.noteList.contains(where: { $0.name == name }) {
             Storage.instance.add(note: self)
         }
         
-        // -- CloudKit --
-        //CloudKitManager.instance.saveNote(self)
+        loadModifiedLocalAt()
+        
+        #if CLOUDKIT
+            // save state to core database
+            isSynced = false
+            CoreDataManager.instance.save()
+            
+            // save cloudkit
+            CloudKitManager.instance.saveNote(self)
+        #endif
     }
         
     func checkLocalSyncState(_ currentDate: Date) {        
