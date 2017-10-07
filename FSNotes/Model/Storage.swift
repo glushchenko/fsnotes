@@ -121,5 +121,14 @@ class Storage {
                 )
             })
     }
+    
+    func getByUrl(url: URL) -> Note? {
+        return
+            noteList.first(where: {
+                return (
+                    $0.url == url
+                )
+            })
+    }
 
 }

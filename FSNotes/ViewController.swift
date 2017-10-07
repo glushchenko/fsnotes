@@ -87,6 +87,23 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
+        
+        watchFSEvents()
+    }
+    
+    func watchFSEvents() {
+        let filewatcher = FileWatcher([NSString(string: UserDefaultsManagement.storagePath).expandingTildeInPath])
+        filewatcher.callback = { event in
+            let url = URL(string: "file://" + event.path)
+            
+            guard let note = Storage.instance.getByUrl(url: url!) else {
+                return
+            }
+            
+            note.reload()
+            self.refillEditArea()
+        }
+        filewatcher.start()
     }
     
     func refillEditArea() {

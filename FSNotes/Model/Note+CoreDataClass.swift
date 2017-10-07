@@ -30,11 +30,28 @@ public class Note: NSManagedObject {
         loadModifiedLocalAt()
     }
     
+    func reload() {
+        let modifiedAt = getFileModifiedDate()
+        if (modifiedAt != modifiedLocalAt) {
+            content = getContent(url: url)
+            loadModifiedLocalAt()
+        }
+    }
+    
     func loadModifiedLocalAt() {
+        guard let modifiedAt = getFileModifiedDate() else {
+            return
+        }
+
+        modifiedLocalAt = modifiedAt
+    }
+    
+    func getFileModifiedDate() -> Date? {
         do {
-            modifiedLocalAt = (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
+            return (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
         } catch {
             NSLog("Note modification date load error: \(error.localizedDescription)")
+            return nil
         }
     }
     

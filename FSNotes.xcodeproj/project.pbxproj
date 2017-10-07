@@ -40,6 +40,8 @@
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7D6FA351F5C6AE300E08068 /* Hello world.md in Resources */ = {isa = PBXBuildFile; fileRef = D7D6FA341F5C68E000E08068 /* Hello world.md */; };
+		D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */; };
+		D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */; };
 		D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
 		D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */; };
 		D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
@@ -108,6 +110,8 @@
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		D7D6FA341F5C68E000E08068 /* Hello world.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Hello world.md"; sourceTree = "<group>"; };
+		D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
+		D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcherEvent.swift; sourceTree = "<group>"; };
 		D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
 		D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Black.ttf"; sourceTree = "<group>"; };
 		D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
@@ -241,6 +245,8 @@
 		D7CD5F6A1F51184A006AA35D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */,
+				D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */,
 				D7CD5F6B1F51185F006AA35D /* NSFont+.swift */,
 				6F46BBE61F55320E000D7DB2 /* String+.swift */,
 				D7AFD80C1F78CC450000B44A /* CKRecord+.swift */,
@@ -484,6 +490,7 @@
 			files = (
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
+				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D79700501F3E19C600BAD94D /* DocumentAttributes.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
@@ -492,6 +499,7 @@
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
 				D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
+				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
 				D79FE8A51F78377E00113CFD /* CloudKitManager.swift in Sources */,
 				D7AFD80D1F78CC450000B44A /* CKRecord+.swift in Sources */,
