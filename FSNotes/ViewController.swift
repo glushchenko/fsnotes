@@ -25,6 +25,18 @@ class ViewController: NSViewController,
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     
+    var minTableRowHeight: Int {
+        get {
+            if (UserDefaultsManagement.horizontalOrientation) {
+                return 25
+            } else if UserDefaultsManagement.hidePreview {
+                return 23
+            } else {
+                return 50 // Vertical orientation, with previews.
+            }
+        }
+    }
+    
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -40,15 +52,9 @@ class ViewController: NSViewController,
         
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
-            notesTableView.rowHeight = 25
-        } else {
-            notesTableView.rowHeight = 50
         }
         
-        if (UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation) {
-            notesTableView.rowHeight = 23
-        }
-        
+        setTableRowHeight()
         super.viewDidAppear()
     }
     
@@ -87,6 +93,10 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
+    }
+    
+    func setTableRowHeight() {
+        notesTableView.rowHeight = CGFloat(minTableRowHeight + UserDefaultsManagement.cellSpacing)
     }
     
     func refillEditArea() {

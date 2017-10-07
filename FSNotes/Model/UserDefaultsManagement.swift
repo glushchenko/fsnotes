@@ -28,6 +28,7 @@ public class UserDefaultsManagement {
         static let PinListKey = "pinList"
         static let Preview = "preview"
         static let HideOnDeactivate = "hideOnDeactivate"
+        static let CellSpacing = "cellSpacing"
     }
         
     static var fontName: String {
@@ -223,6 +224,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.HideOnDeactivate)
+        }
+    }
+    
+    static var cellSpacing: Int {
+        get {
+            if let cellSpacing = UserDefaults.standard.object(forKey: Constants.CellSpacing) {
+                return (cellSpacing as! NSNumber).intValue
+            } else {
+                return 0
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CellSpacing)
         }
     }
 }
