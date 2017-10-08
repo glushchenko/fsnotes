@@ -75,6 +75,9 @@ class EditTextView: NSTextView {
         if (isRichText) {
             let attrString = createAttributedString(note: note)
             textStorage?.setAttributedString(attrString)
+            
+            let range = NSMakeRange(0, (textStorage?.string.count)!)
+            textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
         } else {
             if (UserDefaultsManagement.preview) {
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -89,7 +92,6 @@ class EditTextView: NSTextView {
             } else {
                 let attrString = createAttributedString(note: note)
                 textStorage?.setAttributedString(attrString)
-                textStorage?.font = UserDefaultsManagement.noteFont
             }
         }
         
