@@ -116,7 +116,7 @@ class ViewController: NSViewController,
         }
     }
         
-    override func keyDown(with event: NSEvent) {        
+    override func keyDown(with event: NSEvent) {
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
@@ -129,7 +129,11 @@ class ViewController: NSViewController,
         
         // Remove note (cmd-delete)
         if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            deleteNote(selectedRow: notesTableView.selectedRow)
+            let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
+            
+            if !focusOnEditArea {
+                deleteNote(selectedRow: notesTableView.selectedRow)
+            }
         }
         
         // Note edit mode and select file name (cmd-r)

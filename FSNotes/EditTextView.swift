@@ -77,9 +77,6 @@ class EditTextView: NSTextView {
             textStorage?.setAttributedString(attrString)
         } else {
             if (UserDefaultsManagement.preview) {
-                
-                subviews.removeAll()
-                
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
                 let url = NSURL.fileURL(withPath: path!)
                 let bundle = Bundle(url: url)
@@ -130,6 +127,7 @@ class EditTextView: NSTextView {
                 attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: subRange!)
             }
         )
+        
         textStorage?.setAttributedString(attributedString)
     }
     
