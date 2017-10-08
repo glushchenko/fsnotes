@@ -12,7 +12,6 @@ import Down
 class EditTextView: NSTextView {
     var downView: DownView?
     var currentNote: Note?
-    var isHighlighted: Bool = true
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
     override func draw(_ dirtyRect: NSRect) {
@@ -70,12 +69,15 @@ class EditTextView: NSTextView {
         isRichText = note.isRTF()
         subviews.removeAll()
         
+        typingAttributes.removeAll()
+        typingAttributes["NSFont"] = UserDefaultsManagement.noteFont
+        
         if (isRichText) {
             let attrString = createAttributedString(note: note)
             textStorage?.setAttributedString(attrString)
         } else {
             if (UserDefaultsManagement.preview) {
-                string = ""
+                
                 subviews.removeAll()
                 
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -97,6 +99,9 @@ class EditTextView: NSTextView {
         if highlight {
             highlightSearchQuery()
         }
+        
+        let viewController = self.window?.contentViewController as! ViewController
+        viewController.emptyEditAreaImage.isHidden = true
     }
     
     func highlightSearchQuery() {
@@ -345,8 +350,7 @@ class EditTextView: NSTextView {
             fill(note: note, highlight: false)
         }
         
-        super.becomeFirstResponder()
-        return true
+        return super.becomeFirstResponder()
     }
     
 }
