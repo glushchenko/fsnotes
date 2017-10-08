@@ -94,14 +94,17 @@ class ViewController: NSViewController,
     func watchFSEvents() {
         let filewatcher = FileWatcher([NSString(string: UserDefaultsManagement.storagePath).expandingTildeInPath])
         filewatcher.callback = { event in
-            let url = URL(string: "file://" + event.path)
-            
-            guard let note = Storage.instance.getByUrl(url: url!) else {
+            guard let url = URL(string: "file://" + event.path) else {
+                return
+            }
+
+            guard let note = Storage.instance.getByUrl(url: url) else {
                 return
             }
             
-            note.reload()
-            self.refillEditArea()
+            if note.reload() {
+                self.refillEditArea()
+            }
         }
         filewatcher.start()
     }

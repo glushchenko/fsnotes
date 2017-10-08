@@ -30,12 +30,14 @@ public class Note: NSManagedObject {
         loadModifiedLocalAt()
     }
     
-    func reload() {
+    func reload() -> Bool {
         let modifiedAt = getFileModifiedDate()
         if (modifiedAt != modifiedLocalAt) {
             content = getContent(url: url)
             loadModifiedLocalAt()
+            return true
         }
+        return false
     }
     
     func loadModifiedLocalAt() {
