@@ -75,9 +75,6 @@ class EditTextView: NSTextView {
         if (isRichText) {
             let attrString = createAttributedString(note: note)
             textStorage?.setAttributedString(attrString)
-            
-            let range = NSMakeRange(0, (textStorage?.string.count)!)
-            textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
         } else {
             if (UserDefaultsManagement.preview) {
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -98,6 +95,9 @@ class EditTextView: NSTextView {
         if highlight {
             highlightSearchQuery()
         }
+        
+        let range = NSMakeRange(0, (textStorage?.string.count)!)
+        textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
