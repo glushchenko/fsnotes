@@ -31,12 +31,20 @@ public class Note: NSManagedObject {
     }
     
     func reload() -> Bool {
-        let modifiedAt = getFileModifiedDate()
-        if (modifiedAt != modifiedLocalAt) {
+        guard let modifiedAt = getFileModifiedDate() else {
+            return false
+        }
+        
+        guard let prevModifiedAt = modifiedLocalAt else {
+            return false
+        }
+                
+        if (modifiedAt != prevModifiedAt) {
             content = getContent(url: url)
             loadModifiedLocalAt()
             return true
         }
+        
         return false
     }
     
@@ -130,7 +138,7 @@ public class Note: NSManagedObject {
         dateFormatter.timeStyle = DateFormatter.Style.none
         dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
         
-        return dateFormatter.string(from: self.modifiedLocalAt)
+        return dateFormatter.string(from: self.modifiedLocalAt!)
     }
     
     func getContent(url: URL) -> String {

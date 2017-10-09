@@ -276,7 +276,7 @@ class ViewController: NSViewController,
             }
             .sorted(by: {
                 if $0.isPinned == $1.isPinned {
-                    return $0.modifiedLocalAt > $1.modifiedLocalAt
+                    return $0.modifiedLocalAt! > $1.modifiedLocalAt!
                 }
                 return $0.isPinned && !$1.isPinned
             })
