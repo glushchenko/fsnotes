@@ -63,11 +63,11 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note, highlight: Bool = true) {
-        currentNote = note
+        subviews.removeAll()
+        textStorage?.mutableString.setString("")
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
-        subviews.removeAll()
         
         typingAttributes.removeAll()
         typingAttributes["NSFont"] = UserDefaultsManagement.noteFont
@@ -93,6 +93,7 @@ class EditTextView: NSTextView {
         }
         
         if highlight {
+            currentNote = note
             highlightSearchQuery()
         }
         
