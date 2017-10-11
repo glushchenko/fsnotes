@@ -201,7 +201,7 @@ class ViewController: NSViewController,
             Swift.print("Error: rename")
         }
         
-        sender.stringValue = note.name
+        sender.stringValue = note.title
     }
     
     @IBAction func editorMenu(_ sender: Any) {
