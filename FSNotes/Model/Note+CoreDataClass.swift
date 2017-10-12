@@ -14,12 +14,13 @@ import CoreData
 public class Note: NSManagedObject {
     var id: Int = 0
     var type: String = "md"
-    var content: String = ""
     var url: URL!
+    var title: String = ""
+    var content: String = ""
         
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
-        name = url.deletingPathExtension().pathComponents.last!
+        extractUrl()
         self.id = id
     }
     
@@ -30,11 +31,38 @@ public class Note: NSManagedObject {
         loadModifiedLocalAt()
     }
     
+    func reload() -> Bool {
+        guard let modifiedAt = getFileModifiedDate() else {
+            return false
+        }
+        
+        guard let prevModifiedAt = modifiedLocalAt else {
+            return false
+        }
+                
+        if (modifiedAt != prevModifiedAt) {
+            content = getContent(url: url)
+            loadModifiedLocalAt()
+            return true
+        }
+        
+        return false
+    }
+    
     func loadModifiedLocalAt() {
+        guard let modifiedAt = getFileModifiedDate() else {
+            return
+        }
+
+        modifiedLocalAt = modifiedAt
+    }
+    
+    func getFileModifiedDate() -> Date? {
         do {
-            modifiedLocalAt = (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
+            return (try url.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate)!
         } catch {
             NSLog("Note modification date load error: \(error.localizedDescription)")
+            return nil
         }
     }
     
@@ -50,10 +78,11 @@ public class Note: NSManagedObject {
         do {
             try fileManager.moveItem(at: url, to: newUrl)
             url = newUrl
-            name = escapedName
+            extractUrl()
+            CoreDataManager.instance.save()
             return true
         } catch {
-            name = (url.deletingPathExtension().pathComponents.last)!
+            extractUrl()
             return false
         }
     }
@@ -111,7 +140,7 @@ public class Note: NSManagedObject {
         dateFormatter.timeStyle = DateFormatter.Style.none
         dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
         
-        return dateFormatter.string(from: self.modifiedLocalAt)
+        return dateFormatter.string(from: self.modifiedLocalAt!)
     }
     
     func getContent(url: URL) -> String {
@@ -237,8 +266,9 @@ public class Note: NSManagedObject {
     
     func extractUrl() {
         if (url.pathComponents.count > 0) {
-            name = url.deletingPathExtension().pathComponents.last!
             type = url.pathExtension
+            name = url.pathComponents.last!
+            title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
         }
     }
     
@@ -288,18 +318,4 @@ public class Note: NSManagedObject {
             isSynced = false
         }
     }
-    
-    var formattedName: String {
-        set {
-            name = newValue.replacingOccurrences(of: "/", with: ":")
-        }
-        get {
-            return url
-                .deletingPathExtension()
-                .pathComponents
-                .last!
-                .replacingOccurrences(of: ":", with: "/")
-        }
-    }
-    
 }

@@ -56,20 +56,19 @@ class CloudKitManager {
             do {
                 let file = record.object(forKey: "file") as! CKAsset
                 let recordName = record.recordID.recordName
-                let fileName = recordName as NSString
-                let name = fileName.deletingPathExtension
+                let fileName = recordName as String
                 let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
                 
-                recordNameList.append(name)
+                recordNameList.append(fileName)
                 
-                let note = Storage.instance.getOrCreate(name: name)
+                let note = Storage.instance.getOrCreate(name: fileName)
                 if (note.modifiedLocalAt == record["modifiedAt"] as! Date) {
                     continue
                 }
                 
                 note.content = content
                 note.cloudKitRecord = record.data()
-                note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName as String)
+                note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName)
                 note.extractUrl()
                 
                 if (note.writeContent()) {

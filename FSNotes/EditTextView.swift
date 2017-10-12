@@ -11,6 +11,8 @@ import Down
 
 class EditTextView: NSTextView {
     var downView: DownView?
+    var currentNote: Note?
+    let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -60,17 +62,21 @@ class EditTextView: NSTextView {
         return note
     }
         
-    func fill(note: Note) {
-        self.isEditable = !UserDefaultsManagement.preview
-        self.isRichText = note.isRTF()
-
-        self.subviews.removeAll()
+    func fill(note: Note, highlight: Bool = true) {
+        subviews.removeAll()
+        textStorage?.mutableString.setString("")
         
-        if (!(getSelectedNote()?.isRTF())!) {
+        isEditable = !UserDefaultsManagement.preview
+        isRichText = note.isRTF()
+        
+        typingAttributes.removeAll()
+        typingAttributes["NSFont"] = UserDefaultsManagement.noteFont
+        
+        if (isRichText) {
+            let attrString = createAttributedString(note: note)
+            textStorage?.setAttributedString(attrString)
+        } else {
             if (UserDefaultsManagement.preview) {
-                self.string = ""
-                self.subviews.removeAll()
-                
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
                 let url = NSURL.fileURL(withPath: path!)
                 let bundle = Bundle(url: url)
@@ -82,16 +88,50 @@ class EditTextView: NSTextView {
                 }
             } else {
                 let attrString = createAttributedString(note: note)
-                self.textStorage?.setAttributedString(attrString)
-                self.textStorage?.font = UserDefaultsManagement.noteFont
+                textStorage?.setAttributedString(attrString)
             }
-        } else {
-            let attrString = createAttributedString(note: note)
-            self.textStorage?.setAttributedString(attrString)
         }
+        
+        if highlight {
+            currentNote = note
+            highlightSearchQuery()
+        }
+        
+        let range = NSMakeRange(0, (textStorage?.string.count)!)
+        textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
+    }
+    
+    func highlightSearchQuery() {
+        let mainWindow = NSApplication.shared().windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        let search = viewController.search.stringValue
+        
+        guard search.count > 0 else {
+            return
+        }
+        
+        let searchTerm = search
+        let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: textStorage!)
+        let pattern = "(\(searchTerm))"
+        let range:NSRange = NSMakeRange(0, (textStorage?.string.characters.count)!)
+        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
+        
+        regex.enumerateMatches(
+            in: (textStorage?.string)!,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: {
+                (textCheckingResult, matchingFlags, stop) -> Void in
+                let subRange = textCheckingResult?.range
+                
+                attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: subRange!)
+            }
+        )
+        
+        textStorage?.setAttributedString(attributedString)
     }
     
     func save(note: Note) -> Bool {
@@ -129,7 +169,7 @@ class EditTextView: NSTextView {
         
         do {
             attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
-        } catch {
+            } catch {
             attributedString = NSAttributedString(string: "", attributes: options)
         }
         
@@ -305,4 +345,13 @@ class EditTextView: NSTextView {
     override func paste(_ sender: Any?) {
         super.pasteAsPlainText(nil)
     }
+    
+    override func becomeFirstResponder() -> Bool {
+        if let note = currentNote {
+            fill(note: note, highlight: false)
+        }
+        
+        return super.becomeFirstResponder()
+    }
+    
 }

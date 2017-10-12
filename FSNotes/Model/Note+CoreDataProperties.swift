@@ -22,6 +22,6 @@ extension Note {
     @NSManaged public var isSynced: Bool
     @NSManaged public var isRemoved: Bool
     @NSManaged public var cloudKitRecord: Data
-    @NSManaged public var modifiedLocalAt: Date
+    @NSManaged public var modifiedLocalAt: Date?
 
 }

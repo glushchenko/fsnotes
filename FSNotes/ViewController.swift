@@ -93,6 +93,27 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
+        
+        watchFSEvents()
+    }
+    
+    func watchFSEvents() {
+        let filewatcher = FileWatcher([NSString(string: UserDefaultsManagement.storagePath).expandingTildeInPath])
+        filewatcher.callback = { event in
+            guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+                return
+            }
+            guard let url = URL(string: "file://" + path) else {
+                return
+            }
+            guard let note = Storage.instance.getByUrl(url: url) else {
+                return
+            }
+            if note.reload() {
+                self.refillEditArea()
+            }
+        }
+        filewatcher.start()
     }
     
     func setTableRowHeight() {
@@ -106,7 +127,7 @@ class ViewController: NSViewController,
         }
     }
         
-    override func keyDown(with event: NSEvent) {        
+    override func keyDown(with event: NSEvent) {
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
@@ -119,7 +140,11 @@ class ViewController: NSViewController,
         
         // Remove note (cmd-delete)
         if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            deleteNote(selectedRow: notesTableView.selectedRow)
+            let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
+            
+            if !focusOnEditArea {
+                deleteNote(selectedRow: notesTableView.selectedRow)
+            }
         }
         
         // Note edit mode and select file name (cmd-r)
@@ -186,7 +211,7 @@ class ViewController: NSViewController,
             Swift.print("Error: rename")
         }
         
-        sender.stringValue = note.name
+        sender.stringValue = note.title
     }
     
     @IBAction func editorMenu(_ sender: Any) {
@@ -262,7 +287,7 @@ class ViewController: NSViewController,
             }
             .sorted(by: {
                 if $0.isPinned == $1.isPinned {
-                    return $0.modifiedLocalAt > $1.modifiedLocalAt
+                    return $0.modifiedLocalAt! > $1.modifiedLocalAt!
                 }
                 return $0.isPinned && !$1.isPinned
             })

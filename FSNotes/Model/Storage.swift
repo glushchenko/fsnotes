@@ -30,7 +30,7 @@ class Storage {
         for document in documents {
             let url = document.0
             let date = document.1
-            let name = url.deletingPathExtension().pathComponents.last!
+            let name = url.pathComponents.last!
             
             if (url.pathComponents.count == 0) {
                 continue
@@ -118,6 +118,15 @@ class Storage {
             noteList.first(where: {
                 return (
                     !$0.isSynced
+                )
+            })
+    }
+    
+    func getByUrl(url: URL) -> Note? {
+        return
+            noteList.first(where: {
+                return (
+                    $0.url == url
                 )
             })
     }
