@@ -42,7 +42,7 @@ class NoteCellView: NSTableCellView {
         let heightDiff = self.frame.height - CGFloat(Float(UserDefaultsManagement.minTableRowHeight))
     
         guard heightDiff > 0 else {
-            applyPreviewAttributes()
+            applyPreviewAttributes(color: color)
             return
         }
         
@@ -66,14 +66,14 @@ class NoteCellView: NSTableCellView {
         }
         
         // apply font and max lines numbers
-        applyPreviewAttributes(maximumNumberOfLines)
+        applyPreviewAttributes(maximumNumberOfLines, color: color)
     }
     
-    func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1) {
+    func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1, color: NSColor) {
         let string = preview.stringValue
         let fontName = UserDefaultsManagement.fontName
         let font = NSFont(name: fontName, size: 11)!
-        let textColor = labelColor
+        let textColor = color
         
         let textParagraph = NSMutableParagraphStyle()
         textParagraph.lineSpacing = 1
