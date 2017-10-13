@@ -232,11 +232,23 @@ public class UserDefaultsManagement {
             if let cellSpacing = UserDefaults.standard.object(forKey: Constants.CellSpacing) {
                 return (cellSpacing as! NSNumber).intValue
             } else {
-                return 0
+                return 17
             }
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.CellSpacing)
+        }
+    }
+    
+    static var minTableRowHeight: Int {
+        get {
+            if (UserDefaultsManagement.horizontalOrientation) {
+                return 25
+            } else if UserDefaultsManagement.hidePreview {
+                return 23
+            } else {
+                return 37 // Vertical orientation, with previews.
+            }
         }
     }
 }

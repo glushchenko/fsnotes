@@ -26,27 +26,58 @@ class NoteCellView: NSTableCellView {
         
         if (UserDefaultsManagement.horizontalOrientation) {
             applyHorizontalConstrains()
-            return
-        }
-        
-        if (!UserDefaultsManagement.hidePreview) {
-            pin.frame.origin.y = 26
+        } else {
+            applyVerticalConstrainst()
         }
         
         udpateSelectionHighlight()
-        applyVerticalConstrainst()
+    }
+    
+    func isFullVertical() -> Bool {
+        return (!UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation)
     }
     
     func applyPreviewStyle(_ color: NSColor) {
-        let string = preview.stringValue
+        var maximumNumberOfLines = 1
+        let heightDiff = self.frame.height - CGFloat(Float(UserDefaultsManagement.minTableRowHeight))
+    
+        guard heightDiff > 0 else {
+            applyPreviewAttributes()
+            return
+        }
         
+        // fix full vertical view pin position
+        if (isFullVertical()) {
+            pin.frame.origin.y = 13 + heightDiff
+        }
+    
+        // vertically align
+        if let font = preview.font {
+            var addLines = 0
+            let lineHeight = font.height - 2
+            
+            if (isFullVertical() && heightDiff >= lineHeight) {
+                addLines = Int(heightDiff/lineHeight)
+                maximumNumberOfLines += addLines
+            }
+            
+            let diff = (Float(heightDiff) - Float(addLines) * Float(lineHeight)) / 2
+            self.frame.origin.y = CGFloat(Int(diff) + addLines)
+        }
+        
+        // apply font and max lines numbers
+        applyPreviewAttributes(maximumNumberOfLines)
+    }
+    
+    func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1) {
+        let string = preview.stringValue
         let fontName = UserDefaultsManagement.fontName
         let font = NSFont(name: fontName, size: 11)!
-        let textColor = color
+        let textColor = labelColor
         
         let textParagraph = NSMutableParagraphStyle()
-            textParagraph.lineSpacing = 1
-            textParagraph.maximumLineHeight = 12.0
+        textParagraph.lineSpacing = 1
+        textParagraph.maximumLineHeight = 12.0
         
         let attribs = [
             NSFontAttributeName: font,
@@ -55,7 +86,7 @@ class NoteCellView: NSTableCellView {
         ]
         
         preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
-        preview.maximumNumberOfLines = 2
+        preview.maximumNumberOfLines = maximumNumberOfLines
     }
     
     func applyVerticalConstrainst() {
@@ -85,10 +116,11 @@ class NoteCellView: NSTableCellView {
         
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10)
         let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
+        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
         let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 5)
         let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -7)
         
-        NSLayoutConstraint.activate([dateRight, dateTop,  nameLeft, nameRight])
+        NSLayoutConstraint.activate([dateRight, dateTop,  nameLeft, nameRight, nameTop])
     }
 
     // This NoteCellView has multiple contained views; this method changes
