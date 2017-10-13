@@ -24,7 +24,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
-    
+        
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -40,15 +40,9 @@ class ViewController: NSViewController,
         
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
-            notesTableView.rowHeight = 25
-        } else {
-            notesTableView.rowHeight = 50
         }
         
-        if (UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation) {
-            notesTableView.rowHeight = 23
-        }
-        
+        setTableRowHeight()
         super.viewDidAppear()
     }
     
@@ -108,6 +102,10 @@ class ViewController: NSViewController,
             }
         }
         filewatcher.start()
+    }
+    
+    func setTableRowHeight() {
+        notesTableView.rowHeight = CGFloat(UserDefaultsManagement.minTableRowHeight + UserDefaultsManagement.cellSpacing)
     }
     
     func refillEditArea() {

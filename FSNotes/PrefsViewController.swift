@@ -101,6 +101,10 @@ class PrefsViewController: NSViewController {
         fontPanelOpen = true
     }
     
+    @IBAction func changeCellSpacing(_ sender: NSSlider) {
+        controller?.setTableRowHeight()
+    }
+    
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared()
