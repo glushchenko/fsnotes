@@ -29,6 +29,8 @@ class CloudKitManager {
     let modifyQueueList = [String: Note]()
     var hasActivePushConnection: Bool = false
     
+    let publicDataSubscriptionID = "cloudKitCreateUpdateDeleteSubscription"
+    
     init() {
         container = CKContainer.init(identifier: identifier)
         database = container.privateCloudDatabase
@@ -248,5 +250,28 @@ class CloudKitManager {
         }
         
         database.add(operation)
+    }
+    
+    func verifyCloudKitSubscription() {
+        database.fetch(withSubscriptionID: publicDataSubscriptionID) { (subscription, error) -> Void in
+            let querySub = subscription as? CKQuerySubscription
+            if querySub == nil {
+                self.saveNewCloudKitSubscription()
+            }
+        }
+    }
+    
+    func saveNewCloudKitSubscription() {
+        let publicDataSubscriptionPredicate = NSPredicate(format: "TRUEPREDICATE")
+        let publicDataSubscriptionOptions: CKQuerySubscriptionOptions = [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
+        let publicDataSubscription = CKQuerySubscription(recordType: "Notes", predicate: publicDataSubscriptionPredicate, subscriptionID: publicDataSubscriptionID, options: publicDataSubscriptionOptions)
+        
+        database.save(publicDataSubscription) { (subscription, error) -> Void in
+            if let saveError = error {
+                print("Could not save subscription to CloudKit database, error: \(saveError)")
+                return
+            }
+            print("Saved subscription to CloudKit database")
+        }
     }
 }

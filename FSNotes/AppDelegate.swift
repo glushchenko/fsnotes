@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import CloudKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -63,5 +64,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         return container
     }()
+    
+    #if CLOUDKIT
+    func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
+        let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
+        
+        if note.notificationType == .query {
+            let queryNote: CKQueryNotification = note as! CKQueryNotification
+            
+        }
+    }
+    #endif
     
 }
