@@ -91,7 +91,7 @@ class CloudKitManager {
         }
         
         getRecord(note: note, completion: { result in
-            print("Local modified record found: \(note.getFileName())")
+            print("Local modified record found: \(note.name)")
             self.saveNote(note)
         })
     }
@@ -163,7 +163,7 @@ class CloudKitManager {
                 }
                 
                 CoreDataManager.instance.save()
-                print("Successfully saved: \(note.getFileName())")
+                print("Successfully saved: \(note.name)")
                 self.push()
             }
         }
@@ -190,7 +190,7 @@ class CloudKitManager {
             return
         }
         
-        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
+        let recordID = CKRecordID(recordName: note.name, zoneID: getZone())
         database.fetch(withRecordID: recordID, completionHandler: { record, error in
             if error != nil {
                 completion(.failure("Fetch error \(error!.localizedDescription)"))
@@ -202,7 +202,7 @@ class CloudKitManager {
     }
     
     func createRecord(_ note: Note) -> CKRecord {
-        let recordID = CKRecordID(recordName: note.getFileName(), zoneID: getZone())
+        let recordID = CKRecordID(recordName: note.name, zoneID: getZone())
         let record = CKRecord(recordType: "Note", recordID: recordID)
         return fillRecord(note: note, record: record)
     }
@@ -254,9 +254,9 @@ class CloudKitManager {
     
     func verifyCloudKitSubscription() {
         database.fetch(withSubscriptionID: publicDataSubscriptionID) { (subscription, error) -> Void in
-            let querySub = subscription as? CKQuerySubscription
-            if querySub == nil {
+            if subscription == nil {
                 self.saveNewCloudKitSubscription()
+                return
             }
         }
     }
@@ -264,7 +264,12 @@ class CloudKitManager {
     func saveNewCloudKitSubscription() {
         let publicDataSubscriptionPredicate = NSPredicate(format: "TRUEPREDICATE")
         let publicDataSubscriptionOptions: CKQuerySubscriptionOptions = [.firesOnRecordCreation, .firesOnRecordUpdate, .firesOnRecordDeletion]
-        let publicDataSubscription = CKQuerySubscription(recordType: "Notes", predicate: publicDataSubscriptionPredicate, subscriptionID: publicDataSubscriptionID, options: publicDataSubscriptionOptions)
+        let publicDataSubscription = CKQuerySubscription(recordType: "Note", predicate: publicDataSubscriptionPredicate, subscriptionID: publicDataSubscriptionID, options: publicDataSubscriptionOptions)
+        
+        let notificationInfo = CKNotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true
+        
+        publicDataSubscription.notificationInfo = notificationInfo
         
         database.save(publicDataSubscription) { (subscription, error) -> Void in
             if let saveError = error {

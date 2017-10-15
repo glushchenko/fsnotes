@@ -107,13 +107,19 @@ public class UserDefaultsManagement {
                     return debugFolder
                 }
             }
+    
+            do {
+                try FileManager.default.createDirectory(atPath: debugFolder, withIntermediateDirectories: false, attributes: nil)
+                return debugFolder
+            } catch let error as NSError {
+                print(error.localizedDescription);
+            }
 #endif
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 return storagePath as! String
             } else {
                 return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
             }
-
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)

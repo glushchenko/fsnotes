@@ -9,6 +9,7 @@
 import Cocoa
 import MASShortcut
 import CoreData
+import CloudKit
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
@@ -83,6 +84,10 @@ class ViewController: NSViewController,
         }
         
         watchFSEvents()
+        
+        #if CLOUDKIT
+        CloudKitManager.instance.verifyCloudKitSubscription()
+        #endif
     }
     
     func watchFSEvents() {

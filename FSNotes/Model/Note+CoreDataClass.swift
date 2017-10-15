@@ -281,10 +281,6 @@ public class Note: NSManagedObject {
         }
     }
     
-    func getFileName() -> String {
-        return name + "." + type
-    }
-    
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
         
         // save plain text file content
