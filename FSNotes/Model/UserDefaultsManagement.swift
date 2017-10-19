@@ -29,6 +29,7 @@ public class UserDefaultsManagement {
         static let Preview = "preview"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let CellSpacing = "cellSpacing"
+        static let CellFrameOriginY = "cellFrameOriginY"
     }
         
     static var fontName: String {
@@ -255,6 +256,18 @@ public class UserDefaultsManagement {
             } else {
                 return 37 // Vertical orientation, with previews.
             }
+        }
+    }
+    
+    static var cellViewFrameOriginY: CGFloat? {        
+        get {
+            if let value = UserDefaults.standard.object(forKey: Constants.CellFrameOriginY) {
+                return value as? CGFloat
+            }
+            return nil
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CellFrameOriginY)
         }
     }
 }

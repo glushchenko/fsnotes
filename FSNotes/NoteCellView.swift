@@ -17,6 +17,14 @@ class NoteCellView: NSTableCellView {
     
     let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
     
+    override func viewWillDraw() {
+        if let originY = UserDefaultsManagement.cellViewFrameOriginY {
+            self.frame.origin.y = originY
+        }
+        
+        super.viewWillDraw()
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
@@ -51,7 +59,7 @@ class NoteCellView: NSTableCellView {
             pin.frame.origin.y = 13 + heightDiff
         }
     
-        // vertically align
+        // vertically align        
         if let font = preview.font {
             var addLines = 0
             let lineHeight = font.height - 2
@@ -62,7 +70,9 @@ class NoteCellView: NSTableCellView {
             }
             
             let diff = (Float(heightDiff) - Float(addLines) * Float(lineHeight)) / 2
-            self.frame.origin.y = CGFloat(Int(diff) + addLines)
+            let frameY = CGFloat(Int(diff) + addLines)
+            self.frame.origin.y = frameY
+            UserDefaultsManagement.cellViewFrameOriginY = frameY
         }
         
         // apply font and max lines numbers
