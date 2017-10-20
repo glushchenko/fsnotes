@@ -51,4 +51,17 @@ class CoreDataManager {
         }
     }
     
+    func getBy(_ url: URL) -> Note? {
+        let name = url.pathComponents.last!
+        let request = NSFetchRequest<Note>(entityName: "Note")
+        let predicate = NSPredicate(format: "name = %@", name)
+        request.predicate = predicate
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Not fetched \(error)")
+        }
+        return nil
+    }
+    
 }

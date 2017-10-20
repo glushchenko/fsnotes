@@ -12,7 +12,6 @@ import CoreData
 
 @objc(Note)
 public class Note: NSManagedObject {
-    var id: Int = 0
     var type: String = "md"
     var url: URL!
     var title: String = ""
@@ -21,7 +20,6 @@ public class Note: NSManagedObject {
     func make(id: Int, newName: String) {
         url = getUniqueFileName(name: newName)
         extractUrl()
-        self.id = id
     }
     
     func load(_ newUrl: URL) {
@@ -294,7 +292,7 @@ public class Note: NSManagedObject {
         }
         
         if !Storage.instance.noteList.contains(where: { $0.name == name }) {
-            Storage.instance.add(note: self)
+            Storage.instance.add(self)
         }
         
         loadModifiedLocalAt()

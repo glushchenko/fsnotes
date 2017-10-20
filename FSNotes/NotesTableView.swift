@@ -79,11 +79,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         if (noteList.indices.contains(selected)) {
-            let viewController = self.window?.contentViewController as! ViewController
-            let id = noteList[selected].id
-            note = viewController.storage.noteList[id]
+            note = noteList[selected]
         }
         
+        return note
+    }
+    
+    func getSelectedNote() -> Note? {
+        var note: Note? = nil
+        if (noteList.indices.contains(selectedRow)) {
+            note = noteList[selectedRow]
+        }
         return note
     }
     
@@ -119,6 +125,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (clickedRow > -1) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
+    }
+    
+    func getIndex(_ note: Note) -> Int? {
+        if let index = noteList.index(where: {$0 === note}) {
+            return index
+        }
+        return nil
     }
     
 }

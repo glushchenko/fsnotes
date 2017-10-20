@@ -12,7 +12,6 @@ class Storage {
     static let instance = Storage()
     
     var noteList = [Note]()
-    var i: Int = 0
     static var pinned: Int = 0
     
     func loadDocuments() {
@@ -52,9 +51,6 @@ class Storage {
                 Storage.pinned += 1
             }
             
-            note.id = i
-            i += 1
-            
             noteList.append(note)
         }
     }
@@ -76,7 +72,7 @@ class Storage {
             .sorted(by: { $0.1 > $1.1 })
     }
     
-    func add(note: Note) {
+    func add(_ note: Note) {
         noteList.append(note)
     }
     
@@ -109,7 +105,7 @@ class Storage {
         }
         
         let note = CoreDataManager.instance.make()
-        add(note: note)
+        add(note)
         return note
     }
     

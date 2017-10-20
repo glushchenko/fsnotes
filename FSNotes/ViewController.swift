@@ -96,17 +96,61 @@ class ViewController: NSViewController,
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
+            
             guard let url = URL(string: "file://" + path) else {
                 return
             }
-            guard let note = Storage.instance.getByUrl(url: url) else {
+
+            if event.modified {
+                guard let note = Storage.instance.getByUrl(url: url) else {
+                    return
+                }
+                
+                if note.reload() {
+                    self.refillEditArea()
+                }
+                
                 return
             }
-            if note.reload() {
-                self.refillEditArea()
+            
+            if event.created {
+                self.watcherCreateTrigger(url)
             }
         }
         filewatcher.start()
+    }
+    
+    func watcherCreateTrigger(_ url: URL) {
+        let notesTable = self.notesTableView!
+        let selectedNote = notesTable.getSelectedNote()
+        
+        let coreDataNote = CoreDataManager.instance.getBy(url)
+        let storageNote = Storage.instance.getByUrl(url: url)
+        
+        var note = coreDataNote
+        let storageNoteExist = storageNote
+        
+        if note == nil {
+            note = CoreDataManager.instance.make()
+        }
+        
+        note!.load(url)
+        CoreDataManager.instance.save()
+        
+        if storageNoteExist == nil {
+            Storage.instance.add(note!)
+        }
+        
+        self.updateTable(filter: "")
+        notesTable.reloadData()
+        
+        if let selected = selectedNote, let index = notesTable.getIndex(selected) {
+            notesTable.selectRowIndexes([index], byExtendingSelection: false)
+            
+            if selected == note {
+                self.refillEditArea()
+            }
+        }
     }
     
     func setTableRowHeight() {
