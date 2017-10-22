@@ -100,17 +100,13 @@ class ViewController: NSViewController,
             guard let url = URL(string: "file://" + path) else {
                 return
             }
-
+            
             if event.modified {
-                guard let note = Storage.instance.getByUrl(url: url) else {
+                let wrappedNote = Storage.instance.getBy(url: url)
+                if let note = wrappedNote, note.reload() {
+                    self.refillEditArea()
                     return
                 }
-                
-                if note.reload() {
-                    self.refillEditArea()
-                }
-                
-                return
             }
             
             if event.created {
@@ -125,7 +121,7 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         
         let coreDataNote = CoreDataManager.instance.getBy(url)
-        let storageNote = Storage.instance.getByUrl(url: url)
+        let storageNote = Storage.instance.getBy(url: url)
         
         var note = coreDataNote
         let storageNoteExist = storageNote
