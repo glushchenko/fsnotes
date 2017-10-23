@@ -170,7 +170,7 @@ public class Note: NSManagedObject {
         return modifiedLocalAt
     }
     
-    func getUniqueFileName(name: String, i: Int = 0) -> URL {
+    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL {
         let defaultName = "Untitled Note"
         let defaultUrl = UserDefaultsManagement.storageUrl
         let defaultExtension = UserDefaultsManagement.storageExtension
@@ -179,11 +179,13 @@ public class Note: NSManagedObject {
             .trimmingCharacters(in: CharacterSet.whitespaces)
             .replacingOccurrences(of: ":", with: "-")
             .replacingOccurrences(of: "/", with: ":")
-        
-        if (name.characters.count == 0) {
+
+        if prefix.characters.count > 0 {
+            name = name + prefix
+        } else if (name.characters.count == 0) {
             name = defaultName
         }
-        
+    
         var fileUrl = defaultUrl
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(defaultExtension)
@@ -192,7 +194,7 @@ public class Note: NSManagedObject {
         if fileManager.fileExists(atPath: fileUrl.path) {
             let j = i + 1
             let newName = defaultName + " " + String(j)
-            return getUniqueFileName(name: newName, i: j)
+            return getUniqueFileName(name: newName, i: j, prefix: prefix)
         }
         
         return fileUrl

@@ -117,9 +117,6 @@ class ViewController: NSViewController,
     }
     
     func watcherCreateTrigger(_ url: URL) {
-        let notesTable = self.notesTableView!
-        let selectedNote = notesTable.getSelectedNote()
-        
         let coreDataNote = CoreDataManager.instance.getBy(url)
         let storageNote = Storage.instance.getBy(url: url)
         
@@ -137,12 +134,18 @@ class ViewController: NSViewController,
             Storage.instance.add(note!)
         }
         
+        reloadView(note: note!)
+    }
+    
+    func reloadView(note: Note) {
+        let notesTable = self.notesTableView!
+        let selectedNote = notesTable.getSelectedNote()
+        
         self.updateTable(filter: "")
         notesTable.reloadData()
         
         if let selected = selectedNote, let index = notesTable.getIndex(selected) {
             notesTable.selectRowIndexes([index], byExtendingSelection: false)
-            
             if selected == note {
                 self.refillEditArea()
             }

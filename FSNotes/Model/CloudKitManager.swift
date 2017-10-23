@@ -53,36 +53,37 @@ class CloudKitManager {
     }
     
     func pull() {
-        var recordNameList: [String] = []
-        for record in modifiedRecords {
-            do {
-                let file = record.object(forKey: "file") as! CKAsset
-                let recordName = record.recordID.recordName
-                let fileName = recordName as String
-                let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
-                
-                recordNameList.append(fileName)
-                
-                let note = Storage.instance.getOrCreate(name: fileName)
-                if (note.modifiedLocalAt == record["modifiedAt"] as! Date) {
-                    continue
-                }
-                
-                note.content = content
-                note.cloudKitRecord = record.data()
-                note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName)
-                note.extractUrl()
-                
-                if (note.writeContent()) {
-                    note.loadModifiedLocalAt()
-                    reloadView()
-                }
-                
-                print("Note downloaded: \(note.name)")
-            } catch {}
+        fetchChanges() {modifiedRecords, deletedRecords, token in
+            for record in modifiedRecords {
+                do {
+                    let file = record.object(forKey: "file") as! CKAsset
+                    let recordName = record.recordID.recordName
+                    let fileName = recordName as String
+                    let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
+                    
+                    let note = Storage.instance.getOrCreate(name: fileName)
+                    if (note.modifiedLocalAt == record["modifiedAt"] as? Date) {
+                        continue
+                    }
+                    
+                    note.content = content
+                    note.cloudKitRecord = record.data()
+                    note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName)
+                    note.extractUrl()
+                    
+                    if (note.writeContent()) {
+                        note.loadModifiedLocalAt()
+                        self.reloadView(note: note)
+                    }
+                    
+                    print("Note downloaded: \(note.name)")
+                } catch {}
+            }
+            
+            if token != nil {
+                UserDefaults.standard.serverChangeToken = token
+            }
         }
-        
-        UserDefaultsManagement.lastSync = Date.init()
     }
     
     func push() {
@@ -91,82 +92,98 @@ class CloudKitManager {
         }
         
         getRecord(note: note, completion: { result in
-            print("Local modified record found: \(note.name)")
             self.saveNote(note)
         })
     }
     
-    func fetchNew(_ inputCursor: CKQueryCursor? = nil) {
-        let operation: CKQueryOperation
-        
-        if let cursor = inputCursor {
-            operation = CKQueryOperation(cursor: cursor)
-        } else {
-            let predicate = NSPredicate(format: "modifiedAt > %@", UserDefaultsManagement.lastSync as CVarArg)
-            let query = CKQuery(recordType: "Note", predicate: predicate)
-            operation = CKQueryOperation(query: query)
-        }
-        
-        operation.queryCompletionBlock = { [weak self] cursor, error in
-            guard error == nil else {
-                Swift.print("\(error.debugDescription)")
-                return
+    func saveNote(_ note: Note) {
+        if !hasActivePushConnection {
+            hasActivePushConnection = true
+            var record: CKRecord
+            
+            if (note.cloudKitRecord.isEmpty) {
+                NSLog("Record created.")
+                record = createRecord(note)
+            } else {
+                NSLog("Record filled.")
+                record = CKRecord(archivedData: note.cloudKitRecord)!
+                record = fillRecord(note: note, record: record)
             }
             
-            if let cursor = cursor {
-                self?.fetchNew(cursor)
-            } else {
-                self?.sync()
-            }
+            saveRecord(note: note, sRecord: record)
         }
-        
-        operation.recordFetchedBlock = {record in
-            self.modifiedRecords.append(record)
-        }
-        
-        database.add(operation)
-    }
-    
-    func saveNote(_ note: Note) {
-        var record: CKRecord
-        
-        if (note.cloudKitRecord.isEmpty) {
-            record = createRecord(note)
-        } else {
-            record = CKRecord(archivedData: note.cloudKitRecord)!
-            record = fillRecord(note: note, record: record)
-        }
-        
-        saveRecord(note: note, sRecord: record)
     }
     
     func saveRecord(note: Note, sRecord: CKRecord) {
-        if !hasActivePushConnection {
-            hasActivePushConnection = true
+        database.save(sRecord) { (record, error) in
+            self.hasActivePushConnection = false
             
-            database.save(sRecord) { (record, error) in
-                self.hasActivePushConnection = false
-                
-                guard error == nil else {
-                    NSLog("Save error \(error.debugDescription)")
+            guard error == nil else {
+                if error?._code == CKError.serverRecordChanged.rawValue {
+                    NSLog("Server record changed. Need resolve conflict.")
+                    self.resolveConflict(note: note, sRecord: sRecord)
                     return
                 }
                 
-                guard let record = record else {
-                    NSLog("Record not found")
+                if error?._code == CKError.assetFileModified.rawValue {
+                    self.saveNote(note)
                     return
                 }
                 
-                note.cloudKitRecord = record.data()
-                if (note.modifiedLocalAt == record["modifiedAt"] as! Date) {
-                    note.isSynced = true
-                }
-                
-                CoreDataManager.instance.save()
-                print("Successfully saved: \(note.name)")
-                self.push()
+                NSLog("Note \(note.name)")
+                NSLog("Save error \(error.debugDescription)")
+                return
             }
+            
+            self.updateNoteRecord(note: note, record: record)
+            self.reloadView(note: note)
+            self.push()
         }
+    }
+    
+    func resolveConflict(note: Note, sRecord: CKRecord) {
+        self.fetchRecord(recordName: note.name, completion: { result in
+            switch result {
+            case .success(let fetchedRecord):
+                do {
+                    let file = fetchedRecord.object(forKey: "file") as! CKAsset
+                    let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
+                    
+                    self.updateNoteRecord(note: note, record: fetchedRecord)
+                    
+                    let newNote = CoreDataManager.instance.make()
+                    let date = fetchedRecord.object(forKey: "modifiedAt") as! Date
+                    let dateFormatter = ISO8601DateFormatter()
+                    let dateString: String = dateFormatter.string(from: date)
+                    newNote.url = newNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
+                    newNote.extractUrl()
+                    newNote.content = content
+                    NSLog("Resolve conflict started.")
+                    if newNote.writeContent() {
+                        self.saveRecord(note: note, sRecord: fetchedRecord)
+                    }
+                } catch {}
+                
+            case .failure(let error):
+                print("Fetch failure \(error)")
+            }
+        })
+    }
+    
+    func updateNoteRecord(note: Note, record: CKRecord?) {
+        guard let record = record else {
+            NSLog("Record not found")
+            return
+        }
+        
+        print("Successfully saved: \(note.name)")
+        
+        note.cloudKitRecord = record.data()
+        if note.modifiedLocalAt == record["modifiedAt"] as? Date  {
+            note.isSynced = true
+        }
+        
+        CoreDataManager.instance.save()
     }
     
     func removeRecord(note: Note) {
@@ -185,18 +202,24 @@ class CloudKitManager {
  
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
         if (!note.cloudKitRecord.isEmpty) {
+            Swift.print("CloudKit record exist")
             let record = CKRecord(archivedData: note.cloudKitRecord)
             completion(.success(record!))
             return
         }
         
-        let recordID = CKRecordID(recordName: note.name, zoneID: getZone())
+        fetchRecord(recordName: note.name, completion: { result in
+            completion(result)
+        })
+    }
+    
+    func fetchRecord(recordName: String, completion: @escaping (CloudKitResult) -> Void) {
+        let recordID = CKRecordID(recordName: recordName, zoneID: getZone())
         database.fetch(withRecordID: recordID, completionHandler: { record, error in
             if error != nil {
                 completion(.failure("Fetch error \(error!.localizedDescription)"))
                 return
             }
-            
             completion(.success(record!))
         })
     }
@@ -209,14 +232,18 @@ class CloudKitManager {
     
     func fillRecord(note: Note, record: CKRecord) -> CKRecord{
         record["file"] = CKAsset(fileURL: note.url)
-        record["modifiedAt"] = note.modifiedLocalAt as! CKRecordValue
+        record["modifiedAt"] = note.modifiedLocalAt as CKRecordValue?
         return record
     }
     
-    func reloadView() {
+    func reloadView(note: Note? = nil) {
         DispatchQueue.main.async() {
             let viewController = NSApplication.shared().windows.first!.contentViewController as! ViewController
-            viewController.updateTable(filter: "")
+            if let unwrappedNote = note {
+                viewController.reloadView(note: unwrappedNote)
+            } else {
+                viewController.updateTable(filter: "")
+            }
         }
     }
     
@@ -238,7 +265,7 @@ class CloudKitManager {
         }
         
         var serverChangesToken: CKServerChangeToken?
-        operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, _: Error?) in
+        operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, _: Error?) in            
             if (token != UserDefaults.standard.serverChangeToken) {
                 print("Record zone has changes!")
                 serverChangesToken = token
