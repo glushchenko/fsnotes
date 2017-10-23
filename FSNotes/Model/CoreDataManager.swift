@@ -46,6 +46,7 @@ class CoreDataManager {
         do {
             context.delete(note)
             try context.save()
+            print("Note removed \(note.name)")
         } catch {
             print("Remove error \(error)")
         }

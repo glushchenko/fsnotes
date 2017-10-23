@@ -89,7 +89,7 @@ public class Note: NSManagedObject {
         let fileManager = FileManager.default
         
         do {
-            try fileManager.trashItem(at: self.url, resultingItemURL: nil)
+            try fileManager.trashItem(at: url, resultingItemURL: nil)
             
         #if CLOUDKIT
             isRemoved = true

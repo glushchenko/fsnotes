@@ -97,21 +97,28 @@ class CloudKitManager {
     }
     
     func saveNote(_ note: Note) {
-        if !hasActivePushConnection {
-            hasActivePushConnection = true
-            var record: CKRecord
-            
-            if (note.cloudKitRecord.isEmpty) {
-                NSLog("Record created.")
-                record = createRecord(note)
-            } else {
-                NSLog("Record filled.")
-                record = CKRecord(archivedData: note.cloudKitRecord)!
-                record = fillRecord(note: note, record: record)
-            }
-            
-            saveRecord(note: note, sRecord: record)
+        guard !hasActivePushConnection && note.name.characters.count > 0 else {
+            return
         }
+
+        hasActivePushConnection = true
+        var record: CKRecord? = nil
+        
+        if note.cloudKitRecord.isEmpty {
+            record = createRecord(note)
+        } else {
+            record = CKRecord(archivedData: note.cloudKitRecord)!
+            if let unwrappedRecord = record {
+                record = fillRecord(note: note, record: unwrappedRecord)
+            }
+        }
+        
+        guard let unwrappedRecord = record else {
+            hasActivePushConnection = false
+            return
+        }
+        
+        saveRecord(note: note, sRecord: unwrappedRecord)
     }
     
     func saveRecord(note: Note, sRecord: CKRecord) {
@@ -192,7 +199,6 @@ class CloudKitManager {
             case .success(let record):
                 self.database.delete(withRecordID: record.recordID, completionHandler: { record, error in
                     CoreDataManager.instance.remove(note)
-                    print("Success removed note \(note.name)")
                 })
             case .failure(let error):
                 print("Remove cloud kit error \(error)")
@@ -201,6 +207,11 @@ class CloudKitManager {
     }
  
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
+        guard note.name.characters.count > 0 else {
+            completion(.failure("Note name not found."))
+            return
+        }
+        
         if (!note.cloudKitRecord.isEmpty) {
             Swift.print("CloudKit record exist")
             let record = CKRecord(archivedData: note.cloudKitRecord)
