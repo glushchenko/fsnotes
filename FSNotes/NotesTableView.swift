@@ -60,7 +60,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let viewController = self.window?.contentViewController as! ViewController
         
         if (noteList.indices.contains(selectedRow)) {
-            viewController.editArea.fill(note: noteList[selectedRow])
+            viewController.editArea.fill(note: noteList[selectedRow], highlight: true)
         } else {
             viewController.editArea.clear()
         }

@@ -11,7 +11,6 @@ import Down
 
 class EditTextView: NSTextView {
     var downView: DownView?
-    var currentNote: Note?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
     override func draw(_ dirtyRect: NSRect) {
@@ -62,7 +61,7 @@ class EditTextView: NSTextView {
         return note
     }
         
-    func fill(note: Note, highlight: Bool = true) {
+    func fill(note: Note, highlight: Bool = false) {
         subviews.removeAll()
         textStorage?.mutableString.setString("")
         
@@ -93,8 +92,7 @@ class EditTextView: NSTextView {
         }
         
         if highlight {
-            currentNote = note
-            highlightSearchQuery()
+            highlightKeyword()
         }
         
         let range = NSMakeRange(0, (textStorage?.string.count)!)
@@ -104,7 +102,17 @@ class EditTextView: NSTextView {
         viewController.emptyEditAreaImage.isHidden = true
     }
     
-    func highlightSearchQuery() {
+    func removeHighlight() {
+        // save cursor position
+        let cursorLocation = selectedRanges[0].rangeValue.location
+        
+        highlightKeyword(remove: true)  
+        
+        // restore cursor
+        setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
+    }
+    
+    func highlightKeyword(remove: Bool = false) {
         let mainWindow = NSApplication.shared().windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
@@ -127,7 +135,11 @@ class EditTextView: NSTextView {
                 (textCheckingResult, matchingFlags, stop) -> Void in
                 let subRange = textCheckingResult?.range
                 
-                attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: subRange!)
+                if remove {
+                    attributedString.removeAttribute(NSBackgroundColorAttributeName, range: subRange!)
+                } else {
+                    attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: subRange!)
+                }
             }
         )
         
@@ -344,14 +356,6 @@ class EditTextView: NSTextView {
     
     override func paste(_ sender: Any?) {
         super.pasteAsPlainText(nil)
-    }
-    
-    override func becomeFirstResponder() -> Bool {
-        if let note = currentNote {
-            fill(note: note, highlight: false)
-        }
-        
-        return super.becomeFirstResponder()
     }
     
 }

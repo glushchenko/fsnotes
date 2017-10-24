@@ -282,7 +282,6 @@ public class Note: NSManagedObject {
     }
     
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
-        
         // save plain text file content
         do {
             let range = NSRange(location: 0, length: textStorage.string.characters.count)

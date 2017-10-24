@@ -44,9 +44,10 @@ class CoreDataManager {
     
     func remove(_ note: Note) {
         do {
+            let name = note.name
             context.delete(note)
             try context.save()
-            print("Note removed \(note.name)")
+            print("Note removed: \(name)")
         } catch {
             print("Remove error \(error)")
         }

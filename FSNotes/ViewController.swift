@@ -140,14 +140,15 @@ class ViewController: NSViewController,
     func reloadView(note: Note) {
         let notesTable = self.notesTableView!
         let selectedNote = notesTable.getSelectedNote()
+        let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable(filter: "")
+        self.updateTable(filter: search.stringValue)
         notesTable.reloadData()
         
         if let selected = selectedNote, let index = notesTable.getIndex(selected) {
             notesTable.selectRowIndexes([index], byExtendingSelection: false)
             if selected == note {
-                self.refillEditArea()
+                self.refillEditArea(cursor: cursor)
             }
         }
     }
@@ -156,11 +157,21 @@ class ViewController: NSViewController,
         notesTableView.rowHeight = CGFloat(UserDefaultsManagement.minTableRowHeight + UserDefaultsManagement.cellSpacing)
     }
     
-    func refillEditArea() {
+    func refillEditArea(cursor: Int? = nil) {
+        var location: Int = 0
+        
+        if let unwrappedCursor = cursor {
+            location = unwrappedCursor
+        } else {
+            location = editArea.selectedRanges[0].rangeValue.location
+        }
+        
         let selected = notesTableView.selectedRow
         if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
             editArea.fill(note: notesTableView.noteList[notesTableView.selectedRow])
         }
+        
+        editArea.setSelectedRange(NSRange.init(location: location, length: 0))
     }
         
     override func keyDown(with event: NSEvent) {
@@ -283,6 +294,7 @@ class ViewController: NSViewController,
             && selected > -1
             && !UserDefaultsManagement.preview
         ) {
+            editArea.removeHighlight()
             let content = editArea.string!
             let note = notesTableView.noteList[selected]
             note.content = content
@@ -297,7 +309,7 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue)
         
         if (notesTableView.noteList.count > 0) {
-            editArea.fill(note: notesTableView.noteList[0])
+            editArea.fill(note: notesTableView.noteList[0], highlight: true)
             self.selectNullTableRow()
         } else {
             editArea.clear()

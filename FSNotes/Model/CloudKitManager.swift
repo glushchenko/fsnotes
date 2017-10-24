@@ -127,7 +127,7 @@ class CloudKitManager {
             
             guard error == nil else {
                 if error?._code == CKError.serverRecordChanged.rawValue {
-                    NSLog("Server record changed. Need resolve conflict.")
+                    print("Server record changed. Need resolve conflict.")
                     self.resolveConflict(note: note, sRecord: sRecord)
                     return
                 }
@@ -137,13 +137,11 @@ class CloudKitManager {
                     return
                 }
                 
-                NSLog("Note \(note.name)")
-                NSLog("Save error \(error.debugDescription)")
+                print("Save \(note.name) error \(error.debugDescription)")
                 return
             }
             
             self.updateNoteRecord(note: note, record: record)
-            self.reloadView(note: note)
             self.push()
         }
     }
@@ -165,7 +163,7 @@ class CloudKitManager {
                     newNote.url = newNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
                     newNote.extractUrl()
                     newNote.content = content
-                    NSLog("Resolve conflict started.")
+                    print("Resolve conflict started")
                     if newNote.writeContent() {
                         self.saveRecord(note: note, sRecord: fetchedRecord)
                     }
@@ -179,7 +177,7 @@ class CloudKitManager {
     
     func updateNoteRecord(note: Note, record: CKRecord?) {
         guard let record = record else {
-            NSLog("Record not found")
+            print("Record not found")
             return
         }
         
@@ -213,7 +211,6 @@ class CloudKitManager {
         }
         
         if (!note.cloudKitRecord.isEmpty) {
-            Swift.print("CloudKit record exist")
             let record = CKRecord(archivedData: note.cloudKitRecord)
             completion(.success(record!))
             return
