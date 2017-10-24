@@ -86,7 +86,9 @@ class ViewController: NSViewController,
         watchFSEvents()
         
         #if CLOUDKIT
-        CloudKitManager.instance.verifyCloudKitSubscription()
+            if UserDefaultsManagement.cloudKitSync {
+                CloudKitManager.instance.verifyCloudKitSubscription()
+            }
         #endif
     }
     

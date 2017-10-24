@@ -67,14 +67,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     #if CLOUDKIT
     func applicationWillFinishLaunching(_ notification: Notification) {
-        NSApp.registerForRemoteNotifications(matching: NSRemoteNotificationType())
+        if UserDefaultsManagement.cloudKitSync {
+            NSApp.registerForRemoteNotifications(matching: NSRemoteNotificationType())
+        }
     }
 
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
-        let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
-        
-        if note.notificationType == .query {
-            CloudKitManager.instance.sync()
+        if UserDefaultsManagement.cloudKitSync {
+            let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
+            
+            if note.notificationType == .query {
+                CloudKitManager.instance.sync()
+            }
         }
     }
     #endif

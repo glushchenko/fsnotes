@@ -18,6 +18,10 @@ class PrefsViewController: NSViewController {
     
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
+    @IBOutlet var cloudKitCheckbox: NSButton!
+    
+    @IBOutlet var tabView: NSTabView!
+    @IBOutlet var tabViewSync: NSTabViewItem!
     
     let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
     
@@ -35,6 +39,12 @@ class PrefsViewController: NSViewController {
         } else {
             UserDefaultsManagement.hidePreview = true
         }
+        restart()
+    }
+    
+    @IBAction func cloudKitSync(_ sender: Any) {
+        UserDefaultsManagement.cloudKitSync = !((sender as AnyObject).state == NSOffState)
+        
         restart()
     }
     
@@ -147,6 +157,12 @@ class PrefsViewController: NSViewController {
         if (!UserDefaultsManagement.hidePreview) {
             previewCheckbox.state = NSOffState
         }
+        
+        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSOnState : NSOffState
+        
+        #if !CLOUDKIT
+            tabView.removeTabViewItem(tabViewSync)
+        #endif
     }
     
     func restart() {

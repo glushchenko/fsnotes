@@ -92,9 +92,11 @@ public class Note: NSManagedObject {
             try fileManager.trashItem(at: url, resultingItemURL: nil)
             
         #if CLOUDKIT
-            isRemoved = true
-            CoreDataManager.instance.save()
-            CloudKitManager.instance.removeRecord(note: self)
+            if UserDefaultsManagement.cloudKitSync {
+                isRemoved = true
+                CoreDataManager.instance.save()
+                CloudKitManager.instance.removeRecord(note: self)
+            }
         #else
             CoreDataManager.instance.remove(self)
         #endif
@@ -299,12 +301,14 @@ public class Note: NSManagedObject {
         loadModifiedLocalAt()
         
         #if CLOUDKIT
-            // save state to core database
-            isSynced = false
-            CoreDataManager.instance.save()
-            
-            // save cloudkit
-            CloudKitManager.instance.saveNote(self)
+            if UserDefaultsManagement.cloudKitSync {
+                // save state to core database
+                isSynced = false
+                CoreDataManager.instance.save()
+                
+                // save cloudkit
+                CloudKitManager.instance.saveNote(self)
+            }
         #endif
     }
         

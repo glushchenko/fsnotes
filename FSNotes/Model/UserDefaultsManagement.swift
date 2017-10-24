@@ -30,6 +30,7 @@ public class UserDefaultsManagement {
         static let HideOnDeactivate = "hideOnDeactivate"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
+        static let CloudKitSync = "cloudKitSync"
     }
         
     static var fontName: String {
@@ -270,4 +271,18 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.CellFrameOriginY)
         }
     }
+    
+    static var cloudKitSync: Bool {
+        get {
+            if let cloudKitSync = UserDefaults.standard.object(forKey: Constants.CloudKitSync) {
+                return cloudKitSync as! Bool
+            } else {
+                return false
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CloudKitSync)
+        }
+    }
+    
 }
