@@ -96,8 +96,8 @@ class EditTextView: NSTextView {
         }
         
         let range = NSMakeRange(0, (textStorage?.string.count)!)
-        textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
-        
+        textStorage?.addAttribute(NSFontFamilyAttribute, value: UserDefaultsManagement.fontName, range: range)
+
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
     }
