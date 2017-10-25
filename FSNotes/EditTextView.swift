@@ -117,7 +117,7 @@ class EditTextView: NSTextView {
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
         
-        guard search.count > 0 else {
+        guard search.count > 0 && !search.starts(with: "\\") else {
             return
         }
         
