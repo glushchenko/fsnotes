@@ -17,7 +17,7 @@ enum CloudKitResult {
 class CloudKitManager {
     static let instance = CloudKitManager()
     
-    let identifier = "iCloud.co.fluder.fsnotes-dev"
+    let identifier = "iCloud.co.fluder.fsnotes"
     let zone = "NotesZone"
     
     var container: CKContainer
@@ -134,6 +134,12 @@ class CloudKitManager {
                 
                 if error?._code == CKError.assetFileModified.rawValue {
                     self.saveNote(note)
+                    return
+                }
+                
+                if error?._code == CKError.unknownItem.rawValue {
+                    note.cloudKitRecord = Data()
+                    self.saveRecord(note: note, sRecord: sRecord)
                     return
                 }
                 

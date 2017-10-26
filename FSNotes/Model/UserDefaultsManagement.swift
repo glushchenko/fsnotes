@@ -100,6 +100,7 @@ public class UserDefaultsManagement {
     
     static var storagePath: String {
         get {
+            
 #if USEDEBUGFOLDER
             var isDirectory: ObjCBool = true
             let debugFolder = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
@@ -117,11 +118,17 @@ public class UserDefaultsManagement {
                 print(error.localizedDescription);
             }
 #endif
+            
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
-                return storagePath as! String
-            } else {
-                return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+                do {
+                    try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
+                    return storagePath as! String
+                } catch {
+                    print(error.localizedDescription);
+                }
             }
+            
+            return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
