@@ -99,7 +99,7 @@ class ViewController: NSViewController,
                 return
             }
             
-            guard let url = URL(string: "file://" + path) else {
+            guard let url = URL(string: "file://" + path), self.checkFile(url) else {
                 return
             }
             
@@ -107,8 +107,8 @@ class ViewController: NSViewController,
                 let wrappedNote = Storage.instance.getBy(url: url)
                 if let note = wrappedNote, note.reload() {
                     self.refillEditArea()
-                    return
                 }
+                return
             }
             
             if event.created {
@@ -137,6 +137,14 @@ class ViewController: NSViewController,
         }
         
         reloadView(note: note!)
+    }
+    
+    func checkFile(_ url: URL) -> Bool {
+        return (
+            FileManager.default.fileExists(atPath: url.path)
+            && Storage.allowedExtensions.contains(url.pathExtension)
+            && url.deletingLastPathComponent().path == UserDefaultsManagement.storageUrl.path
+        )
     }
     
     func reloadView(note: Note) {

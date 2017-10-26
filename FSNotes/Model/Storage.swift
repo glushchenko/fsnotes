@@ -13,6 +13,7 @@ class Storage {
     
     var noteList = [Note]()
     static var pinned: Int = 0
+    static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
     func loadDocuments() {
         var documents = readDirectory()
@@ -57,13 +58,11 @@ class Storage {
     
     func readDirectory() -> [(URL, Date)] {
         let directory = UserDefaultsManagement.storageUrl
-        let defaultExtension = UserDefaultsManagement.storageExtension
-        let allowedExtensions = ["md", "markdown", "txt", "rtf", defaultExtension]
         
         return
             try! FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
             ).filter {
-                allowedExtensions.contains($0.pathExtension)
+                Storage.allowedExtensions.contains($0.pathExtension)
             }.map { url in (
                     url,
                     (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast
