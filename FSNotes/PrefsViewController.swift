@@ -64,8 +64,10 @@ class PrefsViewController: NSViewController {
                 bookmark.store(url: url!)
                 bookmark.save()
                 
-                UserDefaults.standard.set(openPanel.url, forKey: "storageUrl")
-                    
+                if let url = openPanel.url {
+                    UserDefaultsManagement.storagePath = url.path
+                }
+                
                 self.restart()
             }
         }
@@ -138,12 +140,8 @@ class PrefsViewController: NSViewController {
     
     override func viewDidAppear() {
         self.view.window!.title = "Preferences"
-        
-        let storageUrl = UserDefaults.standard.object(forKey: "storageUrl")
-        if (storageUrl != nil) {
-            storageField.stringValue = storageUrl as! String
-        }
-                
+
+        storageField.stringValue = UserDefaultsManagement.storagePath
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
         
         if (UserDefaultsManagement.horizontalOrientation) {

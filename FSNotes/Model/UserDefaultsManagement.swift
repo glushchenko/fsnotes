@@ -119,16 +119,19 @@ public class UserDefaultsManagement {
             }
 #endif
             
+            let defaultPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 do {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
                     return storagePath as! String
                 } catch {
+                    UserDefaultsManagement.storagePath = defaultPath
                     print(error.localizedDescription);
                 }
             }
             
-            return NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return defaultPath
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
