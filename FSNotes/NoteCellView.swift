@@ -11,7 +11,7 @@ import Cocoa
 class NoteCellView: NSTableCellView {
 
     @IBOutlet var name: NSTextField!
-    @IBOutlet var preview: NSTextField!
+    @IBOutlet var preview: PreviewTextField!
     @IBOutlet var date: NSTextField!
     @IBOutlet var pin: NSImageView!
     
