@@ -11,7 +11,6 @@ import MASShortcut
 
 class PrefsViewController: NSViewController {
 
-    @IBOutlet var previewCheckbox: NSButton!
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet weak var noteFont: NSPopUpButton!
@@ -31,15 +30,6 @@ class PrefsViewController: NSViewController {
         for window in NSApplication.shared().windows {
             window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         }
-    }
-    
-    @IBAction func changePreview(_ sender: Any) {
-        if (sender as AnyObject).state == NSOffState {
-            UserDefaultsManagement.hidePreview = false
-        } else {
-            UserDefaultsManagement.hidePreview = true
-        }
-        restart()
     }
     
     @IBAction func cloudKitSync(_ sender: Any) {
@@ -151,11 +141,6 @@ class PrefsViewController: NSViewController {
         }
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-        
-        if (!UserDefaultsManagement.hidePreview) {
-            previewCheckbox.state = NSOffState
-        }
-        
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSOnState : NSOffState
         
         #if !CLOUDKIT

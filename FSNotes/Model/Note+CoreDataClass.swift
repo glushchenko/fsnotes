@@ -17,7 +17,7 @@ public class Note: NSManagedObject {
     var title: String = ""
     var content: String = ""
         
-    func make(id: Int, newName: String) {
+    func make(newName: String) {
         url = getUniqueFileName(name: newName)
         extractUrl()
     }
@@ -108,11 +108,7 @@ public class Note: NSManagedObject {
     
     func getPreviewForLabel() -> String {
         var preview: String = ""
-        
-        if (UserDefaultsManagement.hidePreview) {
-            return preview
-        }
-        
+                
         let count: Int = (content.characters.count)
         
         if count > 250 {
@@ -276,7 +272,7 @@ public class Note: NSManagedObject {
     
     func writeContent() -> Bool {
         do {
-            try content.write(to: url!, atomically: false, encoding: String.Encoding.utf8)
+            try content.write(to: url, atomically: false, encoding: String.Encoding.utf8)
             return true
         } catch {
             return false
@@ -284,7 +280,6 @@ public class Note: NSManagedObject {
     }
     
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
-        // save plain text file content
         do {
             let range = NSRange(location: 0, length: textStorage.string.characters.count)
             let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)

@@ -88,6 +88,7 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 CloudKitManager.instance.verifyCloudKitSubscription()
+                CloudKitManager.instance.sync()
             }
         #endif
     }
@@ -164,7 +165,7 @@ class ViewController: NSViewController,
     }
     
     func setTableRowHeight() {
-        notesTableView.rowHeight = CGFloat(UserDefaultsManagement.minTableRowHeight + UserDefaultsManagement.cellSpacing)
+        notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
     }
     
     func refillEditArea(cursor: Int? = nil) {
@@ -426,8 +427,7 @@ class ViewController: NSViewController,
         editArea.string = content
         
         let note = CoreDataManager.instance.make()
-        let nextId = storage.getNextId()
-        note.make(id: nextId, newName: name)
+        note.make(newName: name)
         note.content = content
         note.isSynced = false
         note.type = UserDefaultsManagement.storageExtension

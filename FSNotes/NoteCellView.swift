@@ -16,11 +16,17 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var pin: NSImageView!
     
     let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+    let previewMaximumLineHeight: CGFloat = 12
+    let previewLineSpacing: CGFloat = 1
     
     override func viewWillDraw() {
         if let originY = UserDefaultsManagement.cellViewFrameOriginY {
             self.frame.origin.y = originY
         }
+        
+        
+            pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing)
+        
         
         super.viewWillDraw()
     }
@@ -42,41 +48,46 @@ class NoteCellView: NSTableCellView {
     }
     
     func isFullVertical() -> Bool {
-        return (!UserDefaultsManagement.hidePreview && !UserDefaultsManagement.horizontalOrientation)
+        return (!UserDefaultsManagement.horizontalOrientation)
     }
     
     func applyPreviewStyle(_ color: NSColor) {
-        var maximumNumberOfLines = 1
-        let heightDiff = self.frame.height - CGFloat(Float(UserDefaultsManagement.minTableRowHeight))
+        let additionalHeight = CGFloat(UserDefaultsManagement.cellSpacing)
     
-        guard heightDiff > 0 else {
+        guard additionalHeight >= 0 else {
             applyPreviewAttributes(color: color)
             return
         }
         
         // fix full vertical view pin position
-        if (isFullVertical()) {
-            pin.frame.origin.y = 13 + heightDiff
-        }
-    
-        // vertically align        
-        if let font = preview.font {
-            var addLines = 0
-            let lineHeight = font.height - 2
+        pin.frame.origin.y = -4 + additionalHeight
+        
+        // vertically align
+        let lineHeight = previewLineSpacing + previewMaximumLineHeight
+        var numberOfLines = 0
+        
+        if isFullVertical() {
+            let minimumLineNumbers = Int(additionalHeight / lineHeight) - 1
             
-            if (isFullVertical() && heightDiff >= lineHeight) {
-                addLines = Int(heightDiff/lineHeight)
-                maximumNumberOfLines += addLines
+            if minimumLineNumbers > 0 {
+                numberOfLines = minimumLineNumbers
             }
             
-            let diff = (Float(heightDiff) - Float(addLines) * Float(lineHeight)) / 2
-            let frameY = CGFloat(Int(diff) + addLines)
+            if (additionalHeight > 1 + CGFloat(Int(lineHeight) * (minimumLineNumbers + 1))) {
+                numberOfLines = Int(additionalHeight / lineHeight)
+            }
+        }
+                
+        let frameY = (CGFloat(UserDefaultsManagement.cellSpacing) - CGFloat(numberOfLines) * CGFloat(lineHeight)) / 2
+        
+        if frameY >= 0 {
+            // save margin
             self.frame.origin.y = frameY
             UserDefaultsManagement.cellViewFrameOriginY = frameY
         }
         
         // apply font and max lines numbers
-        applyPreviewAttributes(maximumNumberOfLines, color: color)
+        applyPreviewAttributes(numberOfLines, color: color)
     }
     
     func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1, color: NSColor) {
@@ -86,8 +97,8 @@ class NoteCellView: NSTableCellView {
         let textColor = color
         
         let textParagraph = NSMutableParagraphStyle()
-        textParagraph.lineSpacing = 1
-        textParagraph.maximumLineHeight = 12.0
+        textParagraph.lineSpacing = previewLineSpacing
+        textParagraph.maximumLineHeight = previewMaximumLineHeight
         
         let attribs = [
             NSFontAttributeName: font,
@@ -109,9 +120,9 @@ class NoteCellView: NSTableCellView {
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
         let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -3)
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 1)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
         let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60)
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
+        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
         let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 3)
         
         NSLayoutConstraint.activate([previewTop, previewLeft, previewRight, dateRight, dateTop, nameLeft, nameRight, nameTop])
@@ -125,8 +136,8 @@ class NoteCellView: NSTableCellView {
         preview.isHidden =  true
         
         let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: 3)
+        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
+        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
         let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 5)
         let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -7)
         

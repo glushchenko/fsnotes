@@ -20,7 +20,6 @@ public class UserDefaultsManagement {
         static let TableOrientation = "isUseHorizontalMode"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
-        static let HidePreviewKey = "hidePreview"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
@@ -158,20 +157,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
         }
     }
-    
-    static var hidePreview: Bool {
-        get {
-            if let returnMode = UserDefaults.standard.object(forKey: Constants.HidePreviewKey) {
-                return returnMode as! Bool
-            } else {
-                return false
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewKey)
-        }
-    }
-    
+        
     static var newNoteShortcut: MASShortcut {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
@@ -250,26 +236,14 @@ public class UserDefaultsManagement {
             if let cellSpacing = UserDefaults.standard.object(forKey: Constants.CellSpacing) {
                 return (cellSpacing as! NSNumber).intValue
             } else {
-                return 17
+                return 33
             }
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.CellSpacing)
         }
     }
-    
-    static var minTableRowHeight: Int {
-        get {
-            if (UserDefaultsManagement.horizontalOrientation) {
-                return 25
-            } else if UserDefaultsManagement.hidePreview {
-                return 23
-            } else {
-                return 37 // Vertical orientation, with previews.
-            }
-        }
-    }
-    
+        
     static var cellViewFrameOriginY: CGFloat? {        
         get {
             if let value = UserDefaults.standard.object(forKey: Constants.CellFrameOriginY) {
