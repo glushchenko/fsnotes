@@ -134,7 +134,7 @@ public class Note: NSManagedObject {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeStyle = DateFormatter.Style.none
-        dateFormatter.locale = NSLocale(localeIdentifier: Locale.preferredLanguages[0]) as Locale!
+        dateFormatter.locale = NSLocale.autoupdatingCurrent
         
         return dateFormatter.string(from: self.modifiedLocalAt!)
     }
