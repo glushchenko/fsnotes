@@ -82,8 +82,7 @@ class NoteCellView: NSTableCellView {
         
         if frameY >= 0 {
             // save margin
-            self.frame.origin.y = frameY
-            UserDefaultsManagement.cellViewFrameOriginY = frameY
+            UserDefaultsManagement.cellViewFrameOriginY = CGFloat(Int(frameY))
         }
         
         // apply font and max lines numbers
