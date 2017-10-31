@@ -62,7 +62,7 @@ class CloudKitManager {
                     let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
                     
                     let note = Storage.instance.getOrCreate(name: fileName)
-                    if (note.modifiedLocalAt == record["modifiedAt"] as? Date) {
+                    if (note.modifiedLocalAt == record["modifiedAt"] as? Date && !note.cloudKitRecord.isEmpty) {
                         continue
                     }
                     
@@ -121,11 +121,13 @@ class CloudKitManager {
         saveRecord(note: note, sRecord: unwrappedRecord)
     }
     
-    func saveRecord(note: Note, sRecord: CKRecord) {
+    func saveRecord(note: Note, sRecord: CKRecord, push: Bool = true) {
         database.save(sRecord) { (record, error) in
             self.hasActivePushConnection = false
             
             guard error == nil else {
+                print("Save \(note.name) error \(error.debugDescription)")
+                
                 if error?._code == CKError.serverRecordChanged.rawValue {
                     print("Server record changed. Need resolve conflict.")
                     self.resolveConflict(note: note, sRecord: sRecord)
@@ -148,7 +150,11 @@ class CloudKitManager {
             }
             
             self.updateNoteRecord(note: note, record: record)
-            self.push()
+            print("Successfully saved: \(note.name)")
+            
+            if push {
+                self.push()
+            }
         }
     }
     
@@ -160,19 +166,20 @@ class CloudKitManager {
                     let file = fetchedRecord.object(forKey: "file") as! CKAsset
                     let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
                     
-                    self.updateNoteRecord(note: note, record: fetchedRecord)
-                    
-                    let newNote = CoreDataManager.instance.make()
+                    let conflictedNote = CoreDataManager.instance.make()
                     let date = fetchedRecord.object(forKey: "modifiedAt") as! Date
                     let dateFormatter = ISO8601DateFormatter()
                     let dateString: String = dateFormatter.string(from: date)
-                    newNote.url = newNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
-                    newNote.extractUrl()
-                    newNote.content = content
-                    print("Resolve conflict started")
-                    if newNote.writeContent() {
-                        self.saveRecord(note: note, sRecord: fetchedRecord)
-                    }
+                    conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
+                    conflictedNote.extractUrl()
+                    conflictedNote.content = content
+                    
+                    self.updateNoteRecord(note: note, record: fetchedRecord)
+                    self.saveRecord(note: note, sRecord: fetchedRecord, push: false)
+                    
+                    let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
+                    conflictedNote.save(textStorage)
+                    self.reloadView(note: conflictedNote)
                 } catch {}
                 
             case .failure(let error):
@@ -187,13 +194,11 @@ class CloudKitManager {
             return
         }
         
-        print("Successfully saved: \(note.name)")
-        
-        note.cloudKitRecord = record.data()
-        if note.modifiedLocalAt == record["modifiedAt"] as? Date  {
+        if note.modifiedLocalAt == record["modifiedAt"] as? Date || note.cloudKitRecord.isEmpty {
             note.isSynced = true
         }
         
+        note.cloudKitRecord = record.data()
         CoreDataManager.instance.save()
     }
     
@@ -284,6 +289,7 @@ class CloudKitManager {
                 print("Record zone has changes!")
                 serverChangesToken = token
             }
+            print("Record zone not changes!")
         }
         
         operation.fetchRecordZoneChangesCompletionBlock = { (error: Error?) in

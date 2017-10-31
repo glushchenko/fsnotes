@@ -27,6 +27,7 @@
 		D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
 		D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
 		D79700501F3E19C600BAD94D /* DocumentAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004F1F3E19C600BAD94D /* DocumentAttributes.swift */; };
+		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE89B1F77CDEF00113CFD /* FSNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8991F77CDEF00113CFD /* FSNotes.xcdatamodeld */; };
 		D79FE8A21F77D04A00113CFD /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note+CoreDataClass.swift */; };
 		D79FE8A31F77D04A00113CFD /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A11F77D04A00113CFD /* Note+CoreDataProperties.swift */; };
@@ -421,7 +422,7 @@
 				TargetAttributes = {
 					D7793C6E1F211C6000CA39B7 = {
 						CreatedOnToolsVersion = 9.0;
-                        ProvisioningStyle = Manual;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.Mac = {
 								enabled = 0;
@@ -701,6 +702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */,
 				D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */,
 				D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */,
 				D7E81C301F925B5F00416A91 /* FileWatcher.swift in Sources */,
@@ -873,7 +875,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-                CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -901,7 +903,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
-                CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;

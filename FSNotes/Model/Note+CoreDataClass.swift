@@ -287,6 +287,7 @@ public class Note: NSManagedObject {
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {
             NSLog(error.localizedDescription)
+            return
         }
         
         if !Storage.instance.noteList.contains(where: { $0.name == name }) {
