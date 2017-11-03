@@ -31,7 +31,7 @@ class EditTextView: NSTextView {
     }
     
     @IBAction func togglePreview(_ sender: Any) {
-        let mainWindow = NSApplication.shared().windows.first
+        let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         
         viewController.togglePreview()
@@ -46,7 +46,7 @@ class EditTextView: NSTextView {
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
+        if (event.modifierFlags.contains(NSEvent.ModifierFlags.command) || event.modifierFlags.rawValue == 393475) {
             if (formatShortcut(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
                 return true
             }
@@ -55,7 +55,7 @@ class EditTextView: NSTextView {
     }
     
     func getSelectedNote() -> Note? {
-        let mainWindow = NSApplication.shared().windows.first
+        let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let note = viewController.notesTableView.getNoteFromSelectedRow()
         return note
@@ -90,7 +90,7 @@ class EditTextView: NSTextView {
                 textStorage?.setAttributedString(attrString)
                 
                 let range = NSMakeRange(0, (textStorage?.string.count)!)
-                textStorage?.addAttribute(NSFontAttributeName, value: UserDefaultsManagement.noteFont, range: range)
+                textStorage?.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
             }
         }
         
@@ -113,7 +113,7 @@ class EditTextView: NSTextView {
     }
     
     func highlightKeyword(remove: Bool = false) {
-        let mainWindow = NSApplication.shared().windows.first
+        let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
         
@@ -136,9 +136,9 @@ class EditTextView: NSTextView {
                 let subRange = textCheckingResult?.range
                 
                 if remove {
-                    attributedString.removeAttribute(NSBackgroundColorAttributeName, range: subRange!)
+                    attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange!)
                 } else {
-                    attributedString.addAttribute(NSBackgroundColorAttributeName, value: highlightColor, range: subRange!)
+                    attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange!)
                 }
             }
         )
@@ -189,7 +189,7 @@ class EditTextView: NSTextView {
     }
     
     func formatShortcut(keyCode: UInt16, modifier: UInt = 0) -> Bool {
-        let mainWindow = NSApplication.shared().windows.first
+        let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
         
@@ -253,28 +253,28 @@ class EditTextView: NSTextView {
         case 32: // cmd-u
             if (currentNote.isRTF()) {
                 if (selectedText.length > 0) {
-                    attributedText.removeAttribute("NSUnderline", range: NSMakeRange(0, selectedText.length))
+                    attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: NSMakeRange(0, selectedText.length))
                 }
                 
                 if (typingAttributes["NSUnderline"] == nil) {
-                    attributedText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
+                    attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
                     typingAttributes["NSUnderline"] = 1
                 } else {
-                    typingAttributes.removeValue(forKey: "NSUnderline")
+                    typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
                 }
             }
             break
         case 16: // cmd-y
             if (currentNote.isRTF()) {
                 if (selectedText.length > 0) {
-                    attributedText.removeAttribute("NSStrikethrough", range: NSMakeRange(0, selectedText.length))
+                    attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: NSMakeRange(0, selectedText.length))
                 }
                 
                 if (typingAttributes["NSStrikethrough"] == nil) {
-                    attributedText.addAttribute(NSStrikethroughStyleAttributeName, value: 2, range: NSMakeRange(0, selectedText.length))
+                    attributedText.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: NSMakeRange(0, selectedText.length))
                     typingAttributes["NSStrikethrough"] = 2
                 } else {
-                    typingAttributes.removeValue(forKey: "NSStrikethrough")
+                    typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
                 }
             } else {
                 attributedText.mutableString.setString("~~" + attributedText.string + "~~")

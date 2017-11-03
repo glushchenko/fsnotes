@@ -96,7 +96,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (
             event.keyCode == 28
-            && event.modifierFlags.contains(.command)) {
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             return true
         }
         
@@ -118,7 +118,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func makeCell() -> NoteCellView {
-        return make(withIdentifier: "NoteCellView", owner: self) as! NoteCellView
+        return makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
     }
         
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {

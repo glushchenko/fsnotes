@@ -22,12 +22,12 @@ class PrefsViewController: NSViewController {
     @IBOutlet var tabView: NSTabView!
     @IBOutlet var tabViewSync: NSTabViewItem!
     
-    let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+    let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
     
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
         // We don't need to set the user defaults value here as the checkbox is
         // bound to it. We do need to update each window's hideOnDeactivate.
-        for window in NSApplication.shared().windows {
+        for window in NSApplication.shared.windows {
             window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         }
     }
@@ -47,7 +47,7 @@ class PrefsViewController: NSViewController {
         openPanel.canChooseFiles = true
        
         openPanel.begin { (result) -> Void in
-            if result == NSFileHandlingPanelOKButton {
+            if result.rawValue == NSFileHandlingPanelOKButton {
                 let bookmark = SandboxBookmark()
                 let url = openPanel.url
                 
@@ -70,7 +70,7 @@ class PrefsViewController: NSViewController {
     @IBAction func verticalOrientation(_ sender: Any) {
         UserDefaultsManagement.horizontalOrientation = false
         
-        horizontalRadio.cell?.state = 0
+        horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = true
         controller?.splitView.setPosition(215, ofDividerAt: 0)
         controller?.notesTableView.rowHeight = 63
@@ -81,7 +81,7 @@ class PrefsViewController: NSViewController {
     @IBAction func horizontalOrientation(_ sender: Any) {
         UserDefaultsManagement.horizontalOrientation = true
         
-        verticalRadio.cell?.state = 0
+        verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = false
         controller?.splitView.setPosition(215, ofDividerAt: 0)
         controller?.notesTableView.rowHeight = 30
@@ -94,7 +94,7 @@ class PrefsViewController: NSViewController {
     var fontPanelOpen: Bool = false
     
     @IBAction func setFont(_ sender: NSButton) {
-        let fontManager = NSFontManager.shared()
+        let fontManager = NSFontManager.shared
         if UserDefaultsManagement.noteFont != nil {
             fontManager.setSelectedFont(UserDefaultsManagement.noteFont!, isMultiple: false)
         }
@@ -109,7 +109,7 @@ class PrefsViewController: NSViewController {
     
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
-        let fontManager = NSFontManager.shared()
+        let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont
         
@@ -135,9 +135,9 @@ class PrefsViewController: NSViewController {
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
         
         if (UserDefaultsManagement.horizontalOrientation) {
-            horizontalRadio.cell?.state = 1
+            horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
         } else {
-            verticalRadio.cell?.state = 1
+            verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
         }
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension

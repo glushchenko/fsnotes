@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
     
     @IBAction func openHelp(_ sender: Any) {
-        NSWorkspace.shared().open(URL(string: "https://github.com/glushchenko/fsnotes")!)
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
     }
     
     @IBAction func openMainWindow(_ sender: Any) {
@@ -24,7 +24,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
-        NSFontManager.shared().fontPanel(false)?.orderOut(self)
+        NSFontManager.shared.fontPanel(false)?.orderOut(self)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -68,7 +68,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #if CLOUDKIT
     func applicationWillFinishLaunching(_ notification: Notification) {
         if UserDefaultsManagement.cloudKitSync {
-            NSApp.registerForRemoteNotifications(matching: NSRemoteNotificationType())
+            NSApp.registerForRemoteNotifications(matching: NSApplication.RemoteNotificationType())
         }
     }
 

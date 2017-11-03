@@ -13,12 +13,12 @@ class MainWindowController: NSWindowController,
 NSWindowDelegate {
     
     func windowDidResize(_ notification: Notification) {
-        let controller = NSApplication.shared().windows.first?.contentViewController as? ViewController
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
         controller?.refillEditArea()
     }
     
     override func windowDidLoad() {
-        let appDelegate = NSApplication.shared().delegate as! AppDelegate
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
     }

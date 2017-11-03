@@ -31,8 +31,8 @@ class ViewController: NSViewController,
         self.view.window!.titlebarAppearsTransparent = true
         
         // autosave size and position
-        self.view.window?.setFrameAutosaveName("MainWindow")
-        splitView.autosaveName = "SplitView"
+        self.view.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "MainWindow"))
+        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         
         // editarea paddings
         editArea.textContainerInset.height = 10
@@ -74,11 +74,11 @@ class ViewController: NSViewController,
         })
         
         // Local shortcuts monitoring
-        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) {
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
             return $0
         }
         
-        NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
             self.keyDown(with: $0)
             return $0
         }
@@ -192,12 +192,12 @@ class ViewController: NSViewController,
         }
         
         // Focus search field shortcut (cmd-L)
-        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 37 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             search.becomeFirstResponder()
         }
         
         // Remove note (cmd-delete)
-        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 51 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
             
             if !focusOnEditArea {
@@ -208,27 +208,27 @@ class ViewController: NSViewController,
         // Note edit mode and select file name (cmd-r)
         if (
             event.keyCode == 15
-            && event.modifierFlags.contains(.command)
-            && !event.modifierFlags.contains(.shift)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && !event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
         ) {
             renameNote(selectedRow: notesTableView.selectedRow)
         }
         
         // Make note shortcut (cmd-n)
-        if (event.keyCode == 45 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 45 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             makeNote(NSTextField())
         }
         
         // Pin note shortcut (cmd-y)
-        if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == 28 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             pin(selectedRow: notesTableView.selectedRow)
         }
         
         // Open in external editor (cmd-control-e)
         if (
             event.keyCode == 14
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.control)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.control)
         ) {
             external(selectedRow: notesTableView.selectedRow)
         }
@@ -236,8 +236,8 @@ class ViewController: NSViewController,
         // Open in finder (cmd-shift-r)
         if (
             event.keyCode == 15
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
         ) {
             finder(selectedRow: notesTableView.selectedRow)
         }
@@ -306,7 +306,7 @@ class ViewController: NSViewController,
             && !UserDefaultsManagement.preview
         ) {
             editArea.removeHighlight()
-            let content = editArea.string!
+            let content = editArea.string
             let note = notesTableView.noteList[selected]
             note.content = content
             note.save(editArea.textStorage!)
@@ -392,7 +392,7 @@ class ViewController: NSViewController,
     }
     
     func makeNoteShortcut() {
-        let clipboard = NSPasteboard.general().string(forType: NSPasteboardTypeString)
+        let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
         if (clipboard != nil) {
             createNote(content: clipboard!)
             
@@ -465,7 +465,7 @@ class ViewController: NSViewController,
         cell.name.isEditable = true
         cell.name.becomeFirstResponder()
         
-        let fileName = cell.name.currentEditor()!.string! as NSString
+        let fileName = cell.name.currentEditor()!.string as NSString
         let fileNameLength = fileName.length
         
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
@@ -482,8 +482,8 @@ class ViewController: NSViewController,
         alert.informativeText = "This action cannot be undone."
         alert.addButton(withTitle: "Remove note")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSModalResponse) -> Void in
-            if returnCode == NSAlertFirstButtonReturn {
+        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
                 self.notesTableView.removeNote(note)
                 
@@ -498,7 +498,7 @@ class ViewController: NSViewController,
     func finder(selectedRow: Int) {
         if (self.notesTableView.noteList.indices.contains(selectedRow)) {
             let note = notesTableView.noteList[selectedRow]
-            NSWorkspace.shared().activateFileViewerSelecting([note.url])
+            NSWorkspace.shared.activateFileViewerSelecting([note.url])
         }
     }
     
@@ -506,7 +506,7 @@ class ViewController: NSViewController,
         if (notesTableView.noteList.indices.contains(selectedRow)) {
             let note = notesTableView.noteList[selectedRow]
             
-            NSWorkspace.shared().openFile(note.url.path, withApplication: UserDefaultsManagement.externalEditor)
+            NSWorkspace.shared.openFile(note.url.path, withApplication: UserDefaultsManagement.externalEditor)
         }
     }
     

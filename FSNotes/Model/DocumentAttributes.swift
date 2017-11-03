@@ -17,14 +17,14 @@ class DocumentAttributes {
         
         if (fileExtension == "rtf") {
             options = [
-                NSDocumentTypeDocumentAttribute : NSRTFTextDocumentType,
-                NSFontAttributeName: font!
+                NSAttributedString.DocumentAttributeKey.documentType.rawValue : NSAttributedString.DocumentType.rtf,
+                NSAttributedStringKey.font.rawValue: font!
             ]
         } else {
             options = [
-                NSDocumentTypeDocumentAttribute : NSPlainTextDocumentType,
-                NSFontAttributeName: font!,
-                NSCharacterEncodingDocumentAttribute : NSNumber(value: String.Encoding.utf8.rawValue)
+                NSAttributedString.DocumentAttributeKey.documentType.rawValue : NSAttributedString.DocumentType.plain,
+                NSAttributedStringKey.font.rawValue: font!,
+                NSAttributedString.DocumentAttributeKey.characterEncoding.rawValue : NSNumber(value: String.Encoding.utf8.rawValue)
             ]
         }
         

@@ -257,7 +257,7 @@ class CloudKitManager {
     
     func reloadView(note: Note? = nil) {
         DispatchQueue.main.async() {
-            let viewController = NSApplication.shared().windows.first!.contentViewController as! ViewController
+            let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             if let unwrappedNote = note {
                 viewController.reloadView(note: unwrappedNote)
             } else {

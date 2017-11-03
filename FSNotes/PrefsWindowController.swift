@@ -20,7 +20,7 @@ class PrefsWindowController: NSWindowController, NSWindowDelegate {
         // If the Font Panel was open, show it again.
         let controller = self.contentViewController as! PrefsViewController
         if (controller.fontPanelOpen) {
-            NSFontManager.shared().orderFrontFontPanel(self)
+            NSFontManager.shared.orderFrontFontPanel(self)
         }
     }
     
@@ -28,7 +28,7 @@ class PrefsWindowController: NSWindowController, NSWindowDelegate {
         // If the Font Panel is open, hide it.
         let controller = self.contentViewController as! PrefsViewController
         if (controller.fontPanelOpen) {
-            NSFontManager.shared().fontPanel(false)?.orderOut(self)
+            NSFontManager.shared.fontPanel(false)?.orderOut(self)
         }
     }
     

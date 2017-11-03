@@ -100,9 +100,9 @@ class NoteCellView: NSTableCellView {
         textParagraph.maximumLineHeight = previewMaximumLineHeight
         
         let attribs = [
-            NSFontAttributeName: font,
-            NSForegroundColorAttributeName: textColor,
-            NSParagraphStyleAttributeName: textParagraph
+            NSAttributedStringKey.font: font,
+            NSAttributedStringKey.foregroundColor: textColor,
+            NSAttributedStringKey.paragraphStyle: textParagraph
         ]
         
         preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
@@ -145,10 +145,10 @@ class NoteCellView: NSTableCellView {
 
     // This NoteCellView has multiple contained views; this method changes
     // these views' color when the cell is selected.
-    override var backgroundStyle: NSBackgroundStyle {
+    override var backgroundStyle: NSView.BackgroundStyle {
         set {
             if let rowView = self.superview as? NSTableRowView {
-                super.backgroundStyle = rowView.isSelected ? NSBackgroundStyle.dark : NSBackgroundStyle.light
+                super.backgroundStyle = rowView.isSelected ? NSView.BackgroundStyle.dark : NSView.BackgroundStyle.light
             }
             self.udpateSelectionHighlight()
         }
@@ -158,7 +158,7 @@ class NoteCellView: NSTableCellView {
     }
     
     func udpateSelectionHighlight() {
-        if ( self.backgroundStyle == NSBackgroundStyle.dark ) {
+        if ( self.backgroundStyle == NSView.BackgroundStyle.dark ) {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
         } else {

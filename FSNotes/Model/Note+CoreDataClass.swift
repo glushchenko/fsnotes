@@ -114,7 +114,7 @@ public class Note: NSManagedObject {
         if count > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
             let endIndex = content.index((content.startIndex), offsetBy: 250)
-            preview = content[startIndex...endIndex]
+            preview = String(content[startIndex...endIndex])
         } else {
             preview = content
         }
@@ -238,7 +238,7 @@ public class Note: NSManagedObject {
                     let matches = regex.matches(in: String(nsHeader), options: [], range: NSMakeRange(0, (nsHeader as String).characters.count))
                     
                     if let match = matches.first {
-                        let range = match.rangeAt(1)
+                        let range = match.range(at: 1)
                         extractedTitle = nsHeader.substring(with: range)
                         break
                     }
