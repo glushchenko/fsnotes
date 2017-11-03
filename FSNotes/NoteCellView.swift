@@ -24,9 +24,7 @@ class NoteCellView: NSTableCellView {
             self.frame.origin.y = originY
         }
         
-        
-            pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing)
-        
+        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing)
         
         super.viewWillDraw()
     }
@@ -80,9 +78,11 @@ class NoteCellView: NSTableCellView {
                 
         let frameY = (CGFloat(UserDefaultsManagement.cellSpacing) - CGFloat(numberOfLines) * CGFloat(lineHeight)) / 2
         
+        // save margin
         if frameY >= 0 {
-            // save margin
-            UserDefaultsManagement.cellViewFrameOriginY = CGFloat(Int(frameY))
+            let y = CGFloat(Int(frameY))
+            self.frame.origin.y = y
+            UserDefaultsManagement.cellViewFrameOriginY = y
         }
         
         // apply font and max lines numbers
