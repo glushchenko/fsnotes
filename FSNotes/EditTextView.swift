@@ -69,7 +69,7 @@ class EditTextView: NSTextView {
         isRichText = note.isRTF()
         
         typingAttributes.removeAll()
-        typingAttributes["NSFont"] = UserDefaultsManagement.noteFont
+        typingAttributes[.font] = UserDefaultsManagement.noteFont
         
         if (isRichText) {
             let attrString = createAttributedString(note: note)
@@ -152,7 +152,7 @@ class EditTextView: NSTextView {
         
         do {
             let range = NSRange(location: 0, length: (textStorage?.string.characters.count)!)
-            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
+            let documentAttributes = DocumentAttributes.getKey(fileExtension: fileExtension!)
             let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
            
@@ -176,13 +176,13 @@ class EditTextView: NSTextView {
     func createAttributedString(note: Note) -> NSAttributedString {
         let url = note.url
         let fileExtension = url?.pathExtension
-        let options = DocumentAttributes.getDocumentAttributes(fileExtension: fileExtension!)
         var attributedString = NSAttributedString()
         
         do {
+            let options = DocumentAttributes.getReadingOptionKey(fileExtension: fileExtension!) as! [NSAttributedString.DocumentReadingOptionKey : Any]
             attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
-            } catch {
-            attributedString = NSAttributedString(string: "", attributes: options)
+        } catch {
+            attributedString = NSAttributedString(string: "", attributes: [.font: UserDefaultsManagement.noteFont])
         }
         
         return attributedString
@@ -210,8 +210,7 @@ class EditTextView: NSTextView {
         var attributedText = NSMutableAttributedString()
         
         if (attributedSelected == nil) {
-            let options = DocumentAttributes.getDocumentAttributes(fileExtension: currentNote.url.pathExtension)
-            attributedText.addAttributes(options, range: NSMakeRange(0, selectedText.length))
+            attributedText.addAttributes([.font: UserDefaultsManagement.noteFont], range: NSMakeRange(0, selectedText.length))
         } else {
             attributedText = NSMutableAttributedString(attributedString: attributedSelected!)
         }
@@ -223,11 +222,11 @@ class EditTextView: NSTextView {
             } else {
                 if (selectedText.length > 0) {
                     let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
-                    let newFont = toggleBoldFont(font: fontAttributes!["NSFont"] as! NSFont)
-                    attributedText.addAttribute("NSFont", value: newFont, range: selectedRange)
+                    let newFont = toggleBoldFont(font: fontAttributes![.font] as! NSFont)
+                    attributedText.addAttribute(.font, value: newFont, range: selectedRange)
                 }
 
-                typingAttributes["NSFont"] = toggleBoldFont(font: typingAttributes["NSFont"] as! NSFont)
+                typingAttributes[.font] = toggleBoldFont(font: typingAttributes[.font] as! NSFont)
             }
             break
         case 34:
@@ -243,11 +242,11 @@ class EditTextView: NSTextView {
             } else {
                 if (selectedText.length > 0) {
                     let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
-                    let newFont = toggleItalicFont(font: fontAttributes!["NSFont"] as! NSFont)
-                    attributedText.addAttribute("NSFont", value: newFont, range: selectedRange)
+                    let newFont = toggleItalicFont(font: fontAttributes![.font] as! NSFont)
+                    attributedText.addAttribute(.font, value: newFont, range: selectedRange)
                 }
                 
-                typingAttributes["NSFont"] = toggleItalicFont(font: typingAttributes["NSFont"] as! NSFont)
+                typingAttributes[.font] = toggleItalicFont(font: typingAttributes[.font] as! NSFont)
             }
             break
         case 32: // cmd-u
@@ -256,9 +255,9 @@ class EditTextView: NSTextView {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: NSMakeRange(0, selectedText.length))
                 }
                 
-                if (typingAttributes["NSUnderline"] == nil) {
+                if (typingAttributes[.underlineStyle] == nil) {
                     attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
-                    typingAttributes["NSUnderline"] = 1
+                    typingAttributes[.underlineStyle] = 1
                 } else {
                     typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
                 }
@@ -270,9 +269,9 @@ class EditTextView: NSTextView {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: NSMakeRange(0, selectedText.length))
                 }
                 
-                if (typingAttributes["NSStrikethrough"] == nil) {
+                if (typingAttributes[.strikethroughStyle] == nil) {
                     attributedText.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: NSMakeRange(0, selectedText.length))
-                    typingAttributes["NSStrikethrough"] = 2
+                    typingAttributes[.strikethroughStyle] = 2
                 } else {
                     typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
                 }

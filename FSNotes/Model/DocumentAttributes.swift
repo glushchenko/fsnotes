@@ -10,24 +10,34 @@ import Foundation
 import Cocoa
 
 class DocumentAttributes {
-    static func getDocumentAttributes(fileExtension: String) -> [String : Any] {
-        var options: [String : Any]
-        
-        let font = NSFont(name: UserDefaultsManagement.fontName, size: CGFloat(UserDefaultsManagement.fontSize))
+    static func getKey(fileExtension: String) -> [NSAttributedString.DocumentAttributeKey : Any] {
+        var options: [NSAttributedString.DocumentAttributeKey : Any]
         
         if (fileExtension == "rtf") {
             options = [
-                NSAttributedString.DocumentAttributeKey.documentType.rawValue : NSAttributedString.DocumentType.rtf,
-                NSAttributedStringKey.font.rawValue: font!
+                .documentType : NSAttributedString.DocumentType.rtf
             ]
         } else {
             options = [
-                NSAttributedString.DocumentAttributeKey.documentType.rawValue : NSAttributedString.DocumentType.plain,
-                NSAttributedStringKey.font.rawValue: font!,
-                NSAttributedString.DocumentAttributeKey.characterEncoding.rawValue : NSNumber(value: String.Encoding.utf8.rawValue)
+                .documentType : NSAttributedString.DocumentType.plain,
+                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
             ]
         }
         
         return options
     }
+    
+    static func getReadingOptionKey(fileExtension: String) -> [NSAttributedString.DocumentReadingOptionKey : Any] {
+        if (fileExtension == "rtf") {
+            return [
+                .documentType : NSAttributedString.DocumentType.rtf
+            ]
+        }
+    
+        return [
+            .documentType : NSAttributedString.DocumentType.plain,
+            .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+        ]
+    }
+    
 }

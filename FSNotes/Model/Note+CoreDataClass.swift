@@ -14,7 +14,7 @@ import CoreData
 public class Note: NSManagedObject {
     var type: String = "md"
     var url: URL!
-    var title: String = ""
+    @objc var title: String = ""
     var content: String = ""
         
     func make(newName: String) {
@@ -106,9 +106,8 @@ public class Note: NSManagedObject {
         }
     }
     
-    func getPreviewForLabel() -> String {
+    @objc func getPreviewForLabel() -> String {
         var preview: String = ""
-                
         let count: Int = (content.characters.count)
         
         if count > 250 {
@@ -130,7 +129,7 @@ public class Note: NSManagedObject {
         return preview.condenseWhitespace()
     }
     
-    func getDateForLabel() -> String {
+    @objc func getDateForLabel() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = DateFormatter.Style.short
         dateFormatter.timeStyle = DateFormatter.Style.none
@@ -141,7 +140,7 @@ public class Note: NSManagedObject {
     
     func getContent(url: URL) -> String {
         var content: String = ""
-        let attributes = DocumentAttributes.getDocumentAttributes(fileExtension: url.pathExtension)
+        let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension) as! [NSAttributedString.DocumentReadingOptionKey : Any]
         
         do {
             let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
@@ -282,7 +281,7 @@ public class Note: NSManagedObject {
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
         do {
             let range = NSRange(location: 0, length: textStorage.string.characters.count)
-            let documentAttributes = DocumentAttributes.getDocumentAttributes(fileExtension: type)
+            let documentAttributes = DocumentAttributes.getKey(fileExtension: type)
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {

@@ -33,7 +33,7 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func cloudKitSync(_ sender: Any) {
-        UserDefaultsManagement.cloudKitSync = !((sender as AnyObject).state == NSOffState)
+        UserDefaultsManagement.cloudKitSync = !((sender as AnyObject).state == NSControl.StateValue.off)
         
         restart()
     }
@@ -141,7 +141,7 @@ class PrefsViewController: NSViewController {
         }
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSOnState : NSOffState
+        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
         
         #if !CLOUDKIT
             tabView.removeTabViewItem(tabViewSync)
