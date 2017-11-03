@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0046CB315432F14830E752CE /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5819B06A38119683938E2D1E /* Pods_FSNotes.framework */; };
+		14027393D4820E0F5320AE4F /* Pods_FSNotes__CloudKit_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		6F46BBE71F55320E000D7DB2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
+		6F5D135E5A89259ECDAB1585 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5819B06A38119683938E2D1E /* Pods_FSNotes.framework */; };
+		91CE49679121DC0319B0BB9C /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D71670AC1F7E914F00AE1AC2 /* UserDefaults+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71670AB1F7E914F00AE1AC2 /* UserDefaults+Token.swift */; };
@@ -77,7 +80,6 @@
 		D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D7E81C451F925B5F00416A91 /* FSNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8991F77CDEF00113CFD /* FSNotes.xcdatamodeld */; };
 		D7E81C461F925B5F00416A91 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note+CoreDataClass.swift */; };
-		D7E81C481F925B5F00416A91 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5819B06A38119683938E2D1E /* Pods_FSNotes.framework */; };
 		D7E81C4A1F925B5F00416A91 /* Hello world.md in Resources */ = {isa = PBXBuildFile; fileRef = D7D6FA341F5C68E000E08068 /* Hello world.md */; };
 		D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
 		D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
@@ -110,11 +112,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		119660667AFC00E2FC48D23C /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
+		1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
-		310C5FB081DABFC536EC197F /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
+		2F06741487033D206BD611B4 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
 		5819B06A38119683938E2D1E /* Pods_FSNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).debug.xcconfig"; sourceTree = "<group>"; };
 		6F46BBE61F55320E000D7DB2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__CloudKit_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D71670AB1F7E914F00AE1AC2 /* UserDefaults+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Token.swift"; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
 		D72E05861F5220D300977D02 /* Down.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Down.framework; sourceTree = "<group>"; };
@@ -123,11 +127,14 @@
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D741122A1FACA10A00AB619A /* PrefsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsWindow.swift; sourceTree = "<group>"; };
+		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D75AD2301F41E4550026C65D /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagement.swift; sourceTree = "<group>"; };
 		D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxBookmark.swift; sourceTree = "<group>"; };
+		D77671B71FACEDDE00DDF28D /* MASShortcut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MASShortcut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_FSNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C6F1F211C6000CA39B7 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C721F211C6000CA39B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7793C741F211C6000CA39B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +173,7 @@
 		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		D7E81C5A1F925B5F00416A91 /* FSNotes (CloudKit).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes (CloudKit).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7E81C5C1F925B8E00416A91 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		F3A83507E865DA95F2735CC8 /* Pods-FSNotes (CloudKit).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +182,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0046CB315432F14830E752CE /* Pods_FSNotes.framework in Frameworks */,
+				6F5D135E5A89259ECDAB1585 /* Pods_FSNotes.framework in Frameworks */,
+				91CE49679121DC0319B0BB9C /* Pods_FSNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,8 +205,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7E81C481F925B5F00416A91 /* Pods_FSNotes.framework in Frameworks */,
 				D7E81C5D1F925B8E00416A91 /* CloudKit.framework in Frameworks */,
+				14027393D4820E0F5320AE4F /* Pods_FSNotes__CloudKit_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,8 +216,10 @@
 		A124E2E6306B074DE002E8BA /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				119660667AFC00E2FC48D23C /* Pods-FSNotes.debug.xcconfig */,
-				310C5FB081DABFC536EC197F /* Pods-FSNotes.release.xcconfig */,
+				1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */,
+				2F06741487033D206BD611B4 /* Pods-FSNotes.release.xcconfig */,
+				63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */,
+				F3A83507E865DA95F2735CC8 /* Pods-FSNotes (CloudKit).release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -215,9 +227,13 @@
 		C5F4774EAA923C4003B182F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D77671B71FACEDDE00DDF28D /* MASShortcut.framework */,
+				D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */,
+				D74922111FACE9B100C45108 /* Down.framework */,
 				D7E81C5C1F925B8E00416A91 /* CloudKit.framework */,
 				D72E05861F5220D300977D02 /* Down.framework */,
 				5819B06A38119683938E2D1E /* Pods_FSNotes.framework */,
+				9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -400,12 +416,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7E81C571F925B5F00416A91 /* Build configuration list for PBXNativeTarget "FSNotes (CloudKit)" */;
 			buildPhases = (
-				D7E81C2C1F925B5F00416A91 /* [CP] Check Pods Manifest.lock */,
+				FE1FA4DE05AA000556FC1C26 /* [CP] Check Pods Manifest.lock */,
 				D7E81C2D1F925B5F00416A91 /* Sources */,
 				D7E81C471F925B5F00416A91 /* Frameworks */,
 				D7E81C491F925B5F00416A91 /* Resources */,
-				D7E81C551F925B5F00416A91 /* [CP] Embed Pods Frameworks */,
-				D7E81C561F925B5F00416A91 /* [CP] Copy Pods Resources */,
+				BF61150B51B7D0597D6A832B /* [CP] Embed Pods Frameworks */,
+				2F2B90B91846AD4C386A8A40 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -423,7 +439,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Oleksandr Glushchenko";
 				TargetAttributes = {
 					D7793C6E1F211C6000CA39B7 = {
@@ -541,6 +557,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2F2B90B91846AD4C386A8A40 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit)-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		44FD744BA8F39342864F08EE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -566,7 +597,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -577,31 +608,13 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D7E81C2C1F925B5F00416A91 /* [CP] Check Pods Manifest.lock */ = {
+		BF61150B51B7D0597D6A832B /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotes-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D7E81C551F925B5F00416A91 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit)-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 			);
@@ -612,25 +625,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D7E81C561F925B5F00416A91 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit)-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EF05BC144E24BED78E33FAB7 /* [CP] Embed Pods Frameworks */ = {
@@ -651,6 +646,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE1FA4DE05AA000556FC1C26 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotes (CloudKit)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -882,7 +895,7 @@
 		};
 		D7793C961F211C6000CA39B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 119660667AFC00E2FC48D23C /* Pods-FSNotes.debug.xcconfig */;
+			baseConfigurationReference = 1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -903,14 +916,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
 		};
 		D7793C971F211C6000CA39B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 310C5FB081DABFC536EC197F /* Pods-FSNotes.release.xcconfig */;
+			baseConfigurationReference = 2F06741487033D206BD611B4 /* Pods-FSNotes.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -934,7 +947,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1003,7 +1016,7 @@
 		};
 		D7E81C581F925B5F00416A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 119660667AFC00E2FC48D23C /* Pods-FSNotes.debug.xcconfig */;
+			baseConfigurationReference = 63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "FSNotes/FSNotes (CloudKit).entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -1034,7 +1047,7 @@
 		};
 		D7E81C591F925B5F00416A91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 310C5FB081DABFC536EC197F /* Pods-FSNotes.release.xcconfig */;
+			baseConfigurationReference = F3A83507E865DA95F2735CC8 /* Pods-FSNotes (CloudKit).release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "FSNotes/FSNotes (CloudKit).entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";

@@ -251,7 +251,7 @@ class ViewController: NSViewController,
     
     @IBAction func makeNote(_ sender: NSTextField) {
         let value = sender.stringValue
-        if (value.characters.count > 0) {
+        if (value.count > 0) {
             createNote(name: value)
         } else {
             createNote()

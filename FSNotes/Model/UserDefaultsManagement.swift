@@ -73,7 +73,7 @@ public class UserDefaultsManagement {
     static var externalEditor: String {
         get {
             let name = UserDefaults.standard.object(forKey: "externalEditorApp")
-            if name != nil && (name as! String).characters.count > 0 {
+            if name != nil && (name as! String).count > 0 {
                 return name as! String
             } else {
                 return "TextEdit"

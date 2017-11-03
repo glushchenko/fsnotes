@@ -179,7 +179,7 @@ class EditTextView: NSTextView {
         var attributedString = NSAttributedString()
         
         do {
-            let options = DocumentAttributes.getReadingOptionKey(fileExtension: fileExtension!) as! [NSAttributedString.DocumentReadingOptionKey : Any]
+            let options = DocumentAttributes.getReadingOptionKey(fileExtension: fileExtension!)
             attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
         } catch {
             attributedString = NSAttributedString(string: "", attributes: [.font: UserDefaultsManagement.noteFont])
