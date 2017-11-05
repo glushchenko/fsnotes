@@ -28,7 +28,6 @@ class CloudKitManager {
     var queryCompletionBlock: (CKQueryCursor?, Error?) -> Void = { (_,_) in }
     let modifyQueueList = [String: Note]()
     var hasActivePushConnection: Bool = false
-    
     let publicDataSubscriptionID = "cloudKitCreateUpdateDeleteSubscription"
     
     init() {
@@ -44,7 +43,7 @@ class CloudKitManager {
     }
     
     func getZone() -> CKRecordZoneID {
-        return CKRecordZone(zoneName: "NotesZone").zoneID
+        return recordZone!.zoneID
     }
     
     func sync() {
@@ -80,14 +79,13 @@ class CloudKitManager {
                 } catch {}
             }
             
-            if token != nil {
-                UserDefaults.standard.serverChangeToken = token
-            }
+            UserDefaults.standard.serverChangeToken = token
         }
     }
     
     func push() {
         guard let note = Storage.instance.getModified() else {
+            print("Push skipped")
             return
         }
         
@@ -97,7 +95,7 @@ class CloudKitManager {
     }
     
     func saveNote(_ note: Note) {
-        guard !hasActivePushConnection && note.name.characters.count > 0 else {
+        guard !hasActivePushConnection && note.name.count > 0 else {
             return
         }
 
@@ -140,15 +138,15 @@ class CloudKitManager {
                 }
                 
                 if error?._code == CKError.unknownItem.rawValue {
-                    note.cloudKitRecord = Data()
-                    self.saveRecord(note: note, sRecord: sRecord)
+                    let record = self.createRecord(note)
+                    self.saveRecord(note: note, sRecord: record)
                     return
                 }
                 
                 print("Save \(note.name) error \(error.debugDescription)")
                 return
             }
-            
+
             self.updateNoteRecord(note: note, record: record)
             print("Successfully saved: \(note.name)")
             
@@ -169,6 +167,12 @@ class CloudKitManager {
                     let conflictedNote = CoreDataManager.instance.make()
                     let date = fetchedRecord.object(forKey: "modifiedAt") as! Date
                     let dateFormatter = ISO8601DateFormatter()
+                    dateFormatter.formatOptions = [
+                        .withYear,
+                        .withMonth,
+                        .withDay,
+                        .withTime
+                    ]
                     let dateString: String = dateFormatter.string(from: date)
                     conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
                     conflictedNote.extractUrl()
@@ -216,7 +220,7 @@ class CloudKitManager {
     }
  
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
-        guard note.name.characters.count > 0 else {
+        guard note.name.count > 0 else {
             completion(.failure("Note name not found."))
             return
         }
@@ -268,6 +272,7 @@ class CloudKitManager {
     
     func fetchChanges(completion: @escaping ([CKRecord], [CKRecordID], CKServerChangeToken?) -> Void) {
         let zonedId = getZone()
+        
         let options = CKFetchRecordZoneChangesOptions()
         options.previousServerChangeToken = UserDefaults.standard.serverChangeToken
     
@@ -275,21 +280,26 @@ class CloudKitManager {
         
         var changedRecords: [CKRecord] = []
         operation.recordChangedBlock = { (record: CKRecord) in
+            print("Changed: \(record.recordID.recordName)")
             changedRecords.append(record)
         }
         
         var deletedRecordIDs: [CKRecordID] = []
         operation.recordWithIDWasDeletedBlock = { (recordID: CKRecordID, identifier: String) in
+            print("Deleted: \(recordID.recordName)")
             deletedRecordIDs.append(recordID)
         }
         
         var serverChangesToken: CKServerChangeToken?
-        operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, _: Error?) in            
-            if (token != UserDefaults.standard.serverChangeToken) {
-                print("Record zone has changes!")
-                serverChangesToken = token
+        
+        operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, error: Error?) in
+            if let error = error {
+                print("Error recordZoneFetchCompletionBlock: \(error.localizedDescription)")
+                return
             }
-            print("Record zone not changes!")
+            
+            print("Pull. Record zone changed: \(token != UserDefaults.standard.serverChangeToken )")
+            serverChangesToken = token
         }
         
         operation.fetchRecordZoneChangesCompletionBlock = { (error: Error?) in
@@ -315,7 +325,6 @@ class CloudKitManager {
         
         let notificationInfo = CKNotificationInfo()
         notificationInfo.shouldSendContentAvailable = true
-        
         publicDataSubscription.notificationInfo = notificationInfo
         
         database.save(publicDataSubscription) { (subscription, error) -> Void in
