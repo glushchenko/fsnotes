@@ -10,8 +10,8 @@ FSNotes features:
 - elastic 2 pane view with global search
 - blazing fast
 - lightweight
-- maintainable (< 1000 code strings)
-- open source (swift 3)
+- maintainable (simple code base)
+- open source (swift 4)  
 - secure (macOS sandbox)
 
 Markdown files default directory:
