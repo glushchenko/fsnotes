@@ -14,13 +14,12 @@ class PrefsViewController: NSViewController {
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet weak var noteFont: NSPopUpButton!
-    
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet var cloudKitCheckbox: NSButton!
-    
     @IBOutlet var tabView: NSTabView!
     @IBOutlet var tabViewSync: NSTabViewItem!
+    @IBOutlet var hidePreview: NSButtonCell!
     
     let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
     
@@ -107,6 +106,12 @@ class PrefsViewController: NSViewController {
         controller?.setTableRowHeight()
     }
     
+    @IBAction func changePreview(_ sender: Any) {
+        UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == NSControl.StateValue.on)
+        
+        restart()
+    }
+    
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared
@@ -139,6 +144,8 @@ class PrefsViewController: NSViewController {
         } else {
             verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
         }
+        
+        hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off

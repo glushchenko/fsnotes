@@ -30,6 +30,7 @@ public class UserDefaultsManagement {
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
         static let CloudKitSync = "cloudKitSync"
+        static let HidePreviewKey = "hidePreview"
     }
         
     static var fontName: String {
@@ -266,6 +267,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.CloudKitSync)
+        }
+    }
+    
+    static var hidePreview: Bool {
+        get {
+            if let returnMode = UserDefaults.standard.object(forKey: Constants.HidePreviewKey) {
+                return returnMode as! Bool
+            } else {
+                return false
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewKey)
         }
     }
     

@@ -64,7 +64,7 @@ class NoteCellView: NSTableCellView {
         let lineHeight = previewLineSpacing + previewMaximumLineHeight
         var numberOfLines = 0
         
-        if isFullVertical() {
+        if isFullVertical() && !UserDefaultsManagement.hidePreview {
             let minimumLineNumbers = Int(additionalHeight / lineHeight) - 1
             
             if minimumLineNumbers > 0 {
