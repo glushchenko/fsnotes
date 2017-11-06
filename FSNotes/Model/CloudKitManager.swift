@@ -34,11 +34,15 @@ class CloudKitManager {
         container = CKContainer.init(identifier: identifier)
         database = container.privateCloudDatabase
         recordZone = CKRecordZone(zoneName: zone)
-        
+        makeZone()
+    }
+    
+    func makeZone() {
         database.save(recordZone!, completionHandler: {(recordzone, error) in
             if (error != nil) {
                 print("Zone creation error")
             }
+            print(recordzone)
         })
     }
     
@@ -333,6 +337,18 @@ class CloudKitManager {
                 return
             }
             print("Saved subscription to CloudKit database")
+        }
+    }
+    
+    func flush() {
+        database.delete(withRecordZoneID: getZone()) { (recordZoneID, error) -> Void in
+            if let error = error {
+                print("Flush error: \(error)")
+                return
+            }
+            CoreDataManager.instance.removeCloudKitRecords()
+            UserDefaults.standard.serverChangeToken = nil
+            self.makeZone()
         }
     }
 }

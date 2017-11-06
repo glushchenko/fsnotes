@@ -66,4 +66,23 @@ class CoreDataManager {
         return nil
     }
     
+    func removeCloudKitRecords() {
+        let entityDescription = NSEntityDescription.entity(forEntityName: "Note", in: context)
+        let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription!)
+        batchUpdateRequest.resultType = .updatedObjectIDsResultType
+        batchUpdateRequest.propertiesToUpdate = ["cloudKitRecord": Data(), "isSynced": false]
+        
+        do {
+            let batchUpdateResult = try context.execute(batchUpdateRequest) as! NSBatchUpdateResult
+            let objectIDs = batchUpdateResult.result as! [NSManagedObjectID]
+            for objectID in objectIDs {
+                let managedObject = context.object(with: objectID)
+                context.refresh(managedObject, mergeChanges: false)
+            }
+        } catch {
+            let updateError = error as NSError
+            print("\(updateError), \(updateError.userInfo)")
+        }
+    }
+    
 }

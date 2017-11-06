@@ -112,6 +112,19 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
+    @IBAction func resetCloudKitData(_ sender: Any) {
+        let alert = NSAlert.init()
+        alert.messageText = "Are you sure you want remove data from iCloud?"
+        alert.informativeText = "This action cannot be undone."
+        alert.addButton(withTitle: "Remove")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                CloudKitManager.instance.flush()
+            }
+        }
+    }
+    
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared
