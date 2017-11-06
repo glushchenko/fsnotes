@@ -124,7 +124,7 @@ class EditTextView: NSTextView {
         let searchTerm = search
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: textStorage!)
         let pattern = "(\(searchTerm))"
-        let range:NSRange = NSMakeRange(0, (textStorage?.string.characters.count)!)
+        let range:NSRange = NSMakeRange(0, (textStorage?.string.count)!)
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
         regex.enumerateMatches(
@@ -151,7 +151,7 @@ class EditTextView: NSTextView {
         let fileExtension = fileUrl?.pathExtension
         
         do {
-            let range = NSRange(location: 0, length: (textStorage?.string.characters.count)!)
+            let range = NSRange(location: 0, length: (textStorage?.string.count)!)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: fileExtension!)
             let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)

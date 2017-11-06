@@ -108,9 +108,8 @@ public class Note: NSManagedObject {
     
     @objc func getPreviewForLabel() -> String {
         var preview: String = ""
-        let count: Int = (content.characters.count)
         
-        if count > 250 {
+        if content.count > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
             let endIndex = content.index((content.startIndex), offsetBy: 250)
             preview = String(content[startIndex...endIndex])
@@ -140,7 +139,7 @@ public class Note: NSManagedObject {
     
     func getContent(url: URL) -> String {
         var content: String = ""
-        let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension) as! [NSAttributedString.DocumentReadingOptionKey : Any]
+        let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
         
         do {
             let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
@@ -177,9 +176,9 @@ public class Note: NSManagedObject {
             .replacingOccurrences(of: ":", with: "-")
             .replacingOccurrences(of: "/", with: ":")
 
-        if prefix.characters.count > 0 {
+        if !prefix.isEmpty {
             name = name + prefix
-        } else if (name.characters.count == 0) {
+        } else if name.isEmpty {
             name = defaultName
         }
     
@@ -234,7 +233,7 @@ public class Note: NSManagedObject {
                 for header in headerList {
                     let nsHeader = header as NSString
                     let regex = try! NSRegularExpression(pattern: "title: \"(.*?)\"", options: [])
-                    let matches = regex.matches(in: String(nsHeader), options: [], range: NSMakeRange(0, (nsHeader as String).characters.count))
+                    let matches = regex.matches(in: String(nsHeader), options: [], range: NSMakeRange(0, (nsHeader as String).count))
                     
                     if let match = matches.first {
                         let range = match.range(at: 1)
@@ -243,7 +242,7 @@ public class Note: NSManagedObject {
                     }
                 }
                 
-                if (extractedTitle.characters.count > 0) {
+                if (extractedTitle.count > 0) {
                     list.removeSubrange(Range(0...1))
                     
                     return "## " + extractedTitle + "\n\n" + list.joined()
@@ -280,7 +279,7 @@ public class Note: NSManagedObject {
     
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
         do {
-            let range = NSRange(location: 0, length: textStorage.string.characters.count)
+            let range = NSRange(location: 0, length: textStorage.string.count)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: type)
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)

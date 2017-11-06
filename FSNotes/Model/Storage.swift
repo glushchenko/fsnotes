@@ -125,5 +125,14 @@ class Storage {
                 )
             })
     }
+    
+    func getBy(name: String) -> Note? {
+        return
+            noteList.first(where: {
+                return (
+                    $0.name == name
+                )
+            })
+    }
 
 }

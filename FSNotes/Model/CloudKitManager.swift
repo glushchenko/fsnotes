@@ -29,6 +29,7 @@ class CloudKitManager {
     let modifyQueueList = [String: Note]()
     var hasActivePushConnection: Bool = false
     let publicDataSubscriptionID = "cloudKitCreateUpdateDeleteSubscription"
+    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
     init() {
         container = CKContainer.init(identifier: identifier)
@@ -42,7 +43,6 @@ class CloudKitManager {
             if (error != nil) {
                 print("Zone creation error")
             }
-            print(recordzone)
         })
     }
     
@@ -81,6 +81,15 @@ class CloudKitManager {
                     
                     print("Note downloaded: \(note.name)")
                 } catch {}
+            }
+            
+            for recordId in deletedRecords {
+                let note = Storage.instance.getBy(name: recordId.recordName)
+                if let unwrappedNote = note {
+                    DispatchQueue.main.async() {
+                        self.viewController.notesTableView.removeNote(unwrappedNote)
+                    }
+                }
             }
             
             UserDefaults.standard.serverChangeToken = token
@@ -142,8 +151,6 @@ class CloudKitManager {
                 }
                 
                 if error?._code == CKError.unknownItem.rawValue {
-                    let record = self.createRecord(note)
-                    self.saveRecord(note: note, sRecord: record)
                     return
                 }
                 
@@ -265,11 +272,10 @@ class CloudKitManager {
     
     func reloadView(note: Note? = nil) {
         DispatchQueue.main.async() {
-            let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             if let unwrappedNote = note {
-                viewController.reloadView(note: unwrappedNote)
+                self.viewController.reloadView(note: unwrappedNote)
             } else {
-                viewController.updateTable(filter: "")
+                self.viewController.updateTable(filter: "")
             }
         }
     }
