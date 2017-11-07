@@ -4,7 +4,6 @@ Lightweight notational velocity reinvention.
 
 FSNotes features:
 
-- iCloud synchronization (MacAppStore version only)
 - keyboard centric
 - global shortcuts (clipboard save / search field)
 - markdown and RTF markup (files stored on disk as plain/text and rich text)
