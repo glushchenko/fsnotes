@@ -65,8 +65,12 @@ class CloudKitManager {
                     let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
                     
                     let note = Storage.instance.getOrCreate(name: fileName)
-                    if (note.modifiedLocalAt == record["modifiedAt"] as? Date && !note.cloudKitRecord.isEmpty) {
-                        continue
+                    if !note.cloudKitRecord.isEmpty {
+                        if let prevRecord = CKRecord(archivedData: note.cloudKitRecord) {
+                            if prevRecord.recordChangeTag == record.recordChangeTag {
+                                continue
+                            }
+                        }
                     }
                     
                     note.content = content
@@ -76,10 +80,11 @@ class CloudKitManager {
                     
                     if (note.writeContent()) {
                         note.loadModifiedLocalAt()
+                        CoreDataManager.instance.save()
                         self.reloadView(note: note)
+                        print("Note downloaded: \(note.name)")
                     }
                     
-                    print("Note downloaded: \(note.name)")
                 } catch {}
             }
             
@@ -98,7 +103,7 @@ class CloudKitManager {
     
     func push() {
         guard let note = Storage.instance.getModified() else {
-            print("Push skipped")
+            print("Nothing to push.")
             return
         }
         
@@ -111,7 +116,7 @@ class CloudKitManager {
         guard !hasActivePushConnection && note.name.count > 0 else {
             return
         }
-
+        
         hasActivePushConnection = true
         var record: CKRecord? = nil
         

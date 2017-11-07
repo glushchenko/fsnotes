@@ -163,12 +163,9 @@ class PrefsViewController: NSViewController {
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
         
-        var path = UserDefaultsManagement.storagePath
-        path.append(".syncPrefTabEnable")
-        
-        if !FileManager.default.fileExists(atPath: path) {
+        #if !CLOUDKIT
             tabView.removeTabViewItem(tabViewSync)
-        }
+        #endif
     }
     
     func restart() {

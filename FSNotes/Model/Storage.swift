@@ -99,12 +99,14 @@ class Storage {
         let list = noteList.filter() {
             return ($0.name == name)
         }
+        
         if list.count > 0 {
             return list.first!
         }
         
         let note = CoreDataManager.instance.make()
         add(note)
+        
         return note
     }
     
