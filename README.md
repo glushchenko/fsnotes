@@ -12,6 +12,7 @@ FSNotes features:
 - blazing fast and lightweight
 - open files in finder / works with external editors (changes seamless live sync with UI)
 - pin/unpin important notes in top
+- synchronization over iCloud Drive / Dropbox / CloudKit (for MAS version)
 
 Markdown files default directory:
 
