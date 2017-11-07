@@ -285,7 +285,7 @@ public class Note: NSManagedObject {
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {
-            NSLog(error.localizedDescription)
+            print("Core data: \(error.localizedDescription)")
             return
         }
         

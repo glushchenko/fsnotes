@@ -20,8 +20,16 @@ class PrefsViewController: NSViewController {
     @IBOutlet var tabView: NSTabView!
     @IBOutlet var tabViewSync: NSTabViewItem!
     @IBOutlet var hidePreview: NSButtonCell!
+    @IBOutlet var fileExtensionOutlet: NSTextField!
+    @IBOutlet var newNoteshortcutView: MASShortcutView!
+    @IBOutlet var searchNotesShortcut: MASShortcutView!
+    @IBOutlet var lastSyncOutlet: NSTextField!
+    @IBOutlet weak var fontPreview: NSTextField!
     
-    let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+    @IBAction func fileExtensionAction(_ sender: NSTextField) {
+        let value = sender.stringValue
+        UserDefaults.standard.set(value, forKey: "fileExtension")
+    }
     
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
         // We don't need to set the user defaults value here as the checkbox is
@@ -88,10 +96,6 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
-    @IBOutlet weak var fontPreview: NSTextField!
-
-    var fontPanelOpen: Bool = false
-    
     @IBAction func setFont(_ sender: NSButton) {
         let fontManager = NSFontManager.shared
         if UserDefaultsManagement.noteFont != nil {
@@ -125,6 +129,9 @@ class PrefsViewController: NSViewController {
         }
     }
     
+    var fontPanelOpen: Bool = false
+    let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+    
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
         let fontManager = NSFontManager.shared
@@ -143,7 +150,7 @@ class PrefsViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setFontPreview()
-        initGlobalShortcuts()
+        initShortcuts()
     }
     
     override func viewDidAppear() {
@@ -166,6 +173,25 @@ class PrefsViewController: NSViewController {
         #if !CLOUDKIT
             tabView.removeTabViewItem(tabViewSync)
         #endif
+        
+        loadLastSync()
+    }
+    
+    func loadLastSync() {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [
+            .withYear,
+            .withMonth,
+            .withDay,
+            .withTime,
+            .withDashSeparatorInDate,
+            .withColonSeparatorInTime,
+            .withSpaceBetweenDateAndTime
+        ]
+        
+        if let lastSync = UserDefaultsManagement.lastSync {
+            lastSyncOutlet.stringValue = dateFormatter.string(from: lastSync)
+        }
     }
     
     func restart() {
@@ -178,16 +204,7 @@ class PrefsViewController: NSViewController {
         exit(0)
     }
     
-    @IBOutlet var fileExtensionOutlet: NSTextField!
-    @IBAction func fileExtensionAction(_ sender: NSTextField) {
-        let value = sender.stringValue
-        UserDefaults.standard.set(value, forKey: "fileExtension")
-    }
-    
-    @IBOutlet var newNoteshortcutView: MASShortcutView!
-    @IBOutlet var searchNotesShortcut: MASShortcutView!
-    
-    func initGlobalShortcuts() {
+    func initShortcuts() {
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
         

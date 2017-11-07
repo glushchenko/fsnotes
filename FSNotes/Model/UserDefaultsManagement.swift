@@ -206,12 +206,12 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var lastSync: Date {
+    static var lastSync: Date? {
         get {
             if let sync = UserDefaults.standard.object(forKey: "lastSync") {
-                return sync as! Date
+                return sync as? Date
             } else {
-                return Date(timeIntervalSince1970: 0)
+                return nil
             }
         }
         set {
@@ -224,7 +224,7 @@ public class UserDefaultsManagement {
             if let hideOnDeactivate = UserDefaults.standard.object(forKey: Constants.HideOnDeactivate) {
                 return hideOnDeactivate as! Bool
             } else {
-                return true
+                return false
             }
         }
         set {

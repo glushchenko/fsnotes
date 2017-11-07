@@ -53,6 +53,8 @@ class CloudKitManager {
     func sync() {
         push()
         pull()
+        
+        UserDefaultsManagement.lastSync = Date()
     }
     
     func pull() {
