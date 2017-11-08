@@ -80,9 +80,6 @@ class PrefsViewController: NSViewController {
         horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = true
         controller?.splitView.setPosition(215, ofDividerAt: 0)
-        controller?.notesTableView.rowHeight = 63
-        
-        restart()
     }
     
     @IBAction func horizontalOrientation(_ sender: Any) {
@@ -91,9 +88,6 @@ class PrefsViewController: NSViewController {
         verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = false
         controller?.splitView.setPosition(215, ofDividerAt: 0)
-        controller?.notesTableView.rowHeight = 30
-        
-        restart()
     }
     
     @IBAction func setFont(_ sender: NSButton) {
@@ -112,8 +106,7 @@ class PrefsViewController: NSViewController {
     
     @IBAction func changePreview(_ sender: Any) {
         UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == NSControl.StateValue.on)
-        
-        restart()
+        controller?.notesTableView.reloadData()
     }
     
     @IBAction func resetCloudKitData(_ sender: Any) {

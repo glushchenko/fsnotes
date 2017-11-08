@@ -13,7 +13,8 @@ import CloudKit
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
-    NSTextFieldDelegate {
+    NSTextFieldDelegate,
+    NSSplitViewDelegate {
     
     var lastSelectedNote: Note?
     let storage = Storage.instance
@@ -55,6 +56,7 @@ class ViewController: NSViewController,
         
         editArea.delegate = self
         search.delegate = self
+        splitView.delegate = self
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
@@ -91,6 +93,10 @@ class ViewController: NSViewController,
                 CloudKitManager.instance.sync()
             }
         #endif
+    }
+    
+    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+        return splitView.frame.width / 2
     }
     
     func watchFSEvents() {

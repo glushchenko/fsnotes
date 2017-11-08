@@ -45,10 +45,6 @@ class NoteCellView: NSTableCellView {
         udpateSelectionHighlight()
     }
     
-    func isFullVertical() -> Bool {
-        return (!UserDefaultsManagement.horizontalOrientation)
-    }
-    
     func applyPreviewStyle(_ color: NSColor) {
         let additionalHeight = CGFloat(UserDefaultsManagement.cellSpacing)
     
@@ -64,7 +60,7 @@ class NoteCellView: NSTableCellView {
         let lineHeight = previewLineSpacing + previewMaximumLineHeight
         var numberOfLines = 0
         
-        if isFullVertical() && !UserDefaultsManagement.hidePreview {
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreview {
             let minimumLineNumbers = Int(additionalHeight / lineHeight) - 1
             
             if minimumLineNumbers > 0 {
@@ -114,6 +110,8 @@ class NoteCellView: NSTableCellView {
         date.translatesAutoresizingMaskIntoConstraints = false
         name.translatesAutoresizingMaskIntoConstraints = false
         pin.translatesAutoresizingMaskIntoConstraints = true
+        
+        preview.isHidden =  false
         
         let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4)
         let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
