@@ -44,10 +44,17 @@ class CoreDataManager {
     
     func remove(_ note: Note) {
         do {
-            let name = note.name
             context.delete(note)
             try context.save()
-            print("Note removed: \(name)")
+        } catch {
+            print("Remove error \(error)")
+        }
+    }
+    
+    func remove(storage: StorageItem) {
+        do {
+            context.delete(storage)
+            try context.save()
         } catch {
             print("Remove error \(error)")
         }
@@ -83,6 +90,31 @@ class CoreDataManager {
             let updateError = error as NSError
             print("\(updateError), \(updateError.userInfo)")
         }
+    }
+    
+    func getBy(label: String) -> StorageItem? {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        let predicate = NSPredicate(format: "label = %@", label)
+        request.predicate = predicate
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Not fetched \(error)")
+        }
+        return nil
+    }
+    
+    func fetchStorageList() -> [StorageItem] {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        var results = [StorageItem]()
+        
+        do {
+            results = try context.fetch(request)
+        } catch {
+            print("Not fetched \(error)")
+        }
+        
+        return results
     }
     
 }

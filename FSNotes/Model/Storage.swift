@@ -46,6 +46,7 @@ class Storage {
             }
 
             note.load(url)
+            Swift.print(url)
             CoreDataManager.instance.save()
             
             if note.isPinned {

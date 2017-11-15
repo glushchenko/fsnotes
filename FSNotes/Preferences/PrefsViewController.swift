@@ -8,9 +8,11 @@
 
 import Cocoa
 import MASShortcut
+import CoreData
 
 class PrefsViewController: NSViewController {
 
+    @IBOutlet weak var storageTableView: StorageTableView!
     @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet weak var noteFont: NSPopUpButton!
@@ -25,6 +27,39 @@ class PrefsViewController: NSViewController {
     @IBOutlet var searchNotesShortcut: MASShortcutView!
     @IBOutlet var lastSyncOutlet: NSTextField!
     @IBOutlet weak var fontPreview: NSTextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setFontPreview()
+        initShortcuts()
+    }
+    
+    override func viewDidAppear() {
+        self.view.window!.title = "Preferences"
+        
+        storageField.stringValue = UserDefaultsManagement.storagePath
+        externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
+        
+        if (UserDefaultsManagement.horizontalOrientation) {
+            horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
+        } else {
+            verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
+        }
+        
+        hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
+        
+        fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
+        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
+        
+        #if !CLOUDKIT
+            tabView.removeTabViewItem(tabViewSync)
+        #endif
+        
+        loadLastSync()
+        
+        storageTableView.list = CoreDataManager.instance.fetchStorageList()
+        storageTableView.reloadData()
+    }
     
     @IBAction func fileExtensionAction(_ sender: NSTextField) {
         let value = sender.stringValue
@@ -45,6 +80,41 @@ class PrefsViewController: NSViewController {
         restart()
     }
     
+    @IBAction func addStorage(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.canCreateDirectories = true
+        
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                let bookmark = SandboxBookmark()
+                let url = openPanel.url
+                
+                bookmark.load()
+                bookmark.store(url: url!)
+                bookmark.save()
+                
+                if let url = openPanel.url {
+                    let context = CoreDataManager.instance.context
+                    let storage = StorageItem(context: context)
+                    storage.path = url.absoluteString
+                    CoreDataManager.instance.save()
+                    self.storageTableView.reload()
+                }
+            }
+        }
+    }
+    
+    @IBAction func removeStorage(_ sender: Any) {
+        if let storage = storageTableView.getSelected(), storage.label != "general" {
+            CoreDataManager.instance.remove(storage: storage)
+            self.storageTableView.reload()
+        }
+    }
+    
     @IBAction func selectDefaultFileStorage(_ sender: Any) {
         
         let openPanel = NSOpenPanel()
@@ -52,6 +122,7 @@ class PrefsViewController: NSViewController {
         openPanel.canChooseDirectories = true
         openPanel.canCreateDirectories = false
         openPanel.canChooseFiles = true
+        openPanel.canCreateDirectories = true
        
         openPanel.begin { (result) -> Void in
             if result.rawValue == NSFileHandlingPanelOKButton {
@@ -138,36 +209,6 @@ class PrefsViewController: NSViewController {
     func setFontPreview() {
         fontPreview.font = NSFont(name: UserDefaultsManagement.fontName, size: 13)
         fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setFontPreview()
-        initShortcuts()
-    }
-    
-    override func viewDidAppear() {
-        self.view.window!.title = "Preferences"
-
-        storageField.stringValue = UserDefaultsManagement.storagePath
-        externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
-        
-        if (UserDefaultsManagement.horizontalOrientation) {
-            horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        } else {
-            verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
-        }
-        
-        hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
-        
-        fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
-        
-        #if !CLOUDKIT
-            tabView.removeTabViewItem(tabViewSync)
-        #endif
-        
-        loadLastSync()
     }
     
     func loadLastSync() {

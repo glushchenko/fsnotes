@@ -93,6 +93,16 @@ class ViewController: NSViewController,
                 CloudKitManager.instance.sync()
             }
         #endif
+        
+        if CoreDataManager.instance.getBy(label: "general") == nil {
+            Swift.print(CoreDataManager.instance.getBy(label: "general") )
+            
+            let context = CoreDataManager.instance.context
+            let storage = StorageItem(context: context)
+            storage.path = UserDefaultsManagement.storageUrl.absoluteString
+            storage.label = "general"
+            CoreDataManager.instance.save()
+        }
     }
     
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
