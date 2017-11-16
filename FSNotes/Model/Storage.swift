@@ -26,6 +26,11 @@ class Storage {
         }
         
         let existNotes = CoreDataManager.instance.fetchAll()
+        var notesDict: [String: Note] = [:]
+        
+        for note in existNotes {
+            notesDict[note.name] = note
+        }
         
         for document in documents {
             let url = document.0
@@ -37,11 +42,12 @@ class Storage {
             }
             
             var note: Note
-            if !existNotes.contains(where: { $0.name == name }) {
+            
+            if notesDict[name] == nil {
                 note = CoreDataManager.instance.make()
                 note.isSynced = false
             } else {
-                note = existNotes.first(where: { $0.name == name })!
+                note = notesDict[name]!
                 note.checkLocalSyncState(date)
             }
 

@@ -143,6 +143,10 @@ public class Note: NSManagedObject {
         let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
         
         do {
+            if type != "rtf" {
+                return try String(contentsOf: url)
+            }
+            
             let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
             
             content = NSTextStorage(attributedString: attributedString).string
