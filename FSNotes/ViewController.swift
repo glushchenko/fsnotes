@@ -137,6 +137,7 @@ class ViewController: NSViewController,
         }
         
         note!.load(url)
+        note!.loadModifiedLocalAt()
         CoreDataManager.instance.save()
         
         if storageNoteExist == nil {

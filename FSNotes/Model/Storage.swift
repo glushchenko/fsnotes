@@ -24,7 +24,7 @@ class Storage {
             let helloDate = (try? helloUrl.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date()
             documents.append((helloUrl, helloDate))
         }
-        
+ 
         let existNotes = CoreDataManager.instance.fetchAll()
         var notesDict: [String: Note] = [:]
         
@@ -33,15 +33,15 @@ class Storage {
         }
         
         for document in documents {
+            var note: Note
+            
             let url = document.0
             let date = document.1
             let name = url.pathComponents.last!
-            
+        
             if (url.pathComponents.count == 0) {
                 continue
             }
-            
-            var note: Note
             
             if notesDict[name] == nil {
                 note = CoreDataManager.instance.make()
@@ -50,9 +50,8 @@ class Storage {
                 note = notesDict[name]!
                 note.checkLocalSyncState(date)
             }
-
+            
             note.load(url)
-            CoreDataManager.instance.save()
             
             if note.isPinned {
                 Storage.pinned += 1
@@ -60,6 +59,8 @@ class Storage {
             
             noteList.append(note)
         }
+        
+        CoreDataManager.instance.save()
     }
     
     func readDirectory() -> [(URL, Date)] {
