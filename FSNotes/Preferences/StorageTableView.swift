@@ -15,8 +15,6 @@ NSTableViewDelegate {
     var list = [StorageItem]()
     
     override func draw(_ dirtyRect: NSRect) {
-        
-        
         self.dataSource = self
         self.delegate = self
         super.draw(dirtyRect)
@@ -34,7 +32,7 @@ NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        return (list[row].label != "general")
+        return (list[row].label != "general" || tableColumn?.identifier.rawValue == "Path")
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {

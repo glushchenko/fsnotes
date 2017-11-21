@@ -58,6 +58,14 @@ class ViewController: NSViewController,
         search.delegate = self
         splitView.delegate = self
         
+        if CoreDataManager.instance.getBy(label: "general") == nil {
+            let context = CoreDataManager.instance.context
+            let storage = StorageItem(context: context)
+            storage.path = UserDefaultsManagement.storageUrl.absoluteString
+            storage.label = "general"
+            CoreDataManager.instance.save()
+        }
+        
         if storage.noteList.count == 0 {
             storage.loadDocuments()
             updateTable(filter: "")
@@ -93,16 +101,6 @@ class ViewController: NSViewController,
                 CloudKitManager.instance.sync()
             }
         #endif
-        
-        if CoreDataManager.instance.getBy(label: "general") == nil {
-            Swift.print(CoreDataManager.instance.getBy(label: "general") )
-            
-            let context = CoreDataManager.instance.context
-            let storage = StorageItem(context: context)
-            storage.path = UserDefaultsManagement.storageUrl.absoluteString
-            storage.label = "general"
-            CoreDataManager.instance.save()
-        }
     }
     
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
@@ -110,7 +108,15 @@ class ViewController: NSViewController,
     }
     
     func watchFSEvents() {
-        let filewatcher = FileWatcher([NSString(string: UserDefaultsManagement.storagePath).expandingTildeInPath])
+        var pathList: [String] = []
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        for storageItem in storageItemList {
+            pathList.append(NSString(string: (storageItem.getUrl()?.path)!).expandingTildeInPath)
+        }
+        
+        Swift.print(pathList)
+        
+        let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return

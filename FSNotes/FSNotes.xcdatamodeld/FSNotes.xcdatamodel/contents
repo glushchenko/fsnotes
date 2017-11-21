@@ -9,7 +9,7 @@
         <attribute name="modifiedLocalAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="StorageItem" representedClassName="StorageItem" syncable="YES" codeGenerationType="class">
+    <entity name="StorageItem" representedClassName="StorageItem" syncable="YES">
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
     </entity>

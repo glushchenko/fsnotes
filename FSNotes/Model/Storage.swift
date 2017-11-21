@@ -16,15 +16,24 @@ class Storage {
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
     func loadDocuments() {
-        var documents = readDirectory()
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
         
-        if (documents.isEmpty) {
-            createHelloWorld()
-            let helloUrl = UserDefaultsManagement.storageUrl.appendingPathComponent("Hello world.md")
-            let helloDate = (try? helloUrl.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date()
-            documents.append((helloUrl, helloDate))
+        for item in storageItemList {
+            loadLabel(item)
         }
- 
+        
+        Swift.print(noteList.isEmpty)
+        if (noteList.isEmpty) {
+            createHelloWorld()
+        }
+    }
+    
+    func loadLabel(_ item: StorageItem) {
+        guard let url = item.getUrl() else {
+            return
+        }
+        
+        let documents = readDirectory(url)
         let existNotes = CoreDataManager.instance.fetchAll()
         var notesDict: [String: Note] = [:]
         
@@ -38,7 +47,7 @@ class Storage {
             let url = document.0
             let date = document.1
             let name = url.pathComponents.last!
-        
+            
             if (url.pathComponents.count == 0) {
                 continue
             }
@@ -67,11 +76,9 @@ class Storage {
         CoreDataManager.instance.save()
     }
     
-    func readDirectory() -> [(URL, Date)] {
-        let directory = UserDefaultsManagement.storageUrl
-        
+    func readDirectory(_ url: URL) -> [(URL, Date)] {
         return
-            try! FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
+            try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
             ).filter {
                 Storage.allowedExtensions.contains($0.pathExtension)
             }.map { url in (
@@ -101,6 +108,12 @@ class Storage {
         
         do {
             try FileManager.default.copyItem(at: initialDoc!, to: destination)
+            let note = getOrCreate(name: "Hello world.md")
+            note.url = destination
+            note.extractUrl()
+            note.content = try String(contentsOf: initialDoc!)
+            note.save()
+            
         } catch {
             print("Initial copy error: \(error)")
         }

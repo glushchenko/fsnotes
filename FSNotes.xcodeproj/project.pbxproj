@@ -43,8 +43,9 @@
 		D79FE8A51F78377E00113CFD /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A41F78377E00113CFD /* CloudKitManager.swift */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 		D7AFD80D1F78CC450000B44A /* CKRecord+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AFD80C1F78CC450000B44A /* CKRecord+.swift */; };
-		D7B00BA61FB9FC0A0021472E /* StorageTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B00BA51FB9FC0A0021472E /* StorageTableCellView.swift */; };
 		D7BC2F461F7675850007298E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BC2F451F7675850007298E /* CoreDataManager.swift */; };
+		D7C5429D1FC4A83F00EF1F94 /* StorageItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5429A1FC4A74000EF1F94 /* StorageItem+CoreDataClass.swift */; };
+		D7C5429E1FC4A83F00EF1F94 /* StorageItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C542991FC4A74000EF1F94 /* StorageItem+CoreDataProperties.swift */; };
 		D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
@@ -161,8 +162,9 @@
 		D79FE8A41F78377E00113CFD /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7AFD80C1F78CC450000B44A /* CKRecord+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRecord+.swift"; sourceTree = "<group>"; };
-		D7B00BA51FB9FC0A0021472E /* StorageTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTableCellView.swift; sourceTree = "<group>"; };
 		D7BC2F451F7675850007298E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D7C542991FC4A74000EF1F94 /* StorageItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D7C5429A1FC4A74000EF1F94 /* StorageItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
@@ -248,6 +250,8 @@
 			children = (
 				D79FE8A01F77D04A00113CFD /* Note+CoreDataClass.swift */,
 				D79FE8A11F77D04A00113CFD /* Note+CoreDataProperties.swift */,
+				D7C5429A1FC4A74000EF1F94 /* StorageItem+CoreDataClass.swift */,
+				D7C542991FC4A74000EF1F94 /* StorageItem+CoreDataProperties.swift */,
 				D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */,
 				D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */,
 				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
@@ -330,7 +334,6 @@
 		D7B00BA71FBB14010021472E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				D7B00BA51FB9FC0A0021472E /* StorageTableCellView.swift */,
 				D7097FCA1FB8CA4A00144D8F /* StorageTableView.swift */,
 				D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */,
 				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
@@ -688,11 +691,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7C5429D1FC4A83F00EF1F94 /* StorageItem+CoreDataClass.swift in Sources */,
+				D7C5429E1FC4A83F00EF1F94 /* StorageItem+CoreDataProperties.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D79700501F3E19C600BAD94D /* DocumentAttributes.swift in Sources */,
-				D7B00BA61FB9FC0A0021472E /* StorageTableCellView.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
