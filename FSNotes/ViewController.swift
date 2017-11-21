@@ -147,6 +147,7 @@ class ViewController: NSViewController,
         }
         
         note!.load(url)
+        note!.loadModifiedLocalAt()
         CoreDataManager.instance.save()
         
         if storageNoteExist == nil {
@@ -354,9 +355,8 @@ class ViewController: NSViewController,
                     && $0.isRemoved == false
                     && (
                         filter.isEmpty
-                        || (
-                            searchContent.localizedCaseInsensitiveContainsTerms(searchTermsArray)
-                        )
+                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
+                        })
                     )
                 )
             }

@@ -24,9 +24,8 @@ public class Note: NSManagedObject {
     
     func load(_ newUrl: URL) {
         url = newUrl
-        content = getContent(url: url)
         extractUrl()
-        loadModifiedLocalAt()
+        content = getContent(url: url)
     }
     
     func reload() -> Bool {
@@ -143,10 +142,18 @@ public class Note: NSManagedObject {
         let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
         
         do {
-            let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
-            
-            content = NSTextStorage(attributedString: attributedString).string
+            if type != "rtf" {
+                return try String(contentsOf: url)
+            }
         } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+        
+        do {
+            let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
+        
+            content = NSTextStorage(attributedString: attributedString).string
+        } catch {
             print(error.localizedDescription)
         }
         
