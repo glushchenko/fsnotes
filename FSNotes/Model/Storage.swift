@@ -53,6 +53,10 @@ class Storage {
             
             note.load(url)
             
+            if !note.isSynced {
+                note.modifiedLocalAt = date
+            }
+            
             if note.isPinned {
                 Storage.pinned += 1
             }
