@@ -21,8 +21,7 @@ class Storage {
         for item in storageItemList {
             loadLabel(item)
         }
-        
-        Swift.print(noteList.isEmpty)
+
         if (noteList.isEmpty) {
             createHelloWorld()
         }
@@ -60,6 +59,7 @@ class Storage {
                 note.checkLocalSyncState(date)
             }
             
+            note.noteStorage = item
             note.load(url)
             
             if !note.isSynced {

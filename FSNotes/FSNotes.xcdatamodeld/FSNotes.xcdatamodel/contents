@@ -8,13 +8,14 @@
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="modifiedLocalAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="noteStorage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StorageItem" syncable="YES"/>
     </entity>
     <entity name="StorageItem" representedClassName="StorageItem" syncable="YES">
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Note" positionX="-54" positionY="-9" width="128" height="150"/>
+        <element name="Note" positionX="-54" positionY="-9" width="128" height="165"/>
         <element name="StorageItem" positionX="-45" positionY="45" width="128" height="75"/>
     </elements>
 </model>

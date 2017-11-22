@@ -109,6 +109,7 @@ class ViewController: NSViewController,
     
     func watchFSEvents() {
         var pathList: [String] = []
+        
         let storageItemList = CoreDataManager.instance.fetchStorageList()
         for storageItem in storageItemList {
             pathList.append(NSString(string: (storageItem.getUrl()?.path)!).expandingTildeInPath)
@@ -122,7 +123,7 @@ class ViewController: NSViewController,
                 return
             }
             
-            guard let url = URL(string: "file://" + path), self.checkFile(url) else {
+            guard let url = URL(string: "file://" + path), self.checkFile(url: url, pathList: pathList) else {
                 return
             }
             
@@ -163,11 +164,11 @@ class ViewController: NSViewController,
         reloadView(note: note!)
     }
     
-    func checkFile(_ url: URL) -> Bool {
+    func checkFile(url: URL, pathList: [String]) -> Bool {
         return (
             FileManager.default.fileExists(atPath: url.path)
             && Storage.allowedExtensions.contains(url.pathExtension)
-            && url.deletingLastPathComponent().path == UserDefaultsManagement.storageUrl.path
+            && pathList.contains(url.deletingLastPathComponent().path)
         )
     }
     
