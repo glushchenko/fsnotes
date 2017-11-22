@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension StorageItem {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<StorageItem> {

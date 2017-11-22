@@ -13,9 +13,7 @@ import CoreData
 class PrefsViewController: NSViewController {
 
     @IBOutlet weak var storageTableView: StorageTableView!
-    @IBOutlet var storageField: NSTextField!
     @IBOutlet var externalEditorApp: NSTextField!
-    @IBOutlet weak var noteFont: NSPopUpButton!
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet var cloudKitCheckbox: NSButton!
@@ -37,7 +35,6 @@ class PrefsViewController: NSViewController {
     override func viewDidAppear() {
         self.view.window!.title = "Preferences"
         
-        storageField.stringValue = UserDefaultsManagement.storagePath
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
         
         if (UserDefaultsManagement.horizontalOrientation) {
@@ -112,32 +109,6 @@ class PrefsViewController: NSViewController {
         if let storage = storageTableView.getSelected(), storage.label != "general" {
             CoreDataManager.instance.remove(storage: storage)
             self.storageTableView.reload()
-        }
-    }
-    
-    @IBAction func selectDefaultFileStorage(_ sender: Any) {
-        
-        let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = true
-        openPanel.canCreateDirectories = false
-        openPanel.canChooseFiles = true
-        openPanel.canCreateDirectories = true
-       
-        openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
-                let bookmark = SandboxBookmark()
-                let url = openPanel.url
-                
-                bookmark.store(url: url!)
-                bookmark.save()
-                
-                if let url = openPanel.url {
-                    UserDefaultsManagement.storagePath = url.path
-                }
-                
-                self.restart()
-            }
         }
     }
     
