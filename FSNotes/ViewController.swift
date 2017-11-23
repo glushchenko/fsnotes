@@ -115,8 +115,6 @@ class ViewController: NSViewController,
             pathList.append(NSString(string: (storageItem.getUrl()?.path)!).expandingTildeInPath)
         }
         
-        Swift.print(pathList)
-        
         let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
@@ -142,8 +140,8 @@ class ViewController: NSViewController,
         filewatcher.start()
     }
     
-    func watcherCreateTrigger(_ url: URL) {
-        let coreDataNote = CoreDataManager.instance.getBy(url)
+    func watcherCreateTrigger(_ url: URL) {        
+        let coreDataNote = CoreDataManager.instance.getBy(url: url)
         let storageNote = Storage.instance.getBy(url: url)
         
         var note = coreDataNote
@@ -151,6 +149,7 @@ class ViewController: NSViewController,
         
         if note == nil {
             note = CoreDataManager.instance.make()
+            note!.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
         }
         
         note!.load(url)
@@ -286,7 +285,7 @@ class ViewController: NSViewController,
         guard let note = notesTableView.getNoteFromSelectedRow() else {
             return
         }
-        
+                
         sender.isEditable = false
         
         if (!note.rename(newName: sender.stringValue)) {
@@ -484,9 +483,11 @@ class ViewController: NSViewController,
         
         let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
         let cell = row.view(atColumn: 0) as! NoteCellView
+        let note = cell.objectValue as! Note
         
         cell.name.isEditable = true
         cell.name.becomeFirstResponder()
+        cell.name.stringValue = note.getTitleWithoutLabel()
         
         let fileName = cell.name.currentEditor()!.string as NSString
         let fileNameLength = fileName.length

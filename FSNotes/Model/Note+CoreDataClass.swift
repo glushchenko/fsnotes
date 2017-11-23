@@ -103,7 +103,10 @@ public class Note: NSManagedObject {
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
+            return
         }
+        
+        print("Removed successfully: \(name)")
     }
     
     @objc func getPreviewForLabel() -> String {
@@ -176,7 +179,7 @@ public class Note: NSManagedObject {
     
     func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL {
         let defaultName = "Untitled Note"
-        let defaultUrl = UserDefaultsManagement.storageUrl
+        let defaultUrl = Storage.instance.getGeneralURL()
         let defaultExtension = UserDefaultsManagement.storageExtension
         
         var name = name
@@ -272,7 +275,14 @@ public class Note: NSManagedObject {
         if (url.pathComponents.count > 0) {
             type = url.pathExtension
             name = url.pathComponents.last!
-            title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+            
+            var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+            
+            if let storageUnwrapped = storage, let label = storageUnwrapped.label, label != "general" {
+                titleName = label + " / " + titleName
+            }
+            
+            title = titleName
         }
     }
     
@@ -318,5 +328,16 @@ public class Note: NSManagedObject {
         if currentDate != modifiedLocalAt {
             isSynced = false
         }
+    }
+    
+    func isGeneral() -> Bool {
+        if let storageItem = storage, storageItem.label != "general" {
+            return false
+        }
+        return true
+    }
+    
+    func getTitleWithoutLabel() -> String {
+        return url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
     }
 }

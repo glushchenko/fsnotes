@@ -59,7 +59,7 @@ class Storage {
                 note.checkLocalSyncState(date)
             }
             
-            note.noteStorage = item
+            note.storage = item
             note.load(url)
             
             if !note.isSynced {
@@ -103,7 +103,7 @@ class Storage {
     
     func createHelloWorld() {
         let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
-        var destination = UserDefaultsManagement.storageUrl
+        var destination = Storage.instance.getGeneralURL()
         destination.appendPathComponent("Hello world.md")
         
         do {
@@ -138,16 +138,18 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    !$0.isSynced
+                    !$0.isSynced && $0.isGeneral()
                 )
             })
     }
     
     func getBy(url: URL) -> Note? {
+        let storageItem = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
+        
         return
             noteList.first(where: {
                 return (
-                    $0.url == url
+                    $0.url == url && $0.storage == storageItem
                 )
             })
     }
@@ -156,9 +158,14 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    $0.name == name
+                    $0.name == name && $0.isGeneral()
                 )
             })
+    }
+    
+    func getGeneralURL() -> URL {
+        let path = CoreDataManager.instance.fetchStorageList().first?.path
+        return URL(string: path!)!
     }
 
 }

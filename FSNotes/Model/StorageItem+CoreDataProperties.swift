@@ -18,5 +18,6 @@ extension StorageItem {
 
     @NSManaged public var label: String?
     @NSManaged public var path: String?
+    @NSManaged public var note: Note?
 
 }

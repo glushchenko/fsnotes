@@ -60,10 +60,13 @@ class CoreDataManager {
         }
     }
     
-    func getBy(_ url: URL) -> Note? {
+    func getBy(url: URL) -> Note? {
+        let storageItem = fetchStorageItemBy(fileUrl: url)
         let name = url.pathComponents.last!
+        
         let request = NSFetchRequest<Note>(entityName: "Note")
-        let predicate = NSPredicate(format: "name = %@", name)
+        let predicate = NSPredicate(format: "name = %@ AND storage = %@", argumentArray: [name, storageItem!])
+        
         request.predicate = predicate
         do {
             return try context.fetch(request).first
@@ -115,6 +118,19 @@ class CoreDataManager {
         }
         
         return results
+    }
+    
+    func fetchStorageItemBy(fileUrl: URL) -> StorageItem? {
+        let path = fileUrl.deletingLastPathComponent().absoluteString
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        let predicate = NSPredicate(format: "path = %@", path)
+        request.predicate = predicate
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Not fetched \(error)")
+        }
+        return nil
     }
     
 }

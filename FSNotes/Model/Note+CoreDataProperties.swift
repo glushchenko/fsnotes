@@ -23,6 +23,6 @@ extension Note {
     @NSManaged public var isRemoved: Bool
     @NSManaged public var cloudKitRecord: Data
     @NSManaged public var modifiedLocalAt: Date?
-    @NSManaged public var noteStorage: StorageItem?
+    @NSManaged public var storage: StorageItem?
 
 }
