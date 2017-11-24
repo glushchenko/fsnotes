@@ -26,6 +26,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet var lastSyncOutlet: NSTextField!
     @IBOutlet weak var fontPreview: NSTextField!
     
+    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setFontPreview()
@@ -95,11 +97,19 @@ class PrefsViewController: NSViewController {
                 bookmark.save()
                 
                 if let url = openPanel.url {
-                    let context = CoreDataManager.instance.context
-                    let storage = StorageItem(context: context)
+                    var storage: StorageItem
+                    
+                    if let selected = self.storageTableView.getSelected() {
+                        storage = selected
+                    } else {
+                        let context = CoreDataManager.instance.context
+                        storage = StorageItem(context: context)
+                    }
+                    
                     storage.path = url.absoluteString
                     CoreDataManager.instance.save()
-                    self.storageTableView.reload()
+                    
+                    self.reloadStorage()
                 }
             }
         }
@@ -108,7 +118,7 @@ class PrefsViewController: NSViewController {
     @IBAction func removeStorage(_ sender: Any) {
         if let storage = storageTableView.getSelected(), storage.label != "general" {
             CoreDataManager.instance.remove(storage: storage)
-            self.storageTableView.reload()
+            reloadStorage()
         }
     }
     
@@ -163,7 +173,7 @@ class PrefsViewController: NSViewController {
             }
         }
     }
-    
+        
     var fontPanelOpen: Bool = false
     let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
     
@@ -243,5 +253,11 @@ class PrefsViewController: NSViewController {
                 UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: 37, modifierFlags: 917504)
             }
         }
+    }
+    
+    func reloadStorage() {
+        storageTableView.reload()
+        Storage.instance.loadDocuments()
+        viewController.updateTable(filter: "")
     }
 }

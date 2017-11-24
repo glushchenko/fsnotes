@@ -16,6 +16,8 @@ class Storage {
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
     func loadDocuments() {
+        noteList.removeAll()
+        
         let storageItemList = CoreDataManager.instance.fetchStorageList()
         
         for item in storageItemList {
@@ -164,7 +166,8 @@ class Storage {
     }
     
     func getGeneralURL() -> URL {
-        let path = CoreDataManager.instance.fetchStorageList().first?.path
+        let path = CoreDataManager.instance.fetchGeneralStorage()?.path
+        
         return URL(string: path!)!
     }
 

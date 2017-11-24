@@ -133,4 +133,15 @@ class CoreDataManager {
         return nil
     }
     
+    func fetchGeneralStorage() -> StorageItem? {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        request.predicate = NSPredicate(format: "label = %@", "general")
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("General storage not found \(error)")
+        }
+        return nil
+    }
+    
 }

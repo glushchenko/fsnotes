@@ -13,6 +13,7 @@ class StorageTableView: NSTableView, NSTableViewDataSource,
 NSTableViewDelegate {
     
     var list = [StorageItem]()
+    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
@@ -28,11 +29,12 @@ NSTableViewDelegate {
         if ((tableColumn?.identifier)!.rawValue == "Label") {
             return list[row].label
         }
-        return list[row].path
+        Swift.print(list[row].getPath())
+        return list[row].getPath()
     }
     
     func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        return (list[row].label != "general" || tableColumn?.identifier.rawValue == "Path")
+        return (list[row].label != "general" && tableColumn?.identifier.rawValue != "Path")
     }
     
     func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
@@ -47,14 +49,18 @@ NSTableViewDelegate {
             
             let storage = list[selectedRow]
             storage.label = label
+                
             CoreDataManager.instance.save()
-            self.reload()
         }
+        
+        self.reload()
     }
     
     func reload() {
         list = CoreDataManager.instance.fetchStorageList()
         reloadData()
+        Storage.instance.loadDocuments()
+        viewController.notesTableView.reloadData()
     }
     
     func getSelected() -> StorageItem? {
@@ -66,4 +72,5 @@ NSTableViewDelegate {
         
         return storage
     }
+
 }
