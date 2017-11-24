@@ -26,7 +26,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
-        
+    
+    @IBOutlet var noteMenu: NSMenu!
+    
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -101,8 +103,49 @@ class ViewController: NSViewController,
                 CloudKitManager.instance.sync()
             }
         #endif
+        
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        
+        if storageItemList.count > 1 {
+            let moveMenuItem = NSMenuItem()
+            moveMenuItem.title = "Move"
+            noteMenu.addItem(moveMenuItem)
+            
+            let moveMenu = NSMenu()
+            
+            for storageItem in storageItemList {
+                let menuItem = NSMenuItem()
+                menuItem.title = storageItem.label!
+                menuItem.representedObject = storageItem
+                menuItem.action = #selector(moveNote(_:))
+                
+                moveMenu.addItem(menuItem)
+            }
+            
+            noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
+        }
     }
     
+    @objc func moveNote(_ sender: NSMenuItem) {
+        let storageItem = sender.representedObject as! StorageItem
+        
+        if let note = notesTableView.getSelectedNote(), let url = storageItem.getUrl() {
+            
+            let destination = url.appendingPathComponent(note.name)
+            
+            do {
+                try FileManager.default.moveItem(at: note.url, to: destination)
+                
+                reloadStorage()
+            } catch {
+                let alert = NSAlert.init()
+                alert.messageText = "Hmm, something goes wrong 🙈"
+                alert.informativeText = "Note with name \(note.name) already exist in selected storage."
+                alert.runModal()
+            }
+        }
+    }
+        
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         return splitView.frame.width / 2
     }
@@ -562,6 +605,11 @@ class ViewController: NSViewController,
         } else {
             enablePreview()
         }
+    }
+    
+    func reloadStorage() {
+        storage.loadDocuments()
+        updateTable(filter: "")
     }
     
 }

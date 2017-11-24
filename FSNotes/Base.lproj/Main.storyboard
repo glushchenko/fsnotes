@@ -1065,6 +1065,7 @@
                         <outlet property="editArea" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
+                        <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
                         <outlet property="search" destination="gaD-Xx-kYm" id="jiw-n1-Ydc"/>
                         <outlet property="searchWrapper" destination="gaD-Xx-kYm" id="1k0-hP-rbp"/>

@@ -12,6 +12,8 @@ class Storage {
     static let instance = Storage()
     
     var noteList = [Note]()
+    var notesDict: [String: Note] = [:]
+    
     static var pinned: Int = 0
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
@@ -36,10 +38,13 @@ class Storage {
         
         let documents = readDirectory(url)
         let existNotes = CoreDataManager.instance.fetchAll()
-        var notesDict: [String: Note] = [:]
         
         for note in existNotes {
-            notesDict[note.name] = note
+            var path = ""
+            if let storage = note.storage {
+                path = storage.path!
+            }
+            notesDict[note.name + path] = note
         }
         
         for document in documents {
@@ -48,16 +53,17 @@ class Storage {
             let url = document.0
             let date = document.1
             let name = url.pathComponents.last!
+            let uniqName = name + item.path!
             
             if (url.pathComponents.count == 0) {
                 continue
             }
             
-            if notesDict[name] == nil {
+            if notesDict[uniqName] == nil {
                 note = CoreDataManager.instance.make()
                 note.isSynced = false
             } else {
-                note = notesDict[name]!
+                note = notesDict[uniqName]!
                 note.checkLocalSyncState(date)
             }
             
