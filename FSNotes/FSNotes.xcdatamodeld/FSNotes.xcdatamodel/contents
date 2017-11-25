@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13533" systemVersion="17B48" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Note" representedClassName="Note" syncable="YES">
         <attribute name="cloudKitRecord" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="isPinned" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isRemoved" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isSynced" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="modifiedLocalAt" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="storage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StorageItem" inverseName="note" inverseEntity="StorageItem" syncable="YES"/>
+    </entity>
+    <entity name="StorageItem" representedClassName="StorageItem" syncable="YES">
+        <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="note" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Note" inverseName="storage" inverseEntity="Note" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Note" positionX="-54" positionY="-9" width="128" height="135"/>
+        <element name="Note" positionX="-54" positionY="-9" width="128" height="165"/>
+        <element name="StorageItem" positionX="-45" positionY="45" width="128" height="90"/>
     </elements>
 </model>

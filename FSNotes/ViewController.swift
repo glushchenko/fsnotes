@@ -26,7 +26,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
-        
+    
+    @IBOutlet var noteMenu: NSMenu!
+    
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -57,6 +59,14 @@ class ViewController: NSViewController,
         editArea.delegate = self
         search.delegate = self
         splitView.delegate = self
+        
+        if CoreDataManager.instance.getBy(label: "general") == nil {
+            let context = CoreDataManager.instance.context
+            let storage = StorageItem(context: context)
+            storage.path = UserDefaultsManagement.storageUrl.absoluteString
+            storage.label = "general"
+            CoreDataManager.instance.save()
+        }
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
@@ -93,20 +103,48 @@ class ViewController: NSViewController,
                 CloudKitManager.instance.sync()
             }
         #endif
+        
+        loadMoveMenu()
     }
     
+    @objc func moveNote(_ sender: NSMenuItem) {
+        let storageItem = sender.representedObject as! StorageItem
+        
+        if let note = notesTableView.getSelectedNote(), let url = storageItem.getUrl() {
+            let destination = url.appendingPathComponent(note.name)
+            
+            do {
+                try FileManager.default.moveItem(at: note.url, to: destination)
+                
+                reloadStorage()
+            } catch {
+                let alert = NSAlert.init()
+                alert.messageText = "Hmm, something goes wrong 🙈"
+                alert.informativeText = "Note with name \(note.name) already exist in selected storage."
+                alert.runModal()
+            }
+        }
+    }
+        
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         return splitView.frame.width / 2
     }
     
     func watchFSEvents() {
-        let filewatcher = FileWatcher([NSString(string: UserDefaultsManagement.storagePath).expandingTildeInPath])
+        var pathList: [String] = []
+        
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        for storageItem in storageItemList {
+            pathList.append(NSString(string: (storageItem.getUrl()?.path)!).expandingTildeInPath)
+        }
+        
+        let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
             
-            guard let url = URL(string: "file://" + path), self.checkFile(url) else {
+            guard let url = URL(string: "file://" + path), self.checkFile(url: url, pathList: pathList) else {
                 return
             }
             
@@ -125,8 +163,8 @@ class ViewController: NSViewController,
         filewatcher.start()
     }
     
-    func watcherCreateTrigger(_ url: URL) {
-        let coreDataNote = CoreDataManager.instance.getBy(url)
+    func watcherCreateTrigger(_ url: URL) {        
+        let coreDataNote = CoreDataManager.instance.getBy(url: url)
         let storageNote = Storage.instance.getBy(url: url)
         
         var note = coreDataNote
@@ -134,6 +172,7 @@ class ViewController: NSViewController,
         
         if note == nil {
             note = CoreDataManager.instance.make()
+            note!.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
         }
         
         note!.load(url)
@@ -147,11 +186,11 @@ class ViewController: NSViewController,
         reloadView(note: note!)
     }
     
-    func checkFile(_ url: URL) -> Bool {
+    func checkFile(url: URL, pathList: [String]) -> Bool {
         return (
             FileManager.default.fileExists(atPath: url.path)
             && Storage.allowedExtensions.contains(url.pathExtension)
-            && url.deletingLastPathComponent().path == UserDefaultsManagement.storageUrl.path
+            && pathList.contains(url.deletingLastPathComponent().path)
         )
     }
     
@@ -269,7 +308,7 @@ class ViewController: NSViewController,
         guard let note = notesTableView.getNoteFromSelectedRow() else {
             return
         }
-        
+                
         sender.isEditable = false
         
         if (!note.rename(newName: sender.stringValue)) {
@@ -467,9 +506,11 @@ class ViewController: NSViewController,
         
         let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
         let cell = row.view(atColumn: 0) as! NoteCellView
+        let note = cell.objectValue as! Note
         
         cell.name.isEditable = true
         cell.name.becomeFirstResponder()
+        cell.name.stringValue = note.getTitleWithoutLabel()
         
         let fileName = cell.name.currentEditor()!.string as NSString
         let fileNameLength = fileName.length
@@ -543,6 +584,47 @@ class ViewController: NSViewController,
             disablePreview()
         } else {
             enablePreview()
+        }
+    }
+    
+    func reloadStorage() {
+        storage.loadDocuments()
+        updateTable(filter: "")
+    }
+    
+    func loadMoveMenu() {
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        
+        if storageItemList.count > 1 {
+            if let prevMenu = noteMenu.item(withTitle: "Move") {
+                noteMenu.removeItem(prevMenu)
+            }
+            
+            let moveMenuItem = NSMenuItem()
+            moveMenuItem.title = "Move"
+            noteMenu.addItem(moveMenuItem)
+            
+            let moveMenu = NSMenu()
+            
+            for storageItem in storageItemList {
+                guard let url = storageItem.getUrl() else {
+                    return
+                }
+                
+                var title = url.lastPathComponent
+                if let label = storageItem.label {
+                    title = label
+                }
+                
+                let menuItem = NSMenuItem()
+                menuItem.title = title
+                menuItem.representedObject = storageItem
+                menuItem.action = #selector(moveNote(_:))
+                
+                moveMenu.addItem(menuItem)
+            }
+            
+            noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
         }
     }
     

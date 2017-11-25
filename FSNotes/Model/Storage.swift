@@ -12,24 +12,39 @@ class Storage {
     static let instance = Storage()
     
     var noteList = [Note]()
+    var notesDict: [String: Note] = [:]
+    
     static var pinned: Int = 0
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
     func loadDocuments() {
-        var documents = readDirectory()
+        noteList.removeAll()
         
-        if (documents.isEmpty) {
-            createHelloWorld()
-            let helloUrl = UserDefaultsManagement.storageUrl.appendingPathComponent("Hello world.md")
-            let helloDate = (try? helloUrl.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date()
-            documents.append((helloUrl, helloDate))
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        
+        for item in storageItemList {
+            loadLabel(item)
         }
- 
+
+        if (noteList.isEmpty) {
+            createHelloWorld()
+        }
+    }
+    
+    func loadLabel(_ item: StorageItem) {
+        guard let url = item.getUrl() else {
+            return
+        }
+        
+        let documents = readDirectory(url)
         let existNotes = CoreDataManager.instance.fetchAll()
-        var notesDict: [String: Note] = [:]
         
         for note in existNotes {
-            notesDict[note.name] = note
+            var path = ""
+            if let storage = note.storage {
+                path = storage.path!
+            }
+            notesDict[note.name + path] = note
         }
         
         for document in documents {
@@ -38,19 +53,21 @@ class Storage {
             let url = document.0
             let date = document.1
             let name = url.pathComponents.last!
-        
+            let uniqName = name + item.path!
+            
             if (url.pathComponents.count == 0) {
                 continue
             }
             
-            if notesDict[name] == nil {
+            if notesDict[uniqName] == nil {
                 note = CoreDataManager.instance.make()
                 note.isSynced = false
             } else {
-                note = notesDict[name]!
+                note = notesDict[uniqName]!
                 note.checkLocalSyncState(date)
             }
             
+            note.storage = item
             note.load(url)
             
             if !note.isSynced {
@@ -67,11 +84,9 @@ class Storage {
         CoreDataManager.instance.save()
     }
     
-    func readDirectory() -> [(URL, Date)] {
-        let directory = UserDefaultsManagement.storageUrl
-        
+    func readDirectory(_ url: URL) -> [(URL, Date)] {
         return
-            try! FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
+            try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
             ).filter {
                 Storage.allowedExtensions.contains($0.pathExtension)
             }.map { url in (
@@ -96,11 +111,17 @@ class Storage {
     
     func createHelloWorld() {
         let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
-        var destination = UserDefaultsManagement.storageUrl
+        var destination = Storage.instance.getGeneralURL()
         destination.appendPathComponent("Hello world.md")
         
         do {
             try FileManager.default.copyItem(at: initialDoc!, to: destination)
+            let note = getOrCreate(name: "Hello world.md")
+            note.url = destination
+            note.extractUrl()
+            note.content = try String(contentsOf: initialDoc!)
+            note.save()
+            
         } catch {
             print("Initial copy error: \(error)")
         }
@@ -125,16 +146,18 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    !$0.isSynced
+                    !$0.isSynced && $0.isGeneral()
                 )
             })
     }
     
     func getBy(url: URL) -> Note? {
+        let storageItem = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
+        
         return
             noteList.first(where: {
                 return (
-                    $0.url == url
+                    $0.url == url && $0.storage == storageItem
                 )
             })
     }
@@ -143,9 +166,15 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    $0.name == name
+                    $0.name == name && $0.isGeneral()
                 )
             })
+    }
+    
+    func getGeneralURL() -> URL {
+        let path = CoreDataManager.instance.fetchGeneralStorage()?.path
+        
+        return URL(string: path!)!
     }
 
 }

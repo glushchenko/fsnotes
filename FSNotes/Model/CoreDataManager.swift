@@ -44,19 +44,29 @@ class CoreDataManager {
     
     func remove(_ note: Note) {
         do {
-            let name = note.name
             context.delete(note)
             try context.save()
-            print("Note removed: \(name)")
         } catch {
             print("Remove error \(error)")
         }
     }
     
-    func getBy(_ url: URL) -> Note? {
+    func remove(storage: StorageItem) {
+        do {
+            context.delete(storage)
+            try context.save()
+        } catch {
+            print("Remove error \(error)")
+        }
+    }
+    
+    func getBy(url: URL) -> Note? {
+        let storageItem = fetchStorageItemBy(fileUrl: url)
         let name = url.pathComponents.last!
+        
         let request = NSFetchRequest<Note>(entityName: "Note")
-        let predicate = NSPredicate(format: "name = %@", name)
+        let predicate = NSPredicate(format: "name = %@ AND storage = %@", argumentArray: [name, storageItem!])
+        
         request.predicate = predicate
         do {
             return try context.fetch(request).first
@@ -83,6 +93,55 @@ class CoreDataManager {
             let updateError = error as NSError
             print("\(updateError), \(updateError.userInfo)")
         }
+    }
+    
+    func getBy(label: String) -> StorageItem? {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        let predicate = NSPredicate(format: "label = %@", label)
+        request.predicate = predicate
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Not fetched \(error)")
+        }
+        return nil
+    }
+    
+    func fetchStorageList() -> [StorageItem] {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        var results = [StorageItem]()
+        
+        do {
+            results = try context.fetch(request)
+        } catch {
+            print("Not fetched \(error)")
+        }
+        
+        return results
+    }
+    
+    func fetchStorageItemBy(fileUrl: URL) -> StorageItem? {
+        let path = fileUrl.deletingLastPathComponent().absoluteString
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        let predicate = NSPredicate(format: "path = %@", path)
+        request.predicate = predicate
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Not fetched \(error)")
+        }
+        return nil
+    }
+    
+    func fetchGeneralStorage() -> StorageItem? {
+        let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
+        request.predicate = NSPredicate(format: "label = %@", "general")
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("General storage not found \(error)")
+        }
+        return nil
     }
     
 }

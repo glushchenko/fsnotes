@@ -77,7 +77,7 @@ class CloudKitManager {
                     
                     note.content = content
                     note.cloudKitRecord = record.data()
-                    note.url = UserDefaultsManagement.storageUrl.appendingPathComponent(fileName)
+                    note.url = Storage.instance.getGeneralURL().appendingPathComponent(fileName)
                     note.extractUrl()
                     
                     if (note.writeContent()) {
@@ -115,6 +115,11 @@ class CloudKitManager {
     }
     
     func saveNote(_ note: Note) {
+        if !note.isGeneral() {
+            Swift.print("Skipped, note not in general storage.")
+            return
+        }
+        
         guard !hasActivePushConnection && note.name.count > 0 else {
             return
         }
