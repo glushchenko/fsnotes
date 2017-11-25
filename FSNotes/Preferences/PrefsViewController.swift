@@ -259,5 +259,6 @@ class PrefsViewController: NSViewController {
         storageTableView.reload()
         Storage.instance.loadDocuments()
         viewController.updateTable(filter: "")
+        viewController.loadMoveMenu()
     }
 }

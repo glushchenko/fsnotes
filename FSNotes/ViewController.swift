@@ -104,33 +104,13 @@ class ViewController: NSViewController,
             }
         #endif
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        
-        if storageItemList.count > 1 {
-            let moveMenuItem = NSMenuItem()
-            moveMenuItem.title = "Move"
-            noteMenu.addItem(moveMenuItem)
-            
-            let moveMenu = NSMenu()
-            
-            for storageItem in storageItemList {
-                let menuItem = NSMenuItem()
-                menuItem.title = storageItem.label!
-                menuItem.representedObject = storageItem
-                menuItem.action = #selector(moveNote(_:))
-                
-                moveMenu.addItem(menuItem)
-            }
-            
-            noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
-        }
+        loadMoveMenu()
     }
     
     @objc func moveNote(_ sender: NSMenuItem) {
         let storageItem = sender.representedObject as! StorageItem
         
         if let note = notesTableView.getSelectedNote(), let url = storageItem.getUrl() {
-            
             let destination = url.appendingPathComponent(note.name)
             
             do {
@@ -610,6 +590,42 @@ class ViewController: NSViewController,
     func reloadStorage() {
         storage.loadDocuments()
         updateTable(filter: "")
+    }
+    
+    func loadMoveMenu() {
+        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        
+        if storageItemList.count > 1 {
+            if let prevMenu = noteMenu.item(withTitle: "Move") {
+                noteMenu.removeItem(prevMenu)
+            }
+            
+            let moveMenuItem = NSMenuItem()
+            moveMenuItem.title = "Move"
+            noteMenu.addItem(moveMenuItem)
+            
+            let moveMenu = NSMenu()
+            
+            for storageItem in storageItemList {
+                guard let url = storageItem.getUrl() else {
+                    return
+                }
+                
+                var title = url.lastPathComponent
+                if let label = storageItem.label {
+                    title = label
+                }
+                
+                let menuItem = NSMenuItem()
+                menuItem.title = title
+                menuItem.representedObject = storageItem
+                menuItem.action = #selector(moveNote(_:))
+                
+                moveMenu.addItem(menuItem)
+            }
+            
+            noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
+        }
     }
     
 }

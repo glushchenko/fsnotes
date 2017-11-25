@@ -29,7 +29,6 @@ NSTableViewDelegate {
         if ((tableColumn?.identifier)!.rawValue == "Label") {
             return list[row].label
         }
-        Swift.print(list[row].getPath())
         return list[row].getPath()
     }
     
@@ -49,8 +48,9 @@ NSTableViewDelegate {
             
             let storage = list[selectedRow]
             storage.label = label
-                
             CoreDataManager.instance.save()
+            
+            viewController.loadMoveMenu()
         }
         
         self.reload()
