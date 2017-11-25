@@ -29,6 +29,19 @@ class Storage {
         if (noteList.isEmpty) {
             createHelloWorld()
         }
+        
+        if let list = sortNotes(noteList: noteList) {
+            noteList = list
+        }
+    }
+    
+    func sortNotes(noteList: [Note]?) -> [Note]? {
+        return noteList?.sorted(by: {
+            if $0.isPinned == $1.isPinned {
+                return $0.modifiedLocalAt! > $1.modifiedLocalAt!
+            }
+            return $0.isPinned && !$1.isPinned
+        })
     }
     
     func loadLabel(_ item: StorageItem) {
@@ -89,12 +102,12 @@ class Storage {
             try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
             ).filter {
                 Storage.allowedExtensions.contains($0.pathExtension)
-            }.map { url in (
-                    url,
-                    (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast
+            }.map {
+                url in (
+                    url, (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                    )?.contentModificationDate ?? Date.distantPast
                 )
             }
-            .sorted(by: { $0.1 > $1.1 })
     }
     
     func add(_ note: Note) {

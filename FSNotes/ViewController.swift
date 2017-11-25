@@ -17,6 +17,8 @@ class ViewController: NSViewController,
     NSSplitViewDelegate {
     
     var lastSelectedNote: Note?
+    var filteredNoteList: [Note]?
+    var prevQuery: String?
     let storage = Storage.instance
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
@@ -363,7 +365,7 @@ class ViewController: NSViewController,
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
         notesTableView.noteList.removeAll();
-        self.updateTable(filter: search.stringValue)
+        updateTable(filter: search.stringValue, search: true)
         
         if (notesTableView.noteList.count > 0) {
             editArea.fill(note: notesTableView.noteList[0], highlight: true)
@@ -373,30 +375,37 @@ class ViewController: NSViewController,
         }
     }
     
-    func updateTable(filter: String) {
+    func updateTable(filter: String, search: Bool = false) {
         let searchTermsArray = filter.split(separator: " ")
+        var source = storage.noteList
         
-        notesTableView.noteList =
-            storage.noteList.filter() {
+        if let query = prevQuery, filter.range(of: query) != nil {
+            source = filteredNoteList!
+        } else {
+            prevQuery = nil
+        }
+        
+        prevQuery = filter
+        filteredNoteList =
+            source.filter() {
                 let searchContent = "\($0.name) \($0.content)"
                 return (
                     !$0.name.isEmpty
                     && $0.isRemoved == false
                     && (
                         filter.isEmpty
-                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
+                        || !searchTermsArray.contains(where: { !searchContent.contains($0)
                         })
                     )
                 )
             }
-            .sorted(by: {
-                if $0.isPinned == $1.isPinned {
-                    return $0.modifiedLocalAt! > $1.modifiedLocalAt!
-                }
-                return $0.isPinned && !$1.isPinned
-            })
         
-            notesTableView.reloadData()
+        if !search {
+            filteredNoteList = Storage.instance.sortNotes(noteList: filteredNoteList)
+        }
+        
+        notesTableView.noteList = filteredNoteList!
+        notesTableView.reloadData()
     }
         
     override func controlTextDidEndEditing(_ obj: Notification) {
