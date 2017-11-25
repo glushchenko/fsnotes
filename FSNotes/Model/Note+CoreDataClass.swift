@@ -91,6 +91,10 @@ public class Note: NSManagedObject {
         do {
             try fileManager.trashItem(at: url, resultingItemURL: nil)
             
+            if let position = Storage.instance.noteList.index(of: self) {
+                Storage.instance.noteList.remove(at: position)
+            }
+            
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 isRemoved = true

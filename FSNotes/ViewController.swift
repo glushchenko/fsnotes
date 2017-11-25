@@ -376,16 +376,19 @@ class ViewController: NSViewController,
     }
     
     func updateTable(filter: String, search: Bool = false) {
+        if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
+            storage.noteList = list
+        }
+        
         let searchTermsArray = filter.split(separator: " ")
         var source = storage.noteList
         
-        if let query = prevQuery, filter.range(of: query) != nil {
-            source = filteredNoteList!
+        if let query = prevQuery, filter.range(of: query) != nil, let unwrappedList = filteredNoteList {
+            source = unwrappedList
         } else {
             prevQuery = nil
         }
         
-        prevQuery = filter
         filteredNoteList =
             source.filter() {
                 let searchContent = "\($0.name) \($0.content)"
@@ -394,18 +397,18 @@ class ViewController: NSViewController,
                     && $0.isRemoved == false
                     && (
                         filter.isEmpty
-                        || !searchTermsArray.contains(where: { !searchContent.contains($0)
+                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
                     )
                 )
             }
         
-        if !search {
-            filteredNoteList = Storage.instance.sortNotes(noteList: filteredNoteList)
+        if let unwrappedList = filteredNoteList {
+            notesTableView.noteList = unwrappedList
         }
         
-        notesTableView.noteList = filteredNoteList!
         notesTableView.reloadData()
+        prevQuery = filter
     }
         
     override func controlTextDidEndEditing(_ obj: Notification) {
@@ -493,6 +496,7 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes([Storage.pinned], byExtendingSelection: false)
         notesTableView.scrollRowToVisible(Storage.pinned)
         focusEditArea()
+        
         search.stringValue.removeAll()
     }
     
