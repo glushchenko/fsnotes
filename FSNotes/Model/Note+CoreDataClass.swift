@@ -87,6 +87,7 @@ public class Note: NSManagedObject {
     
     func remove() {
         let fileManager = FileManager.default
+        let removeName = name
         
         do {
             try fileManager.trashItem(at: url, resultingItemURL: nil)
@@ -110,7 +111,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        print("Removed successfully: \(name)")
+        print("Removed successfully: \(removeName)")
     }
     
     @objc func getPreviewForLabel() -> String {
@@ -283,7 +284,11 @@ public class Note: NSManagedObject {
             var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
             
             if let storageUnwrapped = storage, let label = storageUnwrapped.label, label != "general" {
-                titleName = label + " / " + titleName
+                let trimmedLabel = label.trim()
+                
+                if !trimmedLabel.isEmpty {
+                    titleName = trimmedLabel + " / " + titleName
+                }
             }
             
             title = titleName

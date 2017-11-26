@@ -20,4 +20,8 @@ extension String {
         // Use magic from https://stackoverflow.com/a/41902740/2778502
         return terms.first(where: { !self.localizedLowercase.contains($0) }) == nil
     }
+    
+    func trim() -> String {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
+    }
 }
