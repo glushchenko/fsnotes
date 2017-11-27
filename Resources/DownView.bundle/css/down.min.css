@@ -563,3 +563,19 @@ hr {
 .hljs-strong {
     font-weight: bold;
 }
+
+pre {
+    position: relative;
+}
+
+pre > .copyCode {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 2px;
+    height: 18px;
+    border: 1px solid #AAAAAA;
+}
+

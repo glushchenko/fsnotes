@@ -10,12 +10,14 @@ import Cocoa
 import Down
 
 class EditTextView: NSTextView {
-    var downView: DownView?
+    var downView: MarkdownView?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
+
+    override func mouseMoved(with event: NSEvent) {}
     
     @IBAction func editorMenuItem(_ sender: Any) {
         let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
@@ -81,9 +83,10 @@ class EditTextView: NSTextView {
                 let bundle = Bundle(url: url)
                 
                 do {
-                    downView = try? DownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
-                        self.addSubview(self.downView!)
+                    downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
                     }
+                
+                    addSubview(downView!)
                 }
             } else {
                 let attrString = createAttributedString(note: note)

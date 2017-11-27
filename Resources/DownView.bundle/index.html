@@ -9,6 +9,40 @@
     <title></title>
 </head>
 <body>
+
     DOWN_HTML
+    
+    <script>
+        var preList = document.getElementsByTagName("code"),
+        length = preList.length,
+        i = 0;
+        
+        for (i; i < length; i++) {
+            if (preList[i].parentNode.tagName != "PRE") {
+                continue;
+            }
+            
+            var copy = document.createElement("img");
+            copy.src = "copy.png";
+            copy.classList.add('copyCode');
+            
+            copy.addEventListener("click", function(event) {
+                window.webkit.messageHandlers.notification.postMessage(
+                    event.target.parentNode.getElementsByTagName("code")[0].textContent
+                );
+            })
+            
+            copy.addEventListener("mouseenter", function(event) {
+                window.webkit.messageHandlers.mouseover.postMessage("in");
+            });
+            
+            copy.addEventListener("mouseleave", function(event) {
+                window.webkit.messageHandlers.mouseout.postMessage("out");
+            });
+            
+            var parentDiv = preList[i].parentNode;
+            parentDiv.insertBefore(copy, preList[i]);
+        }
+    </script>
 </body>
 </html>
