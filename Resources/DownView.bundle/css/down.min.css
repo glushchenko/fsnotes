@@ -577,5 +577,6 @@ pre > .copyCode {
     padding: 2px;
     height: 18px;
     border: 1px solid #AAAAAA;
+    transition: background 0.5s ease-out;
 }
 

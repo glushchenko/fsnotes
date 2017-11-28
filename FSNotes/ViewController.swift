@@ -132,6 +132,17 @@ class ViewController: NSViewController,
         return splitView.frame.width / 2
     }
     
+    var refilled: Bool = false
+    func splitViewDidResizeSubviews(_ notification: Notification) {
+        if !refilled {
+            self.refilled = true
+            DispatchQueue.main.async() {
+                self.refillEditArea()
+                self.refilled = false
+            }
+        }
+    }
+    
     func watchFSEvents() {
         var pathList: [String] = []
         

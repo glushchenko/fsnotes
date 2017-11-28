@@ -131,15 +131,10 @@ extension MarkdownView: WKNavigationDelegate {
 class HandlerCopyCode: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
+        let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
         let pasteboard = NSPasteboard.general
         pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-        pasteboard.setString(message.body as! String, forType: NSPasteboard.PasteboardType.string)
-        
-        let notification = NSUserNotification()
-        notification.title = "FSNotes"
-        notification.informativeText = "Code successfully copied to clipboard 👌"
-        notification.soundName = NSUserNotificationDefaultSoundName
-        NSUserNotificationCenter.default.deliver(notification)
+        pasteboard.setString(message, forType: NSPasteboard.PasteboardType.string)
     }
 }
 

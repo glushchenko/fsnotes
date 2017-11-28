@@ -27,6 +27,11 @@
             copy.classList.add('copyCode');
             
             copy.addEventListener("click", function(event) {
+                event.target.style.background = "#FFDC00"
+                setTimeout(function() {
+                    event.target.style.background = "white"
+                }, 500)
+                                  
                 window.webkit.messageHandlers.notification.postMessage(
                     event.target.parentNode.getElementsByTagName("code")[0].textContent
                 );
