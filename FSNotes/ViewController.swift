@@ -310,8 +310,10 @@ class ViewController: NSViewController,
             if notesTableView.selectedRow >= 0  {
                 let moveMenu = noteMenu.item(withTitle: "Move")
                 let view = notesTableView.rect(ofRow: notesTableView.selectedRow)
-                let at = NSPoint(x: 100, y: view.origin.y + 150)
-                noteMenu.popUp(positioning: moveMenu, at: at, in: notesTableView)
+                let x = splitView.subviews[0].frame.width + 5
+                let general = moveMenu?.submenu?.item(at: 0)
+                
+                moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: notesTableView)
             }
         }
     }
@@ -643,6 +645,12 @@ class ViewController: NSViewController,
             noteMenu.addItem(moveMenuItem)
             
             let moveMenu = NSMenu()
+            let label = NSMenuItem()
+            label.title = "Storage:"
+            let sep = NSMenuItem.separator()
+            
+            moveMenu.addItem(label)
+            moveMenu.addItem(sep)
             
             for storageItem in storageItemList {
                 guard let url = storageItem.getUrl() else {

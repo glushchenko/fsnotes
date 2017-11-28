@@ -32,4 +32,5 @@ Markdown syntax cheatsheet [here](https://daringfireball.net/projects/markdown/s
 - ```cmd + n``` - make note
 - ```control + cmd + e``` – open selected in external editor
 - ```control + cmd + o``` – show selected in finder
+- ```shift + cmd + m``` – move selected note in storage
 

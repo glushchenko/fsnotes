@@ -13,7 +13,7 @@ FSNotes features:
 - open files in finder / works with external editors (changes seamless live sync with UI)
 - pin/unpin important notes in top
 - synchronization over iCloud Drive / Dropbox / CloudKit (for MAS version)
-- multi folder storage  
+- multi folder storage
 - fast copy markdown code to clipboard
 
 Markdown files default directory:
@@ -23,8 +23,6 @@ Markdown files default directory:
 Of course you can change directory (i.e. Dropbox or iCloud for synchronization)
 
 ![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/macos.png?v=2254)
-
-Donate: 
 
 <a href="https://itunes.apple.com/app/fsnotes/id1277179284"><img height="40px" src="https://f001.backblazeb2.com/file/og-files/Download_on_the_Mac_App_Store_Badge_US-UK_165x40.png"/></a> 
 
