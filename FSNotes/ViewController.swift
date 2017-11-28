@@ -300,8 +300,22 @@ class ViewController: NSViewController,
         ) {
             finder(selectedRow: notesTableView.selectedRow)
         }
-    }
         
+        // Open menu and focus move (cmd-shift-t)
+        if (
+            event.keyCode == 46
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+        ) {
+            if notesTableView.selectedRow >= 0  {
+                let moveMenu = noteMenu.item(withTitle: "Move")
+                let view = notesTableView.rect(ofRow: notesTableView.selectedRow)
+                let at = NSPoint(x: 100, y: view.origin.y + 150)
+                noteMenu.popUp(positioning: moveMenu, at: at, in: notesTableView)
+            }
+        }
+    }
+    
     override var representedObject: Any? {
         didSet {
             // Update the view, if already loaded.
