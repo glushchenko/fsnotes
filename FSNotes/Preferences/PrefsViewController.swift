@@ -25,6 +25,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet var searchNotesShortcut: MASShortcutView!
     @IBOutlet var lastSyncOutlet: NSTextField!
     @IBOutlet weak var fontPreview: NSTextField!
+    @IBOutlet weak var cloudStatus: NSTextField!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -50,7 +51,9 @@ class PrefsViewController: NSViewController {
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
         
-        #if !CLOUDKIT
+        #if CLOUDKIT
+            checkCloudStatus()
+        #else
             tabView.removeTabViewItem(tabViewSync)
         #endif
         
@@ -73,10 +76,15 @@ class PrefsViewController: NSViewController {
         }
     }
     
-    @IBAction func cloudKitSync(_ sender: Any) {
-        UserDefaultsManagement.cloudKitSync = !((sender as AnyObject).state == NSControl.StateValue.off)
+    @IBAction func cloudKitSync(_ sender: AnyObject) {
+        let state = (sender as! NSButton).state
+        UserDefaultsManagement.cloudKitSync = !(state == NSControl.StateValue.off)
+
+        checkCloudStatus()
         
-        restart()
+        if state == NSControl.StateValue.on {
+            CloudKitManager.instance.sync()
+        }
     }
     
     @IBAction func addStorage(_ sender: Any) {
@@ -203,6 +211,7 @@ class PrefsViewController: NSViewController {
             .withColonSeparatorInTime,
             .withSpaceBetweenDateAndTime
         ]
+        dateFormatter.timeZone = NSTimeZone.local
         
         if let lastSync = UserDefaultsManagement.lastSync {
             lastSyncOutlet.stringValue = dateFormatter.string(from: lastSync)
@@ -260,5 +269,25 @@ class PrefsViewController: NSViewController {
         Storage.instance.loadDocuments()
         viewController.updateTable(filter: "")
         viewController.loadMoveMenu()
+    }
+    
+    func checkCloudStatus() {
+        CloudKitManager.instance.container.accountStatus { (accountStatus, error) in
+            var result: String
+            
+            switch accountStatus {
+            case .available:
+                result = "iCloud available"
+                break
+            case .couldNotDetermine, .noAccount, .restricted:
+                result = "iCloud not available"
+                self.cloudKitCheckbox.state = NSControl.StateValue.off
+                break
+            }
+            
+            DispatchQueue.main.async {
+                self.cloudStatus.stringValue = result
+            }
+        }
     }
 }

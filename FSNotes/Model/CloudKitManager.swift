@@ -18,7 +18,7 @@ class CloudKitManager {
     static let instance = CloudKitManager()
     
     let identifier = "iCloud.co.fluder.fsnotes"
-    let zone = "NotesZone"
+    let notesZone = "NotesZone"
     
     var container: CKContainer
     var modifiedRecords: [CKRecord] = []
@@ -34,27 +34,65 @@ class CloudKitManager {
     init() {
         container = CKContainer.init(identifier: identifier)
         database = container.privateCloudDatabase
-        recordZone = CKRecordZone(zoneName: zone)
-        makeZone()
     }
     
-    func makeZone() {
-        database.save(recordZone!, completionHandler: {(recordzone, error) in
+    func makeZone(completion: @escaping (CKRecordZone?) -> Void) {
+        database.save(CKRecordZone.init(zoneName: notesZone), completionHandler: {(recordZone, error) in
             if (error != nil) {
-                print("Zone creation error")
+                print("Zone creation error)")
+                return
             }
+            
+            print("Zone successfully created")
+            completion(recordZone)
         })
     }
     
-    func getZone() -> CKRecordZoneID {
-        return recordZone!.zoneID
+    func fetchZone(completion: @escaping (CKRecordZone?) -> Void) {
+        database.fetchAllRecordZones { zones, error in
+            guard let zones = zones, error == nil else {
+                self.makeZone() { (record) in
+                    completion(record)
+                }
+                return
+            }
+            
+            for zone in zones {
+                if zone.zoneID.zoneName == self.notesZone {
+                    completion(zone)
+                    return
+                }
+            }
+            
+            self.makeZone() { (record) in
+                completion(record)
+            }
+        }
+    }
+    
+    func getZone(completion: @escaping (CKRecordZone?) -> Void) {
+        guard let zone = recordZone else {
+            fetchZone() { (record) in
+                self.recordZone = record
+                completion(record)
+            }
+            return
+        }
+        
+        completion(zone)
     }
     
     func sync() {
-        push()
-        pull()
-        
-        UserDefaultsManagement.lastSync = Date()
+        getZone() { (recordZone) in
+            guard recordZone != nil else {
+                return
+            }
+            
+            self.push()
+            self.pull()
+            
+            UserDefaultsManagement.lastSync = Date()
+        }
     }
     
     func pull() {
@@ -111,39 +149,50 @@ class CloudKitManager {
             return
         }
         
+        guard recordZone != nil else {
+            print("Push skipped, zone not found.")
+            return
+        }
+        
         getRecord(note: note, completion: { result in
             self.saveNote(note)
         })
     }
     
     func saveNote(_ note: Note) {
-        if !note.isGeneral() {
-            Swift.print("Skipped, note not in general storage.")
-            return
-        }
-        
-        guard !hasActivePushConnection && note.name.count > 0 else {
-            return
-        }
-        
-        hasActivePushConnection = true
-        var record: CKRecord? = nil
-        
-        if note.cloudKitRecord.isEmpty {
-            record = createRecord(note)
-        } else {
-            record = CKRecord(archivedData: note.cloudKitRecord)!
-            if let unwrappedRecord = record {
-                record = fillRecord(note: note, record: unwrappedRecord)
+        getZone() { (recordZone) in
+            guard recordZone != nil else {
+                return
             }
-        }
         
-        guard let unwrappedRecord = record else {
-            hasActivePushConnection = false
-            return
+            if !note.isGeneral() {
+                Swift.print("Skipped, note not in general storage.")
+                return
+            }
+            
+            guard !self.hasActivePushConnection && note.name.count > 0 else {
+                return
+            }
+            
+            self.hasActivePushConnection = true
+            var record: CKRecord? = nil
+            
+            if note.cloudKitRecord.isEmpty {
+                record = self.createRecord(note)
+            } else {
+                record = CKRecord(archivedData: note.cloudKitRecord)!
+                if let unwrappedRecord = record {
+                    record = self.fillRecord(note: note, record: unwrappedRecord)
+                }
+            }
+            
+            guard let unwrappedRecord = record else {
+                self.hasActivePushConnection = false
+                return
+            }
+            
+            self.saveRecord(note: note, sRecord: unwrappedRecord)
         }
-        
-        saveRecord(note: note, sRecord: unwrappedRecord)
     }
     
     func saveRecord(note: Note, sRecord: CKRecord, push: Bool = true) {
@@ -168,7 +217,6 @@ class CloudKitManager {
                     return
                 }
                 
-                print("Save \(note.name) error \(error.debugDescription)")
                 return
             }
 
@@ -263,7 +311,7 @@ class CloudKitManager {
     }
     
     func fetchRecord(recordName: String, completion: @escaping (CloudKitResult) -> Void) {
-        let recordID = CKRecordID(recordName: recordName, zoneID: getZone())
+        let recordID = CKRecordID(recordName: recordName, zoneID: recordZone!.zoneID)
         database.fetch(withRecordID: recordID, completionHandler: { record, error in
             if error != nil {
                 completion(.failure("Fetch error \(error!.localizedDescription)"))
@@ -274,7 +322,7 @@ class CloudKitManager {
     }
     
     func createRecord(_ note: Note) -> CKRecord {
-        let recordID = CKRecordID(recordName: note.name, zoneID: getZone())
+        let recordID = CKRecordID(recordName: note.name, zoneID: recordZone!.zoneID)
         let record = CKRecord(recordType: "Note", recordID: recordID)
         return fillRecord(note: note, record: record)
     }
@@ -296,7 +344,7 @@ class CloudKitManager {
     }
     
     func fetchChanges(completion: @escaping ([CKRecord], [CKRecordID], CKServerChangeToken?) -> Void) {
-        let zonedId = getZone()
+        let zonedId = recordZone!.zoneID
         
         let options = CKFetchRecordZoneChangesOptions()
         options.previousServerChangeToken = UserDefaults.standard.serverChangeToken
@@ -362,14 +410,25 @@ class CloudKitManager {
     }
     
     func flush() {
-        database.delete(withRecordZoneID: getZone()) { (recordZoneID, error) -> Void in
-            if let error = error {
-                print("Flush error: \(error)")
+        getZone() { (recordZone) in
+            guard let zone = recordZone else {
                 return
             }
+            
+            self.database.delete(withRecordZoneID: zone.zoneID) { (recordZoneID, error) -> Void in
+                if let error = error {
+                    print("Flush error: \(error)")
+                    return
+                }
+                
+                self.recordZone = nil
+                
+                print("Remote CloudKit data removed")
             CoreDataManager.instance.removeCloudKitRecords()
-            UserDefaults.standard.serverChangeToken = nil
-            self.makeZone()
+                UserDefaults.standard.serverChangeToken = nil
+                
+                self.sync()
+            }
         }
     }
 }

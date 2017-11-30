@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0046CB315432F14830E752CE /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5819B06A38119683938E2D1E /* Pods_FSNotes.framework */; };
 		14027393D4820E0F5320AE4F /* Pods_FSNotes__CloudKit_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		6F46BBE71F55320E000D7DB2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
-		6F5D135E5A89259ECDAB1585 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5819B06A38119683938E2D1E /* Pods_FSNotes.framework */; };
-		91CE49679121DC0319B0BB9C /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
+		93D1825473D129F6D510814D /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
 		D7097FCB1FB8CA4A00144D8F /* StorageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7097FCA1FB8CA4A00144D8F /* StorageTableView.swift */; };
 		D7097FCC1FB8CDAE00144D8F /* StorageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7097FCA1FB8CA4A00144D8F /* StorageTableView.swift */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
@@ -193,9 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0046CB315432F14830E752CE /* Pods_FSNotes.framework in Frameworks */,
-				6F5D135E5A89259ECDAB1585 /* Pods_FSNotes.framework in Frameworks */,
-				91CE49679121DC0319B0BB9C /* Pods_FSNotes.framework in Frameworks */,
+				93D1825473D129F6D510814D /* Pods_FSNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,7 +617,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
