@@ -19,7 +19,7 @@ public class StorageItem: NSManagedObject {
         return nil
     }
     
-    func getPath() -> String? {
+    @objc func getPath() -> String? {
         if let url = getUrl() {
             return url.path.replacingOccurrences(of: "file://", with: "")
         }

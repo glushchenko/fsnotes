@@ -78,6 +78,8 @@ class CloudKitManager {
                     note.content = content
                     note.cloudKitRecord = record.data()
                     note.url = Storage.instance.getGeneralURL().appendingPathComponent(fileName)
+                    note.storage = CoreDataManager.instance.fetchGeneralStorage()
+                    note.modifiedLocalAt = Date()
                     note.extractUrl()
                     
                     if (note.writeContent()) {
@@ -200,6 +202,7 @@ class CloudKitManager {
                     conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
                     conflictedNote.extractUrl()
                     conflictedNote.content = content
+                    conflictedNote.storage = CoreDataManager.instance.fetchGeneralStorage()
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
                     self.saveRecord(note: note, sRecord: fetchedRecord, push: false)
