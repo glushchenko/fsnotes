@@ -832,6 +832,24 @@
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yfC-SE-CmR">
+                                                    <rect key="frame" x="15" y="149" width="53" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Synced:" id="8Jt-5X-i9O">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8j6-L4-BHn">
+                                                    <rect key="frame" x="72" y="149" width="107" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0" id="JAs-tQ-t1m">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -851,6 +869,7 @@
                         <outlet property="newNoteshortcutView" destination="rjd-D6-Jj2" id="agS-IK-0PM"/>
                         <outlet property="searchNotesShortcut" destination="XYa-Po-O09" id="9Ik-wd-Lp8"/>
                         <outlet property="storageTableView" destination="h5H-UF-Ac8" id="wWd-xm-ijw"/>
+                        <outlet property="syncedTotal" destination="8j6-L4-BHn" id="NVv-jK-jME"/>
                         <outlet property="tabView" destination="Y4e-bh-2Sn" id="kq3-ym-Lvs"/>
                         <outlet property="tabViewSync" destination="098-zx-vHb" id="217-g0-0YK"/>
                         <outlet property="verticalRadio" destination="oZC-jG-fL4" id="zba-Ca-akw"/>

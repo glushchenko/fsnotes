@@ -189,5 +189,28 @@ class Storage {
         
         return URL(string: path!)!
     }
+    
+    func countSynced() -> Int {
+        let general = CoreDataManager.instance.fetchGeneralStorage()
+        
+        return
+            noteList.filter({
+                return (
+                    !$0.cloudKitRecord.isEmpty
+                    && $0.storage == general
+                    && $0.isSynced
+                )
+            }).count
+    }
+    
+    func countTotal() -> Int {
+        let general = CoreDataManager.instance.fetchGeneralStorage()
+        
+        return noteList.filter({
+            return (
+                $0.storage == general
+            )
+        }).count
+    }
 
 }

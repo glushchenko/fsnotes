@@ -26,6 +26,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet var lastSyncOutlet: NSTextField!
     @IBOutlet weak var fontPreview: NSTextField!
     @IBOutlet weak var cloudStatus: NSTextField!
+    @IBOutlet weak var syncedTotal: NSTextField!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -50,6 +51,7 @@ class PrefsViewController: NSViewController {
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
+        syncedTotal.stringValue = "\(Storage.instance.countSynced()) / \(Storage.instance.countTotal())"
         
         #if CLOUDKIT
             checkCloudStatus()

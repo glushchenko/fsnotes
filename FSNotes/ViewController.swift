@@ -117,6 +117,8 @@ class ViewController: NSViewController,
             
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
+                note.storage = storageItem
+                CoreDataManager.instance.save()
                 
                 reloadStorage()
             } catch {
