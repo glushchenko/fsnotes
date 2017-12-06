@@ -391,7 +391,11 @@ class EditTextView: NSTextView {
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 if let range = result?.range {
-                    let str = storage.mutableString.substring(with: range)
+                    var str = storage.mutableString.substring(with: range)
+                    
+                    if str.starts(with: "www.") {
+                        str = "http://" + str
+                    }
                     
                     guard let url = URL(string: str) else {
                         return
