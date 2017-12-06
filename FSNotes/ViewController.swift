@@ -112,15 +112,16 @@ class ViewController: NSViewController,
     @objc func moveNote(_ sender: NSMenuItem) {
         let storageItem = sender.representedObject as! StorageItem
         
-        if let note = notesTableView.getSelectedNote(), let url = storageItem.getUrl() {
+        guard let notes = notesTableView.getSelectedNotes(), let url = storageItem.getUrl() else {
+            return
+        }
+        
+        for note in notes {
             let destination = url.appendingPathComponent(note.name)
             
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
                 note.storage = storageItem
-                CoreDataManager.instance.save()
-                
-                reloadStorage()
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = "Hmm, something goes wrong 🙈"
@@ -128,6 +129,9 @@ class ViewController: NSViewController,
                 alert.runModal()
             }
         }
+        
+        CoreDataManager.instance.save()
+        reloadStorage()
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
@@ -561,15 +565,7 @@ class ViewController: NSViewController,
     }
     
     func deleteNotes(_ selectedRows: IndexSet) {
-        var notes = [Note]()
-        for row in selectedRows {
-            if (notesTableView.noteList.indices.contains(row)) {
-                let note = notesTableView.noteList[row]
-                notes.append(note)
-            }
-        }
-        
-        guard !notes.isEmpty else {
+        guard let notes = notesTableView.getSelectedNotes() else {
             return
         }
         

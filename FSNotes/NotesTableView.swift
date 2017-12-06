@@ -79,6 +79,22 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return note
     }
     
+    func getSelectedNotes() -> [Note]? {
+        var notes = [Note]()
+        
+        for row in selectedRowIndexes {
+            if (noteList.indices.contains(row)) {
+                notes.append(noteList[row])
+            }
+        }
+        
+        if notes.isEmpty {
+            return nil
+        }
+        
+        return notes
+    }
+    
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (
             (event.keyCode == 28 || event.keyCode == 46)
