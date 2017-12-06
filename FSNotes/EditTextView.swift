@@ -17,7 +17,13 @@ class EditTextView: NSTextView {
         super.draw(dirtyRect)
     }
 
-    override func mouseMoved(with event: NSEvent) {}
+    override func mouseMoved(with event: NSEvent) {
+        if UserDefaultsManagement.preview {
+            return
+        }
+        
+        super.mouseMoved(with: event)
+    }
     
     @IBAction func editorMenuItem(_ sender: Any) {
         let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
@@ -94,6 +100,8 @@ class EditTextView: NSTextView {
                 
                 let range = NSMakeRange(0, (textStorage?.string.count)!)
                 textStorage?.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
+                
+                higlightLinks()
             }
         }
         
@@ -358,6 +366,43 @@ class EditTextView: NSTextView {
     
     override func paste(_ sender: Any?) {
         super.pasteAsPlainText(nil)
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        super.keyDown(with: event)
+        higlightLinks()
+    }
+    
+    func higlightLinks() {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        let cursorLocation = selectedRanges[0].rangeValue.location
+        let range = NSMakeRange(0, storage.length)
+        let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
+        
+        storage.removeAttribute(NSAttributedStringKey.link, range: range)
+        
+        regex.enumerateMatches(
+            in: (textStorage?.string)!,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                if let range = result?.range {
+                    let str = storage.mutableString.substring(with: range)
+                    
+                    guard let url = URL(string: str) else {
+                        return
+                    }
+                    
+                    storage.addAttribute(NSAttributedStringKey.link, value: url, range: range)
+                }
+            }
+        )
+        
+        setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
 }
