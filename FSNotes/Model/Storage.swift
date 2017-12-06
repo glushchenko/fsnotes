@@ -142,11 +142,11 @@ class Storage {
     
     func getOrCreate(name: String) -> Note {
         let list = noteList.filter() {
-            return ($0.name == name)
+            return ($0.name == name && $0.isGeneral())
         }
         
-        if list.count > 0 {
-            return list.first!
+        if let note = list.first {
+            return note
         }
         
         let note = CoreDataManager.instance.make()
@@ -188,6 +188,26 @@ class Storage {
         let path = CoreDataManager.instance.fetchGeneralStorage()?.path
         
         return URL(string: path!)!
+    }
+    
+    func countSynced() -> Int {
+        return
+            noteList.filter({
+                return (
+                    !$0.cloudKitRecord.isEmpty
+                    && $0.isGeneral()
+                    && $0.isSynced
+                )
+            }).count
+    }
+    
+    func countTotal() -> Int {
+        return
+            noteList.filter({
+                return (
+                    $0.isGeneral()
+                )
+            }).count
     }
 
 }

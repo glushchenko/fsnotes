@@ -10,11 +10,13 @@ import Foundation
 
 class CoreDataManager {
     static let instance = CoreDataManager()
-    let context: NSManagedObjectContext
+    var context: NSManagedObjectContext
     
     init() {
         let appDel: AppDelegate = (NSApplication.shared.delegate as! AppDelegate)
         context = appDel.persistentContainer.viewContext
+        context.mergePolicy = NSOverwriteMergePolicy
+        
     }
     
     func make() -> Note {
@@ -61,11 +63,13 @@ class CoreDataManager {
     }
     
     func getBy(url: URL) -> Note? {
-        let storageItem = fetchStorageItemBy(fileUrl: url)
+        guard let storageItem = fetchStorageItemBy(fileUrl: url) else {
+            return nil
+        }
+
         let name = url.pathComponents.last!
-        
         let request = NSFetchRequest<Note>(entityName: "Note")
-        let predicate = NSPredicate(format: "name = %@ AND storage = %@", argumentArray: [name, storageItem!])
+        let predicate = NSPredicate(format: "name = %@ AND storage = %@", argumentArray: [name, storageItem])
         
         request.predicate = predicate
         do {
@@ -77,18 +81,18 @@ class CoreDataManager {
     }
     
     func removeCloudKitRecords() {
-        let entityDescription = NSEntityDescription.entity(forEntityName: "Note", in: context)
-        let batchUpdateRequest = NSBatchUpdateRequest(entity: entityDescription!)
+        let batchUpdateRequest = NSBatchUpdateRequest(entityName: "Note")
         batchUpdateRequest.resultType = .updatedObjectIDsResultType
         batchUpdateRequest.propertiesToUpdate = ["cloudKitRecord": Data(), "isSynced": false]
         
         do {
             let batchUpdateResult = try context.execute(batchUpdateRequest) as! NSBatchUpdateResult
             let objectIDs = batchUpdateResult.result as! [NSManagedObjectID]
-            for objectID in objectIDs {
-                let managedObject = context.object(with: objectID)
-                context.refresh(managedObject, mergeChanges: false)
-            }
+            
+            objectIDs.forEach({ objID in
+                let managedObject = context.object(with: objID)
+                context.refresh(managedObject, mergeChanges: true)
+            })
         } catch {
             let updateError = error as NSError
             print("\(updateError), \(updateError.userInfo)")

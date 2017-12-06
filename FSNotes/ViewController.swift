@@ -117,6 +117,8 @@ class ViewController: NSViewController,
             
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
+                note.storage = storageItem
+                CoreDataManager.instance.save()
                 
                 reloadStorage()
             } catch {
@@ -176,27 +178,26 @@ class ViewController: NSViewController,
         filewatcher.start()
     }
     
-    func watcherCreateTrigger(_ url: URL) {        
-        let coreDataNote = CoreDataManager.instance.getBy(url: url)
-        let storageNote = Storage.instance.getBy(url: url)
+    func watcherCreateTrigger(_ url: URL) {
+        if Storage.instance.getBy(url: url) != nil {
+            return
+        }
         
-        var note = coreDataNote
-        let storageNoteExist = storageNote
+        var note: Note
         
-        if note == nil {
+        if let existNote = CoreDataManager.instance.getBy(url: url) {
+            note = existNote
+        } else {
             note = CoreDataManager.instance.make()
-            note!.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
         }
         
-        note!.load(url)
-        note!.loadModifiedLocalAt()
+        note.storage = CoreDataManager.instance.fetchGeneralStorage()
+        note.load(url)
+        note.loadModifiedLocalAt()
         CoreDataManager.instance.save()
+        Storage.instance.add(note)
         
-        if storageNoteExist == nil {
-            Storage.instance.add(note!)
-        }
-        
-        reloadView(note: note!)
+        reloadView(note: note)
     }
     
     func checkFile(url: URL, pathList: [String]) -> Bool {
@@ -515,6 +516,7 @@ class ViewController: NSViewController,
         note.content = content
         note.isSynced = false
         note.type = UserDefaultsManagement.storageExtension
+        note.storage = CoreDataManager.instance.fetchGeneralStorage()
         
         let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
         note.save(textStorage)

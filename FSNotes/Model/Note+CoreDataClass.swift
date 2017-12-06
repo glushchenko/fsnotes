@@ -48,6 +48,7 @@ public class Note: NSManagedObject {
     
     func loadModifiedLocalAt() {
         guard let modifiedAt = getFileModifiedDate() else {
+            modifiedLocalAt = Date()
             return
         }
 
@@ -340,10 +341,11 @@ public class Note: NSManagedObject {
     }
     
     func isGeneral() -> Bool {
-        if let storageItem = storage, storageItem.label != "general" {
-            return false
+        if let storageItem = storage, let label = storageItem.label, label == "general" {
+            return true
         }
-        return true
+        
+        return false
     }
     
     func getTitleWithoutLabel() -> String {
