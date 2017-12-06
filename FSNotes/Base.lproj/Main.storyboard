@@ -671,7 +671,7 @@
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lcQ-Xe-fI2">
-                                                    <rect key="frame" x="17" y="211" width="400" height="5"/>
+                                                    <rect key="frame" x="17" y="211" width="400" height="4"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">

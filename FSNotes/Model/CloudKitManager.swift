@@ -39,7 +39,7 @@ class CloudKitManager {
     func makeZone(completion: @escaping (CKRecordZone?) -> Void) {
         database.save(CKRecordZone.init(zoneName: notesZone), completionHandler: {(recordZone, error) in
             if (error != nil) {
-                print("Zone creation error)")
+                print("Zone creation error")
                 return
             }
             
@@ -166,7 +166,7 @@ class CloudKitManager {
             }
         
             if !note.isGeneral() {
-                Swift.print("Skipped, note not in general storage.")
+                print("Skipped, note not in general storage.")
                 return
             }
             
@@ -189,6 +189,10 @@ class CloudKitManager {
             guard let unwrappedRecord = record else {
                 self.hasActivePushConnection = false
                 return
+            }
+            
+            if note.storage == nil {
+                note.storage = CoreDataManager.instance.fetchGeneralStorage()
             }
             
             self.saveRecord(note: note, sRecord: unwrappedRecord)
@@ -288,6 +292,7 @@ class CloudKitManager {
                     CoreDataManager.instance.remove(note)
                 })
             case .failure(let error):
+                CoreDataManager.instance.remove(note)
                 print("Remove cloud kit error \(error)")
             }
         })
@@ -366,19 +371,34 @@ class CloudKitManager {
         var serverChangesToken: CKServerChangeToken?
         
         operation.recordZoneFetchCompletionBlock = { (zoneID: CKRecordZoneID, token: CKServerChangeToken?, _: Data?, _: Bool, error: Error?) in
+            
             if let error = error {
                 print("Error recordZoneFetchCompletionBlock: \(error.localizedDescription)")
                 return
             }
             
-            print("Pull. Record zone changed: \(token != UserDefaults.standard.serverChangeToken )")
-            serverChangesToken = token
+            let zoneChanged = (token != UserDefaults.standard.serverChangeToken)
+            if zoneChanged {
+                serverChangesToken = token
+                print("Pull.")
+            }
         }
         
         operation.fetchRecordZoneChangesCompletionBlock = { (error: Error?) in
-            completion(changedRecords, deletedRecordIDs, serverChangesToken)
+            if let error = error {
+                print("Zone changes error: \(error)")
+                return
+            }
+            
+            if let token = serverChangesToken, error == nil {
+                completion(changedRecords, deletedRecordIDs, token)
+                return
+            }
+            
+            print("Nothing to pull.")
         }
         
+        operation.qualityOfService = .userInitiated
         database.add(operation)
     }
     
@@ -424,7 +444,7 @@ class CloudKitManager {
                 self.recordZone = nil
                 
                 print("Remote CloudKit data removed")
-            CoreDataManager.instance.removeCloudKitRecords()
+                CoreDataManager.instance.removeCloudKitRecords()
                 UserDefaults.standard.serverChangeToken = nil
                 
                 self.sync()

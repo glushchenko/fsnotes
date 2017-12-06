@@ -617,7 +617,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
