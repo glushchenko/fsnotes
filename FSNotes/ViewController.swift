@@ -283,9 +283,9 @@ class ViewController: NSViewController,
             makeNote(NSTextField())
         }
         
-        // Pin note shortcut (cmd-y)
+        // Pin note shortcut (cmd-8)
         if (event.keyCode == 28 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
-            pin(selectedRow: notesTableView.selectedRow)
+            pin(notesTableView.selectedRowIndexes)
         }
         
         // Open in external editor (cmd-control-e)
@@ -365,7 +365,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func pinMenu(_ sender: Any) {
-        pin(selectedRow: notesTableView.clickedRow)
+        pin(notesTableView.selectedRowIndexes)
     }
     
     @IBAction func renameMenu(_ sender: Any) {
@@ -533,16 +533,30 @@ class ViewController: NSViewController,
         search.stringValue.removeAll()
     }
     
-    func pin(selectedRow: Int) {
-        let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
-        let cell = row.view(atColumn: 0) as! NoteCellView
+    func pin(_ selectedRows: IndexSet) {
+        guard !selectedRows.isEmpty else {
+            return
+        }
         
-        let note = cell.objectValue as! Note
-        let selected = selectedRow
+        for selectedRow in selectedRows {
+            let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
+            let cell = row.view(atColumn: 0) as! NoteCellView
+            
+            let note = cell.objectValue as! Note
+            let selected = selectedRow
+            
+            note.togglePin()
+            
+            if selectedRows.count < 2 {
+                moveAtTop(id: selected)
+            }
+            
+            cell.renderPin()
+        }
         
-        note.togglePin()
-        moveAtTop(id: selected)
-        cell.renderPin()
+        if selectedRows.count > 1 {
+            updateTable(filter: "")
+        }
     }
         
     func renameNote(selectedRow: Int) {
