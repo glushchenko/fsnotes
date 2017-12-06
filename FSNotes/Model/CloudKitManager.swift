@@ -134,7 +134,11 @@ class CloudKitManager {
                 let note = Storage.instance.getBy(name: recordId.recordName)
                 if let unwrappedNote = note {
                     DispatchQueue.main.async() {
-                        self.viewController.notesTableView.removeNote(unwrappedNote)
+                        let row = self.viewController.notesTableView.selectedRow
+                        unwrappedNote.remove()
+                        if row > -1 {
+                            self.viewController.updateTableAndSelectNextRow(row)
+                        }
                     }
                 }
             }
@@ -289,7 +293,9 @@ class CloudKitManager {
             switch result {
             case .success(let record):
                 self.database.delete(withRecordID: record.recordID, completionHandler: { record, error in
+                    let name = note.name
                     CoreDataManager.instance.remove(note)
+                    print("Removed successfully: \(name)")
                 })
             case .failure(let error):
                 CoreDataManager.instance.remove(note)

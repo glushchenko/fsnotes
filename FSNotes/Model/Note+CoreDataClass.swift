@@ -105,14 +105,13 @@ public class Note: NSManagedObject {
             }
         #else
             CoreDataManager.instance.remove(self)
+            print("Removed successfully: \(removeName)")
         #endif
         }
         catch let error as NSError {
             print("Remove went wrong: \(error)")
             return
         }
-        
-        print("Removed successfully: \(removeName)")
     }
     
     @objc func getPreviewForLabel() -> String {

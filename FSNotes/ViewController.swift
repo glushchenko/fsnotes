@@ -261,7 +261,7 @@ class ViewController: NSViewController,
             let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
             
             if !focusOnEditArea {
-                deleteNote(selectedRow: notesTableView.selectedRow)
+                deleteNotes(notesTableView.selectedRowIndexes)
             }
         }
         
@@ -369,7 +369,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func deleteNote(_ sender: Any) {
-        deleteNote(selectedRow: notesTableView.clickedRow)
+        deleteNotes(notesTableView.selectedRowIndexes)
     }
     
     // Changed main edit view
@@ -560,25 +560,34 @@ class ViewController: NSViewController,
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
     }
     
-    func deleteNote(selectedRow: Int) {
-        if (!notesTableView.noteList.indices.contains(selectedRow)) {
+    func deleteNotes(_ selectedRows: IndexSet) {
+        var notes = [Note]()
+        for row in selectedRows {
+            if (notesTableView.noteList.indices.contains(row)) {
+                let note = notesTableView.noteList[row]
+                notes.append(note)
+            }
+        }
+        
+        guard !notes.isEmpty else {
             return
         }
         
-        let note = notesTableView.noteList[selectedRow]
         let alert = NSAlert.init()
-        alert.messageText = "Are you sure you want to move \(note.name)\" to the trash?"
+        alert.messageText = "Are you sure you want to move \(notes.count) note(s) to the trash?"
         alert.informativeText = "This action cannot be undone."
-        alert.addButton(withTitle: "Remove note")
+        alert.addButton(withTitle: "Remove note(s)")
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
-                self.notesTableView.removeNote(note)
-                
-                if (self.notesTableView.noteList.indices.contains(selectedRow)) {
-                    self.notesTableView.selectRowIndexes([selectedRow], byExtendingSelection: false)
-                    self.notesTableView.scrollRowToVisible(selectedRow)
+
+                for note in notes {
+                    note.remove()
+                }
+
+                if let i = selectedRows.first {
+                    self.updateTableAndSelectNextRow(i)
                 }
             }
         }
@@ -673,6 +682,16 @@ class ViewController: NSViewController,
             }
             
             noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
+        }
+    }
+    
+    func updateTableAndSelectNextRow(_ nextRow: Int) {
+        editArea.string = ""
+        updateTable(filter: "")
+        
+        if (storage.noteList.indices.contains(nextRow)) {
+            notesTableView.selectRowIndexes([nextRow], byExtendingSelection: false)
+            notesTableView.scrollRowToVisible(nextRow)
         }
     }
     

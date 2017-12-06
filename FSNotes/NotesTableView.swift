@@ -30,21 +30,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         super.keyUp(with: event)
     }
-    
-    func removeNote(_ note: Note) {
-        note.remove()
         
-        let viewController = self.window?.contentViewController as! ViewController
-        viewController.editArea.string = ""
-        viewController.updateTable(filter: "")
-        
-        // select next note if exist
-        let nextRow = selectedRow
-        if (noteList.indices.contains(nextRow)) {
-            self.selectRowIndexes([nextRow], byExtendingSelection: false)
-        }
-    }
-    
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         return NoteRowView()
@@ -120,9 +106,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func makeCell() -> NoteCellView {
         return makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
     }
-        
+    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
-        if (clickedRow > -1) {
+        if (clickedRow > -1 && selectedRow < 0) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
     }
