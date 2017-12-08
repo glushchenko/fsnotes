@@ -109,6 +109,14 @@ class ViewController: NSViewController,
         loadMoveMenu()
     }
     
+    @IBAction func fileMenuNewNote(_ sender: Any) {
+        createNote()
+    }
+    
+    @IBAction func fileMenuNewRTF(_ sender: Any) {
+        createNote(type: "rtf")
+    }
+    
     @objc func moveNote(_ sender: NSMenuItem) {
         let storageItem = sender.representedObject as! StorageItem
         
@@ -279,8 +287,21 @@ class ViewController: NSViewController,
         }
         
         // Make note shortcut (cmd-n)
-        if (event.keyCode == 45 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (
+            event.keyCode == 45
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && !event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+        ) {
             makeNote(NSTextField())
+        }
+        
+        // Make note shortcut (cmd-n)
+        if (
+            event.keyCode == 45
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
+            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+        ) {
+            fileMenuNewRTF(NSTextField())
         }
         
         // Pin note shortcut (cmd-8)
@@ -511,15 +532,16 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "") {
+    func createNote(name: String = "", content: String = "", type: String? = nil) {
         disablePreview()
         editArea.string = content
         
         let note = CoreDataManager.instance.make()
+        note.type = (type != nil) ? type! : UserDefaultsManagement.storageExtension
+        
         note.make(newName: name)
         note.content = content
         note.isSynced = false
-        note.type = UserDefaultsManagement.storageExtension
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         
         let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))

@@ -37,8 +37,8 @@ class Storage {
     
     func sortNotes(noteList: [Note]?) -> [Note]? {
         return noteList?.sorted(by: {
-            if $0.isPinned == $1.isPinned {
-                return $0.modifiedLocalAt! > $1.modifiedLocalAt!
+            if $0.isPinned == $1.isPinned, let prevDate = $0.modifiedLocalAt, let nextDate = $1.modifiedLocalAt {
+                return prevDate > nextDate
             }
             return $0.isPinned && !$1.isPinned
         })

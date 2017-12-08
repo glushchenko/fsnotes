@@ -261,7 +261,7 @@ class CloudKitManager {
                     conflictedNote.storage = CoreDataManager.instance.fetchGeneralStorage()
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
-                    self.saveRecord(note: note, sRecord: fetchedRecord, push: false)
+                    self.push()
                     
                     let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
                     conflictedNote.save(textStorage)
@@ -280,10 +280,7 @@ class CloudKitManager {
             return
         }
         
-        if note.modifiedLocalAt == record["modifiedAt"] as? Date || note.cloudKitRecord.isEmpty {
-            note.isSynced = true
-        }
-        
+        note.isSynced = true
         note.cloudKitRecord = record.data()
         CoreDataManager.instance.save()
     }
@@ -386,7 +383,6 @@ class CloudKitManager {
             let zoneChanged = (token != UserDefaults.standard.serverChangeToken)
             if zoneChanged {
                 serverChangesToken = token
-                print("Pull.")
             }
         }
         

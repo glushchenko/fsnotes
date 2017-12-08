@@ -366,6 +366,7 @@ class EditTextView: NSTextView {
     
     override func paste(_ sender: Any?) {
         super.pasteAsPlainText(nil)
+        higlightLinks()
     }
     
     override func keyDown(with event: NSEvent) {
@@ -378,7 +379,6 @@ class EditTextView: NSTextView {
             return
         }
         
-        let cursorLocation = selectedRanges[0].rangeValue.location
         let range = NSMakeRange(0, storage.length)
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
@@ -405,8 +405,6 @@ class EditTextView: NSTextView {
                 }
             }
         )
-        
-        setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
 }

@@ -12,7 +12,7 @@ import CoreData
 
 @objc(Note)
 public class Note: NSManagedObject {
-    var type: String = "md"
+    var type: String = UserDefaultsManagement.storageExtension
     var url: URL!
     @objc var title: String = ""
     var content: String = ""
@@ -184,8 +184,6 @@ public class Note: NSManagedObject {
     
     func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL {
         let defaultName = "Untitled Note"
-        let defaultUrl = Storage.instance.getGeneralURL()
-        let defaultExtension = UserDefaultsManagement.storageExtension
         
         var name = name
             .trimmingCharacters(in: CharacterSet.whitespaces)
@@ -198,9 +196,9 @@ public class Note: NSManagedObject {
             name = defaultName
         }
     
-        var fileUrl = defaultUrl
+        var fileUrl = Storage.instance.getGeneralURL()
         fileUrl.appendPathComponent(name)
-        fileUrl.appendPathExtension(defaultExtension)
+        fileUrl.appendPathExtension(type)
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {
