@@ -141,18 +141,19 @@ class Storage {
     }
     
     func getOrCreate(name: String) -> Note {
-        let list = noteList.filter() {
+        var note: Note?
+        
+        note = noteList.first(where: {
             return ($0.name == name && $0.isGeneral())
+        })
+        
+        if note == nil {
+            note = Note(context: CoreDataManager.instance.context)
         }
         
-        if let note = list.first {
-            return note
-        }
+        add(note!)
         
-        let note = CoreDataManager.instance.make()
-        add(note)
-        
-        return note
+        return note!
     }
     
     func getModified() -> Note? {
@@ -165,12 +166,11 @@ class Storage {
     }
     
     func getBy(url: URL) -> Note? {
-        let storageItem = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
-        
         return
             noteList.first(where: {
                 return (
-                    $0.url == url && $0.storage == storageItem
+                    $0.url == url
+                    && $0.isGeneral()
                 )
             })
     }
@@ -192,22 +192,18 @@ class Storage {
     
     func countSynced() -> Int {
         return
-            noteList.filter({
-                return (
-                    !$0.cloudKitRecord.isEmpty
-                    && $0.isGeneral()
-                    && $0.isSynced
-                )
-            }).count
+            noteList.filter{
+                !$0.cloudKitRecord.isEmpty
+                && $0.isGeneral()
+                && $0.isSynced
+            }.count
     }
     
     func countTotal() -> Int {
         return
-            noteList.filter({
-                return (
-                    $0.isGeneral()
-                )
-            }).count
+            noteList.filter{
+                $0.isGeneral()
+            }.count
     }
 
 }

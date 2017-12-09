@@ -86,13 +86,7 @@ class CoreDataManager {
         batchUpdateRequest.propertiesToUpdate = ["cloudKitRecord": Data(), "isSynced": false]
         
         do {
-            let batchUpdateResult = try context.execute(batchUpdateRequest) as! NSBatchUpdateResult
-            let objectIDs = batchUpdateResult.result as! [NSManagedObjectID]
-            
-            objectIDs.forEach({ objID in
-                let managedObject = context.object(with: objID)
-                context.refresh(managedObject, mergeChanges: true)
-            })
+            try context.execute(batchUpdateRequest)
         } catch {
             let updateError = error as NSError
             print("\(updateError), \(updateError.userInfo)")
@@ -104,7 +98,11 @@ class CoreDataManager {
         let predicate = NSPredicate(format: "label = %@", label)
         request.predicate = predicate
         do {
-            return try context.fetch(request).first
+            let storage = try context.fetch(request)
+            if !storage.isEmpty {
+                return storage.first
+            }
+            return nil
         } catch {
             print("Not fetched \(error)")
         }

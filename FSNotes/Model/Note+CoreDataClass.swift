@@ -100,7 +100,6 @@ public class Note: NSManagedObject {
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 isRemoved = true
-                CoreDataManager.instance.save()
                 CloudKitManager.instance.removeRecord(note: self)
             }
         #else
@@ -338,11 +337,15 @@ public class Note: NSManagedObject {
     }
     
     func isGeneral() -> Bool {
-        if let storageItem = storage, let label = storageItem.label, label == "general" {
-            return true
+        guard let storageItem = storage else {
+            return false
         }
         
-        return false
+        guard let label = storageItem.label else {
+            return false
+        }
+        
+        return (label == "general")
     }
     
     func getTitleWithoutLabel() -> String {

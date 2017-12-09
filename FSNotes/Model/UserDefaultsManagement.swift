@@ -283,4 +283,17 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var fsImportIsAvailable: Bool {
+        get {
+            if let returnMode = UserDefaults.standard.object(forKey: "fsImportIsAvailable") {
+                return returnMode as! Bool
+            } else {
+                return true
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "fsImportIsAvailable")
+        }
+    }
+    
 }

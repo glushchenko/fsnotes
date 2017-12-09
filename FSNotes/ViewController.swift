@@ -167,6 +167,10 @@ class ViewController: NSViewController,
         
         let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in
+            guard UserDefaultsManagement.fsImportIsAvailable else {
+                return
+            }
+            
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
@@ -191,7 +195,11 @@ class ViewController: NSViewController,
     }
     
     func watcherCreateTrigger(_ url: URL) {
-        if Storage.instance.getBy(url: url) != nil {
+        guard let name = url.pathComponents.last else {
+            return
+        }
+        
+        guard Storage.instance.getBy(name: name) == nil else {
             return
         }
         
@@ -617,6 +625,8 @@ class ViewController: NSViewController,
                 for note in notes {
                     note.remove()
                 }
+                
+                CoreDataManager.instance.save()
 
                 if let i = selectedRows.first {
                     self.updateTableAndSelectNextRow(i)

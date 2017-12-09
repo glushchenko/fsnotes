@@ -96,7 +96,13 @@ class CloudKitManager {
     }
     
     func pull() {
+        guard let storage = CoreDataManager.instance.fetchGeneralStorage() else {
+            return
+        }
+        
         fetchChanges() {modifiedRecords, deletedRecords, token in
+            UserDefaultsManagement.fsImportIsAvailable = false
+            
             for record in modifiedRecords {
                 do {
                     let file = record.object(forKey: "file") as! CKAsset
@@ -116,13 +122,12 @@ class CloudKitManager {
                     note.content = content
                     note.cloudKitRecord = record.data()
                     note.url = Storage.instance.getGeneralURL().appendingPathComponent(fileName)
-                    note.storage = CoreDataManager.instance.fetchGeneralStorage()
-                    note.modifiedLocalAt = Date()
+                    note.storage = storage
                     note.extractUrl()
+                    note.isSynced = true
                     
                     if (note.writeContent()) {
                         note.loadModifiedLocalAt()
-                        CoreDataManager.instance.save()
                         self.reloadView(note: note)
                         print("Note downloaded: \(note.name)")
                     }
@@ -143,6 +148,8 @@ class CloudKitManager {
                 }
             }
             
+            CoreDataManager.instance.save()
+            UserDefaultsManagement.fsImportIsAvailable = true
             UserDefaults.standard.serverChangeToken = token
         }
     }
@@ -238,6 +245,8 @@ class CloudKitManager {
     }
     
     func resolveConflict(note: Note, sRecord: CKRecord) {
+        let storage = CoreDataManager.instance.fetchGeneralStorage()
+        
         self.fetchRecord(recordName: note.name, completion: { result in
             switch result {
             case .success(let fetchedRecord):
@@ -258,10 +267,10 @@ class CloudKitManager {
                     conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
                     conflictedNote.extractUrl()
                     conflictedNote.content = content
-                    conflictedNote.storage = CoreDataManager.instance.fetchGeneralStorage()
+                    conflictedNote.storage = storage
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
-                    self.push()
+                    self.saveRecord(note: note, sRecord: fetchedRecord, push: false)
                     
                     let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
                     conflictedNote.save(textStorage)
@@ -388,6 +397,14 @@ class CloudKitManager {
         
         operation.fetchRecordZoneChangesCompletionBlock = { (error: Error?) in
             if let error = error {
+                let value = error as! CKError
+                
+                // Reset server change key if zone removed and re-download records
+                if value.code.rawValue == 2 {
+                    UserDefaults.standard.serverChangeToken = nil
+                    self.pull()
+                }
+                
                 print("Zone changes error: \(error)")
                 return
             }
@@ -448,6 +465,7 @@ class CloudKitManager {
                 print("Remote CloudKit data removed")
                 CoreDataManager.instance.removeCloudKitRecords()
                 UserDefaults.standard.serverChangeToken = nil
+                Storage.instance.loadDocuments()
                 
                 self.sync()
             }
