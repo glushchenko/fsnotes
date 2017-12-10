@@ -16,6 +16,9 @@ public class Note: NSManagedObject {
     var url: URL!
     @objc var title: String = ""
     var content: String = ""
+    
+    var syncSkipDate: Date?
+    var syncDate: Date?
         
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
@@ -312,7 +315,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        if !Storage.instance.noteList.contains(where: { $0.name == name }) {
+        if !Storage.instance.noteList.contains(where: { $0.name == name && $0.isGeneral() }) {
             Storage.instance.add(self)
         }
         

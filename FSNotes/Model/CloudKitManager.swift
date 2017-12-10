@@ -182,8 +182,11 @@ class CloudKitManager {
             }
             
             guard !self.hasActivePushConnection && note.name.count > 0 else {
+                note.syncSkipDate = Date()
                 return
             }
+            
+            note.syncDate = Date()
             
             self.hasActivePushConnection = true
             var record: CKRecord? = nil
@@ -289,7 +292,12 @@ class CloudKitManager {
             return
         }
         
-        note.isSynced = true
+        if let syncDate = note.syncDate, let syncSkipDate = note.syncSkipDate, syncSkipDate > syncDate {
+            note.isSynced = false
+        } else {
+            note.isSynced = true
+        }
+        
         note.cloudKitRecord = record.data()
         CoreDataManager.instance.save()
     }

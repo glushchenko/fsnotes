@@ -149,9 +149,8 @@ class Storage {
         
         if note == nil {
             note = Note(context: CoreDataManager.instance.context)
+            add(note!)
         }
-        
-        add(note!)
         
         return note!
     }
