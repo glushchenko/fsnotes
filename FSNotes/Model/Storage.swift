@@ -14,6 +14,7 @@ class Storage {
     var noteList = [Note]()
     var notesDict: [String: Note] = [:]
     
+    static var generalUrl: URL?
     static var pinned: Int = 0
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
@@ -128,13 +129,7 @@ class Storage {
         destination.appendPathComponent("Hello world.md")
         
         do {
-            try FileManager.default.copyItem(at: initialDoc!, to: destination)
-            let note = getOrCreate(name: "Hello world.md")
-            note.url = destination
-            note.extractUrl()
-            note.content = try String(contentsOf: initialDoc!)
-            note.save()
-            
+            try FileManager.default.copyItem(at: initialDoc!, to: destination)            
         } catch {
             print("Initial copy error: \(error)")
         }
@@ -184,9 +179,15 @@ class Storage {
     }
     
     func getGeneralURL() -> URL {
-        let path = CoreDataManager.instance.fetchGeneralStorage()?.path
+        if Storage.generalUrl != nil {
+            return Storage.generalUrl!
+        }
         
-        return URL(string: path!)!
+        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let path = storage.path, let url = URL(string: path) else {
+            return UserDefaultsManagement.storageUrl
+        }
+        
+        return url
     }
     
     func countSynced() -> Int {

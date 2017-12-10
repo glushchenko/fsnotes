@@ -37,6 +37,8 @@ class PrefsViewController: NSViewController {
     }
     
     override func viewDidAppear() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onCountChange(notification:)), name: NSNotification.Name(rawValue: "onCountChange"), object: nil)
+        
         self.view.window!.title = "Preferences"
         
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
@@ -51,7 +53,6 @@ class PrefsViewController: NSViewController {
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
-        syncedTotal.stringValue = "\(Storage.instance.countSynced()) / \(Storage.instance.countTotal())"
         
         #if CLOUDKIT
             checkCloudStatus()
@@ -63,6 +64,8 @@ class PrefsViewController: NSViewController {
         
         storageTableView.list = CoreDataManager.instance.fetchStorageList()
         storageTableView.reloadData()
+        
+        viewController.updatePrefStats()
     }
     
     @IBAction func fileExtensionAction(_ sender: NSTextField) {
@@ -290,6 +293,12 @@ class PrefsViewController: NSViewController {
             DispatchQueue.main.async {
                 self.cloudStatus.stringValue = result
             }
+        }
+    }
+    
+    @objc func onCountChange(notification: Notification) {
+        DispatchQueue.main.async {
+            self.syncedTotal.stringValue = notification.userInfo?.first?.value as! String
         }
     }
 }

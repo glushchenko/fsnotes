@@ -305,6 +305,8 @@ public class Note: NSManagedObject {
     }
     
     func save(_ textStorage: NSTextStorage = NSTextStorage()) {
+        syncSkipDate = Date()
+        
         do {
             let range = NSRange(location: 0, length: textStorage.string.count)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: type)

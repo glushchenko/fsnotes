@@ -99,10 +99,11 @@ class CloudKitManager {
         guard let storage = CoreDataManager.instance.fetchGeneralStorage() else {
             return
         }
+
+        let storageUrl = Storage.instance.getGeneralURL()
         
         fetchChanges() {modifiedRecords, deletedRecords, token in
             UserDefaultsManagement.fsImportIsAvailable = false
-            
             for record in modifiedRecords {
                 do {
                     let file = record.object(forKey: "file") as! CKAsset
@@ -121,17 +122,16 @@ class CloudKitManager {
                     
                     note.content = content
                     note.cloudKitRecord = record.data()
-                    note.url = Storage.instance.getGeneralURL().appendingPathComponent(fileName)
+                    note.url = storageUrl.appendingPathComponent(fileName)
                     note.storage = storage
                     note.extractUrl()
                     note.isSynced = true
-                    
+
                     if (note.writeContent()) {
                         note.loadModifiedLocalAt()
                         self.reloadView(note: note)
                         print("Note downloaded: \(note.name)")
                     }
-                    
                 } catch {}
             }
             
@@ -151,6 +151,12 @@ class CloudKitManager {
             CoreDataManager.instance.save()
             UserDefaultsManagement.fsImportIsAvailable = true
             UserDefaults.standard.serverChangeToken = token
+
+            DispatchQueue.main.async {
+                let search = self.viewController.search.stringValue
+                self.viewController.updateTable(filter: search)
+                self.viewController.updatePrefStats()
+            }
         }
     }
     
@@ -475,6 +481,7 @@ class CloudKitManager {
                 UserDefaults.standard.serverChangeToken = nil
                 Storage.instance.loadDocuments()
                 
+                self.viewController.updatePrefStats()
                 self.sync()
             }
         }
