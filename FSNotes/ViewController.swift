@@ -630,7 +630,10 @@ class ViewController: NSViewController,
 
                 if let i = selectedRows.first {
                     self.updateTableAndSelectNextRow(i)
+                    return
                 }
+                
+                self.updateTable(filter: "")
             }
         }
     }
