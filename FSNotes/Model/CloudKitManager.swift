@@ -83,6 +83,8 @@ class CloudKitManager {
     }
     
     func sync() {
+        NotificationsController.onStartSync()
+        
         getZone() { (recordZone) in
             guard recordZone != nil else {
                 return
@@ -129,7 +131,6 @@ class CloudKitManager {
 
                     if (note.writeContent()) {
                         note.loadModifiedLocalAt()
-                        self.reloadView(note: note)
                         print("Note downloaded: \(note.name)")
                     }
                 } catch {}
@@ -155,7 +156,9 @@ class CloudKitManager {
             DispatchQueue.main.async {
                 let search = self.viewController.search.stringValue
                 self.viewController.updateTable(filter: search)
-                self.viewController.updatePrefStats()
+                
+                NotificationsController.syncProgress()
+                NotificationsController.onFinishSync()
             }
         }
     }
@@ -368,8 +371,6 @@ class CloudKitManager {
         DispatchQueue.main.async() {
             if let unwrappedNote = note {
                 self.viewController.reloadView(note: unwrappedNote)
-            } else {
-                self.viewController.updateTable(filter: "")
             }
         }
     }
@@ -420,6 +421,7 @@ class CloudKitManager {
                 }
                 
                 print("Zone changes error: \(error)")
+                NotificationsController.onFinishSync()
                 return
             }
             
@@ -429,6 +431,8 @@ class CloudKitManager {
             }
             
             print("Nothing to pull.")
+            
+            NotificationsController.onFinishSync()
         }
         
         operation.qualityOfService = .userInitiated
@@ -481,7 +485,7 @@ class CloudKitManager {
                 UserDefaults.standard.serverChangeToken = nil
                 Storage.instance.loadDocuments()
                 
-                self.viewController.updatePrefStats()
+                NotificationsController.syncProgress()
                 self.sync()
             }
         }

@@ -739,14 +739,5 @@ class ViewController: NSViewController,
             notesTableView.scrollRowToVisible(nextRow)
         }
     }
-    
-    func updatePrefStats() {
-        DispatchQueue.main.async {
-            let progress = "\(Storage.instance.countSynced()) / \(Storage.instance.countTotal())"
-            
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "onCountChange"), object: nil, userInfo: ["progress": progress])
-        }
-    }
-    
 }
 

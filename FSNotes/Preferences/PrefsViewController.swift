@@ -27,6 +27,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var fontPreview: NSTextField!
     @IBOutlet weak var cloudStatus: NSTextField!
     @IBOutlet weak var syncedTotal: NSTextField!
+    @IBOutlet weak var syncProgress: NSProgressIndicator!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -37,7 +38,13 @@ class PrefsViewController: NSViewController {
     }
     
     override func viewDidAppear() {
+        syncProgress.isHidden = true
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onCountChange(notification:)), name: NSNotification.Name(rawValue: "onCountChange"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onStartSync(notification:)), name: NSNotification.Name(rawValue: "onStartSync"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onFinishSync(notification:)), name: NSNotification.Name(rawValue: "onFinishSync"), object: nil)
         
         self.view.window!.title = "Preferences"
         
@@ -65,7 +72,7 @@ class PrefsViewController: NSViewController {
         storageTableView.list = CoreDataManager.instance.fetchStorageList()
         storageTableView.reloadData()
         
-        viewController.updatePrefStats()
+        NotificationsController.syncProgress()
     }
     
     @IBAction func fileExtensionAction(_ sender: NSTextField) {
@@ -300,5 +307,17 @@ class PrefsViewController: NSViewController {
         DispatchQueue.main.async {
             self.syncedTotal.stringValue = notification.userInfo?.first?.value as! String
         }
+    }
+    
+    @objc func onStartSync(notification: Notification) {
+        syncedTotal.isHidden = true
+        syncProgress.isHidden = false
+        syncProgress.startAnimation("sync")
+    }
+    
+    @objc func onFinishSync(notification: Notification) {
+        syncedTotal.isHidden = false
+        syncProgress.isHidden = true
+        syncProgress.stopAnimation("sync")
     }
 }
