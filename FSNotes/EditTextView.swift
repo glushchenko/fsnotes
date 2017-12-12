@@ -54,11 +54,17 @@ class EditTextView: NSTextView {
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        /* Skip command-shift-b conflicted with cmd-b */
+        if event.modifierFlags.contains(NSEvent.ModifierFlags.command) && event.modifierFlags.contains(NSEvent.ModifierFlags.shift) && event.keyCode == 11 {
+            return super.performKeyEquivalent(with: event)
+        }
+        
         if (event.modifierFlags.contains(NSEvent.ModifierFlags.command) || event.modifierFlags.rawValue == 393475) {
             if (formatShortcut(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
                 return true
             }
         }
+        
         return super.performKeyEquivalent(with: event)
     }
     

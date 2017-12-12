@@ -37,12 +37,37 @@ class Storage {
     }
     
     func sortNotes(noteList: [Note]?) -> [Note]? {
-        return noteList?.sorted(by: {
-            if $0.isPinned == $1.isPinned, let prevDate = $0.modifiedLocalAt, let nextDate = $1.modifiedLocalAt {
-                return prevDate > nextDate
-            }
-            return $0.isPinned && !$1.isPinned
-        })
+        guard let list = noteList else {
+            return nil
+        }
+        
+        let sortDirection = UserDefaultsManagement.sortDirection
+        
+        switch UserDefaultsManagement.sort {
+        case .CreationDate:
+            return list.sorted(by: {
+                if $0.isPinned == $1.isPinned, let prevDate = $0.creationDate, let nextDate = $1.creationDate {
+                    return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
+                }
+                return $0.isPinned && !$1.isPinned
+            })
+        
+        case .ModificationDate:
+            return list.sorted(by: {
+                if $0.isPinned == $1.isPinned, let prevDate = $0.modifiedLocalAt, let nextDate = $1.modifiedLocalAt {
+                    return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
+                }
+                return $0.isPinned && !$1.isPinned
+            })
+        
+        case .Title:
+            return list.sorted(by: {
+                if $0.isPinned == $1.isPinned {
+                    return sortDirection && $0.title < $1.title || !sortDirection && $0.title > $1.title
+                }
+                return $0.isPinned && !$1.isPinned
+            })
+        }
     }
     
     func loadLabel(_ item: StorageItem) {
@@ -81,6 +106,7 @@ class Storage {
                 note.checkLocalSyncState(date)
             }
             
+            note.creationDate = document.2
             note.storage = item
             note.load(url)
             
@@ -98,15 +124,18 @@ class Storage {
         CoreDataManager.instance.save()
     }
     
-    func readDirectory(_ url: URL) -> [(URL, Date)] {
+    func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         return
-            try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey], options:.skipsHiddenFiles
+            try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey], options:.skipsHiddenFiles
             ).filter {
                 Storage.allowedExtensions.contains($0.pathExtension)
             }.map {
                 url in (
-                    url, (try? url.resourceValues(forKeys: [.contentModificationDateKey])
-                    )?.contentModificationDate ?? Date.distantPast
+                    url,
+                    (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                    )?.contentModificationDate ?? Date.distantPast,
+                    (try? url.resourceValues(forKeys: [.creationDateKey])
+                        )?.creationDate ?? Date.distantPast
                 )
             }
     }

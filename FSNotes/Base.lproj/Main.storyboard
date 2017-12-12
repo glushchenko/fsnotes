@@ -381,6 +381,36 @@
                                                 <action selector="togglePreview:" target="N0L-g4-qwj" id="2w1-01-aD6"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Hide/show sidebar" keyEquivalent="B" id="WHt-T4-l9c">
+                                            <connections>
+                                                <action selector="toggleNoteList" target="Ady-hI-5gd" id="3un-zf-15Z"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Sort by" id="rHB-xF-GgG">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Sort by" id="05n-RU-nOV">
+                                                <items>
+                                                    <menuItem title="Modification date" identifier="modificationDate" id="dCc-l5-XB2">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sortBy:" target="L4m-js-agn" id="UCf-WH-qOL"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Creation date" identifier="creationDate" id="eTL-dh-GvM">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sortBy:" target="L4m-js-agn" id="2Jk-Qh-1MD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Title" identifier="title" id="1qV-pJ-ZQT">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sortBy:" target="L4m-js-agn" id="Diu-Vl-cVb"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
@@ -443,7 +473,11 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="N0L-g4-qwj" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target"/>
-                <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes"/>
+                <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes">
+                    <connections>
+                        <outlet property="sortByOutlet" destination="rHB-xF-GgG" id="Z3o-fD-Poh"/>
+                    </connections>
+                </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rlq-iU-PD6"/>
             </objects>
@@ -483,7 +517,7 @@
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" id="KEU-U8-bg0">
+                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="194" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -781,7 +815,7 @@
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Sync" identifier="sync" id="098-zx-vHb">
-                                        <view key="view" ambiguous="YES" id="qFC-b2-rJX">
+                                        <view key="view" id="qFC-b2-rJX">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>

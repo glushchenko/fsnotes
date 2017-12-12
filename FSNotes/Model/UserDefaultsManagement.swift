@@ -31,6 +31,7 @@ public class UserDefaultsManagement {
         static let CellFrameOriginY = "cellFrameOriginY"
         static let CloudKitSync = "cloudKitSync"
         static let HidePreviewKey = "hidePreview"
+        static let SortBy = "sortBy"
     }
         
     static var fontName: String {
@@ -293,6 +294,56 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "fsImportIsAvailable")
+        }
+    }
+    
+    static var sort: SortBy {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
+                return sortBy
+            } else {
+                return SortBy(rawValue: SortBy.ModificationDate.rawValue)!
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: "sortBy")
+        }
+    }
+    
+    static var sortDirection: Bool {
+        get {
+            if let returnMode = UserDefaults.standard.object(forKey: "sortDirection") {
+                return returnMode as! Bool
+            } else {
+                return true
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sortDirection")
+        }
+    }
+    
+    static var hideSidebar: Bool {
+        get {
+            if let hide = UserDefaults.standard.object(forKey: "hideSidebar") {
+                return hide as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hideSidebar")
+        }
+    }
+    
+    static var sidebarSize: Int {
+        get {
+            if let size = UserDefaults.standard.object(forKey: "sidebarSize") {
+                return size as! Int
+            }
+            return 250
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarSize")
         }
     }
     

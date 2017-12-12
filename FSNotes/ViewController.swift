@@ -11,6 +11,12 @@ import MASShortcut
 import CoreData
 import CloudKit
 
+enum SortBy: String {
+    case ModificationDate = "modificationDate"
+    case CreationDate = "creationDate"
+    case Title = "title"
+}
+
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
@@ -107,6 +113,31 @@ class ViewController: NSViewController,
         #endif
         
         loadMoveMenu()
+        loadSortBySetting()
+    }
+    
+    @IBOutlet weak var sortByOutlet: NSMenuItem!
+    @IBAction func sortBy(_ sender: NSMenuItem) {
+        if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
+            UserDefaultsManagement.sort = sortBy
+            UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
+            
+            if let submenu = sortByOutlet.submenu {
+                for item in submenu.items {
+                    item.state = NSControl.StateValue.off
+                }
+            }
+            
+            sender.state = NSControl.StateValue.on
+            
+            let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+            
+            if let list = Storage.instance.sortNotes(noteList: storage.noteList) {
+                storage.noteList = list
+                viewController.notesTableView.noteList = list
+                viewController.notesTableView.reloadData()
+            }
+        }
     }
     
     @IBAction func fileMenuNewNote(_ sender: Any) {
@@ -405,6 +436,19 @@ class ViewController: NSViewController,
         deleteNotes(notesTableView.selectedRowIndexes)
     }
     
+    @IBAction func toggleNoteList(_ sender: Any) {
+        if !UserDefaultsManagement.hideSidebar {
+            UserDefaultsManagement.sidebarSize = Int(splitView.subviews[0].frame.width)
+            UserDefaultsManagement.hideSidebar = true
+            splitView.setPosition(0, ofDividerAt: 0)
+            return
+        }
+        
+        let size = UserDefaultsManagement.sidebarSize
+        splitView.setPosition(CGFloat(size), ofDividerAt: 0)
+        UserDefaultsManagement.hideSidebar = false
+    }
+    
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
         let selected = notesTableView.selectedRow
@@ -419,7 +463,10 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selected]
             note.content = content
             note.save(editArea.textStorage!)
-            moveAtTop(id: selected)
+            
+            if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
+                moveAtTop(id: selected)
+            }
         }
     }
     
@@ -556,10 +603,13 @@ class ViewController: NSViewController,
         note.save(textStorage)
         
         updateTable(filter: "")
-        notesTableView.selectRowIndexes([Storage.pinned], byExtendingSelection: false)
-        notesTableView.scrollRowToVisible(Storage.pinned)
-        focusEditArea()
         
+        if let index = notesTableView.getIndex(note) {
+            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+            notesTableView.scrollRowToVisible(index)
+        }
+        
+        focusEditArea()
         search.stringValue.removeAll()
     }
     
@@ -737,6 +787,20 @@ class ViewController: NSViewController,
         if (storage.noteList.indices.contains(nextRow)) {
             notesTableView.selectRowIndexes([nextRow], byExtendingSelection: false)
             notesTableView.scrollRowToVisible(nextRow)
+        }
+    }
+    
+    func loadSortBySetting() {
+        guard let menu = NSApp.menu, let view = menu.item(withTitle: "View"), let submenu = view.submenu, let sortMenu = submenu.item(withTitle: "Sort by"), let sortItems = sortMenu.submenu else {
+            return
+        }
+        
+        let sort = UserDefaultsManagement.sort
+        
+        for item in sortItems.items {
+            if let id = item.identifier, id.rawValue ==  sort.rawValue {
+                item.state = NSControl.StateValue.on
+            }
         }
     }
 }

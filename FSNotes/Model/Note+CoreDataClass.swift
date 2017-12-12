@@ -19,6 +19,7 @@ public class Note: NSManagedObject {
     
     var syncSkipDate: Date?
     var syncDate: Date?
+    var creationDate: Date? = Date()
         
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
