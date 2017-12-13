@@ -166,6 +166,8 @@ class CloudKitManager {
     func push() {
         guard let note = Storage.instance.getModified() else {
             print("Nothing to push.")
+            NotificationsController.onFinishSync()
+            NotificationsController.syncProgress()
             return
         }
         

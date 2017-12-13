@@ -462,7 +462,7 @@ class ViewController: NSViewController,
             let content = editArea.string
             let note = notesTableView.noteList[selected]
             note.content = content
-            note.save(editArea.textStorage!)
+            note.save(editArea.textStorage!, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
                 moveAtTop(id: selected)
@@ -600,7 +600,7 @@ class ViewController: NSViewController,
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         
         let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
-        note.save(textStorage)
+        note.save(textStorage, userInitiated: true)
         
         updateTable(filter: "")
         

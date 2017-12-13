@@ -305,7 +305,7 @@ public class Note: NSManagedObject {
         }
     }
     
-    func save(_ textStorage: NSTextStorage = NSTextStorage()) {
+    func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
         
         do {
@@ -326,6 +326,10 @@ public class Note: NSManagedObject {
         
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
+                if userInitiated {
+                    NotificationsController.onStartSync()
+                }
+                
                 // save state to core database
                 isSynced = false
                 CoreDataManager.instance.save()
