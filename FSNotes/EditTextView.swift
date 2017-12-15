@@ -8,6 +8,7 @@
 
 import Cocoa
 import Down
+import Highlightr
 
 class EditTextView: NSTextView {
     var downView: MarkdownView?
@@ -108,6 +109,7 @@ class EditTextView: NSTextView {
                 textStorage?.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
                 
                 higlightLinks()
+                highlightCode(initialFill: true)
             }
         }
         
@@ -372,25 +374,46 @@ class EditTextView: NSTextView {
     
     override func paste(_ sender: Any?) {
         super.pasteAsPlainText(nil)
+        
         higlightLinks()
+        highlightCode(initialFill: true)
     }
     
     override func keyDown(with event: NSEvent) {
+        let range = selectedRanges[0] as! NSRange
+        
+        // Tab/untab
+        if event.keyCode == 48, range.length > 0 {
+            if event.modifierFlags.rawValue == 131330 {
+                unTab()
+            } else {
+                tab()
+            }
+            return
+        }
+        
         super.keyDown(with: event)
-        higlightLinks()
-    }
     
+        if ![123,124,125,126].contains(event.keyCode) {
+            if event.keyCode != 49 {
+                higlightLinks()
+            }
+            
+            highlightCode()
+        }
+    }
+
     func higlightLinks() {
         guard let storage = textStorage else {
             return
         }
         
+        let selected = selectedRanges
         let range = NSMakeRange(0, storage.length)
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
         storage.removeAttribute(NSAttributedStringKey.link, range: range)
-        
         regex.enumerateMatches(
             in: (textStorage?.string)!,
             options: NSRegularExpression.MatchingOptions(),
@@ -411,6 +434,148 @@ class EditTextView: NSTextView {
                 }
             }
         )
+        
+        selectedRanges = selected
     }
     
+    func highlightCode(initialFill: Bool = false) {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        let range = NSMakeRange(0, storage.length)
+        let pattern = EditTextView._codeBlockPattern
+        let regex = try! NSRegularExpression(pattern: pattern, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines
+        ])
+        
+        regex.enumerateMatches(
+            in: storage.string,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                if let range = result?.range {
+                    
+                    if range.location + range.length  > storage.string.count {
+                        Swift.print("returned")
+                        return
+                    }
+                    
+                    let code = storage.mutableString.substring(with: range )
+                    
+                    if !range.contains((self.selectedRanges.first?.rangeValue.location)!) && !initialFill {
+                        return
+                    }
+                    
+                    DispatchQueue.global().async {
+                        guard let highlightr = Highlightr() else {
+                            return
+                        }
+                        
+                        highlightr.setTheme(to: "github")
+                        let highlightedCode = highlightr.highlight(code, fastRender: true)
+                        
+                        DispatchQueue.main.async {
+                            if range.location + range.length  > storage.string.count {
+                                return
+                            }
+                            
+                            if (code != storage.mutableString.substring(with: range)) {
+                                return
+                            }
+                            
+                            let s = self.selectedRanges
+                            storage.replaceCharacters(in: range, with: highlightedCode!)
+                            self.selectedRanges = s
+                        }
+                    }
+                }
+            }
+        )
+    }
+    
+    fileprivate static let _codeBlockPattern = [
+        "(?:\\n\\n|\\A\\n|\\A)",
+        "(                        # $1 = the code block -- one or more lines, starting with a space",
+        "(?:",
+        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
+        "    .*(?:\\n*)",
+        ")+",
+        ")",
+        "((?=^\\p{Z}{0,4}[^ \\t\\n])|\\Z) # Lookahead for non-space at line-start, or end of doc"
+        ].joined(separator: "\n")
+    
+    fileprivate static let _codeSpan = [
+        "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
+        "(`+)           # $1 = Opening run of `",
+        "(?!`)          # and no more backticks -- match the full run",
+        "(.+?)          # $2 = The code block",
+        "(?<!`)",
+        "\\1",
+        "(?!`)"
+        ].joined(separator: "\n")
+    
+    func tab() {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        let range = selectedRanges[0] as! NSRange
+        
+        guard range.length > 0 else {
+            return
+        }
+        
+        let code = storage.mutableString.substring(with: range)
+        let lines = code.components(separatedBy: "\n")
+        
+        var result: String = ""
+        var added: Int = 0
+        for line in lines {
+            if lines.first == line {
+                result += "\t" + line
+                continue
+            }
+    
+            added = added + 1
+            result += "\n\t" + line
+        }
+
+        storage.beginEditing()
+        storage.replaceCharacters(in: range, with: result)
+        storage.endEditing()
+        
+        setSelectedRange(NSRange(range.lowerBound...range.upperBound + added))
+        highlightCode()
+    }
+    
+    func unTab() {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        let range = selectedRanges[0] as! NSRange
+        let code = storage.mutableString.substring(with: range)
+        let lines = code.components(separatedBy: "\n")
+        
+        var result: [String] = []
+        var removed: Int = 1
+        for var line in lines {
+            if line.starts(with: "\t") {
+                removed = removed + 1
+                line.removeFirst()
+            }
+            result.append(line)
+        }
+        
+        let x = result.joined(separator: "\n")
+        
+        storage.beginEditing()
+        storage.replaceCharacters(in: range, with: x)
+        storage.endEditing()
+        
+        setSelectedRange(NSRange(range.lowerBound...range.upperBound - removed))
+        highlightCode()
+    }
 }

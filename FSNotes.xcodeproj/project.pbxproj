@@ -621,7 +621,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
+				"$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -640,11 +640,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit)-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,11 +662,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
