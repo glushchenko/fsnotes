@@ -309,7 +309,7 @@ dd {
 }
 code,
 pre {
-    font: .9em monospace, "Liberation Mono", Menlo, Courier
+    font: 13px Courier, monospace, "Liberation Mono", Menlo,
 }
 dl dt,
 table th {

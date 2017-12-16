@@ -318,7 +318,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        if !Storage.instance.noteList.contains(where: { $0.name == name && $0.isGeneral() }) {
+        if !Storage.instance.noteList.contains(where: { $0.name == name && $0.storage == storage }) {
             Storage.instance.add(self)
         }
         

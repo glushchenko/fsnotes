@@ -225,12 +225,8 @@ class ViewController: NSViewController,
         filewatcher.start()
     }
     
-    func watcherCreateTrigger(_ url: URL) {
-        guard let name = url.pathComponents.last else {
-            return
-        }
-        
-        guard Storage.instance.getBy(name: name) == nil else {
+    func watcherCreateTrigger(_ url: URL) {        
+        guard Storage.instance.getBy(url: url) == nil else {
             return
         }
         

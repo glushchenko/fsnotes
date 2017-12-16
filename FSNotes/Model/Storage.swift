@@ -193,7 +193,6 @@ class Storage {
             noteList.first(where: {
                 return (
                     $0.url == url
-                    && $0.isGeneral()
                 )
             })
     }

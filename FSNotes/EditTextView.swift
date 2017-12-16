@@ -413,13 +413,17 @@ class EditTextView: NSTextView {
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
-        storage.removeAttribute(NSAttributedStringKey.link, range: range)
+        //storage.removeAttribute(NSAttributedStringKey.link, range: range)
         regex.enumerateMatches(
             in: (textStorage?.string)!,
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 if let range = result?.range {
+                    //if !range.contains((self.selectedRanges.first?.rangeValue.location)!) {
+                    //    return
+                    //}
+                    
                     var str = storage.mutableString.substring(with: range)
                     
                     if str.starts(with: "www.") {
@@ -436,63 +440,6 @@ class EditTextView: NSTextView {
         )
         
         selectedRanges = selected
-    }
-    
-    func highlightCode(initialFill: Bool = false) {
-        guard let storage = textStorage else {
-            return
-        }
-        
-        let range = NSMakeRange(0, storage.length)
-        let pattern = EditTextView._codeBlockPattern
-        let regex = try! NSRegularExpression(pattern: pattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-        ])
-        
-        regex.enumerateMatches(
-            in: storage.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                if let range = result?.range {
-                    
-                    if range.location + range.length  > storage.string.count {
-                        Swift.print("returned")
-                        return
-                    }
-                    
-                    let code = storage.mutableString.substring(with: range )
-                    
-                    if !range.contains((self.selectedRanges.first?.rangeValue.location)!) && !initialFill {
-                        return
-                    }
-                    
-                    DispatchQueue.global().async {
-                        guard let highlightr = Highlightr() else {
-                            return
-                        }
-                        
-                        highlightr.setTheme(to: "github")
-                        let highlightedCode = highlightr.highlight(code, fastRender: true)
-                        
-                        DispatchQueue.main.async {
-                            if range.location + range.length  > storage.string.count {
-                                return
-                            }
-                            
-                            if (code != storage.mutableString.substring(with: range)) {
-                                return
-                            }
-                            
-                            let s = self.selectedRanges
-                            storage.replaceCharacters(in: range, with: highlightedCode!)
-                            self.selectedRanges = s
-                        }
-                    }
-                }
-            }
-        )
     }
     
     fileprivate static let _codeBlockPattern = [
@@ -515,6 +462,81 @@ class EditTextView: NSTextView {
         "\\1",
         "(?!`)"
         ].joined(separator: "\n")
+    
+    func highlightCode(initialFill: Bool = false) {
+        guard UserDefaultsManagement.codeBlockHighlight else {
+            return
+        }
+        
+        highlightPattern(initialFill: initialFill, pattern: EditTextView._codeBlockPattern, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines
+        ])
+        
+        /*
+        highlightPattern(initialFill: initialFill, pattern: EditTextView._codeSpan, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines,
+            NSRegularExpression.Options.dotMatchesLineSeparators,
+        ])
+        */
+    }
+    
+    func highlightPattern(initialFill: Bool = false, pattern: String, options: NSRegularExpression.Options) {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        let range = NSMakeRange(0, storage.length)
+        let regex = try! NSRegularExpression(pattern: pattern, options: options)
+        
+        regex.enumerateMatches(
+            in: storage.string,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                if let range = result?.range {
+                    if range.location + range.length  > storage.string.count {
+                        return
+                    }
+                    
+                    let code = storage.mutableString.substring(with: range )
+                    
+                    if !range.contains(((self.selectedRanges.first?.rangeValue.location)! - 1)) && !initialFill {
+                        return
+                    }
+                    
+                    DispatchQueue.global().async {
+                        guard let highlightr = Highlightr() else {
+                            return
+                        }
+                        
+                        highlightr.setTheme(to: "github")
+                        let highlightedCode = highlightr.highlight(code, fastRender: true)
+                        
+                        DispatchQueue.main.async {
+                            if range.location + range.length  > storage.string.count {
+                                return
+                            }
+                            
+                            if (code != storage.mutableString.substring(with: range)) {
+                                return
+                            }
+                            
+                            let s = self.selectedRanges
+                            let font = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+                            storage.addAttributes([NSAttributedStringKey.font: font], range: range)
+                            storage.beginEditing()
+                            storage.replaceCharacters(in: range, with: highlightedCode!)
+                            storage.endEditing()
+                            
+                            self.selectedRanges = s
+                        }
+                    }
+                }
+            }
+        )
+    }
     
     func tab() {
         guard let storage = textStorage else {
@@ -547,7 +569,7 @@ class EditTextView: NSTextView {
         storage.endEditing()
         
         setSelectedRange(NSRange(range.lowerBound...range.upperBound + added))
-        highlightCode()
+        highlightCode(initialFill: true)
     }
     
     func unTab() {
@@ -576,6 +598,6 @@ class EditTextView: NSTextView {
         storage.endEditing()
         
         setSelectedRange(NSRange(range.lowerBound...range.upperBound - removed))
-        highlightCode()
+        highlightCode(initialFill: true)
     }
 }

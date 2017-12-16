@@ -11,7 +11,7 @@ import Cocoa
 import MASShortcut
 
 public class UserDefaultsManagement {
-    static var DefaultFont = "Source Code Pro"
+    static var DefaultFont = "Helvetica Neue"
     static var DefaultFontSize = 13
 
     private struct Constants {
@@ -32,6 +32,7 @@ public class UserDefaultsManagement {
         static let CloudKitSync = "cloudKitSync"
         static let HidePreviewKey = "hidePreview"
         static let SortBy = "sortBy"
+        static let codeBlockHighlight = "codeBlockHighlight"
     }
         
     static var fontName: String {
@@ -344,6 +345,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "sidebarSize")
+        }
+    }
+    
+    static var codeBlockHighlight: Bool {
+        get {
+            if let highlight = UserDefaults.standard.object(forKey: Constants.codeBlockHighlight) {
+                return highlight as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
         }
     }
     

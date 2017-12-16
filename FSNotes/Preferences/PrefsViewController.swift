@@ -28,6 +28,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var cloudStatus: NSTextField!
     @IBOutlet weak var syncedTotal: NSTextField!
     @IBOutlet weak var syncProgress: NSProgressIndicator!
+    @IBOutlet weak var codeBlockHighlight: NSButtonCell!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -59,7 +60,10 @@ class PrefsViewController: NSViewController {
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
+        
         cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
+        
+        codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
         #if CLOUDKIT
             checkCloudStatus()
@@ -73,6 +77,14 @@ class PrefsViewController: NSViewController {
         storageTableView.reloadData()
         
         NotificationsController.syncProgress()
+        
+        
+    }
+    
+    @IBAction func codeBlockHighlight(_ sender: NSButton) {
+        UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
+        
+        viewController.refillEditArea()
     }
     
     @IBAction func fileExtensionAction(_ sender: NSTextField) {
