@@ -455,14 +455,12 @@ class EditTextView: NSTextView {
     }
     
     fileprivate static let _codeBlockPattern = [
-        "(?:\\n\\n|\\A\\n|\\A)",
         "(                        # $1 = the code block -- one or more lines, starting with a space",
-        "(?:",
-        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
-        "    .*(?:\\n*)",
-        ")+",
+        "    (?:",
+        "        (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
+        "        .*(?:\\n)",
+        "    )+",
         ")",
-        "((?=^\\p{Z}{0,4}[^ \\t\\n])|\\Z) # Lookahead for non-space at line-start, or end of doc"
         ].joined(separator: "\n")
     
     fileprivate static let _codeSpan = [
@@ -536,14 +534,13 @@ class EditTextView: NSTextView {
                             }
                             
                             let selected = self.selectedRanges
+                            storage.replaceCharacters(in: range, with: highlightedCode!)
                             
+                            let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                             if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
                                 storage.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
+                                storage.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
                             }
-                            
-                            storage.beginEditing()
-                            storage.replaceCharacters(in: range, with: highlightedCode!)
-                            storage.endEditing()
                             
                             self.selectedRanges = selected
                         }
