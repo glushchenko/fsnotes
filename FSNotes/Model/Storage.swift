@@ -27,9 +27,7 @@ class Storage {
             loadLabel(item)
         }
 
-        if (noteList.isEmpty) {
-            createHelloWorld()
-        }
+        initFirstRun()
         
         if let list = sortNotes(noteList: noteList) {
             noteList = list
@@ -125,19 +123,25 @@ class Storage {
     }
     
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
-        return
-            try! FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey], options:.skipsHiddenFiles
-            ).filter {
-                Storage.allowedExtensions.contains($0.pathExtension)
-            }.map {
-                url in (
-                    url,
-                    (try? url.resourceValues(forKeys: [.contentModificationDateKey])
-                    )?.contentModificationDate ?? Date.distantPast,
-                    (try? url.resourceValues(forKeys: [.creationDateKey])
-                        )?.creationDate ?? Date.distantPast
-                )
-            }
+        do {
+            let directoryFiles =
+                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey], options:.skipsHiddenFiles)
+            
+            return
+                directoryFiles.filter {Storage.allowedExtensions.contains($0.pathExtension)}.map{
+                    url in (
+                        url,
+                        (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                            )?.contentModificationDate ?? Date.distantPast,
+                        (try? url.resourceValues(forKeys: [.creationDateKey])
+                            )?.creationDate ?? Date.distantPast
+                    )
+                }
+        } catch {
+            print("Storage not found, url: \(url)")
+        }
+        
+        return []
     }
     
     func add(_ note: Note) {
@@ -152,11 +156,24 @@ class Storage {
         return noteList.count
     }
     
-    func createHelloWorld() {
-        let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
+    func initFirstRun() {
         var destination = Storage.instance.getGeneralURL()
-        destination.appendPathComponent("Hello world.md")
         
+        if !FileManager.default.fileExists(atPath: destination.path) {
+            do {
+                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("General storage not found")
+            }
+        }
+        
+        guard noteList.isEmpty else {
+            return
+        }
+        
+        let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
+        destination.appendPathComponent("Hello world.md")
+
         do {
             try FileManager.default.copyItem(at: initialDoc!, to: destination)            
         } catch {

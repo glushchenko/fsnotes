@@ -26,6 +26,7 @@ class ViewController: NSViewController,
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.instance
+    private var timer: Timer?
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -468,17 +469,15 @@ class ViewController: NSViewController,
     
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
-        notesTableView.noteList.removeAll();
         updateTable(filter: search.stringValue, search: true)
         
         if (notesTableView.noteList.count > 0) {
-            editArea.fill(note: notesTableView.noteList[0], highlight: true)
-            self.selectNullTableRow()
+            timer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(selectNullTableRow), userInfo: nil, repeats: false)
         } else {
             editArea.clear()
         }
     }
-    
+
     func updateTable(filter: String, search: Bool = false) {
         if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
@@ -519,7 +518,7 @@ class ViewController: NSViewController,
         search.focusRingType = .none
     }
     
-    func selectNullTableRow() {
+    @objc func selectNullTableRow() {
         notesTableView.selectRowIndexes([0], byExtendingSelection: false)
         notesTableView.scrollRowToVisible(0)
     }

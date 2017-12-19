@@ -11,9 +11,19 @@ import Down
 import Highlightr
 
 class EditTextView: NSTextView {
+    class UndoInfo: NSObject {
+        let text: String
+        let replacementRange: NSRange
+        
+        init(text: String, replacementRange: NSRange) {
+            self.text = text
+            self.replacementRange = replacementRange
+        }
+    }
+    
     var downView: MarkdownView?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-    
+        
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
@@ -78,7 +88,10 @@ class EditTextView: NSTextView {
         
     func fill(note: Note, highlight: Bool = false) {
         subviews.removeAll()
-        textStorage?.mutableString.setString("")
+        
+        if let manager = layoutManager {
+            manager.replaceTextStorage(NSTextStorage())
+        }
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
@@ -523,14 +536,17 @@ class EditTextView: NSTextView {
                                 return
                             }
                             
-                            let s = self.selectedRanges
-                            let font = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
-                            storage.addAttributes([NSAttributedStringKey.font: font], range: range)
+                            let selected = self.selectedRanges
+                            
+                            if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
+                                storage.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
+                            }
+                            
                             storage.beginEditing()
                             storage.replaceCharacters(in: range, with: highlightedCode!)
                             storage.endEditing()
                             
-                            self.selectedRanges = s
+                            self.selectedRanges = selected
                         }
                     }
                 }
@@ -538,19 +554,24 @@ class EditTextView: NSTextView {
         )
     }
     
-    func tab() {
+    @objc func tab(_ undoInfo: UndoInfo? = nil) {
         guard let storage = textStorage else {
             return
         }
         
-        let range = selectedRanges[0] as! NSRange
+        var range: NSRange
+        if let undo = undoInfo {
+            range = undo.replacementRange
+        } else {
+            range = selectedRanges[0] as! NSRange
+        }
         
         guard range.length > 0 else {
             return
         }
         
         let code = storage.mutableString.substring(with: range)
-        let lines = code.components(separatedBy: "\n")
+        let lines = code.components(separatedBy: CharacterSet.newlines)
         
         var result: String = ""
         var added: Int = 0
@@ -564,22 +585,30 @@ class EditTextView: NSTextView {
             result += "\n\t" + line
         }
 
-        storage.beginEditing()
         storage.replaceCharacters(in: range, with: result)
-        storage.endEditing()
         
-        setSelectedRange(NSRange(range.lowerBound...range.upperBound + added))
+        let newRange = NSRange(range.lowerBound...range.upperBound + added)
+        let undoInfo = UndoInfo(text: result, replacementRange: newRange)
+        undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
+        
+        setSelectedRange(newRange)
         highlightCode(initialFill: true)
     }
     
-    func unTab() {
+    @objc func unTab(_ undoInfo: UndoInfo? = nil) {
         guard let storage = textStorage else {
             return
         }
         
-        let range = selectedRanges[0] as! NSRange
+        var range: NSRange
+        if let undo = undoInfo {
+            range = undo.replacementRange
+        } else {
+            range = selectedRanges[0] as! NSRange
+        }
+        
         let code = storage.mutableString.substring(with: range)
-        let lines = code.components(separatedBy: "\n")
+        let lines = code.components(separatedBy: CharacterSet.newlines)
         
         var result: [String] = []
         var removed: Int = 1
@@ -588,16 +617,23 @@ class EditTextView: NSTextView {
                 removed = removed + 1
                 line.removeFirst()
             }
+            
+            if line.starts(with: " ") {
+                removed = removed + 1
+                line.removeFirst()
+            }
+            
             result.append(line)
         }
         
         let x = result.joined(separator: "\n")
-        
-        storage.beginEditing()
         storage.replaceCharacters(in: range, with: x)
-        storage.endEditing()
         
-        setSelectedRange(NSRange(range.lowerBound...range.upperBound - removed))
+        let newRange = NSRange(range.lowerBound...range.upperBound - removed)
+        let undoInfo = UndoInfo(text: x, replacementRange: newRange)
+        undoManager?.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
+        
+        setSelectedRange(newRange)
         highlightCode(initialFill: true)
     }
 }
