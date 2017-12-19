@@ -89,9 +89,8 @@ class EditTextView: NSTextView {
     func fill(note: Note, highlight: Bool = false) {
         subviews.removeAll()
         
-        if let manager = layoutManager {
-            manager.replaceTextStorage(NSTextStorage())
-        }
+        textStorage?.mutableString.setString("")
+        undoManager?.removeAllActions()
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
