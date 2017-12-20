@@ -11,6 +11,8 @@ import Down
 import Highlightr
 
 class EditTextView: NSTextView {
+    var note: Note?
+    
     class UndoInfo: NSObject {
         let text: String
         let replacementRange: NSRange
@@ -87,6 +89,8 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note, highlight: Bool = false) {
+        self.note = note
+        
         subviews.removeAll()
         
         textStorage?.mutableString.setString("")
@@ -455,12 +459,14 @@ class EditTextView: NSTextView {
     }
     
     fileprivate static let _codeBlockPattern = [
+        "(?:^\\n|\\A\\n|\\A)",
         "(                        # $1 = the code block -- one or more lines, starting with a space",
-        "    (?:",
-        "        (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
-        "        .*(?:\\n)",
-        "    )+",
+        "(?:",
+        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
+        "    .+(?:\\n+)",
+        ")+",
         ")",
+        "((?=^\\p{Z}{0,4}|\\t[^ \\t\\n])) # Lookahead for non-space at line-start, or end of doc"
         ].joined(separator: "\n")
     
     fileprivate static let _codeSpan = [
@@ -483,14 +489,14 @@ class EditTextView: NSTextView {
             NSRegularExpression.Options.anchorsMatchLines
         ])
         
-        /*
         highlightPattern(initialFill: initialFill, pattern: EditTextView._codeSpan, options: [
             NSRegularExpression.Options.allowCommentsAndWhitespace,
             NSRegularExpression.Options.anchorsMatchLines,
             NSRegularExpression.Options.dotMatchesLineSeparators,
         ])
-        */
     }
+    
+    var languages: [String]? = nil
     
     func highlightPattern(initialFill: Bool = false, pattern: String, options: NSRegularExpression.Options) {
         guard let storage = textStorage else {
@@ -505,6 +511,7 @@ class EditTextView: NSTextView {
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
+                
                 if let range = result?.range {
                     if range.location + range.length  > storage.string.count {
                         return
@@ -522,7 +529,8 @@ class EditTextView: NSTextView {
                         }
                         
                         highlightr.setTheme(to: "github")
-                        let highlightedCode = highlightr.highlight(code, fastRender: true)
+                        let preDefinedLang = self.getLanguage(code)
+                        let highlightedCode = highlightr.highlight(code, as: preDefinedLang, fastRender: true)
                         
                         DispatchQueue.main.async {
                             if range.location + range.length  > storage.string.count {
@@ -548,6 +556,29 @@ class EditTextView: NSTextView {
                 }
             }
         )
+    }
+    
+    func getLanguage(_ code: String) -> String? {
+        if self.languages == nil {
+            self.languages = Highlightr()?.supportedLanguages()
+        }
+        
+        if code.starts(with: "```") {
+            if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
+                let newLineOffset = newLinePosition.lowerBound.encodedOffset
+                if newLineOffset > 3 {
+                    let start = code.index(code.startIndex, offsetBy: 3)
+                    let end = code.index(code.startIndex, offsetBy: newLineOffset)
+                    let range = start..<end
+                    
+                    if let lang = self.languages, lang.contains(String(code[range])) {
+                        return String(code[range])
+                    }
+                }
+            }
+        }
+        
+        return nil
     }
     
     @objc func tab(_ undoInfo: UndoInfo? = nil) {
@@ -586,6 +617,7 @@ class EditTextView: NSTextView {
         let newRange = NSRange(range.lowerBound...range.upperBound + added)
         let undoInfo = UndoInfo(text: result, replacementRange: newRange)
         undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
+        self.note?.save(storage)
         
         setSelectedRange(newRange)
         highlightCode(initialFill: true)
@@ -628,6 +660,7 @@ class EditTextView: NSTextView {
         let newRange = NSRange(range.lowerBound...range.upperBound - removed)
         let undoInfo = UndoInfo(text: x, replacementRange: newRange)
         undoManager?.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
+        self.note?.save(storage)
         
         setSelectedRange(newRange)
         highlightCode(initialFill: true)
