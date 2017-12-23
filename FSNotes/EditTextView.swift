@@ -137,17 +137,29 @@ class EditTextView: NSTextView {
         viewController.emptyEditAreaImage.isHidden = true
     }
     
+    var isHighlighted: Bool = false
+    
     func removeHighlight() {
+        guard isHighlighted else {
+            return
+        }
+        
+        isHighlighted = false
+        
         // save cursor position
         let cursorLocation = selectedRanges[0].rangeValue.location
         
-        highlightKeyword(remove: true)  
+        highlightKeyword(remove: true)
         
         // restore cursor
         setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
     func highlightKeyword(remove: Bool = false) {
+        if !remove {
+            isHighlighted = true
+        }
+        
         let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
@@ -412,10 +424,10 @@ class EditTextView: NSTextView {
     
         if ![123,124,125,126].contains(event.keyCode) {
             if event.keyCode != 49 {
+                Swift.print(event.keyCode)
                 higlightLinks()
+                highlightCode()
             }
-            
-            highlightCode()
         }
     }
 
@@ -533,7 +545,7 @@ class EditTextView: NSTextView {
                         let highlightedCode = highlightr.highlight(code, as: preDefinedLang, fastRender: true)
                         
                         DispatchQueue.main.async {
-                            if range.location + range.length  > storage.string.count {
+                            if range.location + range.length  > storage.mutableString.length {
                                 return
                             }
                             

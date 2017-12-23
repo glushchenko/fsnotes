@@ -469,14 +469,15 @@ class ViewController: NSViewController,
     
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
-        updateTable(filter: search.stringValue, search: true)
+        let value = self.search.stringValue
         
-        if (notesTableView.noteList.count > 0) {
-            timer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(selectNullTableRow), userInfo: nil, repeats: false)
-        } else {
-            editArea.clear()
+        filterQueue.cancelAllOperations()
+        filterQueue.addOperation {
+            self.updateTable(filter: value, search: true)
         }
     }
+    
+    var filterQueue = OperationQueue.init()
 
     func updateTable(filter: String, search: Bool = false) {
         if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
@@ -510,7 +511,18 @@ class ViewController: NSViewController,
             notesTableView.noteList = unwrappedList
         }
         
-        notesTableView.reloadData()
+        DispatchQueue.main.async {
+            self.notesTableView.reloadData()
+            
+            if search {
+                if (self.notesTableView.noteList.count > 0) {
+                    self.selectNullTableRow()
+                } else {
+                    self.editArea.clear()
+                }
+            }
+        }
+        
         prevQuery = filter
     }
         

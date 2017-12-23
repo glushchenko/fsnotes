@@ -53,7 +53,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        return noteList[row]
+        if (noteList.indices.contains(row)) {
+            return noteList[row]
+        }
+        return nil
     }
     
     func getNoteFromSelectedRow() -> Note? {
@@ -106,6 +109,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        guard noteList.indices.contains(row) else {
+            return nil
+        }
         
         let note = noteList[row]
         if (note.isPinned) {
