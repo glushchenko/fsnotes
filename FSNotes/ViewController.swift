@@ -456,9 +456,8 @@ class ViewController: NSViewController,
             && !UserDefaultsManagement.preview
         ) {
             editArea.removeHighlight()
-            let content = editArea.string
             let note = notesTableView.noteList[selected]
-            note.content = content
+            note.content = editArea.string
             note.save(editArea.textStorage!, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {

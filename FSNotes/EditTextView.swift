@@ -124,8 +124,10 @@ class EditTextView: NSTextView {
                 let range = NSMakeRange(0, (textStorage?.string.count)!)
                 textStorage?.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
                 
-                higlightLinks()
-                highlightCode(initialFill: true)
+                if highlight {
+                    EditTextView.timer?.invalidate()
+                    EditTextView.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(timerHighlight), userInfo: nil, repeats: false)
+                }
             }
         }
         
@@ -135,6 +137,13 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
+    }
+    
+    private static var timer: Timer?
+    
+    @objc func timerHighlight() {
+        higlightLinks()
+        highlightCode(initialFill: true)
     }
     
     var isHighlighted: Bool = false
