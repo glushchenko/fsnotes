@@ -15,7 +15,7 @@ public class Note: NSManagedObject {
     var type: String = UserDefaultsManagement.storageExtension
     var url: URL!
     @objc var title: String = ""
-    var content: String = ""
+    var content: NSMutableAttributedString = NSMutableAttributedString()
     
     var syncSkipDate: Date?
     var syncDate: Date?
@@ -29,7 +29,7 @@ public class Note: NSManagedObject {
     func load(_ newUrl: URL) {
         url = newUrl
         extractUrl()
-        content = getContent(url: url)
+        content = NSMutableAttributedString(string: getContent(url: url))
     }
     
     func reload() -> Bool {
@@ -42,7 +42,7 @@ public class Note: NSManagedObject {
         }
                 
         if (modifiedAt != prevModifiedAt) {
-            content = getContent(url: url)
+            content = NSMutableAttributedString(string: getContent(url: url))
             loadModifiedLocalAt()
             return true
         }
@@ -119,6 +119,7 @@ public class Note: NSManagedObject {
     
     @objc func getPreviewForLabel() -> String {
         var preview: String = ""
+        let content = self.content.string
         
         if content.count > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
@@ -273,7 +274,7 @@ public class Note: NSManagedObject {
     }
     
     func getPrettifiedContent() -> String {
-        let content = self.content
+        let content = self.content.string
         return cleanMetaData(content: content)
     }
     
@@ -298,7 +299,7 @@ public class Note: NSManagedObject {
     
     func writeContent() -> Bool {
         do {
-            try content.write(to: url, atomically: false, encoding: String.Encoding.utf8)
+            try content.string.write(to: url, atomically: false, encoding: String.Encoding.utf8)
             return true
         } catch {
             return false
@@ -308,6 +309,8 @@ public class Note: NSManagedObject {
     func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
         
+        content = NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: NSRange(0..<content.length)))
+       
         do {
             let range = NSRange(location: 0, length: textStorage.string.count)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: type)

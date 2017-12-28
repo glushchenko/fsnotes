@@ -457,7 +457,7 @@ class ViewController: NSViewController,
         ) {
             editArea.removeHighlight()
             let note = notesTableView.noteList[selected]
-            note.content = editArea.string
+            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save(editArea.textStorage!, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
@@ -494,7 +494,7 @@ class ViewController: NSViewController,
         
         filteredNoteList =
             source.filter() {
-                let searchContent = "\($0.name) \($0.content)"
+                let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
                     && $0.isRemoved == false
@@ -601,7 +601,7 @@ class ViewController: NSViewController,
         note.type = (type != nil) ? type! : UserDefaultsManagement.storageExtension
         
         note.make(newName: name)
-        note.content = content
+        note.content = NSMutableAttributedString(string: content)
         note.isSynced = false
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         

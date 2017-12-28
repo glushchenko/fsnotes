@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Marklight
 
 class Storage {
     static let instance = Storage()
@@ -32,6 +33,8 @@ class Storage {
         if let list = sortNotes(noteList: noteList) {
             noteList = list
         }
+        
+        cacheMarkdown()
     }
     
     func sortNotes(noteList: [Note]?) -> [Note]? {
@@ -249,6 +252,61 @@ class Storage {
             noteList.filter{
                 $0.isGeneral()
             }.count
+    }
+    
+    func cacheMarkdown() {
+                
+        DispatchQueue.global(qos: .background).async {
+            var i = 0
+            for note in self.noteList {
+                //print()
+                let range = NSRange(0..<note.content.string.count)
+                var s = MarklightTextStorage()
+                s.append(note.content)
+                
+            
+                
+                //Swift.print()
+                
+                //Marklight.applyMarkdownStyle(s, string: note.content.string, affectedRange: NSRange(location: 1, length: 0))
+                
+                //let textStorage = MarklightTextStorage()
+                //textStorage.setAttributedString(note.content)
+                
+                //textStorage.processEditing()
+                
+                note.content = NSMutableAttributedString(attributedString: s.attributedSubstring(from: range))
+
+                
+                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
+                    NSRegularExpression.Options.allowCommentsAndWhitespace,
+                    NSRegularExpression.Options.anchorsMatchLines
+                ])
+ 
+                
+                //Swift.print(note.name)
+                /*
+                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeSpan, options: [
+                    NSRegularExpression.Options.allowCommentsAndWhitespace,
+                    NSRegularExpression.Options.anchorsMatchLines,
+                    NSRegularExpression.Options.dotMatchesLineSeparators,
+                ])
+                */
+                
+                
+                
+                i = i + 1
+                //Swift.print(i)
+                //let data = NSKeyedArchiver.archivedData(withRootObject: note.content)
+                //Swift.print(i)
+            }
+            
+            print("This is run on the background queue")
+            
+            DispatchQueue.main.async {
+                print("This is run on the main queue, after the previous code in outer block")
+            }
+        }
     }
 
 }

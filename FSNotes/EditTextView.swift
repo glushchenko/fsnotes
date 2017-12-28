@@ -9,6 +9,7 @@
 import Cocoa
 import Down
 import Highlightr
+import Marklight
 
 class EditTextView: NSTextView {
     var note: Note?
@@ -89,11 +90,37 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note, highlight: Bool = false) {
+        guard let manager = layoutManager else {
+            return
+        }
+        
+
+        //layoutManager?.replaceTextStorage(note.content as! NSTextStorage)
+        //layoutManager
+        //var s = MarklightTextStorage()
+       // s.append(note.content)
+        //layoutManager?.replaceTextStorage(s)
+        ///let storage =
+        
+        
+        //textStorage.
+
+        
+        //Swift.print(storage)
+        
         self.note = note
         
         subviews.removeAll()
         
-        textStorage?.mutableString.setString("")
+        //let textStorage = note.content
+        //let textStorage =
+        
+        //textStorage.addLayoutManager(layoutManager!)
+        //storage.append(note.content)
+        //storage.addLayoutManager(layoutManager!)
+        
+        
+        //storage.mutableString.setString("")
         undoManager?.removeAllActions()
         
         isEditable = !UserDefaultsManagement.preview
@@ -118,15 +145,18 @@ class EditTextView: NSTextView {
                     addSubview(downView!)
                 }
             } else {
-                let attrString = createAttributedString(note: note)
-                textStorage?.setAttributedString(attrString)
+                //let attrString = createAttributedString(note: note)
+                let storage = NotesTextStorage()
+                storage.setAttributedString(note.content)
+                manager.replaceTextStorage(storage)
+                //storage.setAttributedString()
                 
-                let range = NSMakeRange(0, (textStorage?.string.count)!)
-                textStorage?.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
+                //let range = NSMakeRange(0, (storage.length))
+                //storage.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
                 
                 if highlight {
-                    EditTextView.timer?.invalidate()
-                    EditTextView.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(timerHighlight), userInfo: nil, repeats: false)
+                    //EditTextView.timer?.invalidate()
+                    //EditTextView.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(timerHighlight), userInfo: nil, repeats: false)
                 }
             }
         }
@@ -141,9 +171,22 @@ class EditTextView: NSTextView {
     
     private static var timer: Timer?
     
+    func getAttributedString() -> NSMutableAttributedString? {
+        guard let text = textStorage else {
+            return nil
+        }
+        
+        return NSMutableAttributedString(attributedString: text.attributedSubstring(from: NSRange(0..<text.length)))
+    }
+    
     @objc func timerHighlight() {
         higlightLinks()
-        highlightCode(initialFill: true)
+        
+        guard let content = getAttributedString() else {
+            return
+        }
+        
+        //highlightCode(initialFill: true, content: content)
     }
     
     var isHighlighted: Bool = false
@@ -413,12 +456,21 @@ class EditTextView: NSTextView {
         super.pasteAsPlainText(nil)
         
         higlightLinks()
-        highlightCode(initialFill: true)
+        
+        guard let content = getAttributedString() else {
+            return
+        }
+        
+        //highlightCode(initialFill: true, content: content)
     }
     
     override func keyDown(with event: NSEvent) {
         let range = selectedRanges[0] as! NSRange
         
+        //let location = selectedRanges[0].rangeValue.location
+        //let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
+        //typingAttributes = attributes!
+        //Swift.print(attributes)
         // Tab/untab
         if event.keyCode == 48, range.length > 0 {
             if event.modifierFlags.rawValue == 131330 {
@@ -433,9 +485,13 @@ class EditTextView: NSTextView {
     
         if ![123,124,125,126].contains(event.keyCode) {
             if event.keyCode != 49 {
-                Swift.print(event.keyCode)
                 higlightLinks()
-                highlightCode()
+                
+                guard let content = getAttributedString() else {
+                    return
+                }
+                //Swift.print(content)
+                //highlightCode(content: content)
             }
         }
     }
@@ -479,7 +535,7 @@ class EditTextView: NSTextView {
         selectedRanges = selected
     }
     
-    fileprivate static let _codeBlockPattern = [
+    public static let _codeBlockPattern = [
         "(?:^\\n|\\A\\n|\\A)",
         "(                        # $1 = the code block -- one or more lines, starting with a space",
         "(?:",
@@ -490,7 +546,7 @@ class EditTextView: NSTextView {
         "((?=^\\p{Z}{0,4}|\\t[^ \\t\\n])) # Lookahead for non-space at line-start, or end of doc"
         ].joined(separator: "\n")
     
-    fileprivate static let _codeSpan = [
+    public static let _codeSpan = [
         "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
         "(`+)           # $1 = Opening run of `",
         "(?!`)          # and no more backticks -- match the full run",
@@ -500,88 +556,153 @@ class EditTextView: NSTextView {
         "(?!`)"
         ].joined(separator: "\n")
     
-    func highlightCode(initialFill: Bool = false) {
+    public static func highlightCode(initialFill: Bool = false, content: NSMutableAttributedString) {
         guard UserDefaultsManagement.codeBlockHighlight else {
             return
         }
-        
-        highlightPattern(initialFill: initialFill, pattern: EditTextView._codeBlockPattern, options: [
+        /*
+        highlightPattern(initialFill: initialFill, content: content, pattern: EditTextView._codeBlockPattern, options: [
             NSRegularExpression.Options.allowCommentsAndWhitespace,
             NSRegularExpression.Options.anchorsMatchLines
         ])
         
-        highlightPattern(initialFill: initialFill, pattern: EditTextView._codeSpan, options: [
+        highlightPattern(initialFill: initialFill, content: content, pattern: EditTextView._codeSpan, options: [
             NSRegularExpression.Options.allowCommentsAndWhitespace,
             NSRegularExpression.Options.anchorsMatchLines,
             NSRegularExpression.Options.dotMatchesLineSeparators,
         ])
-    }
-    
-    var languages: [String]? = nil
-    
-    func highlightPattern(initialFill: Bool = false, pattern: String, options: NSRegularExpression.Options) {
+ */
+        
+        /*
         guard let storage = textStorage else {
             return
         }
         
-        let range = NSMakeRange(0, storage.length)
+        let paragraphRange = NSMakeRange(0, storage.length)
+        
+        let boldFont = NSFont.boldSystemFont(ofSize: 13)
+        //let italicFont = NSFont.italicSystemFont(ofSize: 13)
+        var string = storage.string
+        
+        // We detect and process dashed headers
+        Marklight.headersAtxRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            storage.addAttribute(.font, value: boldFont, range: range)
+            Marklight.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                storage.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
+                //hideSyntaxIfNecessary(range: syntaxRange)
+            }
+            Marklight.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                storage.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                //hideSyntaxIfNecessary(range: innerRange)
+            }
+        }
+ */
+    }
+    
+    public static var languages: [String]? = nil
+    
+    public static func highlightPattern(initialFill: Bool = false, content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options) {
+        let range = NSMakeRange(0, content.length)
         let regex = try! NSRegularExpression(pattern: pattern, options: options)
         
         regex.enumerateMatches(
-            in: storage.string,
+            in: content.string,
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 
                 if let range = result?.range {
-                    if range.location + range.length  > storage.string.count {
+                    if range.location + range.length  > content.length {
                         return
                     }
                     
-                    let code = storage.mutableString.substring(with: range )
+                    let code = content.attributedSubstring(from: range)
                     
-                    if !range.contains(((self.selectedRanges.first?.rangeValue.location)! - 1)) && !initialFill {
-                        return
-                    }
+                    //if !range.contains(((self.selectedRanges.first?.rangeValue.location)! - 1)) && !initialFill {
+                    //    return
+                    //}
                     
-                    DispatchQueue.global().async {
+                    //DispatchQueue.global().async {
                         guard let highlightr = Highlightr() else {
                             return
                         }
                         
                         highlightr.setTheme(to: "github")
-                        let preDefinedLang = self.getLanguage(code)
-                        let highlightedCode = highlightr.highlight(code, as: preDefinedLang, fastRender: true)
+                        let preDefinedLang = EditTextView.getLanguage(code.string)
+                        let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true)
                         
-                        DispatchQueue.main.async {
-                            if range.location + range.length  > storage.mutableString.length {
+                        //DispatchQueue.main.async {
+                            if range.location + range.length  > content.length {
                                 return
                             }
                             
-                            if (code != storage.mutableString.substring(with: range)) {
+                            if code.string != content.attributedSubstring(from: range).string {
                                 return
                             }
                             
-                            let selected = self.selectedRanges
-                            storage.replaceCharacters(in: range, with: highlightedCode!)
+                            //let selected = self.selectedRanges
+                            content.replaceCharacters(in: range, with: highlightedCode!)
                             
                             let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                             if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                                storage.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
-                                storage.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
+                                content.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
+                                content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
                             }
+                    
+                            //Swift.print(content)
                             
-                            self.selectedRanges = selected
-                        }
+                            //self.textStorage?.setAttributedString(content)
+                            
+                            //self.selectedRanges = selected
+                        //}
+                    //}
+                }
+            }
+        )
+    }
+    
+    public static func highlightPatternSync(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options) {
+        let range = NSMakeRange(0, content.length)
+        let regex = try! NSRegularExpression(pattern: pattern, options: options)
+    
+        regex.enumerateMatches(
+            in: content.string,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                
+                if let range = result?.range {
+                    let code = content.attributedSubstring(from: range)
+                    let preDefinedLang = EditTextView.getLanguage(code.string)
+                    
+                    guard let highlightr = Highlightr() else {
+                        return
+                    }
+                    
+                    highlightr.setTheme(to: "github")
+                    guard let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true) else {
+                        return
+                    }
+                    
+                    content.replaceCharacters(in: range, with: highlightedCode)
+                    
+                    let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                    if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
+                        content.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
+                        content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
                     }
                 }
             }
         )
     }
     
-    func getLanguage(_ code: String) -> String? {
-        if self.languages == nil {
-            self.languages = Highlightr()?.supportedLanguages()
+    public static func getLanguage(_ code: String) -> String? {
+        if EditTextView.languages == nil {
+            EditTextView.languages = Highlightr()?.supportedLanguages()
         }
         
         if code.starts(with: "```") {
@@ -592,7 +713,7 @@ class EditTextView: NSTextView {
                     let end = code.index(code.startIndex, offsetBy: newLineOffset)
                     let range = start..<end
                     
-                    if let lang = self.languages, lang.contains(String(code[range])) {
+                    if let lang = EditTextView.languages, lang.contains(String(code[range])) {
                         return String(code[range])
                     }
                 }
@@ -641,7 +762,11 @@ class EditTextView: NSTextView {
         self.note?.save(storage)
         
         setSelectedRange(newRange)
-        highlightCode(initialFill: true)
+        
+        guard let content = getAttributedString() else {
+            return
+        }
+        //highlightCode(initialFill: true, content: content)
     }
     
     @objc func unTab(_ undoInfo: UndoInfo? = nil) {
@@ -684,6 +809,10 @@ class EditTextView: NSTextView {
         self.note?.save(storage)
         
         setSelectedRange(newRange)
-        highlightCode(initialFill: true)
+        
+        guard let content = getAttributedString() else {
+            return
+        }
+        //highlightCode(initialFill: true, content: content)
     }
 }
