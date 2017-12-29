@@ -90,37 +90,9 @@ class EditTextView: NSTextView {
     }
         
     func fill(note: Note, highlight: Bool = false) {
-        guard let manager = layoutManager else {
-            return
-        }
-        
-
-        //layoutManager?.replaceTextStorage(note.content as! NSTextStorage)
-        //layoutManager
-        //var s = MarklightTextStorage()
-       // s.append(note.content)
-        //layoutManager?.replaceTextStorage(s)
-        ///let storage =
-        
-        
-        //textStorage.
-
-        
-        //Swift.print(storage)
-        
         self.note = note
         
         subviews.removeAll()
-        
-        //let textStorage = note.content
-        //let textStorage =
-        
-        //textStorage.addLayoutManager(layoutManager!)
-        //storage.append(note.content)
-        //storage.addLayoutManager(layoutManager!)
-        
-        
-        //storage.mutableString.setString("")
         undoManager?.removeAllActions()
         
         isEditable = !UserDefaultsManagement.preview
@@ -145,14 +117,10 @@ class EditTextView: NSTextView {
                     addSubview(downView!)
                 }
             } else {
-                //let attrString = createAttributedString(note: note)
                 let storage = NotesTextStorage()
-                storage.setAttributedString(note.content)
-                manager.replaceTextStorage(storage)
-                //storage.setAttributedString()
-                
-                //let range = NSMakeRange(0, (storage.length))
-                //storage.addAttribute(NSAttributedStringKey.font, value: UserDefaultsManagement.noteFont, range: range)
+                layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
+                layoutManager?.replaceTextStorage(storage)
+                textStorage?.setAttributedString(note.content)
                 
                 if highlight {
                     //EditTextView.timer?.invalidate()
@@ -264,7 +232,11 @@ class EditTextView: NSTextView {
     }
     
     func clear() {
-        textStorage?.mutableString.setString("")
+        guard let manager = layoutManager else {
+            return
+        }
+        
+        manager.replaceTextStorage(NSTextStorage())
         subviews.removeAll()
         isEditable = false
         

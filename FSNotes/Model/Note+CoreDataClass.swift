@@ -308,7 +308,7 @@ public class Note: NSManagedObject {
     
     func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
-        
+
         content = NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: NSRange(0..<content.length)))
        
         do {

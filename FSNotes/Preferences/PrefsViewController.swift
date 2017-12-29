@@ -291,8 +291,9 @@ class PrefsViewController: NSViewController {
     func reloadStorage() {
         storageTableView.reload()
         Storage.instance.loadDocuments()
-        viewController.updateTable(filter: "")
-        viewController.loadMoveMenu()
+        viewController.updateTable(filter: "") {
+            self.viewController.loadMoveMenu()
+        }
     }
     
     func checkCloudStatus() {

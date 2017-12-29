@@ -66,9 +66,9 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         if editedMask.contains(.editedCharacters) {
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
-            if range.location == 0 && range.length == string.length {
-                return
-            }
+            //if range.location == 0 && range.length == string.length {
+            //    return
+            //}
             
             NotesTextStorage.applyMarkdownStyle(
                 storage,
@@ -225,8 +225,6 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                                 return
                             }
                             
-                            //Swift.print(code.string)
-                            
                             self.storage.replaceCharacters(in: range, with: highlightedCode!)
                             
                             let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
@@ -234,8 +232,6 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                                 self.storage.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
                                 self.storage.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
                             }
-                            
-                            Swift.print(555)
                         }
                         
                     }

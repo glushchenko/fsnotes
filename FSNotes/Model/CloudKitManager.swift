@@ -155,10 +155,10 @@ class CloudKitManager {
 
             DispatchQueue.main.async {
                 let search = self.viewController.search.stringValue
-                self.viewController.updateTable(filter: search)
-                
-                NotificationsController.syncProgress()
-                NotificationsController.onFinishSync()
+                self.viewController.updateTable(filter: search) {
+                    NotificationsController.syncProgress()
+                    NotificationsController.onFinishSync()
+                }
             }
         }
     }
