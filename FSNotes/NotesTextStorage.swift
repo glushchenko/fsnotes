@@ -81,13 +81,55 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             //storage = marklightStorage
             
             
+            
             // code highlighting
             if string.substring(with: range).starts(with: "\t") {
-                h(range: range)
+                if let codeBlockRange = findCodeBlockRange(string) {
+                    //Swift.print(codeBlockRange)
+                    h(range: codeBlockRange)
+                }
             }
         }
         
         super.processEditing()
+    }
+    
+    var result: String = ""
+    
+    func findCodeBlockRange(_ string: NSString) -> NSRange? {
+        let range = string.paragraphRange(for: editedRange)
+        let start = scanPrevParagraph(string: string, location: range.lowerBound - 1)!
+        let end = scanNextParagraph(string: string, location: range.upperBound + 1)!
+        
+        return NSRange(start+1..<end-1)
+    }
+    
+    func scanPrevParagraph(string: NSString, location: Int) -> Int? {
+        guard location >= 0 else {
+            return location + 1
+        }
+        
+        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
+        let substring = string.substring(with: range)
+        if substring.starts(with: "\t") {
+            return scanPrevParagraph(string: string, location: range.lowerBound - 1)
+        }
+        
+        return location
+    }
+    
+    func scanNextParagraph(string: NSString, location: Int) -> Int? {
+        guard location <= string.length else {
+            return location - 1
+        }
+    
+        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
+        let substring = string.substring(with: range)
+        if substring.starts(with: "\t") {
+            return scanNextParagraph(string: string, location: range.upperBound + 1)
+        }
+        
+        return location
     }
     
     /// Returns a standard String based on the current one.
@@ -123,13 +165,16 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     }
     
     func h(range: NSRange) {
+        let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         let string = (self.string as NSString)
         let line = string.substring(with: range)
+        //Swift.print(line)
         DispatchQueue.global().async {
             guard let highlightr = Highlightr() else {
                 return
             }
             
+            highlightr.setTheme(to: "github")
             let tmpStrg = highlightr.highlight(line)
             DispatchQueue.main.async(execute: {
                 //Checks to see if this highlighting is still valid.
@@ -151,6 +196,13 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                     fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
                     fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
                     self.storage.setAttributes(attrs, range: fixedRange)
+                    let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                    if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
+                        self.storage.addAttributes([
+                            NSAttributedStringKey.font: codeFont,
+                            NSAttributedStringKey.backgroundColor: color
+                        ], range: range)
+                    }
                 })
                 self.endEditing()
                 self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
