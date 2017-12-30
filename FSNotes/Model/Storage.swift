@@ -260,9 +260,11 @@ class Storage {
             var i = 0
             for note in self.noteList {
                 //print()
+                
                 let range = NSRange(0..<note.content.string.count)
-                var s = MarklightTextStorage()
-                s.append(note.content)
+                note.content.addAttributes([.font: UserDefaultsManagement.noteFont], range: range)
+                //var s = NotesTextStorage()
+                //s.append(note.content)
                 
             
                 
@@ -275,7 +277,7 @@ class Storage {
                 
                 //textStorage.processEditing()
                 
-                note.content = NSMutableAttributedString(attributedString: s.attributedSubstring(from: range))
+                //note.content = NSMutableAttributedString(attributedString: s.attributedSubstring(from: range))
 
                 
                 EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeBlockPattern, options: [

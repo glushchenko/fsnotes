@@ -49,6 +49,11 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     open var hideSyntax = false
     
     var storage = NSMutableAttributedString(string: "")
+    var textView: NSTextView?
+    
+    public func setTextView(textView: NSTextView) {
+        self.textView = textView
+    }
     
     override init() {
         super.init()
@@ -64,30 +69,28 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
     override public func processEditing() {
         if editedMask.contains(.editedCharacters) {
+            if let view = self.textView {
+                //let location = view.selectedRanges[0].rangeValue.location
+                //if location > 0 {
+                //    let attributes = self.storage.attributes(at: location - 1, effectiveRange: nil)
+                    //view.typingAttributes = attributes
+                //}
+            }
+            
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
-            //if range.location == 0 && range.length == string.length {
-            //    return
-            //}
-            
-            NotesTextStorage.applyMarkdownStyle(
-                storage,
-                string: storage.string,
-                affectedRange: range
-            )
-            
-            //let marklightStorage = MarklightTextStorage()
-            //marklightStorage.append(storage)
-            //storage = marklightStorage
-            
-            
             
             // code highlighting
             if string.substring(with: range).starts(with: "\t") {
                 if let codeBlockRange = findCodeBlockRange(string) {
-                    //Swift.print(codeBlockRange)
                     h(range: codeBlockRange)
                 }
+            } else {
+                NotesTextStorage.applyMarkdownStyle(
+                    storage,
+                    string: storage.string,
+                    affectedRange: range
+                )
             }
         }
         
@@ -302,10 +305,10 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         let textStorageNSString = string as NSString
         let wholeRange = NSMakeRange(0, textStorageNSString.length)
         
-        let codeFont = NotesTextStorage.codeFont(Marklight.textSize)
-        let quoteFont = NotesTextStorage.quoteFont(Marklight.textSize)
-        let boldFont = MarklightFont.boldSystemFont(ofSize: Marklight.textSize)
-        let italicFont = MarklightFont.italicSystemFont(ofSize: Marklight.textSize)
+        let codeFont = NotesTextStorage.codeFont(CGFloat(UserDefaultsManagement.fontSize))
+        let quoteFont = NotesTextStorage.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
+        let boldFont = MarklightFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let italicFont = MarklightFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
         
         let hiddenFont = MarklightFont.systemFont(ofSize: 0.1)
         let hiddenColor = MarklightColor.clear
@@ -1037,7 +1040,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
     // We transform the user provided `codeFontName` `String` to a `NSFont`
     fileprivate static func codeFont(_ size: CGFloat) -> MarklightFont {
-        if let font = MarklightFont(name: Marklight.codeFontName, size: size) {
+        if let font = UserDefaultsManagement.noteFont {
             return font
         } else {
             return MarklightFont.systemFont(ofSize: size)

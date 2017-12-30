@@ -118,6 +118,7 @@ class EditTextView: NSTextView {
                 }
             } else {
                 let storage = NotesTextStorage()
+                storage.setTextView(textView: self)
                 layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
                 layoutManager?.replaceTextStorage(storage)
                 textStorage?.setAttributedString(note.content)
@@ -221,8 +222,7 @@ class EditTextView: NSTextView {
             let range = NSRange(location: 0, length: (textStorage?.string.count)!)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: fileExtension!)
             let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-            try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-           
+            try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)            
             return true
         } catch let error {
             NSLog(error.localizedDescription)
@@ -439,9 +439,6 @@ class EditTextView: NSTextView {
     override func keyDown(with event: NSEvent) {
         let range = selectedRanges[0] as! NSRange
         
-        //let location = selectedRanges[0].rangeValue.location
-        //let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
-        //typingAttributes = attributes!
         //Swift.print(attributes)
         // Tab/untab
         if event.keyCode == 48, range.length > 0 {
