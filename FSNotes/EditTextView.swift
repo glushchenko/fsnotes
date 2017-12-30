@@ -436,6 +436,19 @@ class EditTextView: NSTextView {
         //highlightCode(initialFill: true, content: content)
     }
     
+    override func selectionRange(forProposedRange proposedCharRange: NSRange, granularity: NSSelectionGranularity) -> NSRange {
+        clonePrevTypingAttributes()
+        return super.selectionRange(forProposedRange: proposedCharRange, granularity: granularity)
+    }
+    
+    func clonePrevTypingAttributes() {
+        let location = selectedRanges[0].rangeValue.location
+        if location > 0 && (textStorage?.length)! >= location {
+            let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
+            typingAttributes = attributes!
+        }
+    }
+    
     override func keyDown(with event: NSEvent) {
         let range = selectedRanges[0] as! NSRange
         
@@ -462,6 +475,8 @@ class EditTextView: NSTextView {
                 //Swift.print(content)
                 //highlightCode(content: content)
             }
+        } else {
+            clonePrevTypingAttributes()
         }
     }
 
@@ -643,9 +658,15 @@ class EditTextView: NSTextView {
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
-                
                 if let range = result?.range {
-                    let code = content.attributedSubstring(from: range)
+                    let storage = NotesTextStorage()
+                    let string = (content.string as NSString)
+                    
+                    guard let codeBlockRange = storage.findCodeBlockRange(string: string, lineRange: range) else {
+                        return
+                    }
+                    
+                    let code = content.attributedSubstring(from: codeBlockRange)
                     let preDefinedLang = EditTextView.getLanguage(code.string)
                     
                     guard let highlightr = Highlightr() else {
@@ -657,12 +678,12 @@ class EditTextView: NSTextView {
                         return
                     }
                     
-                    content.replaceCharacters(in: range, with: highlightedCode)
+                    content.replaceCharacters(in: codeBlockRange, with: highlightedCode)
                     
                     let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                     if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                        content.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
-                        content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
+                        content.addAttributes([NSAttributedStringKey.font: codeFont], range: codeBlockRange)
+                        content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: codeBlockRange)
                     }
                 }
             }

@@ -69,20 +69,13 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
     override public func processEditing() {
         if editedMask.contains(.editedCharacters) {
-            if let view = self.textView {
-                //let location = view.selectedRanges[0].rangeValue.location
-                //if location > 0 {
-                //    let attributes = self.storage.attributes(at: location - 1, effectiveRange: nil)
-                    //view.typingAttributes = attributes
-                //}
-            }
-            
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
             
             // code highlighting
             if string.substring(with: range).starts(with: "\t") {
-                if let codeBlockRange = findCodeBlockRange(string) {
+                let range = string.paragraphRange(for: editedRange)
+                if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
                     h(range: codeBlockRange)
                 }
             } else {
@@ -99,10 +92,9 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
     var result: String = ""
     
-    func findCodeBlockRange(_ string: NSString) -> NSRange? {
-        let range = string.paragraphRange(for: editedRange)
-        let start = scanPrevParagraph(string: string, location: range.lowerBound - 1)!
-        let end = scanNextParagraph(string: string, location: range.upperBound + 1)!
+    func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
+        let start = scanPrevParagraph(string: string, location: lineRange.lowerBound - 1)!
+        let end = scanNextParagraph(string: string, location: lineRange.upperBound + 1)!
         
         return NSRange(start+1..<end-1)
     }
@@ -167,6 +159,14 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         storage.addAttribute(NSAttributedStringKey.paragraphStyle, value: NSParagraphStyle(), range: range)
     }
     
+    func setTypingAttributes() {
+        if let view = self.textView as? EditTextView {
+            view.clonePrevTypingAttributes()
+        }
+    }
+    
+    //func mouse
+    
     func h(range: NSRange) {
         let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         let string = (self.string as NSString)
@@ -210,6 +210,9 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                 self.endEditing()
                 self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
                 //self.highlightDelegate?.didHighlight?(range, success: true)
+                
+                self.setTypingAttributes()
+                
                 
             })
         }
