@@ -13,6 +13,8 @@ import CloudKit
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
     
+    var appTitle = "FSNotes"
+    
     @IBAction func openHelp(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
     }
