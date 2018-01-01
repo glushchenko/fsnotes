@@ -444,8 +444,11 @@ class EditTextView: NSTextView {
     func clonePrevTypingAttributes() {
         let location = selectedRanges[0].rangeValue.location
         if location > 0 && (textStorage?.length)! >= location {
-            let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
-            typingAttributes = attributes!
+
+        let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
+             //textStorage?.string.su
+            //typingAttributes = attributes
+            //Swift.print("cloned")
         }
     }
     
@@ -520,7 +523,6 @@ class EditTextView: NSTextView {
     }
     
     public static let _codeBlockPattern = [
-        "(?:^\\n|\\A\\n|\\A)",
         "(                        # $1 = the code block -- one or more lines, starting with a space",
         "(?:",
         "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
@@ -653,6 +655,12 @@ class EditTextView: NSTextView {
         let range = NSMakeRange(0, content.length)
         let regex = try! NSRegularExpression(pattern: pattern, options: options)
     
+        guard let highlightr = Highlightr() else {
+            return
+        }
+        
+        highlightr.setTheme(to: "github")
+        
         regex.enumerateMatches(
             in: content.string,
             options: NSRegularExpression.MatchingOptions(),
@@ -668,12 +676,8 @@ class EditTextView: NSTextView {
                     
                     let code = content.attributedSubstring(from: codeBlockRange)
                     let preDefinedLang = EditTextView.getLanguage(code.string)
-                    
-                    guard let highlightr = Highlightr() else {
-                        return
-                    }
-                    
-                    highlightr.setTheme(to: "github")
+                                        
+
                     guard let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true) else {
                         return
                     }

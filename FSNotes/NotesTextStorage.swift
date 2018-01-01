@@ -71,14 +71,16 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         if editedMask.contains(.editedCharacters) {
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
+            //storage.removeAttribute(.foregroundColor, range: range)
             
             // code highlighting
             if string.substring(with: range).starts(with: "\t") {
-                let range = string.paragraphRange(for: editedRange)
                 if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
                     h(range: codeBlockRange)
                 }
             } else {
+                storage.fixAttributes(in: range)
+                //storage.removeAttribute(.font, range: range)
                 NotesTextStorage.applyMarkdownStyle(
                     storage,
                     string: storage.string,
@@ -93,14 +95,19 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     var result: String = ""
     
     func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
-        let start = scanPrevParagraph(string: string, location: lineRange.lowerBound - 1)!
-        let end = scanNextParagraph(string: string, location: lineRange.upperBound + 1)!
+        let firstParagraphRange = string.paragraphRange(for: NSRange(location: lineRange.location, length: 0))
         
-        return NSRange(start+1..<end-1)
+        if !string.substring(with: firstParagraphRange).starts(with: "\t") {
+            
+        }
+        
+        let start = scanPrevParagraph(string: string, location: firstParagraphRange.lowerBound - 1)!
+        let end = scanNextParagraph(string: string, location: firstParagraphRange.upperBound + 1)!
+        return NSRange(start..<end)
     }
     
     func scanPrevParagraph(string: NSString, location: Int) -> Int? {
-        guard location >= 0 else {
+        guard location > 0 else {
             return location + 1
         }
         
@@ -110,11 +117,11 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             return scanPrevParagraph(string: string, location: range.lowerBound - 1)
         }
         
-        return location
+        return location + 1
     }
     
     func scanNextParagraph(string: NSString, location: Int) -> Int? {
-        guard location <= string.length else {
+        guard location < string.length + 1 else {
             return location - 1
         }
     
@@ -124,7 +131,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             return scanNextParagraph(string: string, location: range.upperBound + 1)
         }
         
-        return location
+        return location - 1
     }
     
     /// Returns a standard String based on the current one.
@@ -202,8 +209,8 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                     let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                     if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
                         self.storage.addAttributes([
-                            NSAttributedStringKey.font: codeFont,
-                            NSAttributedStringKey.backgroundColor: color
+                            .font: codeFont,
+                            //.backgroundColor: color
                         ], range: range)
                     }
                 })
@@ -211,7 +218,10 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                 self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
                 //self.highlightDelegate?.didHighlight?(range, success: true)
                 
-                self.setTypingAttributes()
+                //self.setTypingAttributes()
+                self.storage.addAttributes([
+                    .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                    ], range: range)
                 
                 
             })

@@ -255,16 +255,19 @@ class Storage {
     }
     
     func cacheMarkdown() {
-                
         DispatchQueue.global(qos: .background).async {
             var i = 0
             for note in self.noteList {
                 //print()
-                
-                let range = NSRange(0..<note.content.string.count)
-                note.content.addAttributes([.font: UserDefaultsManagement.noteFont], range: range)
+                var content = note.content.mutableCopy()
+                //guard let to = content.c else {
+                //    return
+                //}
+                //let range = NSRange(0..<to)
+                //content?.addAttributes([.font: UserDefaultsManagement.noteFont], range: range)
                 //var s = NotesTextStorage()
                 //s.append(note.content)
+                //note.content = s
                 
             
                 
@@ -280,11 +283,14 @@ class Storage {
                 //note.content = NSMutableAttributedString(attributedString: s.attributedSubstring(from: range))
 
                 
-                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
+                
+                EditTextView.highlightPatternSync(content: content as! NSMutableAttributedString, pattern: EditTextView._codeBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,
                     NSRegularExpression.Options.anchorsMatchLines
                 ])
+                
  
+                
                 
                 //Swift.print(note.name)
                 /*
@@ -299,7 +305,7 @@ class Storage {
                 
                 
                 i = i + 1
-                //Swift.print(i)
+                Swift.print(i)
                 //let data = NSKeyedArchiver.archivedData(withRootObject: note.content)
                 //Swift.print(i)
             }
