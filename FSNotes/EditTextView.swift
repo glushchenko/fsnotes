@@ -101,9 +101,18 @@ class EditTextView: NSTextView {
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
         
+        var storage = NSTextStorage()
+        if note.isMarkdown() {
+            storage = NotesTextStorage()
+        }
+        
+        layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
+        layoutManager?.replaceTextStorage(storage)
+                
         if (isRichText) {
             let attrString = createAttributedString(note: note)
             textStorage?.setAttributedString(attrString)
+            higlightLinks()
         } else {
             if (UserDefaultsManagement.preview) {
                 let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -116,17 +125,8 @@ class EditTextView: NSTextView {
                 
                     addSubview(downView!)
                 }
-            } else {
-                let storage = NotesTextStorage()
-                storage.setTextView(textView: self)
-                layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
-                layoutManager?.replaceTextStorage(storage)
+            } else if note.isMarkdown()  {
                 textStorage?.setAttributedString(note.content)
-                
-                if highlight {
-                    //EditTextView.timer?.invalidate()
-                    //EditTextView.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(timerHighlight), userInfo: nil, repeats: false)
-                }
             }
         }
         
@@ -146,16 +146,6 @@ class EditTextView: NSTextView {
         }
         
         return NSMutableAttributedString(attributedString: text.attributedSubstring(from: NSRange(0..<text.length)))
-    }
-    
-    @objc func timerHighlight() {
-        higlightLinks()
-        
-        guard let content = getAttributedString() else {
-            return
-        }
-        
-        //highlightCode(initialFill: true, content: content)
     }
     
     var isHighlighted: Bool = false
@@ -423,39 +413,50 @@ class EditTextView: NSTextView {
         
         return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
-    
-    override func paste(_ sender: Any?) {
-        super.pasteAsPlainText(nil)
-        
-        higlightLinks()
-        
-        guard let content = getAttributedString() else {
-            return
-        }
-        
-        //highlightCode(initialFill: true, content: content)
-    }
-    
+
     override func selectionRange(forProposedRange proposedCharRange: NSRange, granularity: NSSelectionGranularity) -> NSRange {
         clonePrevTypingAttributes()
         return super.selectionRange(forProposedRange: proposedCharRange, granularity: granularity)
     }
-    
+ 
+ 
     func clonePrevTypingAttributes() {
-        let location = selectedRanges[0].rangeValue.location
-        if location > 0 && (textStorage?.length)! >= location {
-
-        let attributes = textStorage?.attributes(at: location - 1, effectiveRange: nil)
-             //textStorage?.string.su
-            //typingAttributes = attributes
-            //Swift.print("cloned")
+        return
+        
+        typingAttributes.removeAll()
+        guard let storage = textStorage else {
+            return
         }
+        
+        let location = selectedRanges[0].rangeValue.location
+        guard location > 0 && storage.length >= location else {
+            typingAttributes.removeAll()
+            return
+        }
+
+        let string = storage.string as NSString
+        let paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
+        let paragraph = string.substring(with: paragraphRange)
+            
+        guard NotesTextStorage.isCodeBlockParagraph(paragraph) || paragraph.starts(with: "\n") else {
+            typingAttributes.removeAll()
+            return
+        }
+        
+        var attributes = storage.attributes(at: location - 1, effectiveRange: nil)
+        let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+        
+        if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
+            attributes[.font] = codeFont
+            attributes[.backgroundColor] = color
+        }
+        
+        typingAttributes = attributes
     }
     
     override func keyDown(with event: NSEvent) {
         let range = selectedRanges[0] as! NSRange
         
-        //Swift.print(attributes)
         // Tab/untab
         if event.keyCode == 48, range.length > 0 {
             if event.modifierFlags.rawValue == 131330 {
@@ -467,20 +468,6 @@ class EditTextView: NSTextView {
         }
         
         super.keyDown(with: event)
-    
-        if ![123,124,125,126].contains(event.keyCode) {
-            if event.keyCode != 49 {
-                higlightLinks()
-                
-                guard let content = getAttributedString() else {
-                    return
-                }
-                //Swift.print(content)
-                //highlightCode(content: content)
-            }
-        } else {
-            clonePrevTypingAttributes()
-        }
     }
 
     func higlightLinks() {
@@ -500,6 +487,7 @@ class EditTextView: NSTextView {
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 if let range = result?.range {
+                    Swift.print(range)
                     //if !range.contains((self.selectedRanges.first?.rangeValue.location)!) {
                     //    return
                     //}
@@ -680,15 +668,12 @@ class EditTextView: NSTextView {
                     }
                     
                     content.replaceCharacters(in: codeBlockRange, with: highlightedCode)
-                    //Swift.print(codeBlockRange)
                     
                     let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                     if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
                         content.addAttributes([NSAttributedStringKey.font: codeFont], range: codeBlockRange)
                         content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: codeBlockRange)
                     }
-                    
-                    
                 }
             }
  

@@ -218,6 +218,10 @@ public class Note: NSManagedObject {
         return (url.pathExtension == "rtf")
     }
     
+    func isMarkdown() -> Bool {
+        return ["md", "markdown", "mkd"].contains(url.pathExtension)
+    }
+    
     func addPin() {
         Storage.pinned += 1
         isPinned = true

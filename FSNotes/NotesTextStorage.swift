@@ -43,17 +43,14 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
      */
     open var quoteIndendation : CGFloat = 20
     
+    var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+    
     /**
      If the markdown syntax should be hidden or visible
      */
     open var hideSyntax = false
     
     var storage = NSMutableAttributedString(string: "")
-    var textView: NSTextView?
-    
-    public func setTextView(textView: NSTextView) {
-        self.textView = textView
-    }
     
     override init() {
         super.init()
@@ -74,7 +71,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             //storage.removeAttribute(.foregroundColor, range: range)
             
             // code highlighting
-            if string.substring(with: range).starts(with: "\t") {
+            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) {
                 if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
                     h(range: codeBlockRange)
                 }
@@ -94,10 +91,14 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
     var result: String = ""
     
+    public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
+        return (paragraph.starts(with: "\t") || paragraph.starts(with: "    "))
+    }
+    
     func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
         let firstParagraphRange = string.paragraphRange(for: NSRange(location: lineRange.location, length: 0))
         
-        if !string.substring(with: firstParagraphRange).starts(with: "\t") {
+        if !NotesTextStorage.isCodeBlockParagraph(string.substring(with: firstParagraphRange)) {
             
         }
         
@@ -113,7 +114,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         
         let range = string.paragraphRange(for: NSRange(location: location, length: 0))
         let substring = string.substring(with: range)
-        if substring.starts(with: "\t") {
+        if NotesTextStorage.isCodeBlockParagraph(substring) {
             return scanPrevParagraph(string: string, location: range.lowerBound - 1)
         }
         
@@ -127,7 +128,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     
         let range = string.paragraphRange(for: NSRange(location: location, length: 0))
         let substring = string.substring(with: range)
-        if substring.starts(with: "\t") {
+        if NotesTextStorage.isCodeBlockParagraph(substring) {
             return scanNextParagraph(string: string, location: range.upperBound + 1)
         }
         
@@ -166,19 +167,10 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         storage.addAttribute(NSAttributedStringKey.paragraphStyle, value: NSParagraphStyle(), range: range)
     }
     
-    func setTypingAttributes() {
-        if let view = self.textView as? EditTextView {
-            view.clonePrevTypingAttributes()
-        }
-    }
-    
-    //func mouse
-    
     func h(range: NSRange) {
-        let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         let string = (self.string as NSString)
         let line = string.substring(with: range)
-        //Swift.print(line)
+
         DispatchQueue.global().async {
             guard let highlightr = Highlightr() else {
                 return
@@ -187,16 +179,11 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             highlightr.setTheme(to: "github")
             let tmpStrg = highlightr.highlight(line)
             DispatchQueue.main.async(execute: {
-                //Checks to see if this highlighting is still valid.
-                if((range.location + range.length) > self.storage.length)
-                {
-                    //self.highlightDelegate?.didHighlight?(range, success: false)
+                if((range.location + range.length) > self.storage.length) {
                     return
                 }
                 
-                if(tmpStrg?.string != self.storage.attributedSubstring(from: range).string)
-                {
-                    //self.highlightDelegate?.didHighlight?(range, success: false)
+                if(tmpStrg?.string != self.storage.attributedSubstring(from: range).string) {
                     return
                 }
                 
@@ -206,24 +193,16 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                     fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
                     fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
                     self.storage.setAttributes(attrs, range: fixedRange)
-                    let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-                    if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                        self.storage.addAttributes([
-                            .font: codeFont,
-                            //.backgroundColor: color
-                        ], range: range)
+                    if let font = self.codeFont {
+                        self.storage.addAttributes([.font: font], range: range)
                     }
                 })
                 self.endEditing()
                 self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
-                //self.highlightDelegate?.didHighlight?(range, success: true)
-                
-                //self.setTypingAttributes()
+
                 self.storage.addAttributes([
                     .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                     ], range: range)
-                
-                
             })
         }
     }
