@@ -10,11 +10,11 @@ import Cocoa
 
 extension NSFont {
     var isBold: Bool {
-        return (Int(fontDescriptor.symbolicTraits.rawValue) == 1026)
+        return fontDescriptor.symbolicTraits.contains(.bold)
     }
     
     var isItalic: Bool {
-        return (Int(fontDescriptor.symbolicTraits.rawValue) == 1025)
+        return fontDescriptor.symbolicTraits.contains(.italic)
     }
     
     var height:CGFloat {

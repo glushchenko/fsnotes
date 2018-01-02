@@ -379,8 +379,11 @@ class EditTextView: NSTextView {
     }
     
     func toggleBoldFont(font: NSFont) -> NSFont {
-        var mask = 0
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
         
+        var mask = 0
         if (font.isBold) {
             if (font.isItalic) {
                 mask = NSFontItalicTrait
@@ -392,13 +395,16 @@ class EditTextView: NSTextView {
                 mask = NSFontBoldTrait
             }
         }
-       
-        return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
+        
+        return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
     
     func toggleItalicFont(font: NSFont) -> NSFont {
-        var mask = 0
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
         
+        var mask = 0
         if (font.isItalic) {
             if (font.isBold) {
                 mask = NSFontBoldTrait
@@ -411,7 +417,7 @@ class EditTextView: NSTextView {
             }
         }
         
-        return NSFontManager().font(withFamily: UserDefaultsManagement.noteFont.familyName!, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 0, size: CGFloat(UserDefaultsManagement.fontSize))!
+        return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
 
     override func selectionRange(forProposedRange proposedCharRange: NSRange, granularity: NSSelectionGranularity) -> NSRange {
