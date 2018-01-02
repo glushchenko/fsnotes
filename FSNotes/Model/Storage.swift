@@ -8,6 +8,7 @@
 
 import Foundation
 import Marklight
+import Highlightr
 
 class Storage {
     static let instance = Storage()
@@ -255,11 +256,17 @@ class Storage {
     }
     
     func cacheMarkdown() {
+        guard let highlightr = Highlightr() else {
+            return
+        }
+        
+        highlightr.setTheme(to: "github")
+        
         DispatchQueue.global(qos: .background).async {
             var i = 0
             for note in self.noteList {
                 //print()
-                var content = note.content.mutableCopy()
+                var content = note.content
                 //guard let to = content.c else {
                 //    return
                 //}
@@ -284,10 +291,10 @@ class Storage {
 
                 
                 
-                EditTextView.highlightPatternSync(content: content as! NSMutableAttributedString, pattern: EditTextView._codeBlockPattern, options: [
+                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,
                     NSRegularExpression.Options.anchorsMatchLines
-                ])
+                    ], highlightr: highlightr)
                 
  
                 

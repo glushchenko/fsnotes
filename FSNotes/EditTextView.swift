@@ -651,15 +651,9 @@ class EditTextView: NSTextView {
         )
     }
     
-    public static func highlightPatternSync(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options) {
+    public static func highlightPatternSync(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options, highlightr: Highlightr) {
         let range = NSMakeRange(0, content.length)
         let regex = try! NSRegularExpression(pattern: pattern, options: options)
-    
-        guard let highlightr = Highlightr() else {
-            return
-        }
-        
-        highlightr.setTheme(to: "github")
         
         regex.enumerateMatches(
             in: content.string,
@@ -676,21 +670,28 @@ class EditTextView: NSTextView {
                     
                     let code = content.attributedSubstring(from: codeBlockRange)
                     let preDefinedLang = EditTextView.getLanguage(code.string)
-                                        
-
+                    
                     guard let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true) else {
                         return
                     }
                     
+                    if highlightedCode.string != content.attributedSubstring(from: codeBlockRange).string {
+                        return
+                    }
+                    
                     content.replaceCharacters(in: codeBlockRange, with: highlightedCode)
+                    //Swift.print(codeBlockRange)
                     
                     let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                     if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
                         content.addAttributes([NSAttributedStringKey.font: codeFont], range: codeBlockRange)
                         content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: codeBlockRange)
                     }
+                    
+                    
                 }
             }
+ 
         )
     }
     
