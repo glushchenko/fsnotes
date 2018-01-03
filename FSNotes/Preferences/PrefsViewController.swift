@@ -183,6 +183,20 @@ class PrefsViewController: NSViewController {
         fontManager.orderFrontFontPanel(self)
         fontPanelOpen = true
     }
+
+//    override func validModesForFontPanel(_ fontPanel: NSFontPanel) -> NSFontPanel.ModeMask {
+//        return [.face, .size, .collection]
+//    }
+    
+    @IBAction func setFontColor(_ sender: NSColorWell) {
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.editArea.textColor = sender.color
+    }
+    
+    @IBAction func setBgColor(_ sender: NSColorWell) {
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.editArea.backgroundColor = sender.color
+    }
     
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
         controller?.setTableRowHeight()

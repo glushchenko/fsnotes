@@ -25,7 +25,12 @@ class EditTextView: NSTextView {
     
     var downView: MarkdownView?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-        
+    
+    override func drawBackground(in rect: NSRect) {
+        backgroundColor = UserDefaultsManagement.bgColor
+        super.drawBackground(in: rect)
+    }
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
@@ -137,6 +142,8 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
+        
+        textColor = UserDefaultsManagement.fontColor
     }
     
     private static var timer: Timer?
