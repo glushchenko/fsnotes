@@ -26,7 +26,6 @@ class ViewController: NSViewController,
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.instance
-    private var timer: Timer?
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -56,6 +55,10 @@ class ViewController: NSViewController,
         }
         
         setTableRowHeight()
+        
+        let storage = NotesTextStorage()
+        editArea.layoutManager?.replaceTextStorage(storage)
+        
         super.viewDidAppear()
     }
     

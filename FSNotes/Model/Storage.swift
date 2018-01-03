@@ -260,19 +260,27 @@ class Storage {
     }
     
     func cacheMarkdown() {
-        guard let highlightr = Highlightr() else {
-            return
-        }
-        
-        highlightr.setTheme(to: "github")
-        
         DispatchQueue.global(qos: .background).async {
-            for note in self.noteList {
+            guard let highlightr = Highlightr() else {
+                return
+            }
+            highlightr.setTheme(to: "github")
+            
+            let markdownDocuments = self.noteList.filter{
+                $0.isMarkdown()
+            }
+            
+            for note in markdownDocuments {
+                NotesTextStorage.applyMarkdownStyle(
+                    note.content,
+                    string: note.content.string,
+                    affectedRange: NSRange(0..<note.content.length)
+                )
+                
                 EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,
                     NSRegularExpression.Options.anchorsMatchLines
                     ], highlightr: highlightr)
-                
                 
                 EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeQuoteBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,

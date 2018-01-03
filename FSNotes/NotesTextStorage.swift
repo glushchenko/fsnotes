@@ -65,12 +65,13 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     }
     
     override public func processEditing() {
-        if editedMask.contains(.editedCharacters) {
+        if editedMask.contains(.editedCharacters) && editedRange.lowerBound != 0 && editedRange.upperBound != storage.length {
+            
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
-            
-            // code highlighting
-            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) && UserDefaultsManagement.codeBlockHighlight {
+
+            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) &&
+                UserDefaultsManagement.codeBlockHighlight {
                 if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
                     highlightCode(range: codeBlockRange)
                 }

@@ -312,7 +312,6 @@ public class Note: NSManagedObject {
     
     func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
-        content = textStorage
        
         do {
             let range = NSRange(location: 0, length: textStorage.length)

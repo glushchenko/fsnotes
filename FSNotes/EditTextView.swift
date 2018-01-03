@@ -13,6 +13,7 @@ import Marklight
 
 class EditTextView: NSTextView {
     var note: Note?
+    var isHighlighted: Bool = false
     
     class UndoInfo: NSObject {
         let text: String
@@ -26,7 +27,8 @@ class EditTextView: NSTextView {
     
     var downView: MarkdownView?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
-        
+    
+    
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
@@ -88,8 +90,11 @@ class EditTextView: NSTextView {
         let note = viewController.notesTableView.getNoteFromSelectedRow()
         return note
     }
-        
+            
     func fill(note: Note, highlight: Bool = false) {
+        let viewController = self.window?.contentViewController as! ViewController
+        viewController.emptyEditAreaImage.isHidden = true
+        
         self.note = note
         
         subviews.removeAll()
@@ -101,19 +106,9 @@ class EditTextView: NSTextView {
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
         
-        var storage = NSTextStorage()
-        if note.isMarkdown() {
-            storage = NotesTextStorage()
-        }
+        //layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
         
-        layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
-        layoutManager?.replaceTextStorage(storage)
-                
-        if (isRichText) {
-            let attrString = createAttributedString(note: note)
-            textStorage?.setAttributedString(attrString)
-            higlightLinks()
-        } else if (UserDefaultsManagement.preview) {
+        if (UserDefaultsManagement.preview && !isRichText) {
             let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
             let url = NSURL.fileURL(withPath: path!)
             let bundle = Bundle(url: url)
@@ -121,11 +116,18 @@ class EditTextView: NSTextView {
             do {
                 downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
                 }
-            
+                
                 addSubview(downView!)
             }
-        } else if note.isMarkdown()  {
+            return
+        }
+        
+        if note.isMarkdown()  {
             textStorage?.setAttributedString(note.content)
+        } else if (isRichText) {
+            let attrString = createAttributedString(note: note)
+            textStorage?.setAttributedString(attrString)
+            higlightLinks()
         } else {
             textStorage?.setAttributedString(note.content)
             higlightLinks()
@@ -134,22 +136,7 @@ class EditTextView: NSTextView {
         if highlight {
             highlightKeyword()
         }
-        
-        let viewController = self.window?.contentViewController as! ViewController
-        viewController.emptyEditAreaImage.isHidden = true
     }
-    
-    private static var timer: Timer?
-    
-    func getAttributedString() -> NSMutableAttributedString? {
-        guard let text = textStorage else {
-            return nil
-        }
-        
-        return NSMutableAttributedString(attributedString: text.attributedSubstring(from: NSRange(0..<text.length)))
-    }
-    
-    var isHighlighted: Bool = false
     
     func removeHighlight() {
         guard isHighlighted else {
@@ -223,11 +210,7 @@ class EditTextView: NSTextView {
     }
     
     func clear() {
-        guard let manager = layoutManager else {
-            return
-        }
-        
-        manager.replaceTextStorage(NSTextStorage())
+        textStorage?.setAttributedString(NSAttributedString())
         subviews.removeAll()
         isEditable = false
         
