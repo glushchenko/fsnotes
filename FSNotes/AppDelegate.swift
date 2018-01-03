@@ -13,6 +13,11 @@ import CloudKit
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
     
+    var appTitle: String {
+        let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+        return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
+    }
+
     @IBAction func openHelp(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
     }

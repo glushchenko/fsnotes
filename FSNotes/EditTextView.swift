@@ -137,6 +137,8 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
+        
+        self.window?.title = note.title
     }
     
     private static var timer: Timer?
@@ -224,6 +226,9 @@ class EditTextView: NSTextView {
         textStorage?.mutableString.setString("")
         subviews.removeAll()
         isEditable = false
+        
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        self.window?.title = appDelegate.appTitle
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = false
