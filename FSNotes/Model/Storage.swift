@@ -35,6 +35,10 @@ class Storage {
             noteList = list
         }
         
+        guard UserDefaultsManagement.codeBlockHighlight else {
+            return
+        }
+        
         cacheMarkdown()
     }
     
@@ -263,64 +267,17 @@ class Storage {
         highlightr.setTheme(to: "github")
         
         DispatchQueue.global(qos: .background).async {
-            var i = 0
             for note in self.noteList {
-                //print()
-                var content = note.content
-                //guard let to = content.c else {
-                //    return
-                //}
-                //let range = NSRange(0..<to)
-                //content?.addAttributes([.font: UserDefaultsManagement.noteFont], range: range)
-                //var s = NotesTextStorage()
-                //s.append(note.content)
-                //note.content = s
-                
-            
-                
-                //Swift.print()
-                
-                //Marklight.applyMarkdownStyle(s, string: note.content.string, affectedRange: NSRange(location: 1, length: 0))
-                
-                //let textStorage = MarklightTextStorage()
-                //textStorage.setAttributedString(note.content)
-                
-                //textStorage.processEditing()
-                
-                //note.content = NSMutableAttributedString(attributedString: s.attributedSubstring(from: range))
-
-                
-                
-                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
+                EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,
                     NSRegularExpression.Options.anchorsMatchLines
                     ], highlightr: highlightr)
                 
- 
                 
-                
-                //Swift.print(note.name)
-                /*
-                EditTextView.highlightPatternSync(content: note.content, pattern: EditTextView._codeSpan, options: [
+                EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeQuoteBlockPattern, options: [
                     NSRegularExpression.Options.allowCommentsAndWhitespace,
-                    NSRegularExpression.Options.anchorsMatchLines,
-                    NSRegularExpression.Options.dotMatchesLineSeparators,
-                ])
-                */
-                
-                
-                
-                
-                i = i + 1
-                Swift.print(i)
-                //let data = NSKeyedArchiver.archivedData(withRootObject: note.content)
-                //Swift.print(i)
-            }
-            
-            print("This is run on the background queue")
-            
-            DispatchQueue.main.async {
-                print("This is run on the main queue, after the previous code in outer block")
+                    NSRegularExpression.Options.anchorsMatchLines
+                    ], highlightr: highlightr)
             }
         }
     }

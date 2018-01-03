@@ -68,16 +68,14 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         if editedMask.contains(.editedCharacters) {
             let string = (self.string as NSString)
             let range = string.paragraphRange(for: editedRange)
-            //storage.removeAttribute(.foregroundColor, range: range)
             
             // code highlighting
-            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) {
+            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) && UserDefaultsManagement.codeBlockHighlight {
                 if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
-                    h(range: codeBlockRange)
+                    highlightCode(range: codeBlockRange)
                 }
             } else {
                 storage.fixAttributes(in: range)
-                //storage.removeAttribute(.font, range: range)
                 NotesTextStorage.applyMarkdownStyle(
                     storage,
                     string: storage.string,
@@ -88,9 +86,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         
         super.processEditing()
     }
-    
-    var result: String = ""
-    
+        
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
         return (paragraph.starts(with: "\t") || paragraph.starts(with: "    "))
     }
@@ -98,13 +94,28 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
         let firstParagraphRange = string.paragraphRange(for: NSRange(location: lineRange.location, length: 0))
         
-        if !NotesTextStorage.isCodeBlockParagraph(string.substring(with: firstParagraphRange)) {
-            
+        if string.substring(with: firstParagraphRange).starts(with: "```") {
+            let fencedBlockEnd = scanBackQuoteEnd(string: string, location: firstParagraphRange.upperBound + 1)
+            return NSRange(lineRange.location..<fencedBlockEnd)
         }
         
         let start = scanPrevParagraph(string: string, location: firstParagraphRange.lowerBound - 1)!
         let end = scanNextParagraph(string: string, location: firstParagraphRange.upperBound + 1)!
         return NSRange(start..<end)
+    }
+    
+    func scanBackQuoteEnd(string: NSString, location: Int) -> Int {
+        guard location < string.length else {
+            return location - 1
+        }
+        
+        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
+        let substring = string.substring(with: range)
+        if substring.starts(with: "```") {
+            return location + 3
+        }
+        
+        return scanBackQuoteEnd(string: string, location: range.upperBound + 1)
     }
     
     func scanPrevParagraph(string: NSString, location: Int) -> Int? {
@@ -135,7 +146,6 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         return location - 1
     }
     
-    /// Returns a standard String based on the current one.
     open override var string: String {
         get {
             return storage.string
@@ -167,7 +177,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         storage.addAttribute(NSAttributedStringKey.paragraphStyle, value: NSParagraphStyle(), range: range)
     }
     
-    func h(range: NSRange) {
+    func highlightCode(range: NSRange) {
         let string = (self.string as NSString)
         let line = string.substring(with: range)
 
@@ -205,86 +215,6 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                     ], range: range)
             })
         }
-    }
-    /*
-    
-    func zz(paragraph: String) {
-        let range = NSMakeRange(0, paragraph.length)
-        let regex = try! NSRegularExpression(pattern: pattern, options: options)
-        
-        regex.enumerateMatches(
-            in: paragraph,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                if let range = result?.range {
-                    
-                }
-            }
-        )
-    }
- */
- 
-    
-    func highlight() {
-        let pattern = EditTextView._codeBlockPattern
-        let options = [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-        ] as NSRegularExpression.Options
-        
-        //let content = storage
-        let range = NSMakeRange(0, storage.length)
-        let regex = try! NSRegularExpression(pattern: pattern, options: options)
-       
-        regex.enumerateMatches(
-            in: storage.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                
-                if let range = result?.range {
-                    if range.location + range.length  > storage.length {
-                        return
-                    }
-                    
-                    let code = self.storage.attributedSubstring(from: range)
-                    
-                    //if !range.contains(((self.selectedRanges.first?.rangeValue.location)! - 1)) && !initialFill {
-                    //    return
-                    //}
-                    
-                    DispatchQueue.global().async {
-                        guard let highlightr = Highlightr() else {
-                            return
-                        }
-                        
-                        highlightr.setTheme(to: "github")
-                        let preDefinedLang = EditTextView.getLanguage(code.string)
-                        let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true)
-                        
-                        DispatchQueue.main.async {
-                            if range.location + range.length  > self.storage.length {
-                                return
-                            }
-                            
-                            if code.string != self.storage.attributedSubstring(from: range).string {
-                                return
-                            }
-                            
-                            self.storage.replaceCharacters(in: range, with: highlightedCode!)
-                            
-                            let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-                            if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                                self.storage.addAttributes([NSAttributedStringKey.font: codeFont], range: range)
-                                self.storage.addAttributes([NSAttributedStringKey.backgroundColor: color], range: range)
-                            }
-                        }
-                        
-                    }
-                }
-            }
-        )
     }
     
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {

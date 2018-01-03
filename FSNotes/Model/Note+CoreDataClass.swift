@@ -312,11 +312,10 @@ public class Note: NSManagedObject {
     
     func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
-
-        content = NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: NSRange(0..<content.length)))
+        content = textStorage
        
         do {
-            let range = NSRange(location: 0, length: textStorage.string.count)
+            let range = NSRange(location: 0, length: textStorage.length)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: type)
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
