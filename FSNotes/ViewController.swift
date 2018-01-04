@@ -56,9 +56,6 @@ class ViewController: NSViewController,
         
         setTableRowHeight()
         
-        let storage = NotesTextStorage()
-        editArea.layoutManager?.replaceTextStorage(storage)
-        
         super.viewDidAppear()
     }
     

@@ -29,9 +29,7 @@ class DocumentAttributes {
     
     static func getReadingOptionKey(fileExtension: String) -> [NSAttributedString.DocumentReadingOptionKey : Any] {
         if (fileExtension == "rtf") {
-            return [
-                .documentType : NSAttributedString.DocumentType.rtf
-            ]
+            return [.documentType : NSAttributedString.DocumentType.rtf]
         }
     
         return [

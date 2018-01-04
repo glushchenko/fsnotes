@@ -106,8 +106,6 @@ class EditTextView: NSTextView {
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
         
-        //layoutManager?.invalidateLayout(forCharacterRange: NSMakeRange(0, (textStorage?.length)!), actualCharacterRange: nil)
-        
         if (UserDefaultsManagement.preview && !isRichText) {
             let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
             let url = NSURL.fileURL(withPath: path!)
@@ -122,14 +120,9 @@ class EditTextView: NSTextView {
             return
         }
         
-        if note.isMarkdown()  {
-            textStorage?.setAttributedString(note.content)
-        } else if (isRichText) {
-            let attrString = createAttributedString(note: note)
-            textStorage?.setAttributedString(attrString)
-            higlightLinks()
-        } else {
-            textStorage?.setAttributedString(note.content)
+        textStorage?.setAttributedString(note.content)
+        
+        if !note.isMarkdown()  {
             higlightLinks()
         }
         
@@ -408,6 +401,24 @@ class EditTextView: NSTextView {
         return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
     
+    override func paste(_ sender: Any?) {
+        super.paste(sender)
+        
+        guard let note = self.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) else {
+            return
+        }
+        
+        let end = clipboard.count
+        let start = (selectedRanges[0] as! NSRange).location - end
+        let range = NSRange(start..<end)
+        
+        NotesTextProcessor.applyMarkdownStyle(
+            self.textStorage!,
+            string: note.content.string,
+            affectedRange: range
+        )
+    }
+    
     override func keyDown(with event: NSEvent) {
         let range = selectedRanges[0] as! NSRange
         
@@ -418,10 +429,34 @@ class EditTextView: NSTextView {
             } else {
                 tab()
             }
+            super.keyDown(with: event)
+            return
+        }
+        
+        guard let note = self.note, note.isMarkdown() else {
+            super.keyDown(with: event)
+            higlightLinks()
             return
         }
         
         super.keyDown(with: event)
+        
+        let string = (note.content.string as NSString)
+        let paragraphRange = string.paragraphRange(for: range)
+        
+        if NotesTextProcessor.isCodeBlockParagraph(string.substring(with: paragraphRange)) &&
+            UserDefaultsManagement.codeBlockHighlight {
+            if let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: range) {
+                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: self.textStorage!, string: string, note: note)
+            }
+        } else {
+            self.textStorage!.fixAttributes(in: paragraphRange)
+            NotesTextProcessor.applyMarkdownStyle(
+                self.textStorage!,
+                string: note.content.string,
+                affectedRange: paragraphRange
+            )
+        }
     }
 
     func higlightLinks() {
@@ -501,11 +536,9 @@ class EditTextView: NSTextView {
                 guard let r = result else {
                     return
                 }
-     
-                let storage = NotesTextStorage()
                 let string = (content.string as NSString)
                 
-                guard let codeBlockRange = storage.findCodeBlockRange(string: string, lineRange: r.range),
+                guard let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: r.range),
                     codeBlockRange.upperBound <= content.length else {
                     return
                 }
@@ -525,8 +558,8 @@ class EditTextView: NSTextView {
                 
                 let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                 if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                    content.addAttributes([NSAttributedStringKey.font: codeFont], range: codeBlockRange)
-                    content.addAttributes([NSAttributedStringKey.backgroundColor: color], range: codeBlockRange)
+                    content.addAttributes([.font: codeFont], range: codeBlockRange)
+                    content.addAttributes([.backgroundColor: color], range: codeBlockRange)
                 }
             }
         )

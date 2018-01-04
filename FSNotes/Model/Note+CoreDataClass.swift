@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import Cocoa
 
 @objc(Note)
 public class Note: NSManagedObject {
@@ -29,7 +30,10 @@ public class Note: NSManagedObject {
     func load(_ newUrl: URL) {
         url = newUrl
         extractUrl()
-        content = NSMutableAttributedString(string: getContent(url: url))
+        
+        if let attributedString = getContent(url: url) {
+            content = NSMutableAttributedString(attributedString: attributedString)
+        }
     }
     
     func reload() -> Bool {
@@ -42,7 +46,10 @@ public class Note: NSManagedObject {
         }
                 
         if (modifiedAt != prevModifiedAt) {
-            content = NSMutableAttributedString(string: getContent(url: url))
+            if let attributedString = getContent(url: url) {
+                content = NSMutableAttributedString(attributedString: attributedString)
+            }
+            
             loadModifiedLocalAt()
             return true
         }
@@ -149,27 +156,23 @@ public class Note: NSManagedObject {
         return dateFormatter.string(from: self.modifiedLocalAt!)
     }
     
-    func getContent(url: URL) -> String {
-        var content: String = ""
-        let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
-        
+    func getContent(url: URL) -> NSAttributedString? {
         do {
             if type != "rtf" {
-                return try String(contentsOf: url)
+                return try NSAttributedString(string: String(contentsOf: url))
             }
         } catch let error as NSError {
             print(error.localizedDescription)
         }
         
         do {
-            let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
-        
-            content = NSTextStorage(attributedString: attributedString).string
+            let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
+            return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
         }
         
-        return content
+        return nil
     }
     
     func getDate(url: URL) -> Date? {

@@ -271,21 +271,7 @@ class Storage {
             }
             
             for note in markdownDocuments {
-                NotesTextStorage.applyMarkdownStyle(
-                    note.content,
-                    string: note.content.string,
-                    affectedRange: NSRange(0..<note.content.length)
-                )
-                
-                EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
-                    NSRegularExpression.Options.allowCommentsAndWhitespace,
-                    NSRegularExpression.Options.anchorsMatchLines
-                    ], highlightr: highlightr)
-                
-                EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeQuoteBlockPattern, options: [
-                    NSRegularExpression.Options.allowCommentsAndWhitespace,
-                    NSRegularExpression.Options.anchorsMatchLines
-                    ], highlightr: highlightr)
+                NotesTextProcessor.fullScan(note, highlightr: highlightr)
             }
         }
     }

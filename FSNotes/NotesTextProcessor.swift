@@ -7,105 +7,53 @@
 //
 
 import Cocoa
-import Marklight
 import Highlightr
 
-public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
+public class NotesTextProcessor {
     // MARK: Syntax highlight customisation
     
     /**
      Color used to highlight markdown syntax. Default value is light grey.
      */
-    open var syntaxColor = NSColor.lightGray
+    open static var syntaxColor = NSColor.lightGray
     
-    /**
-     Font used for blocks and inline code. Default value is *Menlo*.
-     */
-    open var codeFontName = "Menlo"
-    
-    /**
-     `MarklightColor` used for blocks and inline code. Default value is dark grey.
-     */
-    open var codeColor = NSColor.darkGray
-    
-    /**
-     Font used for quote blocks. Default value is *Menlo*.
-     */
-    open var quoteFontName = "Menlo"
-    
-    /**
-     `MarklightColor` used for quote blocks. Default value is dark grey.
-     */
-    open var quoteColor = NSColor.darkGray
+    open static var codeBackground = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
     
     /**
      Quote indentation in points. Default 20.
      */
     open var quoteIndendation : CGFloat = 20
     
-    var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+    public static var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
     
     /**
      If the markdown syntax should be hidden or visible
      */
-    open var hideSyntax = false
+    open static var hideSyntax = false
     
-    var storage = NSMutableAttributedString(string: "")
-    
-    override init() {
-        super.init()
-    }
-    
-    required public init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
-        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override public func processEditing() {
-        if editedMask.contains(.editedCharacters) && editedRange.lowerBound != 0 && editedRange.upperBound != storage.length {
-            
-            let string = (self.string as NSString)
-            let range = string.paragraphRange(for: editedRange)
-
-            if NotesTextStorage.isCodeBlockParagraph(string.substring(with: range)) &&
-                UserDefaultsManagement.codeBlockHighlight {
-                if let codeBlockRange = findCodeBlockRange(string: string, lineRange: range) {
-                    highlightCode(range: codeBlockRange)
-                }
-            } else {
-                storage.fixAttributes(in: range)
-                NotesTextStorage.applyMarkdownStyle(
-                    storage,
-                    string: storage.string,
-                    affectedRange: range
-                )
-            }
-        }
-        
-        super.processEditing()
-    }
-        
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
         return (paragraph.starts(with: "\t") || paragraph.starts(with: "    "))
     }
     
-    func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
+    public static func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
         let firstParagraphRange = string.paragraphRange(for: NSRange(location: lineRange.location, length: 0))
         
         if string.substring(with: firstParagraphRange).starts(with: "```") {
-            let fencedBlockEnd = scanBackQuoteEnd(string: string, location: firstParagraphRange.upperBound + 1)
+            let fencedBlockEnd = NotesTextProcessor.scanBackQuoteEnd(string: string, location: firstParagraphRange.upperBound + 1)
             return NSRange(lineRange.location..<fencedBlockEnd)
         }
         
-        let start = scanPrevParagraph(string: string, location: firstParagraphRange.lowerBound - 1)!
-        let end = scanNextParagraph(string: string, location: firstParagraphRange.upperBound + 1)!
+        let start = NotesTextProcessor.scanPrevParagraph(string: string, location: firstParagraphRange.lowerBound - 1)!
+        let end = NotesTextProcessor.scanNextParagraph(string: string, location: firstParagraphRange.upperBound + 1)!
+        
+        NotesTextProcessor.i = 0
+        NotesTextProcessor.j = 0
+        
         return NSRange(start..<end)
     }
     
-    func scanBackQuoteEnd(string: NSString, location: Int) -> Int {
+    
+    public static func scanBackQuoteEnd(string: NSString, location: Int) -> Int {
         guard location < string.length else {
             return location - 1
         }
@@ -116,71 +64,76 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             return location + 3
         }
         
-        return scanBackQuoteEnd(string: string, location: range.upperBound + 1)
+        return NotesTextProcessor.scanBackQuoteEnd(string: string, location: range.upperBound + 1)
     }
     
-    func scanPrevParagraph(string: NSString, location: Int) -> Int? {
+    public static var j = 0
+    public static func scanPrevParagraph(string: NSString, location: Int) -> Int? {
+        NotesTextProcessor.j = NotesTextProcessor.j + 1
+        guard NotesTextProcessor.j < 100 else {
+            return location + 1
+        }
         guard location > 0 else {
             return location + 1
         }
         
         let range = string.paragraphRange(for: NSRange(location: location, length: 0))
         let substring = string.substring(with: range)
-        if NotesTextStorage.isCodeBlockParagraph(substring) {
-            return scanPrevParagraph(string: string, location: range.lowerBound - 1)
+        if NotesTextProcessor.isCodeBlockParagraph(substring) {
+            return NotesTextProcessor.scanPrevParagraph(string: string, location: range.lowerBound - 1)
         }
         
         return location + 1
     }
     
-    func scanNextParagraph(string: NSString, location: Int) -> Int? {
+    public static var i = 0
+    public static func scanNextParagraph(string: NSString, location: Int) -> Int? {
+        NotesTextProcessor.i = NotesTextProcessor.i + 1
+
+        guard NotesTextProcessor.i < 100 else {
+            return location - 1
+        }
         guard location < string.length + 1 else {
             return location - 1
         }
     
         let range = string.paragraphRange(for: NSRange(location: location, length: 0))
         let substring = string.substring(with: range)
-        if NotesTextStorage.isCodeBlockParagraph(substring) {
-            return scanNextParagraph(string: string, location: range.upperBound + 1)
+        if NotesTextProcessor.isCodeBlockParagraph(substring) {
+            return NotesTextProcessor.scanNextParagraph(string: string, location: range.upperBound + 1)
         }
         
         return location - 1
     }
     
-    open override var string: String {
-        get {
-            return storage.string
+    public static func getHighlighter() -> Highlightr? {
+        guard let highlightr = Highlightr() else {
+            return nil
         }
+        highlightr.setTheme(to: "github")
+        return highlightr
     }
     
-    open override func replaceCharacters(in range: NSRange, with str: String) {
-        storage.replaceCharacters(in: range, with: str)
-        self.edited(NSTextStorageEditActions.editedCharacters, range: range, changeInLength: (str as NSString).length - range.length)
+    public static func fullScan(_ note: Note, highlightr: Highlightr) {
+        NotesTextProcessor.applyMarkdownStyle(
+            note.content,
+            string: note.content.string,
+            affectedRange: NSRange(0..<note.content.length)
+        )
+        
+        EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines
+            ], highlightr: highlightr)
+        
+        EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeQuoteBlockPattern, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines
+            ], highlightr: highlightr)
     }
     
-    open override func setAttributes(_ attrs: [NSAttributedStringKey : Any]?, range: NSRange) {
-        storage.setAttributes(attrs, range: range)
-        self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
-    }
-    
-    override public func addAttributes(_ attrs: [NSAttributedStringKey : Any] = [:], range: NSRange) {
-        storage.addAttributes(attrs, range: range)
-        self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
-    }
-    
-    open override func attributes(at location: Int, effectiveRange range: NSRangePointer?) -> [NSAttributedStringKey : Any] {
-        return storage.attributes(at: location, effectiveRange: range)
-    }
-    
-    public func resetMarklightTextAttributes(textSize: CGFloat, range: NSRange) {
-        storage.removeAttribute(NSAttributedStringKey.foregroundColor, range: range)
-        storage.addAttribute(NSAttributedStringKey.font, value: MarklightFont.systemFont(ofSize: textSize), range: range)
-        storage.addAttribute(NSAttributedStringKey.paragraphStyle, value: NSParagraphStyle(), range: range)
-    }
-    
-    func highlightCode(range: NSRange) {
-        let string = (self.string as NSString)
-        let line = string.substring(with: range)
+    public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note) {
+        let codeRange = string.substring(with: range)
 
         DispatchQueue.global().async {
             guard let highlightr = Highlightr() else {
@@ -188,31 +141,45 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             }
             
             highlightr.setTheme(to: "github")
-            let tmpStrg = highlightr.highlight(line)
+            let code = highlightr.highlight(codeRange)
+            
             DispatchQueue.main.async(execute: {
-                if((range.location + range.length) > self.storage.length) {
+                let content: NSAttributedString
+                if let storageUnwrapped = storage {
+                    content = storageUnwrapped
+                } else {
+                    content = note.content
+                }
+                
+                if ((range.location + range.length) > content.length) {
                     return
                 }
                 
-                if(tmpStrg?.string != self.storage.attributedSubstring(from: range).string) {
+                if (code?.string != content.attributedSubstring(from: range).string) {
                     return
                 }
                 
-                self.beginEditing()
-                tmpStrg?.enumerateAttributes(in: NSMakeRange(0, (tmpStrg?.length)!), options: [], using: { (attrs, locRange, stop) in
+                storage?.beginEditing()
+                code?.enumerateAttributes(in: NSMakeRange(0, (code?.length)!), options: [], using: { (attrs, locRange, stop) in
                     var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
                     fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
                     fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-                    self.storage.setAttributes(attrs, range: fixedRange)
-                    if let font = self.codeFont {
-                        self.storage.addAttributes([.font: font], range: range)
+                    storage?.setAttributes(attrs, range: fixedRange)
+                    note.content.setAttributes(attrs, range: fixedRange)
+                    if let font = NotesTextProcessor.codeFont {
+                        storage?.addAttributes([.font: font], range: range)
+                        note.content.addAttributes([.font: font], range: range)
                     }
                 })
-                self.endEditing()
-                self.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+                storage?.endEditing()
+                storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
 
-                self.storage.addAttributes([
+                storage?.addAttributes([
                     .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                    ], range: range)
+                
+                note.content.addAttributes([
+                    .backgroundColor: NotesTextProcessor.codeBackground
                     ], range: range)
             })
         }
@@ -224,86 +191,93 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         return paragraphStyle
     }
     
+    public static var isBusy = false
     public static func applyMarkdownStyle(_ styleApplier: NSMutableAttributedString, string: String, affectedRange paragraphRange: NSRange) {
+        if !NotesTextProcessor.isBusy {
+            NotesTextProcessor.isBusy = true
+        } else {
+            return
+        }
+        
         let textStorageNSString = string as NSString
         let wholeRange = NSMakeRange(0, textStorageNSString.length)
         
-        let codeFont = NotesTextStorage.codeFont(CGFloat(UserDefaultsManagement.fontSize))
-        let quoteFont = NotesTextStorage.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
-        let boldFont = MarklightFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
-        let italicFont = MarklightFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
+        let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
+        let boldFont = NSFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let italicFont = NSFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
         
-        let hiddenFont = MarklightFont.systemFont(ofSize: 0.1)
-        let hiddenColor = MarklightColor.clear
+        let hiddenFont = NSFont.systemFont(ofSize: 0.1)
+        let hiddenColor = NSColor.clear
         let hiddenAttributes: [NSAttributedStringKey : Any] = [
             .font : hiddenFont,
             .foregroundColor : hiddenColor
         ]
         
         func hideSyntaxIfNecessary(range: @autoclosure () -> NSRange) {
-            guard Marklight.hideSyntax else { return }
+            guard NotesTextProcessor.hideSyntax else { return }
             
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
         
         // We detect and process underlined headers
-        Marklight.headersSetextRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.headersSetextRegex.matches(string, range: wholeRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
-            Marklight.headersSetextUnderlineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: NSMakeRange(innerRange.location, innerRange.length))
             }
         }
         
         // We detect and process dashed headers
-        Marklight.headersAtxRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.headersAtxRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
-            Marklight.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
                 hideSyntaxIfNecessary(range: syntaxRange)
             }
-            Marklight.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: innerRange)
             }
         }
         
         // We detect and process reference links
-        Marklight.referenceLinkRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.referenceLinkRegex.matches(string, range: wholeRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: range)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: range)
         }
         
         // We detect and process lists
-        Marklight.listRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.listRegex.matches(string, range: wholeRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            Marklight.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
         
         // We detect and process anchors (links)
-        Marklight.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
-            Marklight.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
-            Marklight.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
-            Marklight.parenRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 let initialSyntaxRange = NSMakeRange(innerRange.location, 1)
                 let finalSyntaxRange = NSMakeRange(innerRange.location + innerRange.length - 1, 1)
                 hideSyntaxIfNecessary(range: initialSyntaxRange)
@@ -312,15 +286,15 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         }
         
         // We detect and process inline anchors (links)
-        Marklight.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
             
             var destinationLink : String?
             
-            Marklight.coupleRoundRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.coupleRoundRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
                 var _range = innerRange
                 _range.location = range.location + 1
@@ -335,21 +309,21 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
                 hideSyntaxIfNecessary(range: innerRange)
             }
             
-            Marklight.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: innerRange)
             }
             
-            Marklight.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.closingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: innerRange)
             }
             
             guard let destinationLinkString = destinationLink else { return }
             
-            Marklight.coupleSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.coupleSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 var _range = innerRange
                 _range.location = _range.location + 1
@@ -362,26 +336,26 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             }
         }
         
-        Marklight.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
             
             // TODO: add image attachment
-            if Marklight.hideSyntax {
+            if NotesTextProcessor.hideSyntax {
                 styleApplier.addAttribute(.font, value: hiddenFont, range: range)
             }
-            Marklight.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
-            Marklight.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
         
         // We detect and process inline images
-        Marklight.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             
             styleApplier.addAttribute(.font, value: codeFont, range: range)
@@ -390,38 +364,38 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             
             hideSyntaxIfNecessary(range: range)
             
-            Marklight.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 // FIXME: remove syntax and add image
             }
-            Marklight.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 // FIXME: remove syntax and add image
             }
-            Marklight.parenRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 // FIXME: remove syntax and add image
             }
         }
         
         // We detect and process quotes
-        Marklight.blockQuoteRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.blockQuoteRegex.matches(string, range: wholeRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: quoteFont, range: range)
             styleApplier.addAttribute(.foregroundColor, value: NSColor.darkGray, range: range)
             styleApplier.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
-            Marklight.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: innerRange)
             }
         }
         
         // We detect and process strict italics
-        Marklight.strictItalicRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.strictItalicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: italicFont, range: range)
             let substring = textStorageNSString.substring(with: NSMakeRange(range.location, 1))
@@ -432,15 +406,15 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             
             let preRange = NSMakeRange(range.location + start, 1)
             hideSyntaxIfNecessary(range: preRange)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: preRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length - 1, 1)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: postRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
         
         // We detect and process strict bolds
-        Marklight.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
             let substring = textStorageNSString.substring(with: NSMakeRange(range.location, 1))
@@ -450,51 +424,51 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
             }
             
             let preRange = NSMakeRange(range.location + start, 2)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: preRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
             hideSyntaxIfNecessary(range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length - 2, 2)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: postRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
         
         // We detect and process italics
-        Marklight.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: italicFont, range: range)
             
             let preRange = NSMakeRange(range.location, 1)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: preRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
             hideSyntaxIfNecessary(range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length - 1, 1)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: postRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
         
         // We detect and process bolds
-        Marklight.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
             
             let preRange = NSMakeRange(range.location, 2)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: preRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
             hideSyntaxIfNecessary(range: preRange)
             
             let postRange = NSMakeRange(range.location + range.length - 2, 2)
-            styleApplier.addAttribute(.foregroundColor, value: Marklight.syntaxColor, range: postRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
         
         // We detect and process inline links not formatted
-        Marklight.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             let substring = textStorageNSString.substring(with: range)
             guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
             styleApplier.addAttribute(.link, value: substring, range: range)
             
-            if Marklight.hideSyntax {
-                Marklight.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
+            if NotesTextProcessor.hideSyntax {
+                NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
                     styleApplier.addAttribute(.font, value: hiddenFont, range: innerRange)
                     styleApplier.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
@@ -503,20 +477,22 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         }
         
         // We detect and process inline mailto links not formatted
-        Marklight.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             let substring = textStorageNSString.substring(with: range)
             guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
             styleApplier.addAttribute(.link, value: substring, range: range)
             
-            if Marklight.hideSyntax {
-                Marklight.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
+            if NotesTextProcessor.hideSyntax {
+                NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
                     styleApplier.addAttribute(.font, value: hiddenFont, range: innerRange)
                     styleApplier.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
                 }
             }
         }
+        
+        NotesTextProcessor.isBusy = false
     }
     
     /// Tabs are automatically converted to spaces as part of the transform
@@ -653,7 +629,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     fileprivate static let anchorPattern = [
         "(                                  # wrap whole match in $1",
         "    \\[",
-        "        (\(NotesTextStorage.getNestedBracketsPattern()))  # link text = $2",
+        "        (\(NotesTextProcessor.getNestedBracketsPattern()))  # link text = $2",
         "    \\]",
         "",
         "    \\p{Z}?                        # one optional space",
@@ -695,7 +671,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         "(",
         "\\(                 # literal paren",
         "      \\p{Z}*",
-        "      (\(NotesTextStorage.getNestedParensPattern()))    # href = $3",
+        "      (\(NotesTextProcessor.getNestedParensPattern()))    # href = $3",
         "      \\p{Z}*",
         "      (               # $4",
         "      (['\"])         # quote char = $5",
@@ -712,11 +688,11 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     fileprivate static let anchorInlinePattern = [
         "(                           # wrap whole match in $1",
         "    \\[",
-        "        (\(NotesTextStorage.getNestedBracketsPattern()))   # link text = $2",
+        "        (\(NotesTextProcessor.getNestedBracketsPattern()))   # link text = $2",
         "    \\]",
         "    \\(                     # literal paren",
         "        \\p{Z}*",
-        "        (\(NotesTextStorage.getNestedParensPattern()))   # href = $3",
+        "        (\(NotesTextProcessor.getNestedParensPattern()))   # href = $3",
         "        \\p{Z}*",
         "        (                   # $4",
         "        (['\"])           # quote char = $5",
@@ -774,7 +750,7 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
         "  \\s?                # one optional whitespace character",
         "  \\(                 # literal paren",
         "      \\p{Z}*",
-        "      (\(NotesTextStorage.getNestedParensPattern()))    # href = $3",
+        "      (\(NotesTextProcessor.getNestedParensPattern()))    # href = $3",
         "      \\p{Z}*",
         "      (               # $4",
         "      (['\"])       # quote char = $5",
@@ -962,43 +938,61 @@ public class NotesTextStorage: NSTextStorage, MarklightStyleApplier {
     }
     
     // We transform the user provided `codeFontName` `String` to a `NSFont`
-    fileprivate static func codeFont(_ size: CGFloat) -> MarklightFont {
+    fileprivate static func codeFont(_ size: CGFloat) -> NSFont {
         if let font = UserDefaultsManagement.noteFont {
             return font
         } else {
-            return MarklightFont.systemFont(ofSize: size)
+            return NSFont.systemFont(ofSize: size)
         }
     }
     
     // We transform the user provided `quoteFontName` `String` to a `NSFont`
-    fileprivate static func quoteFont(_ size: CGFloat) -> MarklightFont {
-        if let font = MarklightFont(name: Marklight.quoteFontName, size: size) {
+    fileprivate static func quoteFont(_ size: CGFloat) -> NSFont {
+        if let font = UserDefaultsManagement.noteFont {
             return font
         } else {
-            return MarklightFont.systemFont(ofSize: size)
+            return NSFont.systemFont(ofSize: size)
         }
     }
 }
 
-
-
-#if os(iOS)
-    import UIKit
+public struct MarklightRegex {
+    public let regularExpression: NSRegularExpression!
     
-    typealias MarklightColor = UIColor
-    typealias MarklightFont = UIFont
-    typealias MarklightFontDescriptor = UIFontDescriptor
-#elseif os(macOS)
-    import AppKit
-    
-    
-    typealias MarklightColor = NSColor
-    typealias MarklightFont = NSFont
-    typealias MarklightFontDescriptor = NSFontDescriptor
-    
-    extension NSFont {
-        static func italicSystemFont(ofSize size: CGFloat) -> NSFont {
-            return NSFontManager().convert(NSFont.systemFont(ofSize: size), toHaveTrait: .italicFontMask)
+    public init(pattern: String, options: NSRegularExpression.Options = NSRegularExpression.Options(rawValue: 0)) {
+        var error: NSError?
+        let re: NSRegularExpression?
+        do {
+            re = try NSRegularExpression(pattern: pattern,
+                                         options: options)
+        } catch let error1 as NSError {
+            error = error1
+            re = nil
         }
+        
+        // If re is nil, it means NSRegularExpression didn't like
+        // the pattern we gave it.  All regex patterns used by Markdown
+        // should be valid, so this probably means that a pattern
+        // valid for .NET Regex is not valid for NSRegularExpression.
+        if re == nil {
+            if let error = error {
+                print("Regular expression error: \(error.userInfo)")
+            }
+            assert(re != nil)
+        }
+        
+        self.regularExpression = re
     }
-#endif
+    
+    public func matches(_ input: String, range: NSRange,
+                        completion: @escaping (_ result: NSTextCheckingResult?) -> Void) {
+        let s = input as NSString
+        let options = NSRegularExpression.MatchingOptions(rawValue: 0)
+        regularExpression.enumerateMatches(in: s as String,
+                                           options: options,
+                                           range: range,
+                                           using: { (result, flags, stop) -> Void in
+                                            completion(result)
+        })
+    }
+}
