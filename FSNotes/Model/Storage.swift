@@ -261,17 +261,12 @@ class Storage {
     
     func cacheMarkdown() {
         DispatchQueue.global(qos: .background).async {
-            guard let highlightr = Highlightr() else {
-                return
-            }
-            highlightr.setTheme(to: "github")
-            
             let markdownDocuments = self.noteList.filter{
                 $0.isMarkdown()
             }
             
             for note in markdownDocuments {
-                NotesTextProcessor.fullScan(note, highlightr: highlightr)
+                NotesTextProcessor.fullScan(note: note, async: false)
             }
         }
     }

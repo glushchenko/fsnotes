@@ -106,82 +106,112 @@ public class NotesTextProcessor {
         return location - 1
     }
     
+    public static var hl: Highlightr? = nil
+    
     public static func getHighlighter() -> Highlightr? {
+        if let instance = self.hl {
+            return instance
+        }
+        
         guard let highlightr = Highlightr() else {
             return nil
         }
+        
         highlightr.setTheme(to: "github")
-        return highlightr
+        self.hl = highlightr
+        
+        return self.hl
     }
     
-    public static func fullScan(_ note: Note, highlightr: Highlightr) {
-        NotesTextProcessor.applyMarkdownStyle(
+    public static func fullScan(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil, async: Bool = false) {
+        var affectedRange = NSRange(0..<note.content.length)
+        if let r = range {
+            affectedRange = r
+        }
+        
+        self.scanMarkdownSyntax(
             note.content,
             string: note.content.string,
-            affectedRange: NSRange(0..<note.content.length)
+            affectedRange: affectedRange
         )
         
-        EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeBlockPattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-            ], highlightr: highlightr)
+        self.scanCodeBlock(content: note.content, pattern: self._codeBlockPattern, options: [
+                NSRegularExpression.Options.allowCommentsAndWhitespace,
+                NSRegularExpression.Options.anchorsMatchLines
+            ], storage: storage, note: note, async: async)
         
-        EditTextView.highlightCode(content: note.content, pattern: EditTextView._codeQuoteBlockPattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-            ], highlightr: highlightr)
+        self.scanCodeBlock(content: note.content, pattern: self._codeQuoteBlockPattern, options: [
+                NSRegularExpression.Options.allowCommentsAndWhitespace,
+                NSRegularExpression.Options.anchorsMatchLines
+            ], storage: storage, note: note, async: async)
     }
     
-    public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note) {
+    public static func highlight(_ code: String, language: String? = nil) -> NSAttributedString? {
+        if let highlighter = NotesTextProcessor.getHighlighter() {
+            if let result = highlighter.highlight(code, as: language) {
+                return result
+            }
+        }
+        return nil
+    }
+    
+    public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage?, string: NSString, note: Note) {
+        let content: NSAttributedString
+        if let storageUnwrapped = storage {
+            content = storageUnwrapped
+        } else {
+            content = note.content
+        }
+        
+        if ((range.location + range.length) > content.length) {
+            return
+        }
+        
+        if (code.string != content.attributedSubstring(from: range).string) {
+            return
+        }
+        
+        storage?.beginEditing()
+        code.enumerateAttributes(in: NSMakeRange(0, code.length), options: [], using: { (attrs, locRange, stop) in
+            var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
+            fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
+            fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
+            storage?.setAttributes(attrs, range: fixedRange)
+            note.content.setAttributes(attrs, range: fixedRange)
+            if let font = NotesTextProcessor.codeFont {
+                storage?.addAttributes([.font: font], range: range)
+                note.content.addAttributes([.font: font], range: range)
+            }
+        })
+        storage?.endEditing()
+        storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+        
+        storage?.addAttributes([
+            .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+            ], range: range)
+        
+        note.content.addAttributes([
+            .backgroundColor: NotesTextProcessor.codeBackground
+            ], range: range)
+    }
+    
+    public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true, language: String? = nil) {
         let codeRange = string.substring(with: range)
 
-        DispatchQueue.global().async {
-            guard let highlightr = Highlightr() else {
-                return
+        if async {
+            DispatchQueue.global().async {
+                if let code = self.highlight(codeRange, language: language) {
+                    DispatchQueue.main.async(execute: {
+                        NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
+                    })
+                }
             }
             
-            highlightr.setTheme(to: "github")
-            let code = highlightr.highlight(codeRange)
+            return
+        }
             
-            DispatchQueue.main.async(execute: {
-                let content: NSAttributedString
-                if let storageUnwrapped = storage {
-                    content = storageUnwrapped
-                } else {
-                    content = note.content
-                }
-                
-                if ((range.location + range.length) > content.length) {
-                    return
-                }
-                
-                if (code?.string != content.attributedSubstring(from: range).string) {
-                    return
-                }
-                
-                storage?.beginEditing()
-                code?.enumerateAttributes(in: NSMakeRange(0, (code?.length)!), options: [], using: { (attrs, locRange, stop) in
-                    var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                    fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
-                    fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-                    storage?.setAttributes(attrs, range: fixedRange)
-                    note.content.setAttributes(attrs, range: fixedRange)
-                    if let font = NotesTextProcessor.codeFont {
-                        storage?.addAttributes([.font: font], range: range)
-                        note.content.addAttributes([.font: font], range: range)
-                    }
-                })
-                storage?.endEditing()
-                storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
-
-                storage?.addAttributes([
-                    .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-                    ], range: range)
-                
-                note.content.addAttributes([
-                    .backgroundColor: NotesTextProcessor.codeBackground
-                    ], range: range)
-            })
+        if let code = NotesTextProcessor.highlight(codeRange, language: language) {
+            NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
         }
     }
     
@@ -191,8 +221,60 @@ public class NotesTextProcessor {
         return paragraphStyle
     }
     
+    public static var languages: [String]? = nil
+    
+    public static func scanCodeBlock(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options, storage: NSTextStorage?, note: Note, async: Bool = false) {
+        let range = NSMakeRange(0, content.length)
+        let regex = try! NSRegularExpression(pattern: pattern, options: options)
+        
+        regex.enumerateMatches(
+            in: content.string,
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                guard let r = result else {
+                    return
+                }
+                let string = (content.string as NSString)
+                
+                guard let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: r.range),
+                    codeBlockRange.upperBound <= content.length else {
+                        return
+                }
+                
+                let code = content.attributedSubstring(from: codeBlockRange)
+                let preDefinedLang = self.getLanguage(code.string)
+                
+                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async, language: preDefinedLang)
+            }
+        )
+    }
+    
+    public static func getLanguage(_ code: String) -> String? {
+        if self.languages == nil {
+            self.languages = self.getHighlighter()?.supportedLanguages()
+        }
+        
+        if code.starts(with: "```") {
+            if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
+                let newLineOffset = newLinePosition.lowerBound.encodedOffset
+                if newLineOffset > 3 {
+                    let start = code.index(code.startIndex, offsetBy: 3)
+                    let end = code.index(code.startIndex, offsetBy: newLineOffset)
+                    let range = start..<end
+                    
+                    if let lang = self.languages, lang.contains(String(code[range])) {
+                        return String(code[range])
+                    }
+                }
+            }
+        }
+        
+        return nil
+    }
+    
     public static var isBusy = false
-    public static func applyMarkdownStyle(_ styleApplier: NSMutableAttributedString, string: String, affectedRange paragraphRange: NSRange) {
+    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, string: String, affectedRange paragraphRange: NSRange) {
         if !NotesTextProcessor.isBusy {
             NotesTextProcessor.isBusy = true
         } else {
@@ -774,19 +856,20 @@ public class NotesTextProcessor {
      Code
      */
     
-    fileprivate static let codeBlockPattern = [
-        "(?:\\n\\n|\\A\\n?)",
+    public static let _codeBlockPattern = [
         "(                        # $1 = the code block -- one or more lines, starting with a space",
         "(?:",
-        "    (?:\\p{Z}{\(_tabWidth)})       # Lines must start with a tab-width of spaces",
-        "    .*\\n+",
+        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
+        "    .+(?:\\n+)",
         ")+",
         ")",
-        "((?=^\\p{Z}{0,\(_tabWidth)}[^ \\t\\n])|\\Z) # Lookahead for non-space at line-start, or end of doc"
+        "((?=^\\p{Z}{0,4}|\\t[^ \\t\\n])) # Lookahead for non-space at line-start, or end of doc"
         ].joined(separator: "\n")
     
-    public static let codeBlockRegex = MarklightRegex(pattern: codeBlockPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
-    
+    public static let _codeQuoteBlockPattern = [
+        "(```[a-z]*\\n[\\s\\S]*?\\n```)"
+        ].joined(separator: "\n")
+            
     fileprivate static let codeSpanPattern = [
         "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
         "(`+)           # $1 = Opening run of `",

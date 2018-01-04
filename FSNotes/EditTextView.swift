@@ -9,7 +9,6 @@
 import Cocoa
 import Down
 import Highlightr
-import Marklight
 
 class EditTextView: NSTextView {
     var note: Note?
@@ -347,16 +346,41 @@ class EditTextView: NSTextView {
         
         if (!UserDefaultsManagement.preview) {
             editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
-            
+        
             if (currentNote.isRTF()) {
                 editArea.setSelectedRange(range)
             }
-        
+
             currentNote.save(editArea.textStorage!)
+            
+            if currentNote.isMarkdown() {
+                currentNote.content = NSMutableAttributedString(attributedString: editArea.attributedString())
+
+                if let paragrapRange = getParagraphRange() {
+                    NotesTextProcessor.scanMarkdownSyntax(
+                        editArea.textStorage!,
+                        string: currentNote.content.string,
+                        affectedRange: paragrapRange
+                    )
+                }
+            }
+            
             return true
         }
         
         return false
+    }
+    
+    func getParagraphRange() -> NSRange? {
+        guard let note = getSelectedNote(), let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea else {
+            return nil
+        }
+        
+        let range = editArea.selectedRange()
+        let string = note.content.string as NSString
+        let paragraphRange = string.paragraphRange(for: range)
+        
+        return paragraphRange
     }
     
     func toggleBoldFont(font: NSFont) -> NSFont {
@@ -408,15 +432,11 @@ class EditTextView: NSTextView {
             return
         }
         
-        let end = clipboard.count
-        let start = (selectedRanges[0] as! NSRange).location - end
+        let end = (selectedRanges[0] as! NSRange).location
+        let start = end - clipboard.count
         let range = NSRange(start..<end)
         
-        NotesTextProcessor.applyMarkdownStyle(
-            self.textStorage!,
-            string: note.content.string,
-            affectedRange: range
-        )
+        NotesTextProcessor.fullScan(note: note, storage: textStorage, range: range)
     }
     
     override func keyDown(with event: NSEvent) {
@@ -429,7 +449,6 @@ class EditTextView: NSTextView {
             } else {
                 tab()
             }
-            super.keyDown(with: event)
             return
         }
         
@@ -451,7 +470,7 @@ class EditTextView: NSTextView {
             }
         } else {
             self.textStorage!.fixAttributes(in: paragraphRange)
-            NotesTextProcessor.applyMarkdownStyle(
+            NotesTextProcessor.scanMarkdownSyntax(
                 self.textStorage!,
                 string: note.content.string,
                 affectedRange: paragraphRange
@@ -498,96 +517,6 @@ class EditTextView: NSTextView {
         selectedRanges = selected
     }
     
-    public static let _codeBlockPattern = [
-        "(                        # $1 = the code block -- one or more lines, starting with a space",
-        "(?:",
-        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
-        "    .+(?:\\n+)",
-        ")+",
-        ")",
-        "((?=^\\p{Z}{0,4}|\\t[^ \\t\\n])) # Lookahead for non-space at line-start, or end of doc"
-        ].joined(separator: "\n")
-    
-    public static let _codeSpan = [
-        "(?<![\\\\`])   # Character before opening ` can't be a backslash or backtick",
-        "(`+)           # $1 = Opening run of `",
-        "(?!`)          # and no more backticks -- match the full run",
-        "(.+?)          # $2 = The code block",
-        "(?<!`)",
-        "\\1",
-        "(?!`)"
-        ].joined(separator: "\n")
-    
-    public static let _codeQuoteBlockPattern = [
-        "(```[a-z]*\\n[\\s\\S]*?\\n```)"
-    ].joined(separator: "\n")
-    
-    public static var languages: [String]? = nil
-    
-    public static func highlightCode(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options, highlightr: Highlightr) {
-        let range = NSMakeRange(0, content.length)
-        let regex = try! NSRegularExpression(pattern: pattern, options: options)
-        
-        regex.enumerateMatches(
-            in: content.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else {
-                    return
-                }
-                let string = (content.string as NSString)
-                
-                guard let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: r.range),
-                    codeBlockRange.upperBound <= content.length else {
-                    return
-                }
-                
-                let code = content.attributedSubstring(from: codeBlockRange)
-                let preDefinedLang = EditTextView.getLanguage(code.string)
-                
-                guard let highlightedCode = highlightr.highlight(code.string, as: preDefinedLang, fastRender: true) else {
-                    return
-                }
-                
-                if highlightedCode.string != content.attributedSubstring(from: codeBlockRange).string {
-                    return
-                }
-                
-                content.replaceCharacters(in: codeBlockRange, with: highlightedCode)
-                
-                let color = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-                if let codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-                    content.addAttributes([.font: codeFont], range: codeBlockRange)
-                    content.addAttributes([.backgroundColor: color], range: codeBlockRange)
-                }
-            }
-        )
-    }
-    
-    public static func getLanguage(_ code: String) -> String? {
-        if EditTextView.languages == nil {
-            EditTextView.languages = Highlightr()?.supportedLanguages()
-        }
-        
-        if code.starts(with: "```") {
-            if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
-                let newLineOffset = newLinePosition.lowerBound.encodedOffset
-                if newLineOffset > 3 {
-                    let start = code.index(code.startIndex, offsetBy: 3)
-                    let end = code.index(code.startIndex, offsetBy: newLineOffset)
-                    let range = start..<end
-                    
-                    if let lang = EditTextView.languages, lang.contains(String(code[range])) {
-                        return String(code[range])
-                    }
-                }
-            }
-        }
-        
-        return nil
-    }
-    
     @objc func tab(_ undoInfo: UndoInfo? = nil) {
         guard let storage = textStorage else {
             return
@@ -604,7 +533,7 @@ class EditTextView: NSTextView {
             return
         }
         
-        let code = storage.mutableString.substring(with: range)
+        let code = storage.attributedSubstring(from: range).string
         let lines = code.components(separatedBy: CharacterSet.newlines)
         
         var result: String = ""
@@ -614,23 +543,27 @@ class EditTextView: NSTextView {
                 result += "\t" + line
                 continue
             }
-    
             added = added + 1
             result += "\n\t" + line
         }
-
+        
         storage.replaceCharacters(in: range, with: result)
         
-        let newRange = NSRange(range.lowerBound..<range.upperBound + added)
+        let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
         let undoInfo = UndoInfo(text: result, replacementRange: newRange)
         undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
-        self.note?.save(storage)
+        
+        if let note = self.note {
+            note.save(storage)
+            note.content = NSMutableAttributedString(attributedString: self.attributedString())
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: true)
+        }
         
         setSelectedRange(newRange)
     }
     
     @objc func unTab(_ undoInfo: UndoInfo? = nil) {
-        guard let storage = textStorage else {
+        guard let storage = textStorage, let undo = undoManager else {
             return
         }
         
@@ -667,10 +600,15 @@ class EditTextView: NSTextView {
         let x = result.joined(separator: "\n")
         storage.replaceCharacters(in: range, with: x)
         
-        let newRange = NSRange(range.lowerBound..<range.upperBound - removed)
+        let newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
         let undoInfo = UndoInfo(text: x, replacementRange: newRange)
-        undoManager?.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
-        self.note?.save(storage)
+        undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
+        
+        if let note = self.note {
+            note.save(storage)
+            note.content = NSMutableAttributedString(attributedString: self.attributedString())
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: true)
+        }
         
         setSelectedRange(newRange)
     }
