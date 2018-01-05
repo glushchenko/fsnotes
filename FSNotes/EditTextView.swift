@@ -11,7 +11,7 @@ import Down
 import Highlightr
 
 class EditTextView: NSTextView {
-    var note: Note?
+    public static var note: Note?
     var isHighlighted: Bool = false
     
     class UndoInfo: NSObject {
@@ -94,7 +94,7 @@ class EditTextView: NSTextView {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
         
-        self.note = note
+        EditTextView.note = note
         
         subviews.removeAll()
         undoManager?.removeAllActions()
@@ -428,7 +428,7 @@ class EditTextView: NSTextView {
     override func paste(_ sender: Any?) {
         super.paste(sender)
         
-        guard let note = self.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) else {
+        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) else {
             return
         }
         
@@ -443,22 +443,32 @@ class EditTextView: NSTextView {
         let range = selectedRanges[0] as! NSRange
         
         // Tab/untab
-        if event.keyCode == 48, range.length > 0 {
+        if event.keyCode == 48 {
             if event.modifierFlags.rawValue == 131330 {
                 unTab()
-            } else {
-                tab()
+                return
             }
+            
+            if range.length > 0 {
+                tab()
+                return
+            }
+            
+            super.keyDown(with: event)
             return
         }
         
-        guard let note = self.note, note.isMarkdown() else {
+        guard let note = EditTextView.note, note.isMarkdown() else {
             super.keyDown(with: event)
             higlightLinks()
             return
         }
         
         super.keyDown(with: event)
+        
+        guard note.content.length > range.location + range.length else {
+            return
+        }
         
         let string = (note.content.string as NSString)
         let paragraphRange = string.paragraphRange(for: range)
@@ -469,7 +479,6 @@ class EditTextView: NSTextView {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: self.textStorage!, string: string, note: note)
             }
         } else {
-            self.textStorage!.fixAttributes(in: paragraphRange)
             NotesTextProcessor.scanMarkdownSyntax(
                 self.textStorage!,
                 string: note.content.string,
@@ -495,9 +504,9 @@ class EditTextView: NSTextView {
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 if let range = result?.range {
-                    //if !range.contains((self.selectedRanges.first?.rangeValue.location)!) {
-                    //    return
-                    //}
+                    guard storage.length > range.location + range.length else {
+                        return
+                    }
                     
                     var str = storage.mutableString.substring(with: range)
                     
@@ -553,10 +562,11 @@ class EditTextView: NSTextView {
         let undoInfo = UndoInfo(text: result, replacementRange: newRange)
         undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
         
-        if let note = self.note {
-            note.save(storage)
+        if let note = EditTextView.note {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: true)
+            let async = newRange.length > 1000
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
+            note.save(storage)
         }
         
         setSelectedRange(newRange)
@@ -567,6 +577,7 @@ class EditTextView: NSTextView {
             return
         }
         
+        var initialLocation = 0
         var range: NSRange
         if let undo = undoInfo {
             range = undo.replacementRange
@@ -574,11 +585,18 @@ class EditTextView: NSTextView {
             range = selectedRanges[0] as! NSRange
         }
         
-        guard storage.length >= range.upperBound, range.length > 0 else {
+        guard storage.length >= range.location + range.length else {
             return
         }
         
-        let code = storage.mutableString.substring(with: range)
+        var code = storage.mutableString.substring(with: range)
+        if range.length == 0 {
+            initialLocation = range.location
+            let string = storage.string as NSString
+            range = string.paragraphRange(for: range)
+            code = storage.attributedSubstring(from: range).string
+        }
+        
         let lines = code.components(separatedBy: CharacterSet.newlines)
         
         var result: [String] = []
@@ -600,14 +618,19 @@ class EditTextView: NSTextView {
         let x = result.joined(separator: "\n")
         storage.replaceCharacters(in: range, with: x)
         
-        let newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
+        var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
         let undoInfo = UndoInfo(text: x, replacementRange: newRange)
         undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
         
-        if let note = self.note {
-            note.save(storage)
+        if let note = EditTextView.note {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: true)
+            let async = newRange.length > 1000
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
+            note.save(storage)
+        }
+        
+        if initialLocation > 0 {
+            newRange = NSMakeRange(initialLocation - removed + 1, 0)
         }
         
         setSelectedRange(newRange)

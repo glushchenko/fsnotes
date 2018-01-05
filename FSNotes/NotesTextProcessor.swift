@@ -32,7 +32,7 @@ public class NotesTextProcessor {
     open static var hideSyntax = false
     
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
-        return (paragraph.starts(with: "\t") || paragraph.starts(with: "    "))
+        return (paragraph.starts(with: "\t") || paragraph.starts(with: "    ") || paragraph.starts(with: "```"))
     }
     
     public static func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
@@ -129,18 +129,24 @@ public class NotesTextProcessor {
             affectedRange = r
         }
         
+        let target = storage != nil ? storage! : note.content
+        
         self.scanMarkdownSyntax(
-            note.content,
-            string: note.content.string,
+            target,
+            string: target.string,
             affectedRange: affectedRange
         )
         
-        self.scanCodeBlock(content: note.content, pattern: self._codeBlockPattern, options: [
+        if let unwrappedStorage = storage {
+            note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length)))
+        }
+        
+        self.scanCodeBlock(content: target, pattern: self._codeBlockPattern, options: [
                 NSRegularExpression.Options.allowCommentsAndWhitespace,
                 NSRegularExpression.Options.anchorsMatchLines
             ], storage: storage, note: note, async: async)
         
-        self.scanCodeBlock(content: note.content, pattern: self._codeQuoteBlockPattern, options: [
+        self.scanCodeBlock(content: target, pattern: self._codeQuoteBlockPattern, options: [
                 NSRegularExpression.Options.allowCommentsAndWhitespace,
                 NSRegularExpression.Options.anchorsMatchLines
             ], storage: storage, note: note, async: async)
@@ -171,27 +177,40 @@ public class NotesTextProcessor {
             return
         }
         
-        storage?.beginEditing()
+        let isActiveStorage = (EditTextView.note == note)
+        
+        if isActiveStorage {
+            storage?.beginEditing()
+        }
+        
         code.enumerateAttributes(in: NSMakeRange(0, code.length), options: [], using: { (attrs, locRange, stop) in
             var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
             fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
             fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-            storage?.setAttributes(attrs, range: fixedRange)
+            
+            if isActiveStorage {
+                storage?.setAttributes(attrs, range: fixedRange)
+            }
+            
             note.content.setAttributes(attrs, range: fixedRange)
             if let font = NotesTextProcessor.codeFont {
-                storage?.addAttributes([.font: font], range: range)
+                if isActiveStorage {
+                    storage?.addAttributes([.font: font], range: range)
+                }
                 note.content.addAttributes([.font: font], range: range)
             }
         })
-        storage?.endEditing()
-        storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         
-        storage?.addAttributes([
-            .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-            ], range: range)
-        
+        if isActiveStorage {
+            storage?.endEditing()
+            storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+            storage?.addAttributes([
+                .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                ], range: range)
+        }
+
         note.content.addAttributes([
-            .backgroundColor: NotesTextProcessor.codeBackground
+                .backgroundColor: NotesTextProcessor.codeBackground
             ], range: range)
     }
     
@@ -301,6 +320,13 @@ public class NotesTextProcessor {
             
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
+        
+
+        // Reset highlightr
+        
+        styleApplier.removeAttribute(.foregroundColor, range: paragraphRange)
+        styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
+        styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
         
         // We detect and process underlined headers
         NotesTextProcessor.headersSetextRegex.matches(string, range: wholeRange) { (result) -> Void in
