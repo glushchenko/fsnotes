@@ -80,21 +80,6 @@ public class NotesTextProcessor {
         return NSRange(start..<end)
     }
     
-    
-    public static func scanBackQuoteEnd(string: NSString, location: Int) -> Int {
-        guard location < string.length else {
-            return location - 1
-        }
-        
-        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
-        let substring = string.substring(with: range)
-        if substring.starts(with: "```") {
-            return location + 3
-        }
-        
-        return NotesTextProcessor.scanBackQuoteEnd(string: string, location: range.upperBound + 1)
-    }
-    
     public static var j = 0
     public static func scanPrevParagraph(string: NSString, location: Int) -> Int? {
         NotesTextProcessor.j = NotesTextProcessor.j + 1
@@ -131,7 +116,7 @@ public class NotesTextProcessor {
             return NotesTextProcessor.scanNextParagraph(string: string, location: range.upperBound + 1)
         }
         
-        return location - 1
+        return location - 2
     }
     
     public static var hl: Highlightr? = nil
