@@ -32,19 +32,47 @@ public class NotesTextProcessor {
     open static var hideSyntax = false
     
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
-        return (paragraph.starts(with: "\t") || paragraph.starts(with: "    ") || paragraph.starts(with: "```"))
-    }
-    
-    public static func findCodeBlockRange(string: NSString, lineRange: NSRange) -> NSRange? {
-        let firstParagraphRange = string.paragraphRange(for: NSRange(location: lineRange.location, length: 0))
-        
-        if string.substring(with: firstParagraphRange).starts(with: "```") {
-            let fencedBlockEnd = NotesTextProcessor.scanBackQuoteEnd(string: string, location: firstParagraphRange.upperBound + 1)
-            return NSRange(lineRange.location..<fencedBlockEnd)
+        if (paragraph.starts(with: "\t") || paragraph.starts(with: "    ")) {
+            return true
         }
         
-        let start = NotesTextProcessor.scanPrevParagraph(string: string, location: firstParagraphRange.lowerBound - 1)!
-        let end = NotesTextProcessor.scanNextParagraph(string: string, location: firstParagraphRange.upperBound + 1)!
+        return false
+    }
+    
+    public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: NSString) -> NSRange? {
+        let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeQuoteBlockPattern, options: [
+            NSRegularExpression.Options.allowCommentsAndWhitespace,
+            NSRegularExpression.Options.anchorsMatchLines
+            ])
+        
+        var foundRange: NSRange? = nil
+        regex.enumerateMatches(
+            in: string as String,
+            options: NSRegularExpression.MatchingOptions(),
+            range: NSRange(0..<string.length),
+            using: { (result, matchingFlags, stop) -> Void in
+                guard let r = result else {
+                    return
+                }
+                
+                if r.range.upperBound >= paragraphRange.location && r.range.lowerBound <= paragraphRange.location {
+                    foundRange = r.range
+                    stop.pointee = true
+                }
+            }
+        )
+        
+        return foundRange
+    }
+    
+    public static func getCodeBlockRange(paragraphRange: NSRange, string: NSString) -> NSRange? {
+        let paragraph = string.substring(with: paragraphRange)
+        guard isCodeBlockParagraph(paragraph) else {
+            return nil
+        }
+        
+        let start = NotesTextProcessor.scanPrevParagraph(string: string, location: paragraphRange.lowerBound - 1)!
+        let end = NotesTextProcessor.scanNextParagraph(string: string, location: paragraphRange.upperBound + 1)!
         
         NotesTextProcessor.i = 0
         NotesTextProcessor.j = 0
@@ -141,12 +169,12 @@ public class NotesTextProcessor {
             note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length)))
         }
         
-        self.scanCodeBlock(content: target, pattern: self._codeBlockPattern, options: [
+        self.scanCodeBlock(pattern: self._codeBlockPattern, options: [
                 NSRegularExpression.Options.allowCommentsAndWhitespace,
                 NSRegularExpression.Options.anchorsMatchLines
             ], storage: storage, note: note, async: async)
         
-        self.scanCodeBlock(content: target, pattern: self._codeQuoteBlockPattern, options: [
+        self.scanCodeBlock(pattern: self._codeQuoteBlockPattern, options: [
                 NSRegularExpression.Options.allowCommentsAndWhitespace,
                 NSRegularExpression.Options.anchorsMatchLines
             ], storage: storage, note: note, async: async)
@@ -214,12 +242,13 @@ public class NotesTextProcessor {
             ], range: range)
     }
     
-    public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true, language: String? = nil) {
+    public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true) {
         let codeRange = string.substring(with: range)
-
+        let preDefinedLanguage = self.getLanguage(codeRange)
+        
         if async {
             DispatchQueue.global().async {
-                if let code = self.highlight(codeRange, language: language) {
+                if let code = self.highlight(codeRange, language: preDefinedLanguage) {
                     DispatchQueue.main.async(execute: {
                         NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
                     })
@@ -229,7 +258,7 @@ public class NotesTextProcessor {
             return
         }
             
-        if let code = NotesTextProcessor.highlight(codeRange, language: language) {
+        if let code = NotesTextProcessor.highlight(codeRange, language: preDefinedLanguage) {
             NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
         }
     }
@@ -242,7 +271,8 @@ public class NotesTextProcessor {
     
     public static var languages: [String]? = nil
     
-    public static func scanCodeBlock(content: NSMutableAttributedString, pattern: String, options: NSRegularExpression.Options, storage: NSTextStorage?, note: Note, async: Bool = false) {
+    public static func scanCodeBlock(pattern: String, options: NSRegularExpression.Options, storage: NSTextStorage?, note: Note, async: Bool = false) {
+        let content = storage != nil ? storage! : note.content
         let range = NSMakeRange(0, content.length)
         let regex = try! NSRegularExpression(pattern: pattern, options: options)
         
@@ -255,25 +285,29 @@ public class NotesTextProcessor {
                     return
                 }
                 let string = (content.string as NSString)
+                let paragraphRange = string.paragraphRange(for: r.range)
+                var foundRange: NSRange?
                 
-                guard let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: r.range),
-                    codeBlockRange.upperBound <= content.length else {
-                        return
+                if pattern == self._codeBlockPattern {
+                    if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
+                        codeBlockRange.upperBound <= content.length {
+                        foundRange = codeBlockRange
+                    }
+                } else {
+                    if let fencedCodeBlockRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string),
+                        fencedCodeBlockRange.upperBound <= content.length {
+                        foundRange = fencedCodeBlockRange
+                    }
                 }
                 
-                let code = content.attributedSubstring(from: codeBlockRange)
-                let preDefinedLang = self.getLanguage(code.string)
-                
-                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async, language: preDefinedLang)
+                if let fr = foundRange {
+                    NotesTextProcessor.highlightCode(range: fr, storage: storage, string: string, note: note, async: async)
+                }
             }
         )
     }
     
     public static func getLanguage(_ code: String) -> String? {
-        if self.languages == nil {
-            self.languages = self.getHighlighter()?.supportedLanguages()
-        }
-        
         if code.starts(with: "```") {
             if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
                 let newLineOffset = newLinePosition.lowerBound.encodedOffset
@@ -281,6 +315,10 @@ public class NotesTextProcessor {
                     let start = code.index(code.startIndex, offsetBy: 3)
                     let end = code.index(code.startIndex, offsetBy: newLineOffset)
                     let range = start..<end
+                    
+                    if self.languages == nil {
+                        self.languages = self.getHighlighter()?.supportedLanguages()
+                    }
                     
                     if let lang = self.languages, lang.contains(String(code[range])) {
                         return String(code[range])

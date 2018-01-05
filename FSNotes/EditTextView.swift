@@ -247,7 +247,7 @@ class EditTextView: NSTextView {
         var attributedText = NSMutableAttributedString()
         
         if (attributedSelected == nil) {
-            attributedText.addAttributes([.font: UserDefaultsManagement.noteFont], range: NSMakeRange(0, selectedText.length))
+           attributedText.addAttributes([.font: UserDefaultsManagement.noteFont], range: NSMakeRange(0, selectedText.length))
         } else {
             attributedText = NSMutableAttributedString(attributedString: attributedSelected!)
         }
@@ -466,25 +466,31 @@ class EditTextView: NSTextView {
         
         super.keyDown(with: event)
         
-        guard note.content.length > range.location + range.length else {
+        guard let storage = self.textStorage, note.content.length > range.location + range.length else {
             return
         }
         
         let string = (note.content.string as NSString)
         let paragraphRange = string.paragraphRange(for: range)
+        let stringTT = storage.string as NSString
         
-        if NotesTextProcessor.isCodeBlockParagraph(string.substring(with: paragraphRange)) &&
-            UserDefaultsManagement.codeBlockHighlight {
-            if let codeBlockRange = NotesTextProcessor.findCodeBlockRange(string: string, lineRange: range) {
-                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: self.textStorage!, string: string, note: note)
+        if UserDefaultsManagement.codeBlockHighlight {
+            if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: stringTT) {
+                NotesTextProcessor.highlightCode(range: fencedRange, storage: self.textStorage!, string: string, note: note)
+                return
             }
-        } else {
-            NotesTextProcessor.scanMarkdownSyntax(
-                self.textStorage!,
-                string: note.content.string,
-                affectedRange: paragraphRange
-            )
+            
+            if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
+                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: self.textStorage!, string: string, note: note)
+                return
+            }
         }
+        
+        NotesTextProcessor.scanMarkdownSyntax(
+            storage,
+            string: note.content.string,
+            affectedRange: paragraphRange
+        )
     }
 
     func higlightLinks() {
