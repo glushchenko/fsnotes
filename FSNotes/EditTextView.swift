@@ -27,6 +27,10 @@ class EditTextView: NSTextView {
     var downView: MarkdownView?
     let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
+    override func drawBackground(in rect: NSRect) {
+        backgroundColor = UserDefaultsManagement.bgColor
+        super.drawBackground(in: rect)
+    }
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
@@ -127,6 +131,10 @@ class EditTextView: NSTextView {
         
         if highlight {
             highlightKeyword()
+        }
+
+        if !note.isMarkdown() {
+            textColor = UserDefaultsManagement.fontColor
         }
     }
     
@@ -641,4 +649,11 @@ class EditTextView: NSTextView {
         
         setSelectedRange(newRange)
     }
+    
+    func setTextColor(_ color: NSColor) {
+        if let note = EditTextView.note, !note.isMarkdown() {
+            textColor = color
+        }
+    }
+    
 }

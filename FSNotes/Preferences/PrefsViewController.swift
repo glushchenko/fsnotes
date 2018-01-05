@@ -184,6 +184,16 @@ class PrefsViewController: NSViewController {
         fontPanelOpen = true
     }
     
+    @IBAction func setFontColor(_ sender: NSColorWell) {
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.editArea.setTextColor(sender.color)
+    }
+    
+    @IBAction func setBgColor(_ sender: NSColorWell) {
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.editArea.backgroundColor = sender.color
+    }
+    
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
         controller?.setTableRowHeight()
     }
