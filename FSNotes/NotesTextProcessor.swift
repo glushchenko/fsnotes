@@ -209,16 +209,16 @@ public class NotesTextProcessor {
                 }
                 
                 note.content.setAttributes(attrs, range: fixedRange)
-                
-                if let font = NotesTextProcessor.codeFont {
-                    if isActiveStorage {
-                        storage?.addAttributes([.font: font], range: range)
-                    }
-
-                    note.content.addAttributes([.font: font], range: range)
-                }
             }
         )
+        
+        if let font = NotesTextProcessor.codeFont {
+            if isActiveStorage {
+                storage?.addAttributes([.font: font], range: range)
+            }
+            
+            note.content.addAttributes([.font: font], range: range)
+        }
         
         if isActiveStorage {
             storage?.endEditing()
