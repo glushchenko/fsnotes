@@ -15,6 +15,7 @@ FSNotes features:
 - synchronization over iCloud Drive / Dropbox / CloudKit (for MAS version)
 - multi folder storage
 - fast copy markdown code to clipboard
+- live markdown highligting with code blocks (over 170 languages)
 
 Markdown files default directory:
 
