@@ -37,6 +37,7 @@ public class UserDefaultsManagement {
         static let HidePreviewKey = "hidePreview"
         static let SortBy = "sortBy"
         static let codeBlockHighlight = "codeBlockHighlight"
+        static let codeTheme = "codeTheme"
     }
         
     static var fontName: String {
@@ -385,10 +386,22 @@ public class UserDefaultsManagement {
             if let highlight = UserDefaults.standard.object(forKey: Constants.codeBlockHighlight) {
                 return highlight as! Bool
             }
-            return false
+            return true
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
+        }
+    }
+    
+    static var codeTheme: String {
+        get {
+            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
+                return theme as! String
+            }
+            return "atom-one-light"
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
         }
     }
     

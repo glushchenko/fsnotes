@@ -369,4 +369,12 @@ public class Note: NSManagedObject {
     func getTitleWithoutLabel() -> String {
         return url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
     }
+    
+    func markdownCache() {
+        guard UserDefaultsManagement.codeBlockHighlight else {
+            return
+        }
+        
+        NotesTextProcessor.fullScan(note: self, async: false)
+    }
 }

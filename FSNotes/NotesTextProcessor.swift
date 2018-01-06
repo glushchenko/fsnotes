@@ -130,7 +130,7 @@ public class NotesTextProcessor {
             return nil
         }
         
-        highlightr.setTheme(to: "github")
+        highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
         self.hl = highlightr
         
         return self.hl
@@ -196,23 +196,29 @@ public class NotesTextProcessor {
             storage?.beginEditing()
         }
         
-        code.enumerateAttributes(in: NSMakeRange(0, code.length), options: [], using: { (attrs, locRange, stop) in
-            var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-            fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
-            fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-            
-            if isActiveStorage {
-                storage?.setAttributes(attrs, range: fixedRange)
-            }
-            
-            note.content.setAttributes(attrs, range: fixedRange)
-            if let font = NotesTextProcessor.codeFont {
+        code.enumerateAttributes(
+            in: NSMakeRange(0, code.length),
+            options: [],
+            using: { (attrs, locRange, stop) in
+                var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
+                fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
+                fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
+                
                 if isActiveStorage {
-                    storage?.addAttributes([.font: font], range: range)
+                    storage?.setAttributes(attrs, range: fixedRange)
                 }
-                note.content.addAttributes([.font: font], range: range)
+                
+                note.content.setAttributes(attrs, range: fixedRange)
+                
+                if let font = NotesTextProcessor.codeFont {
+                    if isActiveStorage {
+                        storage?.addAttributes([.font: font], range: range)
+                    }
+
+                    note.content.addAttributes([.font: font], range: range)
+                }
             }
-        })
+        )
         
         if isActiveStorage {
             storage?.endEditing()
@@ -223,8 +229,8 @@ public class NotesTextProcessor {
         }
 
         note.content.addAttributes([
-                .backgroundColor: NotesTextProcessor.codeBackground
-            ], range: range)
+                    .backgroundColor: NotesTextProcessor.codeBackground
+                ], range: range)
     }
     
     public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true) {

@@ -650,7 +650,7 @@ class EditTextView: NSTextView {
         setSelectedRange(newRange)
     }
     
-    func setTextColor(_ color: NSColor) {
+    func setEditorTextColor(_ color: NSColor) {
         if let note = EditTextView.note, !note.isMarkdown() {
             textColor = color
         }

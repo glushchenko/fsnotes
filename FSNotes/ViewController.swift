@@ -214,6 +214,7 @@ class ViewController: NSViewController,
             if event.modified {
                 let wrappedNote = Storage.instance.getBy(url: url)
                 if let note = wrappedNote, note.reload() {
+                    note.markdownCache()
                     self.refillEditArea()
                 }
                 return
@@ -242,6 +243,7 @@ class ViewController: NSViewController,
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         note.load(url)
         note.loadModifiedLocalAt()
+        note.markdownCache()
         CoreDataManager.instance.save()
         Storage.instance.add(note)
         

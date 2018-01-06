@@ -29,6 +29,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var syncedTotal: NSTextField!
     @IBOutlet weak var syncProgress: NSProgressIndicator!
     @IBOutlet weak var codeBlockHighlight: NSButtonCell!
+    @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
+    
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -65,6 +67,8 @@ class PrefsViewController: NSViewController {
         
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
+        markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
+        
         #if CLOUDKIT
             checkCloudStatus()
         #else
@@ -77,14 +81,12 @@ class PrefsViewController: NSViewController {
         storageTableView.reloadData()
         
         NotificationsController.syncProgress()
-        
-        
     }
     
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
         
-        viewController.refillEditArea()
+        restart()
     }
     
     @IBAction func fileExtensionAction(_ sender: NSTextField) {
@@ -186,7 +188,7 @@ class PrefsViewController: NSViewController {
     
     @IBAction func setFontColor(_ sender: NSColorWell) {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        controller?.editArea.setTextColor(sender.color)
+        controller?.editArea.setEditorTextColor(sender.color)
     }
     
     @IBAction func setBgColor(_ sender: NSColorWell) {
@@ -336,6 +338,14 @@ class PrefsViewController: NSViewController {
         syncedTotal.isHidden = true
         syncProgress.isHidden = false
         syncProgress.startAnimation("sync")
+    }
+    
+    @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else {
+            return
+        }
+        
+        UserDefaultsManagement.codeTheme = item.title
     }
     
     @objc func onFinishSync(notification: Notification) {

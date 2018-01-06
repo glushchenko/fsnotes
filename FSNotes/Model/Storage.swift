@@ -29,10 +29,12 @@ class Storage {
             loadLabel(item)
         }
 
-        initFirstRun()
-        
         if let list = sortNotes(noteList: noteList) {
             noteList = list
+        }
+        
+        guard !checkFirstRun() else {
+            return
         }
         
         guard UserDefaultsManagement.codeBlockHighlight else {
@@ -164,10 +166,11 @@ class Storage {
         return noteList.count
     }
     
-    func initFirstRun() {
-        var destination = Storage.instance.getGeneralURL()
+    func checkFirstRun() -> Bool {
+        let destination = Storage.instance.getGeneralURL()
+        let path = destination.path
         
-        if !FileManager.default.fileExists(atPath: destination.path) {
+        if !FileManager.default.fileExists(atPath: path) {
             do {
                 try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
             } catch {
@@ -176,17 +179,23 @@ class Storage {
         }
         
         guard noteList.isEmpty else {
-            return
+            return false
         }
         
-        let initialDoc = Bundle.main.url(forResource: "Hello world", withExtension: "md")
-        destination.appendPathComponent("Hello world.md")
-
+        let srcHello = Bundle.main.url(forResource: "Hello world", withExtension: "md")
+        let srcCode = Bundle.main.url(forResource: "Code highlighting sample", withExtension: "md")
+        
+        let dstHello = URL(fileURLWithPath: path + "/Hello world.md")
+        let dstCode = URL(fileURLWithPath: path + "/Code highlighting sample.md")
+        
         do {
-            try FileManager.default.copyItem(at: initialDoc!, to: destination)            
+            try FileManager.default.copyItem(at: srcHello!, to: dstHello)
+            try FileManager.default.copyItem(at: srcCode!, to: dstCode)
         } catch {
             print("Initial copy error: \(error)")
         }
+        
+        return true
     }
     
     func getOrCreate(name: String) -> Note {
@@ -266,7 +275,7 @@ class Storage {
             }
             
             for note in markdownDocuments {
-                NotesTextProcessor.fullScan(note: note, async: false)
+                note.markdownCache()
             }
         }
     }
