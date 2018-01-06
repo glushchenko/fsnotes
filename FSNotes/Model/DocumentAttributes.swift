@@ -10,10 +10,10 @@ import Foundation
 import Cocoa
 
 class DocumentAttributes {
-    static func getKey(fileExtension: String) -> [NSAttributedString.DocumentAttributeKey : Any] {
+    static func getKey(type: NoteType) -> [NSAttributedString.DocumentAttributeKey : Any] {
         var options: [NSAttributedString.DocumentAttributeKey : Any]
         
-        if (fileExtension == "rtf") {
+        if (type == .RichText) {
             options = [
                 .documentType : NSAttributedString.DocumentType.rtf
             ]
@@ -27,8 +27,8 @@ class DocumentAttributes {
         return options
     }
     
-    static func getReadingOptionKey(fileExtension: String) -> [NSAttributedString.DocumentReadingOptionKey : Any] {
-        if (fileExtension == "rtf") {
+    static func getReadingOptionKey(type: NoteType) -> [NSAttributedString.DocumentReadingOptionKey : Any] {
+        if (type == .RichText) {
             return [.documentType : NSAttributedString.DocumentType.rtf]
         }
     

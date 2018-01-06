@@ -193,14 +193,11 @@ class EditTextView: NSTextView {
     }
     
     func save(note: Note) -> Bool {
-        let fileUrl = note.url
-        let fileExtension = fileUrl?.pathExtension
-        
         do {
             let range = NSRange(location: 0, length: (textStorage?.string.count)!)
-            let documentAttributes = DocumentAttributes.getKey(fileExtension: fileExtension!)
+            let documentAttributes = DocumentAttributes.getKey(type: note.type)
             let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-            try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)            
+            try text?.write(to: note.url!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             return true
         } catch let error {
             NSLog(error.localizedDescription)
@@ -224,7 +221,7 @@ class EditTextView: NSTextView {
         var attributedString = NSAttributedString()
         
         do {
-            let options = DocumentAttributes.getReadingOptionKey(fileExtension: fileExtension!)
+            let options = DocumentAttributes.getReadingOptionKey(type: note.type)
             attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
         } catch {
             attributedString = NSAttributedString(string: "", attributes: [.font: UserDefaultsManagement.noteFont])

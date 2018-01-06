@@ -13,7 +13,7 @@ import Cocoa
 
 @objc(Note)
 public class Note: NSManagedObject {
-    var type: String = UserDefaultsManagement.storageExtension
+    var type: NoteType = .Markdown
     var url: URL!
     @objc var title: String = ""
     var content: NSMutableAttributedString = NSMutableAttributedString()
@@ -24,17 +24,52 @@ public class Note: NSManagedObject {
         
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
-        extractUrl()
+        parseURL()
     }
     
     func load(_ newUrl: URL) {
         url = newUrl
-        extractUrl()
+        type = NoteType.withExt(rawValue: url.pathExtension)
+        parseURL()
         
-        if let attributedString = getContent(url: url) {
+        if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
     }
+    
+    func initWith(url: URL, fileName: String) {
+        storage = CoreDataManager.instance.fetchGeneralStorage()
+        
+        self.url = Storage.instance.getBaseURL().appendingPathComponent(fileName)
+        parseURL()
+        
+        let options = getDocOptions()
+        
+        do {
+            self.content = try NSMutableAttributedString(url: url, options: options, documentAttributes: nil)
+            markdownCache()
+        } catch {
+            print("Document \"\(fileName)\" not loaded. Error: \(error)")
+        }
+    }
+    
+    func initialize(string: String, type: NoteType) {
+        do {
+            let attributes = DocumentAttributes.getKey(type: type)
+            //Data(contentsOf: <#T##URL#>)
+            //content = NSAttributedString(
+            
+            //return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    //func initAttributed(content: String) {
+    //    if let attributedString = getContent() {
+    //        content = NSMutableAttributedString(attributedString: attributedString)
+    //    }
+    //}
     
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
@@ -46,7 +81,7 @@ public class Note: NSManagedObject {
         }
                 
         if (modifiedAt != prevModifiedAt) {
-            if let attributedString = getContent(url: url) {
+            if let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
             
@@ -83,16 +118,16 @@ public class Note: NSManagedObject {
     
         let fileManager = FileManager.default
         var newUrl = url.deletingLastPathComponent()
-        newUrl.appendPathComponent(escapedName + "." + type)
+        newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
             url = newUrl
-            extractUrl()
+            parseURL()
             CoreDataManager.instance.save()
             return true
         } catch {
-            extractUrl()
+            parseURL()
             return false
         }
     }
@@ -156,17 +191,9 @@ public class Note: NSManagedObject {
         return dateFormatter.string(from: self.modifiedLocalAt!)
     }
     
-    func getContent(url: URL) -> NSAttributedString? {
+    func getContent() -> NSAttributedString? {
         do {
-            if type != "rtf" {
-                return try NSAttributedString(string: String(contentsOf: url))
-            }
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-        
-        do {
-            let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
+            let attributes = DocumentAttributes.getReadingOptionKey(type: type)
             return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
@@ -203,9 +230,9 @@ public class Note: NSManagedObject {
             name = defaultName
         }
     
-        var fileUrl = Storage.instance.getGeneralURL()
+        var fileUrl = Storage.instance.getBaseURL()
         fileUrl.appendPathComponent(name)
-        fileUrl.appendPathExtension(type)
+        fileUrl.appendPathExtension(type.rawValue)
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {
@@ -218,11 +245,11 @@ public class Note: NSManagedObject {
     }
     
     func isRTF() -> Bool {
-        return (url.pathExtension == "rtf")
+        return (type == .RichText)
     }
     
     func isMarkdown() -> Bool {
-        return ["md", "markdown", "mkd"].contains(url.pathExtension)
+        return (type == .Markdown)
     }
     
     func addPin() {
@@ -285,10 +312,10 @@ public class Note: NSManagedObject {
         return cleanMetaData(content: content)
     }
     
-    func extractUrl() {
+    func parseURL() {
         if (url.pathComponents.count > 0) {
-            type = url.pathExtension
             name = url.pathComponents.last!
+            type = .withExt(rawValue: url.pathExtension)
             
             var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
             
@@ -318,7 +345,7 @@ public class Note: NSManagedObject {
        
         do {
             let range = NSRange(location: 0, length: textStorage.length)
-            let documentAttributes = DocumentAttributes.getKey(fileExtension: type)
+            let documentAttributes = DocumentAttributes.getKey(type: type)
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {
@@ -371,10 +398,21 @@ public class Note: NSManagedObject {
     }
     
     func markdownCache() {
-        guard UserDefaultsManagement.codeBlockHighlight else {
+        guard isMarkdown() && UserDefaultsManagement.codeBlockHighlight else {
             return
         }
         
         NotesTextProcessor.fullScan(note: self, async: false)
+    }
+    
+    func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
+        if type == .RichText {
+            return [.documentType : NSAttributedString.DocumentType.rtf]
+        }
+        
+        return [
+            .documentType : NSAttributedString.DocumentType.plain,
+            .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+        ]
     }
 }
