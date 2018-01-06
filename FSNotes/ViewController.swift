@@ -26,7 +26,6 @@ class ViewController: NSViewController,
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.instance
-    private var timer: Timer?
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -56,6 +55,7 @@ class ViewController: NSViewController,
         }
         
         setTableRowHeight()
+        
         super.viewDidAppear()
     }
     
@@ -79,7 +79,7 @@ class ViewController: NSViewController,
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
-            updateTable(filter: "")
+            updateTable(filter: "") {}
         }
         
         let font = UserDefaultsManagement.noteFont
@@ -214,6 +214,7 @@ class ViewController: NSViewController,
             if event.modified {
                 let wrappedNote = Storage.instance.getBy(url: url)
                 if let note = wrappedNote, note.reload() {
+                    note.markdownCache()
                     self.refillEditArea()
                 }
                 return
@@ -242,6 +243,7 @@ class ViewController: NSViewController,
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         note.load(url)
         note.loadModifiedLocalAt()
+        note.markdownCache()
         CoreDataManager.instance.save()
         Storage.instance.add(note)
         
@@ -261,13 +263,12 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable(filter: search.stringValue)
-        notesTable.reloadData()
-        
-        if let selected = selectedNote, let index = notesTable.getIndex(selected) {
-            notesTable.selectRowIndexes([index], byExtendingSelection: false)
-            if selected == note {
-                self.refillEditArea(cursor: cursor)
+        self.updateTable(filter: search.stringValue) {
+            if let selected = selectedNote, let index = notesTable.getIndex(selected) {
+                notesTable.selectRowIndexes([index], byExtendingSelection: false)
+                if selected == note {
+                    self.refillEditArea(cursor: cursor)
+                }
             }
         }
     }
@@ -457,7 +458,7 @@ class ViewController: NSViewController,
         ) {
             editArea.removeHighlight()
             let note = notesTableView.noteList[selected]
-            note.content = editArea.string
+            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save(editArea.textStorage!, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
@@ -472,13 +473,13 @@ class ViewController: NSViewController,
         
         filterQueue.cancelAllOperations()
         filterQueue.addOperation {
-            self.updateTable(filter: value, search: true)
+            self.updateTable(filter: value, search: true) {}
         }
     }
     
     var filterQueue = OperationQueue.init()
 
-    func updateTable(filter: String, search: Bool = false) {
+    func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
         if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
         }
@@ -494,7 +495,7 @@ class ViewController: NSViewController,
         
         filteredNoteList =
             source.filter() {
-                let searchContent = "\($0.name) \($0.content)"
+                let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
                     && $0.isRemoved == false
@@ -520,6 +521,8 @@ class ViewController: NSViewController,
                     self.editArea.clear()
                 }
             }
+            
+            completion()
         }
         
         prevQuery = filter
@@ -559,7 +562,7 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         search.stringValue = ""
         editArea.clear()
-        updateTable(filter: "")
+        updateTable(filter: "") {}
     }
     
     func makeNoteShortcut() {
@@ -593,30 +596,30 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "", type: String? = nil) {
+    func createNote(name: String = "", content: String = "", type: String = UserDefaultsManagement.storageExtension) {
         disablePreview()
         editArea.string = content
         
         let note = CoreDataManager.instance.make()
-        note.type = (type != nil) ? type! : UserDefaultsManagement.storageExtension
         
+        note.type = type
         note.make(newName: name)
-        note.content = content
+        note.content = NSMutableAttributedString(string: content)
         note.isSynced = false
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         
-        let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
+        let textStorage = NSTextStorage(attributedString: note.content)
         note.save(textStorage, userInitiated: true)
         
-        updateTable(filter: "")
-        
-        if let index = notesTableView.getIndex(note) {
-            notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            notesTableView.scrollRowToVisible(index)
+        updateTable(filter: "") {
+            if let index = self.notesTableView.getIndex(note) {
+                self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+                self.notesTableView.scrollRowToVisible(index)
+            }
+            
+            self.focusEditArea()
+            self.search.stringValue.removeAll()
         }
-        
-        focusEditArea()
-        search.stringValue.removeAll()
     }
     
     func pin(_ selectedRows: IndexSet) {
@@ -641,7 +644,7 @@ class ViewController: NSViewController,
         }
         
         if selectedRows.count > 1 {
-            updateTable(filter: "")
+            updateTable(filter: "") {}
         }
     }
         
@@ -689,7 +692,7 @@ class ViewController: NSViewController,
                     return
                 }
                 
-                self.updateTable(filter: "")
+                self.updateTable(filter: "") {}
             }
         }
     }
@@ -741,7 +744,7 @@ class ViewController: NSViewController,
     
     func reloadStorage() {
         storage.loadDocuments()
-        updateTable(filter: "")
+        updateTable(filter: "") {}
     }
     
     func loadMoveMenu() {
@@ -788,11 +791,11 @@ class ViewController: NSViewController,
     
     func updateTableAndSelectNextRow(_ nextRow: Int) {
         editArea.string = ""
-        updateTable(filter: "")
-        
-        if (storage.noteList.indices.contains(nextRow)) {
-            notesTableView.selectRowIndexes([nextRow], byExtendingSelection: false)
-            notesTableView.scrollRowToVisible(nextRow)
+        updateTable(filter: "") {
+            if (self.storage.noteList.indices.contains(nextRow)) {
+                self.notesTableView.selectRowIndexes([nextRow], byExtendingSelection: false)
+                self.notesTableView.scrollRowToVisible(nextRow)
+            }
         }
     }
     

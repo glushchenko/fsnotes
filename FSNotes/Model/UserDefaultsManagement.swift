@@ -11,12 +11,16 @@ import Cocoa
 import MASShortcut
 
 public class UserDefaultsManagement {
-    static var DefaultFont = "Helvetica Neue"
+    static var DefaultFont = "Helvetica"
     static var DefaultFontSize = 13
+    static var DefaultFontColor = NSColor.black
+    static var DefaultBgColor = NSColor.white
 
     private struct Constants {
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
+        static let FontColorKey = "fontcolor"
+        static let BgColorKey = "bgcolor"
         static let TableOrientation = "isUseHorizontalMode"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
@@ -33,6 +37,7 @@ public class UserDefaultsManagement {
         static let HidePreviewKey = "hidePreview"
         static let SortBy = "sortBy"
         static let codeBlockHighlight = "codeBlockHighlight"
+        static let codeTheme = "codeTheme"
     }
         
     static var fontName: String {
@@ -70,6 +75,34 @@ public class UserDefaultsManagement {
             
             self.fontName = newValue.fontName
             self.fontSize = Int(newValue.pointSize)
+        }
+    }
+    
+    static var fontColor: NSColor {
+        get {
+            if let returnFontColor = UserDefaults.standard.object(forKey: Constants.FontColorKey) {
+                return NSUnarchiver.unarchiveObject(with: returnFontColor as! Data) as! NSColor
+            } else {
+                return self.DefaultFontColor
+            }
+        }
+        set {
+            let data = NSArchiver.archivedData(withRootObject: newValue)
+            UserDefaults.standard.set(data, forKey: Constants.FontColorKey)
+        }
+    }
+
+    static var bgColor: NSColor {
+        get {
+            if let returnBgColor = UserDefaults.standard.object(forKey: Constants.BgColorKey) {
+                return NSUnarchiver.unarchiveObject(with: returnBgColor as! Data) as! NSColor
+            } else {
+                return self.DefaultBgColor
+            }
+        }
+        set {
+            let data = NSArchiver.archivedData(withRootObject: newValue)
+            UserDefaults.standard.set(data, forKey: Constants.BgColorKey)
         }
     }
     
@@ -353,10 +386,22 @@ public class UserDefaultsManagement {
             if let highlight = UserDefaults.standard.object(forKey: Constants.codeBlockHighlight) {
                 return highlight as! Bool
             }
-            return false
+            return true
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
+        }
+    }
+    
+    static var codeTheme: String {
+        get {
+            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
+                return theme as! String
+            }
+            return "atom-one-light"
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
         }
     }
     

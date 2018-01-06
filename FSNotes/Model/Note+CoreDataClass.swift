@@ -9,13 +9,14 @@
 
 import Foundation
 import CoreData
+import Cocoa
 
 @objc(Note)
 public class Note: NSManagedObject {
     var type: String = UserDefaultsManagement.storageExtension
     var url: URL!
     @objc var title: String = ""
-    var content: String = ""
+    var content: NSMutableAttributedString = NSMutableAttributedString()
     
     var syncSkipDate: Date?
     var syncDate: Date?
@@ -29,7 +30,10 @@ public class Note: NSManagedObject {
     func load(_ newUrl: URL) {
         url = newUrl
         extractUrl()
-        content = getContent(url: url)
+        
+        if let attributedString = getContent(url: url) {
+            content = NSMutableAttributedString(attributedString: attributedString)
+        }
     }
     
     func reload() -> Bool {
@@ -42,7 +46,10 @@ public class Note: NSManagedObject {
         }
                 
         if (modifiedAt != prevModifiedAt) {
-            content = getContent(url: url)
+            if let attributedString = getContent(url: url) {
+                content = NSMutableAttributedString(attributedString: attributedString)
+            }
+            
             loadModifiedLocalAt()
             return true
         }
@@ -119,6 +126,7 @@ public class Note: NSManagedObject {
     
     @objc func getPreviewForLabel() -> String {
         var preview: String = ""
+        let content = self.content.string
         
         if content.count > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
@@ -148,27 +156,23 @@ public class Note: NSManagedObject {
         return dateFormatter.string(from: self.modifiedLocalAt!)
     }
     
-    func getContent(url: URL) -> String {
-        var content: String = ""
-        let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
-        
+    func getContent(url: URL) -> NSAttributedString? {
         do {
             if type != "rtf" {
-                return try String(contentsOf: url)
+                return try NSAttributedString(string: String(contentsOf: url))
             }
         } catch let error as NSError {
             print(error.localizedDescription)
         }
         
         do {
-            let attributedString = try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
-        
-            content = NSTextStorage(attributedString: attributedString).string
+            let attributes = DocumentAttributes.getReadingOptionKey(fileExtension: url.pathExtension)
+            return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
         }
         
-        return content
+        return nil
     }
     
     func getDate(url: URL) -> Date? {
@@ -215,6 +219,10 @@ public class Note: NSManagedObject {
     
     func isRTF() -> Bool {
         return (url.pathExtension == "rtf")
+    }
+    
+    func isMarkdown() -> Bool {
+        return ["md", "markdown", "mkd"].contains(url.pathExtension)
     }
     
     func addPin() {
@@ -273,7 +281,7 @@ public class Note: NSManagedObject {
     }
     
     func getPrettifiedContent() -> String {
-        let content = self.content
+        let content = self.content.string
         return cleanMetaData(content: content)
     }
     
@@ -298,7 +306,7 @@ public class Note: NSManagedObject {
     
     func writeContent() -> Bool {
         do {
-            try content.write(to: url, atomically: false, encoding: String.Encoding.utf8)
+            try content.string.write(to: url, atomically: false, encoding: String.Encoding.utf8)
             return true
         } catch {
             return false
@@ -307,9 +315,9 @@ public class Note: NSManagedObject {
     
     func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
         syncSkipDate = Date()
-        
+       
         do {
-            let range = NSRange(location: 0, length: textStorage.string.count)
+            let range = NSRange(location: 0, length: textStorage.length)
             let documentAttributes = DocumentAttributes.getKey(fileExtension: type)
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
@@ -360,5 +368,13 @@ public class Note: NSManagedObject {
     
     func getTitleWithoutLabel() -> String {
         return url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+    }
+    
+    func markdownCache() {
+        guard UserDefaultsManagement.codeBlockHighlight else {
+            return
+        }
+        
+        NotesTextProcessor.fullScan(note: self, async: false)
     }
 }

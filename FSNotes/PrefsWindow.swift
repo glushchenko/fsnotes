@@ -6,4 +6,6 @@
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Cocoa
+
 class PrefsWindow: NSWindow {}

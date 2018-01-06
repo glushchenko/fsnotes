@@ -10,11 +10,11 @@ import Cocoa
 
 extension NSFont {
     var isBold: Bool {
-        return (Int(fontDescriptor.symbolicTraits.rawValue) == 1026)
+        return fontDescriptor.symbolicTraits.contains(.bold)
     }
     
     var isItalic: Bool {
-        return (Int(fontDescriptor.symbolicTraits.rawValue) == 1025)
+        return fontDescriptor.symbolicTraits.contains(.italic)
     }
     
     var height:CGFloat {
@@ -23,5 +23,9 @@ extension NSFont {
         let boundingBox = "A".boundingRect(with: constraintRect, options: NSString.DrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: self], context: nil)
         
         return boundingBox.height
+    }
+    
+    static func italicSystemFont(ofSize size: CGFloat) -> NSFont {
+        return NSFontManager().convert(NSFont.systemFont(ofSize: size), toHaveTrait: .italicFontMask)
     }
 }

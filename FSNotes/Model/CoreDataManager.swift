@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import Cocoa
 
 class CoreDataManager {
     static let instance = CoreDataManager()

@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import Cocoa
 
 enum CloudKitResult {
     case success(CKRecord)
@@ -122,7 +123,7 @@ class CloudKitManager {
                         }
                     }
                     
-                    note.content = content
+                    note.content = NSMutableAttributedString(string: content)
                     note.cloudKitRecord = record.data()
                     note.url = storageUrl.appendingPathComponent(fileName)
                     note.storage = storage
@@ -155,10 +156,10 @@ class CloudKitManager {
 
             DispatchQueue.main.async {
                 let search = self.viewController.search.stringValue
-                self.viewController.updateTable(filter: search)
-                
-                NotificationsController.syncProgress()
-                NotificationsController.onFinishSync()
+                self.viewController.updateTable(filter: search) {
+                    NotificationsController.syncProgress()
+                    NotificationsController.onFinishSync()
+                }
             }
         }
     }
@@ -280,7 +281,7 @@ class CloudKitManager {
                     let dateString: String = dateFormatter.string(from: date)
                     conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
                     conflictedNote.extractUrl()
-                    conflictedNote.content = content
+                    conflictedNote.content = NSMutableAttributedString(string: content)
                     conflictedNote.storage = storage
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
