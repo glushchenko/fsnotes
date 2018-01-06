@@ -137,18 +137,7 @@ public class NotesTextProcessor {
     }
     
     public static func fullScan(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil, async: Bool = false) {
-        var affectedRange = NSRange(0..<note.content.length)
-        if let r = range {
-            affectedRange = r
-        }
-        
-        let target = storage != nil ? storage! : note.content
-        
-        self.scanMarkdownSyntax(
-            target,
-            string: target.string,
-            affectedRange: affectedRange
-        )
+        self.scanBasicSyntax(note: note, storage: storage, range: range)
         
         if let unwrappedStorage = storage {
             note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length)))
@@ -163,6 +152,24 @@ public class NotesTextProcessor {
                 NSRegularExpression.Options.allowCommentsAndWhitespace,
                 NSRegularExpression.Options.anchorsMatchLines
             ], storage: storage, note: note, async: async)
+    }
+    
+    public static func scanBasicSyntax(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil) {
+        var affectedRange: NSRange
+        
+        if let r = range {
+            affectedRange = r
+        } else {
+            affectedRange = NSRange(0..<note.content.length)
+        }
+        
+        let target = storage != nil ? storage! : note.content
+        
+        self.scanMarkdownSyntax(
+            target,
+            string: target.string,
+            affectedRange: affectedRange
+        )
     }
     
     public static func highlight(_ code: String, language: String? = nil) -> NSAttributedString? {
@@ -330,7 +337,6 @@ public class NotesTextProcessor {
         }
         
         let textStorageNSString = string as NSString
-        let wholeRange = NSMakeRange(0, textStorageNSString.length)
         
         let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
         let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
@@ -358,7 +364,7 @@ public class NotesTextProcessor {
         styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
         
         // We detect and process underlined headers
-        NotesTextProcessor.headersSetextRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
             NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
@@ -386,13 +392,13 @@ public class NotesTextProcessor {
         }
         
         // We detect and process reference links
-        NotesTextProcessor.referenceLinkRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.referenceLinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: range)
         }
         
         // We detect and process lists
-        NotesTextProcessor.listRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.listRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
@@ -519,7 +525,7 @@ public class NotesTextProcessor {
         }
         
         // We detect and process quotes
-        NotesTextProcessor.blockQuoteRegex.matches(string, range: wholeRange) { (result) -> Void in
+        NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: quoteFont, range: range)
             styleApplier.addAttribute(.foregroundColor, value: NSColor.darkGray, range: range)

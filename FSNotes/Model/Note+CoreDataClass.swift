@@ -398,7 +398,7 @@ public class Note: NSManagedObject {
     }
     
     func markdownCache() {
-        guard isMarkdown() && UserDefaultsManagement.codeBlockHighlight else {
+        guard isMarkdown() else {
             return
         }
         

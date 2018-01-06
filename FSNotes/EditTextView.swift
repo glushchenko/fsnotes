@@ -236,7 +236,7 @@ class EditTextView: NSTextView {
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
         
-        guard let currentNote = getSelectedNote() else {
+        guard let note = getSelectedNote(), !UserDefaultsManagement.preview else {
             return false
         }
         
@@ -264,7 +264,7 @@ class EditTextView: NSTextView {
         
         switch keyCode {
         case 11: // cmd-b
-            if (!currentNote.isRTF()) {
+            if (!note.isRTF()) {
                 attributedText.mutableString.setString("**" + attributedText.string + "**")
             } else {
                 if (selectedText.length > 0) {
@@ -278,13 +278,13 @@ class EditTextView: NSTextView {
             break
         case 34:
             // control-shift-i
-            if (!currentNote.isRTF() && modifier == 393475) {
+            if (!note.isRTF() && modifier == 393475) {
                 attributedText.mutableString.setString("![](" + attributedText.string + ")")
                 break
             }
         
             // cmd-i
-            if (!currentNote.isRTF()) {
+            if (!note.isRTF()) {
                 attributedText.mutableString.setString("_" + attributedText.string + "_")
             } else {
                 if (selectedText.length > 0) {
@@ -297,7 +297,7 @@ class EditTextView: NSTextView {
             }
             break
         case 32: // cmd-u
-            if (currentNote.isRTF()) {
+            if (note.isRTF()) {
                 if (selectedText.length > 0) {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: NSMakeRange(0, selectedText.length))
                 }
@@ -311,7 +311,7 @@ class EditTextView: NSTextView {
             }
             break
         case 16: // cmd-y
-            if (currentNote.isRTF()) {
+            if (note.isRTF()) {
                 if (selectedText.length > 0) {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: NSMakeRange(0, selectedText.length))
                 }
@@ -326,7 +326,7 @@ class EditTextView: NSTextView {
                 attributedText.mutableString.setString("~~" + attributedText.string + "~~")
             }
         case (18...23): // cmd-1/6 (headers 1/6)
-            if (!currentNote.isRTF()) {
+            if (!note.isRTF()) {
                 var string = ""
                 var offset = 2
                 
@@ -342,7 +342,7 @@ class EditTextView: NSTextView {
             }
             break
         case 38: // control-shift-j (link)
-            if (!currentNote.isRTF() && modifier == 393475) {
+            if (!note.isRTF() && modifier == 393475) {
                 attributedText.mutableString.setString("[](" + attributedText.string + ")")
             }
             break
@@ -350,25 +350,25 @@ class EditTextView: NSTextView {
             return false
         }
         
-        if (!UserDefaultsManagement.preview) {
-            editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
         
-            if (currentNote.isRTF()) {
-                editArea.setSelectedRange(range)
-            }
+        if note.isRTF() {
+            editArea.setSelectedRange(range)
+            note.save(editArea.textStorage!)
+            return true
+        }
 
-            currentNote.save(editArea.textStorage!)
+        if note.isMarkdown() {
+            note.save(editArea.textStorage!)
             
-            if currentNote.isMarkdown() {
-                currentNote.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-
-                if let paragrapRange = getParagraphRange() {
-                    NotesTextProcessor.scanMarkdownSyntax(
-                        editArea.textStorage!,
-                        string: currentNote.content.string,
-                        affectedRange: paragrapRange
-                    )
-                }
+            if let paragrapRange = getParagraphRange() {
+                NotesTextProcessor.scanMarkdownSyntax(
+                    editArea.textStorage!,
+                    string: (editArea.textStorage?.string)!,
+                    affectedRange: paragrapRange
+                )
+                
+                note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             }
             
             return true
@@ -378,12 +378,12 @@ class EditTextView: NSTextView {
     }
     
     func getParagraphRange() -> NSRange? {
-        guard let note = getSelectedNote(), let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea else {
+        guard let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea, let storage = editArea.textStorage else {
             return nil
         }
         
         let range = editArea.selectedRange()
-        let string = note.content.string as NSString
+        let string = storage.string as NSString
         let paragraphRange = string.paragraphRange(for: range)
         
         return paragraphRange
