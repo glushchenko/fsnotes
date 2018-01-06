@@ -132,10 +132,8 @@ class EditTextView: NSTextView {
         if highlight {
             highlightKeyword()
         }
-
-        if !note.isMarkdown() {
-            textColor = UserDefaultsManagement.fontColor
-        }
+      
+        self.window?.title = note.title
     }
     
     func removeHighlight() {
@@ -210,6 +208,9 @@ class EditTextView: NSTextView {
         textStorage?.setAttributedString(NSAttributedString())
         subviews.removeAll()
         isEditable = false
+        
+        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        self.window?.title = appDelegate.appTitle
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = false
