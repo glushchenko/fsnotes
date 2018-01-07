@@ -98,43 +98,31 @@ class CloudKitManager {
         }
     }
     
-    func pull() {
-        guard let storage = CoreDataManager.instance.fetchGeneralStorage() else {
-            return
-        }
-
-        let storageUrl = Storage.instance.getGeneralURL()
-        
+    func pull() {        
         fetchChanges() {modifiedRecords, deletedRecords, token in
             UserDefaultsManagement.fsImportIsAvailable = false
             for record in modifiedRecords {
-                do {
-                    let file = record.object(forKey: "file") as! CKAsset
-                    let recordName = record.recordID.recordName
-                    let fileName = recordName as String
-                    let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
-                    
-                    let note = Storage.instance.getOrCreate(name: fileName)
-                    if !note.cloudKitRecord.isEmpty {
-                        if let prevRecord = CKRecord(archivedData: note.cloudKitRecord) {
-                            if prevRecord.recordChangeTag == record.recordChangeTag {
-                                continue
-                            }
+                let asset = record.object(forKey: "file") as! CKAsset
+                let recordName = record.recordID.recordName
+                let fileName = recordName as String
+                
+                let note = Storage.instance.getOrCreate(name: fileName)
+                if !note.cloudKitRecord.isEmpty {
+                    if let prevRecord = CKRecord(archivedData: note.cloudKitRecord) {
+                        if prevRecord.recordChangeTag == record.recordChangeTag {
+                            continue
                         }
                     }
-                    
-                    note.content = NSMutableAttributedString(string: content)
-                    note.cloudKitRecord = record.data()
-                    note.url = storageUrl.appendingPathComponent(fileName)
-                    note.storage = storage
-                    note.extractUrl()
-                    note.isSynced = true
-
-                    if (note.writeContent()) {
-                        note.loadModifiedLocalAt()
-                        print("Note downloaded: \(note.name)")
-                    }
-                } catch {}
+                }
+                
+                note.cloudKitRecord = record.data()
+                note.isSynced = true
+                note.initWith(url: asset.fileURL, fileName: fileName)
+                
+                if (note.writeContent()) {
+                    note.loadModifiedLocalAt()
+                    print("Note downloaded: \(note.name)")
+                }
             }
             
             for recordId in deletedRecords {
@@ -280,9 +268,10 @@ class CloudKitManager {
                     ]
                     let dateString: String = dateFormatter.string(from: date)
                     conflictedNote.url = conflictedNote.getUniqueFileName(name: note.title, prefix: " (CONFLICT " + dateString + ")")
-                    conflictedNote.extractUrl()
+                    conflictedNote.parseURL()
                     conflictedNote.content = NSMutableAttributedString(string: content)
                     conflictedNote.storage = storage
+                    conflictedNote.markdownCache()
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
                     self.saveRecord(note: note, sRecord: fetchedRecord, push: false)

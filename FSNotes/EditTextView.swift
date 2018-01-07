@@ -95,6 +95,10 @@ class EditTextView: NSTextView {
     }
             
     func fill(note: Note, highlight: Bool = false) {
+        guard let storage = textStorage else {
+            return
+        }
+        
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
         
@@ -123,9 +127,18 @@ class EditTextView: NSTextView {
             return
         }
         
-        textStorage?.setAttributedString(note.content)
+        storage.setAttributedString(note.content)
         
         if !note.isMarkdown()  {
+            if note.type == .RichText {
+                storage.updateFont()
+            }
+            
+            if note.type == .PlainText {
+                font = UserDefaultsManagement.noteFont
+            }
+            
+            textColor = UserDefaultsManagement.fontColor
             higlightLinks()
         }
         
@@ -191,14 +204,11 @@ class EditTextView: NSTextView {
     }
     
     func save(note: Note) -> Bool {
-        let fileUrl = note.url
-        let fileExtension = fileUrl?.pathExtension
-        
         do {
             let range = NSRange(location: 0, length: (textStorage?.string.count)!)
-            let documentAttributes = DocumentAttributes.getKey(fileExtension: fileExtension!)
+            let documentAttributes = note.getDocAttributes()
             let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-            try text?.write(to: fileUrl!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)            
+            try text?.write(to: note.url!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             return true
         } catch let error {
             NSLog(error.localizedDescription)
@@ -219,27 +229,12 @@ class EditTextView: NSTextView {
         viewController.emptyEditAreaImage.isHidden = false
     }
     
-    func createAttributedString(note: Note) -> NSAttributedString {
-        let url = note.url
-        let fileExtension = url?.pathExtension
-        var attributedString = NSAttributedString()
-        
-        do {
-            let options = DocumentAttributes.getReadingOptionKey(fileExtension: fileExtension!)
-            attributedString = try NSAttributedString(url: url!, options: options, documentAttributes: nil)
-        } catch {
-            attributedString = NSAttributedString(string: "", attributes: [.font: UserDefaultsManagement.noteFont])
-        }
-        
-        return attributedString
-    }
-    
     func formatShortcut(keyCode: UInt16, modifier: UInt = 0) -> Bool {
         let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let editArea = viewController.editArea!
         
-        guard let currentNote = getSelectedNote() else {
+        guard let note = getSelectedNote(), !UserDefaultsManagement.preview else {
             return false
         }
         
@@ -267,9 +262,11 @@ class EditTextView: NSTextView {
         
         switch keyCode {
         case 11: // cmd-b
-            if (!currentNote.isRTF()) {
+            if note.type == .Markdown {
                 attributedText.mutableString.setString("**" + attributedText.string + "**")
-            } else {
+            }
+            
+            if note.type == .RichText {
                 if (selectedText.length > 0) {
                     let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
                     let newFont = toggleBoldFont(font: fontAttributes![.font] as! NSFont)
@@ -281,26 +278,31 @@ class EditTextView: NSTextView {
             break
         case 34:
             // control-shift-i
-            if (!currentNote.isRTF() && modifier == 393475) {
+            if (note.type == .Markdown && modifier == 393475) {
                 attributedText.mutableString.setString("![](" + attributedText.string + ")")
                 break
             }
         
             // cmd-i
-            if (!currentNote.isRTF()) {
+            if note.type == .Markdown {
                 attributedText.mutableString.setString("_" + attributedText.string + "_")
-            } else {
+            }
+            
+            if note.type == .RichText {
                 if (selectedText.length > 0) {
                     let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
-                    let newFont = toggleItalicFont(font: fontAttributes![.font] as! NSFont)
-                    attributedText.addAttribute(.font, value: newFont, range: selectedRange)
+                    if let newFont = toggleItalicFont(font: fontAttributes![.font] as! NSFont) {
+                        attributedText.addAttribute(.font, value: newFont, range: selectedRange)
+                    }
                 }
                 
-                typingAttributes[.font] = toggleItalicFont(font: typingAttributes[.font] as! NSFont)
+                if let italicFont = toggleItalicFont(font: typingAttributes[.font] as! NSFont) {
+                    typingAttributes[.font] = italicFont
+                }
             }
             break
         case 32: // cmd-u
-            if (currentNote.isRTF()) {
+            if note.type == .RichText {
                 if (selectedText.length > 0) {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: NSMakeRange(0, selectedText.length))
                 }
@@ -314,7 +316,7 @@ class EditTextView: NSTextView {
             }
             break
         case 16: // cmd-y
-            if (currentNote.isRTF()) {
+            if note.type == .RichText {
                 if (selectedText.length > 0) {
                     attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: NSMakeRange(0, selectedText.length))
                 }
@@ -325,11 +327,13 @@ class EditTextView: NSTextView {
                 } else {
                     typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
                 }
-            } else {
+            }
+            
+            if note.type == .Markdown {
                 attributedText.mutableString.setString("~~" + attributedText.string + "~~")
             }
         case (18...23): // cmd-1/6 (headers 1/6)
-            if (!currentNote.isRTF()) {
+            if note.type == .Markdown {
                 var string = ""
                 var offset = 2
                 
@@ -345,7 +349,7 @@ class EditTextView: NSTextView {
             }
             break
         case 38: // control-shift-j (link)
-            if (!currentNote.isRTF() && modifier == 393475) {
+            if (note.type == .Markdown && modifier == 393475) {
                 attributedText.mutableString.setString("[](" + attributedText.string + ")")
             }
             break
@@ -353,25 +357,21 @@ class EditTextView: NSTextView {
             return false
         }
         
-        if (!UserDefaultsManagement.preview) {
-            editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
+        editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
         
-            if (currentNote.isRTF()) {
-                editArea.setSelectedRange(range)
-            }
+        if note.type == .RichText {
+            editArea.setSelectedRange(range)
+            note.save(editArea.textStorage!)
+            return true
+        }
 
-            currentNote.save(editArea.textStorage!)
+        if note.type == .Markdown {
+            note.save(editArea.textStorage!)
             
-            if currentNote.isMarkdown() {
-                currentNote.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-
-                if let paragrapRange = getParagraphRange() {
-                    NotesTextProcessor.scanMarkdownSyntax(
-                        editArea.textStorage!,
-                        string: currentNote.content.string,
-                        affectedRange: paragrapRange
-                    )
-                }
+            if let paragraphRange = getParagraphRange() {
+                NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange)
+                
+                note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             }
             
             return true
@@ -381,12 +381,12 @@ class EditTextView: NSTextView {
     }
     
     func getParagraphRange() -> NSRange? {
-        guard let note = getSelectedNote(), let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea else {
+        guard let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea, let storage = editArea.textStorage else {
             return nil
         }
         
         let range = editArea.selectedRange()
-        let string = note.content.string as NSString
+        let string = storage.string as NSString
         let paragraphRange = string.paragraphRange(for: range)
         
         return paragraphRange
@@ -413,7 +413,7 @@ class EditTextView: NSTextView {
         return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
     }
     
-    func toggleItalicFont(font: NSFont) -> NSFont {
+    func toggleItalicFont(font: NSFont) -> NSFont? {
         guard let family = UserDefaultsManagement.noteFont.familyName else {
             return UserDefaultsManagement.noteFont
         }
@@ -431,7 +431,12 @@ class EditTextView: NSTextView {
             }
         }
         
-        return NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize))!
+        let size = CGFloat(UserDefaultsManagement.fontSize)
+        guard let newFont = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: size) else {
+            return nil
+        }
+        
+        return newFont
     }
     
     override func paste(_ sender: Any?) {
@@ -481,6 +486,7 @@ class EditTextView: NSTextView {
         
         let string = (note.content.string as NSString)
         let paragraphRange = string.paragraphRange(for: range)
+        //Swift.print(paragraphRange)
         let stringTT = storage.string as NSString
         
         if UserDefaultsManagement.codeBlockHighlight {
@@ -495,11 +501,7 @@ class EditTextView: NSTextView {
             }
         }
         
-        NotesTextProcessor.scanMarkdownSyntax(
-            storage,
-            string: note.content.string,
-            affectedRange: paragraphRange
-        )
+        NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
     }
 
     func higlightLinks() {
@@ -656,5 +658,4 @@ class EditTextView: NSTextView {
             textColor = color
         }
     }
-    
 }

@@ -146,7 +146,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileMenuNewRTF(_ sender: Any) {
-        createNote(type: "rtf")
+        createNote(type: .RichText)
     }
     
     @objc func moveNote(_ sender: NSMenuItem) {
@@ -211,9 +211,11 @@ class ViewController: NSViewController,
                 return
             }
             
-            if event.modified {
+            if event.fileChange {
                 let wrappedNote = Storage.instance.getBy(url: url)
+                
                 if let note = wrappedNote, note.reload() {
+                    //Swift.print(n)
                     note.markdownCache()
                     self.refillEditArea()
                 }
@@ -596,13 +598,18 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "", type: String = UserDefaultsManagement.storageExtension) {
+    func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
         disablePreview()
         editArea.string = content
         
         let note = CoreDataManager.instance.make()
         
-        note.type = type
+        if let unwrappedType = type {
+            note.type = unwrappedType
+        } else {
+            note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        }
+        
         note.make(newName: name)
         note.content = NSMutableAttributedString(string: content)
         note.isSynced = false

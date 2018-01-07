@@ -12,13 +12,14 @@ import Cocoa
 
 class CoreDataManager {
     static let instance = CoreDataManager()
+    private static var defaultStorage: StorageItem? = nil
+    
     var context: NSManagedObjectContext
     
     init() {
         let appDel: AppDelegate = (NSApplication.shared.delegate as! AppDelegate)
         context = appDel.persistentContainer.viewContext
         context.mergePolicy = NSOverwriteMergePolicy
-        
     }
     
     func make() -> Note {
@@ -138,10 +139,16 @@ class CoreDataManager {
     }
     
     func fetchGeneralStorage() -> StorageItem? {
+        if let storage = CoreDataManager.defaultStorage {
+            return storage
+        }
+        
         let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
         request.predicate = NSPredicate(format: "label = %@", "general")
         do {
-            return try context.fetch(request).first
+            let item = try context.fetch(request).first
+            CoreDataManager.defaultStorage = item
+            return item
         } catch {
             print("General storage not found \(error)")
         }

@@ -167,7 +167,7 @@ class Storage {
     }
     
     func checkFirstRun() -> Bool {
-        let destination = Storage.instance.getGeneralURL()
+        let destination = Storage.instance.getBaseURL()
         let path = destination.path
         
         if !FileManager.default.fileExists(atPath: path) {
@@ -207,6 +207,7 @@ class Storage {
         
         if note == nil {
             note = Note(context: CoreDataManager.instance.context)
+            note?.name = name
             add(note!)
         }
         
@@ -240,14 +241,16 @@ class Storage {
             })
     }
     
-    func getGeneralURL() -> URL {
-        if Storage.generalUrl != nil {
-            return Storage.generalUrl!
+    func getBaseURL() -> URL {
+        if let gu = Storage.generalUrl {
+            return gu
         }
         
         guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let path = storage.path, let url = URL(string: path) else {
             return UserDefaultsManagement.storageUrl
         }
+        
+        Storage.generalUrl = url
         
         return url
     }

@@ -233,7 +233,7 @@ public class UserDefaultsManagement {
             if let preview = UserDefaults.standard.object(forKey: Constants.Preview) {
                 return preview as! Bool
             } else {
-                return true
+                return false
             }
         }
         set {
