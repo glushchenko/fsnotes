@@ -53,24 +53,6 @@ public class Note: NSManagedObject {
         }
     }
     
-    func initialize(string: String, type: NoteType) {
-        do {
-            let attributes = DocumentAttributes.getKey(type: type)
-            //Data(contentsOf: <#T##URL#>)
-            //content = NSAttributedString(
-            
-            //return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    //func initAttributed(content: String) {
-    //    if let attributedString = getContent() {
-    //        content = NSMutableAttributedString(attributedString: attributedString)
-    //    }
-    //}
-    
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
@@ -84,7 +66,6 @@ public class Note: NSManagedObject {
             if let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
-            
             loadModifiedLocalAt()
             return true
         }
@@ -193,8 +174,8 @@ public class Note: NSManagedObject {
     
     func getContent() -> NSAttributedString? {
         do {
-            let attributes = DocumentAttributes.getReadingOptionKey(type: type)
-            return try NSAttributedString(url: url, options: attributes, documentAttributes: nil)
+            let options = getDocOptions()
+            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
         }
@@ -345,7 +326,7 @@ public class Note: NSManagedObject {
        
         do {
             let range = NSRange(location: 0, length: textStorage.length)
-            let documentAttributes = DocumentAttributes.getKey(type: type)
+            let documentAttributes = getDocAttributes()
             let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
             try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
         } catch let error {
@@ -414,5 +395,22 @@ public class Note: NSManagedObject {
             .documentType : NSAttributedString.DocumentType.plain,
             .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
         ]
+    }
+    
+    func getDocAttributes() -> [NSAttributedString.DocumentAttributeKey : Any] {
+        var options: [NSAttributedString.DocumentAttributeKey : Any]
+    
+        if (type == .RichText) {
+            options = [
+                .documentType : NSAttributedString.DocumentType.rtf
+            ]
+        } else {
+            options = [
+                .documentType : NSAttributedString.DocumentType.plain,
+                .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+            ]
+        }
+    
+        return options
     }
 }

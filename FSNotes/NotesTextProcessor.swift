@@ -165,11 +165,7 @@ public class NotesTextProcessor {
         
         let target = storage != nil ? storage! : note.content
         
-        self.scanMarkdownSyntax(
-            target,
-            string: target.string,
-            affectedRange: affectedRange
-        )
+        self.scanMarkdownSyntax(target, paragraphRange: affectedRange)
     }
     
     public static func highlight(_ code: String, language: String? = nil) -> NSAttributedString? {
@@ -328,20 +324,15 @@ public class NotesTextProcessor {
         return nil
     }
     
-    public static var isBusy = false
-    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, string: String, affectedRange paragraphRange: NSRange) {
-        if !NotesTextProcessor.isBusy {
-            NotesTextProcessor.isBusy = true
-        } else {
-            return
-        }
+    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange) {
         
-        let textStorageNSString = string as NSString
+        let textStorageNSString = styleApplier.string as NSString
+        let string =  styleApplier.string
         
         let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
         let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
-        let boldFont = NSFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
-        let italicFont = NSFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let boldFont = NSFont.boldFont()
+        let italicFont = NSFont.italicFont()
         
         let hiddenFont = NSFont.systemFont(ofSize: 0.1)
         let hiddenColor = NSColor.clear
@@ -359,9 +350,9 @@ public class NotesTextProcessor {
 
         // Reset highlightr
         
-        styleApplier.removeAttribute(.foregroundColor, range: paragraphRange)
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
+        styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
         
         // We detect and process underlined headers
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -634,8 +625,6 @@ public class NotesTextProcessor {
                 }
             }
         }
-        
-        NotesTextProcessor.isBusy = false
     }
     
     /// Tabs are automatically converted to spaces as part of the transform

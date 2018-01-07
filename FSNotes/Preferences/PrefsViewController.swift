@@ -227,7 +227,12 @@ class PrefsViewController: NSViewController {
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont
         
-        controller?.editArea.font = UserDefaultsManagement.noteFont
+        if let note = EditTextView.note {
+            note.markdownCache()
+            controller?.reloadView(note: note)
+        }
+        
+        controller?.notesTableView.reloadData()
         setFontPreview()
     }
 

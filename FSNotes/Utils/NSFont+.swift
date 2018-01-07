@@ -24,8 +24,12 @@ extension NSFont {
         
         return boundingBox.height
     }
+        
+    static func italicFont() -> NSFont {
+        return NSFontManager().convert(UserDefaultsManagement.noteFont, toHaveTrait: .italicFontMask)
+    }
     
-    static func italicSystemFont(ofSize size: CGFloat) -> NSFont {
-        return NSFontManager().convert(NSFont.systemFont(ofSize: size), toHaveTrait: .italicFontMask)
+    static func boldFont() -> NSFont {
+        return NSFontManager().convert(UserDefaultsManagement.noteFont, toHaveTrait: .boldFontMask)
     }
 }

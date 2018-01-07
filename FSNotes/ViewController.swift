@@ -598,13 +598,18 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "", type: NoteType = .Markdown) {
+    func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
         disablePreview()
         editArea.string = content
         
         let note = CoreDataManager.instance.make()
         
-        note.type = type
+        if let unwrappedType = type {
+            note.type = unwrappedType
+        } else {
+            note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        }
+        
         note.make(newName: name)
         note.content = NSMutableAttributedString(string: content)
         note.isSynced = false
