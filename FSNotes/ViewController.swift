@@ -207,7 +207,28 @@ class ViewController: NSViewController,
                 return
             }
             
-            guard let url = URL(string: "file://" + path), self.checkFile(url: url, pathList: pathList) else {
+            guard let url = URL(string: "file://" + path) else {
+                return
+            }
+            
+            if event.fileRenamed {
+                let fileExistInFS = self.checkFile(url: url, pathList: pathList)
+                if let note = Storage.instance.getBy(url: url) {
+                    if fileExistInFS {
+                        self.watcherCreateTrigger(url)
+                    } else {
+                        print("FSWatcher remove note: \"\(note.name)\"")
+                        note.cloudRemove(name: note.name)
+                        self.reloadView(note: note)
+                    }
+                } else if fileExistInFS {
+                    self.watcherCreateTrigger(url)
+                }
+                
+                return
+            }
+            
+            guard self.checkFile(url: url, pathList: pathList) else {
                 return
             }
             
@@ -215,14 +236,15 @@ class ViewController: NSViewController,
                 let wrappedNote = Storage.instance.getBy(url: url)
                 
                 if let note = wrappedNote, note.reload() {
-                    //Swift.print(n)
                     note.markdownCache()
                     self.refillEditArea()
+                } else {
+                    self.watcherCreateTrigger(url)
                 }
                 return
             }
             
-            if event.created {
+            if event.fileCreated {
                 self.watcherCreateTrigger(url)
             }
         }
@@ -233,9 +255,8 @@ class ViewController: NSViewController,
         guard Storage.instance.getBy(url: url) == nil else {
             return
         }
-        
-        var note: Note
-        
+
+        var note: Note        
         if let existNote = CoreDataManager.instance.getBy(url: url) {
             note = existNote
         } else {
@@ -246,10 +267,13 @@ class ViewController: NSViewController,
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
-        CoreDataManager.instance.save()
-        Storage.instance.add(note)
         
-        reloadView(note: note)
+        print("FSWatcher import note: \"\(note.name)\"")
+        
+        note.cloudSave()
+        if let selected = notesTableView.getSelectedNote() {
+            reloadView(note: selected)
+        }
     }
     
     func checkFile(url: URL, pathList: [String]) -> Bool {

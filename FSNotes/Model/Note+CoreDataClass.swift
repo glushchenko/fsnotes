@@ -122,8 +122,17 @@ public class Note: NSManagedObject {
             
             if let position = Storage.instance.noteList.index(of: self) {
                 Storage.instance.noteList.remove(at: position)
+                
+                cloudRemove(name: removeName)
             }
             
+        } catch let error as NSError {
+            print("Remove went wrong: \(error)")
+            return
+        }
+    }
+    
+    func cloudRemove(name: String) {
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 isRemoved = true
@@ -131,13 +140,8 @@ public class Note: NSManagedObject {
             }
         #else
             CoreDataManager.instance.remove(self)
-            print("Removed successfully: \(removeName)")
+            print("Removed successfully: \(name)")
         #endif
-        }
-        catch let error as NSError {
-            print("Remove went wrong: \(error)")
-            return
-        }
     }
     
     @objc func getPreviewForLabel() -> String {
@@ -334,6 +338,10 @@ public class Note: NSManagedObject {
             return
         }
         
+        cloudSave(userInitiated: userInitiated)
+    }
+    
+    func cloudSave(userInitiated: Bool = false) {
         if !Storage.instance.noteList.contains(where: { $0.name == name && $0.storage == storage }) {
             Storage.instance.add(self)
         }
