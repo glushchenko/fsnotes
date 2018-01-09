@@ -367,6 +367,16 @@ class CloudKitManager {
         }
     }
     
+    func removeRecords(records: [CKRecordID], completion: @escaping () -> Void) {
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: records)
+        operation.qualityOfService = .userInitiated
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
+            print("CloudKit remove: \(String(describing: deletedRecordIDs))")
+            completion()
+        }
+        database.add(operation)
+    }
+    
     func fetchChanges(completion: @escaping ([CKRecord], [CKRecordID], CKServerChangeToken?) -> Void) {
         let zonedId = recordZone!.zoneID
         

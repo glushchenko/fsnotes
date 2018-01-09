@@ -155,4 +155,19 @@ class CoreDataManager {
         return nil
     }
     
+    func removeNotes(notes: [Note]) {
+        for note in notes {
+            note.removeFile()
+        }
+        
+        for note in notes {
+            context.delete(note)
+        }
+        
+        do {
+            try context.save()
+        } catch {
+            print("Notes remove error \(error)")
+        }
+    }
 }

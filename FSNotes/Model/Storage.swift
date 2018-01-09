@@ -9,6 +9,7 @@
 import Foundation
 import Marklight
 import Highlightr
+import CloudKit
 
 class Storage {
     static let instance = Storage()
@@ -281,6 +282,33 @@ class Storage {
                 note.markdownCache()
             }
         }
+    }
+    
+    func removeNotes(notes: [Note], completion: @escaping () -> Void) {
+        for note in notes {
+            if let i = noteList.index(of: note) {
+                noteList.remove(at: i)
+            }
+        }
+        
+        #if CLOUDKIT
+            if UserDefaultsManagement.cloudKitSync {
+                var recordIds: [CKRecordID] = []
+                for note in notes {
+                    if let record = CKRecord(archivedData: note.cloudKitRecord) {
+                        recordIds.append(record.recordID)
+                    }
+                }
+                
+                CloudKitManager.instance.removeRecords(records: recordIds) {
+                    CoreDataManager.instance.removeNotes(notes: notes)
+                    completion()
+                }
+            }
+        #else
+            CoreDataManager.instance.removeNotes(notes: notes)
+            completion()
+        #endif
     }
 
 }

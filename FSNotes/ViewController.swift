@@ -218,7 +218,7 @@ class ViewController: NSViewController,
                         self.watcherCreateTrigger(url)
                     } else {
                         print("FSWatcher remove note: \"\(note.name)\"")
-                        note.cloudRemove(name: note.name)
+                        note.cloudRemove()
                         self.reloadView(note: note)
                     }
                 } else if fileExistInFS {
@@ -284,7 +284,7 @@ class ViewController: NSViewController,
         )
     }
     
-    func reloadView(note: Note) {
+    func reloadView(note: Note? = nil) {
         let notesTable = self.notesTableView!
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
@@ -292,7 +292,7 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue) {
             if let selected = selectedNote, let index = notesTable.getIndex(selected) {
                 notesTable.selectRowIndexes([index], byExtendingSelection: false)
-                if selected == note {
+                if let unwrappedNote = note, selected == unwrappedNote {
                     self.refillEditArea(cursor: cursor)
                 }
             }
@@ -711,12 +711,12 @@ class ViewController: NSViewController,
         alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
-
-                for note in notes {
-                    note.remove()
-                }
                 
-                CoreDataManager.instance.save()
+                Storage.instance.removeNotes(notes: notes) {
+                    DispatchQueue.main.async {
+                        self.reloadView()
+                    }
+                }
 
                 if let i = selectedRows.first {
                     self.updateTableAndSelectNextRow(i)

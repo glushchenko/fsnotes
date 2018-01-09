@@ -103,36 +103,39 @@ public class Note: NSManagedObject {
         
         do {
             try fileManager.moveItem(at: url, to: newUrl)
-            url = newUrl
-            parseURL()
-            CoreDataManager.instance.save()
             return true
         } catch {
-            parseURL()
             return false
         }
     }
     
     func remove() {
-        let fileManager = FileManager.default
-        let removeName = name
-        
         do {
-            try fileManager.trashItem(at: url, resultingItemURL: nil)
-            
-            if let position = Storage.instance.noteList.index(of: self) {
-                Storage.instance.noteList.remove(at: position)
-                
-                cloudRemove(name: removeName)
-            }
-            
+            try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+            cloudRemove()
         } catch let error as NSError {
             print("Remove went wrong: \(error)")
             return
         }
     }
     
-    func cloudRemove(name: String) {
+    func removeFile() {
+        do {
+            try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+            print("Note moved to trash: \(name)")
+        } catch let error as NSError {
+            print("Remove went wrong: \(error)")
+            return
+        }
+    }
+    
+    func cloudRemove() {        
+        let name = self.name
+        
+        if let position = Storage.instance.noteList.index(of: self) {
+            Storage.instance.noteList.remove(at: position)
+        }
+        
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 isRemoved = true
