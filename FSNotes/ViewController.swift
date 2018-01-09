@@ -271,9 +271,7 @@ class ViewController: NSViewController,
         print("FSWatcher import note: \"\(note.name)\"")
         
         note.cloudSave()
-        if let selected = notesTableView.getSelectedNote() {
-            reloadView(note: selected)
-        }
+        reloadView(note: notesTableView.getSelectedNote())
     }
     
     func checkFile(url: URL, pathList: [String]) -> Bool {
