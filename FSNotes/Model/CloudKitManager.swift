@@ -132,9 +132,8 @@ class CloudKitManager {
                     notes.append(note)
                 }
                 
-                Storage.instance.removeNotes(notes: notes) {
-                    self.reloadView()
-                }
+                Storage.instance.removeNotes(notes: notes)
+                self.reloadView()
             }
             
             CoreDataManager.instance.save()

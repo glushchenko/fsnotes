@@ -111,8 +111,10 @@ public class Note: NSManagedObject {
         
     func removeFile() {
         do {
-            try FileManager.default.trashItem(at: url, resultingItemURL: nil)
-            print("Note moved to trash: \(name)")
+            if FileManager.default.fileExists(atPath: url.path) {
+                try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                print("Note moved to trash: \(name)")
+            }
         } catch let error as NSError {
             print("Remove went wrong: \(error)")
             return
@@ -312,6 +314,8 @@ public class Note: NSManagedObject {
             print("Core data: \(error.localizedDescription)")
             return
         }
+        
+        loadModifiedLocalAt()
         
         Storage.instance.saveNote(note: self, userInitiated: userInitiated)
     }

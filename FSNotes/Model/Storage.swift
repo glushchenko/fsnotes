@@ -163,6 +163,7 @@ class Storage {
     
     func removeBy(note: Note) {
         if let i = noteList.index(of: note) {
+            note.isRemoved = true
             noteList.remove(at: i)
         }
     }
@@ -292,7 +293,7 @@ class Storage {
         }
     }
     
-    func removeNotes(notes: [Note], completion: @escaping () -> Void) {
+    func removeNotes(notes: [Note]) {
         guard notes.count > 0 else {
             return
         }
@@ -313,29 +314,20 @@ class Storage {
                 
                 CloudKitManager.instance.removeRecords(records: recordIds) {
                     CoreDataManager.instance.removeNotes(notes: notes)
-                    completion()
                 }
             } else {
                 CoreDataManager.instance.removeNotes(notes: notes)
-                completion()
             }
         #else
             CoreDataManager.instance.removeNotes(notes: notes)
-            completion()
         #endif
     }
     
     func saveNote(note: Note, userInitiated: Bool = false) {
         add(note)
         
-        guard note.isGeneral() else {
-            return
-        }
-        
-        note.loadModifiedLocalAt()
-        
         #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
+            if UserDefaultsManagement.cloudKitSync && note.isGeneral() {
                 if userInitiated {
                     NotificationsController.onStartSync()
                 }
@@ -347,25 +339,6 @@ class Storage {
                 // save cloudkit
                 CloudKitManager.instance.saveNote(note)
             }
-        #endif
-    }
-    
-    func removeNote(note: Note) {
-        let name = note.name
-        removeBy(note: note)
-        
-        guard note.isGeneral() else {
-            return
-        }
-        
-        note.isRemoved = true
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                CloudKitManager.instance.removeRecord(note: note)
-            }
-        #else
-            CoreDataManager.instance.remove(note)
-            print("Removed successfully: \(name)")
         #endif
     }
 }
