@@ -354,6 +354,22 @@ public class NotesTextProcessor {
         styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
         styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
         
+        // We detect and process inline links not formatted
+        NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            let substring = textStorageNSString.substring(with: range)
+            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+            styleApplier.addAttribute(.link, value: substring, range: range)
+            
+            if NotesTextProcessor.hideSyntax {
+                NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    styleApplier.addAttribute(.font, value: hiddenFont, range: innerRange)
+                    styleApplier.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
+                }
+            }
+        }
+        
         // We detect and process underlined headers
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -594,22 +610,6 @@ public class NotesTextProcessor {
             hideSyntaxIfNecessary(range: postRange)
         }
         
-        // We detect and process inline links not formatted
-        NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            let substring = textStorageNSString.substring(with: range)
-            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
-            styleApplier.addAttribute(.link, value: substring, range: range)
-            
-            if NotesTextProcessor.hideSyntax {
-                NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    styleApplier.addAttribute(.font, value: hiddenFont, range: innerRange)
-                    styleApplier.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
-                }
-            }
-        }
-        
         // We detect and process inline mailto links not formatted
         NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -647,7 +647,7 @@ public class NotesTextProcessor {
         "\\n",
         "(=+|-+)",  // $1 = string of ='s or -'s
         "\\p{Z}*",
-        "\\n+"
+        "\\n+|\\Z"
         ].joined(separator: "\n")
     
     public static let headersSetextRegex = MarklightRegex(pattern: headerSetextPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -671,7 +671,7 @@ public class NotesTextProcessor {
         "(.+?)        # $2 = Header text",
         "\\p{Z}*",
         "\\#*         # optional closing #'s (not counted)",
-        "\\n+"
+        "(?:\\n+|\\Z)"
         ].joined(separator: "\n")
     
     public static let headersAtxRegex = MarklightRegex(pattern: headerAtxPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -683,7 +683,7 @@ public class NotesTextProcessor {
     public static let headersAtxOpeningRegex = MarklightRegex(pattern: headersAtxOpeningPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxClosingPattern = [
-        "\\#{1,6}\\n+"
+        "\\#{1,6}(?:\\n+|\\Z)"
         ].joined(separator: "\n")
     
     public static let headersAtxClosingRegex = MarklightRegex(pattern: headersAtxClosingPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -956,9 +956,9 @@ public class NotesTextProcessor {
         "(                           # Wrap whole match in $1",
         "    (",
         "    ^\\p{Z}*>\\p{Z}?              # '>' at the start of a line",
-        "        .+\\n               # rest of the first line",
-        "    (.+\\n)*                # subsequent consecutive lines",
-        "    \\n*                    # blanks",
+        "        .+(?:\\n|\\Z)               # rest of the first line",
+        "    (.+(?:\\n|\\Z))*                # subsequent consecutive lines",
+        "    (?:\\n|\\Z)*                    # blanks",
         "    )+",
         ")"
         ].joined(separator: "\n")
