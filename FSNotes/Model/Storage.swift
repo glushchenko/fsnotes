@@ -156,7 +156,15 @@ class Storage {
     }
     
     func add(_ note: Note) {
-        noteList.append(note)
+        if !noteList.contains(where: { $0.name == note.name && $0.storage == note.storage }) {
+           noteList.append(note)
+        }
+    }
+    
+    func removeBy(note: Note) {
+        if let i = noteList.index(of: note) {
+            noteList.remove(at: i)
+        }
     }
     
     func remove(id: Int) {
@@ -285,15 +293,18 @@ class Storage {
     }
     
     func removeNotes(notes: [Note], completion: @escaping () -> Void) {
+        guard notes.count > 0 else {
+            return
+        }
+        
         for note in notes {
-            if let i = noteList.index(of: note) {
-                noteList.remove(at: i)
-            }
+            removeBy(note: note)
         }
         
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 var recordIds: [CKRecordID] = []
+                
                 for note in notes {
                     if let record = CKRecord(archivedData: note.cloudKitRecord) {
                         recordIds.append(record.recordID)
@@ -304,11 +315,57 @@ class Storage {
                     CoreDataManager.instance.removeNotes(notes: notes)
                     completion()
                 }
+            } else {
+                CoreDataManager.instance.removeNotes(notes: notes)
+                completion()
             }
         #else
             CoreDataManager.instance.removeNotes(notes: notes)
             completion()
         #endif
     }
-
+    
+    func saveNote(note: Note, userInitiated: Bool = false) {
+        add(note)
+        
+        guard note.isGeneral() else {
+            return
+        }
+        
+        note.loadModifiedLocalAt()
+        
+        #if CLOUDKIT
+            if UserDefaultsManagement.cloudKitSync {
+                if userInitiated {
+                    NotificationsController.onStartSync()
+                }
+                
+                // save state to core database
+                note.isSynced = false
+                CoreDataManager.instance.save()
+                
+                // save cloudkit
+                CloudKitManager.instance.saveNote(note)
+            }
+        #endif
+    }
+    
+    func removeNote(note: Note) {
+        let name = note.name
+        removeBy(note: note)
+        
+        guard note.isGeneral() else {
+            return
+        }
+        
+        note.isRemoved = true
+        #if CLOUDKIT
+            if UserDefaultsManagement.cloudKitSync {
+                CloudKitManager.instance.removeRecord(note: note)
+            }
+        #else
+            CoreDataManager.instance.remove(note)
+            print("Removed successfully: \(name)")
+        #endif
+    }
 }

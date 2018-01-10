@@ -108,17 +108,7 @@ public class Note: NSManagedObject {
             return false
         }
     }
-    
-    func remove() {
-        do {
-            try FileManager.default.trashItem(at: url, resultingItemURL: nil)
-            cloudRemove()
-        } catch let error as NSError {
-            print("Remove went wrong: \(error)")
-            return
-        }
-    }
-    
+        
     func removeFile() {
         do {
             try FileManager.default.trashItem(at: url, resultingItemURL: nil)
@@ -128,25 +118,7 @@ public class Note: NSManagedObject {
             return
         }
     }
-    
-    func cloudRemove() {        
-        let name = self.name
         
-        if let position = Storage.instance.noteList.index(of: self) {
-            Storage.instance.noteList.remove(at: position)
-        }
-        
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                isRemoved = true
-                CloudKitManager.instance.removeRecord(note: self)
-            }
-        #else
-            CoreDataManager.instance.remove(self)
-            print("Removed successfully: \(name)")
-        #endif
-    }
-    
     @objc func getPreviewForLabel() -> String {
         var preview: String = ""
         let content = self.content.string
@@ -341,32 +313,9 @@ public class Note: NSManagedObject {
             return
         }
         
-        cloudSave(userInitiated: userInitiated)
+        Storage.instance.saveNote(note: self, userInitiated: userInitiated)
     }
     
-    func cloudSave(userInitiated: Bool = false) {
-        if !Storage.instance.noteList.contains(where: { $0.name == name && $0.storage == storage }) {
-            Storage.instance.add(self)
-        }
-        
-        loadModifiedLocalAt()
-        
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                if userInitiated {
-                    NotificationsController.onStartSync()
-                }
-                
-                // save state to core database
-                isSynced = false
-                CoreDataManager.instance.save()
-                
-                // save cloudkit
-                CloudKitManager.instance.saveNote(self)
-            }
-        #endif
-    }
-        
     func checkLocalSyncState(_ currentDate: Date) {        
         if currentDate != modifiedLocalAt {
             isSynced = false

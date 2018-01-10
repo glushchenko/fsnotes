@@ -126,15 +126,14 @@ class CloudKitManager {
             }
             
             for recordId in deletedRecords {
-                let note = Storage.instance.getBy(name: recordId.recordName)
-                if let unwrappedNote = note {
-                    DispatchQueue.main.async() {
-                        let row = self.viewController.notesTableView.selectedRow
-                        unwrappedNote.remove()
-                        if row > -1 {
-                            self.viewController.updateTableAndSelectNextRow(row)
-                        }
-                    }
+                var notes: [Note] = []
+                
+                if let note = Storage.instance.getBy(name: recordId.recordName) {
+                    notes.append(note)
+                }
+                
+                Storage.instance.removeNotes(notes: notes) {
+                    self.reloadView()
                 }
             }
             
@@ -371,7 +370,11 @@ class CloudKitManager {
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: records)
         operation.qualityOfService = .userInitiated
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
-            print("CloudKit remove: \(String(describing: deletedRecordIDs))")
+            if let records = deletedRecordIDs {
+                print("CloudKit remove: \(records.map{ $0.recordName }.joined(separator: ", "))")
+                completion()
+                return
+            }
             completion()
         }
         database.add(operation)

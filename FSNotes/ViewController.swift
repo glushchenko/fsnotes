@@ -158,10 +158,8 @@ class ViewController: NSViewController,
         
         for note in notes {
             let destination = url.appendingPathComponent(note.name)
-            
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
-                note.storage = storageItem
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = "Hmm, something goes wrong 🙈"
@@ -169,9 +167,6 @@ class ViewController: NSViewController,
                 alert.runModal()
             }
         }
-        
-        CoreDataManager.instance.save()
-        reloadStorage()
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
@@ -198,7 +193,7 @@ class ViewController: NSViewController,
         }
         
         let filewatcher = FileWatcher(pathList)
-        filewatcher.callback = { event in
+        filewatcher.callback = { event in            
             guard UserDefaultsManagement.fsImportIsAvailable else {
                 return
             }
@@ -218,7 +213,7 @@ class ViewController: NSViewController,
                         self.watcherCreateTrigger(url)
                     } else {
                         print("FSWatcher remove note: \"\(note.name)\"")
-                        note.cloudRemove()
+                        Storage.instance.removeNote(note: note)
                         self.reloadView(note: note)
                     }
                 } else if fileExistInFS {
@@ -263,14 +258,14 @@ class ViewController: NSViewController,
             note = CoreDataManager.instance.make()
         }
         
-        note.storage = CoreDataManager.instance.fetchGeneralStorage()
+        note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
         
         print("FSWatcher import note: \"\(note.name)\"")
         
-        note.cloudSave()
+        Storage.instance.saveNote(note: note)
         reloadView(note: notesTableView.getSelectedNote())
     }
     
@@ -290,9 +285,9 @@ class ViewController: NSViewController,
         self.updateTable(filter: search.stringValue) {
             if let selected = selectedNote, let index = notesTable.getIndex(selected) {
                 notesTable.selectRowIndexes([index], byExtendingSelection: false)
-                if let unwrappedNote = note, selected == unwrappedNote {
-                    self.refillEditArea(cursor: cursor)
-                }
+                self.refillEditArea(cursor: cursor)
+            } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
+                self.editArea.clear()
             }
         }
     }
@@ -715,13 +710,6 @@ class ViewController: NSViewController,
                         self.reloadView()
                     }
                 }
-
-                if let i = selectedRows.first {
-                    self.updateTableAndSelectNextRow(i)
-                    return
-                }
-                
-                self.updateTable(filter: "") {}
             }
         }
     }
@@ -817,17 +805,7 @@ class ViewController: NSViewController,
             noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
         }
     }
-    
-    func updateTableAndSelectNextRow(_ nextRow: Int) {
-        editArea.string = ""
-        updateTable(filter: "") {
-            if (self.storage.noteList.indices.contains(nextRow)) {
-                self.notesTableView.selectRowIndexes([nextRow], byExtendingSelection: false)
-                self.notesTableView.scrollRowToVisible(nextRow)
-            }
-        }
-    }
-    
+
     func loadSortBySetting() {
         guard let menu = NSApp.menu, let view = menu.item(withTitle: "View"), let submenu = view.submenu, let sortMenu = submenu.item(withTitle: "Sort by"), let sortItems = sortMenu.submenu else {
             return
