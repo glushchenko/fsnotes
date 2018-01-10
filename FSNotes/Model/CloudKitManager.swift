@@ -101,6 +101,7 @@ class CloudKitManager {
     func pull() {        
         fetchChanges() {modifiedRecords, deletedRecords, token in
             UserDefaultsManagement.fsImportIsAvailable = false
+
             for record in modifiedRecords {
                 let asset = record.object(forKey: "file") as! CKAsset
                 let recordName = record.recordID.recordName
@@ -133,7 +134,6 @@ class CloudKitManager {
                 }
                 
                 Storage.instance.removeNotes(notes: notes)
-                self.reloadView()
             }
             
             CoreDataManager.instance.save()
@@ -141,11 +141,9 @@ class CloudKitManager {
             UserDefaults.standard.serverChangeToken = token
 
             DispatchQueue.main.async {
-                let search = self.viewController.search.stringValue
-                self.viewController.updateTable(filter: search) {
-                    NotificationsController.syncProgress()
-                    NotificationsController.onFinishSync()
-                }
+                self.viewController.reloadView()
+                NotificationsController.syncProgress()
+                NotificationsController.onFinishSync()
             }
         }
     }

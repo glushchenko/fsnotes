@@ -174,7 +174,7 @@ class EditTextView: NSTextView {
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
         
-        guard search.count > 0 && !search.starts(with: "\\") else {
+        guard search.count > 0 else {
             return
         }
         
@@ -182,25 +182,28 @@ class EditTextView: NSTextView {
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: textStorage!)
         let pattern = "(\(searchTerm))"
         let range:NSRange = NSMakeRange(0, (textStorage?.string.count)!)
-        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
-        regex.enumerateMatches(
-            in: (textStorage?.string)!,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: {
-                (textCheckingResult, matchingFlags, stop) -> Void in
-                let subRange = textCheckingResult?.range
-                
-                if remove {
-                    attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange!)
-                } else {
-                    attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange!)
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
+        
+            regex.enumerateMatches(
+                in: (textStorage?.string)!,
+                options: NSRegularExpression.MatchingOptions(),
+                range: range,
+                using: {
+                    (textCheckingResult, matchingFlags, stop) -> Void in
+                    let subRange = textCheckingResult?.range
+                    
+                    if remove {
+                        attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange!)
+                    } else {
+                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange!)
+                    }
                 }
-            }
-        )
-        
-        textStorage?.setAttributedString(attributedString)
+            )
+            
+            textStorage?.setAttributedString(attributedString)
+        } catch {}
     }
     
     func save(note: Note) -> Bool {
