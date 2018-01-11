@@ -79,7 +79,11 @@ class ViewController: NSViewController,
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
-            updateTable(filter: "") {}
+            updateTable(filter: "") {
+                if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
+                    self.notesTableView.selectRowIndexes([i], byExtendingSelection: false)
+                }
+            }
         }
         
         let font = UserDefaultsManagement.noteFont
@@ -757,11 +761,6 @@ class ViewController: NSViewController,
         } else {
             enablePreview()
         }
-    }
-    
-    func reloadStorage() {
-        storage.loadDocuments()
-        updateTable(filter: "") {}
     }
     
     func loadMoveMenu() {

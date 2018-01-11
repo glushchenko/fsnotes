@@ -103,6 +103,7 @@ class EditTextView: NSTextView {
         viewController.emptyEditAreaImage.isHidden = true
         
         EditTextView.note = note
+        UserDefaultsManagement.lastSelectedURL = note.url
         
         subviews.removeAll()
         undoManager?.removeAllActions()

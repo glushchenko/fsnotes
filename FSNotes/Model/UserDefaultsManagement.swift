@@ -38,6 +38,7 @@ public class UserDefaultsManagement {
         static let SortBy = "sortBy"
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
+        static let LastSelectedPath = "lastSelectedPath"
     }
         
     static var fontName: String {
@@ -402,6 +403,20 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+        }
+    }
+    
+    static var lastSelectedURL: URL? {
+        get {
+            if let path = UserDefaults.standard.object(forKey: Constants.LastSelectedPath) as? String, let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                return URL(string: "file://" + encodedPath)
+            }
+            return nil
+        }
+        set {
+            if let url = newValue {
+                UserDefaults.standard.set(url.path, forKey: Constants.LastSelectedPath)
+            }
         }
     }
     
