@@ -306,11 +306,16 @@ class PrefsViewController: NSViewController {
     }
     
     func reloadStorage() {
-        storageTableView.reload()
         Storage.instance.loadDocuments()
-        viewController.updateTable(filter: "") {
+        
+        self.storageTableView.reload()
+        self.viewController.updateTable(filter: "") {
             self.viewController.loadMoveMenu()
         }
+    }
+    
+    func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutableRawPointer) {
+        Swift.print("keyPath")
     }
     
     func checkCloudStatus() {

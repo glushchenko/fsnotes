@@ -88,9 +88,9 @@ class Storage {
         let existNotes = CoreDataManager.instance.fetchAll()
         
         for note in existNotes {
-            var path = ""
-            if let storage = note.storage {
-                path = storage.path!
+            var path: String = ""
+            if let storage = note.storage, let unwrappedPath = storage.path {
+                path = unwrappedPath
             }
             notesDict[note.name + path] = note
         }
@@ -280,16 +280,36 @@ class Storage {
                 $0.isGeneral()
             }.count
     }
+        
+    var isActiveCaching = false
+    var terminateBusyQueue = false
     
     func cacheMarkdown() {
         DispatchQueue.global(qos: .background).async {
+            guard !self.isActiveCaching else {
+                self.terminateBusyQueue = true
+                return
+            }
+            
+            self.isActiveCaching = true
+            
             let markdownDocuments = self.noteList.filter{
                 $0.isMarkdown()
             }
             
             for note in markdownDocuments {
                 note.markdownCache()
+                
+                if self.terminateBusyQueue {
+                    print("Caching data obsolete, restart caching initiated.")
+                    self.terminateBusyQueue = false
+                    self.isActiveCaching = false
+                    self.loadDocuments()
+                    break
+                }
             }
+            
+            self.isActiveCaching = false
         }
     }
     
