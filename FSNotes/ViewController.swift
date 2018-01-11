@@ -369,6 +369,16 @@ class ViewController: NSViewController,
             pin(notesTableView.selectedRowIndexes)
         }
         
+        // Next note (cmd-j)
+        if (event.keyCode == 38 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+            notesTableView.selectNext()
+        }
+        
+        // Prev note (cmd-k)
+        if (event.keyCode == 40 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+            notesTableView.selectPrev()
+        }
+                
         // Open in external editor (cmd-control-e)
         if (
             event.keyCode == 14

@@ -100,7 +100,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (
-            (event.keyCode == 28 || event.keyCode == 46)
+            [28, 46, 40, 38].contains(event.keyCode) // j, k
             && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
             return true
         }
@@ -140,6 +140,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return index
         }
         return nil
+    }
+    
+    func selectNext() {
+        selectRow(selectedRow + 1)
+    }
+    
+    func selectPrev() {
+        selectRow(selectedRow - 1)
+    }
+    
+    func selectRow(_ i: Int) {
+        if (noteList.indices.contains(i)) {
+            selectRowIndexes([i], byExtendingSelection: false)
+        }
     }
     
 }

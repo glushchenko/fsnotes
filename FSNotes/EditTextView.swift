@@ -148,6 +148,7 @@ class EditTextView: NSTextView {
         }
       
         self.window?.title = note.title
+        setSelectedRange(NSRange(location: 0, length: 0))
     }
     
     func removeHighlight() {
