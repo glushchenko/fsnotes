@@ -29,6 +29,10 @@ class EditTextView: NSTextView {
     
     override func drawBackground(in rect: NSRect) {
         backgroundColor = UserDefaultsManagement.bgColor
+        
+        let isDarkBG = backgroundColor.brightnessComponent < 0.5
+        insertionPointColor = isDarkBG ? NSColor.white : NSColor.black
+        
         super.drawBackground(in: rect)
     }
     
