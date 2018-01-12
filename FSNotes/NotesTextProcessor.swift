@@ -504,10 +504,13 @@ public class NotesTextProcessor {
             }
         }
         
+        var offset = 0
+        var newLineOffset = 0
+        
         // We detect and process inline images
         NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            
+
             styleApplier.addAttribute(.font, value: codeFont, range: range)
             
             // TODO: add image attachment
@@ -519,16 +522,79 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 // FIXME: remove syntax and add image
             }
+            
             NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 // FIXME: remove syntax and add image
             }
+            
             NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                // FIXME: remove syntax and add image
+                
+                let link = NSRange(location: innerRange.location + 1, length: innerRange.length - 2)
+                let path = textStorageNSString.substring(with: link)
+                
+                if var urlx = URL(string: path) {
+                    var isCached = false
+                    var localURL: URL?
+                    if let generalURL = Storage.generalUrl {
+                        localURL = generalURL.appendingPathComponent(urlx.lastPathComponent)
+                        if let l = localURL, FileManager.default.fileExists(atPath: l.path) {
+                            urlx = l
+                            isCached = true
+                        }
+                    }
+                    
+                    guard let datax = try? Data(contentsOf: urlx), let imagex = NSImage(dataIgnoringOrientation: datax) else {
+                        return
+                    }
+                    
+                    if !isCached, let l = localURL {
+                        try? datax.write(to: l, options: .atomic)
+                    }
+                    
+                    let attachment = NSTextAttachment()
+                    attachment.image = imagex.imageRotatedByDegreess(degrees: CGFloat(180))
+                    let attrStringWithImage = NSAttributedString(attachment: attachment)
+                    
+                    guard styleApplier.length >= innerRange.location + innerRange.length else {
+                        return
+                    }
+                    
+                    var newLine = false
+                    var attachmentExist = false
+                    let x2 = offset * 2
+                    
+                    if innerRange.lowerBound >= 4 + offset + newLineOffset {
+                        newLine = (styleApplier.attributedSubstring(from: NSMakeRange(innerRange.lowerBound - 4 + offset + newLineOffset, 1)).string == "\n")
+                        
+                    }
+                    
+                    if innerRange.lowerBound >= 5 + x2 {
+                        attachmentExist = styleApplier.containsAttachments(in: NSMakeRange(innerRange.lowerBound - 5 + offset + newLineOffset, 1))
+                    }
+                    
+                    guard !attachmentExist else {
+                        styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 5 + offset + newLineOffset, 1), with: attrStringWithImage)
+                        return
+                    }
+                    
+                    if !newLine {
+                        
+                        styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 3 + offset + newLineOffset, 0), with: NSAttributedString(string: "\n"))
+                        styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 3 + offset + newLineOffset, 0), with: attrStringWithImage)
+                        newLineOffset = newLineOffset + 1
+                    } else {
+                        
+                        styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 4 + offset + newLineOffset, 0), with: attrStringWithImage)
+                    }
+                    
+                }
             }
+            
+            offset = offset + 1
         }
         
         // We detect and process quotes
@@ -1120,12 +1186,46 @@ public struct MarklightRegex {
     public func matches(_ input: String, range: NSRange,
                         completion: @escaping (_ result: NSTextCheckingResult?) -> Void) {
         let s = input as NSString
+        //NSRegularExpression.
         let options = NSRegularExpression.MatchingOptions(rawValue: 0)
         regularExpression.enumerateMatches(in: s as String,
                                            options: options,
                                            range: range,
                                            using: { (result, flags, stop) -> Void in
+
                                             completion(result)
         })
+    }
+}
+
+public extension NSImage {
+    public func imageRotatedByDegreess(degrees:CGFloat) -> NSImage {
+        
+        var imageBounds = NSZeroRect ; imageBounds.size = self.size
+        let pathBounds = NSBezierPath(rect: imageBounds)
+        var transform = NSAffineTransform()
+        transform.rotate(byDegrees: degrees)
+        pathBounds.transform(using: transform as AffineTransform)
+        let rotatedBounds:NSRect = NSMakeRect(NSZeroPoint.x, NSZeroPoint.y , self.size.width, self.size.height )
+        let rotatedImage = NSImage(size: rotatedBounds.size)
+        
+        //Center the image within the rotated bounds
+        imageBounds.origin.x = NSMidX(rotatedBounds) - (NSWidth(imageBounds) / 2)
+        imageBounds.origin.y  = NSMidY(rotatedBounds) - (NSHeight(imageBounds) / 2)
+        
+        // Start a new transform
+        transform = NSAffineTransform()
+        // Move coordinate system to the center (since we want to rotate around the center)
+        transform.translateX(by: +(NSWidth(rotatedBounds) / 2 ), yBy: +(NSHeight(rotatedBounds) / 2))
+        transform.rotate(byDegrees: degrees)
+        // Move the coordinate system bak to normal
+        transform.translateX(by: -(NSWidth(rotatedBounds) / 2 ), yBy: -(NSHeight(rotatedBounds) / 2))
+        // Draw the original image, rotated, into the new image
+        rotatedImage.lockFocus()
+        transform.concat()
+        self.draw(in: imageBounds, from: NSZeroRect, operation: .copy, fraction: 1.0)
+        rotatedImage.unlockFocus()
+        
+        return rotatedImage
     }
 }
