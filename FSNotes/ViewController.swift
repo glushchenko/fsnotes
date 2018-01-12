@@ -81,7 +81,7 @@ class ViewController: NSViewController,
             storage.loadDocuments()
             updateTable(filter: "") {
                 if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
-                    self.notesTableView.selectRowIndexes([i], byExtendingSelection: false)
+                    self.notesTableView.selectRow(i)
                 }
             }
         }
@@ -182,7 +182,7 @@ class ViewController: NSViewController,
         if !refilled {
             self.refilled = true
             DispatchQueue.main.async() {
-                self.refillEditArea()
+                self.refillEditArea(previewOnly: true)
                 self.refilled = false
             }
         }
@@ -300,7 +300,11 @@ class ViewController: NSViewController,
         notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
     }
     
-    func refillEditArea(cursor: Int? = nil) {
+    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false) {
+        guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
+            return
+        }
+        
         var location: Int = 0
         
         if let unwrappedCursor = cursor {
@@ -311,7 +315,9 @@ class ViewController: NSViewController,
         
         let selected = notesTableView.selectedRow
         if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
-            editArea.fill(note: notesTableView.noteList[notesTableView.selectedRow])
+            if let note = notesTableView.getSelectedNote(){
+                editArea.fill(note: note)
+            }
         }
         
         editArea.setSelectedRange(NSRange.init(location: location, length: 0))

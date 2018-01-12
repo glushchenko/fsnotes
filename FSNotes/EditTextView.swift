@@ -97,7 +97,8 @@ class EditTextView: NSTextView {
         let note = viewController.notesTableView.getNoteFromSelectedRow()
         return note
     }
-            
+    
+    var timer: Timer?
     func fill(note: Note, highlight: Bool = false) {
         guard let storage = textStorage else {
             return
@@ -150,9 +151,20 @@ class EditTextView: NSTextView {
         if highlight {
             highlightKeyword()
         }
+        
+        if note.isMarkdown() {
+            
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
+        }
       
         self.window?.title = note.title
         setSelectedRange(NSRange(location: 0, length: 0))
+    }
+    
+    @objc func loadImages() {
+        let processor = ImagesProcessor()
+        processor.loadImages(styleApplier: textStorage!)
     }
     
     func removeHighlight() {
@@ -511,6 +523,8 @@ class EditTextView: NSTextView {
         }
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
+        let processor = ImagesProcessor()
+        processor.loadImages(styleApplier: storage, range: paragraphRange)
     }
 
     func higlightLinks() {
