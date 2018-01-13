@@ -162,8 +162,10 @@ class EditTextView: NSTextView {
     }
     
     @objc func loadImages() {
-        let processor = ImagesProcessor()
-        processor.loadImages(styleApplier: textStorage!, maxWidth: frame.width)
+        if let note = self.getSelectedNote() {
+            let processor = ImagesProcessor()
+            processor.loadImages(styleApplier: textStorage!, maxWidth: frame.width, note: note)
+        }
     }
     
     func removeHighlight() {
@@ -522,7 +524,7 @@ class EditTextView: NSTextView {
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
         let processor = ImagesProcessor()
-        processor.loadImages(styleApplier: storage, range: paragraphRange, maxWidth: frame.width)
+        processor.loadImages(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
     }
 
     func higlightLinks() {

@@ -9,7 +9,7 @@
 import Foundation
 
 public class ImagesProcessor {
-    public func loadImages(styleApplier: NSMutableAttributedString, range: NSRange? = nil, maxWidth: CGFloat) {
+    public func loadImages(styleApplier: NSMutableAttributedString, range: NSRange? = nil, maxWidth: CGFloat, note: Note) {
 
         var paragraphRange: NSRange
         if let unwrappedRange = range {
@@ -50,17 +50,22 @@ public class ImagesProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
                 let link = NSRange(location: innerRange.location + 1, length: innerRange.length - 2)
-                
                 let path = textStorageNSString.substring(with: link)
-                print(path)
-                
+
                 if var urlx = URL(string: path) {
                     var isCached = false
-                    var localURL: URL?
-                    if let generalURL = Storage.generalUrl {
-                        localURL = generalURL.appendingPathComponent(urlx.lastPathComponent)
-                        if let l = localURL, FileManager.default.fileExists(atPath: l.path) {
-                            urlx = l
+                    
+                    if let noteStorage = note.storage, let storagePath = noteStorage.getPath() {
+                        var notePath: String
+                        if let scheme = urlx.scheme, ["http", "https"].contains(scheme), let encodedPath = urlx.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+                            
+                            notePath = storagePath + "/i/" + encodedPath
+                        } else {
+                            notePath = storagePath + "/" + path
+                        }
+                        
+                        if FileManager.default.fileExists(atPath: notePath) {
+                            urlx = URL(fileURLWithPath: notePath)
                             isCached = true
                         }
                     }
@@ -69,10 +74,18 @@ public class ImagesProcessor {
                         return
                     }
                     
-                    if !isCached, let l = localURL {
-                        try? datax.write(to: l, options: .atomic)
+                    if !isCached, let noteStorage = note.storage, let storagePath = noteStorage.getPath(), let p = urlx.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+                        
+                        let cacheURL = URL(fileURLWithPath: storagePath + "/i/")
+                        let cacheFile = URL(fileURLWithPath: storagePath + "/i/" + p)
+                        
+                        do {
+                            try FileManager.default.createDirectory(at: cacheURL, withIntermediateDirectories: false, attributes: nil)
+                        } catch {}
+                        
+                        try? datax.write(to: cacheFile, options: .atomic)
                     }
-
+                    
                     let realSize = imagex.representations[0]
                     var scale: CGFloat = 1
                     

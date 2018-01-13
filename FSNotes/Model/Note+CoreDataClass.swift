@@ -377,4 +377,14 @@ public class Note: NSManagedObject {
     
         return options
     }
+    
+    func getStoragePath() -> String? {
+        if let storageItem = storage, let storagePath = storageItem.getUrl() {
+            print("xxx")
+            print(storageItem)
+            return storagePath.path
+        }
+        
+        return nil
+    }
 }
