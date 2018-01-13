@@ -9,7 +9,8 @@
 import Foundation
 
 public class ImagesProcessor {
-    public func loadImages(styleApplier: NSMutableAttributedString, range: NSRange? = nil) {
+    public func loadImages(styleApplier: NSMutableAttributedString, range: NSRange? = nil, maxWidth: CGFloat) {
+
         var paragraphRange: NSRange
         if let unwrappedRange = range {
             paragraphRange = unwrappedRange
@@ -64,25 +65,37 @@ public class ImagesProcessor {
                         }
                     }
                     
-                    guard let datax = try? Data(contentsOf: urlx), let imagex = NSImage(dataIgnoringOrientation: datax) else {
+                    guard let datax = try? Data(contentsOf: urlx), let imagex = NSImage(data: datax) else {
                         return
                     }
                     
                     if !isCached, let l = localURL {
                         try? datax.write(to: l, options: .atomic)
                     }
+
+                    let realSize = imagex.representations[0]
+                    var scale: CGFloat = 1
+                    
+                    if CGFloat(realSize.pixelsWide) > maxWidth {
+                        scale = (maxWidth - 20) / CGFloat(realSize.pixelsWide)
+                    }
+                    
+                    let width = CGFloat(realSize.pixelsWide) * scale
+                    let height = CGFloat(realSize.pixelsHigh) * scale
+                    imagex.size = NSSize(width: width, height: height)
                     
                     let attachment = NSTextAttachment()
-                    attachment.image = imagex.imageRotatedByDegreess(degrees: CGFloat(180))
-                    let attrStringWithImage = NSAttributedString(attachment: attachment)
+                    let fileWrapper = FileWrapper.init()
+                    fileWrapper.icon = imagex
+                    attachment.fileWrapper = fileWrapper
                     
+                    let attrStringWithImage = NSAttributedString(attachment: attachment)
                     guard styleApplier.length >= innerRange.location + innerRange.length else {
                         return
                     }
                     
                     var newLine = false
                     var attachmentExist = false
-                    
                     
                     let j = offset + newLineOffset - mdTitleLength
                     
@@ -106,7 +119,6 @@ public class ImagesProcessor {
                         newLineOffset = newLineOffset + 1
                     } else {
                         styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 4 + j, 0), with: attrStringWithImage)
-                        
                     }
                     
                     offset = offset + 1

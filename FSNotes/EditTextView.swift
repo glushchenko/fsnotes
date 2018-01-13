@@ -153,7 +153,6 @@ class EditTextView: NSTextView {
         }
         
         if note.isMarkdown() {
-            
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
@@ -164,7 +163,7 @@ class EditTextView: NSTextView {
     
     @objc func loadImages() {
         let processor = ImagesProcessor()
-        processor.loadImages(styleApplier: textStorage!)
+        processor.loadImages(styleApplier: textStorage!, maxWidth: frame.width)
     }
     
     func removeHighlight() {
@@ -507,7 +506,6 @@ class EditTextView: NSTextView {
         
         let string = (note.content.string as NSString)
         let paragraphRange = string.paragraphRange(for: range)
-        //Swift.print(paragraphRange)
         let stringTT = storage.string as NSString
         
         if UserDefaultsManagement.codeBlockHighlight {
@@ -524,7 +522,7 @@ class EditTextView: NSTextView {
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
         let processor = ImagesProcessor()
-        processor.loadImages(styleApplier: storage, range: paragraphRange)
+        processor.loadImages(styleApplier: storage, range: paragraphRange, maxWidth: frame.width)
     }
 
     func higlightLinks() {
