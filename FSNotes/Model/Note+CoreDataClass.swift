@@ -348,6 +348,13 @@ public class Note: NSManagedObject {
         }
         
         NotesTextProcessor.fullScan(note: self, async: false)
+        
+        if let currentNote = EditTextView.note, currentNote == self {
+            DispatchQueue.main.async {
+                let controller = NSApplication.shared.windows[0].contentViewController as? ViewController
+                controller?.refillEditArea()
+            }
+        }
     }
     
     func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
@@ -380,8 +387,6 @@ public class Note: NSManagedObject {
     
     func getStoragePath() -> String? {
         if let storageItem = storage, let storagePath = storageItem.getUrl() {
-            print("xxx")
-            print(storageItem)
             return storagePath.path
         }
         

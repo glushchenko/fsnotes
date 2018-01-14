@@ -30,7 +30,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var syncProgress: NSProgressIndicator!
     @IBOutlet weak var codeBlockHighlight: NSButtonCell!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
-    
+    @IBOutlet weak var liveImagesPreview: NSButton!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -67,6 +67,8 @@ class PrefsViewController: NSViewController {
         
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
+        liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
+        
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
         #if CLOUDKIT
@@ -81,6 +83,12 @@ class PrefsViewController: NSViewController {
         storageTableView.reloadData()
         
         NotificationsController.syncProgress()
+    }
+    
+    @IBAction func liveImagesPreview(_ sender: NSButton) {
+        UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
+        
+        controller?.refillEditArea()
     }
     
     @IBAction func codeBlockHighlight(_ sender: NSButton) {

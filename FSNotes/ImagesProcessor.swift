@@ -77,7 +77,7 @@ public class ImagesProcessor {
                         self.cache(data: imageData, url: imageURL)
                     }
                     
-                    self.inserOrUpdate(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
+                    self.replaceAttributedString(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
                 }
             }
         }
@@ -174,7 +174,7 @@ public class ImagesProcessor {
         return false
     }
     
-    func inserOrUpdate(innerRange: NSRange, mdTitleLength: Int, image: NSImage) {
+    func replaceAttributedString(innerRange: NSRange, mdTitleLength: Int, image: NSImage) {
         let attrStringWithImage = self.getImageAttributedString(image: image)
         
         guard self.styleApplier.length >= innerRange.location + innerRange.length else {

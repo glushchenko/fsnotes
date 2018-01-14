@@ -152,7 +152,7 @@ class EditTextView: NSTextView {
             highlightKeyword()
         }
         
-        if note.isMarkdown() {
+        if note.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
@@ -523,8 +523,12 @@ class EditTextView: NSTextView {
         }
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
-        let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
-        processor.load()
+        
+        Swift.print(UserDefaultsManagement.liveImagesPreview)
+        if UserDefaultsManagement.liveImagesPreview {
+            let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
+            processor.load()
+        }
     }
 
     func higlightLinks() {
