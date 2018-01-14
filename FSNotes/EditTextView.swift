@@ -124,8 +124,9 @@ class EditTextView: NSTextView {
             let url = NSURL.fileURL(withPath: path!)
             let bundle = Bundle(url: url)
             
+            let markdownString = note.getPrettifiedContent() + getPreviewStyle()
             do {
-                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
+                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: markdownString, templateBundle: bundle) {
                 }
                 
                 addSubview(downView!)
@@ -152,7 +153,7 @@ class EditTextView: NSTextView {
             highlightKeyword()
         }
         
-        if note.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
+        if note.isMarkdown() && note.isCached && UserDefaultsManagement.liveImagesPreview {
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
@@ -524,8 +525,7 @@ class EditTextView: NSTextView {
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
         
-        Swift.print(UserDefaultsManagement.liveImagesPreview)
-        if UserDefaultsManagement.liveImagesPreview {
+        if note.isCached && UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
             processor.load()
         }
@@ -684,5 +684,14 @@ class EditTextView: NSTextView {
         if let note = EditTextView.note, !note.isMarkdown() {
             textColor = color
         }
+    }
+    
+    func getPreviewStyle() -> String {
+        var codeStyle = ""
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+            codeStyle = try! String.init(contentsOfFile: hgPath)
+        }
+        
+        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(UserDefaultsManagement.DefaultFont); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
     }
 }

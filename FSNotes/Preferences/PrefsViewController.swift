@@ -364,6 +364,11 @@ class PrefsViewController: NSViewController {
         }
         
         UserDefaultsManagement.codeTheme = item.title
+        
+        if let note = EditTextView.note {
+            NotesTextProcessor.hl = nil
+            note.markdownCache()
+        }
     }
     
     @objc func onFinishSync(notification: Notification) {

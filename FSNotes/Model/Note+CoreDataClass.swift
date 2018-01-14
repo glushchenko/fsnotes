@@ -21,6 +21,7 @@ public class Note: NSManagedObject {
     var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
+    var isCached = false
         
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
@@ -348,6 +349,7 @@ public class Note: NSManagedObject {
         }
         
         NotesTextProcessor.fullScan(note: self, async: false)
+        isCached = true
         
         if let currentNote = EditTextView.note, currentNote == self {
             DispatchQueue.main.async {
