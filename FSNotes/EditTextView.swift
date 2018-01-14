@@ -525,7 +525,7 @@ class EditTextView: NSTextView {
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
         
-        if note.isCached && UserDefaultsManagement.liveImagesPreview {
+        if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
             processor.load()
         }
