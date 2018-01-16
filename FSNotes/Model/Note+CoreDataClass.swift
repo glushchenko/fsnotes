@@ -93,21 +93,22 @@ public class Note: NSManagedObject {
         }
     }
     
-    func rename(newName: String) -> Bool {
-        let escapedName = newName
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: "/", with: ":")
-    
-        let fileManager = FileManager.default
-        var newUrl = url.deletingLastPathComponent()
-        newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
+    func rename(newName: String) {
+        let to = getNewURL(name: newName)
         
         do {
-            try fileManager.moveItem(at: url, to: newUrl)
-            return true
-        } catch {
-            return false
-        }
+            try FileManager.default.moveItem(at: url, to: to)
+        } catch {}
+    }
+    
+    func getNewURL(name: String) -> URL {
+        let escapedName = name
+            .replacingOccurrences(of: ":", with: "-")
+            .replacingOccurrences(of: "/", with: ":")
+        
+        var newUrl = url.deletingLastPathComponent()
+        newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
+        return newUrl
     }
         
     func removeFile() {
