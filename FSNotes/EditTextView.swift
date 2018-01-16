@@ -494,10 +494,19 @@ class EditTextView: NSTextView {
             super.keyDown(with: event)
             return
         }
+
+        guard let note = EditTextView.note else {
+            return
+        }
         
-        guard let note = EditTextView.note, note.isMarkdown() else {
+        if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             higlightLinks()
+            
+            if note.type == .RichText {
+                cacheNote(note: note)
+            }
+            
             return
         }
         
@@ -524,11 +533,20 @@ class EditTextView: NSTextView {
         }
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
+        cacheNote(note: note)
         
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
             processor.load()
         }
+    }
+    
+    func cacheNote(note: Note) {
+        guard let storage = self.textStorage else {
+            return
+        }
+        
+        note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
     }
 
     func higlightLinks() {
