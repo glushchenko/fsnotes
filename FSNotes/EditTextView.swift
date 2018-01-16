@@ -30,9 +30,6 @@ class EditTextView: NSTextView {
     override func drawBackground(in rect: NSRect) {
         backgroundColor = UserDefaultsManagement.bgColor
         
-        let isDarkBG = backgroundColor.brightnessComponent < 0.5
-        insertionPointColor = isDarkBG ? NSColor.white : NSColor.black
-        
         super.drawBackground(in: rect)
     }
     
@@ -494,10 +491,19 @@ class EditTextView: NSTextView {
             super.keyDown(with: event)
             return
         }
+
+        guard let note = EditTextView.note else {
+            return
+        }
         
-        guard let note = EditTextView.note, note.isMarkdown() else {
+        if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             higlightLinks()
+            
+            if note.type == .RichText {
+                cacheNote(note: note)
+            }
+            
             return
         }
         
@@ -524,11 +530,20 @@ class EditTextView: NSTextView {
         }
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
+        cacheNote(note: note)
         
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
             processor.load()
         }
+    }
+    
+    func cacheNote(note: Note) {
+        guard let storage = self.textStorage else {
+            return
+        }
+        
+        note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
     }
 
     func higlightLinks() {
@@ -692,6 +707,10 @@ class EditTextView: NSTextView {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
         
-        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(UserDefaultsManagement.DefaultFont); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
+        guard let familyName = UserDefaultsManagement.noteFont.familyName else {
+            return ""
+        }
+        
+        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
     }
 }
