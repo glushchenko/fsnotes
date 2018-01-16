@@ -30,9 +30,6 @@ class EditTextView: NSTextView {
     override func drawBackground(in rect: NSRect) {
         backgroundColor = UserDefaultsManagement.bgColor
         
-        let isDarkBG = backgroundColor.brightnessComponent < 0.5
-        insertionPointColor = isDarkBG ? NSColor.white : NSColor.black
-        
         super.drawBackground(in: rect)
     }
     
@@ -710,6 +707,10 @@ class EditTextView: NSTextView {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
         
-        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(UserDefaultsManagement.DefaultFont); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
+        guard let familyName = UserDefaultsManagement.noteFont.familyName else {
+            return ""
+        }
+        
+        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
     }
 }
