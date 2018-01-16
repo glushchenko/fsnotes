@@ -39,6 +39,7 @@ public class UserDefaultsManagement {
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
         static let LastSelectedPath = "lastSelectedPath"
+        static let LiveImagesPreview = "liveImagesPreview"
     }
         
     static var fontName: String {
@@ -420,4 +421,15 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var liveImagesPreview: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.LiveImagesPreview) {
+                return result as! Bool
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.LiveImagesPreview)
+        }
+    }
 }

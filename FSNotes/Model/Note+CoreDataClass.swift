@@ -21,6 +21,7 @@ public class Note: NSManagedObject {
     var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
+    var isCached = false
         
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
@@ -348,6 +349,14 @@ public class Note: NSManagedObject {
         }
         
         NotesTextProcessor.fullScan(note: self, async: false)
+        isCached = true
+        
+        if let currentNote = EditTextView.note, currentNote == self {
+            DispatchQueue.main.async {
+                let controller = NSApplication.shared.windows[0].contentViewController as? ViewController
+                controller?.refillEditArea()
+            }
+        }
     }
     
     func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
@@ -376,5 +385,13 @@ public class Note: NSManagedObject {
         }
     
         return options
+    }
+    
+    func getStoragePath() -> String? {
+        if let storageItem = storage, let storagePath = storageItem.getUrl() {
+            return storagePath.path
+        }
+        
+        return nil
     }
 }

@@ -504,33 +504,6 @@ public class NotesTextProcessor {
             }
         }
         
-        // We detect and process inline images
-        NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            
-            styleApplier.addAttribute(.font, value: codeFont, range: range)
-            
-            // TODO: add image attachment
-            
-            hideSyntaxIfNecessary(range: range)
-            
-            NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                // FIXME: remove syntax and add image
-            }
-            NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                // FIXME: remove syntax and add image
-            }
-            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                // FIXME: remove syntax and add image
-            }
-        }
-        
         // We detect and process quotes
         NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -1120,12 +1093,46 @@ public struct MarklightRegex {
     public func matches(_ input: String, range: NSRange,
                         completion: @escaping (_ result: NSTextCheckingResult?) -> Void) {
         let s = input as NSString
+        //NSRegularExpression.
         let options = NSRegularExpression.MatchingOptions(rawValue: 0)
         regularExpression.enumerateMatches(in: s as String,
                                            options: options,
                                            range: range,
                                            using: { (result, flags, stop) -> Void in
+
                                             completion(result)
         })
+    }
+}
+
+public extension NSImage {
+    public func imageRotatedByDegreess(degrees:CGFloat) -> NSImage {
+        
+        var imageBounds = NSZeroRect ; imageBounds.size = self.size
+        let pathBounds = NSBezierPath(rect: imageBounds)
+        var transform = NSAffineTransform()
+        transform.rotate(byDegrees: degrees)
+        pathBounds.transform(using: transform as AffineTransform)
+        let rotatedBounds:NSRect = NSMakeRect(NSZeroPoint.x, NSZeroPoint.y , self.size.width, self.size.height )
+        let rotatedImage = NSImage(size: rotatedBounds.size)
+        
+        //Center the image within the rotated bounds
+        imageBounds.origin.x = NSMidX(rotatedBounds) - (NSWidth(imageBounds) / 2)
+        imageBounds.origin.y  = NSMidY(rotatedBounds) - (NSHeight(imageBounds) / 2)
+        
+        // Start a new transform
+        transform = NSAffineTransform()
+        // Move coordinate system to the center (since we want to rotate around the center)
+        transform.translateX(by: +(NSWidth(rotatedBounds) / 2 ), yBy: +(NSHeight(rotatedBounds) / 2))
+        transform.rotate(byDegrees: degrees)
+        // Move the coordinate system bak to normal
+        transform.translateX(by: -(NSWidth(rotatedBounds) / 2 ), yBy: -(NSHeight(rotatedBounds) / 2))
+        // Draw the original image, rotated, into the new image
+        rotatedImage.lockFocus()
+        transform.concat()
+        self.draw(in: imageBounds, from: NSZeroRect, operation: .copy, fraction: 1.0)
+        rotatedImage.unlockFocus()
+        
+        return rotatedImage
     }
 }

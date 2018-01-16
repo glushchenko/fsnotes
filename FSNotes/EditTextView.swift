@@ -97,7 +97,8 @@ class EditTextView: NSTextView {
         let note = viewController.notesTableView.getNoteFromSelectedRow()
         return note
     }
-            
+    
+    var timer: Timer?
     func fill(note: Note, highlight: Bool = false) {
         guard let storage = textStorage else {
             return
@@ -123,8 +124,9 @@ class EditTextView: NSTextView {
             let url = NSURL.fileURL(withPath: path!)
             let bundle = Bundle(url: url)
             
+            let markdownString = note.getPrettifiedContent() + getPreviewStyle()
             do {
-                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: note.getPrettifiedContent(), templateBundle: bundle) {
+                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: markdownString, templateBundle: bundle) {
                 }
                 
                 addSubview(downView!)
@@ -150,9 +152,21 @@ class EditTextView: NSTextView {
         if highlight {
             highlightKeyword()
         }
+        
+        if note.isMarkdown() && note.isCached && UserDefaultsManagement.liveImagesPreview {
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
+        }
       
         self.window?.title = note.title
         setSelectedRange(NSRange(location: 0, length: 0))
+    }
+    
+    @objc func loadImages() {
+        if let note = self.getSelectedNote() {
+            let processor = ImagesProcessor(styleApplier: textStorage!, maxWidth: frame.width, note: note)
+            processor.load()
+        }
     }
     
     func removeHighlight() {
@@ -495,7 +509,6 @@ class EditTextView: NSTextView {
         
         let string = (note.content.string as NSString)
         let paragraphRange = string.paragraphRange(for: range)
-        //Swift.print(paragraphRange)
         let stringTT = storage.string as NSString
         
         if UserDefaultsManagement.codeBlockHighlight {
@@ -511,6 +524,11 @@ class EditTextView: NSTextView {
         }
         
         NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
+        
+        if UserDefaultsManagement.liveImagesPreview {
+            let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
+            processor.load()
+        }
     }
 
     func higlightLinks() {
@@ -666,5 +684,14 @@ class EditTextView: NSTextView {
         if let note = EditTextView.note, !note.isMarkdown() {
             textColor = color
         }
+    }
+    
+    func getPreviewStyle() -> String {
+        var codeStyle = ""
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+            codeStyle = try! String.init(contentsOfFile: hgPath)
+        }
+        
+        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(UserDefaultsManagement.DefaultFont); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
     }
 }
