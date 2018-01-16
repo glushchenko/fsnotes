@@ -12,7 +12,7 @@ import Cocoa
 
 enum CloudKitResult {
     case success(CKRecord)
-    case failure(String)
+    case failure(CKError)
 }
 
 class CloudKitManager {
@@ -299,17 +299,19 @@ class CloudKitManager {
         CoreDataManager.instance.save()
     }
     
-    func removeRecord(note: Note) {
+    func removeRecord(note: Note, completionRecord: @escaping () -> Void) {
         getRecord(note: note, completion: { result in
             switch result {
             case .success(let record):
                 self.database.delete(withRecordID: record.recordID, completionHandler: { record, error in
                     let name = note.name
                     CoreDataManager.instance.remove(note)
+                    completionRecord()
                     print("Removed successfully: \(name)")
                 })
             case .failure(let error):
                 CoreDataManager.instance.remove(note)
+                completionRecord()
                 print("Remove cloud kit error \(error)")
             }
         })
@@ -317,7 +319,7 @@ class CloudKitManager {
  
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
         guard note.name.count > 0 else {
-            completion(.failure("Note name not found."))
+            completion(.failure(CKError(_nsError: NSError())))
             return
         }
         
@@ -336,7 +338,7 @@ class CloudKitManager {
         let recordID = CKRecordID(recordName: recordName, zoneID: recordZone!.zoneID)
         database.fetch(withRecordID: recordID, completionHandler: { record, error in
             if error != nil {
-                completion(.failure("Fetch error \(error!.localizedDescription)"))
+                completion(.failure(error as! CKError))
                 return
             }
             completion(.success(record!))

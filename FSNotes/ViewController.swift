@@ -439,13 +439,36 @@ class ViewController: NSViewController,
         guard let note = notesTableView.getNoteFromSelectedRow() else {
             return
         }
+        
+        let value = sender.stringValue
                 
         sender.isEditable = false
         
-        if (!note.rename(newName: sender.stringValue)) {
-            Swift.print("Error: rename")
-        }
+        #if CLOUDKIT
+            if UserDefaultsManagement.cloudKitSync {
+                let newUrl = note.getNewURL(name: value)
+                
+                if note.url.path.lowercased() == newUrl.path.lowercased() {
+                    Storage.instance.removeBy(note: note)
+                    note.removeFile()
+                    CloudKitManager.instance.removeRecord(note: note) {
+                        DispatchQueue.main.async {
+                            note.url = newUrl
+                            print(newUrl)
+                            _ = note.writeContent()
+                        }
+                    }
+                } else {
+                    note.rename(newName: sender.stringValue)
+                }
+            } else {
+                note.rename(newName: sender.stringValue)
+            }
+        #else
+            note.rename(newName: sender.stringValue)
+        #endif
         
+        notesTableView.reloadData()
         sender.stringValue = note.title
     }
     
