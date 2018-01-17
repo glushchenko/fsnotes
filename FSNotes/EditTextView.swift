@@ -121,9 +121,11 @@ class EditTextView: NSTextView {
             let url = NSURL.fileURL(withPath: path!)
             let bundle = Bundle(url: url)
             
-            let markdownString = note.getPrettifiedContent() + getPreviewStyle()
+            let markdownString = note.getPrettifiedContent()
+            let css = getPreviewStyle()
+            
             do {
-                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: markdownString, templateBundle: bundle) {
+                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
                 }
                 
                 addSubview(downView!)
@@ -708,9 +710,9 @@ class EditTextView: NSTextView {
         }
         
         guard let familyName = UserDefaultsManagement.noteFont.familyName else {
-            return ""
+            return codeStyle
         }
         
-        return "<style>body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} + \(codeStyle) </style>"
+        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} \(codeStyle)"
     }
 }

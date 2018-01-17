@@ -25,7 +25,7 @@ open class MarkdownView: WKWebView {
      
      - returns: An instance of Self
      */
-    public init(frame: CGRect, markdownString: String, openLinksInBrowser: Bool = true, templateBundle: Bundle? = nil, didLoadSuccessfully: DownViewClosure? = nil) throws {
+    public init(frame: CGRect, markdownString: String, openLinksInBrowser: Bool = true, css: String, templateBundle: Bundle? = nil, didLoadSuccessfully: DownViewClosure? = nil) throws {
         self.didLoadSuccessfully = didLoadSuccessfully
         
         if let templateBundle = templateBundle {
@@ -47,7 +47,7 @@ open class MarkdownView: WKWebView {
         super.init(frame: frame, configuration: configuration)
         
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
-        try loadHTMLView(markdownString)
+        try loadHTMLView(markdownString, css: css)
     }
     
     required public init?(coder: NSCoder) {
@@ -71,7 +71,7 @@ open class MarkdownView: WKWebView {
             self.didLoadSuccessfully = didLoadSuccessfully
         }
         
-        try loadHTMLView(markdownString)
+        try loadHTMLView(markdownString, css: "")
     }
     
     // MARK: - Private Properties
@@ -89,14 +89,15 @@ open class MarkdownView: WKWebView {
 
 private extension MarkdownView {
     
-    func loadHTMLView(_ markdownString: String) throws {
+    func loadHTMLView(_ markdownString: String, css: String) throws {
         let htmlString = try markdownString.toHTML()
-        let pageHTMLString = try htmlFromTemplate(htmlString)
+        let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
         loadHTMLString(pageHTMLString, baseURL: baseURL)
     }
     
-    func htmlFromTemplate(_ htmlString: String) throws -> String {
-        let template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
+    func htmlFromTemplate(_ htmlString: String, css: String) throws -> String {
+        var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
+        template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
     
