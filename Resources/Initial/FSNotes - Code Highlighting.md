@@ -1,4 +1,4 @@
-# Code highlighting
+## Code highlighting
 
 176 languages support
 
@@ -59,4 +59,3 @@ public static func getHighlighter() -> Highlightr? {
 	[hidden] {
 	    display: none;
 	}
-

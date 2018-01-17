@@ -11,8 +11,6 @@
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		6F46BBE71F55320E000D7DB2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
 		93D1825473D129F6D510814D /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
-		D708AC6420003B9E00A1760F /* Code highlighting sample.md in Resources */ = {isa = PBXBuildFile; fileRef = D708AC6320003B9E00A1760F /* Code highlighting sample.md */; };
-		D708AC6520003EC000A1760F /* Code highlighting sample.md in Resources */ = {isa = PBXBuildFile; fileRef = D708AC6320003B9E00A1760F /* Code highlighting sample.md */; };
 		D708AC672000EF5800A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D708AC682000F0E100A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D708AC6A200288FC00A1760F /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC69200288FC00A1760F /* NSTextStorage+.swift */; };
@@ -63,7 +61,6 @@
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
-		D7D6FA351F5C6AE300E08068 /* Hello world.md in Resources */ = {isa = PBXBuildFile; fileRef = D7D6FA341F5C68E000E08068 /* Hello world.md */; };
 		D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */; };
 		D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */; };
 		D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
@@ -94,7 +91,6 @@
 		D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D7E81C451F925B5F00416A91 /* FSNotes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8991F77CDEF00113CFD /* FSNotes.xcdatamodeld */; };
 		D7E81C461F925B5F00416A91 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note+CoreDataClass.swift */; };
-		D7E81C4A1F925B5F00416A91 /* Hello world.md in Resources */ = {isa = PBXBuildFile; fileRef = D7D6FA341F5C68E000E08068 /* Hello world.md */; };
 		D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
 		D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
@@ -106,6 +102,8 @@
 		D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D7E81C541F925B5F00416A91 /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7E81C5D1F925B8E00416A91 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E81C5C1F925B8E00416A91 /* CloudKit.framework */; };
+		D7ED6892200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
+		D7ED6893200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 /* End PBXBuildFile section */
@@ -135,7 +133,6 @@
 		63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).debug.xcconfig"; sourceTree = "<group>"; };
 		6F46BBE61F55320E000D7DB2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__CloudKit_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D708AC6320003B9E00A1760F /* Code highlighting sample.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "Code highlighting sample.md"; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
 		D708AC69200288FC00A1760F /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
 		D7097FCA1FB8CA4A00144D8F /* StorageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTableView.swift; sourceTree = "<group>"; };
@@ -188,7 +185,6 @@
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
-		D7D6FA341F5C68E000E08068 /* Hello world.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "Hello world.md"; sourceTree = "<group>"; };
 		D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
 		D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcherEvent.swift; sourceTree = "<group>"; };
 		D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-It.ttf"; sourceTree = "<group>"; };
@@ -197,6 +193,7 @@
 		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		D7E81C5A1F925B5F00416A91 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7E81C5C1F925B8E00416A91 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		D7ED6891200F87BD00FF975A /* Initial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Initial; sourceTree = "<group>"; };
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		F3A83507E865DA95F2735CC8 /* Pods-FSNotes (CloudKit).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -378,6 +375,7 @@
 		D7D61FCC1F32EEA1004357C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D7ED6891200F87BD00FF975A /* Initial */,
 				D71C4A4D1F520F0E00EBA30B /* DownView.bundle */,
 				D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */,
 				D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */,
@@ -387,8 +385,6 @@
 				D735E5B81F2E45CC00173215 /* icons.icns */,
 				D7D3D5191F4483EA00D152FE /* pin.png */,
 				D7D3D5171F44794A00D152FE /* makeNote.png */,
-				D708AC6320003B9E00A1760F /* Code highlighting sample.md */,
-				D7D6FA341F5C68E000E08068 /* Hello world.md */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -549,15 +545,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7D6FA351F5C6AE300E08068 /* Hello world.md in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
+				D7ED6892200F87BD00FF975A /* Initial in Resources */,
 				D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */,
 				D7D3D51A1F4483F500D152FE /* pin.png in Resources */,
-				D708AC6420003B9E00A1760F /* Code highlighting sample.md in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7166F531F32F751001A883F /* icons.icns in Resources */,
@@ -582,13 +577,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D708AC6520003EC000A1760F /* Code highlighting sample.md in Resources */,
-				D7E81C4A1F925B5F00416A91 /* Hello world.md in Resources */,
 				D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */,
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
 				D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7E81C4E1F925B5F00416A91 /* SourceCodePro-Regular.ttf in Resources */,
 				D7E81C4F1F925B5F00416A91 /* SourceCodePro-Black.ttf in Resources */,
+				D7ED6893200F87BD00FF975A /* Initial in Resources */,
 				D7E81C501F925B5F00416A91 /* SourceCodePro-It.ttf in Resources */,
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,

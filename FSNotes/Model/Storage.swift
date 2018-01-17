@@ -187,23 +187,21 @@ class Storage {
             }
         }
         
-        guard noteList.isEmpty else {
+        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else {
             return false
         }
         
-        let srcHello = Bundle.main.url(forResource: "Hello world", withExtension: "md")
-        let srcCode = Bundle.main.url(forResource: "Code highlighting sample", withExtension: "md")
-        
-        let dstHello = URL(fileURLWithPath: path + "/Hello world.md")
-        let dstCode = URL(fileURLWithPath: path + "/Code highlighting sample.md")
+        let initialPath = resourceURL.appendingPathComponent("Initial").path
         
         do {
-            try FileManager.default.copyItem(at: srcHello!, to: dstHello)
-            try FileManager.default.copyItem(at: srcCode!, to: dstCode)
+            let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
+            for file in files {
+                try? FileManager.default.copyItem(atPath: "\(initialPath)/\(file)", toPath: "\(path)/\(file)")
+            }
         } catch {
             print("Initial copy error: \(error)")
         }
-        
+
         return true
     }
     

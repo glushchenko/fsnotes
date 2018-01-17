@@ -77,6 +77,8 @@ class ViewController: NSViewController,
             CoreDataManager.instance.save()
         }
         
+        watchFSEvents()
+        
         if storage.noteList.count == 0 {
             storage.loadDocuments()
             updateTable(filter: "") {
@@ -107,8 +109,6 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
-        
-        watchFSEvents()
         
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
@@ -271,6 +271,13 @@ class ViewController: NSViewController,
         
         Storage.instance.saveNote(note: note)
         reloadView(note: notesTableView.getSelectedNote())
+        
+        if note.name == "FSNotes - Readme.md" {
+            updateTable(filter: "") {
+                self.notesTableView.selectRow(0)
+                note.addPin()
+            }
+        }
     }
     
     func checkFile(url: URL, pathList: [String]) -> Bool {
