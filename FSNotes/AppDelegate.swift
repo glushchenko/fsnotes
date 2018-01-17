@@ -40,6 +40,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if (!flag) {
             mainWindowController?.makeNew()
         }
+        
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.focusEditArea()
+        
         return true
     }
     

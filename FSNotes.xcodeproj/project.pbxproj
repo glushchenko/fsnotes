@@ -312,10 +312,6 @@
 				275592961F3AE9B5006B8988 /* MainWindowController.swift */,
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
 				D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */,
-				D7793C781F211C6000CA39B7 /* Main.storyboard */,
-				D7793C7B1F211C6000CA39B7 /* Info.plist */,
-				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
-				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
 				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
 				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
 				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
@@ -325,10 +321,14 @@
 				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
 				D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */,
 				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
-				D75AD2301F41E4550026C65D /* Bridging-Header.h */,
-				D79FE8991F77CDEF00113CFD /* FSNotes.xcdatamodeld */,
 				D7A9FD301FCB4873008ED23C /* MarkdownView.swift */,
 				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
+				D7793C781F211C6000CA39B7 /* Main.storyboard */,
+				D7793C7B1F211C6000CA39B7 /* Info.plist */,
+				D79FE8991F77CDEF00113CFD /* FSNotes.xcdatamodeld */,
+				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
+				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
+				D75AD2301F41E4550026C65D /* Bridging-Header.h */,
 			);
 			path = FSNotes;
 			sourceTree = "<group>";
@@ -640,7 +640,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh",
-				"$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle",
+				$PODS_CONFIGURATION_BUILD_DIR/MASShortcut/MASShortcut.bundle,
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
