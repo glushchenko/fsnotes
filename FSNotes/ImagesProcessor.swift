@@ -148,10 +148,21 @@ public class ImagesProcessor {
         let fileWrapper = FileWrapper.init()
         fileWrapper.icon = image
         
-        let attachment = NSTextAttachment()
-        attachment.fileWrapper = fileWrapper
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = 15
         
-        return NSAttributedString(attachment: attachment)
+        let cell = NSTextAttachmentCell(imageCell: image)
+        let attachment = NSTextAttachment()
+        attachment.attachmentCell = cell
+        
+        let attributedString = NSAttributedString(attachment: attachment)
+        let mutableString = NSMutableAttributedString(attributedString: attributedString)
+        
+        mutableString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<1))
+        mutableString.addAttribute(.baselineOffset, value: -15, range: NSRange(0..<1))
+        
+        return mutableString
     }
     
     func isContainAttachment(innerRange: NSRange, mdTitleLength: Int) -> Bool {
