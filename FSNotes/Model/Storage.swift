@@ -282,12 +282,12 @@ class Storage {
     var terminateBusyQueue = false
     
     func cacheMarkdown() {
+        guard !self.isActiveCaching else {
+            self.terminateBusyQueue = true
+            return
+        }
+        
         DispatchQueue.global(qos: .background).async {
-            guard !self.isActiveCaching else {
-                self.terminateBusyQueue = true
-                return
-            }
-            
             self.isActiveCaching = true
             
             let markdownDocuments = self.noteList.filter{

@@ -11,8 +11,8 @@ import Cocoa
 import MASShortcut
 
 public class UserDefaultsManagement {
-    static var DefaultFont = "Helvetica"
-    static var DefaultFontSize = 13
+    static var DefaultFont = "Helvetica Neue"
+    static var DefaultFontSize = 14
     static var DefaultFontColor = NSColor.black
     static var DefaultBgColor = NSColor.white
 

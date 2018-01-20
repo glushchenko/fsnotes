@@ -237,7 +237,6 @@ class PrefsViewController: NSViewController {
         
         if let note = EditTextView.note {
             note.markdownCache()
-            controller?.reloadView(note: note)
         }
         
         controller?.notesTableView.reloadData()

@@ -144,10 +144,7 @@ public class ImagesProcessor {
     
     func getImageAttributedString(image: NSImage) -> NSAttributedString {
         image.size = self.computeInEditorSize(image: image)
-        
-        let fileWrapper = FileWrapper.init()
-        fileWrapper.icon = image
-        
+                
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 15
