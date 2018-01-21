@@ -715,4 +715,49 @@ class EditTextView: NSTextView {
         
         return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} \(codeStyle)"
     }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        registerForDraggedTypes([NSPasteboard.PasteboardType(kUTTypeFileURL as String)])
+    }
+
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        let board = sender.draggingPasteboard()
+        
+        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 else {
+            return false
+        }
+        
+        guard let note = getSelectedNote(), let storage = textStorage else {
+            return false
+        }
+        
+        let url = urls[0]
+        var data: Data
+        
+        do {
+            data = try Data(contentsOf: url)
+        } catch {
+            return false
+        }
+        
+        let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
+        
+        guard let fileName = processor.cache(data: data, url: url) else {
+            return false
+        }
+        
+        let dropPoint = convert(sender.draggingLocation(), from: nil)
+        let caretLocation = characterIndexForInsertion(at: dropPoint)
+        
+        replaceCharacters(in: NSRange(location: caretLocation, length: 0), with: "![](/i/\(fileName))")
+        
+        if save(note: note) {
+            cacheNote(note: note)
+        }
+        
+        loadImages()
+        return true
+    }
+    
 }

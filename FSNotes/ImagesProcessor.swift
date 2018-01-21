@@ -74,7 +74,7 @@ public class ImagesProcessor {
                     }
 
                     if !isCached {
-                        self.cache(data: imageData, url: imageURL)
+                        _ = self.cache(data: imageData, url: imageURL)
                     }
                     
                     self.replaceAttributedString(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
@@ -114,17 +114,60 @@ public class ImagesProcessor {
         return path
     }
     
-    func cache(data: Data, url: URL) {
-        if let noteStorage = self.note.storage, let storagePath = noteStorage.getPath(), let p = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+    func getFileName(from: URL, to: URL) -> String? {
+        var name: String?
+        let path = from.absoluteString
+        
+        if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+            name = webName
+        }
+        
+        if path.starts(with: "file://") {
+            var i = 0
+            var pathComponent = from.lastPathComponent
+            let ext = from.pathExtension
             
-            let cacheURL = URL(fileURLWithPath: storagePath + "/i/")
-            let cacheFile = URL(fileURLWithPath: storagePath + "/i/" + p)
+            while name == nil {
+                let destination = to.appendingPathComponent(pathComponent)
+                if FileManager.default.fileExists(atPath: destination.path) {
+                    i = i + 1
+                    pathComponent = "\(i).\(ext)"
+                    continue
+                }
+                
+                name = pathComponent
+            }
+        }
+
+        return name
+    }
+    
+    func cache(data: Data, url: URL) -> String? {
+        if let noteStorage = self.note.storage, let storagePath = noteStorage.getPath() {
             
-            do {
-                try FileManager.default.createDirectory(at: cacheURL, withIntermediateDirectories: false, attributes: nil)
-            } catch {}
+            let destination = URL(fileURLWithPath: storagePath + "/i/")
+            _ = makeInitialDirectory(cacheURL: destination)
+            
+            guard let fileName = getFileName(from: url, to: destination) else {
+                return nil
+            }
+            
+            let cacheFile = destination.appendingPathComponent(fileName)
             
             try? data.write(to: cacheFile, options: .atomic)
+            
+            return fileName
+        }
+        
+        return nil
+    }
+    
+    func makeInitialDirectory(cacheURL: URL) -> Bool {
+        do {
+            try FileManager.default.createDirectory(at: cacheURL, withIntermediateDirectories: false, attributes: nil)
+            return true
+        } catch {
+            return false
         }
     }
     
