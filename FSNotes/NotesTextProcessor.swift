@@ -206,7 +206,7 @@ public class NotesTextProcessor {
         
         let target = storage != nil ? storage! : note.content
         
-        self.scanMarkdownSyntax(target, paragraphRange: affectedRange)
+        self.scanMarkdownSyntax(target, paragraphRange: affectedRange, note: note)
     }
     
     public static func highlight(_ code: String, language: String? = nil) -> NSAttributedString? {
@@ -333,7 +333,7 @@ public class NotesTextProcessor {
         return nil
     }
     
-    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange) {
+    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note) {
         
         let textStorageNSString = styleApplier.string as NSString
         let string =  styleApplier.string
@@ -455,12 +455,23 @@ public class NotesTextProcessor {
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
-                var _range = innerRange
-                _range.location = range.location + 1
-                _range.length = range.length - 2
+                var mdTitleLength = 0
+                let mdLink = textStorageNSString.substring(with: innerRange)
                 
-                let substring = textStorageNSString.substring(with: _range)
+                if let match = mdLink.range(of: "\\[(.+)\\]", options: .regularExpression) {
+                    mdTitleLength = mdLink[match].count - 2
+                }
+                
+                var _range = innerRange
+                _range.location = range.location + 3 + mdTitleLength
+                _range.length = range.length - 4 - mdTitleLength
+                
+                var substring = textStorageNSString.substring(with: _range)
                 guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+                
+                if substring.starts(with: "/i/"), let storage = note.storage, let url = storage.getUrl(), let path = url.appendingPathComponent(substring).path.removingPercentEncoding {
+                    substring = "file://" + path
+                }
                 
                 destinationLink = substring
                 styleApplier.addAttribute(.link, value: substring, range: _range)
@@ -776,7 +787,7 @@ public class NotesTextProcessor {
     public static let coupleSquareRegex = MarklightRegex(pattern: coupleSquarePattern, options: [])
     
     fileprivate static let coupleRoundPattern = [
-        "\\((.*?)\\)"
+        ".*(?:\\])\\((.+)\\)"
         ].joined(separator: "\n")
     
     public static let coupleRoundRegex = MarklightRegex(pattern: coupleRoundPattern, options: [])
@@ -983,7 +994,7 @@ public class NotesTextProcessor {
     
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
-    fileprivate static let autolinkPattern = "((https?|ftp):[^'\">\\s]+)"
+    fileprivate static let autolinkPattern = "((https?|ftp):[^\\)'\">\\s]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     

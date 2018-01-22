@@ -59,26 +59,26 @@ public class ImagesProcessor {
                 
                 self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
-                let filePath = self.getFilePath(innerRange: innerRange)
+                var url: URL?
+                var isCached = false
                 
-                if var imageURL = URL(string: filePath) {
-                    var isCached = false
-                    
-                    if let localNotePath = self.getLocalNotePath(urlx: imageURL, innerRange: innerRange), FileManager.default.fileExists(atPath: localNotePath) {
-                        imageURL = URL(fileURLWithPath: localNotePath)
-                        isCached = true
-                    }
-                    
-                    guard let imageData = try? Data(contentsOf: imageURL), let image = NSImage(data: imageData) else {
-                        return
-                    }
-
-                    if !isCached {
-                        _ = self.cache(data: imageData, url: imageURL)
-                    }
-                    
-                    self.replaceAttributedString(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
+                let filePath = self.getFilePath(innerRange: innerRange)
+                if let localNotePath = self.getLocalNotePath(path: filePath, innerRange: innerRange), FileManager.default.fileExists(atPath: localNotePath) {
+                    url = URL(fileURLWithPath: localNotePath)
+                    isCached = true
+                } else if let fs = URL(string: filePath) {
+                    url = fs
                 }
+                
+                guard let imageURL = url, let imageData = try? Data(contentsOf: imageURL), let image = NSImage(data: imageData) else {
+                    return
+                }
+                
+                if !isCached {
+                    _ = self.writeImage(data: imageData, url: imageURL)
+                }
+                
+                self.replaceAttributedString(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
             }
         }
     }
@@ -92,20 +92,22 @@ public class ImagesProcessor {
         return mdTitleLength
     }
     
-    func getLocalNotePath(urlx: URL, innerRange: NSRange) -> String? {
+    func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
+        var notePath: String
+        
         guard let noteStorage = self.note.storage, let storagePath = noteStorage.getPath() else {
             return nil
         }
         
-        var notePath: String
-        
-        if let scheme = urlx.scheme, ["http", "https"].contains(scheme), let encodedPath = urlx.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
             notePath = storagePath + "/i/" + encodedPath
-        } else {
-            notePath = storagePath + "/" + getFilePath(innerRange: innerRange)
+            return notePath
+        } else if let path = getFilePath(innerRange: innerRange).removingPercentEncoding {
+            notePath = storagePath + "/" + path
+            return notePath
         }
         
-        return notePath
+        return nil
     }
     
     func getFilePath(innerRange: NSRange) -> String {
@@ -142,7 +144,7 @@ public class ImagesProcessor {
         return name
     }
     
-    func cache(data: Data, url: URL) -> String? {
+    func writeImage(data: Data, url: URL) -> String? {
         if let noteStorage = self.note.storage, let storagePath = noteStorage.getPath() {
             
             let destination = URL(fileURLWithPath: storagePath + "/i/")
@@ -152,9 +154,8 @@ public class ImagesProcessor {
                 return nil
             }
             
-            let cacheFile = destination.appendingPathComponent(fileName)
-            
-            try? data.write(to: cacheFile, options: .atomic)
+            let to = destination.appendingPathComponent(fileName)
+            try? data.write(to: to, options: .atomic)
             
             return fileName
         }
@@ -192,9 +193,11 @@ public class ImagesProcessor {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 15
         
-        let cell = NSTextAttachmentCell(imageCell: image)
+        let fileWrapper = FileWrapper.init()
+        fileWrapper.icon = image
+                
         let attachment = NSTextAttachment()
-        attachment.attachmentCell = cell
+        attachment.fileWrapper = fileWrapper
         
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableString = NSMutableAttributedString(attributedString: attributedString)

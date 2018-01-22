@@ -391,7 +391,7 @@ class EditTextView: NSTextView {
             note.save(editArea.textStorage!)
             
             if let paragraphRange = getParagraphRange() {
-                NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange)
+                NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange, note: note)
                 
                 note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             }
@@ -464,7 +464,7 @@ class EditTextView: NSTextView {
     override func paste(_ sender: Any?) {
         super.paste(sender)
         
-        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) else {
+        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), let storage = textStorage else {
             return
         }
         
@@ -472,7 +472,15 @@ class EditTextView: NSTextView {
         let start = end - clipboard.count
         let range = NSRange(start..<end)
         
-        NotesTextProcessor.fullScan(note: note, storage: textStorage, range: range)
+        NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
+        
+        if save(note: note) {
+            if UserDefaultsManagement.liveImagesPreview {
+                let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
+                processor.load()
+            }
+            cacheNote(note: note)
+        }
     }
     
     override func keyDown(with event: NSEvent) {
@@ -531,7 +539,7 @@ class EditTextView: NSTextView {
             }
         }
         
-        NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange)
+        NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
         cacheNote(note: note)
         
         if UserDefaultsManagement.liveImagesPreview {
@@ -723,17 +731,14 @@ class EditTextView: NSTextView {
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let board = sender.draggingPasteboard()
+        var data: Data
         
-        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 else {
-            return false
-        }
-        
-        guard let note = getSelectedNote(), let storage = textStorage else {
+        guard let note = getSelectedNote(), let storage = textStorage, let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
+            urls.count > 0 else {
             return false
         }
         
         let url = urls[0]
-        var data: Data
         
         do {
             data = try Data(contentsOf: url)
@@ -743,16 +748,18 @@ class EditTextView: NSTextView {
         
         let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
         
-        guard let fileName = processor.cache(data: data, url: url) else {
+        guard let fileName = processor.writeImage(data: data, url: url), let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             return false
         }
         
         let dropPoint = convert(sender.draggingLocation(), from: nil)
         let caretLocation = characterIndexForInsertion(at: dropPoint)
+        let affectedRange = NSRange(location: caretLocation, length: 0)
         
-        replaceCharacters(in: NSRange(location: caretLocation, length: 0), with: "![](/i/\(fileName))")
+        replaceCharacters(in: affectedRange, with: "![](/i/\(name))")
         
-        if save(note: note) {
+        if save(note: note), let paragraphRange = getParagraphRange() {
+            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             cacheNote(note: note)
         }
         
