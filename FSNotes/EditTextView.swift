@@ -507,7 +507,7 @@ class EditTextView: NSTextView {
         super.keyDown(with: event)
         
         let range = selectedRanges[0] as! NSRange
-        guard let storage = self.textStorage, note.content.length > range.location + range.length else {
+        guard let storage = textStorage, note.content.length >= range.location + range.length else {
             return
         }
         
