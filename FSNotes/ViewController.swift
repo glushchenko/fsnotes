@@ -681,6 +681,7 @@ class ViewController: NSViewController,
         note.content = NSMutableAttributedString(string: content)
         note.isSynced = false
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
+        note.isCached = true
         
         let textStorage = NSTextStorage(attributedString: note.content)
         note.save(textStorage, userInitiated: true)

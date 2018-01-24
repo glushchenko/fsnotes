@@ -484,21 +484,8 @@ class EditTextView: NSTextView {
     }
     
     override func keyDown(with event: NSEvent) {
-        let range = selectedRanges[0] as! NSRange
-        
-        // Tab/untab
         if event.keyCode == 48 {
-            if event.modifierFlags.rawValue == 131330 {
-                unTab()
-                return
-            }
-            
-            if range.length > 0 {
-                tab()
-                return
-            }
-            
-            super.keyDown(with: event)
+            tabDown(event)
             return
         }
 
@@ -519,6 +506,7 @@ class EditTextView: NSTextView {
         
         super.keyDown(with: event)
         
+        let range = selectedRanges[0] as! NSRange
         guard let storage = self.textStorage, note.content.length > range.location + range.length else {
             return
         }
@@ -593,6 +581,31 @@ class EditTextView: NSTextView {
         )
         
         selectedRanges = selected
+    }
+    
+    func tabDown(_ event: NSEvent) {
+        let range = selectedRanges[0] as! NSRange
+        guard let storage = self.textStorage else {
+            return
+        }
+        
+        if event.modifierFlags.rawValue == 131330 {
+            unTab()
+            return
+        }
+        
+        if range.length > 0 {
+            tab()
+            return
+        }
+        
+        super.keyDown(with: event)
+        
+        let string = storage.string as NSString
+        if let note = EditTextView.note, let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
+            codeBlockRange.upperBound <= storage.length {
+            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
+        }
     }
     
     @objc func tab(_ undoInfo: UndoInfo? = nil) {
