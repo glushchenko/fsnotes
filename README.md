@@ -1,21 +1,28 @@
-## Plain text note manager
+## Notes manager for macOS
 
-Lightweight notational velocity reinvention. 
+File system notes is modern notational velocity (nvALT) on steroids. 
 
-FSNotes features:
+Our application respect open formats: **plain/text, markdown, rtf**, and stores data in file system. You can view, edit, copy data in favourite external editor and see live result in FSNotes. 
+
+Key features:
 
 - keyboard centric
-- global shortcuts (clipboard save / search field)
+- global shortcuts (clipboard save / search)
 - markdown and RTF markup (files stored on disk as plain/text and rich text)
 - markdown preview mode
 - elastic two pane view (vertical and horizontal layout)
-- blazing fast and lightweight
+- blazing fast and lightweight (working fine with 10k+ files)
 - open files in finder / works with external editors (changes seamless live sync with UI)
 - pin/unpin important notes in top
 - synchronization over iCloud Drive / Dropbox / CloudKit (for MAS version)
 - multi folder storage
 - fast copy markdown code to clipboard
 - live markdown highligting with code blocks (over 170 languages)
+- themes for code highlighting
+- markdown images preview in editor
+- images drag and drop
+
+FSNotes is written on **Swift 4**, open source (MIT license)
 
 Markdown files default directory:
 
