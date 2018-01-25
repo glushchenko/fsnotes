@@ -211,12 +211,22 @@ class EditTextView: NSTextView {
                 range: range,
                 using: {
                     (textCheckingResult, matchingFlags, stop) -> Void in
-                    let subRange = textCheckingResult?.range
+                    guard let subRange = textCheckingResult?.range else {
+                        return
+                    }
                     
                     if remove {
-                        attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange!)
+                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
+                            attributedString.removeAttribute(NoteAttribute.highlight, range: subRange)
+                            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
+                        } else {
+                            attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
+                        }
                     } else {
-                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange!)
+                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedStringKey.backgroundColor) {
+                            attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
+                        }
+                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange)
                     }
                 }
             )

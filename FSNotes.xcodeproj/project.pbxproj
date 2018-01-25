@@ -50,6 +50,8 @@
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 		D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
 		D7AFD80D1F78CC450000B44A /* CKRecord+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7AFD80C1F78CC450000B44A /* CKRecord+.swift */; };
+		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B0EEFD1FDEF93E008B04C3 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */; };
 		D7B0EEFE1FDF1176008B04C3 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */; };
 		D7BC2F461F7675850007298E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BC2F451F7675850007298E /* CoreDataManager.swift */; };
@@ -175,6 +177,7 @@
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7A9FD301FCB4873008ED23C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		D7AFD80C1F78CC450000B44A /* CKRecord+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRecord+.swift"; sourceTree = "<group>"; };
+		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
 		D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
 		D7BC2F451F7675850007298E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7C542991FC4A74000EF1F94 /* StorageItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -310,6 +313,7 @@
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
 				D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */,
 				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
+				D7B024A62019BCF3008544C3 /* NoteAttribute.swift */,
 				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
 				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
 				D741122A1FACA10A00AB619A /* PrefsWindow.swift */,
@@ -737,6 +741,7 @@
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
 				D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
+				D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D79FE8A51F78377E00113CFD /* CloudKitManager.swift in Sources */,
 				D7AFD80D1F78CC450000B44A /* CKRecord+.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
@@ -796,6 +801,7 @@
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
 				D7E81C381F925B5F00416A91 /* Storage.swift in Sources */,
 				D7E81C391F925B5F00416A91 /* FileWatcherEvent.swift in Sources */,
+				D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D7E81C3B1F925B5F00416A91 /* CloudKitManager.swift in Sources */,
 				D7E81C3C1F925B5F00416A91 /* CKRecord+.swift in Sources */,
