@@ -31,6 +31,9 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var codeBlockHighlight: NSButtonCell!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
     @IBOutlet weak var liveImagesPreview: NSButton!
+    @IBOutlet weak var cellSpacing: NSSlider!
+    @IBOutlet weak var noteFontColor: NSColorWell!
+    @IBOutlet weak var backgroundColor: NSColorWell!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -71,6 +74,10 @@ class PrefsViewController: NSViewController {
         
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        noteFontColor.color = UserDefaultsManagement.fontColor
+        backgroundColor.color = UserDefaultsManagement.bgColor
+
         #if CLOUDKIT
             checkCloudStatus()
         #else
@@ -174,6 +181,10 @@ class PrefsViewController: NSViewController {
         horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = true
         controller?.splitView.setPosition(215, ofDividerAt: 0)
+        
+        UserDefaultsManagement.cellSpacing = 38
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        controller?.setTableRowHeight()
     }
     
     @IBAction func horizontalOrientation(_ sender: Any) {
@@ -181,7 +192,11 @@ class PrefsViewController: NSViewController {
         
         verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = false
-        controller?.splitView.setPosition(215, ofDividerAt: 0)
+        controller?.splitView.setPosition(145, ofDividerAt: 0)
+        
+        UserDefaultsManagement.cellSpacing = 12
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        controller?.setTableRowHeight()
     }
     
     @IBAction func setFont(_ sender: NSButton) {
@@ -197,6 +212,10 @@ class PrefsViewController: NSViewController {
     @IBAction func setFontColor(_ sender: NSColorWell) {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
         controller?.editArea.setEditorTextColor(sender.color)
+        
+        if let note = EditTextView.note {
+            note.markdownCache()
+        }
     }
     
     @IBAction func setBgColor(_ sender: NSColorWell) {
