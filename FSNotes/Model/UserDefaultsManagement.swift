@@ -319,20 +319,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewKey)
         }
     }
-    
-    static var fsImportIsAvailable: Bool {
-        get {
-            if let returnMode = UserDefaults.standard.object(forKey: "fsImportIsAvailable") {
-                return returnMode as! Bool
-            } else {
-                return true
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "fsImportIsAvailable")
-        }
-    }
-    
+        
     static var sort: SortBy {
         get {
             if let result = UserDefaults.standard.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {

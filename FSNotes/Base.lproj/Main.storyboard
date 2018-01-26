@@ -682,7 +682,7 @@
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
+                                        <view key="view" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -709,7 +709,7 @@
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lcQ-Xe-fI2">
-                                                    <rect key="frame" x="17" y="222" width="400" height="5"/>
+                                                    <rect key="frame" x="17" y="222" width="400" height="4"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
@@ -843,7 +843,7 @@
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Markdown" identifier="" id="vFY-vs-Qna">
-                                        <view key="view" id="4iE-YN-Vay">
+                                        <view key="view" ambiguous="YES" id="4iE-YN-Vay">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -900,8 +900,12 @@
                                                         <action selector="markdownCodeThemeAction:" target="IAM-xZ-Bfs" id="613-6P-pTo"/>
                                                     </connections>
                                                 </popUpButton>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xIH-3f-k6g">
+                                                    <rect key="frame" x="42" y="160" width="350" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
-                                                    <rect key="frame" x="40" y="138" width="145" height="18"/>
+                                                    <rect key="frame" x="40" y="120" width="145" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -985,9 +989,9 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ScY-C7-LEh">
-                                                    <rect key="frame" x="38" y="90" width="324" height="17"/>
+                                                    <rect key="frame" x="38" y="90" width="328" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Remove CloudKit records and reupload local files ❗️" id="egq-Td-yxF">
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Remove CloudKit records and reupload local files: ⚠️" id="egq-Td-yxF">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

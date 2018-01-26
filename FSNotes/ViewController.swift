@@ -198,7 +198,7 @@ class ViewController: NSViewController,
         
         let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in            
-            guard UserDefaultsManagement.fsImportIsAvailable else {
+            guard Storage.fsImportIsAvailable else {
                 return
             }
             
@@ -685,6 +685,7 @@ class ViewController: NSViewController,
         
         let textStorage = NSTextStorage(attributedString: note.content)
         note.save(textStorage, userInitiated: true)
+        note.markdownCache()
         
         updateTable(filter: "") {
             if let index = self.notesTableView.getIndex(note) {

@@ -20,6 +20,8 @@ class Storage {
     static var pinned: Int = 0
     static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
     
+    public static var fsImportIsAvailable = true
+    
     func loadDocuments() {
         noteList.removeAll()
         
@@ -354,7 +356,7 @@ class Storage {
                 CoreDataManager.instance.save()
                 
                 // save cloudkit
-                CloudKitManager.instance.saveNote(note)
+                CloudKitManager.instance.saveNote(note) {}
             }
         #endif
     }

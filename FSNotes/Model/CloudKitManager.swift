@@ -91,16 +91,17 @@ class CloudKitManager {
                 return
             }
             
-            self.push()
-            self.pull()
+            self.push() {
+                self.pull()
+            }
             
             UserDefaultsManagement.lastSync = Date()
         }
     }
     
-    func pull() {        
+    func pull() {
         fetchChanges() {modifiedRecords, deletedRecords, token in
-            UserDefaultsManagement.fsImportIsAvailable = false
+            Storage.fsImportIsAvailable = false
 
             for record in modifiedRecords {
                 let asset = record.object(forKey: "file") as! CKAsset
@@ -137,7 +138,7 @@ class CloudKitManager {
             }
             
             CoreDataManager.instance.save()
-            UserDefaultsManagement.fsImportIsAvailable = true
+            Storage.fsImportIsAvailable = true
             UserDefaults.standard.serverChangeToken = token
 
             DispatchQueue.main.async {
@@ -148,11 +149,12 @@ class CloudKitManager {
         }
     }
     
-    func push() {
+    func push(completionPush: @escaping () -> Void) {
         guard let note = Storage.instance.getModified() else {
             print("Nothing to push.")
             NotificationsController.onFinishSync()
             NotificationsController.syncProgress()
+            completionPush()
             return
         }
         
@@ -162,23 +164,28 @@ class CloudKitManager {
         }
         
         getRecord(note: note, completion: { result in
-            self.saveNote(note)
+            self.saveNote(note) {
+                completionPush()
+            }
         })
     }
     
-    func saveNote(_ note: Note) {
+    func saveNote(_ note: Note, completionSave: @escaping () -> Void) {
         getZone() { (recordZone) in
             guard recordZone != nil else {
+                completionSave()
                 return
             }
         
             if !note.isGeneral() {
                 print("Skipped, note not in general storage.")
+                completionSave()
                 return
             }
             
             guard !self.hasActivePushConnection && note.name.count > 0 else {
                 note.syncSkipDate = Date()
+                completionSave()
                 return
             }
             
@@ -198,6 +205,7 @@ class CloudKitManager {
             
             guard let unwrappedRecord = record else {
                 self.hasActivePushConnection = false
+                completionSave()
                 return
             }
             
@@ -205,11 +213,13 @@ class CloudKitManager {
                 note.storage = CoreDataManager.instance.fetchGeneralStorage()
             }
             
-            self.saveRecord(note: note, sRecord: unwrappedRecord)
+            self.saveRecord(note: note, sRecord: unwrappedRecord) {
+                completionSave()
+            }
         }
     }
     
-    func saveRecord(note: Note, sRecord: CKRecord, push: Bool = true) {
+    func saveRecord(note: Note, sRecord: CKRecord, push: Bool = true, completionSave: @escaping () -> Void) {
         database.save(sRecord) { (record, error) in
             self.hasActivePushConnection = false
             
@@ -218,19 +228,25 @@ class CloudKitManager {
                 
                 if error?._code == CKError.serverRecordChanged.rawValue {
                     print("Server record changed. Need resolve conflict.")
-                    self.resolveConflict(note: note, sRecord: sRecord)
+                    self.resolveConflict(note: note, sRecord: sRecord) {
+                        completionSave()
+                    }
                     return
                 }
                 
                 if error?._code == CKError.assetFileModified.rawValue {
-                    self.saveNote(note)
+                    self.saveNote(note) {
+                        completionSave()
+                    }
                     return
                 }
                 
                 if error?._code == CKError.unknownItem.rawValue {
+                    completionSave()
                     return
                 }
                 
+                completionSave()
                 return
             }
 
@@ -238,12 +254,14 @@ class CloudKitManager {
             print("Successfully saved: \(note.name)")
             
             if push {
-                self.push()
+                self.push() {
+                    completionSave()
+                }
             }
         }
     }
     
-    func resolveConflict(note: Note, sRecord: CKRecord) {
+    func resolveConflict(note: Note, sRecord: CKRecord, completionResolve: @escaping () -> Void) {
         let storage = CoreDataManager.instance.fetchGeneralStorage()
         
         self.fetchRecord(recordName: note.name, completion: { result in
@@ -270,7 +288,9 @@ class CloudKitManager {
                     conflictedNote.markdownCache()
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
-                    self.saveRecord(note: note, sRecord: fetchedRecord, push: false)
+                    self.saveRecord(note: note, sRecord: fetchedRecord, push: false) {
+                        completionResolve()
+                    }
                     
                     let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
                     conflictedNote.save(textStorage)
@@ -279,6 +299,7 @@ class CloudKitManager {
                 
             case .failure(let error):
                 print("Fetch failure \(error)")
+                completionResolve()
             }
         })
     }
