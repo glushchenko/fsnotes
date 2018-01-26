@@ -900,13 +900,13 @@ public class NotesTextProcessor {
      */
     
     public static let _codeBlockPattern = [
-        "(                        # $1 = the code block -- one or more lines, starting with a space",
-        "(?:",
-        "    (?:\\p{Z}{4}|\\t+)       # Lines must start with a tab-width of spaces",
-        "    .+(?:\\n+)",
-        ")+",
+        "(",
+        "   (?:",
+        "       (?:\\p{Z}{4}|\\t+)              # Lines must start with a tab-width of spaces",
+        "       .+(?:\\n+)",
+        "   )+",
         ")",
-        "((?=^\\p{Z}{0,4}|\\t[^ \\t\\n])) # Lookahead for non-space at line-start, or end of doc"
+        "(?=^\\p{Z}{0,4}|\\t[^ \\t\\n])|(?=\\Z) # Lookahead for non-space at line-start, or end of doc"
         ].joined(separator: "\n")
     
     public static let _codeQuoteBlockPattern = [
