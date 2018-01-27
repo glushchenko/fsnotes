@@ -94,6 +94,8 @@ public class Note: NSManagedObject {
     }
     
     func rename(newName: String) {
+        Storage.instance.removeBy(note: self)
+        
         let to = getNewURL(name: newName)
         
         do {
@@ -295,31 +297,50 @@ public class Note: NSManagedObject {
         }
     }
     
-    func writeContent() -> Bool {
-        do {
-            try content.string.write(to: url, atomically: false, encoding: String.Encoding.utf8)
-            return true
-        } catch {
-            return false
-        }
-    }
-    
-    func save(_ textStorage: NSTextStorage = NSTextStorage(), userInitiated: Bool = false) {
+    func save() {
         syncSkipDate = Date()
-       
+        
+        let attributes = getFileAttributes()
+        
         do {
-            let range = NSRange(location: 0, length: textStorage.length)
-            let documentAttributes = getDocAttributes()
-            let text = try textStorage.fileWrapper(from: range, documentAttributes: documentAttributes)
-            try text.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-        } catch let error {
-            print("Core data: \(error.localizedDescription)")
+            guard let fileWrapper = getFileWrapper(attributedString: content) else {
+                print("Wrapper not found")
+                return
+            }
+            
+            try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+        } catch {
+            print("Write error \(error)")
             return
         }
         
-        loadModifiedLocalAt()
+        Storage.instance.saveNote(note: self, userInitiated: false)
+    }
+    
+    func getFileAttributes() -> [FileAttributeKey: Any] {
+        var attributes: [FileAttributeKey: Any] = [:]
         
-        Storage.instance.saveNote(note: self, userInitiated: userInitiated)
+        modifiedLocalAt = Date()
+        
+        do {
+            attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        } catch {}
+        
+        attributes[.modificationDate] = modifiedLocalAt
+        return attributes
+    }
+    
+    func getFileWrapper(attributedString: NSAttributedString) -> FileWrapper? {
+        do {
+            let range = NSRange(location: 0, length: attributedString.length)
+            let documentAttributes = getDocAttributes()
+            let fileWrapper = try attributedString.fileWrapper(from: range, documentAttributes: documentAttributes)
+            return fileWrapper
+        } catch {
+            return nil
+        }
     }
     
     func checkLocalSyncState(_ currentDate: Date) {        

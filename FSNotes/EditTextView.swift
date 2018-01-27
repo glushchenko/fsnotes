@@ -234,21 +234,7 @@ class EditTextView: NSTextView {
             textStorage?.setAttributedString(attributedString)
         } catch {}
     }
-    
-    func save(note: Note) -> Bool {
-        do {
-            let range = NSRange(location: 0, length: (textStorage?.string.count)!)
-            let documentAttributes = note.getDocAttributes()
-            let text = try textStorage?.fileWrapper(from: range, documentAttributes: documentAttributes)
-            try text?.write(to: note.url!, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-            return true
-        } catch let error {
-            NSLog(error.localizedDescription)
-        }
         
-        return false
-    }
-    
     func clear() {
         textStorage?.setAttributedString(NSAttributedString())
         subviews.removeAll()
@@ -393,18 +379,16 @@ class EditTextView: NSTextView {
         
         if note.type == .RichText {
             editArea.setSelectedRange(range)
-            note.save(editArea.textStorage!)
+            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
+            note.save()
             return true
         }
 
-        if note.type == .Markdown {
-            note.save(editArea.textStorage!)
+        if note.type == .Markdown, let paragraphRange = getParagraphRange() {
+            NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange, note: note)
             
-            if let paragraphRange = getParagraphRange() {
-                NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange, note: note)
-                
-                note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            }
+            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
+            note.save()
             
             return true
         }
@@ -484,13 +468,14 @@ class EditTextView: NSTextView {
         
         NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
         
-        if save(note: note) {
-            if UserDefaultsManagement.liveImagesPreview {
-                let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
-                processor.load()
-            }
-            cacheNote(note: note)
+        note.save()
+        
+        if UserDefaultsManagement.liveImagesPreview {
+            let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
+            processor.load()
         }
+        
+        cacheNote(note: note)
     }
     
     override func keyDown(with event: NSEvent) {
@@ -658,7 +643,7 @@ class EditTextView: NSTextView {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
             let async = newRange.length > 1000
             NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            note.save(storage)
+            note.save()
         }
         
         setSelectedRange(newRange)
@@ -718,7 +703,8 @@ class EditTextView: NSTextView {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
             let async = newRange.length > 1000
             NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            note.save(storage)
+            
+            note.save()
         }
         
         if initialLocation > 0 {
@@ -781,7 +767,9 @@ class EditTextView: NSTextView {
         
         replaceCharacters(in: affectedRange, with: "![](/i/\(name))")
         
-        if save(note: note), let paragraphRange = getParagraphRange() {
+        note.save()
+        
+        if let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             cacheNote(note: note)
         }

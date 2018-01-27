@@ -121,10 +121,9 @@ class CloudKitManager {
                 note.isSynced = true
                 note.initWith(url: asset.fileURL, fileName: fileName)
                 
-                if (note.writeContent()) {
-                    note.loadModifiedLocalAt()
-                    print("Note downloaded: \(note.name)")
-                }
+                note.save()
+                
+                print("Note downloaded: \(note.name)")
             }
             
             for recordId in deletedRecords {
@@ -292,8 +291,7 @@ class CloudKitManager {
                         completionResolve()
                     }
                     
-                    let textStorage = NSTextStorage(attributedString: NSAttributedString(string: content))
-                    conflictedNote.save(textStorage)
+                    conflictedNote.save()
                     self.reloadView(note: conflictedNote)
                 } catch {}
                 

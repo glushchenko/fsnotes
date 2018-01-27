@@ -455,14 +455,32 @@ class ViewController: NSViewController,
             if UserDefaultsManagement.cloudKitSync {
                 let newUrl = note.getNewURL(name: value)
                 
+                if note.url.path == newUrl.path {
+                    return
+                }
+                
                 if note.url.path.lowercased() == newUrl.path.lowercased() {
                     Storage.instance.removeBy(note: note)
+                    
+                    let noteContent = note.content
+                    let noteURL = newUrl
+                    let noteType = note.type
+                    
                     note.removeFile()
                     CloudKitManager.instance.removeRecord(note: note) {
+                        
+                        let note = CoreDataManager.instance.make()
+                        note.url = noteURL
+                        note.content = noteContent
+                        note.type = noteType
+                        note.parseURL()
+                        note.save()
+                    
                         DispatchQueue.main.async {
-                            note.url = newUrl
-                            print(newUrl)
-                            _ = note.writeContent()
+                            self.reloadView()
+                            sender.stringValue = note.title
+                            self.cleanSearchAndEditArea()
+                            return
                         }
                     }
                 } else {
@@ -475,8 +493,9 @@ class ViewController: NSViewController,
             note.rename(newName: sender.stringValue)
         #endif
         
-        notesTableView.reloadData()
+        reloadView()
         sender.stringValue = note.title
+        cleanSearchAndEditArea()
     }
     
     @IBAction func editorMenu(_ sender: Any) {
@@ -528,7 +547,8 @@ class ViewController: NSViewController,
             editArea.removeHighlight()
             let note = notesTableView.noteList[selected]
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save(editArea.textStorage!, userInitiated: true)
+            note.save()
+            Storage.instance.saveNote(note: note, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
                 moveAtTop(id: selected)
@@ -682,9 +702,9 @@ class ViewController: NSViewController,
         note.isSynced = false
         note.storage = CoreDataManager.instance.fetchGeneralStorage()
         note.isCached = true
+        note.save()
         
-        let textStorage = NSTextStorage(attributedString: note.content)
-        note.save(textStorage, userInitiated: true)
+        Storage.instance.saveNote(note: note, userInitiated: true)
         note.markdownCache()
         
         updateTable(filter: "") {
