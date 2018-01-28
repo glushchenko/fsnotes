@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 public class ImagesProcessor {
     var textStorageNSString: NSString

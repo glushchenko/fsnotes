@@ -6,6 +6,7 @@
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Carbon
 import Cocoa
 
 class NotesTableView: NSTableView, NSTableViewDataSource,
