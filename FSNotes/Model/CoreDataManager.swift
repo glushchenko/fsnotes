@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreData
-import Cocoa
 
 class CoreDataManager {
     static let instance = CoreDataManager()
@@ -17,11 +16,17 @@ class CoreDataManager {
     var context: NSManagedObjectContext
     
     init() {
-        let appDel: AppDelegate = (NSApplication.shared.delegate as! AppDelegate)
-        context = appDel.persistentContainer.viewContext
+        let container = NSPersistentContainer(name: "FSNotes")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error {
+                fatalError("Unresolved error \(error)")
+            }
+        })
+        
+        context = container.viewContext
         context.mergePolicy = NSOverwriteMergePolicy
     }
-    
+        
     func make() -> Note {
         return Note(context: context)
     }

@@ -124,7 +124,7 @@ class PrefsViewController: NSViewController {
         checkCloudStatus()
         
         if state == NSControl.StateValue.on {
-            CloudKitManager.instance.sync()
+            CloudKitManager.sharedInstance().sync()
         }
     }
     
@@ -215,6 +215,7 @@ class PrefsViewController: NSViewController {
         
         if let note = EditTextView.note {
             note.markdownCache()
+            controller?.refillEditArea()
         }
     }
     
@@ -240,7 +241,7 @@ class PrefsViewController: NSViewController {
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                CloudKitManager.instance.flush()
+                CloudKitManager.sharedInstance().flush()
             }
         }
     }
@@ -256,6 +257,7 @@ class PrefsViewController: NSViewController {
         
         if let note = EditTextView.note {
             note.markdownCache()
+            controller?.refillEditArea()
         }
         
         controller?.notesTableView.reloadData()
@@ -345,7 +347,7 @@ class PrefsViewController: NSViewController {
     }
     
     func checkCloudStatus() {
-        CloudKitManager.instance.container.accountStatus { (accountStatus, error) in
+        CloudKitManager.sharedInstance().container.accountStatus { (accountStatus, error) in
             var result: String
             
             switch accountStatus {
@@ -386,6 +388,7 @@ class PrefsViewController: NSViewController {
         if let note = EditTextView.note {
             NotesTextProcessor.hl = nil
             note.markdownCache()
+            controller?.refillEditArea()
         }
     }
     

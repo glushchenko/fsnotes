@@ -11,21 +11,28 @@ import AppKit
 
 class MainWindowController: NSWindowController,
 NSWindowDelegate {
-    
-    func windowDidResize(_ notification: Notification) {
-        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        controller?.refillEditArea()
-    }
-    
     override func windowDidLoad() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
     }
     
+    func windowDidResize(_ notification: Notification) {
+        refreshEditArea()
+    }
+    
+    func windowDidDeminiaturize(_ notification: Notification) {
+        refreshEditArea()
+    }
+    
     func makeNew() {
         window?.makeKeyAndOrderFront(self)
         NSApp.activate(ignoringOtherApps: true)
+        refreshEditArea()
     }
     
+    func refreshEditArea() {
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.focusEditArea()
+    }
 }

@@ -7,14 +7,33 @@
 //
 
 import Foundation
-import Cocoa
-import MASShortcut
+
+#if os(iOS)
+    import UIKit
+#endif
+
+#if os(OSX)
+    import Cocoa
+    import MASShortcut
+#endif
 
 public class UserDefaultsManagement {
+    
+#if os(OSX)
+    typealias Color = NSColor
+    typealias Image = NSImage
+    typealias Font = NSFont
+#else
+    typealias Color = UIColor
+    typealias Image = UIImage
+    typealias Font = UIFont
+#endif
+    
     static var DefaultFont = "Helvetica Neue"
     static var DefaultFontSize = 14
-    static var DefaultFontColor = NSColor.black
-    static var DefaultBgColor = NSColor.white
+    
+    static var DefaultFontColor = Color.black
+    static var DefaultBgColor = Color.white
 
     private struct Constants {
         static let FontNameKey = "font"
@@ -68,9 +87,9 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var noteFont: NSFont! {
+    static var noteFont: Font! {
         get {
-            return NSFont(name: self.fontName, size: CGFloat(self.fontSize))
+            return Font(name: self.fontName, size: CGFloat(self.fontSize))
         }
         set {
             guard let newValue = newValue else {return}
@@ -80,30 +99,30 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var fontColor: NSColor {
+    static var fontColor: Color {
         get {
             if let returnFontColor = UserDefaults.standard.object(forKey: Constants.FontColorKey) {
-                return NSUnarchiver.unarchiveObject(with: returnFontColor as! Data) as! NSColor
+                return NSKeyedUnarchiver.unarchiveObject(with: returnFontColor as! Data) as! Color
             } else {
                 return self.DefaultFontColor
             }
         }
         set {
-            let data = NSArchiver.archivedData(withRootObject: newValue)
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
             UserDefaults.standard.set(data, forKey: Constants.FontColorKey)
         }
     }
 
-    static var bgColor: NSColor {
+    static var bgColor: Color {
         get {
             if let returnBgColor = UserDefaults.standard.object(forKey: Constants.BgColorKey) {
-                return NSUnarchiver.unarchiveObject(with: returnBgColor as! Data) as! NSColor
+                return NSKeyedUnarchiver.unarchiveObject(with: returnBgColor as! Data) as! Color
             } else {
                 return self.DefaultBgColor
             }
         }
         set {
-            let data = NSArchiver.archivedData(withRootObject: newValue)
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
             UserDefaults.standard.set(data, forKey: Constants.BgColorKey)
         }
     }
@@ -195,7 +214,8 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
         }
     }
-        
+    
+#if os(OSX)
     static var newNoteShortcut: MASShortcut {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
@@ -229,6 +249,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
         }
     }
+#endif
         
     static var preview: Bool {
         get {

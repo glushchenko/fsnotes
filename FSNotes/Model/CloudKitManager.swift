@@ -8,16 +8,20 @@
 
 import Foundation
 import CloudKit
-import Cocoa
 
 enum CloudKitResult {
     case success(CKRecord)
     case failure(CKError)
 }
 
+protocol CloudKitManagerDelegate: NSObjectProtocol {
+    func reloadView(note: Note?)
+    func refillEditArea(cursor: Int?, previewOnly: Bool)
+}
+
 class CloudKitManager {
-    static let instance = CloudKitManager()
-    
+
+    weak var delegate : CloudKitManagerDelegate?
     let identifier = "iCloud.co.fluder.fsnotes"
     let notesZone = "NotesZone"
     
@@ -30,7 +34,11 @@ class CloudKitManager {
     let modifyQueueList = [String: Note]()
     var hasActivePushConnection: Bool = false
     let publicDataSubscriptionID = "cloudKitCreateUpdateDeleteSubscription"
-    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+    var controller: ViewController?
+    
+    class func sharedInstance() -> CloudKitManager {
+        return CloudKitManagerSingleton
+    }
     
     init() {
         container = CKContainer.init(identifier: identifier)
@@ -120,6 +128,7 @@ class CloudKitManager {
                 note.cloudKitRecord = record.data()
                 note.isSynced = true
                 note.initWith(url: asset.fileURL, fileName: fileName)
+                self.delegate?.refillEditArea(cursor: nil, previewOnly: false)
                 
                 note.save()
                 
@@ -141,7 +150,7 @@ class CloudKitManager {
             UserDefaults.standard.serverChangeToken = token
 
             DispatchQueue.main.async {
-                self.viewController.reloadView()
+                self.delegate?.reloadView(note: nil)
                 NotificationsController.syncProgress()
                 NotificationsController.onFinishSync()
             }
@@ -285,6 +294,7 @@ class CloudKitManager {
                     conflictedNote.content = NSMutableAttributedString(string: content)
                     conflictedNote.storage = storage
                     conflictedNote.markdownCache()
+                    self.delegate?.refillEditArea(cursor: nil, previewOnly: false)
                     
                     self.updateNoteRecord(note: note, record: fetchedRecord)
                     self.saveRecord(note: note, sRecord: fetchedRecord, push: false) {
@@ -292,7 +302,7 @@ class CloudKitManager {
                     }
                     
                     conflictedNote.save()
-                    self.reloadView(note: conflictedNote)
+                    self.delegate?.reloadView(note: conflictedNote)
                 } catch {}
                 
             case .failure(let error):
@@ -379,7 +389,7 @@ class CloudKitManager {
     func reloadView(note: Note? = nil) {
         DispatchQueue.main.async() {
             if let unwrappedNote = note {
-                self.viewController.reloadView(note: unwrappedNote)
+                self.delegate?.reloadView(note: unwrappedNote)
             }
         }
     }
@@ -514,3 +524,5 @@ class CloudKitManager {
         }
     }
 }
+
+let CloudKitManagerSingleton = CloudKitManager()

@@ -11,16 +11,11 @@ import MASShortcut
 import CoreData
 import CloudKit
 
-enum SortBy: String {
-    case ModificationDate = "modificationDate"
-    case CreationDate = "creationDate"
-    case Title = "title"
-}
-
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
-    NSSplitViewDelegate {
+    NSSplitViewDelegate,
+    CloudKitManagerDelegate {
     
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
@@ -64,6 +59,9 @@ class ViewController: NSViewController,
         
         let bookmark = SandboxBookmark()
         bookmark.load()
+        
+        Storage.instance.delegate = self
+        CloudKitManager.sharedInstance().delegate = self
         
         editArea.delegate = self
         search.delegate = self
@@ -112,8 +110,8 @@ class ViewController: NSViewController,
         
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
-                CloudKitManager.instance.verifyCloudKitSubscription()
-                CloudKitManager.instance.sync()
+                CloudKitManager.sharedInstance().verifyCloudKitSubscription()
+                CloudKitManager.sharedInstance().sync()
             }
         #endif
         
@@ -266,6 +264,7 @@ class ViewController: NSViewController,
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
+        refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
         
@@ -467,7 +466,7 @@ class ViewController: NSViewController,
                     let noteType = note.type
                     
                     note.removeFile()
-                    CloudKitManager.instance.removeRecord(note: note) {
+                    CloudKitManager.sharedInstance().removeRecord(note: note) {
                         
                         let note = CoreDataManager.instance.make()
                         note.url = noteURL
@@ -626,12 +625,17 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func focusEditArea() {
+    func focusEditArea(firstResponder: NSResponder? = nil) {
+        var resp: NSResponder = self.editArea
+        if let responder = firstResponder {
+            resp = responder
+        }
+        
         if (self.notesTableView.selectedRow > -1) {
             DispatchQueue.main.async() {
                 self.editArea.isEditable = true
                 self.emptyEditAreaImage.isHidden = true
-                self.editArea.window?.makeFirstResponder(self.editArea)
+                self.editArea.window?.makeFirstResponder(resp)
             }
         }
     }
@@ -668,10 +672,18 @@ class ViewController: NSViewController,
     }
     
     func searchShortcut() {
+        if (NSApplication.shared.isActive) {
+            NSApplication.shared.hide(nil)
+            return
+        }
+        
+        UserDataService.instance.isShortcutCall = true
+        
+        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        controller?.focusEditArea(firstResponder: search)
+        
         NSApp.activate(ignoringOtherApps: true)
         self.view.window?.makeKeyAndOrderFront(self)
-        
-        search.becomeFirstResponder()
     }
     
     func moveAtTop(id: Int) {
@@ -706,6 +718,7 @@ class ViewController: NSViewController,
         
         Storage.instance.saveNote(note: note, userInitiated: true)
         note.markdownCache()
+        refillEditArea()
         
         updateTable(filter: "") {
             if let index = self.notesTableView.getIndex(note) {

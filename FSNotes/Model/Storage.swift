@@ -13,6 +13,7 @@ import CloudKit
 class Storage {
     static let instance = Storage()
     
+    weak var delegate : CloudKitManagerDelegate?
     var noteList = [Note]()
     var notesDict: [String: Note] = [:]
     
@@ -299,6 +300,12 @@ class Storage {
             for note in markdownDocuments {
                 note.markdownCache()
                 
+                if note == EditTextView.note {
+                    DispatchQueue.main.async {
+                        self.delegate?.refillEditArea(cursor: nil, previewOnly: false)
+                    }
+                }
+                
                 if self.terminateBusyQueue {
                     print("Caching data obsolete, restart caching initiated.")
                     self.terminateBusyQueue = false
@@ -331,7 +338,7 @@ class Storage {
                     }
                 }
                 
-                CloudKitManager.instance.removeRecords(records: recordIds) {
+                CloudKitManager.sharedInstance().removeRecords(records: recordIds) {
                     CoreDataManager.instance.removeNotes(notes: notes)
                 }
             } else {
@@ -356,7 +363,7 @@ class Storage {
                 CoreDataManager.instance.save()
                 
                 // save cloudkit
-                CloudKitManager.instance.saveNote(note) {}
+                CloudKitManager.sharedInstance().saveNote(note) {}
             }
         #endif
     }

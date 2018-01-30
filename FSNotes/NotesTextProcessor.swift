@@ -6,25 +6,48 @@
 //  Copyright © 2017 Oleksandr Glushchenko. All rights reserved.
 //
 
-import Cocoa
 import Highlightr
 
+#if os(OSX)
+    import Cocoa
+    import MASShortcut
+#else
+    import UIKit
+#endif
+
 public class NotesTextProcessor {
+#if os(OSX)
+    typealias Color = NSColor
+    typealias Image = NSImage
+    typealias Font = NSFont
+#else
+    typealias Color = UIColor
+    typealias Image = UIImage
+    typealias Font = UIFont
+#endif
     // MARK: Syntax highlight customisation
     
     /**
      Color used to highlight markdown syntax. Default value is light grey.
      */
-    open static var syntaxColor = NSColor.lightGray
+    open static var syntaxColor = Color.lightGray
     
+#if os(OSX)
     open static var codeBackground = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+#else
+    open static var codeBackground = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+#endif
     
     /**
      Quote indentation in points. Default 20.
      */
     open var quoteIndendation : CGFloat = 20
     
+#if os(OSX)
     public static var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+#else
+    public static var codeFont = UIFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+#endif
     
     /**
      If the markdown syntax should be hidden or visible
@@ -268,7 +291,7 @@ public class NotesTextProcessor {
             storage?.endEditing()
             storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
             storage?.addAttributes([
-                .backgroundColor: NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                .backgroundColor: Color(red:0.97, green:0.97, blue:0.97, alpha:1.0)
                 ], range: range)
         }
 
@@ -340,11 +363,18 @@ public class NotesTextProcessor {
         
         let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
         let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
+        
+    #if os(OSX)
         let boldFont = NSFont.boldFont()
         let italicFont = NSFont.italicFont()
-        
         let hiddenFont = NSFont.systemFont(ofSize: 0.1)
-        let hiddenColor = NSColor.clear
+    #else
+        let boldFont = UIFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let italicFont = UIFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        let hiddenFont = UIFont.systemFont(ofSize: 0.1)
+    #endif
+        
+        let hiddenColor = Color.clear
         let hiddenAttributes: [NSAttributedStringKey : Any] = [
             .font : hiddenFont,
             .foregroundColor : hiddenColor
@@ -528,7 +558,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: quoteFont, range: range)
-            styleApplier.addAttribute(.foregroundColor, value: NSColor.darkGray, range: range)
+            styleApplier.addAttribute(.foregroundColor, value: Color.darkGray, range: range)
             styleApplier.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
@@ -1064,20 +1094,28 @@ public class NotesTextProcessor {
     }
     
     // We transform the user provided `codeFontName` `String` to a `NSFont`
-    fileprivate static func codeFont(_ size: CGFloat) -> NSFont {
+    fileprivate static func codeFont(_ size: CGFloat) -> Font {
         if let font = UserDefaultsManagement.noteFont {
             return font
         } else {
+        #if os(OSX)
             return NSFont.systemFont(ofSize: size)
+        #else
+            return UIFont.systemFont(ofSize: size)
+        #endif
         }
     }
     
     // We transform the user provided `quoteFontName` `String` to a `NSFont`
-    fileprivate static func quoteFont(_ size: CGFloat) -> NSFont {
+    fileprivate static func quoteFont(_ size: CGFloat) -> Font {
         if let font = UserDefaultsManagement.noteFont {
             return font
         } else {
+        #if os(OSX)
             return NSFont.systemFont(ofSize: size)
+        #else
+            return UIFont.systemFont(ofSize: size)
+        #endif
         }
     }
 }
@@ -1122,37 +1160,5 @@ public struct MarklightRegex {
 
                                             completion(result)
         })
-    }
-}
-
-public extension NSImage {
-    public func imageRotatedByDegreess(degrees:CGFloat) -> NSImage {
-        
-        var imageBounds = NSZeroRect ; imageBounds.size = self.size
-        let pathBounds = NSBezierPath(rect: imageBounds)
-        var transform = NSAffineTransform()
-        transform.rotate(byDegrees: degrees)
-        pathBounds.transform(using: transform as AffineTransform)
-        let rotatedBounds:NSRect = NSMakeRect(NSZeroPoint.x, NSZeroPoint.y , self.size.width, self.size.height )
-        let rotatedImage = NSImage(size: rotatedBounds.size)
-        
-        //Center the image within the rotated bounds
-        imageBounds.origin.x = NSMidX(rotatedBounds) - (NSWidth(imageBounds) / 2)
-        imageBounds.origin.y  = NSMidY(rotatedBounds) - (NSHeight(imageBounds) / 2)
-        
-        // Start a new transform
-        transform = NSAffineTransform()
-        // Move coordinate system to the center (since we want to rotate around the center)
-        transform.translateX(by: +(NSWidth(rotatedBounds) / 2 ), yBy: +(NSHeight(rotatedBounds) / 2))
-        transform.rotate(byDegrees: degrees)
-        // Move the coordinate system bak to normal
-        transform.translateX(by: -(NSWidth(rotatedBounds) / 2 ), yBy: -(NSHeight(rotatedBounds) / 2))
-        // Draw the original image, rotated, into the new image
-        rotatedImage.lockFocus()
-        transform.concat()
-        self.draw(in: imageBounds, from: NSZeroRect, operation: .copy, fraction: 1.0)
-        rotatedImage.unlockFocus()
-        
-        return rotatedImage
     }
 }

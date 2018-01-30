@@ -9,7 +9,6 @@
 
 import Foundation
 import CoreData
-import Cocoa
 
 @objc(Note)
 public class Note: NSManagedObject {
@@ -48,7 +47,6 @@ public class Note: NSManagedObject {
         
         do {
             self.content = try NSMutableAttributedString(url: url, options: options, documentAttributes: nil)
-            markdownCache()
         } catch {
             print("Document \"\(fileName)\" not loaded. Error: \(error)")
         }
@@ -372,13 +370,6 @@ public class Note: NSManagedObject {
         
         NotesTextProcessor.fullScan(note: self, async: false)
         isCached = true
-        
-        if let currentNote = EditTextView.note, currentNote == self {
-            DispatchQueue.main.async {
-                let controller = NSApplication.shared.windows[0].contentViewController as? ViewController
-                controller?.refillEditArea()
-            }
-        }
     }
     
     func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
