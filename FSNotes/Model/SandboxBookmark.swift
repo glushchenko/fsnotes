@@ -24,9 +24,8 @@ class SandboxBookmark {
         let path = bookmarkPath()
         
         let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: path) {
-            bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as! [URL: Data]
-                        
+        if fileManager.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
+            
             for bookmark in bookmarks {
                 restore(bookmark)
             }

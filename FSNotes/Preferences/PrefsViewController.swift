@@ -211,6 +211,8 @@ class PrefsViewController: NSViewController {
     
     @IBAction func setFontColor(_ sender: NSColorWell) {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        
+        UserDefaultsManagement.fontColor = sender.color
         controller?.editArea.setEditorTextColor(sender.color)
         
         if let note = EditTextView.note {
@@ -221,6 +223,9 @@ class PrefsViewController: NSViewController {
     
     @IBAction func setBgColor(_ sender: NSColorWell) {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        
+        UserDefaultsManagement.bgColor = sender.color
+        
         controller?.editArea.backgroundColor = sender.color
     }
     

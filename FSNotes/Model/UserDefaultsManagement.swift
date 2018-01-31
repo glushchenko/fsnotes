@@ -101,8 +101,8 @@ public class UserDefaultsManagement {
     
     static var fontColor: Color {
         get {
-            if let returnFontColor = UserDefaults.standard.object(forKey: Constants.FontColorKey) {
-                return NSKeyedUnarchiver.unarchiveObject(with: returnFontColor as! Data) as! Color
+            if let returnFontColor = UserDefaults.standard.object(forKey: Constants.FontColorKey), let color = NSKeyedUnarchiver.unarchiveObject(with: returnFontColor as! Data) as? Color {
+                return color
             } else {
                 return self.DefaultFontColor
             }
@@ -115,8 +115,8 @@ public class UserDefaultsManagement {
 
     static var bgColor: Color {
         get {
-            if let returnBgColor = UserDefaults.standard.object(forKey: Constants.BgColorKey) {
-                return NSKeyedUnarchiver.unarchiveObject(with: returnBgColor as! Data) as! Color
+            if let returnBgColor = UserDefaults.standard.object(forKey: Constants.BgColorKey), let color = NSKeyedUnarchiver.unarchiveObject(with: returnBgColor as! Data) as? Color {
+                return color
             } else {
                 return self.DefaultBgColor
             }
