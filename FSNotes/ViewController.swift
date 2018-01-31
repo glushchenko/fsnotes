@@ -61,7 +61,10 @@ class ViewController: NSViewController,
         bookmark.load()
         
         Storage.instance.delegate = self
+        
+#if CLOUDKIT
         CloudKitManager.sharedInstance().delegate = self
+#endif
         
         editArea.delegate = self
         search.delegate = self

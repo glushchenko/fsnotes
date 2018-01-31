@@ -4,8 +4,8 @@
 <dict>
 	<key>com.apple.developer.icloud-container-environment</key>
 	<string>Production</string>
-	<key>com.apple.developer.aps-environment</key>
-	<string>production</string>
+    <key>com.apple.developer.aps-environment</key>
+    <string>production</string>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array>
 		<string>iCloud.co.fluder.fsnotes</string>
