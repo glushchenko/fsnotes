@@ -8,13 +8,11 @@
 
 import Foundation
 
-#if os(iOS)
-    import UIKit
-#endif
-
 #if os(OSX)
     import Cocoa
     import MASShortcut
+#else
+    import UIKit
 #endif
 
 public class UserDefaultsManagement {
@@ -38,8 +36,8 @@ public class UserDefaultsManagement {
     private struct Constants {
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
-        static let FontColorKey = "fontcolor"
-        static let BgColorKey = "bgcolor"
+        static let FontColorKey = "fontColorKeyed"
+        static let BgColorKey = "bgColorKeyed"
         static let TableOrientation = "isUseHorizontalMode"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"

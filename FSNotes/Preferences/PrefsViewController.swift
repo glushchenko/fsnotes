@@ -75,6 +75,7 @@ class PrefsViewController: NSViewController {
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        
         noteFontColor.color = UserDefaultsManagement.fontColor
         backgroundColor.color = UserDefaultsManagement.bgColor
 
