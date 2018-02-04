@@ -21,7 +21,16 @@ public class Note: NSManagedObject {
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
+    
+    convenience init(name: String) {
+        let context = CoreDataManager.instance.context
+        let entity = CoreDataManager.instance.entityForName(entityName: "Note")
         
+        self.init(entity: entity, insertInto: context)
+        make(newName: name)
+        storage = CoreDataManager.instance.fetchGeneralStorage()
+    }
+    
     func make(newName: String) {
         url = getUniqueFileName(name: newName)
         parseURL()

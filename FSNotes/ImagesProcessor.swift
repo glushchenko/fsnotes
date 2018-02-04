@@ -7,9 +7,21 @@
 //
 
 import Foundation
-import Cocoa
+#if os(OSX)
+    import Cocoa
+#else
+    import UIKit
+#endif
 
 public class ImagesProcessor {
+#if os(OSX)
+    typealias Size = NSSize
+    typealias Image = NSImage
+#else
+    typealias Size = CGSize
+    typealias Image = UIImage
+#endif
+    
     var textStorageNSString: NSString
     var styleApplier: NSMutableAttributedString
     var range: NSRange?
@@ -35,6 +47,7 @@ public class ImagesProcessor {
     }
     
     public func load() {
+        print("load images")
         let string = styleApplier.string
         
         NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -71,7 +84,7 @@ public class ImagesProcessor {
                     url = fs
                 }
                 
-                guard let imageURL = url, let imageData = try? Data(contentsOf: imageURL), let image = NSImage(data: imageData) else {
+                guard let imageURL = url, let imageData = try? Data(contentsOf: imageURL), let image = Image(data: imageData) else {
                     return
                 }
                 
@@ -172,33 +185,22 @@ public class ImagesProcessor {
             return false
         }
     }
-    
-    func computeInEditorSize(image: NSImage) -> NSSize {
-        let realSize = image.representations[0]
-        var scale: CGFloat = 1
-        
-        if CGFloat(realSize.pixelsWide) > self.maxWidth {
-            scale = (self.maxWidth - 20) / CGFloat(realSize.pixelsWide)
-        }
-        
-        let width = CGFloat(realSize.pixelsWide) * scale
-        let height = CGFloat(realSize.pixelsHigh) * scale
-        
-        return NSSize(width: width, height: height)
-    }
-    
-    func getImageAttributedString(image: NSImage) -> NSAttributedString {
-        image.size = self.computeInEditorSize(image: image)
-                
+  
+    func getImageAttributedString(image: Image) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = 15
         
-        let fileWrapper = FileWrapper.init()
-        fileWrapper.icon = image
-                
         let attachment = NSTextAttachment()
-        attachment.fileWrapper = fileWrapper
+        
+        #if os(OSX)
+            image.size = self.computeInEditorSize(image: image)
+            let fileWrapper = FileWrapper.init()
+            fileWrapper.icon = image
+            attachment.fileWrapper = fileWrapper
+        #else
+            attachment.image = resizeImage(image: image, maxWidth: maxWidth)
+        #endif
         
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableString = NSMutableAttributedString(attributedString: attributedString)
@@ -229,7 +231,7 @@ public class ImagesProcessor {
         return false
     }
     
-    func replaceAttributedString(innerRange: NSRange, mdTitleLength: Int, image: NSImage) {
+    func replaceAttributedString(innerRange: NSRange, mdTitleLength: Int, image: Image) {
         let attrStringWithImage = self.getImageAttributedString(image: image)
         
         guard self.styleApplier.length >= innerRange.location + innerRange.length else {
@@ -258,4 +260,38 @@ public class ImagesProcessor {
             offset = offset + 1
         }
     }
+    
+    #if os(OSX)
+    func computeInEditorSize(image: Image) -> Size {
+        let realSize = image.representations[0]
+        var scale: CGFloat = 1
+    
+        if CGFloat(realSize.pixelsWide) > self.maxWidth {
+            scale = (self.maxWidth - 20) / CGFloat(realSize.pixelsWide)
+        }
+    
+        let width = CGFloat(realSize.pixelsWide) * scale
+        let height = CGFloat(realSize.pixelsHigh) * scale
+    
+        return Size(width: width, height: height)
+    }
+    #endif
+    
+    #if os(iOS)
+    func resizeImage(image: UIImage, maxWidth: CGFloat) -> UIImage? {
+        guard image.size.width > maxWidth else {
+            return image
+        }
+        
+        let scale = maxWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSize(width: maxWidth, height: newHeight))
+        image.draw(in: CGRect(x: 0, y: 0, width: maxWidth, height: newHeight))
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+    #endif
 }

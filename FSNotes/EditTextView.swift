@@ -145,7 +145,9 @@ class EditTextView: NSTextView {
             }
             
             textColor = UserDefaultsManagement.fontColor
-            higlightLinks()
+            
+            let processor = NotesTextProcessor(storage: storage)
+            processor.higlightLinks()
         }
         
         if highlight {
@@ -490,7 +492,9 @@ class EditTextView: NSTextView {
         
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
-            higlightLinks()
+            
+            let processor = NotesTextProcessor(storage: storage)
+            processor.higlightLinks()
             
             if note.type == .RichText {
                 cacheNote(note: note)
@@ -506,29 +510,8 @@ class EditTextView: NSTextView {
             return
         }
         
-        let string = (note.content.string as NSString)
-        let paragraphRange = string.paragraphRange(for: range)
-        let stringTT = storage.string as NSString
-        
-        if UserDefaultsManagement.codeBlockHighlight {
-            if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: stringTT) {
-                NotesTextProcessor.highlightCode(range: fencedRange, storage: self.textStorage!, string: string, note: note)
-                return
-            }
-            
-            if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
-                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: self.textStorage!, string: string, note: note)
-                return
-            }
-        }
-        
-        NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
-        cacheNote(note: note)
-        
-        if UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: frame.width, note: note)
-            processor.load()
-        }
+        let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
+        processor.scanParagraph()
     }
     
     func cacheNote(note: Note) {
@@ -537,45 +520,6 @@ class EditTextView: NSTextView {
         }
         
         note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
-    }
-
-    func higlightLinks() {
-        guard let storage = textStorage else {
-            return
-        }
-        
-        let selected = selectedRanges
-        let range = NSMakeRange(0, storage.length)
-        let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
-        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
-        
-        storage.removeAttribute(NSAttributedStringKey.link, range: range)
-        regex.enumerateMatches(
-            in: (textStorage?.string)!,
-            options: NSRegularExpression.MatchingOptions(),
-            range: range,
-            using: { (result, matchingFlags, stop) -> Void in
-                if let range = result?.range {
-                    guard storage.length > range.location + range.length else {
-                        return
-                    }
-                    
-                    var str = storage.mutableString.substring(with: range)
-                    
-                    if str.starts(with: "www.") {
-                        str = "http://" + str
-                    }
-                    
-                    guard let url = URL(string: str) else {
-                        return
-                    }
-                    
-                    storage.addAttribute(NSAttributedStringKey.link, value: url, range: range)
-                }
-            }
-        )
-        
-        selectedRanges = selected
     }
     
     func tabDown(_ event: NSEvent) {
@@ -639,7 +583,7 @@ class EditTextView: NSTextView {
         let undoInfo = UndoInfo(text: result, replacementRange: newRange)
         undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
         
-        if let note = EditTextView.note {
+        if let note = EditTextView.note, note.type == .Markdown {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
             let async = newRange.length > 1000
             NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
@@ -699,7 +643,7 @@ class EditTextView: NSTextView {
         let undoInfo = UndoInfo(text: x, replacementRange: newRange)
         undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
         
-        if let note = EditTextView.note {
+        if let note = EditTextView.note, note.type == .Markdown {
             note.content = NSMutableAttributedString(attributedString: self.attributedString())
             let async = newRange.length > 1000
             NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)

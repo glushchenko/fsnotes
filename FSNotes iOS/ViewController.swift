@@ -8,11 +8,15 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource,
-    UISearchBarDelegate {
+class ViewController: UIViewController,
+    UITableViewDataSource,
+    UITableViewDelegate,
+    UISearchBarDelegate,
+    UITabBarDelegate {
 
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
+    @IBOutlet weak var tabBar: UITabBar!
     
     var notes = [Note]()
     let storage = Storage.instance
@@ -20,9 +24,13 @@ class ViewController: UIViewController, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBar.delegate = self
         notesTable.dataSource = self
+        notesTable.delegate = self
         search.delegate = self
         search.autocapitalizationType = .none
+        
+        notesTable.separatorStyle = .singleLine
         
         if CoreDataManager.instance.getBy(label: "general") == nil {
             let context = CoreDataManager.instance.context
@@ -31,6 +39,13 @@ class ViewController: UIViewController, UITableViewDataSource,
             storage.label = "general"
             CoreDataManager.instance.save()
         }
+
+#if os(iOS)
+        let storageItem = CoreDataManager.instance.getBy(label: "general")
+        storageItem?.path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
+        CoreDataManager.instance.save()
+#endif
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path)
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
@@ -103,8 +118,54 @@ class ViewController: UIViewController, UITableViewDataSource,
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+            return
+        }
+        
+        let note = notes[indexPath.row]
+        viewController.fill(note: note)
+        pageController.goToNextPage()
+    }
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if item.title == "New" {
+            let note = Note(name: "")
+            note.save()
+            updateTable(filter: "") {}
+            
+            guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+                return
+            }
+                        
+            viewController.note = note
+            pageController.goToNextPage()
+            viewController.fill(note: note)
+        }
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         updateTable(filter: searchText, completion: {})
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let name = searchBar.text else {
+            return
+        }
+        
+        let note = Note(name: name)
+        note.save()
+        
+        updateTable(filter: "") {}
+        
+        guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+            return
+        }
+        
+        viewController.note = note
+        pageController.goToNextPage()
+        viewController.fill(note: note)
+    }
+    
 }
 

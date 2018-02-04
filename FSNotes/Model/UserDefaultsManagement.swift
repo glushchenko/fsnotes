@@ -152,40 +152,28 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var documentDirectory: URL {
+        get {
+            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            
+            return URL(fileURLWithPath: path)
+        }
+    }
+    
     static var storagePath: String {
         get {
-            
-#if USEDEBUGFOLDER
-            var isDirectory: ObjCBool = true
-            let debugFolder = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/FSNotes/"
-
-            if FileManager.default.fileExists(atPath: debugFolder, isDirectory: &isDirectory) {
-                if isDirectory.boolValue {
-                    return debugFolder
-                }
-            }
-    
-            do {
-                try FileManager.default.createDirectory(atPath: debugFolder, withIntermediateDirectories: false, attributes: nil)
-                return debugFolder
-            } catch let error as NSError {
-                print(error.localizedDescription);
-            }
-#endif
-            
-            let defaultPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-            
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 do {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
+                    
                     return storagePath as! String
                 } catch {
-                    UserDefaultsManagement.storagePath = defaultPath
+                    UserDefaultsManagement.storagePath = documentDirectory.path
                     print(error.localizedDescription);
                 }
             }
             
-            return defaultPath
+            return documentDirectory.path
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)

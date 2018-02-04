@@ -26,6 +26,10 @@ class CoreDataManager {
         context = container.viewContext
         context.mergePolicy = NSOverwriteMergePolicy
     }
+    
+    func entityForName(entityName: String) -> NSEntityDescription {
+        return NSEntityDescription.entity(forEntityName: entityName, in: self.context)!
+    }
         
     func make() -> Note {
         return Note(context: context)

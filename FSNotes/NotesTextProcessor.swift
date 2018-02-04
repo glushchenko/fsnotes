@@ -54,6 +54,18 @@ public class NotesTextProcessor {
      */
     open static var hideSyntax = false
     
+    private var note: Note?
+    private var storage: NSTextStorage?
+    private var range: NSRange?
+    private var width: CGFloat?
+    
+    init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil, maxWidth: CGFloat? = nil) {
+        self.note = note
+        self.storage = storage
+        self.range = range
+        self.width = maxWidth
+    }
+    
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
         if (paragraph.starts(with: "\t") || paragraph.starts(with: "    ")) {
             return true
@@ -1118,6 +1130,73 @@ public class NotesTextProcessor {
         #endif
         }
     }
+    
+    public func higlightLinks() {
+        guard let storage = self.storage else {
+            return
+        }
+        
+        let range = NSMakeRange(0, storage.length)
+        let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
+        
+        storage.removeAttribute(NSAttributedStringKey.link, range: range)
+        regex.enumerateMatches(
+            in: (storage.string),
+            options: NSRegularExpression.MatchingOptions(),
+            range: range,
+            using: { (result, matchingFlags, stop) -> Void in
+                if let range = result?.range {
+                    guard storage.length > range.location + range.length else {
+                        return
+                    }
+                    
+                    var str = storage.mutableString.substring(with: range)
+                    
+                    if str.starts(with: "www.") {
+                        str = "http://" + str
+                    }
+                    
+                    guard let url = URL(string: str) else {
+                        return
+                    }
+                    
+                    storage.addAttribute(NSAttributedStringKey.link, value: url, range: range)
+                }
+        }
+        )
+    }
+    
+    public func scanParagraph() {
+        guard let note = self.note, let storage = self.storage, let range = self.range, let maxWidth = self.width else {
+            return
+        }
+        
+        guard note.content.length >= range.location + range.length else {
+            return
+        }
+     
+        let string = storage.string as NSString
+        let paragraphRange = string.paragraphRange(for: range)
+     
+        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string) {
+            if UserDefaultsManagement.codeBlockHighlight {
+                NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note)
+            }
+        } else if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
+            if UserDefaultsManagement.codeBlockHighlight {
+                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
+            }
+        } else {
+            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
+            
+            if UserDefaultsManagement.liveImagesPreview {
+                let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: maxWidth, note: note)
+                processor.load()
+            }
+        }
+    }
+
 }
 
 public struct MarklightRegex {

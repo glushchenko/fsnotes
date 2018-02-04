@@ -186,7 +186,7 @@ class Storage {
             do {
                 try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                print("General storage not found")
+                print("General storage not found: \(error)")
             }
         }
         
@@ -252,17 +252,21 @@ class Storage {
     }
     
     func getBaseURL() -> URL {
+#if os(OSX)
         if let gu = Storage.generalUrl {
             return gu
         }
-        
+    
         guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let path = storage.path, let url = URL(string: path) else {
             return UserDefaultsManagement.storageUrl
         }
-        
+    
         Storage.generalUrl = url
-        
+    
         return url
+#else
+        return UserDefaultsManagement.documentDirectory
+#endif
     }
     
     func countSynced() -> Int {

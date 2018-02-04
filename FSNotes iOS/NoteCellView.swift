@@ -10,9 +10,7 @@ import UIKit
 
 class NoteCellView: UITableViewCell {
     @IBOutlet weak var title: UILabel!
-    
     @IBOutlet weak var date: UILabel!
-    
     @IBOutlet weak var preview: UILabel!
     
     func configure(note: Note) {
