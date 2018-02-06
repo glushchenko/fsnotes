@@ -306,7 +306,11 @@ public class UserDefaultsManagement {
             if let cloudKitSync = UserDefaults.standard.object(forKey: Constants.CloudKitSync) {
                 return cloudKitSync as! Bool
             } else {
+            #if os(OSX)
                 return false
+            #else
+                return true
+            #endif
             }
         }
         set {

@@ -12,7 +12,9 @@ class ViewController: UIViewController,
     UITableViewDataSource,
     UITableViewDelegate,
     UISearchBarDelegate,
-    UITabBarDelegate {
+    UITabBarDelegate,
+    UIGestureRecognizerDelegate,
+    CloudKitManagerDelegate {
 
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
@@ -31,6 +33,15 @@ class ViewController: UIViewController,
         search.autocapitalizationType = .none
         
         notesTable.separatorStyle = .singleLine
+        UserDefaultsManagement.fontSize = 16
+        
+        CloudKitManager.sharedInstance().delegate = self
+        
+        //Long Press
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPressGesture.minimumPressDuration = 0.5
+        longPressGesture.delegate = self
+        self.notesTable.addGestureRecognizer(longPressGesture)
         
         if CoreDataManager.instance.getBy(label: "general") == nil {
             let context = CoreDataManager.instance.context
@@ -110,6 +121,10 @@ class ViewController: UIViewController,
         return notes.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
         
@@ -132,7 +147,7 @@ class ViewController: UIViewController,
         if item.title == "New" {
             let note = Note(name: "")
             note.save()
-            updateTable(filter: "") {}
+            updateList()
             
             guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
                 return
@@ -156,7 +171,7 @@ class ViewController: UIViewController,
         let note = Note(name: name)
         note.save()
         
-        updateTable(filter: "") {}
+        updateList()
         
         guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
             return
@@ -167,5 +182,45 @@ class ViewController: UIViewController,
         viewController.fill(note: note)
     }
     
+    @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
+        let p = longPressGesture.location(in: self.notesTable)
+        let indexPath = self.notesTable.indexPathForRow(at: p)
+        if indexPath == nil {
+            print("Long press on table view, not row.")
+        }
+        else if (longPressGesture.state == UIGestureRecognizerState.began) {
+            let alert = UIAlertController.init(title: "Are you sure you want to remove note?", message: "This action cannot be undone.", preferredStyle: .alert)
+            
+            let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
+                let notes = [self.notes[indexPath!.row]]
+                Storage.instance.removeNotes(notes: notes)
+                self.updateList()
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .default)
+            
+            alert.addAction(cancel)
+            alert.addAction(remove)
+            
+            present(alert, animated: true, completion:nil)
+        }
+    }
+    
+    func updateList() {
+        updateTable(filter: search.text!) {
+            self.notesTable.reloadData()
+        }
+    }
+    
+    func reloadView(note: Note?) {
+        DispatchQueue.main.async {
+            self.updateList()
+            
+        }
+        
+    }
+    
+    func refillEditArea(cursor: Int?, previewOnly: Bool) {
+        //
+    }
 }
 

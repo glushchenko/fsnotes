@@ -1172,7 +1172,7 @@ public class NotesTextProcessor {
             return
         }
         
-        guard note.content.length >= range.location + range.length else {
+        guard storage.length >= range.location + range.length else {
             return
         }
      

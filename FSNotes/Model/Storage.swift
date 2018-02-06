@@ -37,14 +37,22 @@ class Storage {
         }
         
         guard !checkFirstRun() else {
+            loadDocuments()
+            
+            if UserDefaultsManagement.codeBlockHighlight {
+            #if os(OSX)
+                cacheMarkdown()
+            #endif
+            }
+            
             return
         }
         
-        guard UserDefaultsManagement.codeBlockHighlight else {
-            return
+        if UserDefaultsManagement.codeBlockHighlight {
+        #if os(OSX)
+            cacheMarkdown()
+        #endif
         }
-        
-        cacheMarkdown()
     }
     
     func sortNotes(noteList: [Note]?) -> [Note]? {
@@ -199,6 +207,7 @@ class Storage {
         do {
             let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
             for file in files {
+                print(file)
                 try? FileManager.default.copyItem(atPath: "\(initialPath)/\(file)", toPath: "\(path)/\(file)")
             }
         } catch {

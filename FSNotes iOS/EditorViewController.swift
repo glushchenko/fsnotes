@@ -29,12 +29,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if editArea.textStorage.length == 0 {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
+        
+
     }
     
     private var height: CGFloat = 0.0
     
     public func fill(note: Note) {
         self.note = note
+        note.markdownCache()
         
         guard editArea != nil else {
             return
@@ -73,6 +76,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
         } else {
+            print(range)
             processor.scanParagraph()
         }
         
@@ -90,5 +94,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func keyboardWillHide(notification: NSNotification) {
         editArea.frame.size.height = height
     }
+    
+
     
 }

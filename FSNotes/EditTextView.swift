@@ -493,7 +493,7 @@ class EditTextView: NSTextView {
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             
-            let processor = NotesTextProcessor(storage: storage)
+            let processor = NotesTextProcessor(storage: textStorage)
             processor.higlightLinks()
             
             if note.type == .RichText {

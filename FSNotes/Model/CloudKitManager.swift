@@ -112,7 +112,10 @@ class CloudKitManager {
             Storage.fsImportIsAvailable = false
 
             for record in modifiedRecords {
-                let asset = record.object(forKey: "file") as! CKAsset
+                guard let asset = record.object(forKey: "file") as? CKAsset else {
+                    continue
+                }
+                
                 let recordName = record.recordID.recordName
                 let fileName = recordName as String
                 

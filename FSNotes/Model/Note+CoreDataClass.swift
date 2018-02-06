@@ -123,7 +123,11 @@ public class Note: NSManagedObject {
     func removeFile() {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
+            #if os(OSX)
                 try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+            #else
+                try FileManager.default.removeItem(at: url)
+            #endif
                 print("Note moved to trash: \(name)")
             }
         } catch let error as NSError {
