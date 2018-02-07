@@ -23,6 +23,20 @@ class Storage {
     
     public static var fsImportIsAvailable = true
     
+#if os(iOS)
+    let initialFiles = [
+        "FSNotes - Readme.md",
+        "FSNotes - Code Highlighting.md"
+    ]
+#else
+    let initialFiles = [
+        "FSNotes - Readme.md",
+        "FSNotes - Release Notes.md",
+        "FSNotes - Shortcuts.md",
+        "FSNotes - Code Highlighting.md"
+    ]
+#endif
+    
     func loadDocuments() {
         noteList.removeAll()
         
@@ -207,7 +221,9 @@ class Storage {
         do {
             let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
             for file in files {
-                print(file)
+                guard initialFiles.contains(file) else {
+                    continue
+                }
                 try? FileManager.default.copyItem(atPath: "\(initialPath)/\(file)", toPath: "\(path)/\(file)")
             }
         } catch {

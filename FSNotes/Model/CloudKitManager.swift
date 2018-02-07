@@ -235,10 +235,7 @@ class CloudKitManager {
             self.hasActivePushConnection = false
             
             guard error == nil else {
-                print("Save \(note.name) error \(error.debugDescription)")
-                
                 if error?._code == CKError.serverRecordChanged.rawValue {
-                    print("Server record changed. Need resolve conflict.")
                     self.resolveConflict(note: note, sRecord: sRecord) {
                         completionSave()
                     }
@@ -247,6 +244,7 @@ class CloudKitManager {
                 
                 if error?._code == CKError.assetFileModified.rawValue {
                     self.saveNote(note) {
+                        print("Save \(note.name) error \(error.debugDescription)")
                         completionSave()
                     }
                     return
@@ -256,6 +254,8 @@ class CloudKitManager {
                     completionSave()
                     return
                 }
+                
+                print("Save \(note.name) error \(error.debugDescription)")
                 
                 completionSave()
                 return
@@ -281,6 +281,15 @@ class CloudKitManager {
                 do {
                     let file = fetchedRecord.object(forKey: "file") as! CKAsset
                     let content = try NSString(contentsOf: file.fileURL, encoding: String.Encoding.utf8.rawValue) as String
+                    
+                    if content == note.content.string {
+                        self.updateNoteRecord(note: note, record: fetchedRecord)
+                        print("Conflict resolve was skipped, identical data.")
+                        completionResolve()
+                        return
+                    }
+                    
+                    print("Server record changed. Need resolve conflict.")
                     
                     let conflictedNote = CoreDataManager.instance.make()
                     let date = fetchedRecord.object(forKey: "modifiedAt") as! Date
@@ -427,8 +436,10 @@ class CloudKitManager {
         
         var deletedRecordIDs: [CKRecordID] = []
         operation.recordWithIDWasDeletedBlock = { (recordID: CKRecordID, identifier: String) in
-            print("Deleted: \(recordID.recordName)")
-            deletedRecordIDs.append(recordID)
+            if UserDefaults.standard.serverChangeToken != nil {
+                print("Deleted: \(recordID.recordName)")
+                deletedRecordIDs.append(recordID)
+            }
         }
         
         var serverChangesToken: CKServerChangeToken?

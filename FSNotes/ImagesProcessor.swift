@@ -47,7 +47,6 @@ public class ImagesProcessor {
     }
     
     public func load() {
-        print("load images")
         let string = styleApplier.string
         
         NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in

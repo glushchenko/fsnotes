@@ -76,7 +76,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
         } else {
-            print(range)
             processor.scanParagraph()
         }
         

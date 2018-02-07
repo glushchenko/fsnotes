@@ -37,7 +37,6 @@ class ViewController: UIViewController,
         
         CloudKitManager.sharedInstance().delegate = self
         
-        //Long Press
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressGesture.minimumPressDuration = 0.5
         longPressGesture.delegate = self
@@ -56,7 +55,6 @@ class ViewController: UIViewController,
         storageItem?.path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
         CoreDataManager.instance.save()
 #endif
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path)
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
