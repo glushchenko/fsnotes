@@ -125,15 +125,27 @@ class CloudKitManager {
                         if prevRecord.recordChangeTag == record.recordChangeTag {
                             continue
                         }
+                        
+                        do {
+                            let content = try NSString(contentsOf: asset.fileURL, encoding: String.Encoding.utf8.rawValue) as String
+                            
+                            if content == note.content.string {
+                                self.updateNoteRecord(note: note, record: record)
+                                continue
+                            }
+                        } catch{
+                            print("Read error: \(error)")
+                        }
                     }
                 }
                 
                 note.cloudKitRecord = record.data()
                 note.isSynced = true
                 note.initWith(url: asset.fileURL, fileName: fileName)
+                note.markdownCache()
                 self.delegate?.refillEditArea(cursor: nil, previewOnly: false)
                 
-                note.save()
+                note.save(cloudSync: false)
                 
                 print("Note downloaded: \(note.name)")
             }
@@ -237,6 +249,14 @@ class CloudKitManager {
             guard error == nil else {
                 if error?._code == CKError.serverRecordChanged.rawValue {
                     self.resolveConflict(note: note, sRecord: sRecord) {
+
+                        if push {
+                            self.push() {
+                                completionSave()
+                                return
+                            }
+                        }
+                        
                         completionSave()
                     }
                     return

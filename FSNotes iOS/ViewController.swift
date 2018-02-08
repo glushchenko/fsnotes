@@ -212,13 +212,19 @@ class ViewController: UIViewController,
     func reloadView(note: Note?) {
         DispatchQueue.main.async {
             self.updateList()
-            
         }
-        
     }
     
     func refillEditArea(cursor: Int?, previewOnly: Bool) {
-        //
+        DispatchQueue.main.async {
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+                return
+            }
+        
+            if let note = viewController.note {
+                viewController.fill(note: note)
+            }
+        }
     }
 }
 

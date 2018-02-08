@@ -308,7 +308,7 @@ public class Note: NSManagedObject {
         }
     }
     
-    func save() {
+    func save(cloudSync: Bool = true) {
         syncSkipDate = Date()
         
         let attributes = getFileAttributes()
@@ -327,7 +327,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        Storage.instance.saveNote(note: self, userInitiated: false)
+        Storage.instance.saveNote(note: self, userInitiated: false, cloudSync: cloudSync)
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {

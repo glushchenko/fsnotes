@@ -295,12 +295,14 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable(filter: search.stringValue) {
-            if let selected = selectedNote, let index = notesTable.getIndex(selected) {
-                notesTable.selectRowIndexes([index], byExtendingSelection: false)
-                self.refillEditArea(cursor: cursor)
-            } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
-                self.editArea.clear()
+        DispatchQueue.main.async {
+            self.updateTable(filter: self.search.stringValue) {
+                if let selected = selectedNote, let index = notesTable.getIndex(selected) {
+                    notesTable.selectRowIndexes([index], byExtendingSelection: false)
+                    self.refillEditArea(cursor: cursor)
+                } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
+                    self.editArea.clear()
+                }
             }
         }
     }
@@ -314,22 +316,24 @@ class ViewController: NSViewController,
             return
         }
         
-        var location: Int = 0
+        DispatchQueue.main.async {
+            var location: Int = 0
         
-        if let unwrappedCursor = cursor {
-            location = unwrappedCursor
-        } else {
-            location = editArea.selectedRanges[0].rangeValue.location
-        }
-        
-        let selected = notesTableView.selectedRow
-        if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
-            if let note = notesTableView.getSelectedNote(){
-                editArea.fill(note: note)
+            if let unwrappedCursor = cursor {
+                location = unwrappedCursor
+            } else {
+                location = self.editArea.selectedRanges[0].rangeValue.location
             }
+            
+            let selected = self.notesTableView.selectedRow
+            if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
+                if let note = self.notesTableView.getSelectedNote(){
+                    self.editArea.fill(note: note)
+                }
+            }
+            
+            self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
         }
-        
-        editArea.setSelectedRange(NSRange.init(location: location, length: 0))
     }
         
     override func keyDown(with event: NSEvent) {

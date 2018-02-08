@@ -1140,7 +1140,8 @@ public class NotesTextProcessor {
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
-        storage.removeAttribute(NSAttributedStringKey.link, range: range)
+        storage.removeAttribute(.link, range: range)
+        
         regex.enumerateMatches(
             in: (storage.string),
             options: NSRegularExpression.MatchingOptions(),
@@ -1161,9 +1162,9 @@ public class NotesTextProcessor {
                         return
                     }
                     
-                    storage.addAttribute(NSAttributedStringKey.link, value: url, range: range)
+                    storage.addAttribute(.link, value: url, range: range)
                 }
-        }
+            }
         )
     }
     

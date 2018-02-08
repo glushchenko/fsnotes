@@ -243,6 +243,7 @@ class Storage {
         if note == nil {
             note = Note(context: CoreDataManager.instance.context)
             note?.name = name
+            CoreDataManager.instance.context.insert(note!)
             add(note!)
         }
         
@@ -378,11 +379,11 @@ class Storage {
         #endif
     }
     
-    func saveNote(note: Note, userInitiated: Bool = false) {
+    func saveNote(note: Note, userInitiated: Bool = false, cloudSync: Bool = true) {
         add(note)
         
         #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync && note.isGeneral() {
+            if UserDefaultsManagement.cloudKitSync && note.isGeneral() && cloudSync {
                 if userInitiated {
                     NotificationsController.onStartSync()
                 }

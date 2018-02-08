@@ -105,6 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if note.notificationType == .query {
             CloudKitManager.sharedInstance().sync()
         }
+        
+        completionHandler(.newData)
     }
 
 }
