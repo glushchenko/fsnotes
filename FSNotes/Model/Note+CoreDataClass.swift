@@ -108,6 +108,13 @@ public class Note: NSManagedObject {
         do {
             try FileManager.default.moveItem(at: url, to: to)
         } catch {}
+        
+#if os(iOS)
+        let note = CoreDataManager.instance.make()
+        note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
+        note.load(to)
+        note.save(cloudSync: true)
+#endif
     }
     
     func getNewURL(name: String) -> URL {
@@ -361,6 +368,7 @@ public class Note: NSManagedObject {
     }
     
     func isGeneral() -> Bool {
+#if os(OSX)
         guard let storageItem = storage else {
             return false
         }
@@ -370,6 +378,9 @@ public class Note: NSManagedObject {
         }
         
         return (label == "general")
+#else
+        return true
+#endif
     }
     
     func getTitleWithoutLabel() -> String {

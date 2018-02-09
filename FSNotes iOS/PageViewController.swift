@@ -12,6 +12,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     override func viewDidLoad() {
         self.dataSource = self
+        self.delegate = self
         
         // This sets up the first view that will show up on our page control
         if let firstViewController = orderedViewControllers.first {
@@ -35,7 +36,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
         }
-        
+                
         let previousIndex = viewControllerIndex - 1
         
         // User is on the first view controller and swiped left to loop to
@@ -52,6 +53,8 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         
         return orderedViewControllers[previousIndex]
     }
+    
+
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
@@ -80,14 +83,37 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         if let currentViewController = viewControllers?[0] {
             if let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentViewController) {
                 setViewControllers([nextPage], direction: .forward, animated: animated, completion: completion)
+                
+                if nextPage.isKind(of: ViewController.self) {
+                    disableSwipe()
+                } else {
+                    enableSwipe()
+                }
             }
         }
     }
     
-    func getController() -> UIViewController? {
-        if let currentViewController = viewControllers?[0], let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentViewController) {
-            return nextPage
+    func disableSwipe() {
+        for view in self.view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = false
+            }
         }
-        return nil
+    }
+    
+    func enableSwipe() {
+        for view in self.view.subviews {
+            if let subView = view as? UIScrollView {
+                subView.isScrollEnabled = true
+            }
+        }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if previousViewControllers[0].isKind(of: EditorViewController.self) && completed {
+            disableSwipe()
+        } else {
+            enableSwipe()
+        }
     }
 }

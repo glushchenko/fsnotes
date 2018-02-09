@@ -20,6 +20,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         fill(note: note)
         super.viewDidLoad()
+        
+        guard let pageController = self.parent as? PageViewController else {
+            return
+        }
+        
+        pageController.enableSwipe()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,7 +89,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         note.save()
     }
     
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             editArea.frame.size.height = height - keyboardSize.height
@@ -93,7 +98,5 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func keyboardWillHide(notification: NSNotification) {
         editArea.frame.size.height = height
     }
-    
-
     
 }

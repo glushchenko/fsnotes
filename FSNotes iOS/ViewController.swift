@@ -36,6 +36,8 @@ class ViewController: UIViewController,
         UserDefaultsManagement.fontSize = 16
         
         CloudKitManager.sharedInstance().delegate = self
+        CloudKitManager.sharedInstance().verifyCloudKitSubscription()
+        CloudKitManager.sharedInstance().sync()
         
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressGesture.minimumPressDuration = 0.5
@@ -63,6 +65,14 @@ class ViewController: UIViewController,
                 
             }
         }
+        
+        guard let pageController = self.parent as? PageViewController else {
+            return
+        }
+        
+        pageController.disableSwipe()
+        
+        //pageController.view.isUserInteractionEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -139,6 +149,59 @@ class ViewController: UIViewController,
         let note = notes[indexPath.row]
         viewController.fill(note: note)
         pageController.goToNextPage()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        print(editingStyle)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
+            
+            let notes = [self.notes[indexPath.row]]
+            Storage.instance.removeNotes(notes: notes)
+            self.updateList()
+        })
+        deleteAction.backgroundColor = UIColor.red
+        
+        let rename = UITableViewRowAction(style: .default, title: "Rename", handler: { (action , indexPath) -> Void in
+            
+            let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
+            
+            alertController.addTextField { (textField) in
+                let note = self.notes[indexPath.row]
+                textField.placeholder = "Enter note name"
+                textField.attributedText = NSAttributedString(string: note.title)
+            }
+            
+            let confirmAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+                let name = alertController.textFields?[0].text
+                let note = self.notes[indexPath.row]
+                note.rename(newName: name!)
+                self.updateList()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+            
+        })
+        rename.backgroundColor = UIColor.gray
+        
+        let note = self.notes[indexPath.row]
+        let pin = UITableViewRowAction(style: .default, title: note.isPinned ? "UnPin" : "Pin", handler: { (action , indexPath) -> Void in
+            
+            note.addPin()
+        })
+        pin.backgroundColor = UIColor.blue
+        
+        return [pin, deleteAction, rename]
     }
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
