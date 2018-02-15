@@ -199,7 +199,7 @@ class EditTextView: NSTextView {
             return
         }
         
-        let searchTerm = search
+        let searchTerm = NSRegularExpression.escapedPattern(for: search)
         let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: textStorage!)
         let pattern = "(\(searchTerm))"
         let range:NSRange = NSMakeRange(0, (textStorage?.string.count)!)
