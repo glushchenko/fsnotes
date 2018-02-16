@@ -19,7 +19,7 @@ class Storage {
     
     static var generalUrl: URL?
     static var pinned: Int = 0
-    static var allowedExtensions = ["md", "markdown", "txt", "rtf", UserDefaultsManagement.storageExtension]
+    static var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension]
     
     public static var fsImportIsAvailable = true
     
