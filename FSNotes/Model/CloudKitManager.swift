@@ -108,6 +108,7 @@ class CloudKitManager {
     }
     
     func pull() {
+        print("CloudKit fetch changes initiated.")
         fetchChanges() {modifiedRecords, deletedRecords, token in
             Storage.fsImportIsAvailable = false
 

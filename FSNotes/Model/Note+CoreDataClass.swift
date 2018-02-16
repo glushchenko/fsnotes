@@ -101,7 +101,9 @@ public class Note: NSManagedObject {
     }
     
     func rename(newName: String) {
+#if !CLOUDKIT
         Storage.instance.removeBy(note: self)
+#endif
         
         let to = getNewURL(name: newName)
         
@@ -110,10 +112,13 @@ public class Note: NSManagedObject {
         } catch {}
         
 #if os(iOS)
-        let note = CoreDataManager.instance.make()
-        note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
-        note.load(to)
-        note.save(cloudSync: true)
+        CloudKitManager.sharedInstance().removeRecord(note: self) {
+            let note = CoreDataManager.instance.make()
+            note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
+            note.load(to)
+            note.save(cloudSync: true)
+            CloudKitManager.sharedInstance().delegate?.reloadView(note: note)
+        }
 #endif
     }
     

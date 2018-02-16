@@ -430,4 +430,16 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.LiveImagesPreview)
         }
     }
+    
+    static var focusInEditorOnNoteSelect: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "focusInEditorOnNoteSelect") {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "focusInEditorOnNoteSelect")
+        }
+    }
 }

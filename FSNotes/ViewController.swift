@@ -213,12 +213,14 @@ class ViewController: NSViewController,
             
             if event.fileRenamed {
                 let fileExistInFS = self.checkFile(url: url, pathList: pathList)
-                if let note = Storage.instance.getBy(url: url) {
+                let note = Storage.instance.getBy(url: url)
+                
+                if note != nil {
                     if fileExistInFS {
                         self.watcherCreateTrigger(url)
                     } else {
-                        print("FSWatcher remove note: \"\(note.name)\"")
-                        Storage.instance.removeNotes(notes: [note])
+                        print("FSWatcher remove note: \"\(note!.name)\"")
+                        Storage.instance.removeNotes(notes: [note!])
                         self.reloadView(note: note)
                     }
                 } else if fileExistInFS {
@@ -643,6 +645,10 @@ class ViewController: NSViewController,
                 self.editArea.isEditable = true
                 self.emptyEditAreaImage.isHidden = true
                 self.editArea.window?.makeFirstResponder(resp)
+                
+                if UserDefaultsManagement.focusInEditorOnNoteSelect, let length = self.editArea.textStorage?.length {
+                    self.editArea.setSelectedRange(NSRange(location: length, length: 0))
+                }
             }
         }
     }

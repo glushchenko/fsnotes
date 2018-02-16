@@ -34,6 +34,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var cellSpacing: NSSlider!
     @IBOutlet weak var noteFontColor: NSColorWell!
     @IBOutlet weak var backgroundColor: NSColorWell!
+    @IBOutlet weak var inEditorFocus: NSButton!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -71,6 +72,8 @@ class PrefsViewController: NSViewController {
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
+        
+        inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
         
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
@@ -403,4 +406,9 @@ class PrefsViewController: NSViewController {
         syncProgress.isHidden = true
         syncProgress.stopAnimation("sync")
     }
+    
+    @IBAction func inEditorFocus(_ sender: NSButton) {
+        UserDefaultsManagement.focusInEditorOnNoteSelect = (sender.state == .on)
+    }
+    
 }
