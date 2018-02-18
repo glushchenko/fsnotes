@@ -53,20 +53,16 @@ class Storage {
         guard !checkFirstRun() else {
             loadDocuments()
             
-            if UserDefaultsManagement.codeBlockHighlight {
             #if os(OSX)
                 cacheMarkdown()
             #endif
-            }
             
             return
         }
         
-        if UserDefaultsManagement.codeBlockHighlight {
         #if os(OSX)
             cacheMarkdown()
         #endif
-        }
     }
     
     func sortNotes(noteList: [Note]?) -> [Note]? {

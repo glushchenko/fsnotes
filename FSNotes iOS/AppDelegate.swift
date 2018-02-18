@@ -93,6 +93,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
         application.registerForRemoteNotifications()
+        CloudKitManager.sharedInstance().verifyCloudKitSubscription()
+        
+        let sync = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+        CloudKitManager.sharedInstance().sync() {
+            UIApplication.shared.endBackgroundTask(sync)
+        }
         
         return true
     }
@@ -102,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
                 
         if note.notificationType == .query {
-            CloudKitManager.sharedInstance().sync()
+            CloudKitManager.sharedInstance().sync() {}
         }
         
         completionHandler(.newData)

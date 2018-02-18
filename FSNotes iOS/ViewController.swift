@@ -26,6 +26,8 @@ class ViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        CloudKitManager.sharedInstance().delegate = self
+        
         tabBar.delegate = self
         notesTable.dataSource = self
         notesTable.delegate = self
@@ -34,10 +36,6 @@ class ViewController: UIViewController,
         
         notesTable.separatorStyle = .singleLine
         UserDefaultsManagement.fontSize = 16
-        
-        CloudKitManager.sharedInstance().delegate = self
-        CloudKitManager.sharedInstance().verifyCloudKitSubscription()
-        CloudKitManager.sharedInstance().sync()
         
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressGesture.minimumPressDuration = 0.5

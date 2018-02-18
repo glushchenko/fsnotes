@@ -49,9 +49,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(selectedRow)) {
             viewController.editArea.fill(note: noteList[selectedRow], highlight: true)
             
-            if UserDefaultsManagement.focusInEditorOnNoteSelect {
+            if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                 viewController.focusEditArea(firstResponder: nil)
             }
+            
+            UserDataService.instance.searchTrigger = false
         } else {
             viewController.editArea.clear()
         }

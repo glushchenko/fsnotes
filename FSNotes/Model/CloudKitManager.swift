@@ -91,7 +91,7 @@ class CloudKitManager {
         completion(zone)
     }
     
-    func sync() {
+    func sync(completion: @escaping () -> Void) {
         NotificationsController.onStartSync()
         
         getZone() { (recordZone) in
@@ -100,14 +100,16 @@ class CloudKitManager {
             }
             
             self.push() {
-                self.pull()
+                self.pull() {
+                    completion()
+                }
             }
             
             UserDefaultsManagement.lastSync = Date()
         }
     }
     
-    func pull() {
+    func pull(completion: @escaping () -> Void) {
         print("CloudKit fetch changes initiated.")
         fetchChanges() {modifiedRecords, deletedRecords, token in
             Storage.fsImportIsAvailable = false
@@ -170,6 +172,8 @@ class CloudKitManager {
                 NotificationsController.syncProgress()
                 NotificationsController.onFinishSync()
             }
+            
+            completion()
         }
     }
     
@@ -188,13 +192,15 @@ class CloudKitManager {
         }
         
         getRecord(note: note, completion: { result in
-            self.saveNote(note) {
-                completionPush()
+            self.saveNote(note, push: false) {
+                self.push() {
+                    completionPush()
+                }
             }
         })
     }
     
-    func saveNote(_ note: Note, completionSave: @escaping () -> Void) {
+    func saveNote(_ note: Note, push: Bool = true, completionSave: @escaping () -> Void) {
         getZone() { (recordZone) in
             guard recordZone != nil else {
                 completionSave()
@@ -237,7 +243,7 @@ class CloudKitManager {
                 note.storage = CoreDataManager.instance.fetchGeneralStorage()
             }
             
-            self.saveRecord(note: note, sRecord: unwrappedRecord) {
+            self.saveRecord(note: note, sRecord: unwrappedRecord, push: push) {
                 completionSave()
             }
         }
@@ -250,14 +256,6 @@ class CloudKitManager {
             guard error == nil else {
                 if error?._code == CKError.serverRecordChanged.rawValue {
                     self.resolveConflict(note: note, sRecord: sRecord) {
-
-                        if push {
-                            self.push() {
-                                completionSave()
-                                return
-                            }
-                        }
-                        
                         completionSave()
                     }
                     return
@@ -429,7 +427,7 @@ class CloudKitManager {
     
     func removeRecords(records: [CKRecordID], completion: @escaping () -> Void) {
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: records)
-        operation.qualityOfService = .userInitiated
+        operation.qualityOfService = .userInteractive
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
             if let records = deletedRecordIDs {
                 print("CloudKit remove: \(records.map{ $0.recordName }.joined(separator: ", "))")
@@ -485,8 +483,8 @@ class CloudKitManager {
                 // Reset server change key if zone removed and re-download records
                 if value.code.rawValue == 2 {
                     UserDefaults.standard.serverChangeToken = nil
-                    self.pull()
-                }
+                    self.pull() {}
+                 }
                 
                 print("Zone changes error: \(error)")
                 NotificationsController.onFinishSync()
@@ -503,7 +501,7 @@ class CloudKitManager {
             NotificationsController.onFinishSync()
         }
         
-        operation.qualityOfService = .userInitiated
+        operation.qualityOfService = .userInteractive
         database.add(operation)
     }
     
@@ -554,7 +552,7 @@ class CloudKitManager {
                 Storage.instance.loadDocuments()
                 
                 NotificationsController.syncProgress()
-                self.sync()
+                self.sync() {}
             }
         }
     }

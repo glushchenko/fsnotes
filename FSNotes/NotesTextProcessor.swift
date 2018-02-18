@@ -178,6 +178,10 @@ public class NotesTextProcessor {
             note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length)))
         }
         
+        guard UserDefaultsManagement.codeBlockHighlight else {
+            return
+        }
+        
         let content = storage != nil ? storage! : note.content
         let range = NSMakeRange(0, content.length)
         
@@ -1180,14 +1184,10 @@ public class NotesTextProcessor {
         let string = storage.string as NSString
         let paragraphRange = string.paragraphRange(for: range)
      
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string) {
-            if UserDefaultsManagement.codeBlockHighlight {
+        if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note)
-            }
-        } else if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
-            if UserDefaultsManagement.codeBlockHighlight {
+        } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
-            }
         } else {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             

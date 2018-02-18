@@ -568,6 +568,8 @@ class ViewController: NSViewController,
     override func controlTextDidChange(_ obj: Notification) {
         let value = self.search.stringValue
         
+        UserDataService.instance.searchTrigger = true
+        
         filterQueue.cancelAllOperations()
         filterQueue.addOperation {
             self.updateTable(filter: value, search: true) {}

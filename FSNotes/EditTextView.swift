@@ -542,7 +542,8 @@ class EditTextView: NSTextView {
         
         let string = storage.string as NSString
         if let note = EditTextView.note, let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
-            codeBlockRange.upperBound <= storage.length {
+            codeBlockRange.upperBound <= storage.length,
+            UserDefaultsManagement.codeBlockHighlight {
             NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
         }
     }
