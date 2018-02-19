@@ -77,7 +77,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
             
             if note.notificationType == .query {
-                CloudKitManager.sharedInstance().sync()
+                CloudKitManager.sharedInstance().sync() {}
             }
         }
     }

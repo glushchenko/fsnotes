@@ -128,7 +128,7 @@ class PrefsViewController: NSViewController {
         checkCloudStatus()
         
         if state == NSControl.StateValue.on {
-            CloudKitManager.sharedInstance().sync()
+            CloudKitManager.sharedInstance().sync() {}
         }
     }
     
@@ -214,8 +214,6 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func setFontColor(_ sender: NSColorWell) {
-        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        
         UserDefaultsManagement.fontColor = sender.color
         controller?.editArea.setEditorTextColor(sender.color)
         
@@ -269,7 +267,7 @@ class PrefsViewController: NSViewController {
             controller?.refillEditArea()
         }
         
-        controller?.notesTableView.reloadData()
+        controller?.reloadView()
         setFontPreview()
     }
 

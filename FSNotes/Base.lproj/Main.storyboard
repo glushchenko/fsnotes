@@ -519,7 +519,7 @@
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" id="KEU-U8-bg0">
+                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="256" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -709,7 +709,7 @@
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lcQ-Xe-fI2">
-                                                    <rect key="frame" x="17" y="222" width="400" height="5"/>
+                                                    <rect key="frame" x="17" y="222" width="400" height="202"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-a9-vnf">
@@ -833,7 +833,7 @@
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Editor" identifier="" id="vFY-vs-Qna">
-                                        <view key="view" ambiguous="YES" id="4iE-YN-Vay">
+                                        <view key="view" id="4iE-YN-Vay">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>

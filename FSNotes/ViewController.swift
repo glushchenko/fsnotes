@@ -114,7 +114,7 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 CloudKitManager.sharedInstance().verifyCloudKitSubscription()
-                CloudKitManager.sharedInstance().sync()
+                CloudKitManager.sharedInstance().sync() {}
             }
         #endif
         
