@@ -297,14 +297,12 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        DispatchQueue.main.async {
-            self.updateTable(filter: self.search.stringValue) {
-                if let selected = selectedNote, let index = notesTable.getIndex(selected) {
-                    notesTable.selectRowIndexes([index], byExtendingSelection: false)
-                    self.refillEditArea(cursor: cursor)
-                } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
-                    self.editArea.clear()
-                }
+        self.updateTable(filter: self.search.stringValue) {
+            if let selected = selectedNote, let index = notesTable.getIndex(selected) {
+                notesTable.selectRowIndexes([index], byExtendingSelection: false)
+                self.refillEditArea(cursor: cursor)
+            } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
+                self.editArea.clear()
             }
         }
     }
@@ -412,17 +410,17 @@ class ViewController: NSViewController,
         // Open in finder (cmd-shift-r)
         if (
             event.keyCode == 15
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.shift)
         ) {
             finder(selectedRow: notesTableView.selectedRow)
         }
         
         // Open menu and focus move (cmd-shift-t)
         if (
-            event.keyCode == 46
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+            event.keyCode == kVK_ANSI_T
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.shift)
         ) {
             if notesTableView.selectedRow >= 0  {
                 let moveMenu = noteMenu.item(withTitle: "Move")
@@ -484,12 +482,10 @@ class ViewController: NSViewController,
                         note.parseURL()
                         note.save()
                     
-                        DispatchQueue.main.async {
-                            self.reloadView()
-                            sender.stringValue = note.title
-                            self.cleanSearchAndEditArea()
-                            return
-                        }
+                        self.reloadView()
+                        sender.stringValue = note.title
+                        self.cleanSearchAndEditArea()
+                        return
                     }
                 } else {
                     note.rename(newName: sender.stringValue)
@@ -806,10 +802,7 @@ class ViewController: NSViewController,
                 self.editArea.clear()
                 
                 Storage.instance.removeNotes(notes: notes)
-                
-                DispatchQueue.main.async {
-                    self.reloadView()
-                }
+                self.reloadView()
             }
         }
     }

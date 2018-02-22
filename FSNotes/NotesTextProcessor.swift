@@ -404,7 +404,6 @@ public class NotesTextProcessor {
         
 
         // Reset highlightr
-        
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
         styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)

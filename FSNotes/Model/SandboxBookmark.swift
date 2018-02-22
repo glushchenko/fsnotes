@@ -23,8 +23,8 @@ class SandboxBookmark {
     func load() {
         let path = bookmarkPath()
         
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
+        if FileManager.default.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
+            self.bookmarks = bookmarks
             
             for bookmark in bookmarks {
                 restore(bookmark)

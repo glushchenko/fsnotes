@@ -271,9 +271,7 @@ class ViewController: UIViewController,
     }
     
     func reloadView(note: Note?) {
-        DispatchQueue.main.async {
-            self.updateList()
-        }
+        self.updateList()
     }
     
     func refillEditArea(cursor: Int?, previewOnly: Bool) {

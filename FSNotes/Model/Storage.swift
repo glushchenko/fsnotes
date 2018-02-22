@@ -37,7 +37,7 @@ class Storage {
     ]
 #endif
     
-    func loadDocuments() {
+    func loadDocuments(tryCount: Int = 0) {
         noteList.removeAll()
         
         let storageItemList = CoreDataManager.instance.fetchStorageList()
@@ -51,7 +51,9 @@ class Storage {
         }
         
         guard !checkFirstRun() else {
-            loadDocuments()
+            if tryCount == 0 {
+                loadDocuments(tryCount: 1)
+            }
             
             #if os(OSX)
                 cacheMarkdown()

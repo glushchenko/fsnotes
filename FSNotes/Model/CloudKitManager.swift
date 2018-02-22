@@ -333,7 +333,9 @@ class CloudKitManager {
                     }
                     
                     conflictedNote.save()
-                    self.delegate?.reloadView(note: conflictedNote)
+                    DispatchQueue.main.async {
+                        self.delegate?.reloadView(note: conflictedNote)
+                    }
                 } catch {}
                 
             case .failure(let error):
@@ -418,8 +420,8 @@ class CloudKitManager {
     }
     
     func reloadView(note: Note? = nil) {
-        DispatchQueue.main.async() {
-            if let unwrappedNote = note {
+        if let unwrappedNote = note {
+            DispatchQueue.main.async() {
                 self.delegate?.reloadView(note: unwrappedNote)
             }
         }
