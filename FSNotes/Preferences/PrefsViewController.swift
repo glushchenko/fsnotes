@@ -151,17 +151,24 @@ class PrefsViewController: NSViewController {
                 
                 if let url = openPanel.url {
                     var storage: StorageItem
+                    let selected = self.storageTableView.getSelected()
                     
-                    if let selected = self.storageTableView.getSelected() {
-                        storage = selected
+                    if selected != nil {
+                        storage = selected!
                     } else {
                         let context = CoreDataManager.instance.context
                         storage = StorageItem(context: context)
                     }
                     
                     storage.path = url.absoluteString
-                    CoreDataManager.instance.save()
                     
+                    // reset instantiated storage
+                    if selected != nil && selected?.label == "general" {
+                        CoreDataManager.instance.setDefaultStorage(storage: storage)
+                        Storage.generalUrl = nil
+                    }
+                    
+                    CoreDataManager.instance.save()
                     self.reloadStorage()
                 }
             }

@@ -179,4 +179,8 @@ class CoreDataManager {
             print("Notes remove error \(error)")
         }
     }
+    
+    func setDefaultStorage(storage: StorageItem) {
+        CoreDataManager.defaultStorage = storage
+    }
 }
