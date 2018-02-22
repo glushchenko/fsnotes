@@ -348,10 +348,10 @@ class ViewController: NSViewController,
         }
         
         // Remove note (cmd-delete)
-        if (event.keyCode == 51 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
             let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
             
-            if !focusOnEditArea {
+            if !focusOnEditArea || event.modifierFlags.contains(.shift) {
                 deleteNotes(notesTableView.selectedRowIndexes)
             }
         }
