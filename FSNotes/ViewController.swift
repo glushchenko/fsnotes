@@ -274,7 +274,10 @@ class ViewController: NSViewController,
         print("FSWatcher import note: \"\(note.name)\"")
         
         Storage.instance.saveNote(note: note)
-        reloadView(note: notesTableView.getSelectedNote())
+        
+        DispatchQueue.main.async {
+            self.reloadView(note: self.notesTableView.getSelectedNote())
+        }
         
         if note.name == "FSNotes - Readme.md" {
             updateTable(filter: "") {
@@ -454,17 +457,15 @@ class ViewController: NSViewController,
         }
         
         let value = sender.stringValue
-                
         sender.isEditable = false
+        
+        let newUrl = note.getNewURL(name: value)
+        if note.url.path == newUrl.path {
+            return
+        }
         
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
-                let newUrl = note.getNewURL(name: value)
-                
-                if note.url.path == newUrl.path {
-                    return
-                }
-                
                 if note.url.path.lowercased() == newUrl.path.lowercased() {
                     Storage.instance.removeBy(note: note)
                     
@@ -482,19 +483,21 @@ class ViewController: NSViewController,
                         note.parseURL()
                         note.save()
                     
-                        self.reloadView()
-                        sender.stringValue = note.title
-                        self.cleanSearchAndEditArea()
-                        return
+                        DispatchQueue.main.async {
+                            self.reloadView()
+                            sender.stringValue = note.title
+                            self.cleanSearchAndEditArea()
+                            return
+                        }
                     }
                 } else {
-                    note.rename(newName: sender.stringValue)
+                    note.rename(newName: value)
                 }
             } else {
-                note.rename(newName: sender.stringValue)
+                note.rename(newName: value)
             }
         #else
-            note.rename(newName: sender.stringValue)
+            note.rename(newName: value)
         #endif
         
         reloadView()

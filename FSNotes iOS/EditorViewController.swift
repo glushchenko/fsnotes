@@ -35,8 +35,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if editArea.textStorage.length == 0 {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
-        
-
     }
     
     private var height: CGFloat = 0.0
