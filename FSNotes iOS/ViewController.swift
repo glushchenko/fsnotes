@@ -183,7 +183,9 @@ class ViewController: UIViewController,
                 let name = alertController.textFields?[0].text
                 let note = self.notes[indexPath.row]
                 note.rename(newName: name!)
-                self.updateList()
+                DispatchQueue.main.async {
+                    self.updateList()
+                }
             }
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
             

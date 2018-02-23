@@ -107,15 +107,15 @@ public class Note: NSManagedObject {
             try FileManager.default.moveItem(at: url, to: to)
         } catch {}
         
-#if os(iOS)
-        CloudKitManager.sharedInstance().removeRecord(note: self) {
-            let note = CoreDataManager.instance.make()
-            note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
-            note.load(to)
-            note.save(cloudSync: true)
-            CloudKitManager.sharedInstance().delegate?.reloadView(note: note)
-        }
-#endif
+        #if os(iOS)
+            Storage.instance.removeNotes(notes: [self]) {
+                let note = CoreDataManager.instance.make()
+                note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
+                note.load(to)
+                note.save(cloudSync: true)
+                CloudKitManager.sharedInstance().delegate?.reloadView(note: note)
+            }
+        #endif
     }
     
     func getNewURL(name: String) -> URL {
