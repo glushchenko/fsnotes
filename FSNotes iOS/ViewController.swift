@@ -161,8 +161,11 @@ class ViewController: UIViewController,
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let notes = [self.notes[indexPath.row]]
-            Storage.instance.removeNotes(notes: notes)
-            self.updateList()
+            Storage.instance.removeNotes(notes: notes) {
+                DispatchQueue.main.async {
+                    self.updateList()
+                }
+            }
         })
         deleteAction.backgroundColor = UIColor.red
         
@@ -252,8 +255,11 @@ class ViewController: UIViewController,
             
             let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
                 let notes = [self.notes[indexPath!.row]]
-                Storage.instance.removeNotes(notes: notes)
-                self.updateList()
+                Storage.instance.removeNotes(notes: notes) {
+                    DispatchQueue.main.async {
+                        self.updateList()
+                    }
+                }
             }
             let cancel = UIAlertAction(title: "Cancel", style: .default)
             
@@ -271,7 +277,9 @@ class ViewController: UIViewController,
     }
     
     func reloadView(note: Note?) {
-        self.updateList()
+        DispatchQueue.main.async {
+            self.updateList()
+        }
     }
     
     func refillEditArea(cursor: Int?, previewOnly: Bool) {

@@ -100,11 +100,7 @@ public class Note: NSManagedObject {
         }
     }
     
-    func rename(newName: String) {
-#if !CLOUDKIT
-        Storage.instance.removeBy(note: self)
-#endif
-        
+    func rename(newName: String) {        
         let to = getNewURL(name: newName)
         
         do {

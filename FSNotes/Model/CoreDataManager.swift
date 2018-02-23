@@ -164,9 +164,11 @@ class CoreDataManager {
         return nil
     }
     
-    func removeNotes(notes: [Note]) {
-        for note in notes {
-            note.removeFile()
+    func removeNotes(notes: [Note], fsRemove: Bool = true) {
+        if fsRemove {
+            for note in notes {
+                note.removeFile()
+            }
         }
         
         for note in notes {

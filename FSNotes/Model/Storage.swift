@@ -347,8 +347,9 @@ class Storage {
         }
     }
     
-    func removeNotes(notes: [Note]) {
+    func removeNotes(notes: [Note], fsRemove: Bool = true, completion: @escaping () -> Void) {
         guard notes.count > 0 else {
+            completion()
             return
         }
         
@@ -367,13 +368,16 @@ class Storage {
                 }
                 
                 CloudKitManager.sharedInstance().removeRecords(records: recordIds) {
-                    CoreDataManager.instance.removeNotes(notes: notes)
+                    CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+                    completion()
                 }
             } else {
-                CoreDataManager.instance.removeNotes(notes: notes)
+                CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+                completion()
             }
         #else
-            CoreDataManager.instance.removeNotes(notes: notes)
+            CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+            completion()
         #endif
     }
     

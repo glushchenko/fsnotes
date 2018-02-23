@@ -198,7 +198,7 @@ class ViewController: NSViewController,
         }
         
         let filewatcher = FileWatcher(pathList)
-        filewatcher.callback = { event in            
+        filewatcher.callback = { event in
             guard Storage.fsImportIsAvailable else {
                 return
             }
@@ -212,16 +212,27 @@ class ViewController: NSViewController,
             }
             
             if event.fileRenamed {
-                let fileExistInFS = self.checkFile(url: url, pathList: pathList)
                 let note = Storage.instance.getBy(url: url)
                 
+                var isCaseInSensitiveEqualOnly = false
+                if let noteUnwrapped = note {
+                    let displayName = FileManager.default.displayName(atPath: url.path)
+                    let name = noteUnwrapped.url.lastPathComponent
+                    isCaseInSensitiveEqualOnly = (displayName != name) && (noteUnwrapped.url.path.lowercased() == url.path.lowercased())
+                }
+                
+                let fileExistInFS = self.checkFile(url: url, pathList: pathList)
+                
                 if note != nil {
-                    if fileExistInFS {
+                    if fileExistInFS && !isCaseInSensitiveEqualOnly {
                         self.watcherCreateTrigger(url)
                     } else {
                         print("FSWatcher remove note: \"\(note!.name)\"")
-                        Storage.instance.removeNotes(notes: [note!])
-                        self.reloadView(note: note)
+                        Storage.instance.removeNotes(notes: [note!], fsRemove: !isCaseInSensitiveEqualOnly) {
+                            DispatchQueue.main.async {
+                                self.reloadView(note: note)
+                            }
+                        }
                     }
                 } else if fileExistInFS {
                     self.watcherCreateTrigger(url)
@@ -460,6 +471,8 @@ class ViewController: NSViewController,
         sender.isEditable = false
         
         let newUrl = note.getNewURL(name: value)
+        note.parseURL()
+        
         if note.url.path == newUrl.path {
             return
         }
@@ -804,8 +817,11 @@ class ViewController: NSViewController,
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
                 
-                Storage.instance.removeNotes(notes: notes)
-                self.reloadView()
+                Storage.instance.removeNotes(notes: notes) {
+                    DispatchQueue.main.async {
+                        self.reloadView()
+                    }
+                }
             }
         }
     }

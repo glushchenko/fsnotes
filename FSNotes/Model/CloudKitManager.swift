@@ -153,26 +153,25 @@ class CloudKitManager {
                 print("Note downloaded: \(note.name)")
             }
             
+            var notes: [Note] = []
             for recordId in deletedRecords {
-                var notes: [Note] = []
-                
                 if let note = Storage.instance.getBy(name: recordId.recordName) {
                     notes.append(note)
                 }
-                
-                Storage.instance.removeNotes(notes: notes)
+            }
+            
+            Storage.instance.removeNotes(notes: notes) {
+                DispatchQueue.main.async {
+                    self.delegate?.reloadView(note: nil)
+                    NotificationsController.syncProgress()
+                    NotificationsController.onFinishSync()
+                }
             }
             
             CoreDataManager.instance.save()
             Storage.fsImportIsAvailable = true
             UserDefaults.standard.serverChangeToken = token
 
-            DispatchQueue.main.async {
-                self.delegate?.reloadView(note: nil)
-                NotificationsController.syncProgress()
-                NotificationsController.onFinishSync()
-            }
-            
             completion()
         }
     }
