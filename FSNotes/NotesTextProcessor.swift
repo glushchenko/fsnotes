@@ -1161,8 +1161,6 @@ public class NotesTextProcessor {
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
-        storage.removeAttribute(.link, range: range)
-        
         regex.enumerateMatches(
             in: (storage.string),
             options: NSRegularExpression.MatchingOptions(),
