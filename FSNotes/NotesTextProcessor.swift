@@ -404,6 +404,7 @@ public class NotesTextProcessor {
         
 
         // Reset highlightr
+        styleApplier.removeAttribute(.link, range: paragraphRange)
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
         styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
@@ -567,6 +568,17 @@ public class NotesTextProcessor {
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
+        }
+        
+        // We detect and process app urls [[link]]
+        NotesTextProcessor.appUrlRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let innerRange = result?.range else { return }
+            var _range = innerRange
+            _range.location = _range.location + 2
+            _range.length = _range.length - 4
+            
+            let appLink = textStorageNSString.substring(with: _range)
+            styleApplier.addAttribute(.link, value: "fsnotes://find/" + appLink, range: innerRange)
         }
         
         // We detect and process quotes
@@ -1008,6 +1020,12 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let blockQuoteOpeningRegex = MarklightRegex(pattern: blockQuoteOpeningPattern, options: [.anchorsMatchLines])
+    
+    // MARK: App url
+    
+    fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)\\]\\]"
+    
+    public static let appUrlRegex = MarklightRegex(pattern: appUrlPattern, options: [.anchorsMatchLines])
     
     // MARK: Bold
     

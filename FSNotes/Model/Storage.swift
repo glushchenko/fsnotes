@@ -275,6 +275,22 @@ class Storage {
             })
     }
     
+    func getBy(title: String) -> Note? {
+        return
+            noteList.first(where: {
+                return (
+                    $0.title == title
+                )
+            })
+    }
+    
+    func getBy(startWith: String) -> [Note]? {
+        return
+            noteList.filter{
+                $0.title.starts(with: startWith)
+            }
+    }
+    
     func getBaseURL() -> URL {
 #if os(OSX)
         if let gu = Storage.generalUrl {

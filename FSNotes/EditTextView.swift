@@ -44,6 +44,17 @@ class EditTextView: NSTextView {
         
         super.mouseMoved(with: event)
     }
+        
+    override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+        
+        let nsString = string as NSString
+        let chars = nsString.substring(with: charRange)
+        if let notes = Storage.instance.getBy(startWith: chars) {
+            let titles = notes.map{ $0.title }
+            return titles
+        }
+        return nil
+    }
     
     @IBAction func editorMenuItem(_ sender: Any) {
         let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
