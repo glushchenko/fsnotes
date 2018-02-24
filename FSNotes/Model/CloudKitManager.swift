@@ -92,6 +92,7 @@ class CloudKitManager {
     }
     
     func sync(completion: @escaping () -> Void) {
+        print("Sync started.")
         NotificationsController.onStartSync()
         
         getZone() { (recordZone) in
@@ -191,7 +192,7 @@ class CloudKitManager {
         }
         
         getRecord(note: note, completion: { result in
-            self.saveNote(note, push: false) {
+            self.saveNote(note) {
                 self.push() {
                     completionPush()
                 }
@@ -281,7 +282,6 @@ class CloudKitManager {
 
             self.updateNoteRecord(note: note, record: record)
             print("Successfully saved: \(note.name)")
-            
             if push {
                 self.push() {
                     completionSave()
@@ -380,7 +380,7 @@ class CloudKitManager {
  
     func getRecord(note: Note, completion: @escaping (CloudKitResult) -> Void) {
         guard note.name.count > 0 else {
-            completion(.failure(CKError(_nsError: NSError())))
+            completion(.failure(CKError(_nsError: NSError(domain: "Note name not found", code: 666, userInfo: nil))))
             return
         }
         

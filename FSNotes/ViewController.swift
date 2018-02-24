@@ -283,11 +283,18 @@ class ViewController: NSViewController,
         refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
-        
         Storage.instance.saveNote(note: note)
         
         DispatchQueue.main.async {
-            self.reloadView(note: self.notesTableView.getSelectedNote())
+            if let url = UserDataService.instance.lastRenamed,
+                let note = Storage.instance.getBy(url: url) {
+                self.updateTable(filter: "") {
+                    self.notesTableView.setSelected(note: note)
+                    UserDataService.instance.lastRenamed = nil
+                }
+            } else {
+                self.reloadView(note: note)
+            }
         }
         
         if note.name == "FSNotes - Readme.md" {
@@ -471,28 +478,16 @@ class ViewController: NSViewController,
         sender.isEditable = false
         
         let newUrl = note.getNewURL(name: value)
-        note.parseURL()
+        UserDataService.instance.lastRenamed = newUrl
         
         if note.url.path == newUrl.path {
             return
         }
         
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                if note.url.path.lowercased() == newUrl.path.lowercased() {
-                    do {
-                        try FileManager.default.moveItem(at: note.url, to: newUrl)
-                        print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
-                    } catch {}
-                } else {
-                    note.rename(newName: value)
-                }
-            } else {
-                note.rename(newName: value)
-            }
-        #else
-            note.rename(newName: value)
-        #endif
+        do {
+            try FileManager.default.moveItem(at: note.url, to: newUrl)
+            print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
+        } catch {}
         
         reloadView()
         sender.stringValue = note.title

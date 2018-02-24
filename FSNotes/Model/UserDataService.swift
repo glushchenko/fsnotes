@@ -6,11 +6,14 @@
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Foundation
+
 class UserDataService {
     static let instance = UserDataService()
     
     fileprivate var _isShortcutCall = false
     fileprivate var _searchTrigger = false
+    fileprivate var _lastRenamed: URL? = nil
     
     var isShortcutCall: Bool {
         get {
@@ -27,6 +30,15 @@ class UserDataService {
         }
         set {
             _searchTrigger = newValue
+        }
+    }
+    
+    var lastRenamed: URL? {
+        get {
+            return _lastRenamed
+        }
+        set {
+            _lastRenamed = newValue
         }
     }
 }

@@ -165,4 +165,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
     }
     
+    func setSelected(note: Note) {
+        if let i = getIndex(note) {
+            print(i)
+            selectRow(i)
+        }
+    }
+    
 }
