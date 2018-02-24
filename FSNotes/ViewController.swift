@@ -264,7 +264,7 @@ class ViewController: NSViewController,
         filewatcher.start()
     }
     
-    func watcherCreateTrigger(_ url: URL) {        
+    func watcherCreateTrigger(_ url: URL) {
         guard Storage.instance.getBy(url: url) == nil else {
             return
         }
@@ -480,29 +480,10 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             if UserDefaultsManagement.cloudKitSync {
                 if note.url.path.lowercased() == newUrl.path.lowercased() {
-                    Storage.instance.removeBy(note: note)
-                    
-                    let noteContent = note.content
-                    let noteURL = newUrl
-                    let noteType = note.type
-                    
-                    note.removeFile()
-                    CloudKitManager.sharedInstance().removeRecord(note: note) {
-                        
-                        let note = CoreDataManager.instance.make()
-                        note.url = noteURL
-                        note.content = noteContent
-                        note.type = noteType
-                        note.parseURL()
-                        note.save()
-                    
-                        DispatchQueue.main.async {
-                            self.reloadView()
-                            sender.stringValue = note.title
-                            self.cleanSearchAndEditArea()
-                            return
-                        }
-                    }
+                    do {
+                        try FileManager.default.moveItem(at: note.url, to: newUrl)
+                        print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
+                    } catch {}
                 } else {
                     note.rename(newName: value)
                 }

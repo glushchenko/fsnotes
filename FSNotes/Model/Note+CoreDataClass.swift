@@ -105,6 +105,7 @@ public class Note: NSManagedObject {
         
         do {
             try FileManager.default.moveItem(at: url, to: to)
+            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
         } catch {}
         
         #if os(iOS)
