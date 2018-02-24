@@ -36,3 +36,7 @@ This is **markdown** and **RTF** text manager. For view rendered markdown please
 - `shift + cmd + m` – move selected note in storage
 - `shift + cmd + b` – hide sidebar
 
+#### Editor
+
+- `fn + f5` - autocomplete note name
+

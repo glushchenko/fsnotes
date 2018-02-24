@@ -1,3 +1,23 @@
+v1.2.11
+
+- Adds app scheme "fsnotes://find/FSNotes - Shortcuts"
+- Adds links between notes #88 "[[FSNotes - Shortcuts]]"
+- Adds case sensitivity renaming
+
+v1.2.10
+
+- Storage reload on directory changing
+- Fix storage bookmarks saving  …
+- Fix initial documents infinity loop
+
+v1.2.9
+
+- Improved CloudKit sync
+- Add fountain format
+- Add focus in editor option (when select note)
+- Pipe crash fixscar
+
+
 v1.2.8
 
 - Fixes unresponsive edit area after app minimize

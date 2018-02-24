@@ -1,5 +1,7 @@
 ## File system notes manager
 
+[[FSNotes - Shortcuts]]
+
 File system notes is modern notational velocity (nvALT) on steroids. 
 
 FSNotes respect open formats: **plain/text, markdown, rtf**, and stores data in file system. You can view, edit, copy data in favourite external editor and see live result in FSNotes. 
