@@ -504,6 +504,10 @@ class EditTextView: NSTextView {
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             
+            if event.keyCode == 0x7D { // arrow down
+                return
+            }
+            
             let processor = NotesTextProcessor(storage: textStorage)
             processor.higlightLinks()
             
