@@ -21,6 +21,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         fill(note: note)
         super.viewDidLoad()
         
+        addToolBar(textField: editArea)
+        
         guard let pageController = self.parent as? PageViewController else {
             return
         }
@@ -97,4 +99,27 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.frame.size.height = height
     }
     
+    func addToolBar(textField: UITextView){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePressed(){
+        view.endEditing(true)
+    }
+    
+    @objc func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
 }

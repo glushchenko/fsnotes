@@ -221,6 +221,13 @@ class ViewController: UIViewController,
             pageController.goToNextPage()
             viewController.fill(note: note)
         }
+        
+        if item.title == "Settings" {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            
+            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+            self.present(nextViewController, animated: true, completion: nil)
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

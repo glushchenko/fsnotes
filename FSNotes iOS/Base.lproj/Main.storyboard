@@ -73,7 +73,7 @@
                                 <rect key="frame" x="0.0" y="618" width="375" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <tabBarItem id="JYm-kS-ZQR"/>
+                                    <tabBarItem title="Settings" image="settings.png" id="JYm-kS-ZQR"/>
                                     <tabBarItem tag="1" title="New" image="plus.png" id="ark-ZS-FP1"/>
                                 </items>
                             </tabBar>
@@ -136,6 +136,44 @@
             </objects>
             <point key="canvasLocation" x="928.79999999999995" y="133.5832083958021"/>
         </scene>
+        <!--Settings View Controller-->
+        <scene sceneID="QgP-Vm-bkR">
+            <objects>
+                <viewController storyboardIdentifier="settingsViewController" id="McR-5A-9U5" customClass="SettingsViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EpB-oP-0wj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lYH-BE-8bJ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.0"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="hrJ-6F-b2U"/>
+                                    <barButtonItem title="Done" style="done" id="hCD-vt-pXn">
+                                        <connections>
+                                            <action selector="doneAction:" destination="McR-5A-9U5" id="hCx-5e-uMH"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lYH-BE-8bJ" firstAttribute="top" secondItem="Eik-Ic-hmo" secondAttribute="top" id="2fe-GP-yFX"/>
+                            <constraint firstItem="lYH-BE-8bJ" firstAttribute="leading" secondItem="Eik-Ic-hmo" secondAttribute="leading" id="68r-O6-y6w"/>
+                            <constraint firstItem="lYH-BE-8bJ" firstAttribute="top" secondItem="Eik-Ic-hmo" secondAttribute="top" id="HPL-pl-i0R"/>
+                            <constraint firstItem="lYH-BE-8bJ" firstAttribute="trailing" secondItem="Eik-Ic-hmo" secondAttribute="trailing" id="iDd-zp-6Rj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Eik-Ic-hmo"/>
+                    </view>
+                    <connections>
+                        <outlet property="toolbar" destination="lYH-BE-8bJ" id="kA4-Gb-3hj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Amg-aL-r2F" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1654" y="134"/>
+        </scene>
         <!--Page View Controller-->
         <scene sceneID="EAd-xk-AdJ">
             <objects>
@@ -147,5 +185,6 @@
     </scenes>
     <resources>
         <image name="plus.png" width="30" height="30"/>
+        <image name="settings.png" width="30" height="30"/>
     </resources>
 </document>
