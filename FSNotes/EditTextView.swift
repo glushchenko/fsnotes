@@ -157,7 +157,8 @@ class EditTextView: NSTextView {
             
             textColor = UserDefaultsManagement.fontColor
             
-            let processor = NotesTextProcessor(storage: storage)
+            let range = NSRange(0..<storage.length)
+            let processor = NotesTextProcessor(storage: storage, range: range)
             processor.higlightLinks()
         }
         
@@ -504,11 +505,8 @@ class EditTextView: NSTextView {
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             
-            if event.keyCode == 0x7D { // arrow down
-                return
-            }
-            
-            let processor = NotesTextProcessor(storage: textStorage)
+            let range = getParagraphRange()
+            let processor = NotesTextProcessor(storage: textStorage, range: range)
             processor.higlightLinks()
             
             if note.type == .RichText {

@@ -721,7 +721,7 @@ public class NotesTextProcessor {
         "(.+?)        # $2 = Header text",
         "\\p{Z}*",
         "\\#*         # optional closing #'s (not counted)",
-        "(?:\\n+|\\Z)"
+        "(?:\\n|\\Z)"
         ].joined(separator: "\n")
     
     public static let headersAtxRegex = MarklightRegex(pattern: headerAtxPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -1153,11 +1153,12 @@ public class NotesTextProcessor {
     }
     
     public func higlightLinks() {
-        guard let storage = self.storage else {
+        guard let storage = self.storage, let range = self.range else {
             return
         }
         
-        let range = NSMakeRange(0, storage.length)
+        storage.removeAttribute(.link, range: range)
+        
         let pattern = "(https?:\\/\\/(?:www\\.|(?!www))[^\\s\\.]+\\.[^\\s]{2,}|www\\.[^\\s]+\\.[^\\s]{2,})"
         let regex = try! NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
         
