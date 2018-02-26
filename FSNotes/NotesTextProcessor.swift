@@ -374,8 +374,10 @@ public class NotesTextProcessor {
     
     public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note) {
         
+        let isFullScan = styleApplier.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
+        
         let textStorageNSString = styleApplier.string as NSString
-        let string =  styleApplier.string
+        let string = styleApplier.string
         
         let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
         let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
@@ -402,11 +404,14 @@ public class NotesTextProcessor {
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
         
-
         // Reset highlightr
         styleApplier.removeAttribute(.link, range: paragraphRange)
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
-        styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
+        
+        if isFullScan {
+            styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
+        }
+        
         styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
         
         // We detect and process inline links not formatted
@@ -429,7 +434,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
-            NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+            NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 hideSyntaxIfNecessary(range: NSMakeRange(innerRange.location, innerRange.length))
@@ -697,7 +702,7 @@ public class NotesTextProcessor {
         "\\n",
         "(=+|-+)",  // $1 = string of ='s or -'s
         "\\p{Z}*",
-        "\\n+|\\Z"
+        "\\n|\\Z"
         ].joined(separator: "\n")
     
     public static let headersSetextRegex = MarklightRegex(pattern: headerSetextPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -733,7 +738,7 @@ public class NotesTextProcessor {
     public static let headersAtxOpeningRegex = MarklightRegex(pattern: headersAtxOpeningPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxClosingPattern = [
-        "\\#{1,6}(?:\\n+|\\Z)"
+        "\\#{1,6}(?:\\n|\\Z)"
         ].joined(separator: "\n")
     
     public static let headersAtxClosingRegex = MarklightRegex(pattern: headersAtxClosingPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -760,7 +765,7 @@ public class NotesTextProcessor {
         "    [\")]",
         "    \\p{Z}*",
         ")?                       # title is optional",
-        "(?:\\n+|\\Z)"
+        "(?:\\n|\\Z)"
         ].joined(separator: "")
     
     public static let referenceLinkRegex = MarklightRegex(pattern: referenceLinkPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
@@ -1208,8 +1213,16 @@ public class NotesTextProcessor {
         }
      
         let string = storage.string as NSString
-        let paragraphRange = string.paragraphRange(for: range)
-     
+        var paragraphRange = string.paragraphRange(for: range)
+        let currentString = string.substring(with: paragraphRange)
+        
+        // Proper paragraph scan for two line markup "==" and "--"
+        let prevParagraphLocation = paragraphRange.lowerBound - 1
+        if prevParagraphLocation > 0 && (currentString.starts(with: "==") || currentString.starts(with: "--")) {
+            let prev = string.paragraphRange(for: NSRange(location: prevParagraphLocation, length: 0))
+            paragraphRange = NSRange(location: prev.lowerBound, length: paragraphRange.upperBound - prev.lowerBound)
+        }
+
         if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note)
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {

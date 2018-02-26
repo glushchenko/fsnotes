@@ -525,6 +525,7 @@ class EditTextView: NSTextView {
         
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
         processor.scanParagraph()
+        cacheNote(note: note)
     }
     
     func cacheNote(note: Note) {
