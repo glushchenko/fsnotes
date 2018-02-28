@@ -224,9 +224,10 @@ class ViewController: UIViewController,
         
         if item.title == "Settings" {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+            let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
             
-            let nextViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
-            self.present(nextViewController, animated: true, completion: nil)
+            self.present(navigationController, animated: true, completion: nil)
         }
     }
     
@@ -302,5 +303,6 @@ class ViewController: UIViewController,
             }
         }
     }
+
 }
 

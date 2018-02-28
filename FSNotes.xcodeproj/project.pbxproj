@@ -22,6 +22,14 @@
 		D71354012042AECD00E3776F /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FF2042AECD00E3776F /* settings@2x.png */; };
 		D71354022042AECD00E3776F /* settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71354002042AECD00E3776F /* settings@3x.png */; };
 		D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71354032042AFC800E3776F /* SettingsViewController.swift */; };
+		D713540B2042D46E00E3776F /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D71354092042D46E00E3776F /* Interface.storyboard */; };
+		D713540D2042D46E00E3776F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D713540C2042D46E00E3776F /* Assets.xcassets */; };
+		D71354142042D46E00E3776F /* FSNotes watchOS Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D71354132042D46E00E3776F /* FSNotes watchOS Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D71354192042D46E00E3776F /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71354182042D46E00E3776F /* InterfaceController.swift */; };
+		D713541B2042D46E00E3776F /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D713541A2042D46E00E3776F /* ExtensionDelegate.swift */; };
+		D713541D2042D46E00E3776F /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D713541C2042D46E00E3776F /* NotificationController.swift */; };
+		D713541F2042D46E00E3776F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D713541E2042D46E00E3776F /* Assets.xcassets */; };
+		D71354242042D46E00E3776F /* FSNotes watchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D71354072042D46E00E3776F /* FSNotes watchOS.app */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D71670AC1F7E914F00AE1AC2 /* UserDefaults+Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71670AB1F7E914F00AE1AC2 /* UserDefaults+Token.swift */; };
@@ -68,6 +76,7 @@
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B0EEFD1FDEF93E008B04C3 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */; };
 		D7B0EEFE1FDF1176008B04C3 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */; };
+		D7B52F3220448FB200170835 /* TableRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B52F3120448FB200170835 /* TableRowController.swift */; };
 		D7BC2F461F7675850007298E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BC2F451F7675850007298E /* CoreDataManager.swift */; };
 		D7BDFE59201F671900897A58 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
 		D7BDFE5A201F677B00897A58 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
@@ -94,6 +103,8 @@
 		D7C58D53202701F80019B3C7 /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C58D52202701F80019B3C7 /* plus@3x.png */; };
 		D7C58D56202702540019B3C7 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C58D54202702540019B3C7 /* plus.png */; };
 		D7C58D57202702540019B3C7 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C58D55202702540019B3C7 /* plus@2x.png */; };
+		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
+		D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC69200288FC00A1760F /* NSTextStorage+.swift */; };
 		D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
@@ -152,6 +163,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D71354152042D46E00E3776F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D71354122042D46E00E3776F;
+			remoteInfo = "FSNotes watchOS Extension";
+		};
+		D71354222042D46E00E3776F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D71354062042D46E00E3776F;
+			remoteInfo = "FSNotes watchOS";
+		};
 		D7793C821F211C6000CA39B7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
@@ -167,6 +192,31 @@
 			remoteInfo = FSNotes;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D71354282042D46E00E3776F /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D71354142042D46E00E3776F /* FSNotes watchOS Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D713542C2042D46E00E3776F /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D71354242042D46E00E3776F /* FSNotes watchOS.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
@@ -186,6 +236,17 @@
 		D71353FF2042AECD00E3776F /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		D71354002042AECD00E3776F /* settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@3x.png"; sourceTree = "<group>"; };
 		D71354032042AFC800E3776F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D71354072042D46E00E3776F /* FSNotes watchOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes watchOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D713540A2042D46E00E3776F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		D713540C2042D46E00E3776F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D713540E2042D46E00E3776F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D71354132042D46E00E3776F /* FSNotes watchOS Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "FSNotes watchOS Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D71354182042D46E00E3776F /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		D713541A2042D46E00E3776F /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		D713541C2042D46E00E3776F /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		D713541E2042D46E00E3776F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D71354202042D46E00E3776F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D71354212042D46E00E3776F /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		D71670AB1F7E914F00AE1AC2 /* UserDefaults+Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Token.swift"; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
 		D72A19982020AB940025CF5B /* UserDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataService.swift; sourceTree = "<group>"; };
@@ -234,6 +295,7 @@
 		D7AFD80C1F78CC450000B44A /* CKRecord+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CKRecord+.swift"; sourceTree = "<group>"; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
 		D7B0EEFC1FDEF93E008B04C3 /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
+		D7B52F3120448FB200170835 /* TableRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowController.swift; sourceTree = "<group>"; };
 		D7BC2F451F7675850007298E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS.entitlements"; sourceTree = "<group>"; };
 		D7BDFE69201F68B700897A58 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
@@ -244,6 +306,7 @@
 		D7C58D52202701F80019B3C7 /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@3x.png"; sourceTree = "<group>"; };
 		D7C58D54202702540019B3C7 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		D7C58D55202702540019B3C7 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
@@ -268,6 +331,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D71354102042D46E00E3776F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7679383201F21F5000F7BBF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -340,6 +410,30 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D71354082042D46E00E3776F /* FSNotes watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				D71354092042D46E00E3776F /* Interface.storyboard */,
+				D713540C2042D46E00E3776F /* Assets.xcassets */,
+				D713540E2042D46E00E3776F /* Info.plist */,
+			);
+			path = "FSNotes watchOS";
+			sourceTree = "<group>";
+		};
+		D71354172042D46E00E3776F /* FSNotes watchOS Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D71354182042D46E00E3776F /* InterfaceController.swift */,
+				D713541A2042D46E00E3776F /* ExtensionDelegate.swift */,
+				D713541C2042D46E00E3776F /* NotificationController.swift */,
+				D7B52F3120448FB200170835 /* TableRowController.swift */,
+				D713541E2042D46E00E3776F /* Assets.xcassets */,
+				D71354202042D46E00E3776F /* Info.plist */,
+				D71354212042D46E00E3776F /* PushNotificationPayload.apns */,
+			);
+			path = "FSNotes watchOS Extension";
+			sourceTree = "<group>";
+		};
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +443,7 @@
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D71354032042AFC800E3776F /* SettingsViewController.swift */,
+				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
 				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
@@ -387,6 +482,8 @@
 				D7793C841F211C6000CA39B7 /* FSNotesTests */,
 				D7793C8F1F211C6000CA39B7 /* FSNotesUITests */,
 				D7679387201F21F5000F7BBF /* FSNotes iOS */,
+				D71354082042D46E00E3776F /* FSNotes watchOS */,
+				D71354172042D46E00E3776F /* FSNotes watchOS Extension */,
 				D7793C701F211C6000CA39B7 /* Products */,
 				A124E2E6306B074DE002E8BA /* Pods */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
@@ -401,6 +498,8 @@
 				D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */,
 				D7E81C5A1F925B5F00416A91 /* FSNotes.app */,
 				D7679386201F21F5000F7BBF /* FSNotes iOS.app */,
+				D71354072042D46E00E3776F /* FSNotes watchOS.app */,
+				D71354132042D46E00E3776F /* FSNotes watchOS Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -504,6 +603,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D71354062042D46E00E3776F /* FSNotes watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D71354292042D46E00E3776F /* Build configuration list for PBXNativeTarget "FSNotes watchOS" */;
+			buildPhases = (
+				D71354052042D46E00E3776F /* Resources */,
+				D71354282042D46E00E3776F /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D71354162042D46E00E3776F /* PBXTargetDependency */,
+			);
+			name = "FSNotes watchOS";
+			productName = "FSNotes watchOS";
+			productReference = D71354072042D46E00E3776F /* FSNotes watchOS.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		D71354122042D46E00E3776F /* FSNotes watchOS Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D71354252042D46E00E3776F /* Build configuration list for PBXNativeTarget "FSNotes watchOS Extension" */;
+			buildPhases = (
+				D713540F2042D46E00E3776F /* Sources */,
+				D71354102042D46E00E3776F /* Frameworks */,
+				D71354112042D46E00E3776F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "FSNotes watchOS Extension";
+			productName = "FSNotes watchOS Extension";
+			productReference = D71354132042D46E00E3776F /* FSNotes watchOS Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		D7679385201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7679398201F21F5000F7BBF /* Build configuration list for PBXNativeTarget "FSNotes iOS" */;
@@ -514,10 +647,12 @@
 				D7679384201F21F5000F7BBF /* Resources */,
 				9962CE97D3AEB8CA8F87BF6C /* [CP] Embed Pods Frameworks */,
 				58BFA408BD3391227DC721F0 /* [CP] Copy Pods Resources */,
+				D713542C2042D46E00E3776F /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D71354232042D46E00E3776F /* PBXTargetDependency */,
 			);
 			name = "FSNotes iOS";
 			productName = "FSNotes iOS";
@@ -610,6 +745,14 @@
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Oleksandr Glushchenko";
 				TargetAttributes = {
+					D71354062042D46E00E3776F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					D71354122042D46E00E3776F = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					D7679385201F21F5000F7BBF = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -687,11 +830,30 @@
 				D7793C8B1F211C6000CA39B7 /* FSNotesUITests */,
 				D7E81C2B1F925B5F00416A91 /* FSNotes (CloudKit) */,
 				D7679385201F21F5000F7BBF /* FSNotes iOS */,
+				D71354062042D46E00E3776F /* FSNotes watchOS */,
+				D71354122042D46E00E3776F /* FSNotes watchOS Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D71354052042D46E00E3776F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D713540D2042D46E00E3776F /* Assets.xcassets in Resources */,
+				D713540B2042D46E00E3776F /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D71354112042D46E00E3776F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D713541F2042D46E00E3776F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7679384201F21F5000F7BBF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -931,10 +1093,22 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D713540F2042D46E00E3776F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D713541D2042D46E00E3776F /* NotificationController.swift in Sources */,
+				D713541B2042D46E00E3776F /* ExtensionDelegate.swift in Sources */,
+				D71354192042D46E00E3776F /* InterfaceController.swift in Sources */,
+				D7B52F3220448FB200170835 /* TableRowController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D7679382201F21F5000F7BBF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE6E201F6FA800897A58 /* FSNotes.xcdatamodeld in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
@@ -949,6 +1123,7 @@
 				D7BDFE5B201F677B00897A58 /* CKRecord+.swift in Sources */,
 				D7BDFE5C201F677B00897A58 /* UserDefaults+Token.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
+				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
 				D7BDFE5E201F677B00897A58 /* CoreDataManager.swift in Sources */,
 				D7BDFE5F201F677B00897A58 /* CloudKitManager.swift in Sources */,
 				D7DB5EDA2025BD7900E7E1B6 /* PageViewController.swift in Sources */,
@@ -1074,6 +1249,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D71354162042D46E00E3776F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D71354122042D46E00E3776F /* FSNotes watchOS Extension */;
+			targetProxy = D71354152042D46E00E3776F /* PBXContainerItemProxy */;
+		};
+		D71354232042D46E00E3776F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D71354062042D46E00E3776F /* FSNotes watchOS */;
+			targetProxy = D71354222042D46E00E3776F /* PBXContainerItemProxy */;
+		};
 		D7793C831F211C6000CA39B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D7793C6E1F211C6000CA39B7 /* FSNotes */;
@@ -1087,6 +1272,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		D71354092042D46E00E3776F /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D713540A2042D46E00E3776F /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		D767938C201F21F5000F7BBF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1114,6 +1307,92 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D71354262042D46E00E3776F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				INFOPLIST_FILE = "FSNotes watchOS Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Debug;
+		};
+		D71354272042D46E00E3776F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				ENABLE_NS_ASSERTIONS = NO;
+				INFOPLIST_FILE = "FSNotes watchOS Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.watchkitapp.watchkitextension";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Release;
+		};
+		D713542A2042D46E00E3776F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				IBSC_MODULE = FSNotes_watchOS_Extension;
+				INFOPLIST_FILE = "FSNotes watchOS/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Debug;
+		};
+		D713542B2042D46E00E3776F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				ENABLE_NS_ASSERTIONS = NO;
+				IBSC_MODULE = FSNotes_watchOS_Extension;
+				INFOPLIST_FILE = "FSNotes watchOS/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
+			};
+			name = Release;
+		};
 		D7679399201F21F5000F7BBF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AD6B2C2AB86ECC93C9C8FD65 /* Pods-FSNotes iOS.debug.xcconfig */;
@@ -1464,6 +1743,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D71354252042D46E00E3776F /* Build configuration list for PBXNativeTarget "FSNotes watchOS Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D71354262042D46E00E3776F /* Debug */,
+				D71354272042D46E00E3776F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D71354292042D46E00E3776F /* Build configuration list for PBXNativeTarget "FSNotes watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D713542A2042D46E00E3776F /* Debug */,
+				D713542B2042D46E00E3776F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D7679398201F21F5000F7BBF /* Build configuration list for PBXNativeTarget "FSNotes iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

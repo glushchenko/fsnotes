@@ -66,6 +66,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.scrollRangeToVisible(NSRange(location:0, length:0))
         height = editArea.frame.size.height
+        
+        switch note.type {
+        case .PlainText:
+            editArea.font = UserDefaultsManagement.noteFont
+        case .RichText:
+            storage.updateFont()
+        case .Markdown:
+            return
+        }
     }
         
     func textViewDidChange(_ textView: UITextView) {

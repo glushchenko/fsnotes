@@ -27,6 +27,8 @@ public class Note: NSManagedObject {
         let entity = CoreDataManager.instance.entityForName(entityName: "Note")
         
         self.init(entity: entity, insertInto: context)
+        self.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        
         make(newName: name)
         storage = CoreDataManager.instance.fetchGeneralStorage()
     }

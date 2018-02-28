@@ -8,16 +8,28 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextViewDelegate {
-    
-    @IBOutlet weak var toolbar: UIToolbar!
-    @IBAction func doneAction(_ sender: Any) {
-        self.dismiss(animated: false, completion: nil)
-    }
+class SettingsViewController: UITableViewController {
     
     override func viewDidLoad() {
-        toolbar.clipsToBounds = true
         super.viewDidLoad()
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SettingsViewController.done))
+        self.title = "Settings"
     }
+    
+    @objc func done() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+            let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "defaultExtensionViewController") as! DefaultExtensionViewController
+            let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
+            
+            self.present(navigationController, animated: true, completion: nil)
+        }
+    }
+ 
 }
 

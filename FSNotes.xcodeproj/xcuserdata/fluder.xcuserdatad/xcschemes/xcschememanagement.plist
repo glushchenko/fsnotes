@@ -14,6 +14,16 @@
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
+		<key>FSNotes watchOS (Notification).xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
+		<key>FSNotes watchOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>FSNotes.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
