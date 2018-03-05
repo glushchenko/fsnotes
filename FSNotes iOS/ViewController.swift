@@ -13,8 +13,7 @@ class ViewController: UIViewController,
     UITableViewDelegate,
     UISearchBarDelegate,
     UITabBarDelegate,
-    UIGestureRecognizerDelegate,
-    CloudKitManagerDelegate {
+    UIGestureRecognizerDelegate {
 
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
@@ -25,9 +24,7 @@ class ViewController: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        CloudKitManager.sharedInstance().delegate = self
-        
+
         tabBar.delegate = self
         notesTable.dataSource = self
         notesTable.delegate = self
@@ -45,16 +42,10 @@ class ViewController: UIViewController,
         if CoreDataManager.instance.getBy(label: "general") == nil {
             let context = CoreDataManager.instance.context
             let storage = StorageItem(context: context)
-            storage.path = UserDefaultsManagement.storageUrl.absoluteString
+            storage.path = FileManager.default.url(forUbiquityContainerIdentifier: nil)!.appendingPathComponent("Documents").absoluteString
             storage.label = "general"
             CoreDataManager.instance.save()
         }
-
-#if os(iOS)
-        let storageItem = CoreDataManager.instance.getBy(label: "general")
-        storageItem?.path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
-        CoreDataManager.instance.save()
-#endif
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
@@ -71,6 +62,8 @@ class ViewController: UIViewController,
         pageController.disableSwipe()
         
         //pageController.view.isUserInteractionEnabled = false
+        
+        cloudDriveWatcher()
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,6 +74,98 @@ class ViewController: UIViewController,
     var filterQueue = OperationQueue.init()
     var filteredNoteList: [Note]?
     var prevQuery: String?
+    var cloudDriveQuery: NSMetadataQuery?
+    
+    func cloudDriveWatcher() {
+        let metadataQuery = NSMetadataQuery()
+        cloudDriveQuery = metadataQuery
+        cloudDriveQuery?.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
+        cloudDriveQuery?.predicate = NSPredicate(value: true)
+        cloudDriveQuery?.enableUpdates()
+        cloudDriveQuery?.start()
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(handleMetadataQueryUpdates), name: NSNotification.Name.NSMetadataQueryDidUpdate, object: metadataQuery)
+    }
+    
+    @objc func handleMetadataQueryUpdates(notification: NSNotification) {
+        cloudDriveQuery?.disableUpdates()
+        
+        if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
+            for item in changedMetadataItems {
+                let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
+
+                if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
+                    for conflict in conflicts {
+                        print(conflict)
+                        
+                        guard let localizedName = conflict.localizedName else {
+                            continue
+                        }
+                        
+                        let url = URL(fileURLWithPath: localizedName)
+                        let ext = url.pathExtension
+                        let name = url.deletingPathExtension().lastPathComponent
+                        
+                        let date = Date.init()
+                        let dateFormatter = ISO8601DateFormatter()
+                        dateFormatter.formatOptions = [
+                            .withYear,
+                            .withMonth,
+                            .withDay,
+                            .withTime
+                        ]
+                        let dateString: String = dateFormatter.string(from: date)
+                        let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
+                        
+                        let documents = UserDefaultsManagement.documentDirectory
+                        let to = documents.appendingPathComponent(conflictName)
+                        
+                        do {
+                            try FileManager.default.copyItem(at: conflict.url, to: to)
+                        } catch {
+                            print(error)
+                        }
+                        
+                        conflict.isResolved = true
+                    }
+                }
+                
+                if isMetadataItemDownloaded(item: item) {
+                    let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
+                    
+                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
+                        
+                        note.reloadContent()
+                        viewController.fill(note: note)
+                    }
+                }
+            }
+        }
+        
+        if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
+            for item in addedMetadataItems {
+                let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
+                
+                if FileManager.default.isUbiquitousItem(at: url as URL) {
+                    try? FileManager.default.startDownloadingUbiquitousItem(at: url as URL)
+                }
+            }
+        }
+        
+        storage.loadDocuments()
+        updateTable(filter: "") {}
+        
+        cloudDriveQuery?.enableUpdates()
+    }
+    
+    func isMetadataItemDownloaded(item : NSMetadataItem) -> Bool {
+        if item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+            return true
+        } else {
+            return false
+        }
+    }
     
     func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
         if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {

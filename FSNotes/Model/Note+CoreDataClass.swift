@@ -116,7 +116,6 @@ public class Note: NSManagedObject {
                 note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
                 note.load(to)
                 note.save(cloudSync: true)
-                CloudKitManager.sharedInstance().delegate?.reloadView(note: note)
             }
         #endif
     }
@@ -188,6 +187,12 @@ public class Note: NSManagedObject {
         }
         
         return nil
+    }
+    
+    func reloadContent() {
+        if let content = getContent() {
+            self.content = NSMutableAttributedString(attributedString: content)
+        }
     }
     
     func getDate(url: URL) -> Date? {

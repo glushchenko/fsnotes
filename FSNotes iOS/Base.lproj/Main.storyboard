@@ -316,6 +316,6 @@
     </scenes>
     <resources>
         <image name="plus.png" width="30" height="30"/>
-        <image name="settings.png" width="30" height="30"/>
+        <image name="settings.png" width="25" height="25"/>
     </resources>
 </document>

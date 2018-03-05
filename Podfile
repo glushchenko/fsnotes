@@ -11,7 +11,7 @@ target 'FSNotes' do
     available_pods
 end
 
-target 'FSNotes (CloudKit)' do
+target 'FSNotes (iCloud Documents)' do
     available_pods
 end
 

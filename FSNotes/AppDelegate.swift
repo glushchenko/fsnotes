@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import CloudKit
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -77,22 +76,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         })
         return container
     }()
-    
-    #if CLOUDKIT
-    func applicationWillFinishLaunching(_ notification: Notification) {
-        if UserDefaultsManagement.cloudKitSync {
-            NSApp.registerForRemoteNotifications(matching: NSApplication.RemoteNotificationType())
-        }
-    }
-
-    func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
-        if UserDefaultsManagement.cloudKitSync {
-            let note: CKNotification = CKNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
-            
-            if note.notificationType == .query {
-                CloudKitManager.sharedInstance().sync() {}
-            }
-        }
-    }
-    #endif
 }

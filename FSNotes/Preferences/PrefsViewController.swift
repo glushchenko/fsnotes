@@ -16,18 +16,12 @@ class PrefsViewController: NSViewController {
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
-    @IBOutlet var cloudKitCheckbox: NSButton!
     @IBOutlet var tabView: NSTabView!
-    @IBOutlet var tabViewSync: NSTabViewItem!
     @IBOutlet var hidePreview: NSButtonCell!
     @IBOutlet var fileExtensionOutlet: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
-    @IBOutlet var lastSyncOutlet: NSTextField!
     @IBOutlet weak var fontPreview: NSTextField!
-    @IBOutlet weak var cloudStatus: NSTextField!
-    @IBOutlet weak var syncedTotal: NSTextField!
-    @IBOutlet weak var syncProgress: NSProgressIndicator!
     @IBOutlet weak var codeBlockHighlight: NSButtonCell!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
     @IBOutlet weak var liveImagesPreview: NSButton!
@@ -45,14 +39,6 @@ class PrefsViewController: NSViewController {
     }
     
     override func viewDidAppear() {
-        syncProgress.isHidden = true
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onCountChange(notification:)), name: NSNotification.Name(rawValue: "onCountChange"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onStartSync(notification:)), name: NSNotification.Name(rawValue: "onStartSync"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onFinishSync(notification:)), name: NSNotification.Name(rawValue: "onFinishSync"), object: nil)
-        
         self.view.window!.title = "Preferences"
         
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
@@ -66,9 +52,7 @@ class PrefsViewController: NSViewController {
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-        
-        cloudKitCheckbox.state =  UserDefaultsManagement.cloudKitSync ? NSControl.StateValue.on : NSControl.StateValue.off
-        
+                
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
@@ -81,19 +65,9 @@ class PrefsViewController: NSViewController {
         
         noteFontColor.color = UserDefaultsManagement.fontColor
         backgroundColor.color = UserDefaultsManagement.bgColor
-
-        #if CLOUDKIT
-            checkCloudStatus()
-        #else
-            tabView.removeTabViewItem(tabViewSync)
-        #endif
-        
-        loadLastSync()
         
         storageTableView.list = CoreDataManager.instance.fetchStorageList()
         storageTableView.reloadData()
-        
-        NotificationsController.syncProgress()
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -118,17 +92,6 @@ class PrefsViewController: NSViewController {
         // bound to it. We do need to update each window's hideOnDeactivate.
         for window in NSApplication.shared.windows {
             window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
-        }
-    }
-    
-    @IBAction func cloudKitSync(_ sender: AnyObject) {
-        let state = (sender as! NSButton).state
-        UserDefaultsManagement.cloudKitSync = !(state == NSControl.StateValue.off)
-
-        checkCloudStatus()
-        
-        if state == NSControl.StateValue.on {
-            CloudKitManager.sharedInstance().sync() {}
         }
     }
     
@@ -247,19 +210,6 @@ class PrefsViewController: NSViewController {
         controller?.notesTableView.reloadData()
     }
     
-    @IBAction func resetCloudKitData(_ sender: Any) {
-        let alert = NSAlert.init()
-        alert.messageText = "Are you sure you want remove data from iCloud?"
-        alert.informativeText = "This action cannot be undone."
-        alert.addButton(withTitle: "Remove")
-        alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                CloudKitManager.sharedInstance().flush()
-            }
-        }
-    }
-        
     var fontPanelOpen: Bool = false
     let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
     
@@ -282,25 +232,7 @@ class PrefsViewController: NSViewController {
         fontPreview.font = NSFont(name: UserDefaultsManagement.fontName, size: 13)
         fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
     }
-    
-    func loadLastSync() {
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [
-            .withYear,
-            .withMonth,
-            .withDay,
-            .withTime,
-            .withDashSeparatorInDate,
-            .withColonSeparatorInTime,
-            .withSpaceBetweenDateAndTime
-        ]
-        dateFormatter.timeZone = NSTimeZone.local
-        
-        if let lastSync = UserDefaultsManagement.lastSync {
-            lastSyncOutlet.stringValue = dateFormatter.string(from: lastSync)
-        }
-    }
-    
+
     func restart() {
         let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
         let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
@@ -360,38 +292,6 @@ class PrefsViewController: NSViewController {
         Swift.print("keyPath")
     }
     
-    func checkCloudStatus() {
-        CloudKitManager.sharedInstance().container.accountStatus { (accountStatus, error) in
-            var result: String
-            
-            switch accountStatus {
-            case .available:
-                result = "iCloud available"
-                break
-            case .couldNotDetermine, .noAccount, .restricted:
-                result = "iCloud not available"
-                self.cloudKitCheckbox.state = NSControl.StateValue.off
-                break
-            }
-            
-            DispatchQueue.main.async {
-                self.cloudStatus.stringValue = result
-            }
-        }
-    }
-    
-    @objc func onCountChange(notification: Notification) {
-        DispatchQueue.main.async {
-            self.syncedTotal.stringValue = notification.userInfo?.first?.value as! String
-        }
-    }
-    
-    @objc func onStartSync(notification: Notification) {
-        syncedTotal.isHidden = true
-        syncProgress.isHidden = false
-        syncProgress.startAnimation("sync")
-    }
-    
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else {
             return
@@ -404,12 +304,6 @@ class PrefsViewController: NSViewController {
             note.markdownCache()
             controller?.refillEditArea()
         }
-    }
-    
-    @objc func onFinishSync(notification: Notification) {
-        syncedTotal.isHidden = false
-        syncProgress.isHidden = true
-        syncProgress.stopAnimation("sync")
     }
     
     @IBAction func inEditorFocus(_ sender: NSButton) {

@@ -14,7 +14,7 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 - blazing fast and lightweight (working fine with 10k+ files)
 - open files in finder / works with external editors (changes seamless live sync with UI)
 - pin/unpin important notes in top
-- synchronization over iCloud Drive / Dropbox / CloudKit (for MAS version)
+- synchronization over iCloud Drive / Dropbox
 - multi folder storage
 - fast copy markdown code to clipboard
 - live markdown highligting with code blocks (over 170 languages)

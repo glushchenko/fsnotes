@@ -291,7 +291,9 @@ public class NotesTextProcessor {
                     storage?.setAttributes(attrs, range: fixedRange)
                 }
                 
-                note.content.setAttributes(attrs, range: fixedRange)
+                if note.content.length >= fixedRange.location + fixedRange.length {
+                    note.content.setAttributes(attrs, range: fixedRange)
+                }
             }
         )
         

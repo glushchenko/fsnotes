@@ -91,20 +91,7 @@ class CoreDataManager {
         }
         return nil
     }
-    
-    func removeCloudKitRecords() {
-        let batchUpdateRequest = NSBatchUpdateRequest(entityName: "Note")
-        batchUpdateRequest.resultType = .updatedObjectIDsResultType
-        batchUpdateRequest.propertiesToUpdate = ["cloudKitRecord": Data(), "isSynced": false]
         
-        do {
-            try context.execute(batchUpdateRequest)
-        } catch {
-            let updateError = error as NSError
-            print("\(updateError), \(updateError.userInfo)")
-        }
-    }
-    
     func getBy(label: String) -> StorageItem? {
         let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
         let predicate = NSPredicate(format: "label = %@", label)

@@ -154,8 +154,22 @@ public class UserDefaultsManagement {
     
     static var documentDirectory: URL {
         get {
+            if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+                if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                    do {
+                        try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+                        
+                        return iCloudDocumentsURL
+                    } catch {
+                        print("Home directory creation: \(error)")
+                    }
+                } else {
+                   return iCloudDocumentsURL
+                }
+            }
+
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-            
+    
             return URL(fileURLWithPath: path)
         }
     }

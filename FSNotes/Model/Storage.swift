@@ -8,12 +8,10 @@
 
 import Foundation
 import Highlightr
-import CloudKit
 
 class Storage {
     static let instance = Storage()
     
-    weak var delegate : CloudKitManagerDelegate?
     var noteList = [Note]()
     var notesDict: [String: Note] = [:]
     
@@ -308,23 +306,7 @@ class Storage {
         return UserDefaultsManagement.documentDirectory
 #endif
     }
-    
-    func countSynced() -> Int {
-        return
-            noteList.filter{
-                !$0.cloudKitRecord.isEmpty
-                && $0.isGeneral()
-                && $0.isSynced
-            }.count
-    }
-    
-    func countTotal() -> Int {
-        return
-            noteList.filter{
-                $0.isGeneral()
-            }.count
-    }
-        
+            
     var isActiveCaching = false
     var terminateBusyQueue = false
     
@@ -345,9 +327,8 @@ class Storage {
                 note.markdownCache()
                 
                 if note == EditTextView.note {
-                    DispatchQueue.main.async {
-                        self.delegate?.refillEditArea(cursor: nil, previewOnly: false)
-                    }
+                    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+                    viewController.refillEditArea()
                 }
                 
                 if self.terminateBusyQueue {
@@ -373,46 +354,11 @@ class Storage {
             removeBy(note: note)
         }
         
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                var recordIds: [CKRecordID] = []
-                
-                for note in notes {
-                    if let record = CKRecord(archivedData: note.cloudKitRecord) {
-                        recordIds.append(record.recordID)
-                    }
-                }
-                
-                CloudKitManager.sharedInstance().removeRecords(records: recordIds) {
-                    CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
-                    completion()
-                }
-            } else {
-                CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
-                completion()
-            }
-        #else
-            CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
-            completion()
-        #endif
+        CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+        completion()
     }
     
     func saveNote(note: Note, userInitiated: Bool = false, cloudSync: Bool = true) {
         add(note)
-        
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync && note.isGeneral() && cloudSync {
-                if userInitiated {
-                    NotificationsController.onStartSync()
-                }
-                
-                // save state to core database
-                note.isSynced = false
-                CoreDataManager.instance.save()
-                
-                // save cloudkit
-                CloudKitManager.sharedInstance().saveNote(note) {}
-            }
-        #endif
     }
 }

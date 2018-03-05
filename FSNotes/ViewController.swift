@@ -9,13 +9,11 @@
 import Cocoa
 import MASShortcut
 import CoreData
-import CloudKit
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
-    NSSplitViewDelegate,
-    CloudKitManagerDelegate {
+    NSSplitViewDelegate {
     
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
@@ -59,12 +57,6 @@ class ViewController: NSViewController,
         
         let bookmark = SandboxBookmark()
         bookmark.load()
-        
-        Storage.instance.delegate = self
-        
-#if CLOUDKIT
-        CloudKitManager.sharedInstance().delegate = self
-#endif
         
         editArea.delegate = self
         search.delegate = self
@@ -110,14 +102,7 @@ class ViewController: NSViewController,
             self.keyDown(with: $0)
             return $0
         }
-        
-        #if CLOUDKIT
-            if UserDefaultsManagement.cloudKitSync {
-                CloudKitManager.sharedInstance().verifyCloudKitSubscription()
-                CloudKitManager.sharedInstance().sync() {}
-            }
-        #endif
-        
+                
         loadMoveMenu()
         loadSortBySetting()
     }

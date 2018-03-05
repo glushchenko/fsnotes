@@ -171,8 +171,9 @@
       "subtype" : "42mm"
     },
     {
-      "idiom" : "watch-marketing",
       "size" : "1024x1024",
+      "idiom" : "watch-marketing",
+      "filename" : "ItunesArtwork@2x-1.png",
       "scale" : "1x"
     }
   ],
