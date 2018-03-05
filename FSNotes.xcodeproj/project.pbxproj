@@ -59,7 +59,6 @@
 		D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
 		D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7793C861F211C6000CA39B7 /* FSNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C851F211C6000CA39B7 /* FSNotesTests.swift */; };
-		D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */; };
 		D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
 		D790641D1FCB4E5F005677E7 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
 		D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
@@ -170,13 +169,6 @@
 			remoteGlobalIDString = D7793C6E1F211C6000CA39B7;
 			remoteInfo = FSNotes;
 		};
-		D7793C8D1F211C6000CA39B7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D7793C6E1F211C6000CA39B7;
-			remoteInfo = FSNotes;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -265,7 +257,6 @@
 		D7793C811F211C6000CA39B7 /* FSNotesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSNotesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C851F211C6000CA39B7 /* FSNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesTests.swift; sourceTree = "<group>"; };
 		D7793C871F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FSNotesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7793C901F211C6000CA39B7 /* FSNotesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesUITests.swift; sourceTree = "<group>"; };
 		D7793C921F211C6000CA39B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsWindowController.swift; sourceTree = "<group>"; };
@@ -335,13 +326,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D7793C7E1F211C6000CA39B7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D7793C891F211C6000CA39B7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -470,7 +454,6 @@
 			children = (
 				D7793C6F1F211C6000CA39B7 /* FSNotes.app */,
 				D7793C811F211C6000CA39B7 /* FSNotesTests.xctest */,
-				D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */,
 				D7E81C5A1F925B5F00416A91 /* FSNotes.app */,
 				D7679386201F21F5000F7BBF /* FSNotes iOS.app */,
 				D71354072042D46E00E3776F /* FSNotes watchOS.app */,
@@ -669,24 +652,6 @@
 			productReference = D7793C811F211C6000CA39B7 /* FSNotesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D7793C8B1F211C6000CA39B7 /* FSNotesUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D7793C9B1F211C6000CA39B7 /* Build configuration list for PBXNativeTarget "FSNotesUITests" */;
-			buildPhases = (
-				D7793C881F211C6000CA39B7 /* Sources */,
-				D7793C891F211C6000CA39B7 /* Frameworks */,
-				D7793C8A1F211C6000CA39B7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D7793C8E1F211C6000CA39B7 /* PBXTargetDependency */,
-			);
-			name = FSNotesUITests;
-			productName = FSNotesUITests;
-			productReference = D7793C8C1F211C6000CA39B7 /* FSNotesUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		D7E81C2B1F925B5F00416A91 /* FSNotes (iCloud Documents) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7E81C571F925B5F00416A91 /* Build configuration list for PBXNativeTarget "FSNotes (iCloud Documents)" */;
@@ -766,10 +731,6 @@
 						CreatedOnToolsVersion = 9.0;
 						TestTargetID = D7793C6E1F211C6000CA39B7;
 					};
-					D7793C8B1F211C6000CA39B7 = {
-						CreatedOnToolsVersion = 9.0;
-						TestTargetID = D7793C6E1F211C6000CA39B7;
-					};
 					D7E81C2B1F925B5F00416A91 = {
 						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
@@ -799,7 +760,6 @@
 			targets = (
 				D7793C6E1F211C6000CA39B7 /* FSNotes */,
 				D7793C801F211C6000CA39B7 /* FSNotesTests */,
-				D7793C8B1F211C6000CA39B7 /* FSNotesUITests */,
 				D7E81C2B1F925B5F00416A91 /* FSNotes (iCloud Documents) */,
 				D7679385201F21F5000F7BBF /* FSNotes iOS */,
 				D71354062042D46E00E3776F /* FSNotes watchOS */,
@@ -862,13 +822,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D7793C7F1F211C6000CA39B7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D7793C8A1F211C6000CA39B7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1156,14 +1109,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D7793C881F211C6000CA39B7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D7793C911F211C6000CA39B7 /* FSNotesUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D7E81C2D1F925B5F00416A91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1223,11 +1168,6 @@
 			isa = PBXTargetDependency;
 			target = D7793C6E1F211C6000CA39B7 /* FSNotes */;
 			targetProxy = D7793C821F211C6000CA39B7 /* PBXContainerItemProxy */;
-		};
-		D7793C8E1F211C6000CA39B7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D7793C6E1F211C6000CA39B7 /* FSNotes */;
-			targetProxy = D7793C8D1F211C6000CA39B7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1610,36 +1550,6 @@
 			};
 			name = Release;
 		};
-		D7793C9C1F211C6000CA39B7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = FSNotesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = FSNotes;
-			};
-			name = Debug;
-		};
-		D7793C9D1F211C6000CA39B7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = FSNotesUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotesUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = FSNotes;
-			};
-			name = Release;
-		};
 		D7E81C581F925B5F00416A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */;
@@ -1757,15 +1667,6 @@
 			buildConfigurations = (
 				D7793C991F211C6000CA39B7 /* Debug */,
 				D7793C9A1F211C6000CA39B7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D7793C9B1F211C6000CA39B7 /* Build configuration list for PBXNativeTarget "FSNotesUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D7793C9C1F211C6000CA39B7 /* Debug */,
-				D7793C9D1F211C6000CA39B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

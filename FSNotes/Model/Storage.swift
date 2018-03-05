@@ -327,8 +327,18 @@ class Storage {
                 note.markdownCache()
                 
                 if note == EditTextView.note {
+                #if os(OSX)
                     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
                     viewController.refillEditArea()
+                #else
+                    DispatchQueue.main.async {
+                        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+                            return
+                        }
+                        
+                        viewController.fill(note: note)
+                    }
+                #endif
                 }
                 
                 if self.terminateBusyQueue {
