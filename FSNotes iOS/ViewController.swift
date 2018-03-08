@@ -93,6 +93,13 @@ class ViewController: UIViewController,
         
         if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
             for item in changedMetadataItems {
+                let isUploaded = item.value(forAttribute: NSMetadataUbiquitousItemIsUploadedKey) as! Bool
+                let isUploading = item.value(forAttribute: NSMetadataUbiquitousItemIsUploadingKey) as! Bool
+                
+                if isUploaded || isUploading {
+                    continue
+                }
+                
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
 
                 if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {

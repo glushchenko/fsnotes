@@ -32,4 +32,76 @@ extension NSFont {
     static func boldFont() -> NSFont {
         return NSFontManager().convert(UserDefaultsManagement.noteFont, toHaveTrait: .boldFontMask)
     }
+    
+    func bold() -> NSFont {
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
+        
+        var mask = 0
+        if (isItalic) {
+            mask = NSFontBoldTrait|NSFontItalicTrait
+        } else {
+            mask = NSFontBoldTrait
+        }
+    
+        if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+    
+        return UserDefaultsManagement.noteFont
+    }
+    
+    func unBold() -> NSFont {
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
+        
+        var mask = 0
+        if (isItalic) {
+            mask = NSFontItalicTrait
+        }
+        
+        if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+        
+        return UserDefaultsManagement.noteFont
+    }
+    
+    func italic() -> NSFont {
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
+        
+        var mask = 0
+        if (isBold) {
+            mask = NSFontBoldTrait|NSFontItalicTrait
+        } else {
+            mask = NSFontItalicTrait
+        }
+        
+        if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+        
+        return UserDefaultsManagement.noteFont
+    }
+    
+    func unItalic() -> NSFont {
+        guard let family = UserDefaultsManagement.noteFont.familyName else {
+            return UserDefaultsManagement.noteFont
+        }
+        
+        var mask = 0
+        if (isBold) {
+            mask = NSFontBoldTrait
+        }
+        
+        if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+        
+        return UserDefaultsManagement.noteFont
+    }
 }

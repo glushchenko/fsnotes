@@ -37,6 +37,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if editArea.textStorage.length == 0 {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
+        
+        height = editArea.frame.size.height
     }
     
     private var height: CGFloat = 0.0
@@ -51,6 +53,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.isScrollEnabled = false
         editArea.delegate = self
+        let cursor = editArea.selectedTextRange
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -66,6 +69,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.scrollRangeToVisible(NSRange(location:0, length:0))
         height = editArea.frame.size.height
+        editArea.selectedTextRange = cursor
         
         switch note.type {
         case .PlainText:
@@ -99,7 +103,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             editArea.frame.size.height = height - keyboardSize.height
         }
     }
@@ -114,15 +118,32 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         
+
+        let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
-        toolBar.setItems([spaceButton, doneButton], animated: false)
+        toolBar.setItems([boldButton, italicButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         
         textField.delegate = self
         textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func boldPressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.bold()
+        }
+    }
+    
+    @objc func italicPressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.italic()
+        }
     }
     
     @objc func donePressed(){
