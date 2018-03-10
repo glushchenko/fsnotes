@@ -288,10 +288,6 @@ class PrefsViewController: NSViewController {
         }
     }
     
-    func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutableRawPointer) {
-        Swift.print("keyPath")
-    }
-    
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else {
             return

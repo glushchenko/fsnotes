@@ -100,6 +100,8 @@ class Storage {
     }
     
     func loadLabel(_ item: StorageItem) {
+        let keyStore = NSUbiquitousKeyValueStore()
+        
         guard let url = item.getUrl() else {
             return
         }
@@ -137,6 +139,11 @@ class Storage {
             
             note.creationDate = document.2
             note.storage = item
+            
+            #if CLOUDKIT
+                note.isPinned = keyStore.bool(forKey: name)
+            #endif
+            
             note.load(url)
             
             if !note.isSynced {

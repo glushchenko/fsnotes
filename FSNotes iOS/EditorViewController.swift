@@ -121,10 +121,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
+        let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
+        
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
-        toolBar.setItems([boldButton, italicButton, spaceButton, doneButton], animated: false)
+        toolBar.setItems([boldButton, italicButton, indentButton, unindentButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         
@@ -143,6 +146,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.italic()
+        }
+    }
+    
+    @objc func indentPressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.tab()
+        }
+    }
+    
+    @objc func unIndentPressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.unTab()
         }
     }
     

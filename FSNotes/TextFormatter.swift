@@ -107,6 +107,108 @@ public class TextFormatter {
         }
     }
     
+    @objc func tab(_ undoInfo: UndoInfo? = nil) {
+        if let undo = undoInfo {
+            range = undo.replacementRange
+        }
+        
+        guard storage.length >= range.upperBound, range.length > 0 else {
+            return
+        }
+        
+        let code = storage.attributedSubstring(from: range).string
+        let lines = code.components(separatedBy: CharacterSet.newlines)
+        
+        var result: String = ""
+        var added: Int = 0
+        for line in lines {
+            if lines.first == line {
+                result += "\t" + line
+                continue
+            }
+            added = added + 1
+            result += "\n\t" + line
+        }
+        
+        storage.replaceCharacters(in: range, with: result)
+        
+        let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
+        let undoInfo = UndoInfo(text: result, replacementRange: newRange)
+        textView.undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
+        
+        if let note = EditTextView.note, note.type == .Markdown {
+            note.content = NSMutableAttributedString(attributedString: getAttributedString())
+            let async = newRange.length > 1000
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
+            note.save()
+        }
+        
+        setSRange(newRange)
+    }
+    
+    @objc func unTab(_ undoInfo: UndoInfo? = nil) {
+        guard let undo = textView.undoManager else {
+            return
+        }
+        
+        var initialLocation = 0
+        if let undo = undoInfo {
+            range = undo.replacementRange
+        }
+        
+        guard storage.length >= range.location + range.length else {
+            return
+        }
+        
+        var code = storage.mutableString.substring(with: range)
+        if range.length == 0 {
+            initialLocation = range.location
+            let string = storage.string as NSString
+            range = string.paragraphRange(for: range)
+            code = storage.attributedSubstring(from: range).string
+        }
+        
+        let lines = code.components(separatedBy: CharacterSet.newlines)
+        
+        var result: [String] = []
+        var removed: Int = 1
+        for var line in lines {
+            if line.starts(with: "\t") {
+                removed = removed + 1
+                line.removeFirst()
+            }
+            
+            if line.starts(with: " ") {
+                removed = removed + 1
+                line.removeFirst()
+            }
+            
+            result.append(line)
+        }
+        
+        let x = result.joined(separator: "\n")
+        storage.replaceCharacters(in: range, with: x)
+        
+        var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
+        let undoInfo = UndoInfo(text: x, replacementRange: newRange)
+        undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
+        
+        if let note = EditTextView.note, note.type == .Markdown {
+            note.content = NSMutableAttributedString(attributedString: getAttributedString())
+            let async = newRange.length > 1000
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
+            
+            note.save()
+        }
+        
+        if initialLocation > 0 {
+            newRange = NSMakeRange(initialLocation - removed + 1, 0)
+        }
+        
+        setSRange(newRange)
+        range = newRange
+    }
+    
     deinit {
         if note.type == .Markdown, let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
@@ -178,5 +280,23 @@ public class TextFormatter {
         #else
             textView.selectedRange = range
         #endif
+    }
+    
+    func getAttributedString() -> NSAttributedString {
+        #if os(OSX)
+            return textView.attributedString()
+        #else
+            return textView.attributedText
+        #endif
+    }
+}
+
+class UndoInfo: NSObject {
+    let text: String
+    let replacementRange: NSRange
+    
+    init(text: String, replacementRange: NSRange) {
+        self.text = text
+        self.replacementRange = replacementRange
     }
 }

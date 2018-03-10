@@ -105,6 +105,10 @@ class ViewController: NSViewController,
                 
         loadMoveMenu()
         loadSortBySetting()
+        
+        #if CLOUDKIT
+            keyValueWatcher()
+        #endif
     }
     
     @IBOutlet weak var sortByOutlet: NSMenuItem!
@@ -884,6 +888,38 @@ class ViewController: NSViewController,
         for item in sortItems.items {
             if let id = item.identifier, id.rawValue ==  sort.rawValue {
                 item.state = NSControl.StateValue.on
+            }
+        }
+    }
+    
+    func keyValueWatcher() {
+        let keyStore = NSUbiquitousKeyValueStore()
+        
+        print("start")
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(
+                                                ViewController.ubiquitousKeyValueStoreDidChange),
+                                               name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+                                               object: keyStore)
+        
+        keyStore.synchronize()
+    }
+    
+    @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+        print(notification)
+        if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
+            let keyStore = NSUbiquitousKeyValueStore()
+            for key in keys {
+                print(key)
+                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = Storage.instance.getBy(name: key) {
+                    note.isPinned = isPinned
+                    
+                    print(note)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.reloadView()
             }
         }
     }

@@ -64,6 +64,7 @@ class ViewController: UIViewController,
         //pageController.view.isUserInteractionEnabled = false
         
         cloudDriveWatcher()
+        keyValueWatcher()
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,6 +76,34 @@ class ViewController: UIViewController,
     var filteredNoteList: [Note]?
     var prevQuery: String?
     var cloudDriveQuery: NSMetadataQuery?
+    
+    func keyValueWatcher() {
+        let keyStore = NSUbiquitousKeyValueStore()
+        
+        NotificationCenter.default.addObserver(self,
+           selector: #selector(
+            ViewController.ubiquitousKeyValueStoreDidChange),
+           name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+           object: keyStore)
+        
+        keyStore.synchronize()
+    }
+    
+    @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
+        print(notification)
+        if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
+            let keyStore = NSUbiquitousKeyValueStore()
+            for key in keys {
+                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = Storage.instance.getBy(name: key) {
+                    note.isPinned = isPinned
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.updateList()
+            }
+        }
+    }
     
     func cloudDriveWatcher() {
         let metadataQuery = NSMetadataQuery()
@@ -93,13 +122,6 @@ class ViewController: UIViewController,
         
         if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
             for item in changedMetadataItems {
-                let isUploaded = item.value(forAttribute: NSMetadataUbiquitousItemIsUploadedKey) as! Bool
-                let isUploading = item.value(forAttribute: NSMetadataUbiquitousItemIsUploadingKey) as! Bool
-                
-                if isUploaded || isUploading {
-                    continue
-                }
-                
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
 
                 if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
@@ -138,7 +160,7 @@ class ViewController: UIViewController,
                     }
                 }
                 
-                if isMetadataItemDownloaded(item: item) {
+                if !isMetadataItemDownloaded(item: item) {
                     let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
                     
                     if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
@@ -220,12 +242,12 @@ class ViewController: UIViewController,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        return 70
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
-        
+
         cell.configure(note: notes[indexPath.row])
         
         return cell
@@ -239,10 +261,6 @@ class ViewController: UIViewController,
         let note = notes[indexPath.row]
         viewController.fill(note: note)
         pageController.goToNextPage()
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        print(editingStyle)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -292,7 +310,15 @@ class ViewController: UIViewController,
         let note = self.notes[indexPath.row]
         let pin = UITableViewRowAction(style: .default, title: note.isPinned ? "UnPin" : "Pin", handler: { (action , indexPath) -> Void in
             
-            note.addPin()
+            if note.isPinned {
+                note.removePin()
+            } else {
+                note.addPin()
+            }
+            
+            DispatchQueue.main.async {
+                self.updateList()
+            }
         })
         pin.backgroundColor = UIColor.blue
         
@@ -395,6 +421,5 @@ class ViewController: UIViewController,
             }
         }
     }
-
 }
 

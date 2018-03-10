@@ -249,12 +249,24 @@ public class Note: NSManagedObject {
         Storage.pinned += 1
         isPinned = true
         CoreDataManager.instance.save()
+        
+        #if CLOUDKIT
+            let keyStore = NSUbiquitousKeyValueStore()
+            keyStore.set(true, forKey: name)
+            keyStore.synchronize()
+        #endif
     }
     
     func removePin() {
         if isPinned {
             Storage.pinned -= 1
             isPinned = false
+            
+            #if CLOUDKIT
+                let keyStore = NSUbiquitousKeyValueStore()
+                keyStore.set(false, forKey: name)
+                keyStore.synchronize()
+            #endif
         }
     }
     

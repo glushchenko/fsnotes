@@ -34,35 +34,53 @@
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="88.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn1-Y0-0eh">
-                                                    <rect key="frame" x="15" y="11" width="206" height="27"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
+                                                    <rect key="frame" x="-12" y="11" width="23" height="23"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="23" id="KlO-n1-B2e"/>
+                                                        <constraint firstAttribute="width" constant="23" id="k71-lI-ai0"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JoG-Rg-K2q">
+                                                    <rect key="frame" x="11" y="11" width="337" height="20.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn1-Y0-0eh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="267" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
+                                                            <rect key="frame" x="267" y="0.0" width="70" height="20.5"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="70" id="Xko-JJ-tYB"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Rz-QFy">
-                                                    <rect key="frame" x="15" y="46" width="313" height="18"/>
+                                                    <rect key="frame" x="15" y="39" width="313" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
-                                                    <rect key="frame" x="283" y="15" width="36" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" name="gridColor" catalog="System" colorSpace="catalog"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="AbV-ot-mEE" secondAttribute="trailing" constant="9" id="RiG-Ye-DK1"/>
-                                                <constraint firstItem="AbV-ot-mEE" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="4" id="rnj-NC-cpT"/>
+                                                <constraint firstItem="JoG-Rg-K2q" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="Bxr-MM-vgh"/>
+                                                <constraint firstItem="JoG-Rg-K2q" firstAttribute="leading" secondItem="Ng0-bb-ENq" secondAttribute="trailing" id="JUj-Nd-L9P"/>
+                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="YY9-pB-9Qe"/>
+                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leadingMargin" constant="-27" id="fM2-85-PwK"/>
+                                                <constraint firstAttribute="trailing" secondItem="JoG-Rg-K2q" secondAttribute="trailing" constant="-5" id="llX-91-qbh"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="18" maxY="0.0"/>
                                         <connections>
                                             <outlet property="date" destination="AbV-ot-mEE" id="bLC-CN-Urn"/>
+                                            <outlet property="pin" destination="Ng0-bb-ENq" id="vgv-uX-Hak"/>
                                             <outlet property="preview" destination="LAf-Rz-QFy" id="OTM-Tt-F3b"/>
                                             <outlet property="title" destination="Cn1-Y0-0eh" id="giJ-Tv-pg9"/>
                                         </connections>
@@ -315,6 +333,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="pin.png" width="128" height="128"/>
         <image name="plus.png" width="30" height="30"/>
         <image name="settings.png" width="25" height="25"/>
     </resources>

@@ -294,20 +294,9 @@ class EditTextView: NSTextView {
         
         switch keyCode {
         case 11: // cmd-b
-            if note.type == .Markdown {
-                attributedText.mutableString.setString("**" + attributedText.string + "**")
-            }
-            
-            if note.type == .RichText {
-                if (selectedText.length > 0) {
-                    let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
-                    let newFont = toggleBoldFont(font: fontAttributes![.font] as! NSFont)
-                    attributedText.addAttribute(.font, value: newFont, range: selectedRange)
-                }
-
-                typingAttributes[.font] = toggleBoldFont(font: typingAttributes[.font] as! NSFont)
-            }
-            break
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.bold()
+            return true
         case 34:
             // control-shift-i
             if (note.type == .Markdown && modifier == 393475) {
@@ -316,23 +305,9 @@ class EditTextView: NSTextView {
             }
         
             // cmd-i
-            if note.type == .Markdown {
-                attributedText.mutableString.setString("_" + attributedText.string + "_")
-            }
-            
-            if note.type == .RichText {
-                if (selectedText.length > 0) {
-                    let fontAttributes = attributedSelected?.fontAttributes(in: selectedRange)
-                    if let newFont = toggleItalicFont(font: fontAttributes![.font] as! NSFont) {
-                        attributedText.addAttribute(.font, value: newFont, range: selectedRange)
-                    }
-                }
-                
-                if let italicFont = toggleItalicFont(font: typingAttributes[.font] as! NSFont) {
-                    typingAttributes[.font] = italicFont
-                }
-            }
-            break
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.italic()
+            return true
         case 32: // cmd-u
             if note.type == .RichText {
                 if (selectedText.length > 0) {
