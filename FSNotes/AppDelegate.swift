@@ -29,6 +29,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
         NSFontManager.shared.fontPanel(false)?.orderOut(self)
+        
+        #if CLOUDKIT
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+            
+            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                do {
+                    try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+                } catch {
+                    print("Home directory creation: \(error)")
+                }
+            }
+        }
+        #endif
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

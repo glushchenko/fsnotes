@@ -92,6 +92,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
             
+            if let files = try? FileManager.default.contentsOfDirectory(atPath: iCloudDocumentsURL.path) {
+                for file in files {
+                    if file.hasSuffix(".icloud") {
+                        let url = iCloudDocumentsURL.appendingPathComponent(file)
+                        try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+                    }
+                }
+            }
+            
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                 do {
                     try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
@@ -100,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
+                
         return true
     }
 }

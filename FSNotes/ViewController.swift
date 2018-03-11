@@ -219,6 +219,7 @@ class ViewController: NSViewController,
                         print("FSWatcher remove note: \"\(note!.name)\"")
                         Storage.instance.removeNotes(notes: [note!], fsRemove: !isCaseInSensitiveEqualOnly) {
                             DispatchQueue.main.async {
+                                note?.isRemoved = true
                                 self.reloadView(note: note)
                             }
                         }
@@ -895,7 +896,6 @@ class ViewController: NSViewController,
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
         
-        print("start")
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(
                                                 ViewController.ubiquitousKeyValueStoreDidChange),
@@ -906,15 +906,11 @@ class ViewController: NSViewController,
     }
     
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
-        print(notification)
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             let keyStore = NSUbiquitousKeyValueStore()
             for key in keys {
-                print(key)
                 if let isPinned = keyStore.object(forKey: key) as? Bool, let note = Storage.instance.getBy(name: key) {
                     note.isPinned = isPinned
-                    
-                    print(note)
                 }
             }
             

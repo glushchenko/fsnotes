@@ -21,7 +21,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.12</string>
+	<string>1.2.14</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>110</string>
+	<string>116</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
@@ -54,5 +54,17 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.co.fluder.fsnotes</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerName</key>
+			<string>FSNotes</string>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>One</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

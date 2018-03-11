@@ -277,7 +277,6 @@ class EditTextView: NSTextView {
         let text = editArea.textStorage!.string as NSString
         let range = editArea.selectedRange()
         let selectedText = text.substring(with: range) as NSString
-        let selectedRange = NSMakeRange(0, selectedText.length)
         
         let attributedSelected = editArea.attributedSubstring(forProposedRange: range, actualRange: nil)
         var attributedText = NSMutableAttributedString()

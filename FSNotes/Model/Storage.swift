@@ -51,12 +51,12 @@ class Storage {
         guard !checkFirstRun() else {
             if tryCount == 0 {
                 loadDocuments(tryCount: 1)
+                return
             }
             
             #if os(OSX)
                 cacheMarkdown()
             #endif
-            
             return
         }
         

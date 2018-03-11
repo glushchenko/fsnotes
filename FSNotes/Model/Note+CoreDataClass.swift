@@ -175,7 +175,11 @@ public class Note: NSManagedObject {
         dateFormatter.timeStyle = DateFormatter.Style.none
         dateFormatter.locale = NSLocale.autoupdatingCurrent
         
-        return dateFormatter.string(from: self.modifiedLocalAt!)
+        if let date = self.modifiedLocalAt {
+            return dateFormatter.string(from: date)
+        }
+        
+        return "-"
     }
     
     func getContent() -> NSAttributedString? {
@@ -250,7 +254,7 @@ public class Note: NSManagedObject {
         isPinned = true
         CoreDataManager.instance.save()
         
-        #if CLOUDKIT
+        #if CLOUDKIT || os(iOS)
             let keyStore = NSUbiquitousKeyValueStore()
             keyStore.set(true, forKey: name)
             keyStore.synchronize()
@@ -262,7 +266,7 @@ public class Note: NSManagedObject {
             Storage.pinned -= 1
             isPinned = false
             
-            #if CLOUDKIT
+            #if CLOUDKIT || os(iOS)
                 let keyStore = NSUbiquitousKeyValueStore()
                 keyStore.set(false, forKey: name)
                 keyStore.synchronize()

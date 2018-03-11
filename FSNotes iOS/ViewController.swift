@@ -90,7 +90,6 @@ class ViewController: UIViewController,
     }
     
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
-        print(notification)
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             let keyStore = NSUbiquitousKeyValueStore()
             for key in keys {
@@ -125,9 +124,7 @@ class ViewController: UIViewController,
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
 
                 if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
-                    for conflict in conflicts {
-                        print(conflict)
-                        
+                    for conflict in conflicts {                        
                         guard let localizedName = conflict.localizedName else {
                             continue
                         }

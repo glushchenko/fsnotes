@@ -167,7 +167,7 @@ public class UserDefaultsManagement {
                    return iCloudDocumentsURL
                 }
             }
-
+            
             let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     
             return URL(fileURLWithPath: path)

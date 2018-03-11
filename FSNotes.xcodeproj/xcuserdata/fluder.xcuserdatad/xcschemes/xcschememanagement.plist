@@ -14,16 +14,6 @@
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
-		<key>FSNotes watchOS (Notification).xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>13</integer>
-		</dict>
-		<key>FSNotes watchOS.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
-		</dict>
 		<key>FSNotes.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -32,6 +22,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>D71354062042D46E00E3776F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D7679385201F21F5000F7BBF</key>
 		<dict>
 			<key>primary</key>
