@@ -61,8 +61,6 @@ class ViewController: UIViewController,
         
         pageController.disableSwipe()
         
-        //pageController.view.isUserInteractionEnabled = false
-        
         cloudDriveWatcher()
         keyValueWatcher()
     }
@@ -351,7 +349,8 @@ class ViewController: UIViewController,
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let name = searchBar.text else {
+        guard let name = searchBar.text, name.count > 0 else {
+            searchBar.endEditing(true)
             return
         }
         

@@ -150,6 +150,11 @@
 		D7ED6892200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7ED6893200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
+		D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
+		D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
+		D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
+		D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */; };
+		D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		FCD1D177D08D9313171AB7ED /* Pods_FSNotes_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAA2FFBCD1E454F1C5C4A49C /* Pods_FSNotes_iOS.framework */; };
 /* End PBXBuildFile section */
@@ -632,6 +637,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
+				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
+				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
+				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
+				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
 				D71353FE2042AE5F00E3776F /* settings.png in Resources */,
 				D7271FAB2052803500033D0C /* indent.png in Resources */,
