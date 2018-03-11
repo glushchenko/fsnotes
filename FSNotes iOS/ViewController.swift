@@ -12,12 +12,11 @@ class ViewController: UIViewController,
     UITableViewDataSource,
     UITableViewDelegate,
     UISearchBarDelegate,
-    UITabBarDelegate,
     UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
-    @IBOutlet weak var tabBar: UITabBar!
     
     var notes = [Note]()
     let storage = Storage.instance
@@ -25,7 +24,9 @@ class ViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tabBar.delegate = self
+        initNewButton()
+        initSettingsButton()
+        
         notesTable.dataSource = self
         notesTable.delegate = self
         search.delegate = self
@@ -320,30 +321,6 @@ class ViewController: UIViewController,
         return [pin, deleteAction, rename]
     }
     
-    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.title == "New" {
-            let note = Note(name: "")
-            note.save()
-            updateList()
-            
-            guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
-                return
-            }
-                        
-            viewController.note = note
-            pageController.goToNextPage()
-            viewController.fill(note: note)
-        }
-        
-        if item.title == "Settings" {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-            let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
-            let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
-            
-            self.present(navigationController, animated: true, completion: nil)
-        }
-    }
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         updateTable(filter: searchText, completion: {})
     }
@@ -416,6 +393,46 @@ class ViewController: UIViewController,
                 viewController.fill(note: note)
             }
         }
+    }
+    
+    func initNewButton() {
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 50, height: 50)))
+        let image = UIImage(named: "plus.png")
+        let tintedImage = image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        button.setImage(tintedImage, for: UIControlState.normal)
+        button.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        self.view.addSubview(button)
+        button.addTarget(self, action: #selector(self.makeNew), for: .touchDown)
+    }
+    
+    func initSettingsButton() {
+        let settingsIcon = UIImage(named: "settings.png")
+        let tintedSettings = settingsIcon?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        settingsButton.setImage(tintedSettings, for: UIControlState.normal)
+        settingsButton.tintColor = UIColor.gray
+        settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
+    }
+    
+    @objc func makeNew() {
+        let note = Note(name: "")
+        note.save()
+        updateList()
+        
+        guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+            return
+        }
+        
+        viewController.note = note
+        pageController.goToNextPage()
+        viewController.fill(note: note)
+    }
+    
+    @objc func openSettings() {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+        let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
+        
+        self.present(navigationController, animated: true, completion: nil)
     }
 }
 
