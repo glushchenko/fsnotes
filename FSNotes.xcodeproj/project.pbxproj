@@ -149,6 +149,7 @@
 		D7E81C541F925B5F00416A91 /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7ED6892200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7ED6893200F87BD00FF975A /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
+		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
 		D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
 		D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
@@ -269,6 +270,7 @@
 		D7E025071F3B6DDB00EDDA32 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		D7E81C5A1F925B5F00416A91 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7ED6891200F87BD00FF975A /* Initial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Initial; sourceTree = "<group>"; };
+		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		EAA2FFBCD1E454F1C5C4A49C /* Pods_FSNotes_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A83507E865DA95F2735CC8 /* Pods-FSNotes (CloudKit).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).release.xcconfig"; sourceTree = "<group>"; };
@@ -351,13 +353,13 @@
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7F6CFEE2056ABDB008C584A /* Settings */,
 				D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */,
 				D7679388201F21F5000F7BBF /* AppDelegate.swift */,
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D71354032042AFC800E3776F /* SettingsViewController.swift */,
-				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
 				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
@@ -485,6 +487,15 @@
 				D71354002042AECD00E3776F /* settings@3x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D7F6CFEE2056ABDB008C584A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
+				D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -890,6 +901,7 @@
 				D7BDFE63201F678C00897A58 /* Note+CoreDataProperties.swift in Sources */,
 				D7BDFE64201F678C00897A58 /* StorageItem+CoreDataClass.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
+				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
 				D7BDFE65201F678C00897A58 /* StorageItem+CoreDataProperties.swift in Sources */,
 				D7BDFE5A201F677B00897A58 /* String+.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,

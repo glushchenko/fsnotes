@@ -13,10 +13,32 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var launchedShortcutItem: UIApplicationShortcutItem?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
+        var shouldPerformAdditionalDelegateHandling = true
+        
+        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
+            launchedShortcutItem = shortcutItem
+            shouldPerformAdditionalDelegateHandling = false
+        }
+        
+        if let shortcutItems = application.shortcutItems, shortcutItems.isEmpty {
+            let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
+                                                             localizedTitle: "New document",
+                                                             localizedSubtitle: "",
+                                                             icon: UIApplicationShortcutIcon(type: .add),
+                                                             userInfo: nil)
+            let shortcutSearch = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.search.type,
+                                                             localizedTitle: "Search",
+                                                             localizedSubtitle: "Focus in search field",
+                                                             icon: UIApplicationShortcutIcon(type: .search),
+                                                             userInfo: nil)
+            
+            application.shortcutItems = [shortcutNew, shortcutSearch]
+        }
+        
+        return shouldPerformAdditionalDelegateHandling
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -35,6 +57,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        guard let shortcut = launchedShortcutItem else { return }
+        _ = handleShortCutItem(shortcut)
+        
+        // Reset which shortcut was chosen for next time.
+        launchedShortcutItem = nil
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -111,6 +139,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
                 
         return true
+    }
+    
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        let handledShortCutItem = handleShortCutItem(shortcutItem)
+        completionHandler(handledShortCutItem)
+    }
+    
+    enum ShortcutIdentifier: String {
+        case makeNew
+        case search
+        
+        // MARK: - Initializers
+        
+        init?(fullType: String) {
+            guard let last = fullType.components(separatedBy: ".").last else { return nil }
+            self.init(rawValue: last)
+        }
+        
+        // MARK: - Properties
+        
+        var type: String {
+            return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
+        }
+    }
+    
+    // MARK: Static Properties
+    static let applicationShortcutUserInfoIconKey = "applicationShortcutUserInfoIconKey"
+    
+    func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
+        var handled = false
+        guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
+        guard let shortCutType = shortcutItem.type as String? else { return false }
+        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController else {
+            return false
+        }
+        
+        pageViewController.openRootController()
+        
+        switch shortCutType {
+        case ShortcutIdentifier.makeNew.type:
+            viewController.makeNew()
+            handled = true
+            break
+        case ShortcutIdentifier.search.type:
+            viewController.search.becomeFirstResponder()
+            handled = true
+            break
+        default:
+            break
+        }
+
+        return handled
     }
 }
 

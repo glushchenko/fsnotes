@@ -34,6 +34,7 @@ public class UserDefaultsManagement {
     static var DefaultBgColor = Color.white
 
     private struct Constants {
+        static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
@@ -454,6 +455,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "focusInEditorOnNoteSelect")
+        }
+    }
+    
+    static var defaultLanguage: String? {
+        get {
+            if let dl = UserDefaults.standard.object(forKey: Constants.DefaultLanguageKey) as? String {
+                return dl
+            }
+            
+            return nil
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.DefaultLanguageKey)
         }
     }
 }

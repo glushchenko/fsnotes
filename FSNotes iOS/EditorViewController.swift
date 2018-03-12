@@ -41,6 +41,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         height = editArea.frame.size.height
     }
     
+    override var textInputMode: UITextInputMode? {
+        guard let defaultLang = UserDefaultsManagement.defaultLanguage else {
+            return super.textInputMode
+        }
+        
+        for tim in UITextInputMode.activeInputModes {
+            if tim.primaryLanguage == defaultLang {
+                return tim
+            }
+        }
+        
+        return super.textInputMode
+    }
+    
     private var height: CGFloat = 0.0
     
     public func fill(note: Note) {

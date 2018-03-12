@@ -93,6 +93,13 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         }
     }
     
+    func openRootController() {
+        self.dismiss(animated: true, completion: nil)
+        if let vc = viewControllers, vc[0].isKind(of: EditorViewController.self) {
+            self.goToNextPage(animated: false, completion: nil)
+        }
+    }
+    
     func disableSwipe() {
         for view in self.view.subviews {
             if let subView = view as? UIScrollView {
