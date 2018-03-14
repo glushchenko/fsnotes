@@ -245,6 +245,11 @@ public class TextFormatter {
         }
     }
     
+    func header() {
+        storage.replaceCharacters(in: range, with: "#")
+        setSRange(NSMakeRange(range.upperBound + 1, 0))
+    }
+    
     func highlight() {
         let string = storage.string as NSString
         if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),

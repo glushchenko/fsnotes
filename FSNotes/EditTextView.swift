@@ -468,7 +468,18 @@ class EditTextView: NSTextView {
     
     override func keyDown(with event: NSEvent) {
         if event.keyCode == 48 {
-            tabDown(event)
+            guard let note = EditTextView.note else {
+                return
+            }
+            
+            if event.modifierFlags.rawValue == 131330 {
+                let formatter = TextFormatter(textView: self, note: note)
+                formatter.unTab()
+                return
+            }
+            
+            let formatter = TextFormatter(textView: self, note: note)
+            formatter.tab()
             return
         }
 
@@ -508,21 +519,6 @@ class EditTextView: NSTextView {
         }
         
         note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
-    }
-    
-    func tabDown(_ event: NSEvent) {
-        guard let note = EditTextView.note else {
-            return
-        }
-        
-        if event.modifierFlags.rawValue == 131330 {
-            let formatter = TextFormatter(textView: self, note: note)
-            formatter.unTab()
-            return
-        }
-        
-        let formatter = TextFormatter(textView: self, note: note)
-        formatter.tab()
     }
     
     func setEditorTextColor(_ color: NSColor) {
