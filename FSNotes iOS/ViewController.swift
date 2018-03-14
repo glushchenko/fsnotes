@@ -43,7 +43,7 @@ class ViewController: UIViewController,
         if CoreDataManager.instance.getBy(label: "general") == nil {
             let context = CoreDataManager.instance.context
             let storage = StorageItem(context: context)
-            storage.path = FileManager.default.url(forUbiquityContainerIdentifier: nil)!.appendingPathComponent("Documents").absoluteString
+            storage.path = UserDefaultsManagement.documentDirectory.absoluteString
             storage.label = "general"
             CoreDataManager.instance.save()
         }
