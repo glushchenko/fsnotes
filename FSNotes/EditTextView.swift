@@ -511,140 +511,18 @@ class EditTextView: NSTextView {
     }
     
     func tabDown(_ event: NSEvent) {
-        let range = selectedRanges[0] as! NSRange
-        guard let storage = self.textStorage else {
+        guard let note = EditTextView.note else {
             return
         }
         
         if event.modifierFlags.rawValue == 131330 {
-            unTab()
+            let formatter = TextFormatter(textView: self, note: note)
+            formatter.unTab()
             return
         }
         
-        if range.length > 0 {
-            tab()
-            return
-        }
-        
-        super.keyDown(with: event)
-        
-        let string = storage.string as NSString
-        if let note = EditTextView.note, let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
-            codeBlockRange.upperBound <= storage.length,
-            UserDefaultsManagement.codeBlockHighlight {
-            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
-        }
-    }
-    
-    @objc func tab(_ undoInfo: UndoInfo? = nil) {
-        guard let storage = textStorage else {
-            return
-        }
-        
-        var range: NSRange
-        if let undo = undoInfo {
-            range = undo.replacementRange
-        } else {
-            range = selectedRanges[0] as! NSRange
-        }
-        
-        guard storage.length >= range.upperBound, range.length > 0 else {
-            return
-        }
-        
-        let code = storage.attributedSubstring(from: range).string
-        let lines = code.components(separatedBy: CharacterSet.newlines)
-        
-        var result: String = ""
-        var added: Int = 0
-        for line in lines {
-            if lines.first == line {
-                result += "\t" + line
-                continue
-            }
-            added = added + 1
-            result += "\n\t" + line
-        }
-        
-        storage.replaceCharacters(in: range, with: result)
-        
-        let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
-        let undoInfo = UndoInfo(text: result, replacementRange: newRange)
-        undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
-        
-        if let note = EditTextView.note, note.type == .Markdown {
-            note.content = NSMutableAttributedString(attributedString: self.attributedString())
-            let async = newRange.length > 1000
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            note.save()
-        }
-        
-        setSelectedRange(newRange)
-    }
-    
-    @objc func unTab(_ undoInfo: UndoInfo? = nil) {
-        guard let storage = textStorage, let undo = undoManager else {
-            return
-        }
-        
-        var initialLocation = 0
-        var range: NSRange
-        if let undo = undoInfo {
-            range = undo.replacementRange
-        } else {
-            range = selectedRanges[0] as! NSRange
-        }
-        
-        guard storage.length >= range.location + range.length else {
-            return
-        }
-        
-        var code = storage.mutableString.substring(with: range)
-        if range.length == 0 {
-            initialLocation = range.location
-            let string = storage.string as NSString
-            range = string.paragraphRange(for: range)
-            code = storage.attributedSubstring(from: range).string
-        }
-        
-        let lines = code.components(separatedBy: CharacterSet.newlines)
-        
-        var result: [String] = []
-        var removed: Int = 1
-        for var line in lines {
-            if line.starts(with: "\t") {
-                removed = removed + 1
-                line.removeFirst()
-            }
-            
-            if line.starts(with: " ") {
-                removed = removed + 1
-                line.removeFirst()
-            }
-            
-            result.append(line)
-        }
-        
-        let x = result.joined(separator: "\n")
-        storage.replaceCharacters(in: range, with: x)
-        
-        var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
-        let undoInfo = UndoInfo(text: x, replacementRange: newRange)
-        undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
-        
-        if let note = EditTextView.note, note.type == .Markdown {
-            note.content = NSMutableAttributedString(attributedString: self.attributedString())
-            let async = newRange.length > 1000
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            
-            note.save()
-        }
-        
-        if initialLocation > 0 {
-            newRange = NSMakeRange(initialLocation - removed + 1, 0)
-        }
-        
-        setSelectedRange(newRange)
+        let formatter = TextFormatter(textView: self, note: note)
+        formatter.tab()
     }
     
     func setEditorTextColor(_ color: NSColor) {

@@ -273,7 +273,11 @@ public class NotesTextProcessor {
             return
         }
         
-        let isActiveStorage = (EditTextView.note == note)
+        #if os(iOS)
+            let isActiveStorage = true
+        #else
+            let isActiveStorage = (EditTextView.note == note)
+        #endif
         
         if isActiveStorage {
             storage?.beginEditing()

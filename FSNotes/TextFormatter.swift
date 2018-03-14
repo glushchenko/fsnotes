@@ -29,6 +29,7 @@ public class TextFormatter {
     private var range: NSRange
     private var newSelectedRange: NSRange?
     private var cursor: Int?
+    private var maxWidth: CGFloat
     
     init(textView: TextView, note: Note) {
         #if os(OSX)
@@ -41,6 +42,7 @@ public class TextFormatter {
             attributedSelected = textView.attributedText
         #endif
         
+        self.maxWidth = textView.frame.width
         self.attributedString = NSMutableAttributedString(attributedString: attributedSelected.attributedSubstring(from: range))
         self.selectedRange = NSRange(0..<attributedString.length)
         
@@ -108,11 +110,33 @@ public class TextFormatter {
     }
     
     @objc func tab(_ undoInfo: UndoInfo? = nil) {
+        let rangeLength = range.length
+        
+        #if os(OSX)
+            if range.length == 0 {
+                storage.replaceCharacters(in: range, with: "\t")
+                setSRange(NSMakeRange(range.upperBound + 1, 0))
+                
+                if note.type == .Markdown {
+                    highlight()
+                }
+                return
+            }
+        #else
+            if range.length == 0, let cp = getParagraphRange() {
+                range = NSMakeRange(cp.location, cp.length)
+            }
+        #endif
+        
         if let undo = undoInfo {
             range = undo.replacementRange
         }
-        
+
         guard storage.length >= range.upperBound, range.length > 0 else {
+            #if os(iOS)
+                storage.replaceCharacters(in: range, with: "\t")
+                setSRange(NSMakeRange(range.upperBound + 1, 0))
+            #endif
             return
         }
         
@@ -143,7 +167,15 @@ public class TextFormatter {
             note.save()
         }
         
-        setSRange(newRange)
+        if rangeLength > 0 {
+            setSRange(newRange)
+        } else {
+            setSRange(NSMakeRange(newRange.upperBound, 0))
+        }
+        
+        if note.type == .Markdown {
+            highlight()
+        }
     }
     
     @objc func unTab(_ undoInfo: UndoInfo? = nil) {
@@ -207,6 +239,19 @@ public class TextFormatter {
         
         setSRange(newRange)
         range = newRange
+        
+        if note.type == .Markdown {
+            highlight()
+        }
+    }
+    
+    func highlight() {
+        let string = storage.string as NSString
+        if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
+            codeBlockRange.upperBound <= storage.length,
+            UserDefaultsManagement.codeBlockHighlight {
+            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
+        }
     }
     
     deinit {

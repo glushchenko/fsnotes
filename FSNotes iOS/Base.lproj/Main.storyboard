@@ -36,14 +36,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
-                                                    <rect key="frame" x="0.0" y="11" width="23" height="23"/>
+                                                    <rect key="frame" x="0.0" y="17" width="23" height="23"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="23" id="KlO-n1-B2e"/>
                                                         <constraint firstAttribute="width" constant="23" id="k71-lI-ai0"/>
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JoG-Rg-K2q">
-                                                    <rect key="frame" x="23" y="11" width="342" height="20.5"/>
+                                                    <rect key="frame" x="23" y="17" width="342" height="20.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn1-Y0-0eh">
                                                             <rect key="frame" x="0.0" y="0.0" width="272" height="20.5"/>
@@ -63,18 +63,18 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Rz-QFy">
-                                                    <rect key="frame" x="25" y="44" width="315" height="18"/>
+                                                    <rect key="frame" x="25" y="45" width="315" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="JoG-Rg-K2q" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="Bxr-MM-vgh"/>
+                                                <constraint firstItem="JoG-Rg-K2q" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="Bxr-MM-vgh"/>
                                                 <constraint firstItem="JoG-Rg-K2q" firstAttribute="leading" secondItem="Ng0-bb-ENq" secondAttribute="trailing" id="JUj-Nd-L9P"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="LAf-Rz-QFy" secondAttribute="trailing" constant="20" id="LJ9-2z-vAD"/>
-                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="YY9-pB-9Qe"/>
-                                                <constraint firstItem="LAf-Rz-QFy" firstAttribute="top" secondItem="Ng0-bb-ENq" secondAttribute="bottom" constant="10" id="d2V-lD-g3R"/>
+                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="YY9-pB-9Qe"/>
+                                                <constraint firstItem="LAf-Rz-QFy" firstAttribute="top" secondItem="Ng0-bb-ENq" secondAttribute="bottom" constant="5" id="d2V-lD-g3R"/>
                                                 <constraint firstItem="Ng0-bb-ENq" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leadingMargin" constant="-15" id="fM2-85-PwK"/>
                                                 <constraint firstItem="LAf-Rz-QFy" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leadingMargin" constant="10" id="lRD-NL-mfR"/>
                                                 <constraint firstAttribute="trailing" secondItem="JoG-Rg-K2q" secondAttribute="trailing" constant="10" id="llX-91-qbh"/>

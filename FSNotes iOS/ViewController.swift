@@ -238,7 +238,7 @@ class ViewController: UIViewController,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -396,10 +396,9 @@ class ViewController: UIViewController,
     }
     
     func initNewButton() {
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 50, height: 50)))
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 48, height: 48)))
         let image = UIImage(named: "plus.png")
-        let tintedImage = image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
-        button.setImage(tintedImage, for: UIControlState.normal)
+        button.setImage(image, for: UIControlState.normal)
         button.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         self.view.addSubview(button)
         button.addTarget(self, action: #selector(self.makeNew), for: .touchDown)
