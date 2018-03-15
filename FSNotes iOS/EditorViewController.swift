@@ -116,6 +116,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
         note.save()
+        
+        if var font = UserDefaultsManagement.noteFont {
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+        }
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

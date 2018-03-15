@@ -500,6 +500,7 @@ public class NotesTextProcessor {
                 let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
                 hideSyntaxIfNecessary(range: syntaxRange)
             }
+
             NotesTextProcessor.headersAtxClosingRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -787,7 +788,7 @@ public class NotesTextProcessor {
     public static let headersAtxOpeningRegex = MarklightRegex(pattern: headersAtxOpeningPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxClosingPattern = [
-        "\\#{1,6}(?:\\n|\\Z)"
+        "\\#{1,6}\\n+"
         ].joined(separator: "\n")
     
     public static let headersAtxClosingRegex = MarklightRegex(pattern: headersAtxClosingPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
