@@ -55,7 +55,16 @@ public class ImagesProcessor {
             let mdLink = self.textStorageNSString.substring(with: range)
             let mdTitleLength = self.computeMarkdownTitleLength(mdLink: mdLink)
             
-            self.styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: range)
+            if var font = UserDefaultsManagement.noteFont {
+                #if os(iOS)
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+                #endif
+            
+                self.styleApplier.addAttribute(.font, value: font, range: range)
+            }
             
             NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }

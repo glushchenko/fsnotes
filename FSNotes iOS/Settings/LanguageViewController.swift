@@ -20,6 +20,7 @@ class LanguageViewController: UITableViewController {
             }
         }
         
+        self.title = "Default Keyboard"
         super.viewDidLoad()
     }
     

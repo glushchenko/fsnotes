@@ -33,7 +33,7 @@ class ViewController: UIViewController,
         search.autocapitalizationType = .none
         
         notesTable.separatorStyle = .singleLine
-        UserDefaultsManagement.fontSize = 16
+        UserDefaultsManagement.fontSize = 17
         
         let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressGesture.minimumPressDuration = 0.5
@@ -64,6 +64,8 @@ class ViewController: UIViewController,
         
         cloudDriveWatcher()
         keyValueWatcher()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -432,6 +434,11 @@ class ViewController: UIViewController,
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
         
         self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func preferredContentSizeChanged() {
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 

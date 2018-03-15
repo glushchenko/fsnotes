@@ -37,7 +37,12 @@
                     
                     let newFontDescriptor = f.fontDescriptor.withFamily(familyName).withSymbolicTraits(f.fontDescriptor.symbolicTraits)
                     
-                    let newFont = UIFont(descriptor: newFontDescriptor!, size: CGFloat(UserDefaultsManagement.fontSize))
+                    var newFont = UIFont(descriptor: newFontDescriptor!, size: CGFloat(UserDefaultsManagement.fontSize))
+                    
+                    if #available(iOS 11.0, *) {
+                        let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                        newFont = fontMetrics.scaledFont(for: newFont)
+                    }
                     
                     removeAttribute(.font, range: range)
                     addAttribute(.font, value: newFont, range: range)

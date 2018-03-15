@@ -28,6 +28,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         pageController.enableSwipe()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -191,5 +193,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     @objc func cancelPressed(){
         view.endEditing(true) // or do something
+    }
+    
+    @objc func preferredContentSizeChanged() {
+        if let n = note {
+            self.fill(note: n)
+        }
     }
 }

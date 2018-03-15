@@ -20,5 +20,14 @@ class NoteCellView: UITableViewCell {
         date.attributedText = NSAttributedString(string: note.getDateForLabel())
         
         pin.isHidden = !note.isPinned
+        
+        if let font = UserDefaultsManagement.noteFont {
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+                let scaledFont = fontMetrics.scaledFont(for: font)
+                title.font = scaledFont
+                date.font = scaledFont
+            }
+        }
     }
 }

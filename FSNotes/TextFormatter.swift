@@ -260,6 +260,19 @@ public class TextFormatter {
     }
     
     deinit {
+        if note.type == .Markdown {
+            if var font = UserDefaultsManagement.noteFont {
+                #if os(iOS)
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+                #endif
+                
+                setTypingAttributes(font: font)
+            }
+        }
+        
         if note.type == .Markdown, let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
         }

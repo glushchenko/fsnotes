@@ -123,7 +123,7 @@ class EditTextView: NSTextView {
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
-        
+
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
         

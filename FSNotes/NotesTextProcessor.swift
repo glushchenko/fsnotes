@@ -46,7 +46,21 @@ public class NotesTextProcessor {
 #if os(OSX)
     public static var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
 #else
-    public static var codeFont = UIFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+    static var codeFont: UIFont? {
+        get {
+            if var font = UIFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
+    
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+    
+                return font
+            }
+    
+            return nil
+        }
+    }
 #endif
     
     /**
@@ -351,10 +365,6 @@ public class NotesTextProcessor {
     
     public static var languages: [String]? = nil
     
-    public static func scanCodeBlock(storage: NSTextStorage?, note: Note, async: Bool = false) {
-
-    }
-    
     public static func getLanguage(_ code: String) -> String? {
         if code.starts(with: "```") {
             if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
@@ -393,8 +403,32 @@ public class NotesTextProcessor {
         let italicFont = NSFont.italicFont()
         let hiddenFont = NSFont.systemFont(ofSize: 0.1)
     #else
-        let boldFont = UIFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
-        let italicFont = UIFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        var boldFont: UIFont {
+            get {
+                var font = UIFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+                
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+                
+                return font
+            }
+        }
+        
+        var italicFont: UIFont {
+            get {
+                var font = UIFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+                
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+                
+                return font
+            }
+        }
+        
         let hiddenFont = UIFont.systemFont(ofSize: 0.1)
     #endif
         
@@ -415,7 +449,16 @@ public class NotesTextProcessor {
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         
         if isFullScan {
-            styleApplier.addAttribute(.font, value: UserDefaultsManagement.noteFont, range: paragraphRange)
+            if var font = UserDefaultsManagement.noteFont {
+                #if os(iOS)
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+                #endif
+                
+                styleApplier.addAttribute(.font, value: font, range: paragraphRange)
+            }
         }
         
         styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
@@ -1139,7 +1182,14 @@ public class NotesTextProcessor {
     
     // We transform the user provided `codeFontName` `String` to a `NSFont`
     fileprivate static func codeFont(_ size: CGFloat) -> Font {
-        if let font = UserDefaultsManagement.noteFont {
+        if var font = UserDefaultsManagement.noteFont {
+            #if os(iOS)
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+            #endif
+            
             return font
         } else {
         #if os(OSX)
@@ -1152,7 +1202,14 @@ public class NotesTextProcessor {
     
     // We transform the user provided `quoteFontName` `String` to a `NSFont`
     fileprivate static func quoteFont(_ size: CGFloat) -> Font {
-        if let font = UserDefaultsManagement.noteFont {
+        if var font = UserDefaultsManagement.noteFont {
+            #if os(iOS)
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+            #endif
+            
             return font
         } else {
         #if os(OSX)
