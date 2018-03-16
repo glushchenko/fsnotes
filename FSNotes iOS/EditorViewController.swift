@@ -31,6 +31,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        
+        undoManager?.enableUndoRegistration()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -173,11 +175,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+        
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
-        toolBar.setItems([boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, doneButton], animated: false)
+        toolBar.setItems([boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         
@@ -232,5 +237,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let n = note {
             self.fill(note: n)
         }
+    }
+    
+    @objc func undoPressed() {
+        editArea.undoManager?.undo()
+    }
+    
+    @objc func redoPressed() {
+        editArea.undoManager?.redo()
     }
 }

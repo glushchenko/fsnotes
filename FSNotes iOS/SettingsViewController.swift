@@ -43,8 +43,10 @@ class SettingsViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 cell.textLabel?.text = "Default Extension"
+                cell.accessoryType = .disclosureIndicator
             case 1:
                 cell.textLabel?.text = "Default Keyboard In Editor"
+                cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }
@@ -67,6 +69,7 @@ class SettingsViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 cell.textLabel?.text = "Font"
+                cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }

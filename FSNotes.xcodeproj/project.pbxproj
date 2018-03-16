@@ -108,6 +108,12 @@
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BB7205C6D1800D96A6D /* redo.png */; };
+		D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BB8205C6D1900D96A6D /* redo@2x.png */; };
+		D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BB9205C6D1A00D96A6D /* redo@3x.png */; };
+		D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC3205C6ED100D96A6D /* undo@2x.png */; };
+		D7D03BC7205C6ED200D96A6D /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC4205C6ED200D96A6D /* undo.png */; };
+		D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC5205C6ED200D96A6D /* undo@3x.png */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */; };
@@ -264,6 +270,12 @@
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
+		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
+		D7D03BB8205C6D1900D96A6D /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
+		D7D03BB9205C6D1A00D96A6D /* redo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@3x.png"; sourceTree = "<group>"; };
+		D7D03BC3205C6ED100D96A6D /* undo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undo@2x.png"; sourceTree = "<group>"; };
+		D7D03BC4205C6ED200D96A6D /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
+		D7D03BC5205C6ED200D96A6D /* undo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undo@3x.png"; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
@@ -358,6 +370,12 @@
 				D70BA87420599D1200875E9C /* header.png */,
 				D70BA87620599D1300875E9C /* header@2x.png */,
 				D70BA87520599D1300875E9C /* header@3x.png */,
+				D7D03BB7205C6D1800D96A6D /* redo.png */,
+				D7D03BB8205C6D1900D96A6D /* redo@2x.png */,
+				D7D03BB9205C6D1A00D96A6D /* redo@3x.png */,
+				D7D03BC4205C6ED200D96A6D /* undo.png */,
+				D7D03BC3205C6ED100D96A6D /* undo@2x.png */,
+				D7D03BC5205C6ED200D96A6D /* undo@3x.png */,
 			);
 			path = Toolbar;
 			sourceTree = "<group>";
@@ -663,6 +681,7 @@
 			files = (
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
+				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
@@ -681,13 +700,18 @@
 				D7679396201F21F5000F7BBF /* LaunchScreen.storyboard in Resources */,
 				D76025C0204F078A000B9F59 /* bold@2x.png in Resources */,
 				D739955F2051D1AB009017EE /* italic@2x.png in Resources */,
+				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
+				D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */,
 				D7271FAE2052803500033D0C /* unindent@3x.png in Resources */,
 				D7271FAA2052803500033D0C /* unindent.png in Resources */,
 				D7F6CFF82056F1BF008C584A /* plus.png in Resources */,
 				D7271FAC2052803500033D0C /* indent@2x.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
+				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
+				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */,
 				D767938E201F21F5000F7BBF /* Main.storyboard in Resources */,
+				D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */,
 				D71354022042AECD00E3776F /* settings@3x.png in Resources */,
 				D739955E2051D1AB009017EE /* italic@3x.png in Resources */,
 				D7271FAD2052803500033D0C /* unindent@2x.png in Resources */,
