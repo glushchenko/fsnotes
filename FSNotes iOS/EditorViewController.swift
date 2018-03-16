@@ -80,8 +80,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = editArea.frame.width
         let range = NSRange(0..<storage.length)
         
-        let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: width, note: note)
-        processor.load()
+        if UserDefaultsManagement.liveImagesPreview {
+            let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: width, note: note)
+            processor.load()
+        }
         
         editArea.scrollRangeToVisible(NSRange(location:0, length:0))
         height = editArea.frame.size.height

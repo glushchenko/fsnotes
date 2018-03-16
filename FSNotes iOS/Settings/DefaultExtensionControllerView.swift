@@ -9,22 +9,13 @@
 import UIKit
 
 class DefaultExtensionViewController: UITableViewController {
+    private var extensions = ["md", "txt", "rtf", "markdown", "fountain"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DefaultExtensionViewController.cancel))
         self.title = "Default Extension"
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        let cells = self.tableView.visibleCells
-        for cell in cells {
-            if cell.textLabel?.text == UserDefaultsManagement.storageExtension {
-                cell.accessoryType = .checkmark
-            }
-        }
-        
-        super.viewDidAppear(animated)
     }
     
     @objc func cancel() {
@@ -37,5 +28,22 @@ class DefaultExtensionViewController: UITableViewController {
             
             self.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if cell.textLabel?.text == UserDefaultsManagement.storageExtension {
+            cell.accessoryType = .checkmark
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return extensions.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = extensions[indexPath.row]
+        
+        return cell
     }
 }

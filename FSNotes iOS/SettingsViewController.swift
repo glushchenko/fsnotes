@@ -10,6 +10,9 @@ import UIKit
 
 class SettingsViewController: UITableViewController {
     
+    var sections = ["General", "Editor", "UI"]
+    var rowsInSection = [2, 2, 1]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -17,19 +20,99 @@ class SettingsViewController: UITableViewController {
         self.title = "Settings"
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rowsInSection[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        
+        if indexPath.section == 0x00 {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Default Extension"
+            case 1:
+                cell.textLabel?.text = "Default Keyboard In Editor"
+            default:
+                return cell
+            }
+        }
+        
+        if indexPath.section == 0x01 {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Code block live highlighting"
+                cell.accessoryType = UserDefaultsManagement.codeBlockHighlight ? .checkmark : .none
+            case 1:
+                cell.textLabel?.text = "Live images preview"
+                cell.accessoryType = UserDefaultsManagement.liveImagesPreview ? .checkmark : .none
+            default:
+                return cell
+            }
+        }
+        
+        if indexPath.section == 0x02 {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Font"
+            default:
+                return cell
+            }
+        }
+        
+        return cell
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var lvc: UIViewController?
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         
-        switch indexPath.row {
-        case 0:
-            lvc = DefaultExtensionViewController()
-            lvc = storyBoard.instantiateViewController(withIdentifier: "defaultExtensionViewController") as! DefaultExtensionViewController
-        case 1:
-            lvc = LanguageViewController()
-            lvc = storyBoard.instantiateViewController(withIdentifier: "languageViewController") as! LanguageViewController
-        default:
-            return
+        if indexPath.section == 0x00 {
+            switch indexPath.row {
+            case 0:
+                lvc = DefaultExtensionViewController()
+            case 1:
+                lvc = LanguageViewController()
+            default:
+                return
+            }
+        }
+        
+        if indexPath.section == 0x01 {
+            if let cell = tableView.cellForRow(at: indexPath) {
+                if cell.accessoryType == .none {
+                    cell.accessoryType = .checkmark
+                    
+                } else {
+                    cell.accessoryType = .none
+                }
+                
+                if indexPath.row == 1 {
+                    UserDefaultsManagement.liveImagesPreview = (cell.accessoryType == .checkmark)
+                } else {
+                    UserDefaultsManagement.codeBlockHighlight = (cell.accessoryType == .checkmark)
+                }
+            }
+        }
+        
+        if indexPath.section == 0x02 {
+            switch indexPath.row {
+            case 0:
+                lvc = FontViewController()
+            default: break
+                
+            }
         }
         
         if let controller = lvc {

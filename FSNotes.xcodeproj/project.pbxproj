@@ -106,6 +106,7 @@
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
+		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */; };
@@ -261,6 +262,7 @@
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
+		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 			children = (
 				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
 				D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */,
+				D7D03BAE205C250500D96A6D /* FontViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -904,6 +907,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D76025C4204F2849000B9F59 /* UIFont+.swift in Sources */,
+				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE6E201F6FA800897A58 /* FSNotes.xcdatamodeld in Sources */,

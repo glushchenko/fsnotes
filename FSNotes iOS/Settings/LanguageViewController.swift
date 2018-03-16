@@ -24,22 +24,6 @@ class LanguageViewController: UITableViewController {
         super.viewDidLoad()
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        guard let language = UserDefaultsManagement.defaultLanguage else {
-            return
-        }
-        
-        let cells = self.tableView.visibleCells
-        for cell in cells {
-            if cell.textLabel?.text == language {
-                cell.accessoryType = .checkmark
-            }
-        }
-        
-        super.viewDidAppear(animated)
-    }
-    
     @objc func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -65,5 +49,17 @@ class LanguageViewController: UITableViewController {
         }
         
         return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let language = UserDefaultsManagement.defaultLanguage else {
+            return
+        }
+        
+        if let l = languages {
+            if l[indexPath.row] == language {
+                cell.accessoryType = .checkmark
+            }
+        }
     }
 }

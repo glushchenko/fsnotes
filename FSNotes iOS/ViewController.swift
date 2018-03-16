@@ -66,6 +66,8 @@ class ViewController: UIViewController,
         keyValueWatcher()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -439,6 +441,10 @@ class ViewController: UIViewController,
     @objc func preferredContentSizeChanged() {
         view.setNeedsLayout()
         view.layoutIfNeeded()
+    }
+    
+    @objc func rotated() {
+        initNewButton()
     }
 }
 
