@@ -183,7 +183,7 @@ class ViewController: UIViewController,
         }
         
         storage.loadDocuments()
-        updateTable(filter: "") {}
+        updateTable(filter: search.text!) {}
         
         cloudDriveQuery?.enableUpdates()
     }

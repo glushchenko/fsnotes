@@ -34,8 +34,10 @@ public class NotesTextProcessor {
     
 #if os(OSX)
     open static var codeBackground = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+    open var highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
 #else
     open static var codeBackground = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+    open var highlightColor = UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
 #endif
     
     /**
@@ -1299,6 +1301,55 @@ public class NotesTextProcessor {
                 processor.load()
             }
         }
+    }
+    
+    func highlightKeyword(search: String = "", remove: Bool = false) {
+        guard let storage = self.storage else {
+            return
+        }
+        
+        guard search.count > 0 else {
+            return
+        }
+        
+        let searchTerm = NSRegularExpression.escapedPattern(for: search)
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(attributedString: storage)
+        let pattern = "(\(searchTerm))"
+        let range: NSRange = NSMakeRange(0, storage.string.count)
+        
+        print(remove)
+        
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
+            
+            regex.enumerateMatches(
+                in: storage.string,
+                options: NSRegularExpression.MatchingOptions(),
+                range: range,
+                using: {
+                    (textCheckingResult, matchingFlags, stop) -> Void in
+                    guard let subRange = textCheckingResult?.range else {
+                        return
+                    }
+                    
+                    if remove {
+                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
+                            attributedString.removeAttribute(NoteAttribute.highlight, range: subRange)
+                            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
+                        } else {
+                            attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
+                        }
+                    } else {
+                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedStringKey.backgroundColor) {
+                            attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
+                        }
+                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange)
+                    }
+            }
+            )
+            
+            storage.setAttributedString(attributedString)
+        } catch {}
     }
 
 }

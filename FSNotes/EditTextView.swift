@@ -25,7 +25,6 @@ class EditTextView: NSTextView {
     }
     
     var downView: MarkdownView?
-    let highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
     
     override func drawBackground(in rect: NSRect) {
         backgroundColor = UserDefaultsManagement.bgColor
@@ -163,7 +162,10 @@ class EditTextView: NSTextView {
         }
         
         if highlight {
-            highlightKeyword()
+            let search = getSearchText()
+            let processor = NotesTextProcessor(storage: storage)
+            processor.highlightKeyword(search: search)
+            isHighlighted = true
         }
         
         if note.isMarkdown() && note.isCached && UserDefaultsManagement.liveImagesPreview {
@@ -192,63 +194,14 @@ class EditTextView: NSTextView {
         // save cursor position
         let cursorLocation = selectedRanges[0].rangeValue.location
         
-        highlightKeyword(remove: true)
+        let search = getSearchText()
+        let processor = NotesTextProcessor(storage: textStorage)
+        processor.highlightKeyword(search: search, remove: true)
         
         // restore cursor
         setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
-    func highlightKeyword(remove: Bool = false) {
-        if !remove {
-            isHighlighted = true
-        }
-        
-        let mainWindow = NSApplication.shared.windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        let search = viewController.search.stringValue
-        
-        guard search.count > 0 else {
-            return
-        }
-        
-        let searchTerm = NSRegularExpression.escapedPattern(for: search)
-        let attributedString:NSMutableAttributedString = NSMutableAttributedString(attributedString: textStorage!)
-        let pattern = "(\(searchTerm))"
-        let range:NSRange = NSMakeRange(0, (textStorage?.string.count)!)
-        
-        do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
-        
-            regex.enumerateMatches(
-                in: (textStorage?.string)!,
-                options: NSRegularExpression.MatchingOptions(),
-                range: range,
-                using: {
-                    (textCheckingResult, matchingFlags, stop) -> Void in
-                    guard let subRange = textCheckingResult?.range else {
-                        return
-                    }
-                    
-                    if remove {
-                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
-                            attributedString.removeAttribute(NoteAttribute.highlight, range: subRange)
-                            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
-                        } else {
-                            attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
-                        }
-                    } else {
-                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedStringKey.backgroundColor) {
-                            attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
-                        }
-                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange)
-                    }
-                }
-            )
-            
-            textStorage?.setAttributedString(attributedString)
-        } catch {}
-    }
-        
     func clear() {
         textStorage?.setAttributedString(NSAttributedString())
         subviews.removeAll()
@@ -583,6 +536,14 @@ class EditTextView: NSTextView {
         
         loadImages()
         return true
+    }
+    
+    func getSearchText() -> String {
+        let mainWindow = NSApplication.shared.windows.first
+        let viewController = mainWindow?.contentViewController as! ViewController
+        let search = viewController.search.stringValue
+        
+        return search
     }
     
 }

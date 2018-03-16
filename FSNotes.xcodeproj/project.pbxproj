@@ -107,6 +107,7 @@
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
+		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */; };
@@ -906,6 +907,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
 				D76025C4204F2849000B9F59 /* UIFont+.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */,

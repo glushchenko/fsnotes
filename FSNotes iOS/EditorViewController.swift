@@ -10,6 +10,7 @@ import UIKit
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
+    private var isHighlighted: Bool = false
     
     @IBOutlet weak var editArea: UITextView!
     
@@ -85,6 +86,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.load()
         }
         
+        let search = getSearchText()
+        if search.count > 0 {
+            let processor = NotesTextProcessor(storage: storage)
+            processor.highlightKeyword(search: search)
+            isHighlighted = true
+        }
+        
         editArea.scrollRangeToVisible(NSRange(location:0, length:0))
         height = editArea.frame.size.height
         editArea.selectedTextRange = cursor
@@ -104,6 +112,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
     
+        if isHighlighted {
+            let search = getSearchText()
+            let processor = NotesTextProcessor(storage: textView.textStorage)
+            processor.highlightKeyword(search: search, remove: true)
+            isHighlighted = false
+        }
+        
         let range = editArea.selectedRange
         let storage = editArea.textStorage
         let width = editArea.frame.width
@@ -126,6 +141,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         }
+    }
+    
+    func getSearchText() -> String {
+        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[0] as? ViewController, let search = viewController.search.text {
+            return search
+        }
+        
+        return ""
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
