@@ -122,10 +122,19 @@ class ViewController: UIViewController,
     @objc func handleMetadataQueryUpdates(notification: NSNotification) {
         cloudDriveQuery?.disableUpdates()
         
+        var added = 0
+        
         if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
+            
             for item in changedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
-
+                
+                let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
+                if url.deletingLastPathComponent?.lastPathComponent == ".Trash" {
+                    removeNote(name: fsName)
+                    return
+                }
+                
                 if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
                     for conflict in conflicts {                        
                         guard let localizedName = conflict.localizedName else {
@@ -159,20 +168,20 @@ class ViewController: UIViewController,
                         conflict.isResolved = true
                     }
                 }
+
+                if let note = Storage.instance.getBy(name: fsName) {
+                    _ = note.reload()
+                }
                 
-                if !isMetadataItemDownloaded(item: item) {
-                    let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
-                    
-                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
-                        
-                        note.reloadContent()
-                        viewController.fill(note: note)
-                    }
+                if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
+                    viewController.fill(note: note)
                 }
             }
         }
         
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
+            added = addedMetadataItems.count
+            
             for item in addedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
                 
@@ -182,10 +191,34 @@ class ViewController: UIViewController,
             }
         }
         
+        if let removedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
+            for item in removedMetadataItems {
+                let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
+
+                if let name = url.lastPathComponent {
+                    removeNote(name: name)
+                }
+            }
+        }
+        
+        if added == 0 {
+            cloudDriveQuery?.enableUpdates()
+            return
+        }
+        
         storage.loadDocuments()
         updateTable(filter: search.text!) {}
         
         cloudDriveQuery?.enableUpdates()
+    }
+    
+    func removeNote(name: String) {
+        if let index = notes.index(where: {$0.name == name}) {
+            Storage.instance.removeBy(note: notes[index])
+            notes.remove(at: index)
+            let indexPath = NSIndexPath(row: index, section: 0)
+            notesTable.deleteRows(at: [indexPath as IndexPath], with: .fade)
+        }
     }
     
     func isMetadataItemDownloaded(item : NSMetadataItem) -> Bool {
