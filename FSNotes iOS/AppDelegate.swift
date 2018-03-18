@@ -58,6 +58,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
+        if let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") {
+            defaults.synchronize()
+            if let notes = defaults.array(forKey: "import") as? [String] {
+                if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController {
+                    for note in notes {
+                        viewController.createNote(content: note)
+                    }
+                    defaults.removeObject(forKey: "import")
+                }
+            }
+        }
+        
         guard let shortcut = launchedShortcutItem else { return }
         _ = handleShortCutItem(shortcut)
         
@@ -192,5 +204,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return handled
     }
+    
+    
 }
 

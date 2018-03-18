@@ -282,24 +282,6 @@
             </objects>
             <point key="canvasLocation" x="-598" y="134"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="nev-3n-HTP">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="i7P-Ei-Isu" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Q45-pN-j6o">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="HFP-h5-Nfu" kind="relationship" relationship="rootViewController" id="FgN-pP-Xk7"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="e6K-9D-JQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1857.5999999999999" y="113.3433283358321"/>
-        </scene>
     </scenes>
     <resources>
         <image name="pin.png" width="128" height="128"/>

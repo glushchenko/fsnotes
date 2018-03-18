@@ -349,6 +349,13 @@ class ViewController: UIViewController,
         viewController.fill(note: note)
     }
     
+    func createNote(content: String) {
+        let note = Note(name: "")
+        note.content = NSMutableAttributedString(string: content)
+        note.save()
+        updateList()
+    }
+    
     @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
         let p = longPressGesture.location(in: self.notesTable)
         let indexPath = self.notesTable.indexPathForRow(at: p)

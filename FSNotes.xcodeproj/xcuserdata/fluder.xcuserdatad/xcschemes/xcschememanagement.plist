@@ -9,6 +9,21 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>FSNotes iOS Keeper.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>FSNotes iOS Share Extension.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
+		<key>FSNotes iOS Share.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
 		<key>FSNotes iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +33,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Keeper.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
