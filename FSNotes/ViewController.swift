@@ -460,11 +460,17 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
+        let value = sender.stringValue
+        
         guard let note = notesTableView.getNoteFromSelectedRow() else {
             return
         }
         
-        let value = sender.stringValue
+        guard value.count > 0 else {
+            sender.stringValue = note.getTitleWithoutLabel()
+            return
+        }
+        
         sender.isEditable = false
         
         let newUrl = note.getNewURL(name: value)
