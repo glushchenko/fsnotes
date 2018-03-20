@@ -1,4 +1,4 @@
-## Notes manager for macOS and iOS
+## Notes manager for macOS/iOS
 
 File system notes is modern notational velocity (nvALT) on steroids. 
 
