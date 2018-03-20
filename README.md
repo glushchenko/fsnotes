@@ -8,10 +8,6 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 
 <img src="https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png" alt="macOS FSNotes" style="max-width:100%;">
 
-<a href="https://itunes.apple.com/app/fsnotes/id1277179284">
-	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/mac/images/badge-download-on-the-mac-app-store.svg" alt="">
-</a> 
-
 #### Key features
 
 - keyboard centric
@@ -31,6 +27,12 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 - images drag and drop
 
 FSNotes is written on **Swift 4**, open source (MIT license)
+
+<a href="https://itunes.apple.com/app/fsnotes/id1277179284">
+	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/mac/images/badge-download-on-the-mac-app-store.svg" alt="">
+</a> 
+
+---
 
 ### iOS app
 
