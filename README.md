@@ -1,10 +1,14 @@
-## Notes manager for macOS
+## Notes manager for macOS/iOS
 
 File system notes is modern notational velocity (nvALT) on steroids. 
 
+### macOS app
+
 Our application respect open formats: **plain/text, markdown, rtf**, and stores data in file system. You can view, edit, copy data in favourite external editor and see live result in FSNotes. 
 
-### Key features
+<img src="https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png" alt="macOS FSNotes" style="max-width:100%;">
+
+#### Key features
 
 - keyboard centric
 - global shortcuts (clipboard save / search)
@@ -24,15 +28,26 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 
 FSNotes is written on **Swift 4**, open source (MIT license)
 
-### Storage 
+<a href="https://itunes.apple.com/app/fsnotes/id1277179284">
+	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/mac/images/badge-download-on-the-mac-app-store.svg" alt="">
+</a> 
 
-Markdown files default directory:
+---
 
-```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
+### iOS app
 
-Of course you can change directory in preferences (i.e. Dropbox or iCloud Drive for synchronization with 1Writer)
+<img src="https://f001.backblazeb2.com/file/og-files/ss.png" alt="iOS FSNotes" style="max-width:100%; margin: 0 0 0 20px;"/>
 
-![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png)
+#### Key features
 
-<a href="https://itunes.apple.com/app/fsnotes/id1277179284"><img height="40px" src="https://f001.backblazeb2.com/file/og-files/Download_on_the_Mac_App_Store_Badge_US-UK_165x40.png"/></a> 
+- iCloud Drive support (Files.app folder available)
+- Fast note creation (3DTouch + configurable default keyboard)
+- Pin/unpin with macOS companion sync
+- RTF and Markdown markup
+- Markdown editor with highlighting (code blocks too)
+- Search with keywords highlighting
+- Sharing extension
 
+<a href="https://itunes.apple.com/app/fsnotes-manager/id1346501102">
+	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="">
+</a> 
