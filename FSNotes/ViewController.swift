@@ -348,6 +348,13 @@ class ViewController: NSViewController,
     }
         
     override func keyDown(with event: NSEvent) {
+        
+        // Control + Tab
+        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.control) {
+            self.notesTableView.window?.makeFirstResponder(self.notesTableView)
+            return
+        }
+        
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()

@@ -24,7 +24,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     override func keyUp(with event: NSEvent) {
         // Tab
-        if (event.keyCode == 48) {
+        if (event.keyCode == 48 && !event.modifierFlags.contains(.control)) {
             let viewController = self.window?.contentViewController as? ViewController
             viewController?.focusEditArea()
         }
@@ -107,6 +107,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if ([kVK_ANSI_8, kVK_ANSI_J, kVK_ANSI_K].contains(Int(event.keyCode)) && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+            return true
+        }
+        
+        if event.modifierFlags.contains(.control) {
             return true
         }
         
