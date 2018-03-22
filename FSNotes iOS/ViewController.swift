@@ -80,12 +80,18 @@ class ViewController: UIViewController,
     var prevQuery: String?
     var cloudDriveQuery: NSMetadataQuery?
     
+    private let workerQueue: OperationQueue = {
+        let workerQueue = OperationQueue()
+        workerQueue.name = "co.fluder.fsnotes.manager.browserdatasource.workerQueue"
+        workerQueue.maxConcurrentOperationCount = 1
+        return workerQueue
+    }()
+        
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
         
         NotificationCenter.default.addObserver(self,
-           selector: #selector(
-            ViewController.ubiquitousKeyValueStoreDidChange),
+           selector: #selector(ubiquitousKeyValueStoreDidChange),
            name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
            object: keyStore)
         
@@ -109,6 +115,8 @@ class ViewController: UIViewController,
     
     func cloudDriveWatcher() {
         let metadataQuery = NSMetadataQuery()
+        metadataQuery.operationQueue = workerQueue
+        
         cloudDriveQuery = metadataQuery
         cloudDriveQuery?.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
         cloudDriveQuery?.predicate = NSPredicate(value: true)
@@ -122,6 +130,7 @@ class ViewController: UIViewController,
     @objc func handleMetadataQueryUpdates(notification: NSNotification) {
         cloudDriveQuery?.disableUpdates()
         
+        var removed = 0
         var added = 0
         
         if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
@@ -131,8 +140,17 @@ class ViewController: UIViewController,
                 
                 let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
                 if url.deletingLastPathComponent?.lastPathComponent == ".Trash" {
-                    removeNote(name: fsName)
-                    return
+                    removed = removed + 1
+                    continue
+                }
+                
+                var isDownloaded:AnyObject? = nil
+                do {
+                    try (url as NSURL).getResourceValue(&isDownloaded, forKey: URLResourceKey.ubiquitousItemDownloadingStatusKey)
+                } catch _ {}
+                
+                if isDownloaded as? URLUbiquitousItemDownloadingStatus == URLUbiquitousItemDownloadingStatus.current {
+                    added = added + 1
                 }
                 
                 if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
@@ -173,15 +191,15 @@ class ViewController: UIViewController,
                     _ = note.reload()
                 }
                 
-                if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
-                    viewController.fill(note: note)
+                DispatchQueue.main.async {
+                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
+                        viewController.fill(note: note)
+                    }
                 }
             }
         }
         
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
-            added = addedMetadataItems.count
-            
             for item in addedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
                 
@@ -192,43 +210,26 @@ class ViewController: UIViewController,
         }
         
         if let removedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
+            
             for item in removedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
-
-                if let name = url.lastPathComponent {
-                    removeNote(name: name)
+                
+                if url.deletingLastPathComponent?.lastPathComponent != ".Trash"{
+                    removed = removed + 1
                 }
             }
         }
         
-        if added == 0 {
-            cloudDriveQuery?.enableUpdates()
-            return
+        if removed > 0 || added > 0 {
+            storage.loadDocuments()
+            updateTable(filter: "") {
+                print("Table was updated.")
+            }
         }
-        
-        storage.loadDocuments()
-        updateTable(filter: search.text!) {}
         
         cloudDriveQuery?.enableUpdates()
     }
-    
-    func removeNote(name: String) {
-        if let index = notes.index(where: {$0.name == name}) {
-            Storage.instance.removeBy(note: notes[index])
-            notes.remove(at: index)
-            let indexPath = NSIndexPath(row: index, section: 0)
-            notesTable.deleteRows(at: [indexPath as IndexPath], with: .fade)
-        }
-    }
-    
-    func isMetadataItemDownloaded(item : NSMetadataItem) -> Bool {
-        if item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String == NSMetadataUbiquitousItemDownloadingStatusCurrent {
-            return true
-        } else {
-            return false
-        }
-    }
-    
+        
     func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
         if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
@@ -248,11 +249,10 @@ class ViewController: UIViewController,
                 let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
-                        && $0.isRemoved == false
-                        && (
-                            filter.isEmpty
-                            || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
-                            })
+                    && (
+                        filter.isEmpty
+                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
+                        })
                     )
                 )
         }
@@ -310,7 +310,7 @@ class ViewController: UIViewController,
                 }
             }
         })
-        deleteAction.backgroundColor = UIColor.red
+        deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
         
         let rename = UITableViewRowAction(style: .default, title: "Rename", handler: { (action , indexPath) -> Void in
             
@@ -353,9 +353,9 @@ class ViewController: UIViewController,
                 self.updateList()
             }
         })
-        pin.backgroundColor = UIColor.blue
+        pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
         
-        return [pin, deleteAction, rename]
+        return [rename, pin, deleteAction]
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
