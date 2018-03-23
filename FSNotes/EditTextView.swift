@@ -80,7 +80,8 @@ class EditTextView: NSTextView {
         if (!viewController.emptyEditAreaImage.isHidden) {
             viewController.makeNote(NSTextField())
         }
-        return super.mouseDown(with: event)
+        super.mouseDown(with: event)
+        saveCursorPosition()
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -174,7 +175,7 @@ class EditTextView: NSTextView {
         }
       
         self.window?.title = note.title
-        setSelectedRange(NSRange(location: 0, length: 0))
+        restorePosition()
     }
     
     @objc func loadImages() {
@@ -428,11 +429,13 @@ class EditTextView: NSTextView {
             if event.modifierFlags.rawValue == 131330 {
                 let formatter = TextFormatter(textView: self, note: note)
                 formatter.unTab()
+                saveCursorPosition()
                 return
             }
             
             let formatter = TextFormatter(textView: self, note: note)
             formatter.tab()
+            saveCursorPosition()
             return
         }
 
@@ -442,6 +445,7 @@ class EditTextView: NSTextView {
         
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
+            saveCursorPosition()
             
             let range = getParagraphRange()
             let processor = NotesTextProcessor(storage: textStorage, range: range)
@@ -455,6 +459,7 @@ class EditTextView: NSTextView {
         }
         
         super.keyDown(with: event)
+        saveCursorPosition()
         
         let range = selectedRanges[0] as! NSRange
         guard let storage = textStorage, note.content.length >= range.location + range.length else {
@@ -464,6 +469,34 @@ class EditTextView: NSTextView {
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
         processor.scanParagraph()
         cacheNote(note: note)
+    }
+    
+    func saveCursorPosition() {
+        if let note = EditTextView.note, let range = selectedRanges[0] as? NSRange {
+            var length = range.lowerBound
+            let data = Data(bytes: &length, count: MemoryLayout.size(ofValue: length))
+            try? note.url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.cursor")
+        }
+    }
+    
+    func restorePosition() {
+        guard let storage = textStorage else {
+            return
+        }
+        
+        var position = 0
+        
+        if let note = EditTextView.note {
+            if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
+                position = data.withUnsafeBytes { (ptr: UnsafePointer<Int>) -> Int in
+                    return ptr.pointee
+                }
+            }
+        }
+        
+        if position <= storage.length {
+            setSelectedRange(NSMakeRange(position, 0))
+        }
     }
     
     func cacheNote(note: Note) {

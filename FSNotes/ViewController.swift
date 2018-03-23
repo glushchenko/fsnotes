@@ -639,8 +639,8 @@ class ViewController: NSViewController,
                 self.emptyEditAreaImage.isHidden = true
                 self.editArea.window?.makeFirstResponder(resp)
                 
-                if UserDefaultsManagement.focusInEditorOnNoteSelect, let length = self.editArea.textStorage?.length {
-                    self.editArea.setSelectedRange(NSRange(location: length, length: 0))
+                if UserDefaultsManagement.focusInEditorOnNoteSelect {
+                    self.editArea.restorePosition()
                 }
             }
         }
