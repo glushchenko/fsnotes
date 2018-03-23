@@ -144,6 +144,14 @@ class ViewController: UIViewController,
                     continue
                 }
                 
+                if let note = Storage.instance.getBy(name: fsName) {
+                    if let fsDate = note.readModificatonDate(), let noteDate = note.modifiedLocalAt, fsDate == noteDate {
+                        continue
+                    }
+                    
+                    _ = note.reload()
+                }
+                
                 var isDownloaded:AnyObject? = nil
                 do {
                     try (url as NSURL).getResourceValue(&isDownloaded, forKey: URLResourceKey.ubiquitousItemDownloadingStatusKey)
@@ -185,10 +193,6 @@ class ViewController: UIViewController,
                         
                         conflict.isResolved = true
                     }
-                }
-
-                if let note = Storage.instance.getBy(name: fsName) {
-                    _ = note.reload()
                 }
                 
                 DispatchQueue.main.async {

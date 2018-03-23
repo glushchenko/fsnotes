@@ -199,7 +199,7 @@ public class Note: NSManagedObject {
         }
     }
     
-    func getDate(url: URL) -> Date? {
+    func readModificatonDate() -> Date? {
         var modifiedLocalAt: Date?
         
         do {
