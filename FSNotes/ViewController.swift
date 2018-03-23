@@ -640,7 +640,7 @@ class ViewController: NSViewController,
                 self.editArea.window?.makeFirstResponder(resp)
                 
                 if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    self.editArea.restorePosition()
+                    self.editArea.restoreCursorPosition()
                 }
             }
         }

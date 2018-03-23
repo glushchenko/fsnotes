@@ -34,30 +34,30 @@ public class UserDefaultsManagement {
     static var DefaultBgColor = Color.white
 
     private struct Constants {
+        static let BgColorKey = "bgColorKeyed"
+        static let CellSpacing = "cellSpacing"
+        static let CellFrameOriginY = "cellFrameOriginY"
+        static let codeBlockHighlight = "codeBlockHighlight"
+        static let codeTheme = "codeTheme"
         static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
-        static let BgColorKey = "bgColorKeyed"
-        static let TableOrientation = "isUseHorizontalMode"
-        static let StoragePathKey = "storageUrl"
-        static let StorageExtensionKey = "fileExtension"
-        static let NewNoteKeyCode = "newNoteKeyCode"
-        static let NewNoteKeyModifier = "newNoteKeyModifier"
-        static let SearchNoteKeyCode = "searchNoteKeyCode"
-        static let SearchNoteKeyModifier = "searchNoteKeyModifier"
-        static let PinListKey = "pinList"
-        static let Preview = "preview"
         static let HideOnDeactivate = "hideOnDeactivate"
-        static let CellSpacing = "cellSpacing"
-        static let CellFrameOriginY = "cellFrameOriginY"
-        static let CloudKitSync = "cloudKitSync"
         static let HidePreviewKey = "hidePreview"
-        static let SortBy = "sortBy"
-        static let codeBlockHighlight = "codeBlockHighlight"
-        static let codeTheme = "codeTheme"
         static let LastSelectedPath = "lastSelectedPath"
         static let LiveImagesPreview = "liveImagesPreview"
+        static let NewNoteKeyCode = "newNoteKeyCode"
+        static let NewNoteKeyModifier = "newNoteKeyModifier"
+        static let PinListKey = "pinList"
+        static let Preview = "preview"
+        static let RestoreCursorPosition = "restoreCursorPosition"
+        static let SearchNoteKeyCode = "searchNoteKeyCode"
+        static let SearchNoteKeyModifier = "searchNoteKeyModifier"
+        static let SortBy = "sortBy"
+        static let StoragePathKey = "storageUrl"
+        static let StorageExtensionKey = "fileExtension"
+        static let TableOrientation = "isUseHorizontalMode"
     }
         
     static var fontName: String {
@@ -316,23 +316,6 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var cloudKitSync: Bool {
-        get {
-            if let cloudKitSync = UserDefaults.standard.object(forKey: Constants.CloudKitSync) {
-                return cloudKitSync as! Bool
-            } else {
-            #if os(OSX)
-                return false
-            #else
-                return true
-            #endif
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.CloudKitSync)
-        }
-    }
-    
     static var hidePreview: Bool {
         get {
             if let returnMode = UserDefaults.standard.object(forKey: Constants.HidePreviewKey) {
@@ -470,4 +453,17 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.DefaultLanguageKey)
         }
     }
+    
+    static var restoreCursorPosition: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.RestoreCursorPosition) {
+                return result as! Bool
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.RestoreCursorPosition)
+        }
+    }
+    
 }

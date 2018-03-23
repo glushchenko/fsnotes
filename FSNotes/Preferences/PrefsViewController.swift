@@ -29,6 +29,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var noteFontColor: NSColorWell!
     @IBOutlet weak var backgroundColor: NSColorWell!
     @IBOutlet weak var inEditorFocus: NSButton!
+    @IBOutlet weak var restoreCursorButton: NSButton!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -58,6 +59,8 @@ class PrefsViewController: NSViewController {
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
         
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
+        
+        restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
         
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
@@ -304,6 +307,10 @@ class PrefsViewController: NSViewController {
     
     @IBAction func inEditorFocus(_ sender: NSButton) {
         UserDefaultsManagement.focusInEditorOnNoteSelect = (sender.state == .on)
+    }
+    
+    @IBAction func restoreCursor(_ sender: NSButton) {
+        UserDefaultsManagement.restoreCursorPosition = (sender.state == .on)
     }
     
 }

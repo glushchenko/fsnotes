@@ -175,7 +175,7 @@ class EditTextView: NSTextView {
         }
       
         self.window?.title = note.title
-        restorePosition()
+        restoreCursorPosition()
     }
     
     @objc func loadImages() {
@@ -472,19 +472,26 @@ class EditTextView: NSTextView {
     }
     
     func saveCursorPosition() {
-        if let note = EditTextView.note, let range = selectedRanges[0] as? NSRange {
-            var length = range.lowerBound
-            let data = Data(bytes: &length, count: MemoryLayout.size(ofValue: length))
-            try? note.url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.cursor")
+        guard let note = EditTextView.note, let range = selectedRanges[0] as? NSRange, UserDefaultsManagement.restoreCursorPosition else {
+            return
         }
+        
+        var length = range.lowerBound
+        let data = Data(bytes: &length, count: MemoryLayout.size(ofValue: length))
+        try? note.url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.cursor")
     }
     
-    func restorePosition() {
+    func restoreCursorPosition() {
         guard let storage = textStorage else {
             return
         }
         
-        var position = 0
+        var position = storage.length
+        
+        guard UserDefaultsManagement.restoreCursorPosition else {
+            setSelectedRange(NSMakeRange(position, 0))
+            return
+        }
         
         if let note = EditTextView.note {
             if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
