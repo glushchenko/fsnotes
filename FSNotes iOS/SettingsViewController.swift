@@ -7,17 +7,23 @@
 //
 
 import UIKit
+import Solar
+import CoreLocation
 
 class SettingsViewController: UITableViewController {
     
     var sections = ["General", "Editor", "UI"]
-    var rowsInSection = [2, 2, 1]
+    var rowsInSection = [2, 2, 2]
+    let nightModeButton = UISwitch()
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SettingsViewController.done))
         self.title = "Settings"
+        
+        nightModeButton.addTarget(self, action: #selector(self.nightModeDidChange), for: .valueChanged)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,6 +76,10 @@ class SettingsViewController: UITableViewController {
             case 0:
                 cell.textLabel?.text = "Font"
                 cell.accessoryType = .disclosureIndicator
+            case 1:
+                cell.textLabel?.text = "Night Mode Auto"
+                cell.accessoryType = .none
+                cell.accessoryView = nightModeButton
             default:
                 return cell
             }
@@ -127,6 +137,26 @@ class SettingsViewController: UITableViewController {
     
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func nightModeDidChange(sender: UISwitch) {
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+
+            locationManager.requestWhenInUseAuthorization()
+            break
+        case .denied:
+            nightModeButton.isOn = false
+            break
+        case .restricted:
+            nightModeButton.isOn = false
+        case .authorizedAlways:
+            nightModeButton.isOn = true
+        case .authorizedWhenInUse:
+            nightModeButton.isOn = true
+            break
+        }
     }
 }
 

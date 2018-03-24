@@ -17,6 +17,6 @@ end
 
 target 'FSNotes iOS' do
     platform :ios, '10'
-    pod 'Down', '~> 0.4.2'
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'swift4-osx'
+    pod 'Solar'
 end
