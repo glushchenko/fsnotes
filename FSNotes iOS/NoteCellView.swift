@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NightNight
 
 class NoteCellView: UITableViewCell {
     @IBOutlet weak var title: UILabel!
@@ -18,6 +19,9 @@ class NoteCellView: UITableViewCell {
         title.attributedText = NSAttributedString(string: note.title)
         preview.attributedText = NSAttributedString(string: note.getPreviewForLabel())
         date.attributedText = NSAttributedString(string: note.getDateForLabel())
+        
+        title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+        preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
         
         pin.isHidden = !note.isPinned
         

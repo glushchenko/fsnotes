@@ -19,4 +19,5 @@ target 'FSNotes iOS' do
     platform :ios, '10'
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'swift4-osx'
     pod 'Solar'
+    pod 'NightNight', :git => 'https://github.com/weiran/NightNight.git', :branch => 'swift4'
 end

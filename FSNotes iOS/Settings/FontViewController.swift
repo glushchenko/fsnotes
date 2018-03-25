@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import NightNight
 
 class FontViewController: UITableViewController {
     private var fontFamilyNames: [String]? = []
     
     override func viewDidLoad() {
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FontViewController.cancel))
         
         self.title = "Font Family"
@@ -22,6 +25,11 @@ class FontViewController: UITableViewController {
             fontFamilyNames = fontFamilyNames?.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
         }
         
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
+        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
+        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x222222)
+        navigationController?.navigationBar.mixedBarStyle = MixedBarStyle(normal: .default, night: .black)
+        
         super.viewDidLoad()
     }
     
@@ -30,6 +38,9 @@ class FontViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+        
         let fontFamily = UserDefaultsManagement.noteFont.familyName
         
         if let f = fontFamilyNames {

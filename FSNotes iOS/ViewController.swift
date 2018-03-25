@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import NightNight
+import Solar
 
 class ViewController: UIViewController,
     UITableViewDataSource,
@@ -21,7 +23,21 @@ class ViewController: UIViewController,
     var notes = [Note]()
     let storage = Storage.instance
     
-    override func viewDidLoad() {
+    override func viewDidLoad() {        
+        UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
+        
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
+        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        
+        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
+        searchBarTextField?.mixedTextColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
+        
+        if NightNight.theme == .night {
+            search.keyboardAppearance = .dark
+        } else {
+            search.keyboardAppearance = .default
+        }
+        
         super.viewDidLoad()
 
         initNewButton()
@@ -68,6 +84,20 @@ class ViewController: UIViewController,
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
+            return
+        }
+        
+        pageController.disableSwipe()
+    }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
     }
 
     override func didReceiveMemoryWarning() {
@@ -297,7 +327,7 @@ class ViewController: UIViewController,
         
         let note = notes[indexPath.row]
         viewController.fill(note: note)
-        pageController.goToNextPage()
+        pageController.switchToEditor()
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -362,6 +392,11 @@ class ViewController: UIViewController,
         return [rename, pin, deleteAction]
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         updateTable(filter: searchText, completion: {})
     }
@@ -382,7 +417,7 @@ class ViewController: UIViewController,
         }
         
         viewController.note = note
-        pageController.goToNextPage()
+        pageController.switchToEditor()
         viewController.fill(note: note)
     }
     
@@ -470,7 +505,7 @@ class ViewController: UIViewController,
         }
         
         viewController.note = note
-        pageController.goToNextPage()
+        pageController.switchToEditor()
         viewController.fill(note: note)
     }
     
@@ -478,6 +513,11 @@ class ViewController: UIViewController,
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
+        
+        navigationController.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
+        navigationController.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
+        navigationController.navigationBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x222222)
+        navigationController.navigationBar.mixedBarStyle = MixedBarStyle(normal: .default, night: .blackTranslucent)
         
         self.present(navigationController, animated: true, completion: nil)
     }

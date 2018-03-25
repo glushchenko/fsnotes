@@ -49,6 +49,7 @@ public class UserDefaultsManagement {
         static let LiveImagesPreview = "liveImagesPreview"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
+        static let NightModeAuto = "nightModeAuto"
         static let PinListKey = "pinList"
         static let Preview = "preview"
         static let RestoreCursorPosition = "restoreCursorPosition"
@@ -463,6 +464,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.RestoreCursorPosition)
+        }
+    }
+    
+    static var nightModeAuto: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.NightModeAuto) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.NightModeAuto)
         }
     }
     

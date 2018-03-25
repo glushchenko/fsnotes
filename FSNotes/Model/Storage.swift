@@ -43,7 +43,23 @@ class Storage {
         for item in storageItemList {
             loadLabel(item)
         }
-
+        
+        /* subfolders support
+        if let generalSubFolders = getGeneralSubFolders() {
+            for item in generalSubFolders {
+                if let storage = storageItemList.filter({ $0.getUrl() == item as? URL }).first {
+                    //loadLabel(storage)
+                } else {
+                    let storageItem = StorageItem(context: CoreDataManager.instance.context)
+                    storageItem.path = item.absoluteString
+                    storageItem.label = item.lastPathComponent
+                    CoreDataManager.instance.save()
+                    loadLabel(storageItem)
+                }
+            }
+        }
+        */
+ 
         if let list = sortNotes(noteList: noteList) {
             noteList = list
         }
@@ -377,5 +393,28 @@ class Storage {
     
     func saveNote(note: Note, userInitiated: Bool = false, cloudSync: Bool = true) {
         add(note)
+    }
+    
+    func getGeneralSubFolders() -> [NSURL]? {
+        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let url = storage.getUrl() else { return nil }
+        
+        guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
+        
+        var subdirs = [NSURL]()
+        
+        while let url = fileEnumerator.nextObject() as? NSURL {
+            do {
+                var resourceValue: AnyObject?
+                try url.getResourceValue(&resourceValue, forKey: URLResourceKey.isDirectoryKey)
+                if let isDirectory = resourceValue as? Bool, isDirectory == true {
+                    subdirs.append(url)
+                }
+            }
+            catch let error as NSError {
+                print("Error: ", error.localizedDescription)
+            }
+        }
+        
+        return subdirs
     }
 }

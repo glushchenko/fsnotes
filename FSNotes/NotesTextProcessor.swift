@@ -13,6 +13,7 @@ import Highlightr
     import MASShortcut
 #else
     import UIKit
+    import NightNight
 #endif
 
 public class NotesTextProcessor {
@@ -463,8 +464,16 @@ public class NotesTextProcessor {
             }
         }
         
-        styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
-        
+        #if os(iOS)
+            if NightNight.theme == .night {
+                styleApplier.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
+            } else {
+                styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
+            }
+        #else
+            styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
+        #endif
+
         // We detect and process inline links not formatted
         NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }

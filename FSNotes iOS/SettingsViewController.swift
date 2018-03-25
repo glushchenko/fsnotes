@@ -9,21 +9,32 @@
 import UIKit
 import Solar
 import CoreLocation
+import NightNight
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, CLLocationManagerDelegate {
     
     var sections = ["General", "Editor", "UI"]
-    var rowsInSection = [2, 2, 2]
+    var rowsInSection = [2, 2, 3]
     let nightModeButton = UISwitch()
+    let nightModeAutoButton = UISwitch()
     let locationManager = CLLocationManager()
-    
+        
     override func viewDidLoad() {
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+        
+        nightModeAutoButton.addTarget(self, action: #selector(self.nightModeAutoDidChange), for: .valueChanged)
+        
+        nightModeButton.addTarget(self, action: #selector(self.nightModeDidChange), for: .valueChanged)
+        
+        initNightMode()
+        
+        nightModeButton.isOn = (NightNight.theme == .night)
         super.viewDidLoad()
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SettingsViewController.done))
         self.title = "Settings"
         
-        nightModeButton.addTarget(self, action: #selector(self.nightModeDidChange), for: .valueChanged)
+        locationManager.delegate = self
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -40,6 +51,11 @@ class SettingsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,9 +93,13 @@ class SettingsViewController: UITableViewController {
                 cell.textLabel?.text = "Font"
                 cell.accessoryType = .disclosureIndicator
             case 1:
-                cell.textLabel?.text = "Night Mode Auto"
+                cell.textLabel?.text = "Night Mode"
                 cell.accessoryType = .none
                 cell.accessoryView = nightModeButton
+            case 2:
+                cell.textLabel?.text = "Night Mode Auto"
+                cell.accessoryType = .none
+                cell.accessoryView = nightModeAutoButton
             default:
                 return cell
             }
@@ -140,22 +160,53 @@ class SettingsViewController: UITableViewController {
     }
     
     @objc func nightModeDidChange(sender: UISwitch) {
-        
-        switch CLLocationManager.authorizationStatus() {
-        case .notDetermined:
-
+        if sender.isOn {
+            UIApplication.shared.statusBarStyle = .lightContent
+            NightNight.theme = .night
+        } else {
+            UIApplication.shared.statusBarStyle = .default
+            NightNight.theme = .normal
+        }
+    }
+    
+    @objc func nightModeAutoDidChange(sender: UISwitch) {
+        if sender.isOn {
+            UserDefaultsManagement.nightModeAuto = true
             locationManager.requestWhenInUseAuthorization()
-            break
-        case .denied:
-            nightModeButton.isOn = false
-            break
-        case .restricted:
-            nightModeButton.isOn = false
-        case .authorizedAlways:
-            nightModeButton.isOn = true
-        case .authorizedWhenInUse:
-            nightModeButton.isOn = true
-            break
+        } else {
+            UserDefaultsManagement.nightModeAuto = false
+        }
+    }
+    
+    func initNightMode() {
+        if UserDefaultsManagement.nightModeAuto {
+            var nightModeAuto = false
+            
+            switch CLLocationManager.authorizationStatus() {
+            case .notDetermined:
+                locationManager.requestWhenInUseAuthorization()
+                break
+            case .denied:
+                break
+            case .restricted:
+                break
+            case .authorizedWhenInUse:
+                nightModeAuto = true
+                break
+            case .authorizedAlways:
+                nightModeAuto = true
+            }
+            
+            nightModeAutoButton.setOn(nightModeAuto, animated: true)
+            UserDefaultsManagement.nightModeAuto = nightModeAuto
+        } else {
+            nightModeAutoButton.setOn(false, animated: true)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if UserDefaultsManagement.nightModeAuto {
+            nightModeAutoButton.isOn = (status == .authorizedWhenInUse)
         }
     }
 }

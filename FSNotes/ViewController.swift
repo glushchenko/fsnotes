@@ -183,7 +183,9 @@ class ViewController: NSViewController,
         
         let storageItemList = CoreDataManager.instance.fetchStorageList()
         for storageItem in storageItemList {
-            pathList.append(NSString(string: (storageItem.getUrl()?.path)!).expandingTildeInPath)
+            if let path = storageItem.getUrl()?.path {
+                pathList.append(NSString(string: path).expandingTildeInPath)
+            }
         }
         
         let filewatcher = FileWatcher(pathList)

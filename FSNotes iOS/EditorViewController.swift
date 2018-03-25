@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NightNight
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -15,6 +16,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: UITextView!
     
     override func viewDidLoad() {
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
+        editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
+        
+        if NightNight.theme == .night {
+            editArea.keyboardAppearance = .dark
+        } else {
+            editArea.keyboardAppearance = .default
+        }
+        
         guard let note = self.note else {
             return
         }
@@ -44,6 +54,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         height = editArea.frame.size.height
+        
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
+            return
+        }
+        
+        pageController.enableSwipe()
     }
     
     override var textInputMode: UITextInputMode? {
@@ -108,6 +124,25 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
     }
+    
+    func refill() {
+        if let note = self.note {
+            let keyboardIsOpen = editArea.isFirstResponder
+            
+            if keyboardIsOpen {
+                editArea.endEditing(true)
+            }
+            
+            if NightNight.theme == .night {
+                editArea.keyboardAppearance = .dark
+            } else {
+                editArea.keyboardAppearance = .default
+            }
+            
+            fill(note: note)
+            //editArea.endEditing(false)
+        }
+    }
         
     func textViewDidChange(_ textView: UITextView) {
         guard let note = self.note else {
@@ -165,7 +200,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     func addToolBar(textField: UITextView){
         let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        
         toolBar.isTranslucent = true
         toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         

@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreData
+import Solar
+import NightNight
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,6 +59,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        let locationManager = CLLocationManager()
+        if UserDefaultsManagement.nightModeAuto,
+            let location = locationManager.location,
+            let solar = Solar.init(coordinate: location.coordinate) {
+            
+            if solar.isNighttime {
+                UIApplication.shared.statusBarStyle = .lightContent
+                NightNight.theme = .night
+            } else {
+                UIApplication.shared.statusBarStyle = .default
+                NightNight.theme = .normal
+            }
+            
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let editorController = pageController.viewControllers?.first as? EditorViewController else {
+                return
+            }
+            
+            editorController.refill()
+        }
+        
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         if let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") {
@@ -187,7 +210,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        pageViewController.openRootController()
+        pageViewController.switchToList()
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NightNight
 
 class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
@@ -54,8 +55,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         return orderedViewControllers[previousIndex]
     }
     
-
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
@@ -78,28 +77,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         
         return orderedViewControllers[nextIndex]
     }
-    
-    func goToNextPage(animated: Bool = true, completion: ((Bool) -> Void)? = nil) {
-        if let currentViewController = viewControllers?[0] {
-            if let nextPage = dataSource?.pageViewController(self, viewControllerAfter: currentViewController) {
-                setViewControllers([nextPage], direction: .forward, animated: animated, completion: completion)
-                
-                if nextPage.isKind(of: ViewController.self) {
-                    disableSwipe()
-                } else {
-                    enableSwipe()
-                }
-            }
-        }
-    }
-    
-    func openRootController() {
-        self.dismiss(animated: true, completion: nil)
-        if let vc = viewControllers, vc[0].isKind(of: EditorViewController.self) {
-            self.goToNextPage(animated: false, completion: nil)
-        }
-    }
-    
+        
     func disableSwipe() {
         for view in self.view.subviews {
             if let subView = view as? UIScrollView {
@@ -122,5 +100,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         } else {
             enableSwipe()
         }
+    }
+    
+    func switchToList() {
+        self.dismiss(animated: true, completion: nil)
+        setViewControllers([orderedViewControllers[0]], direction: .forward, animated: true)
+    }
+    
+    func switchToEditor() {
+        setViewControllers([orderedViewControllers[1]], direction: .forward, animated: true)
     }
 }
