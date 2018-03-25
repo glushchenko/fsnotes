@@ -89,11 +89,21 @@ class ViewController: UIViewController,
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // disable swipes
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
             return
         }
         
         pageController.disableSwipe()
+        
+        // reload last row preview
+        if let evc = pageController.orderedViewControllers[1] as? EditorViewController, let note  = evc.note {
+            guard let i = notes.index(of: note) else {
+                return
+            }
+            
+            notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+        }
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -392,7 +402,7 @@ class ViewController: UIViewController,
         return [rename, pin, deleteAction]
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    private func tableView(_ tableView: UITableView, willDisplay cell: NoteCellView, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
