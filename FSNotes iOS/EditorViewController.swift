@@ -19,12 +19,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
         editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
         
-        if NightNight.theme == .night {
-            editArea.keyboardAppearance = .dark
-        } else {
-            editArea.keyboardAppearance = .default
-        }
-        
         guard let note = self.note else {
             return
         }
@@ -60,6 +54,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         pageController.enableSwipe()
+        
+        if NightNight.theme == .night {
+            editArea.keyboardAppearance = .dark
+        } else {
+            editArea.keyboardAppearance = .default
+        }
     }
     
     override var textInputMode: UITextInputMode? {

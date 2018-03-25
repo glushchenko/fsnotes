@@ -32,12 +32,6 @@ class ViewController: UIViewController,
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
         
-        if NightNight.theme == .night {
-            search.keyboardAppearance = .dark
-        } else {
-            search.keyboardAppearance = .default
-        }
-        
         super.viewDidLoad()
 
         initNewButton()
@@ -88,6 +82,13 @@ class ViewController: UIViewController,
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // load keyboard color
+        if NightNight.theme == .night {
+            search.keyboardAppearance = .dark
+        } else {
+            search.keyboardAppearance = .default
+        }
         
         // disable swipes
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
@@ -402,7 +403,7 @@ class ViewController: UIViewController,
         return [rename, pin, deleteAction]
     }
     
-    private func tableView(_ tableView: UITableView, willDisplay cell: NoteCellView, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
