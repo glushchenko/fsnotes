@@ -50,6 +50,9 @@
 		D74112291FABA29100AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D741122B1FACA10A00AB619A /* PrefsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D741122A1FACA10A00AB619A /* PrefsWindow.swift */; };
 		D741122C1FACA12E00AB619A /* PrefsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D741122A1FACA10A00AB619A /* PrefsWindow.swift */; };
+		D7475F552069245B00233126 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7475F542069245B00233126 /* DateFormatter+.swift */; };
+		D7475F562069245B00233126 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7475F542069245B00233126 /* DateFormatter+.swift */; };
+		D7475F572069245B00233126 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7475F542069245B00233126 /* DateFormatter+.swift */; };
 		D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FC71F337E850047AB76 /* SearchTextField.swift */; };
 		D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FCD1F3438540047AB76 /* PrefsViewController.swift */; };
 		D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75F3338205EC34800CC887E /* ShareViewController.swift */; };
@@ -252,6 +255,7 @@
 		D739955D2051D1AB009017EE /* italic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = italic.png; sourceTree = "<group>"; };
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D741122A1FACA10A00AB619A /* PrefsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsWindow.swift; sourceTree = "<group>"; };
+		D7475F542069245B00233126 /* DateFormatter+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DateFormatter+.swift"; path = "FSNotes/DateFormatter+.swift"; sourceTree = SOURCE_ROOT; };
 		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
@@ -549,6 +553,7 @@
 		D7CD5F6A1F51184A006AA35D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				D7475F542069245B00233126 /* DateFormatter+.swift */,
 				D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */,
 				D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */,
 				D7CD5F6B1F51185F006AA35D /* NSFont+.swift */,
@@ -1068,6 +1073,7 @@
 				D7DB5EDA2025BD7900E7E1B6 /* PageViewController.swift in Sources */,
 				D76025B4204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
+				D7475F572069245B00233126 /* DateFormatter+.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
@@ -1084,6 +1090,7 @@
 			files = (
 				D7C5429D1FC4A83F00EF1F94 /* StorageItem+CoreDataClass.swift in Sources */,
 				D7C5429E1FC4A83F00EF1F94 /* StorageItem+CoreDataProperties.swift in Sources */,
+				D7475F552069245B00233126 /* DateFormatter+.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
@@ -1128,6 +1135,7 @@
 			files = (
 				D7ADFD0F2064285900B531F9 /* URL+.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,
+				D7475F562069245B00233126 /* DateFormatter+.swift in Sources */,
 				D708AC6B200299F600A1760F /* NSTextStorage+.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D790641D1FCB4E5F005677E7 /* MarkdownView.swift in Sources */,
