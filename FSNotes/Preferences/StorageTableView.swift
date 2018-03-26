@@ -12,6 +12,7 @@ import CoreData
 class StorageTableView: NSTableView, NSTableViewDataSource,
 NSTableViewDelegate {
     
+    let storage = Storage.sharedInstance()
     var list = [StorageItem]()
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     
@@ -59,7 +60,7 @@ NSTableViewDelegate {
     func reload() {
         list = CoreDataManager.instance.fetchStorageList()
         reloadData()
-        Storage.instance.loadDocuments()
+        storage.loadDocuments()
         viewController.notesTableView.reloadData()
     }
     

@@ -11,6 +11,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
+    var storage = Storage.sharedInstance()
     
     var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
@@ -70,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
         if let url = urls.first {
             let name = url.lastPathComponent
-            if let note = Storage.instance.getBy(title: name),
+            if let note = storage.getBy(title: name),
                 let window = NSApplication.shared.windows.first,
                 let controller = window.contentViewController as? ViewController {
                 controller.updateTable(filter: name) {

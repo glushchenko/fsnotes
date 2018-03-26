@@ -32,6 +32,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var restoreCursorButton: NSButton!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+    let storage = Storage.sharedInstance()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,7 +132,7 @@ class PrefsViewController: NSViewController {
                     // reset instantiated storage
                     if selected != nil && selected?.label == "general" {
                         CoreDataManager.instance.setDefaultStorage(storage: storage)
-                        Storage.generalUrl = nil
+                        self.storage.generalUrl = nil
                     }
                     
                     CoreDataManager.instance.save()
@@ -283,7 +284,7 @@ class PrefsViewController: NSViewController {
     }
     
     func reloadStorage() {
-        Storage.instance.loadDocuments()
+        storage.loadDocuments()
         
         self.storageTableView.reload()
         self.viewController.updateTable(filter: "") {

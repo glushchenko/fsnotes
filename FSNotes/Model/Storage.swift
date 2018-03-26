@@ -10,16 +10,15 @@ import Foundation
 import Highlightr
 
 class Storage {
-    static let instance = Storage()
+    static var instance: Storage? = nil
     
     var noteList = [Note]()
     var notesDict: [String: Note] = [:]
+    var generalUrl: URL?
     
-    static var generalUrl: URL?
-    static var pinned: Int = 0
-    static var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension]
+    var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension]
     
-    public static var fsImportIsAvailable = true
+    var pinned: Int = 0
     
 #if os(iOS)
     let initialFiles = [
@@ -34,6 +33,14 @@ class Storage {
         "FSNotes - Code Highlighting.md"
     ]
 #endif
+    
+    public static func sharedInstance() -> Storage {
+        guard let storage = self.instance else {
+            self.instance = Storage()
+            return self.instance!
+        }
+        return storage
+    }
     
     func loadDocuments(tryCount: Int = 0) {
         noteList.removeAll()
@@ -167,7 +174,7 @@ class Storage {
             }
             
             if note.isPinned {
-                Storage.pinned += 1
+                pinned += 1
             }
             
             noteList.append(note)
@@ -182,7 +189,8 @@ class Storage {
                 try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey], options:.skipsHiddenFiles)
             
             return
-                directoryFiles.filter {Storage.allowedExtensions.contains($0.pathExtension)}.map{
+                directoryFiles.filter {
+                    allowedExtensions.contains($0.pathExtension)}.map{
                     url in (
                         url,
                         (try? url.resourceValues(forKeys: [.contentModificationDateKey])
@@ -206,13 +214,8 @@ class Storage {
     
     func removeBy(note: Note) {
         if let i = noteList.index(of: note) {
-            note.isRemoved = true
             noteList.remove(at: i)
         }
-    }
-    
-    func remove(id: Int) {
-        noteList[id].isRemoved = true
     }
     
     func getNextId() -> Int {
@@ -220,7 +223,7 @@ class Storage {
     }
     
     func checkFirstRun() -> Bool {
-        let destination = Storage.instance.getBaseURL()
+        let destination = getBaseURL()
         let path = destination.path
         
         if !FileManager.default.fileExists(atPath: path) {
@@ -314,7 +317,7 @@ class Storage {
     
     func getBaseURL() -> URL {
 #if os(OSX)
-        if let gu = Storage.generalUrl {
+        if let gu = generalUrl {
             return gu
         }
     
@@ -322,8 +325,7 @@ class Storage {
             return UserDefaultsManagement.storageUrl
         }
     
-        Storage.generalUrl = url
-    
+        generalUrl = url
         return url
 #else
         return UserDefaultsManagement.documentDirectory

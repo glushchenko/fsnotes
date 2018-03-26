@@ -18,7 +18,7 @@ class ViewController: NSViewController,
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
     var prevQuery: String?
-    let storage = Storage.instance
+    let storage = Storage.sharedInstance()
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -127,7 +127,7 @@ class ViewController: NSViewController,
             
             let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
-            if let list = Storage.instance.sortNotes(noteList: storage.noteList) {
+            if let list = storage.sortNotes(noteList: storage.noteList) {
                 storage.noteList = list
                 viewController.notesTableView.noteList = list
                 viewController.notesTableView.reloadData()
@@ -189,11 +189,7 @@ class ViewController: NSViewController,
         }
         
         let filewatcher = FileWatcher(pathList)
-        filewatcher.callback = { event in
-            guard Storage.fsImportIsAvailable else {
-                return
-            }
-            
+        filewatcher.callback = { event in            
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
@@ -203,7 +199,7 @@ class ViewController: NSViewController,
             }
             
             if event.fileRenamed {
-                let note = Storage.instance.getBy(url: url)
+                let note = self.storage.getBy(url: url)
                 
                 var isCaseInSensitiveEqualOnly = false
                 if let noteUnwrapped = note {
@@ -218,11 +214,14 @@ class ViewController: NSViewController,
                     if fileExistInFS && !isCaseInSensitiveEqualOnly {
                         self.watcherCreateTrigger(url)
                     } else {
+                        guard let unwrappedNote = note else {
+                            return
+                        }
+                        
                         print("FSWatcher remove note: \"\(note!.name)\"")
-                        Storage.instance.removeNotes(notes: [note!], fsRemove: !isCaseInSensitiveEqualOnly) {
+                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: !isCaseInSensitiveEqualOnly) {
                             DispatchQueue.main.async {
-                                note?.isRemoved = true
-                                self.reloadView(note: note)
+                                self.notesTableView.removeByNotes(notes: [unwrappedNote])
                             }
                         }
                     }
@@ -238,7 +237,7 @@ class ViewController: NSViewController,
             }
             
             if event.fileChange {
-                let wrappedNote = Storage.instance.getBy(url: url)
+                let wrappedNote = self.storage.getBy(url: url)
                 
                 if let note = wrappedNote, note.reload() {
                     note.markdownCache()
@@ -257,7 +256,7 @@ class ViewController: NSViewController,
     }
     
     func watcherCreateTrigger(_ url: URL) {
-        guard Storage.instance.getBy(url: url) == nil else {
+        guard storage.getBy(url: url) == nil else {
             return
         }
 
@@ -275,11 +274,11 @@ class ViewController: NSViewController,
         refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
-        Storage.instance.saveNote(note: note)
+        storage.saveNote(note: note)
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.lastRenamed,
-                let note = Storage.instance.getBy(url: url) {
+                let note = self.storage.getBy(url: url) {
                 self.updateTable(filter: "") {
                     self.notesTableView.setSelected(note: note)
                     UserDataService.instance.lastRenamed = nil
@@ -300,7 +299,7 @@ class ViewController: NSViewController,
     func checkFile(url: URL, pathList: [String]) -> Bool {
         return (
             FileManager.default.fileExists(atPath: url.path)
-            && Storage.allowedExtensions.contains(url.pathExtension)
+            && storage.allowedExtensions.contains(url.pathExtension)
             && pathList.contains(url.deletingLastPathComponent().path)
         )
     }
@@ -314,8 +313,6 @@ class ViewController: NSViewController,
             if let selected = selectedNote, let index = notesTable.getIndex(selected) {
                 notesTable.selectRowIndexes([index], byExtendingSelection: false)
                 self.refillEditArea(cursor: cursor)
-            } else if let unwrappedNote = note, selectedNote == unwrappedNote, unwrappedNote.isRemoved {
-                self.editArea.clear()
             }
         }
     }
@@ -549,7 +546,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selected]
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
-            Storage.instance.saveNote(note: note, userInitiated: true)
+            storage.saveNote(note: note, userInitiated: true)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
                 moveAtTop(id: selected)
@@ -572,7 +569,7 @@ class ViewController: NSViewController,
     var filterQueue = OperationQueue.init()
 
     func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
-        if !search, let list = Storage.instance.sortNotes(noteList: storage.noteList) {
+        if !search, let list = storage.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
         }
         
@@ -590,7 +587,6 @@ class ViewController: NSViewController,
                 let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
-                    && $0.isRemoved == false
                     && (
                         filter.isEmpty
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
@@ -724,7 +720,7 @@ class ViewController: NSViewController,
         note.isCached = true
         note.save()
         
-        Storage.instance.saveNote(note: note, userInitiated: true)
+        storage.saveNote(note: note, userInitiated: true)
         note.markdownCache()
         refillEditArea()
         
@@ -797,10 +793,9 @@ class ViewController: NSViewController,
         alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
-                
-                Storage.instance.removeNotes(notes: notes) {
+                self.storage.removeNotes(notes: notes) {
                     DispatchQueue.main.async {
-                        self.reloadView()
+                        self.notesTableView.removeByNotes(notes: notes)
                     }
                 }
             }
@@ -924,7 +919,7 @@ class ViewController: NSViewController,
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             let keyStore = NSUbiquitousKeyValueStore()
             for key in keys {
-                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = Storage.instance.getBy(name: key) {
+                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = storage.getBy(name: key) {
                     note.isPinned = isPinned
                 }
             }

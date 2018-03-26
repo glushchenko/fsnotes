@@ -15,6 +15,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     var noteList = [Note]()
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
+    var storage = Storage.sharedInstance()
     
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
@@ -173,6 +174,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if let i = getIndex(note) {
             selectRow(i)
             scrollRowToVisible(i)
+        }
+    }
+    
+    func removeByNotes(notes: [Note]) {
+        for note in notes {
+            if let i = noteList.index(of: note) {
+                let indexSet = IndexSet(integer: i)
+                removeRows(at: indexSet, withAnimation: .effectFade)
+            }
         }
     }
     

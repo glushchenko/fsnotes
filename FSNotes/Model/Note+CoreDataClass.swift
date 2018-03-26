@@ -21,6 +21,7 @@ public class Note: NSManagedObject {
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
+    var sharedStorage = Storage.sharedInstance()
     
     convenience init(name: String) {
         let context = CoreDataManager.instance.context
@@ -51,7 +52,7 @@ public class Note: NSManagedObject {
     func initWith(url: URL, fileName: String) {
         storage = CoreDataManager.instance.fetchGeneralStorage()
         
-        self.url = Storage.instance.getBaseURL().appendingPathComponent(fileName)
+        self.url = sharedStorage.getBaseURL().appendingPathComponent(fileName)
         parseURL()
         
         let options = getDocOptions()
@@ -109,15 +110,6 @@ public class Note: NSManagedObject {
             try FileManager.default.moveItem(at: url, to: to)
             print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
         } catch {}
-        
-        #if os(iOS)
-            Storage.instance.removeNotes(notes: [self]) {
-                let note = CoreDataManager.instance.make()
-                note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: to)
-                note.load(to)
-                note.save(cloudSync: true)
-            }
-        #endif
     }
     
     func getNewURL(name: String) -> URL {
@@ -229,7 +221,7 @@ public class Note: NSManagedObject {
             name = defaultName
         }
     
-        var fileUrl = Storage.instance.getBaseURL()
+        var fileUrl = sharedStorage.getBaseURL()
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(type.rawValue)
         
@@ -252,7 +244,7 @@ public class Note: NSManagedObject {
     }
     
     func addPin() {
-        Storage.pinned += 1
+        sharedStorage.pinned += 1
         isPinned = true
         CoreDataManager.instance.save()
         
@@ -265,7 +257,7 @@ public class Note: NSManagedObject {
     
     func removePin() {
         if isPinned {
-            Storage.pinned -= 1
+            sharedStorage.pinned -= 1
             isPinned = false
             
             #if CLOUDKIT || os(iOS)
@@ -361,7 +353,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        Storage.instance.saveNote(note: self, userInitiated: false, cloudSync: cloudSync)
+        sharedStorage.saveNote(note: self, userInitiated: false, cloudSync: cloudSync)
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {

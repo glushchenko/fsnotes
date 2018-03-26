@@ -13,6 +13,7 @@ import Highlightr
 class EditTextView: NSTextView {
     public static var note: Note?
     var isHighlighted: Bool = false
+    let storage = Storage.sharedInstance()
     
     class UndoInfo: NSObject {
         let text: String
@@ -48,7 +49,7 @@ class EditTextView: NSTextView {
         
         let nsString = string as NSString
         let chars = nsString.substring(with: charRange)
-        if let notes = Storage.instance.getBy(startWith: chars) {
+        if let notes = storage.getBy(startWith: chars) {
             let titles = notes.map{ $0.title }
             return titles
         }
