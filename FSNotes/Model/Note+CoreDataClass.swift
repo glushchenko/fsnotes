@@ -170,16 +170,18 @@ public class Note: NSManagedObject {
     }
     
     @objc func getDateForLabel() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = DateFormatter.Style.short
-        dateFormatter.timeStyle = DateFormatter.Style.none
-        dateFormatter.locale = NSLocale.autoupdatingCurrent
-        
-        if let date = self.modifiedLocalAt {
-            return dateFormatter.string(from: date)
+        guard let date = self.modifiedLocalAt else {
+            return "-"
         }
         
-        return "-"
+        let dateFormatter = DateFormatter()
+        let calendar = NSCalendar.current
+        if calendar.isDateInToday(date) {
+            return dateFormatter.formatTimeForDisplay(date)
+        }
+        else {
+            return dateFormatter.formatDateForDisplay(date)
+        }
     }
     
     func getContent() -> NSAttributedString? {
