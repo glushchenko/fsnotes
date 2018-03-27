@@ -1325,9 +1325,7 @@ public class NotesTextProcessor {
         let attributedString: NSMutableAttributedString = NSMutableAttributedString(attributedString: storage)
         let pattern = "(\(searchTerm))"
         let range: NSRange = NSMakeRange(0, storage.string.count)
-        
-        print(remove)
-        
+                
         do {
             let regex = try NSRegularExpression(pattern: pattern, options: [NSRegularExpression.Options.caseInsensitive])
             

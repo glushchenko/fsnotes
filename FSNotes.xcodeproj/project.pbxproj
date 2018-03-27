@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14027393D4820E0F5320AE4F /* Pods_FSNotes__CloudKit_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		6F46BBE71F55320E000D7DB2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
 		7116B6EF541108F7A48EBF4A /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B1EC33343C49C1F21859483 /* Pods_FSNotes__iCloud_Documents_.framework */; };
@@ -368,7 +367,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14027393D4820E0F5320AE4F /* Pods_FSNotes__CloudKit_.framework in Frameworks */,
 				7116B6EF541108F7A48EBF4A /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

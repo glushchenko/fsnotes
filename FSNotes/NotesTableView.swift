@@ -181,6 +181,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         for note in notes {
             if let i = noteList.index(of: note) {
                 let indexSet = IndexSet(integer: i)
+                noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .effectFade)
             }
         }
