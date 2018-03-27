@@ -472,6 +472,16 @@ class ViewController: NSViewController,
             return
         }
         
+        guard let itemStorage = note.storage, !itemStorage.fileExist(fileName: value, ext: note.url.pathExtension) else {
+            let alert = NSAlert()
+            alert.messageText = "Hmm, something goes wrong 🙈"
+            alert.informativeText = "Note with name \(value) already exist in selected storage."
+            alert.runModal()
+            
+            sender.stringValue = note.getTitleWithoutLabel()
+            return
+        }
+        
         guard value.count > 0 else {
             sender.stringValue = note.getTitleWithoutLabel()
             return

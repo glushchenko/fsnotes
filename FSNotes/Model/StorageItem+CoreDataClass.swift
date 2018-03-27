@@ -25,4 +25,14 @@ public class StorageItem: NSManagedObject {
         }
         return nil
     }
+    
+    func fileExist(fileName: String, ext: String) -> Bool {
+        guard let url = getUrl() else {
+            return false
+        }
+        
+        let fileURL = url.appendingPathComponent(fileName + "." + ext)
+    
+        return FileManager.default.fileExists(atPath: fileURL.path)
+    }
 }
