@@ -454,12 +454,12 @@
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D71354032042AFC800E3776F /* SettingsViewController.swift */,
-				D767938C201F21F5000F7BBF /* Main.storyboard */,
+				D7BDFE69201F68B700897A58 /* NotesTableView.swift */,
 				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
+				D7BDFE6B201F6DC200897A58 /* EditTextView.swift */,
+				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
-				D7BDFE69201F68B700897A58 /* NotesTableView.swift */,
-				D7BDFE6B201F6DC200897A58 /* EditTextView.swift */,
 				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
 			);
 			path = "FSNotes iOS";
