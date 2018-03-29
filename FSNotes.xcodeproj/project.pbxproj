@@ -453,7 +453,6 @@
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
-				D71354032042AFC800E3776F /* SettingsViewController.swift */,
 				D7BDFE69201F68B700897A58 /* NotesTableView.swift */,
 				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
 				D7BDFE6B201F6DC200897A58 /* EditTextView.swift */,
@@ -590,6 +589,7 @@
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D71354032042AFC800E3776F /* SettingsViewController.swift */,
 				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
 				D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */,
 				D7D03BAE205C250500D96A6D /* FontViewController.swift */,

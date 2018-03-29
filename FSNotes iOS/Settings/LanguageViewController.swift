@@ -15,10 +15,9 @@ class LanguageViewController: UITableViewController {
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
-        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x222222)
-        navigationController?.navigationBar.mixedBarStyle = MixedBarStyle(normal: .default, night: .black)
+        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(LanguageViewController.cancel))
         
@@ -48,6 +47,10 @@ class LanguageViewController: UITableViewController {
         let cell = UITableViewCell()
         cell.textLabel?.text = languages?[indexPath.row]
         
+        let view = UIView()
+        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
+        cell.selectedBackgroundView = view
+        
         return cell
     }
     
@@ -60,7 +63,7 @@ class LanguageViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         
         guard let language = UserDefaultsManagement.defaultLanguage else {

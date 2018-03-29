@@ -16,8 +16,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: UITextView!
     
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
-        editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         
         guard let note = self.note else {
             return

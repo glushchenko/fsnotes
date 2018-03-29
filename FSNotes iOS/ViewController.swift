@@ -20,9 +20,9 @@ class ViewController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {        
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
-        
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x222222)
-        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+                
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
@@ -396,12 +396,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
-        
-        navigationController.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
-        navigationController.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
-        navigationController.navigationBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x222222)
-        navigationController.navigationBar.mixedBarStyle = MixedBarStyle(normal: .default, night: .blackTranslucent)
-        
+                
         self.present(navigationController, animated: true, completion: nil)
     }
     
