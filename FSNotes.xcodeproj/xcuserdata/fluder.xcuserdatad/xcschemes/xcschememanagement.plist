@@ -17,7 +17,7 @@
 		<key>FSNotes iOS Share Extension.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>13</integer>
+			<integer>14</integer>
 		</dict>
 		<key>FSNotes iOS Share.xcscheme</key>
 		<dict>
@@ -27,7 +27,7 @@
 		<key>FSNotes iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>2</integer>
 		</dict>
 		<key>FSNotes.xcscheme</key>
 		<dict>

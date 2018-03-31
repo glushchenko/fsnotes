@@ -67,6 +67,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -407,6 +409,20 @@ class ViewController: UIViewController, UISearchBarDelegate {
     
     @objc func rotated() {
         initNewButton()
+    }
+    
+    @objc func didChangeScreenBrightness() {
+        guard UserDefaultsManagement.nightModeType == .brightness else {
+            return
+        }
+        
+        let brightness = Float(UIScreen.screens[0].brightness)
+
+        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness) {
+            NightNight.theme = .normal
+        } else {
+            NightNight.theme = .night
+        }
     }
 }
 

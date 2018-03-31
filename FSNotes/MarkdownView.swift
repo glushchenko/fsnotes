@@ -37,9 +37,12 @@ open class MarkdownView: WKWebView {
         }
         
         let userContentController = WKUserContentController()
-        userContentController.add(HandlerCopyCode(), name: "notification")
-        userContentController.add(HandlerMouseOver(), name: "mouseover")
-        userContentController.add(HandlerMouseOut(), name: "mouseout")
+        
+        #if os(OSX)
+            userContentController.add(HandlerCopyCode(), name: "notification")
+            userContentController.add(HandlerMouseOver(), name: "mouseover")
+            userContentController.add(HandlerMouseOut(), name: "mouseout")
+        #endif
         
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -129,6 +132,7 @@ extension MarkdownView: WKNavigationDelegate {
     
 }
 
+#if os(OSX)
 class HandlerCopyCode: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
@@ -152,4 +156,5 @@ class HandlerMouseOut: NSObject, WKScriptMessageHandler {
         NSCursor.arrow.set()
     }
 }
+#endif
 

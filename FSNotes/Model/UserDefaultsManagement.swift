@@ -49,7 +49,9 @@ public class UserDefaultsManagement {
         static let LiveImagesPreview = "liveImagesPreview"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
+        static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
+        static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
         static let PinListKey = "pinList"
         static let Preview = "preview"
         static let RestoreCursorPosition = "restoreCursorPosition"
@@ -476,6 +478,30 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.NightModeAuto)
+        }
+    }
+    
+    static var nightModeType: NightMode {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.NightModeType) {
+                return NightMode(rawValue: result as! Int) ?? .disabled
+            }
+            return NightMode(rawValue: 0x00) ?? .disabled
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NightModeType)
+        }
+    }
+    
+    static var maxNightModeBrightnessLevel: Float {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.NightModeBrightnessLevel) {
+                return result as! Float
+            }
+            return 35
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.NightModeBrightnessLevel)
         }
     }
     

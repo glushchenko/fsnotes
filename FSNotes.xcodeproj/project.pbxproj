@@ -21,6 +21,8 @@
 		D70BA87720599D1300875E9C /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87420599D1200875E9C /* header.png */; };
 		D70BA87820599D1300875E9C /* header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87520599D1300875E9C /* header@3x.png */; };
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
+		D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */; };
+		D712FED2206F67C500370BA4 /* NightMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FED1206F67C500370BA4 /* NightMode.swift */; };
 		D71353FE2042AE5F00E3776F /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FD2042AE5F00E3776F /* settings.png */; };
 		D71354012042AECD00E3776F /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FF2042AECD00E3776F /* settings@2x.png */; };
 		D71354022042AECD00E3776F /* settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71354002042AECD00E3776F /* settings@3x.png */; };
@@ -54,6 +56,8 @@
 		D7475F572069245B00233126 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7475F542069245B00233126 /* DateFormatter+.swift */; };
 		D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FC71F337E850047AB76 /* SearchTextField.swift */; };
 		D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FCD1F3438540047AB76 /* PrefsViewController.swift */; };
+		D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
+		D75F1DF1206D660D00F70B28 /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
 		D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75F3338205EC34800CC887E /* ShareViewController.swift */; };
 		D75F333C205EC34800CC887E /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D75F333A205EC34800CC887E /* MainInterface.storyboard */; };
 		D75F3340205EC34800CC887E /* FSNotes iOS Share Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D75F3336205EC34800CC887E /* FSNotes iOS Share Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -233,6 +237,8 @@
 		D70BA87420599D1200875E9C /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		D70BA87520599D1300875E9C /* header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@3x.png"; sourceTree = "<group>"; };
 		D70BA87620599D1300875E9C /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
+		D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeViewController.swift; sourceTree = "<group>"; };
+		D712FED1206F67C500370BA4 /* NightMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMode.swift; sourceTree = "<group>"; };
 		D71353FD2042AE5F00E3776F /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		D71353FF2042AECD00E3776F /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		D71354002042AECD00E3776F /* settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@3x.png"; sourceTree = "<group>"; };
@@ -593,6 +599,8 @@
 				D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */,
 				D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */,
 				D7D03BAE205C250500D96A6D /* FontViewController.swift */,
+				D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */,
+				D712FED1206F67C500370BA4 /* NightMode.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -790,6 +798,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D75F1DF1206D660D00F70B28 /* DownView.bundle in Resources */,
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
 				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
@@ -942,12 +951,16 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Down-iOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-iOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/NightNight/NightNight.framework",
 				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NightNight.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -962,7 +975,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 			);
@@ -1002,7 +1015,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Down/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
 			);
@@ -1050,13 +1063,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
 				D76025C4204F2849000B9F59 /* UIFont+.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */,
+				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE6E201F6FA800897A58 /* FSNotes.xcdatamodeld in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
+				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
 				D7BDFE62201F678C00897A58 /* Note+CoreDataClass.swift in Sources */,
 				D7BDFE63201F678C00897A58 /* Note+CoreDataProperties.swift in Sources */,
