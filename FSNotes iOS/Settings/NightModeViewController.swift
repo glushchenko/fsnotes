@@ -12,7 +12,7 @@ import NightNight
 import CoreLocation
 
 class NightModeViewController: UITableViewController, CLLocationManagerDelegate {
-    var sections = [" ", "Brightness level"]
+    var sections = ["Type", "Brightness level"]
     var rowsInSection = [3, 1, 1]
     
     var rows = [
@@ -27,7 +27,7 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
+        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancel))
@@ -74,8 +74,8 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
         }
         
         if indexPath.section == 1 {
-            let brightness = Float(UIScreen.screens[0].brightness)
-            let slider = UISlider(frame: CGRect(x: 10, y: 10, width: tableView.frame.width - 20, height: 40))
+            let brightness = UserDefaultsManagement.maxNightModeBrightnessLevel
+            let slider = UISlider(frame: CGRect(x: 10, y: 3, width: tableView.frame.width - 20, height: 40))
             slider.minimumValue = 0
             slider.maximumValue = 1
             slider.addTarget(self, action: #selector(didChangeBrightnessSlider), for: .touchUpInside)
@@ -118,6 +118,10 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
             if nightMode == .enabled {
                 UIApplication.shared.statusBarStyle = .lightContent
                 NightNight.theme = .night
+            }
+            
+            if nightMode == .brightness {
+                NotificationCenter.default.post(name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
             }
             
             tableView.reloadData()

@@ -54,13 +54,15 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+            let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
             return
         }
         
         let note = notes[indexPath.row]
-        viewController.fill(note: note)
-        pageController.switchToEditor()
+        if let evc = viewController.viewControllers[0] as? EditorViewController {
+            evc.fill(note: note)
+            pageController.switchToEditor()
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

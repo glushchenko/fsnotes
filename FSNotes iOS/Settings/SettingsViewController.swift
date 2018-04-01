@@ -18,7 +18,7 @@ class SettingsViewController: UITableViewController {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x0000ff, night: 0xfafafa)
+        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
         super.viewDidLoad()
@@ -133,7 +133,7 @@ class SettingsViewController: UITableViewController {
             case 0:
                 lvc = FontViewController()
             case 1:
-                lvc = NightModeViewController()
+                lvc = NightModeViewController(style: .grouped)
             default: break
                 
             }

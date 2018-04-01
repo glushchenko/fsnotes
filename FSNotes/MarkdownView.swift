@@ -7,6 +7,7 @@
 //
 
 import WebKit
+import Highlightr
 
 // MARK: - Public API
 
@@ -50,7 +51,7 @@ open class MarkdownView: WKWebView {
         super.init(frame: frame, configuration: configuration)
         
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
-        try loadHTMLView(markdownString, css: css)
+        try loadHTMLView(markdownString, css: getPreviewStyle())
     }
     
     required public init?(coder: NSCoder) {
@@ -75,6 +76,29 @@ open class MarkdownView: WKWebView {
         }
         
         try loadHTMLView(markdownString, css: "")
+    }
+    
+    private func getPreviewStyle() -> String {
+        var codeStyle = ""
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+            codeStyle = try! String.init(contentsOfFile: hgPath)
+        }
+        
+        let familyName = UserDefaultsManagement.noteFont.familyName
+        
+        #if os(iOS)
+            if #available(iOS 11.0, *) {
+                var font = UserDefaultsManagement.noteFont
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font!)
+                if let fontSize = font?.pointSize {
+                    let fs = Int(fontSize)
+                    return "body {font: \(fs)pt \(familyName); } code, pre {font: \(fs)pt Source Code Pro;} \(codeStyle)"
+                }
+            }
+        #endif
+        
+        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} \(codeStyle)"
     }
     
     // MARK: - Private Properties

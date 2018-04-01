@@ -8,16 +8,28 @@
 
 import UIKit
 import NightNight
+import Down
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
     private var isHighlighted: Bool = false
+    private var downView: MarkdownView?
     
     @IBOutlet weak var editArea: UITextView!
     
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        
+        // textView is a UITextView
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
+        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        
+        if let n = note, n.type == .Markdown {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
+        }
+        
         
         guard let note = self.note else {
             return
@@ -41,6 +53,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
+        
+        if let n = note, n.type == .Markdown {
+            self.navigationItem.leftBarButtonItem?.title = "Preview"
+        }
+        
         super.viewDidAppear(animated)
         
         if editArea.textStorage.length == 0 {
@@ -55,11 +72,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         pageController.enableSwipe()
         
+        // keyboard color
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
         } else {
             editArea.keyboardAppearance = .default
         }
+        
+        // links color
+        let linkAttributes: [String : Any] = [
+            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0),
+            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
+            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleNone.rawValue]
+        
+        editArea.linkTextAttributes = linkAttributes
     }
     
     override var textInputMode: UITextInputMode? {
@@ -78,8 +104,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private var height: CGFloat = 0.0
     
-    public func fill(note: Note) {
+    public func fill(note: Note, preview: Bool = false) {
         self.note = note
+        
+        self.navigationItem.title = note.title
+        UserDefaultsManagement.preview = false
+        removeMdSubviewIfExist()
+        
+        if preview {
+            loadPreview(note: note)
+            return
+        }
+        
         note.markdownCache()
         
         guard editArea != nil else {
@@ -123,6 +159,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         case .Markdown:
             return
         }
+    }
+    
+    func loadPreview(note: Note) {
+        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let url = NSURL.fileURL(withPath: path!)
+        let bundle = Bundle(url: url)
+        let markdownString = note.getPrettifiedContent()
+        
+        do {
+            if let downView = try? MarkdownView(frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
+                downView.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(downView)
+            }
+        }
+        return
     }
     
     func refill() {
@@ -282,4 +333,37 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func redoPressed() {
         editArea.undoManager?.redo()
     }
+    
+    @objc func preview() {
+        let isPreviewMode = !UserDefaultsManagement.preview
+        
+        guard let n = note else {
+            return
+        }
+        
+        if isPreviewMode {
+            view.endEditing(true)
+        }
+        
+        navigationItem.leftBarButtonItem?.title = isPreviewMode ? "Edit" : "Preview"
+        
+        fill(note: n, preview: isPreviewMode)
+        UserDefaultsManagement.preview = isPreviewMode
+    }
+    
+    func removeMdSubviewIfExist() {
+        guard view.subviews.indices.contains(1) else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            for sub in self.view.subviews {
+                if sub.isKind(of: MarkdownView.self) {
+                    sub.removeFromSuperview()
+                }
+            }
+        }
+
+    }
+
 }

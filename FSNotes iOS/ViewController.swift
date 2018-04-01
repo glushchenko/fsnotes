@@ -89,7 +89,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
         pageController.disableSwipe()
         
         // reload last row preview
-        if let evc = pageController.orderedViewControllers[1] as? EditorViewController, let note  = evc.note {
+        if let vc = pageController.orderedViewControllers[1] as? UINavigationController, let evc = vc.viewControllers[0] as? EditorViewController, let note  = evc.note {
+            
             guard let i = notesTable.notes.index(of: note) else {
                 return
             }
@@ -228,8 +229,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController, let note = viewController.note, note.name == fsName {
-                        viewController.fill(note: note)
+                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController, let note = evc.note, note.name == fsName {
+                        evc.fill(note: note)
                     }
                 }
             }
@@ -323,13 +324,13 @@ class ViewController: UIViewController, UISearchBarDelegate {
         
         updateList()
         
-        guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
         }
         
-        viewController.note = note
+        evc.note = note
         pageController.switchToEditor()
-        viewController.fill(note: note)
+        evc.fill(note: note)
     }
     
     func createNote(content: String) {
@@ -353,12 +354,12 @@ class ViewController: UIViewController, UISearchBarDelegate {
     
     func refillEditArea(cursor: Int?, previewOnly: Bool) {
         DispatchQueue.main.async {
-            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
                 return
             }
         
-            if let note = viewController.note {
-                viewController.fill(note: note)
+            if let note = evc.note {
+                evc.fill(note: note)
             }
         }
     }
@@ -385,13 +386,13 @@ class ViewController: UIViewController, UISearchBarDelegate {
         note.save()
         updateList()
         
-        guard let pageController = self.parent as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
         }
         
-        viewController.note = note
+        evc.note = note
         pageController.switchToEditor()
-        viewController.fill(note: note)
+        evc.fill(note: note)
     }
     
     @objc func openSettings() {
@@ -420,8 +421,10 @@ class ViewController: UIViewController, UISearchBarDelegate {
 
         if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness) {
             NightNight.theme = .normal
+            UIApplication.shared.statusBarStyle = .default
         } else {
             NightNight.theme = .night
+            UIApplication.shared.statusBarStyle = .lightContent
         }
     }
 }

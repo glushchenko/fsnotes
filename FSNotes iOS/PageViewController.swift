@@ -25,12 +25,20 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func newVc(viewController: String) -> UIViewController {
-        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)
+        
+        if viewController == "editorViewController" {
+            return UINavigationController(rootViewController: vc)
+        }
+        
+        return vc
     }
     
     lazy var orderedViewControllers: [UIViewController] = {
-        return [self.newVc(viewController: "listViewController"),
-                self.newVc(viewController: "editorViewController")]
+        return [
+            self.newVc(viewController: "listViewController"),
+            self.newVc(viewController: "editorViewController")
+        ]
     }()
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -95,7 +103,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if previousViewControllers[0].isKind(of: EditorViewController.self) && completed {
+        if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
             disableSwipe()
         } else {
             enableSwipe()

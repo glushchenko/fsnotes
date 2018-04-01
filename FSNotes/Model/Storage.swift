@@ -357,11 +357,14 @@ class Storage {
                     viewController.refillEditArea()
                 #else
                     DispatchQueue.main.async {
-                        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? EditorViewController else {
+                        guard
+                            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+                            let evc = viewController.viewControllers[0] as? EditorViewController else {
                             return
                         }
                         
-                        viewController.fill(note: note)
+                        evc.fill(note: note)
                     }
                 #endif
                 }
