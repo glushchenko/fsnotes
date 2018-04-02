@@ -200,18 +200,10 @@ class ViewController: NSViewController,
             
             if event.fileRenamed {
                 let note = self.storage.getBy(url: url)
-                
-                var isCaseInSensitiveEqualOnly = false
-                if let noteUnwrapped = note {
-                    let displayName = FileManager.default.displayName(atPath: url.path)
-                    let name = noteUnwrapped.url.lastPathComponent
-                    isCaseInSensitiveEqualOnly = (displayName != name) && (noteUnwrapped.url.path.lowercased() == url.path.lowercased())
-                }
-                
                 let fileExistInFS = self.checkFile(url: url, pathList: pathList)
-                
+
                 if note != nil {
-                    if fileExistInFS && !isCaseInSensitiveEqualOnly {
+                    if fileExistInFS {
                         self.watcherCreateTrigger(url)
                     } else {
                         guard let unwrappedNote = note else {
@@ -219,7 +211,7 @@ class ViewController: NSViewController,
                         }
                         
                         print("FSWatcher remove note: \"\(note!.name)\"")
-                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: !isCaseInSensitiveEqualOnly) {
+                        self.storage.removeNotes(notes: [unwrappedNote]) {
                             DispatchQueue.main.async {
                                 self.notesTableView.removeByNotes(notes: [unwrappedNote])
                             }
@@ -256,11 +248,19 @@ class ViewController: NSViewController,
     }
     
     func watcherCreateTrigger(_ url: URL) {
-        guard storage.getBy(url: url) == nil else {
+        let n = storage.getBy(url: url)
+        
+        guard n == nil else {
+            if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
+                self.updateTable(filter: "") {
+                    self.notesTableView.setSelected(note: nUnwrapped)
+                    UserDataService.instance.lastRenamed = nil
+                }
+            }
             return
         }
-
-        var note: Note        
+        
+        var note: Note
         if let existNote = CoreDataManager.instance.getBy(url: url) {
             note = existNote
         } else {
@@ -472,7 +472,10 @@ class ViewController: NSViewController,
             return
         }
         
-        guard let itemStorage = note.storage, !itemStorage.fileExist(fileName: value, ext: note.url.pathExtension) else {
+        let newName = sender.stringValue + "." + note.url.pathExtension
+        let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
+        
+        if let itemStorage = note.storage, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
             let alert = NSAlert()
             alert.messageText = "Hmm, something goes wrong 🙈"
             alert.informativeText = "Note with name \(value) already exist in selected storage."
@@ -500,6 +503,11 @@ class ViewController: NSViewController,
             try FileManager.default.moveItem(at: note.url, to: newUrl)
             print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
         } catch {}
+        
+        if isSoftRename {
+            note.url = newUrl
+            note.parseURL()
+        }
         
         reloadView()
         sender.stringValue = note.title

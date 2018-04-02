@@ -285,7 +285,7 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    $0.url == url
+                    $0.url.path.lowercased() == url.path.lowercased()
                 )
             })
     }
