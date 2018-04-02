@@ -37,7 +37,15 @@ public class NotesTextProcessor {
     open static var codeBackground = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
     open var highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
 #else
-    open static var codeBackground = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+    open static var codeBackground: UIColor {
+        get {
+            if NightNight.theme == .night {
+                return UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)
+            } else {
+                return UIColor(red:0.94, green:0.95, blue:0.95, alpha:1.0)
+            }
+        }
+    }
     open var highlightColor = UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
 #endif
     
@@ -330,13 +338,13 @@ public class NotesTextProcessor {
             storage?.endEditing()
             storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
             storage?.addAttributes([
-                .backgroundColor: Color(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+                .backgroundColor: NotesTextProcessor.codeBackground
                 ], range: range)
         }
 
         note.content.addAttributes([
-                    .backgroundColor: NotesTextProcessor.codeBackground
-                ], range: range)
+            .backgroundColor: NotesTextProcessor.codeBackground
+        ], range: range)
     }
     
     public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true) {

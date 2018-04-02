@@ -27,7 +27,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
         if let n = note, n.type == .Markdown {
-            self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
         
         
@@ -55,7 +55,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.isScrollEnabled = true
         
         if let n = note, n.type == .Markdown {
-            self.navigationItem.leftBarButtonItem?.title = "Preview"
+            self.navigationItem.rightBarButtonItem?.title = "Preview"
         }
         
         super.viewDidAppear(animated)
@@ -79,13 +79,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.keyboardAppearance = .default
         }
         
-        // links color
-        let linkAttributes: [String : Any] = [
-            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0),
-            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
-            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleNone.rawValue]
-        
-        editArea.linkTextAttributes = linkAttributes
+        initLinksColor()
     }
     
     override var textInputMode: UITextInputMode? {
@@ -107,6 +101,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
         
+        UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
+        
         self.navigationItem.title = note.title
         UserDefaultsManagement.preview = false
         removeMdSubviewIfExist()
@@ -116,10 +112,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        note.markdownCache()
-        
         guard editArea != nil else {
             return
+        }
+        
+        editArea.attributedText = note.content
+        
+        if note.type == .Markdown {
+            NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
         }
         
         editArea.isScrollEnabled = false
@@ -128,8 +128,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        editArea.attributedText = note.content
         
         let storage = editArea.textStorage
         let width = editArea.frame.width
@@ -177,6 +175,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func refill() {
+        initLinksColor()
+        
         if let note = self.note {
             let keyboardIsOpen = editArea.isFirstResponder
             
@@ -191,7 +191,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
             
             fill(note: note)
-            //editArea.endEditing(false)
         }
     }
         
@@ -251,11 +250,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     func addToolBar(textField: UITextView){
         let toolBar = UIToolbar()
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
         toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-        
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
@@ -345,7 +343,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             view.endEditing(true)
         }
         
-        navigationItem.leftBarButtonItem?.title = isPreviewMode ? "Edit" : "Preview"
+        navigationItem.rightBarButtonItem?.title = isPreviewMode ? "Edit" : "Preview"
         
         fill(note: n, preview: isPreviewMode)
         UserDefaultsManagement.preview = isPreviewMode
@@ -364,6 +362,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
         }
 
+    }
+    
+    func initLinksColor() {
+        let linkAttributes: [String : Any] = [
+            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0),
+            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
+            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleNone.rawValue]
+        
+        if editArea != nil {
+            editArea.linkTextAttributes = linkAttributes
+        }
     }
 
 }

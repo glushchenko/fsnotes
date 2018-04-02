@@ -93,7 +93,7 @@ open class MarkdownView: WKWebView {
                 font = fontMetrics.scaledFont(for: font!)
                 if let fontSize = font?.pointSize {
                     let fs = Int(fontSize)
-                    return "body {font: \(fs)pt \(familyName); } code, pre {font: \(fs)pt Source Code Pro;} \(codeStyle)"
+                    return "body {font: \(fs)pt \(familyName); } code, pre {font: \(fs)pt Courier New; font-weight: bold; } \(codeStyle)"
                 }
             }
         #endif

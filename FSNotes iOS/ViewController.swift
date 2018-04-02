@@ -417,14 +417,33 @@ class ViewController: UIViewController, UISearchBarDelegate {
             return
         }
         
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = viewController.viewControllers[0] as? EditorViewController else {
+            return
+        }
+        
         let brightness = Float(UIScreen.screens[0].brightness)
 
-        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness) {
+        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
             NightNight.theme = .normal
             UIApplication.shared.statusBarStyle = .default
-        } else {
+            
+            UserDefaultsManagement.codeTheme = "atom-one-light"
+            NotesTextProcessor.hl = nil
+            evc.refill()
+            
+            return
+        }
+        
+        if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
             NightNight.theme = .night
             UIApplication.shared.statusBarStyle = .lightContent
+            
+            UserDefaultsManagement.codeTheme = "monokai-sublime"
+            NotesTextProcessor.hl = nil
+            evc.refill()
         }
     }
 }

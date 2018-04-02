@@ -13,6 +13,7 @@ import Foundation
     import MASShortcut
 #else
     import UIKit
+    import NightNight
 #endif
 
 public class UserDefaultsManagement {
@@ -399,7 +400,16 @@ public class UserDefaultsManagement {
             if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
                 return theme as! String
             }
-            return "atom-one-light"
+            
+            #if os(OSX)
+                return "atom-one-light"
+            #else
+                if NightNight.theme == .night {
+                    return "monokai-sublime"
+                } else {
+                    return "atom-one-light"
+                }
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
@@ -481,17 +491,19 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var nightModeType: NightMode {
-        get {
-            if let result = UserDefaults.standard.object(forKey: Constants.NightModeType) {
-                return NightMode(rawValue: result as! Int) ?? .disabled
+    #if os(iOS)
+        static var nightModeType: NightMode {
+            get {
+                if let result = UserDefaults.standard.object(forKey: Constants.NightModeType) {
+                    return NightMode(rawValue: result as! Int) ?? .disabled
+                }
+                return NightMode(rawValue: 0x00) ?? .disabled
             }
-            return NightMode(rawValue: 0x00) ?? .disabled
+            set {
+                UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NightModeType)
+            }
         }
-        set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NightModeType)
-        }
-    }
+    #endif
     
     static var maxNightModeBrightnessLevel: Float {
         get {
