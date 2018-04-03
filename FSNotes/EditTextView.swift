@@ -422,11 +422,19 @@ class EditTextView: NSTextView {
     }
     
     override func keyDown(with event: NSEvent) {
-        if event.keyCode == 48 {
-            guard let note = EditTextView.note else {
-                return
-            }
+        guard let note = EditTextView.note else {
+            return
+        }
+        
+        if event.keyCode == 0x24 {
+            super.keyDown(with: event)
             
+            let formatter = TextFormatter(textView: self, note: note)
+            formatter.newLine()
+            return
+        }
+        
+        if event.keyCode == 48 {
             if event.modifierFlags.rawValue == 131330 {
                 let formatter = TextFormatter(textView: self, note: note)
                 formatter.unTab()
@@ -437,10 +445,6 @@ class EditTextView: NSTextView {
             let formatter = TextFormatter(textView: self, note: note)
             formatter.tab()
             saveCursorPosition()
-            return
-        }
-
-        guard let note = EditTextView.note else {
             return
         }
         

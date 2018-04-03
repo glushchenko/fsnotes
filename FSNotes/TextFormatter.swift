@@ -34,7 +34,7 @@ public class TextFormatter {
     init(textView: TextView, note: Note) {
         #if os(OSX)
             storage = textView.textStorage!
-            range = textView.selectedRange()
+            range = textView.selectedRange
             attributedSelected = textView.attributedString()
         #else
             storage = textView.textStorage
@@ -259,6 +259,36 @@ public class TextFormatter {
         }
     }
     
+    func newLine() {
+        guard let paragraphRange = getParagraphRange(), storage.length > paragraphRange.lowerBound - 1 else {
+            return
+        }
+        
+        let nsString = storage.string as NSString
+        let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(paragraphRange.lowerBound - 1, 0))
+        
+        let prevString = nsString.substring(with: prevParagraphRange)
+        let nsPrev = prevString as NSString
+        
+        guard let regex = try? NSRegularExpression(pattern: "^( |\t)*([-|–|\\+]{1} )"),
+            let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+. ") else {
+            return
+        }
+        
+        if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
+            let prefix = nsPrev.substring(with: match.range)
+            textView.insertText(prefix, replacementRange: textView.selectedRange())
+            return
+        }
+        
+        if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
+            let prefix = nsPrev.substring(with: matchDigits.range)
+            if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
+                textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)), replacementRange: textView.selectedRange())
+            }
+        }
+    }
+    
     deinit {
         if note.type == .Markdown {
             if var font = UserDefaultsManagement.noteFont {
@@ -275,10 +305,6 @@ public class TextFormatter {
         
         if note.type == .Markdown, let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
-        }
-        
-        if note.type == .RichText {
-            setSRange(range)
         }
         
         if note.type == .Markdown || note.type == .RichText {
