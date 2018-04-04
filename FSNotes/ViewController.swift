@@ -189,7 +189,11 @@ class ViewController: NSViewController,
         }
         
         let filewatcher = FileWatcher(pathList)
-        filewatcher.callback = { event in            
+        filewatcher.callback = { event in
+            if UserDataService.instance.fsUpdatesDisabled {
+                return
+            }
+            
             guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
                 return
             }
@@ -210,8 +214,9 @@ class ViewController: NSViewController,
                             return
                         }
                         
-                        print("FSWatcher remove note: \"\(note!.name)\"")
-                        self.storage.removeNotes(notes: [unwrappedNote]) {
+                        print("FSWatcher remove note: \"\(unwrappedNote.name)\"")
+                        
+                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: false) {
                             DispatchQueue.main.async {
                                 self.notesTableView.removeByNotes(notes: [unwrappedNote])
                             }
@@ -481,6 +486,7 @@ class ViewController: NSViewController,
             alert.informativeText = "Note with name \(value) already exist in selected storage."
             alert.runModal()
             
+            note.parseURL()
             sender.stringValue = note.getTitleWithoutLabel()
             return
         }
@@ -551,8 +557,14 @@ class ViewController: NSViewController,
         UserDefaultsManagement.hideSidebar = false
     }
     
+    var timer = Timer()
+    
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
+        timer.invalidate()
+        timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(enableFSUpdates), userInfo: nil, repeats: false)
+
+        UserDataService.instance.fsUpdatesDisabled = true
         let selected = notesTableView.selectedRow
         
         if (
@@ -570,6 +582,10 @@ class ViewController: NSViewController,
                 moveAtTop(id: selected)
             }
         }
+    }
+    
+    @objc func enableFSUpdates() {
+        UserDataService.instance.fsUpdatesDisabled = false
     }
     
     // Changed search field
