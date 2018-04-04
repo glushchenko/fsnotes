@@ -48,7 +48,7 @@ class ViewController: NSViewController,
         }
         
         setTableRowHeight()
-        
+                
         super.viewDidAppear()
     }
     
@@ -365,7 +365,7 @@ class ViewController: NSViewController,
         }
         
         // Focus search field shortcut (cmd-L)
-        if (event.keyCode == 37 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
             search.becomeFirstResponder()
         }
         
@@ -381,8 +381,8 @@ class ViewController: NSViewController,
         // Note edit mode and select file name (cmd-r)
         if (
             event.keyCode == 15
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && !event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+            && event.modifierFlags.contains(.command)
+            && !event.modifierFlags.contains(.shift)
         ) {
             renameNote(selectedRow: notesTableView.selectedRow)
         }
@@ -390,8 +390,8 @@ class ViewController: NSViewController,
         // Make note shortcut (cmd-n)
         if (
             event.keyCode == 45
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && !event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+            && event.modifierFlags.contains(.command)
+            && !event.modifierFlags.contains(.shift)
         ) {
             makeNote(NSTextField())
         }
@@ -399,32 +399,32 @@ class ViewController: NSViewController,
         // Make note shortcut (cmd-n)
         if (
             event.keyCode == 45
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.shift)
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.shift)
         ) {
             fileMenuNewRTF(NSTextField())
         }
         
         // Pin note shortcut (cmd-8)
-        if (event.keyCode == 28 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
             pin(notesTableView.selectedRowIndexes)
         }
         
         // Next note (cmd-j)
-        if (event.keyCode == 38 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (event.keyCode == 38 && event.modifierFlags.contains(.command)) {
             notesTableView.selectNext()
         }
         
         // Prev note (cmd-k)
-        if (event.keyCode == 40 && event.modifierFlags.contains(NSEvent.ModifierFlags.command)) {
+        if (event.keyCode == 40 && event.modifierFlags.contains(.command)) {
             notesTableView.selectPrev()
         }
                 
         // Open in external editor (cmd-control-e)
         if (
             event.keyCode == 14
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.command)
-            && event.modifierFlags.contains(NSEvent.ModifierFlags.control)
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.control)
         ) {
             external(selectedRow: notesTableView.selectedRow)
         }
