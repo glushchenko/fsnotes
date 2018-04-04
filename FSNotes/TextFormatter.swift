@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Carbon.HIToolbox
+
 
 #if os(OSX)
     import Cocoa
@@ -270,13 +272,21 @@ public class TextFormatter {
         let prevString = nsString.substring(with: prevParagraphRange)
         let nsPrev = prevString as NSString
         
-        guard let regex = try? NSRegularExpression(pattern: "^( |\t)*([-|–|\\+]{1} )"),
+        guard let regex = try? NSRegularExpression(pattern: "^( |\t)*([-|–|—|*|\\+]{1} )"),
             let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+. ") else {
             return
         }
         
         if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: match.range)
+            
+            if prevString == prefix + "\n" {
+                // Remove the previous line.
+                textView.setSelectedRange(prevParagraphRange)
+                textView.delete(self)
+                return
+            }
+            
             textView.insertText(prefix, replacementRange: textView.selectedRange())
             return
         }

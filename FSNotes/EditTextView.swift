@@ -9,6 +9,7 @@
 import Cocoa
 import Down
 import Highlightr
+import Carbon.HIToolbox
 
 class EditTextView: NSTextView {
     public static var note: Note?
@@ -59,11 +60,11 @@ class EditTextView: NSTextView {
     @IBAction func editorMenuItem(_ sender: Any) {
         let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
         
-        let dict = ["b": 11, "i": 34, "j": 38, "y": 16, "u": 32, "1": 18, "2": 19, "3": 20, "4": 21, "5": 23, "6": 22] as [String: UInt16]
+        let dict = ["b": kVK_ANSI_B, "i": kVK_ANSI_I, "j": kVK_ANSI_J, "y": kVK_ANSI_Y, "u": kVK_ANSI_U, "1": kVK_ANSI_1, "2": kVK_ANSI_2, "3": kVK_ANSI_3, "4": kVK_ANSI_4, "5": kVK_ANSI_5, "6": kVK_ANSI_6] as [String: Int]
         
         if (dict[keyEquivalent] != nil) {
-            let keyCode = dict[keyEquivalent]!
-            let modifier = (sender as AnyObject).keyEquivalentModifierMask.rawValue == 262144 ? 393475 : 0
+            let keyCode = UInt16(dict[keyEquivalent]!)
+            let modifier = (sender as AnyObject).keyEquivalentModifierMask == NSEvent.ModifierFlags.control ? 393475 : 0
             
             _ = formatShortcut(keyCode: keyCode, modifier: UInt(modifier))
         }
@@ -87,11 +88,11 @@ class EditTextView: NSTextView {
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         /* Skip command-shift-b conflicted with cmd-b */
-        if event.modifierFlags.contains(NSEvent.ModifierFlags.command) && event.modifierFlags.contains(NSEvent.ModifierFlags.shift) && event.keyCode == 11 {
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 11 {
             return super.performKeyEquivalent(with: event)
         }
         
-        if (event.modifierFlags.contains(NSEvent.ModifierFlags.command) || event.modifierFlags.rawValue == 393475) {
+        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
             if (formatShortcut(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
                 return true
             }
@@ -425,8 +426,8 @@ class EditTextView: NSTextView {
         guard let note = EditTextView.note else {
             return
         }
-        
-        if event.keyCode == 0x24 {
+    
+        if event.keyCode == kVK_Return {
             super.keyDown(with: event)
             
             let formatter = TextFormatter(textView: self, note: note)
@@ -434,8 +435,8 @@ class EditTextView: NSTextView {
             return
         }
         
-        if event.keyCode == 48 {
-            if event.modifierFlags.rawValue == 131330 {
+        if event.keyCode == kVK_Tab {
+            if event.modifierFlags.contains(.shift) {
                 let formatter = TextFormatter(textView: self, note: note)
                 formatter.unTab()
                 saveCursorPosition()
