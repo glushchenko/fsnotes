@@ -293,6 +293,12 @@ public class TextFormatter {
         
         if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: matchDigits.range)
+            if prevString == prefix + "\n" {
+                textView.setSelectedRange(prevParagraphRange)
+                textView.delete(self)
+                return
+            }
+            
             if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
                 textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)), replacementRange: textView.selectedRange())
             }
