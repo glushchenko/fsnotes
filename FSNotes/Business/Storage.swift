@@ -13,6 +13,8 @@ class Storage {
     static var instance: Storage? = nil
     
     var noteList = [Note]()
+    private var projects = [Project]()
+    
     var notesDict: [String: Note] = [:]
     var generalUrl: URL?
     
@@ -48,7 +50,23 @@ class Storage {
         let storageItemList = CoreDataManager.instance.fetchStorageList()
         
         for item in storageItemList {
-            loadLabel(item)
+            if let url = item.getUrl() {
+                let project = Project(url: url, label: item.label)
+                projects.append(project)
+                loadLabel(project)
+                
+                guard let trashURL = item.getTrashURL() else {
+                    continue
+                }
+                
+                guard !projects.contains(where: {$0.url == trashURL}) else {
+                    continue
+                }
+                
+                let projectTrash = Project(url: trashURL, isTrash: true)
+                projects.append(projectTrash)
+                loadLabel(projectTrash)
+            }
         }
         
         /* subfolders support
@@ -88,6 +106,32 @@ class Storage {
         #endif
     }
     
+    public func getProjects() -> [Project] {
+        return projects
+    }
+    
+    public func getProjectPaths() -> [String] {
+        var pathList: [String] = []
+        let projects = getProjects()
+        
+        for project in projects {
+            pathList.append(NSString(string: project.url.path).expandingTildeInPath)
+        }
+        
+        return pathList
+    }
+    
+    public func getProjectBy(url: URL) -> Project? {
+        let projectURL = url.deletingLastPathComponent()
+        
+        return
+            projects.first(where: {
+                return (
+                    $0.url == projectURL
+                )
+            })
+    }
+    
     func sortNotes(noteList: [Note]?) -> [Note]? {
         guard let list = noteList else {
             return nil
@@ -122,65 +166,35 @@ class Storage {
         }
     }
     
-    func loadLabel(_ item: StorageItem) {
+    func loadLabel(_ item: Project) {
         let keyStore = NSUbiquitousKeyValueStore()
-        
-        guard let url = item.getUrl() else {
-            return
-        }
-        
-        let documents = readDirectory(url)
-        let existNotes = CoreDataManager.instance.fetchAll()
-        
-        for note in existNotes {
-            var path: String = ""
-            if let storage = note.storage, let unwrappedPath = storage.path {
-                path = unwrappedPath
-            }
-            notesDict[note.name + path] = note
-        }
-        
+        let documents = readDirectory(item.url)
+
         for document in documents {
-            var note: Note
-            
             let url = document.0
-            let date = document.1
+            let note = Note(url: url)
+            note.parseURL()
             let name = url.pathComponents.last!
-            let uniqName = name + item.path!
             
             if (url.pathComponents.count == 0) {
                 continue
             }
             
-            if notesDict[uniqName] == nil {
-                note = CoreDataManager.instance.make()
-                note.isSynced = false
-            } else {
-                note = notesDict[uniqName]!
-                note.checkLocalSyncState(date)
-            }
-            
+            note.modifiedLocalAt = document.1
             note.creationDate = document.2
-            note.storage = item
+            note.project = item
             
             #if CLOUDKIT
                 note.isPinned = keyStore.bool(forKey: name)
             #endif
             
             note.load(url)
-            
-            if !note.isSynced {
-                note.modifiedLocalAt = date
-            }
-            
             if note.isPinned {
                 pinned += 1
             }
             
             noteList.append(note)
         }
-        
-        CoreDataManager.instance.save()
     }
     
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
@@ -207,13 +221,13 @@ class Storage {
     }
     
     func add(_ note: Note) {
-        if !noteList.contains(where: { $0.name == note.name && $0.storage == note.storage }) {
+        if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            noteList.append(note)
         }
     }
     
     func removeBy(note: Note) {
-        if let i = noteList.index(of: note) {
+        if let i = noteList.index(where: {$0 === note}) {
             noteList.remove(at: i)
         }
     }
@@ -253,32 +267,6 @@ class Storage {
         }
 
         return true
-    }
-    
-    func getOrCreate(name: String) -> Note {
-        var note: Note?
-        
-        note = noteList.first(where: {
-            return ($0.name == name && $0.isGeneral())
-        })
-        
-        if note == nil {
-            note = Note(context: CoreDataManager.instance.context)
-            note?.name = name
-            CoreDataManager.instance.context.insert(note!)
-            add(note!)
-        }
-        
-        return note!
-    }
-    
-    func getModified() -> Note? {
-        return
-            noteList.first(where: {
-                return (
-                    !$0.isSynced && $0.isGeneral()
-                )
-            })
     }
     
     func getBy(url: URL) -> Note? {
@@ -351,7 +339,11 @@ class Storage {
             for note in markdownDocuments {
                 note.markdownCache()
                 
-                if note == EditTextView.note {
+                guard let currentNote = EditTextView.note else {
+                    continue
+                }
+                
+                if note.url == currentNote.url {
                 #if os(OSX)
                     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
                     viewController.refillEditArea()
@@ -392,7 +384,12 @@ class Storage {
             removeBy(note: note)
         }
         
-        CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+        if fsRemove {
+            for note in notes {
+                note.removeFile()
+            }
+        }
+        
         completion()
     }
     
@@ -421,5 +418,9 @@ class Storage {
         }
         
         return subdirs
+    }
+    
+    public func getCurrentProject() -> Project? {
+        return projects.first
     }
 }

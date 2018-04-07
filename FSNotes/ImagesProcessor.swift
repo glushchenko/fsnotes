@@ -117,9 +117,11 @@ public class ImagesProcessor {
     func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
         var notePath: String
         
-        guard let noteStorage = self.note.storage, let storagePath = noteStorage.getPath() else {
+        guard let noteStorage = self.note.project else {
             return nil
         }
+        
+        let storagePath = noteStorage.url.path
         
         if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
             notePath = storagePath + "/i/" + encodedPath
@@ -167,9 +169,8 @@ public class ImagesProcessor {
     }
     
     func writeImage(data: Data, url: URL) -> String? {
-        if let noteStorage = self.note.storage, let storagePath = noteStorage.getPath() {
-            
-            let destination = URL(fileURLWithPath: storagePath + "/i/")
+        if let project = self.note.project {
+            let destination = URL(fileURLWithPath: project.url.path + "/i/")
             _ = makeInitialDirectory(cacheURL: destination)
             
             guard let fileName = getFileName(from: url, to: destination) else {

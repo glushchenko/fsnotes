@@ -10,28 +10,33 @@
 import Foundation
 import CoreData
 
-@objc(Note)
-public class Note: NSManagedObject {
+public class Note: NSObject {
+    @objc var title: String = ""
+    var project: Project? = nil
     var type: NoteType = .Markdown
     var url: URL!
-    @objc var title: String = ""
     var content: NSMutableAttributedString = NSMutableAttributedString()
-    
     var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
     var sharedStorage = Storage.sharedInstance()
     
-    convenience init(name: String) {
-        let context = CoreDataManager.instance.context
-        let entity = CoreDataManager.instance.entityForName(entityName: "Note")
+    public var name: String = ""
+    public var isPinned: Bool = false
+    public var modifiedLocalAt: Date?
+    
+    init(url: URL) {
+        self.url = url
         
-        self.init(entity: entity, insertInto: context)
-        self.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
-        
-        make(newName: name)
-        storage = CoreDataManager.instance.fetchGeneralStorage()
+        if let project = sharedStorage.getProjectBy(url: url) {
+            self.project = project
+        }
+    }
+    
+    init(name: String, project: Project) {
+        self.project = project
+        type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
     }
     
     func make(newName: String) {
@@ -50,7 +55,7 @@ public class Note: NSManagedObject {
     }
     
     func initWith(url: URL, fileName: String) {
-        storage = CoreDataManager.instance.fetchGeneralStorage()
+        project = sharedStorage.getCurrentProject()
         
         self.url = sharedStorage.getBaseURL().appendingPathComponent(fileName)
         parseURL()
@@ -126,7 +131,11 @@ public class Note: NSManagedObject {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
             #if os(OSX)
-                try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                if isTrash() {
+                    try FileManager.default.removeItem(at: url)
+                } else {
+                    try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                }
             #else
                 try FileManager.default.removeItem(at: url)
             #endif
@@ -322,7 +331,7 @@ public class Note: NSManagedObject {
             
             var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
             
-            if let storageUnwrapped = storage, let label = storageUnwrapped.label, label != "general" {
+            if let storageUnwrapped = project, let label = storageUnwrapped.label, label != "general" {
                 let trimmedLabel = label.trim()
                 
                 if !trimmedLabel.isEmpty {
@@ -380,15 +389,9 @@ public class Note: NSManagedObject {
         }
     }
     
-    func checkLocalSyncState(_ currentDate: Date) {        
-        if currentDate != modifiedLocalAt {
-            isSynced = false
-        }
-    }
-    
     func isGeneral() -> Bool {
 #if os(OSX)
-        guard let storageItem = storage else {
+        guard let storageItem = project else {
             return false
         }
         
@@ -443,11 +446,11 @@ public class Note: NSManagedObject {
         return options
     }
     
-    func getStoragePath() -> String? {
-        if let storageItem = storage, let storagePath = storageItem.getUrl() {
-            return storagePath.path
+    func isTrash() -> Bool {
+        guard let p = project else {
+            return false
         }
         
-        return nil
+        return p.isTrash
     }
 }

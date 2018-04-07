@@ -31,37 +31,11 @@ class CoreDataManager {
         return NSEntityDescription.entity(forEntityName: entityName, in: self.context)!
     }
         
-    func make() -> Note {
-        return Note(context: context)
-    }
-    
-    func fetchAll() -> [Note] {
-        let request = NSFetchRequest<Note>(entityName: "Note")
-        var results = [Note]()
-        
-        do {
-            results = try context.fetch(request)
-        } catch {
-            print("Not fetched \(error)")
-        }
-        
-        return results
-    }
-    
     func save() {
         do {
             try context.save()
         } catch {
             print("Save error \(error)")
-        }
-    }
-    
-    func remove(_ note: Note) {
-        do {
-            context.delete(note)
-            try context.save()
-        } catch {
-            print("Remove error \(error)")
         }
     }
     
@@ -74,24 +48,6 @@ class CoreDataManager {
         }
     }
     
-    func getBy(url: URL) -> Note? {
-        guard let storageItem = fetchStorageItemBy(fileUrl: url) else {
-            return nil
-        }
-
-        let name = url.pathComponents.last!
-        let request = NSFetchRequest<Note>(entityName: "Note")
-        let predicate = NSPredicate(format: "name = %@ AND storage = %@", argumentArray: [name, storageItem])
-        
-        request.predicate = predicate
-        do {
-            return try context.fetch(request).first
-        } catch {
-            print("Not fetched \(error)")
-        }
-        return nil
-    }
-        
     func getBy(label: String) -> StorageItem? {
         let request = NSFetchRequest<StorageItem>(entityName: "StorageItem")
         let predicate = NSPredicate(format: "label = %@", label)
@@ -149,24 +105,6 @@ class CoreDataManager {
             print("General storage not found \(error)")
         }
         return nil
-    }
-    
-    func removeNotes(notes: [Note], fsRemove: Bool = true) {
-        if fsRemove {
-            for note in notes {
-                note.removeFile()
-            }
-        }
-        
-        for note in notes {
-            context.delete(note)
-        }
-        
-        do {
-            try context.save()
-        } catch {
-            print("Notes remove error \(error)")
-        }
     }
     
     func setDefaultStorage(storage: StorageItem) {

@@ -13,12 +13,15 @@ import CoreData
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
-    NSSplitViewDelegate {
+    NSSplitViewDelegate,
+    NSOutlineViewDelegate,
+    NSOutlineViewDataSource {
     
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.sharedInstance()
+    let storageItemList = Sidebar().getList()
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -27,8 +30,8 @@ class ViewController: NSViewController,
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
-    
     @IBOutlet var noteMenu: NSMenu!
+    @IBOutlet weak var storageOutlineView: NSOutlineView!
     
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
@@ -48,11 +51,17 @@ class ViewController: NSViewController,
         }
         
         setTableRowHeight()
-                
+        
         super.viewDidAppear()
+        
+        //print()
     }
     
     override func viewDidLoad() {
+        storageOutlineView.delegate = self
+        storageOutlineView.dataSource = self
+        storageOutlineView.layer?.backgroundColor = NSColor.white.cgColor
+        
         super.viewDidLoad()
         
         let bookmark = SandboxBookmark()
@@ -70,8 +79,6 @@ class ViewController: NSViewController,
             CoreDataManager.instance.save()
         }
         
-        watchFSEvents()
-        
         if storage.noteList.count == 0 {
             storage.loadDocuments()
             updateTable(filter: "") {
@@ -80,6 +87,8 @@ class ViewController: NSViewController,
                 }
             }
         }
+        
+        watchFSEvents()
         
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
@@ -110,6 +119,84 @@ class ViewController: NSViewController,
             keyValueWatcher()
         #endif
     }
+    
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
+        print(storageItemList.count)
+        if item == nil {
+            return storageItemList.count
+        }
+        return 0
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
+        if let si = item as? SidebarItem, si.type == .Label {
+            return 35
+        }
+        return 25
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        return false
+    }
+
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
+        print(index)
+        if item == nil {
+            return storageItemList[index]
+        }
+        return ""
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
+        return item
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+        let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! NSTableCellView
+        if let si = item as? SidebarItem {
+            cell.textField?.stringValue = si.name
+        }
+        return cell
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
+        if let x = item as? SidebarItem, x.type == .Label {
+            return true
+        }
+        return false
+        
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
+        if let x = item as? SidebarItem, x.type != .Label {
+            return true
+        }
+        return false
+    }
+    
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+        if let view = notification.object as? NSOutlineView {
+            let i = view.selectedRow
+            if storageItemList.indices.contains(i) {
+                if storageItemList[i].type == .Trash {
+                    updateTable(filter: search.stringValue, type: .Trash) {
+                        
+                    }
+                    return
+                }
+                
+                guard let project = storageItemList[i].project else {
+                    updateTable(filter: search.stringValue) {}
+                    return
+                }
+                
+                updateTable(filter: search.stringValue, project: project) {
+                    
+                }
+            }
+        }
+    }
+    
     
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBAction func sortBy(_ sender: NSMenuItem) {
@@ -179,16 +266,9 @@ class ViewController: NSViewController,
     }
     
     func watchFSEvents() {
-        var pathList: [String] = []
+        let paths = storage.getProjectPaths()
+        let filewatcher = FileWatcher(paths)
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        for storageItem in storageItemList {
-            if let path = storageItem.getUrl()?.path {
-                pathList.append(NSString(string: path).expandingTildeInPath)
-            }
-        }
-        
-        let filewatcher = FileWatcher(pathList)
         filewatcher.callback = { event in
             if UserDataService.instance.fsUpdatesDisabled {
                 return
@@ -202,10 +282,19 @@ class ViewController: NSViewController,
                 return
             }
             
+            if event.fileRemoved {
+                guard let note = self.storage.getBy(url: url) else { return }
+                self.storage.removeNotes(notes: [note], fsRemove: false) {
+                    DispatchQueue.main.async {
+                        self.notesTableView.removeByNotes(notes: [note])
+                    }
+                }
+            }
+            
             if event.fileRenamed {
                 let note = self.storage.getBy(url: url)
-                let fileExistInFS = self.checkFile(url: url, pathList: pathList)
-
+                let fileExistInFS = self.checkFile(url: url, pathList: paths)
+                
                 if note != nil {
                     if fileExistInFS {
                         self.watcherCreateTrigger(url)
@@ -229,7 +318,7 @@ class ViewController: NSViewController,
                 return
             }
             
-            guard self.checkFile(url: url, pathList: pathList) else {
+            guard self.checkFile(url: url, pathList: paths) else {
                 return
             }
             
@@ -265,14 +354,12 @@ class ViewController: NSViewController,
             return
         }
         
-        var note: Note
-        if let existNote = CoreDataManager.instance.getBy(url: url) {
-            note = existNote
-        } else {
-            note = CoreDataManager.instance.make()
+        guard storage.getProjectBy(url: url) != nil else {
+            return
         }
         
-        note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
+        let note = Note(url: url)
+        note.parseURL()
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
@@ -480,7 +567,7 @@ class ViewController: NSViewController,
         let newName = sender.stringValue + "." + note.url.pathExtension
         let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
         
-        if let itemStorage = note.storage, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
+        if let itemStorage = note.project, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
             let alert = NSAlert()
             alert.messageText = "Hmm, something goes wrong 🙈"
             alert.informativeText = "Note with name \(value) already exist in selected storage."
@@ -602,7 +689,7 @@ class ViewController: NSViewController,
     
     var filterQueue = OperationQueue.init()
 
-    func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
+    func updateTable(filter: String, search: Bool = false, project: Project? = nil, type: SidebarItemType? = nil, completion: @escaping () -> Void) {
         if !search, let list = storage.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
         }
@@ -625,6 +712,20 @@ class ViewController: NSViewController,
                         filter.isEmpty
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
+                    ) && (
+                        project == nil
+                        || (
+                            project != nil
+                            && $0.project == project
+                        )
+                    ) && (
+                        (
+                            type == nil
+                            && !$0.isTrash()
+                        ) || (
+                            type == .Trash
+                            && $0.isTrash()
+                        )
                     )
                 )
             }
@@ -739,7 +840,12 @@ class ViewController: NSViewController,
         disablePreview()
         editArea.string = content
         
-        let note = CoreDataManager.instance.make()
+        guard let project = storage.getCurrentProject() else {
+            return
+        }
+        
+        let note = Note(name: name, project: project)
+        note.make(newName: name)
         
         if let unwrappedType = type {
             note.type = unwrappedType
@@ -749,8 +855,6 @@ class ViewController: NSViewController,
         
         note.make(newName: name)
         note.content = NSMutableAttributedString(string: content)
-        note.isSynced = false
-        note.storage = CoreDataManager.instance.fetchGeneralStorage()
         note.isCached = true
         note.save()
         
@@ -963,5 +1067,6 @@ class ViewController: NSViewController,
             }
         }
     }
+    
 }
 

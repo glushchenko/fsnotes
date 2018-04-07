@@ -35,4 +35,8 @@ public class StorageItem: NSManagedObject {
     
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
+    
+    func getTrashURL() -> URL? {
+        return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: getUrl(), create: false)
+    }
 }
