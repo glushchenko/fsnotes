@@ -19,17 +19,32 @@ class Sidebar {
             SidebarItem(name: "Home", type: .All),
             SidebarItem(name: "Trash", type: .Trash),
             
-            SidebarItem(name: "Projects", type: .Label)
         ]
         
-        let projects = storage.getProjects()
-        for project in projects {
-            guard let label = project.label else {
-                continue
+        let localProjects = storage.getLocalProjects()
+        if localProjects.count > 0 {
+            list.append(SidebarItem(name: "Local", type: .Label))
+            for project in localProjects {
+                guard let label = project.label else {
+                    continue
+                }
+                
+                let sidebarItem = SidebarItem(name: label, project: project, type: .Category)
+                list.append(sidebarItem)
             }
-            
-            let sidebarItem = SidebarItem(name: label, project: project, type: .Category)
-            list.append(sidebarItem)
+        }
+        
+        let cloudDriveProjects = storage.getCloudDriveProjects()
+        if cloudDriveProjects.count > 0 {
+            list.append(SidebarItem(name: "iCloud Drive", type: .Label))
+            for project in cloudDriveProjects {
+                guard let label = project.label else {
+                    continue
+                }
+                
+                let sidebarItem = SidebarItem(name: label, project: project, type: .Category)
+                list.append(sidebarItem)
+            }
         }
     }
     

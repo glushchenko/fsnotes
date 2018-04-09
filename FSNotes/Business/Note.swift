@@ -351,7 +351,7 @@ public class Note: NSObject {
             return
         }
         
-        sharedStorage.saveNote(note: self, userInitiated: false, cloudSync: cloudSync)
+        sharedStorage.add(self)
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {

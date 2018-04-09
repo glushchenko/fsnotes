@@ -12,6 +12,7 @@ class Project: Equatable {
     var url: URL
     var label: String?
     var isTrash: Bool
+    var isCloudDrive: Bool = false
     
     init(url: URL, label: String? = nil, isTrash: Bool = false) {
         self.url = url
@@ -20,6 +21,8 @@ class Project: Equatable {
         if let l = label {
             self.label = l
         }
+        
+        isCloudDrive = isCloudDriveFolder(url: url)
     }
     
     func fileExist(fileName: String, ext: String) -> Bool {        
@@ -30,5 +33,16 @@ class Project: Equatable {
     
     static func == (lhs: Project, rhs: Project) -> Bool {
         return lhs.url == rhs.url
+    }
+    
+    private func isCloudDriveFolder(url: URL) -> Bool {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+            
+            if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil), url.path.contains(iCloudDocumentsURL.path) {
+                return true
+            }
+        }
+        
+        return false
     }
 }

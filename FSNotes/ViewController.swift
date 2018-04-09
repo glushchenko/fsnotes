@@ -189,7 +189,6 @@ class ViewController: NSViewController,
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
                 if sidebar[i].type == .Trash {
-                    print("TRASH")
                     updateTable(filter: search.stringValue, type: .Trash) {
                         
                     }
@@ -273,7 +272,6 @@ class ViewController: NSViewController,
     
     func watchFSEvents() {
         let paths = storage.getProjectPaths()
-        print(paths)
         let filewatcher = FileWatcher(paths)
         
         filewatcher.callback = { event in
@@ -290,7 +288,8 @@ class ViewController: NSViewController,
             }
             
             if event.fileRemoved {
-                guard let note = self.storage.getBy(url: url) else { return }
+                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
+                
                 self.storage.removeNotes(notes: [note], fsRemove: false) {
                     DispatchQueue.main.async {
                         self.notesTableView.removeByNotes(notes: [note])
@@ -298,7 +297,6 @@ class ViewController: NSViewController,
                 }
             }
             
-            print(url)
             if event.fileRenamed {
                 let note = self.storage.getBy(url: url)
                 let fileExistInFS = self.checkFile(url: url, pathList: paths)
@@ -374,7 +372,7 @@ class ViewController: NSViewController,
         refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
-        storage.saveNote(note: note)
+        storage.add(note)
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.lastRenamed,
@@ -673,7 +671,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selected]
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
-            storage.saveNote(note: note, userInitiated: true)
+            storage.add(note)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
                 moveAtTop(id: selected)
@@ -889,7 +887,7 @@ class ViewController: NSViewController,
         note.isCached = true
         note.save()
         
-        storage.saveNote(note: note, userInitiated: true)
+        storage.add(note)
         note.markdownCache()
         refillEditArea()
         

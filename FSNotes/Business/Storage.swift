@@ -110,6 +110,14 @@ class Storage {
         return projects
     }
     
+    public func getCloudDriveProjects() -> [Project] {
+        return projects.filter({$0.isCloudDrive == true})
+    }
+    
+    public func getLocalProjects() -> [Project] {
+        return projects.filter({$0.isCloudDrive == false})
+    }
+    
     public func getProjectPaths() -> [String] {
         var pathList: [String] = []
         let projects = getProjects()
@@ -392,11 +400,7 @@ class Storage {
         
         completion()
     }
-    
-    func saveNote(note: Note, userInitiated: Bool = false, cloudSync: Bool = true) {
-        add(note)
-    }
-    
+        
     func getGeneralSubFolders() -> [NSURL]? {
         guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let url = storage.getUrl() else { return nil }
         
