@@ -139,6 +139,8 @@
 		D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC3205C6ED100D96A6D /* undo@2x.png */; };
 		D7D03BC7205C6ED200D96A6D /* undo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC4205C6ED200D96A6D /* undo.png */; };
 		D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC5205C6ED200D96A6D /* undo@3x.png */; };
+		D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
+		D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */; };
@@ -338,6 +340,7 @@
 		D7D03BC3205C6ED100D96A6D /* undo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undo@2x.png"; sourceTree = "<group>"; };
 		D7D03BC4205C6ED200D96A6D /* undo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = undo.png; sourceTree = "<group>"; };
 		D7D03BC5205C6ED200D96A6D /* undo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "undo@3x.png"; sourceTree = "<group>"; };
+		D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarNotesView.swift; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
@@ -552,6 +555,7 @@
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
 				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
 				D7169A5C2077BA140025D2C9 /* StorageView.swift */,
+				D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */,
 				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
 				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
 				D75EE7FC2078C5460055F159 /* SidebarCellView.swift */,
@@ -1175,6 +1179,7 @@
 				D7ADFD0E2064143D00B531F9 /* URL+.swift in Sources */,
 				D79FE89B1F77CDEF00113CFD /* FSNotes.xcdatamodeld in Sources */,
 				D79FE8A21F77D04A00113CFD /* Note.swift in Sources */,
+				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,6 +1230,7 @@
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
 				D7E81C451F925B5F00416A91 /* FSNotes.xcdatamodeld in Sources */,
 				D7E81C461F925B5F00416A91 /* Note.swift in Sources */,
+				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

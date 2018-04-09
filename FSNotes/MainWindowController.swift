@@ -15,6 +15,9 @@ NSWindowDelegate {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
+        self.window?.titleVisibility = .hidden
+        self.window?.titlebarAppearsTransparent = true
+        self.window?.styleMask.insert(.fullSizeContentView)
     }
     
     func windowDidResize(_ notification: Notification) {

@@ -10,6 +10,7 @@ import Foundation
 
 class Sidebar {
     var list = [SidebarItem]()
+    let storage = Storage.sharedInstance()
     
     init() {
         list = [
@@ -21,17 +22,12 @@ class Sidebar {
             SidebarItem(name: "Projects", type: .Label)
         ]
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        for storageItem in storageItemList {
-            guard let label = storageItem.label else {
+        let projects = storage.getProjects()
+        for project in projects {
+            guard let label = project.label else {
                 continue
             }
             
-            guard let url = storageItem.getUrl() else {
-                return
-            }
-            
-            let project = Project(url: url)
             let sidebarItem = SidebarItem(name: label, project: project, type: .Category)
             list.append(sidebarItem)
         }

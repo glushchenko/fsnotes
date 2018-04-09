@@ -39,8 +39,11 @@ public class Note: NSObject {
         type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
     }
     
-    func make(newName: String) {
-        url = getUniqueFileName(name: newName)
+    func initURL() {
+        if let uniqURL = getUniqueFileName(name: name) {
+            url = uniqURL
+        }
+        
         parseURL()
     }
     
@@ -53,22 +56,7 @@ public class Note: NSObject {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
     }
-    
-    func initWith(url: URL, fileName: String) {
-        project = sharedStorage.getCurrentProject()
         
-        self.url = sharedStorage.getBaseURL().appendingPathComponent(fileName)
-        parseURL()
-        
-        let options = getDocOptions()
-        
-        do {
-            self.content = try NSMutableAttributedString(url: url, options: options, documentAttributes: nil)
-        } catch {
-            print("Document \"\(fileName)\" not loaded. Error: \(error)")
-        }
-    }
-    
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
@@ -216,7 +204,7 @@ public class Note: NSObject {
         return modifiedLocalAt
     }
     
-    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL {
+    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL? {
         let defaultName = "Untitled Note"
         
         var name = name
@@ -229,8 +217,9 @@ public class Note: NSObject {
         } else if name.isEmpty {
             name = defaultName
         }
-    
-        var fileUrl = sharedStorage.getBaseURL()
+        
+        guard let p = project else { return nil }
+        var fileUrl = p.url
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(type.rawValue)
         

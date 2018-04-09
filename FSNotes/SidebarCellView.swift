@@ -33,9 +33,8 @@ class SidebarCellView: NSTableCellView {
             icon.isHidden = true
             label.frame.origin.x = 5
         default:
-            if let image = NSImage.init(named: .pathTemplate) {
+            if let image = NSImage.init(named: .bookmarksTemplate) {
                 icon.image = image
-                //print(icon)
             }
             break
         }
