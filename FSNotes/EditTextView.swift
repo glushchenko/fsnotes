@@ -426,7 +426,7 @@ class EditTextView: NSTextView {
         guard let note = EditTextView.note else {
             return
         }
-                
+        
         let brackets = [
             "(" : ")",
             "[" : "]",
@@ -434,7 +434,8 @@ class EditTextView: NSTextView {
             "'" : "'",
             "\"" : "\"",
         ]
-        if let openingBracket = event.characters,
+        if UserDefaultsManagement.autocloseBrackets,
+            let openingBracket = event.characters,
             let closingBracket = brackets[openingBracket] {
             if selectedRange().length > 0 {
                 let before = NSMakeRange(selectedRange().lowerBound, 0)
