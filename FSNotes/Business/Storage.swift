@@ -36,6 +36,119 @@ class Storage {
     ]
 #endif
     
+    private var bookmarks = [URL]()
+    
+    init() {
+        if let cloudDriveURL = getCloudDrive() {
+            let project = Project(url: cloudDriveURL, label: "iCloud Drive", isRoot: true)
+            projects.append(project)
+            chechSub(url: cloudDriveURL, parent: project)
+            checkTrashForVolume(url: cloudDriveURL)
+        }
+        
+        // FSNotes container, when iCloud Drive disabled 
+        if projects.count == 0, let local = getLocalURL() {
+            let project = Project(url: local, label: "Local", isRoot: true)
+            projects.append(project)
+            chechSub(url: local, parent: project)
+            checkTrashForVolume(url: local)
+        }
+        
+        let bookmark = SandboxBookmark.sharedInstance()
+        bookmarks = bookmark.load()
+        
+        for url in bookmarks {
+            checkTrashForVolume(url: url)
+            
+            guard !projectExist(url: url) else {
+                continue
+            }
+            
+            let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
+            projects.append(project)
+            chechSub(url: url, parent: project)
+        }
+    }
+    
+    public func getChildProjects(project: Project) -> [Project] {
+        return projects.filter({ $0.parent == project })
+    }
+    
+    public func getRootProjects() -> [Project] {
+        return projects.filter({ $0.isRoot })
+    }
+    
+    private func chechSub(url: URL, parent: Project) {
+        if let subFolders = getSubFolders(url: url) {
+            for subFolder in subFolders {
+                let surl = subFolder as URL
+                
+                guard !projectExist(url: surl), ![".Trash", "i"].contains(surl.lastPathComponent) else {
+                    continue
+                }
+                
+                let project = Project(url: surl, label: surl.lastPathComponent, parent: parent)
+                projects.append(project)
+            }
+        }
+    }
+    
+    private func checkTrashForVolume(url: URL) {
+        guard let trashURL = getTrash(url: url) else {
+            return
+        }
+        
+        guard !projectExist(url: trashURL) else {
+            return
+        }
+        
+        let project = Project(url: trashURL, isTrash: true)
+        projects.append(project)
+    }
+    
+    private func getCloudDrive() -> URL? {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+            
+            var isDirectory = ObjCBool(true)
+            if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: &isDirectory), isDirectory.boolValue {
+                return iCloudDocumentsURL
+            }
+        }
+        
+        return nil
+    }
+    
+    private func getLocalURL() -> URL? {
+        guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
+            return nil
+        }
+        
+        return URL(fileURLWithPath: path)
+    }
+    
+    func projectExist(url: URL) -> Bool {
+        return projects.contains(where: {$0.url == url})
+    }
+    
+    public func removeBy(project: Project) {
+        let list = noteList.filter({ $0.project ==
+            project })
+        
+        for note in list {
+            if let i = noteList.index(of: note) {
+                noteList.remove(at: i)
+            }
+        }
+    }
+    
+    func getTrash(url: URL) -> URL? {
+        return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
+    }
+    
+    public func getBookmarks() -> [URL] {
+        return bookmarks
+    }
+    
     public static func sharedInstance() -> Storage {
         guard let storage = self.instance else {
             self.instance = Storage()
@@ -47,26 +160,8 @@ class Storage {
     func loadDocuments(tryCount: Int = 0) {
         noteList.removeAll()
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        
-        for item in storageItemList {
-            if let url = item.getUrl() {
-                let project = Project(url: url, label: item.label)
-                projects.append(project)
-                loadLabel(project)
-                
-                guard let trashURL = item.getTrashURL() else {
-                    continue
-                }
-                
-                guard !projects.contains(where: {$0.url == trashURL}) else {
-                    continue
-                }
-                
-                let projectTrash = Project(url: trashURL, isTrash: true)
-                projects.append(projectTrash)
-                loadLabel(projectTrash)
-            }
+        for project in projects {
+            loadLabel(project)
         }
         
         /* subfolders support
@@ -401,9 +496,7 @@ class Storage {
         completion()
     }
         
-    func getGeneralSubFolders() -> [NSURL]? {
-        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let url = storage.getUrl() else { return nil }
-        
+    func getSubFolders(url: URL) -> [NSURL]? {
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
         
         var subdirs = [NSURL]()

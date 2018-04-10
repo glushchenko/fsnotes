@@ -10,7 +10,17 @@ import Foundation
 import Cocoa
 
 class SandboxBookmark {
+    static var instance: SandboxBookmark? = nil
     var bookmarks = [URL: Data]()
+    var successfullyRestored = [URL]()
+    
+    public static func sharedInstance() -> SandboxBookmark {
+        guard let sandbox = self.instance else {
+            self.instance = SandboxBookmark()
+            return self.instance!
+        }
+        return sandbox
+    }
     
     func bookmarkPath() -> String
     {
@@ -20,7 +30,7 @@ class SandboxBookmark {
         return url.path
     }
     
-    func load() {
+    func load() -> [URL] {
         let path = bookmarkPath()
         
         if FileManager.default.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
@@ -30,6 +40,9 @@ class SandboxBookmark {
                 restore(bookmark)
             }
         }
+        
+        print(successfullyRestored)
+        return successfullyRestored
     }
     
     func save() {
@@ -47,8 +60,7 @@ class SandboxBookmark {
         
     }
     
-    func restore(_ bookmark: (key: URL, value: Data))
-    {
+    func restore(_ bookmark: (key: URL, value: Data)) {
         let restoredUrl: URL?
         var isStale = false
         
@@ -63,11 +75,23 @@ class SandboxBookmark {
             if isStale {
                 Swift.print ("URL is stale")
             } else {
-                if !url.startAccessingSecurityScopedResource()
-                {
+                if !url.startAccessingSecurityScopedResource() {
                     Swift.print ("Couldn't access: \(url.path)")
+                } else {
+                    successfullyRestored.append(url)
                 }
             }
         }
+    }
+    
+    func removeBy(_ url: URL) {
+        bookmarks.removeValue(forKey: url)
+        save()
+    }
+    
+    func rename(url: URL, new: URL) {
+        let value = bookmarks[url]
+        bookmarks[new] = value
+        save()
     }
 }

@@ -10,16 +10,22 @@ import Foundation
 
 class Project: Equatable {
     var url: URL
-    var label: String?
+    var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false
+    var isRoot: Bool
+    var parent: Project?
     
-    init(url: URL, label: String? = nil, isTrash: Bool = false) {
+    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil) {
         self.url = url
         self.isTrash = isTrash
+        self.isRoot = isRoot
+        self.parent = parent
         
         if let l = label {
             self.label = l
+        } else {
+            self.label = url.lastPathComponent
         }
         
         isCloudDrive = isCloudDriveFolder(url: url)

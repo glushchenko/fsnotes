@@ -109,7 +109,7 @@ class PrefsViewController: NSViewController {
         
         openPanel.begin { (result) -> Void in
             if result.rawValue == NSFileHandlingPanelOKButton {
-                let bookmark = SandboxBookmark()
+                let bookmark = SandboxBookmark.sharedInstance()
                 let url = openPanel.url
                 
                 bookmark.load()
@@ -287,7 +287,7 @@ class PrefsViewController: NSViewController {
         storage.loadDocuments()
         
         self.storageTableView.reload()
-        self.viewController.updateTable(filter: "") {
+        self.viewController.updateTable() {
             self.viewController.loadMoveMenu()
         }
     }

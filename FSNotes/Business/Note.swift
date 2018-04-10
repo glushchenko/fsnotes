@@ -219,6 +219,7 @@ public class Note: NSObject {
         }
         
         guard let p = project else { return nil }
+        
         var fileUrl = p.url
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(type.rawValue)
@@ -320,8 +321,8 @@ public class Note: NSObject {
             
             var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
             
-            if let storageUnwrapped = project, let label = storageUnwrapped.label, label != "general" {
-                let trimmedLabel = label.trim()
+            if let p = project, !p.isRoot {
+                let trimmedLabel = p.label.trim()
                 
                 if !trimmedLabel.isEmpty {
                     titleName = trimmedLabel + " / " + titleName
@@ -380,15 +381,11 @@ public class Note: NSObject {
     
     func isGeneral() -> Bool {
 #if os(OSX)
-        guard let storageItem = project else {
+        guard let p = project else {
             return false
         }
         
-        guard let label = storageItem.label else {
-            return false
-        }
-        
-        return (label == "general")
+        return (p.label == "general")
 #else
         return true
 #endif

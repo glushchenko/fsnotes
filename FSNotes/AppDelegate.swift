@@ -74,7 +74,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             if let note = storage.getBy(title: name),
                 let window = NSApplication.shared.windows.first,
                 let controller = window.contentViewController as? ViewController {
-                controller.updateTable(filter: name) {
+                controller.search.stringValue = name
+                controller.updateTable() {
                     controller.notesTableView.setSelected(note: note)
                 }
             }

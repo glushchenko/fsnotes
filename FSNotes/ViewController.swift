@@ -21,7 +21,7 @@ class ViewController: NSViewController,
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.sharedInstance()
-    var storageItemList: [SidebarItem]? = nil
+    
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -31,7 +31,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     @IBOutlet var noteMenu: NSMenu!
-    @IBOutlet weak var storageOutlineView: NSOutlineView!
+    @IBOutlet weak var storageOutlineView: SidebarProjectView!
     
     @IBOutlet weak var notesListCustomView: NSView!
     override func viewDidAppear() {
@@ -60,14 +60,18 @@ class ViewController: NSViewController,
     }
     
     override func viewDidLoad() {
+        let urls = storage.getBookmarks()
+        let sidebar = Sidebar(urls)
+        storageOutlineView.sidebarItems = sidebar.getList()
+        
         super.viewDidLoad()
         
-        let bookmark = SandboxBookmark()
-        bookmark.load()
+
         
         editArea.delegate = self
         search.delegate = self
         splitView.delegate = self
+        storageOutlineView.viewDelegate = self
         
         if CoreDataManager.instance.getBy(label: "general") == nil {
             let context = CoreDataManager.instance.context
@@ -79,16 +83,14 @@ class ViewController: NSViewController,
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
-            updateTable(filter: "") {
+            updateTable() {
                 if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
                     self.notesTableView.selectRow(i)
                 }
             }
         }
         
-        storageItemList = Sidebar().getList()
-        storageOutlineView.delegate = self
-        storageOutlineView.dataSource = self
+
         
         watchFSEvents()
         
@@ -122,85 +124,7 @@ class ViewController: NSViewController,
         #endif
     }
     
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        guard let sidebar = storageItemList else { return 0 }
-        
-        if item == nil {
-            return sidebar.count
-        }
-        
-        return 0
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
-        if let si = item as? SidebarItem, si.type == .Label {
-            return 35
-        }
-        return 25
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-        return false
-    }
 
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        guard let sidebar = storageItemList else { return "" }
-        
-        if item == nil {
-            return sidebar[index]
-        }
-        
-        return ""
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-        return item
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! NSTableCellView
-        if let si = item as? SidebarItem {
-            cell.textField?.stringValue = si.name
-        }
-        return cell
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
-        if let x = item as? SidebarItem, x.type == .Label {
-            return true
-        }
-        return false
-        
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
-        if let x = item as? SidebarItem, x.type != .Label {
-            return true
-        }
-        return false
-    }
-    
-    func outlineViewSelectionDidChange(_ notification: Notification) {
-        if let view = notification.object as? NSOutlineView {
-            editArea.clear()
-            
-            guard let sidebar = storageItemList else { return }
-            
-            let i = view.selectedRow
-            if sidebar.indices.contains(i) {
-                if sidebar[i].type == .Trash {
-                    updateTable(filter: search.stringValue, type: .Trash) {
-                        
-                    }
-                    return
-                }
-                
-                updateTable(filter: search.stringValue) {
-                    
-                }
-            }
-        }
-    }
     
     
     @IBOutlet weak var sortByOutlet: NSMenuItem!
@@ -352,7 +276,7 @@ class ViewController: NSViewController,
         
         guard n == nil else {
             if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
-                self.updateTable(filter: "") {
+                self.updateTable() {
                     self.notesTableView.setSelected(note: nUnwrapped)
                     UserDataService.instance.lastRenamed = nil
                 }
@@ -377,7 +301,7 @@ class ViewController: NSViewController,
         DispatchQueue.main.async {
             if let url = UserDataService.instance.lastRenamed,
                 let note = self.storage.getBy(url: url) {
-                self.updateTable(filter: "") {
+                self.updateTable() {
                     self.notesTableView.setSelected(note: note)
                     UserDataService.instance.lastRenamed = nil
                 }
@@ -387,7 +311,7 @@ class ViewController: NSViewController,
         }
         
         if note.name == "FSNotes - Readme.md" {
-            updateTable(filter: "") {
+            updateTable() {
                 self.notesTableView.selectRow(0)
                 note.addPin()
             }
@@ -407,7 +331,7 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable(filter: self.search.stringValue) {
+        self.updateTable() {
             if let selected = selectedNote, let index = notesTable.getIndex(selected) {
                 notesTable.selectRowIndexes([index], byExtendingSelection: false)
                 self.refillEditArea(cursor: cursor)
@@ -456,7 +380,7 @@ class ViewController: NSViewController,
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
             storageOutlineView.deselectAll(nil)
-            updateTable(filter: search.stringValue) {}
+            updateTable() {}
         }
         
         // Focus search field shortcut (cmd-L)
@@ -685,32 +609,44 @@ class ViewController: NSViewController,
     
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
-        let value = self.search.stringValue
-        
         UserDataService.instance.searchTrigger = true
         
         filterQueue.cancelAllOperations()
         filterQueue.addOperation {
             DispatchQueue.main.async {
-                self.updateTable(filter: value, search: true) {}
+                self.updateTable(search: true) {}
             }
         }
     }
     
     var filterQueue = OperationQueue.init()
 
-    func getCurrentProject() -> Project? {
+    func getSidebarProject() -> Project? {
         let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
         
         if let project = sidebarItem?.project {
             return project
         }
         
-        return storage.getCurrentProject()
+        return nil
     }
     
-    func updateTable(filter: String, search: Bool = false, type: SidebarItemType? = nil, completion: @escaping () -> Void) {
-        let project = getCurrentProject()
+    func getSidebarType() -> SidebarItemType? {
+        let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
+        
+        if let type = sidebarItem?.type {
+            return type
+        }
+        
+        return nil
+    }
+    
+    
+    
+    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+        let filter = self.search.stringValue
+        let project = getSidebarProject()
+        let type = getSidebarType()
         
         if !search, let list = storage.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
@@ -735,20 +671,13 @@ class ViewController: NSViewController,
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
                     ) && (
-                        project == nil
-                        || type == .Trash
+                        type == .Trash && $0.isTrash()
+                        || type == .All && !$0.isTrash()
                         || (
-                            project != nil
-                            && $0.project == project
-                        )
-                    ) && (
-                        (
-                            type == nil
-                            && !$0.isTrash()
-                        ) || (
-                            type == .Trash
-                            && $0.isTrash()
-                        )
+                            (type == .Category || type == .Label)
+                            && project != nil && $0.project == project
+                        ) || type == nil && project == nil && !$0.isTrash()
+                        || project != nil && project!.isRoot && $0.project?.parent == project
                     )
                 )
             }
@@ -817,7 +746,7 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         search.stringValue = ""
         editArea.clear()
-        updateTable(filter: "") {}
+        updateTable() {}
     }
     
     func makeNoteShortcut() {
@@ -860,13 +789,16 @@ class ViewController: NSViewController,
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
-        print("get procject fro crate")
-        guard let project = getCurrentProject() else {
+        var sidebarProject = getSidebarProject()
+        
+        if sidebarProject == nil {
+            let projects = storage.getProjects()
+            sidebarProject = projects.first
+        }
+        
+        guard let project = sidebarProject else {
             return
         }
-        print(project)
-        print(project.label)
-        print(project.url)
         
         disablePreview()
         editArea.string = content
@@ -874,14 +806,11 @@ class ViewController: NSViewController,
         let note = Note(name: name, project: project)
         note.initURL()
         
-        print(note.url)
-        
         if let unwrappedType = type {
             note.type = unwrappedType
         } else {
             note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
         }
-        
         
         note.content = NSMutableAttributedString(string: content)
         note.isCached = true
@@ -891,7 +820,7 @@ class ViewController: NSViewController,
         note.markdownCache()
         refillEditArea()
         
-        updateTable(filter: "") {
+        updateTable() {
             if let index = self.notesTableView.getIndex(note) {
                 self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
                 self.notesTableView.scrollRowToVisible(index)
@@ -924,7 +853,7 @@ class ViewController: NSViewController,
         }
         
         if selectedRows.count > 1 {
-            updateTable(filter: "") {}
+            updateTable() {}
         }
     }
         
