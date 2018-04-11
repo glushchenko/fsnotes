@@ -11,6 +11,8 @@ import Cocoa
 class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
     var sidebarItems: [SidebarItem]? = nil
     var viewDelegate: ViewController? = nil
+    
+    private var storage = Storage.sharedInstance()
         
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
@@ -54,9 +56,37 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
-        let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! NSTableCellView
+        let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! SidebarCellView
         if let si = item as? SidebarItem {
             cell.textField?.stringValue = si.name
+            
+            switch si.type {
+            case .All:
+                if let image = NSImage.init(named: .homeTemplate) {
+                    cell.icon.image = image
+                    cell.icon.isHidden = false
+                    cell.label.frame.origin.x = 25
+                }
+                
+            case .Trash:
+                if let image = NSImage.init(named: .trashFull) {
+                    cell.icon.image = image
+                    cell.icon.isHidden = false
+                    cell.label.frame.origin.x = 25
+                }
+                
+            case .Label:
+                cell.icon.isHidden = true
+                cell.label.frame.origin.x = 5
+                
+            case .Category:
+                cell.icon.image = NSImage(imageLiteralResourceName: "repository.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
+                
+            default:
+                break
+            }
         }
         return cell
     }
@@ -78,6 +108,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         }
         
         return true
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, rowViewForItem item: Any) -> NSTableRowView? {
+        return SidebarTableRowView(frame: NSZeroRect)
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
@@ -119,5 +153,45 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         
         cell.label.isEditable = true
         cell.label.becomeFirstResponder()
+    }
+    
+    @IBAction func deleteMenu(_ sender: Any) {
+        guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
+        
+        let sidebarItem = si[selectedRow]
+        guard let project = sidebarItem.project else { return }
+        guard sidebarItem.type == .Category else { return }
+        
+        if !project.isRoot {
+            guard let w = self.superview?.window else {
+                return
+            }
+            
+            let alert = NSAlert.init()
+            alert.messageText = "Are you sure you want to remove project \"\(project.label)\" and all files inside?"
+            alert.informativeText = "This action cannot be undone."
+            alert.addButton(withTitle: "Remove")
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    try? FileManager.default.trashItem(at: project.url, resultingItemURL: nil)
+                    self.removeProject(project: project)
+                }
+            }
+            return
+        }
+        
+        SandboxBookmark().removeBy(project.url)
+        removeProject(project: project)
+    }
+    
+    private func removeProject(project: Project) {
+        self.storage.removeBy(project: project)
+        
+        self.viewDelegate?.restartFileWatcher()
+        self.viewDelegate?.cleanSearchAndEditArea()
+        
+        self.sidebarItems = Sidebar().getList()
+        self.reloadData()
     }
 }

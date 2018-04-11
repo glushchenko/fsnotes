@@ -592,7 +592,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BIH-5M-4PT">
-                                                    <rect key="frame" x="17" y="68" width="394" height="4"/>
+                                                    <rect key="frame" x="17" y="68" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZw-lw-dKo">
@@ -1032,7 +1032,7 @@
                                                                                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1dd-W4-MiY">
                                                                                     <rect key="frame" x="3" y="-3" width="17" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                    <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSActionTemplate" id="WHo-8O-PFO"/>
+                                                                                    <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="repository" id="WHo-8O-PFO"/>
                                                                                 </imageView>
                                                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kTp-qw-RCd">
                                                                                     <rect key="frame" x="25" y="-5" width="135" height="20"/>
@@ -1250,7 +1250,7 @@
                                                         </scroller>
                                                     </scrollView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="186" y="239" width="103" height="121"/>
+                                                        <rect key="frame" x="184" y="239" width="103" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNote" id="WpA-pT-SDs"/>
                                                     </imageView>
@@ -1349,6 +1349,9 @@ CA
                         </menuItem>
                         <menuItem title="Delete" id="RwR-P0-ycK">
                             <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="deleteMenu:" target="urA-eK-bWB" id="AFb-ct-LdH"/>
+                            </connections>
                         </menuItem>
                     </items>
                 </menu>
@@ -1357,9 +1360,9 @@ CA
         </scene>
     </scenes>
     <resources>
-        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="makeNote" width="512" height="512"/>
         <image name="pin" width="128" height="128"/>
+        <image name="repository" width="39.932773590087891" height="39.932773590087891"/>
     </resources>
 </document>

@@ -12,7 +12,7 @@ class Sidebar {
     var list = [SidebarItem]()
     let storage = Storage.sharedInstance()
     
-    init(_ urls: [URL]) {
+    init() {
         list = [
             SidebarItem(name: "Library", type: .Label),
             SidebarItem(name: "Notes", type: .All),
@@ -24,7 +24,8 @@ class Sidebar {
             list.append(SidebarItem(name: project.label, project: project, type: .Label))
             let childProjects = storage.getChildProjects(project: project)
             for childProject in childProjects {
-                print(childProject.url)
+                print(childProject.label)
+                
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category))
             }
         }

@@ -41,32 +41,26 @@ class Storage {
     init() {
         if let cloudDriveURL = getCloudDrive() {
             let project = Project(url: cloudDriveURL, label: "iCloud Drive", isRoot: true)
-            projects.append(project)
-            chechSub(url: cloudDriveURL, parent: project)
-            checkTrashForVolume(url: cloudDriveURL)
+            add(project: project)
         }
         
         // FSNotes container, when iCloud Drive disabled 
         if projects.count == 0, let local = getLocalURL() {
             let project = Project(url: local, label: "Local", isRoot: true)
-            projects.append(project)
-            chechSub(url: local, parent: project)
-            checkTrashForVolume(url: local)
+            add(project: project)
+
         }
         
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
         
         for url in bookmarks {
-            checkTrashForVolume(url: url)
-            
             guard !projectExist(url: url) else {
                 continue
             }
             
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
-            projects.append(project)
-            chechSub(url: url, parent: project)
+            add(project: project)
         }
     }
     
@@ -138,6 +132,19 @@ class Storage {
             if let i = noteList.index(of: note) {
                 noteList.remove(at: i)
             }
+        }
+        
+        if let i = projects.index(of: project) {
+            projects.remove(at: i)
+        }
+    }
+    
+    public func add(project: Project) {
+        projects.append(project)
+        
+        if project.isRoot {
+            chechSub(url: project.url, parent: project)
+            checkTrashForVolume(url: project.url)
         }
     }
     
@@ -234,7 +241,7 @@ class Storage {
                 )
             })
     }
-    
+        
     func sortNotes(noteList: [Note]?) -> [Note]? {
         guard let list = noteList else {
             return nil

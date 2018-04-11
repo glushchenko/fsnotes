@@ -318,18 +318,7 @@ public class Note: NSObject {
         if (url.pathComponents.count > 0) {
             name = url.pathComponents.last!
             type = .withExt(rawValue: url.pathExtension)
-            
-            var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
-            
-            if let p = project, !p.isRoot {
-                let trimmedLabel = p.label.trim()
-                
-                if !trimmedLabel.isEmpty {
-                    titleName = trimmedLabel + " / " + titleName
-                }
-            }
-            
-            title = titleName
+            title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
         }
     }
     

@@ -13,36 +13,12 @@ class SidebarCellView: NSTableCellView {
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var plus: NSButton!
     
+    var storage = Storage.sharedInstance()
+    
     override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
-        guard let si = objectValue as? SidebarItem else {
-            return
-        }
-        
-        //label.frame.height = 20
         plus.isHidden = true
-        
-        switch si.type {
-        case .All:
-            if let image = NSImage.init(named: .homeTemplate) {
-                icon.image = image
-            }
-        case .Trash:
-            if let image = NSImage.init(named: .trashFull) {
-                icon.image = image
-                //print(icon)
-            }
-        case .Label:
-            icon.isHidden = true
-            label.frame.origin.x = 5
-            
-        default:
-            if let image = NSImage.init(named: .bookmarksTemplate) {
-                icon.image = image
-            }
-            break
-        }
+
+        super.draw(dirtyRect)
     }
     
     private var trackingArea: NSTrackingArea?
@@ -60,7 +36,7 @@ class SidebarCellView: NSTableCellView {
     override func mouseEntered(with event: NSEvent) {
         guard let sidebarItem = objectValue as? SidebarItem else { return }
         
-        if sidebarItem.type == .Label && sidebarItem.name != "Library" {
+        if sidebarItem.type == .Label {
             plus.isHidden = false
         }
     }
@@ -68,16 +44,51 @@ class SidebarCellView: NSTableCellView {
     override func mouseExited(with event: NSEvent) {
         guard let sidebarItem = objectValue as? SidebarItem else { return }
         
-        if sidebarItem.type == .Label && sidebarItem.name != "Library" {
+        if sidebarItem.type == .Label {
             plus.isHidden = true
         }
     }
     
     @IBAction func add(_ sender: NSButton) {
         let cell = sender.superview as? SidebarCellView
-        guard let si = cell?.objectValue as? SidebarItem, let project = si.project else { return }
+        guard let si = cell?.objectValue as? SidebarItem else {
+            return
+        }
         
-        print(project)
+        guard let project = si.project else {
+            addRoot()
+            return
+        }
+        
+        let alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        alert.messageText = "Please enter project name:"
+        alert.accessoryView = field
+        alert.alertStyle = .informational
+        alert.runModal()
+        
+        let value = field.stringValue
+        guard value.count > 0 else { return }
+        
+        do {
+            let projectURL = project.url.appendingPathComponent(value, isDirectory: true)
+            try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
+            
+            let newProject = Project(url: projectURL, parent: project)
+            storage.add(project: newProject)
+            
+            let vc = getViewController()
+            vc.restartFileWatcher()
+            
+            if let sidebar = superview?.superview as? SidebarProjectView {
+                sidebar.sidebarItems = Sidebar().getList()
+                sidebar.reloadData()
+            }
+        } catch {
+            let alert = NSAlert()
+            alert.messageText = error.localizedDescription
+            alert.runModal()
+        }
     }
     
     @IBAction func projectName(_ sender: NSTextField) {
@@ -106,4 +117,43 @@ class SidebarCellView: NSTableCellView {
         vc.storage.loadLabel(project)
         vc.updateTable {}
     }
+    
+    private func addRoot() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = openPanel.url else {
+                    return
+                }
+
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+                bookmark.store(url: url)
+                bookmark.save()
+                
+                let vc = self.getViewController()
+                let newProject = Project(url: url, isRoot: true)
+                self.storage.add(project: newProject)
+                vc.restartFileWatcher()
+                
+                if let sidebar = self.superview?.superview as? SidebarProjectView {
+                    sidebar.sidebarItems = Sidebar().getList()
+                    sidebar.reloadData()
+                }
+            }
+        }
+    }
+    
+    private func getViewController() -> ViewController {
+        let vc = self.window?.contentViewController as? ViewController
+        
+        return vc!
+    }
+    
+    
+    
 }

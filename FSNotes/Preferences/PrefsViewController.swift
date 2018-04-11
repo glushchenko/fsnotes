@@ -103,7 +103,6 @@ class PrefsViewController: NSViewController {
         let openPanel = NSOpenPanel()
         openPanel.allowsMultipleSelection = false
         openPanel.canChooseDirectories = true
-        openPanel.canCreateDirectories = false
         openPanel.canChooseFiles = true
         openPanel.canCreateDirectories = true
         

@@ -17,11 +17,11 @@ class ViewController: NSViewController,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource {
     
+    private var filewatcher: FileWatcher?
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.sharedInstance()
-    
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
@@ -60,13 +60,10 @@ class ViewController: NSViewController,
     }
     
     override func viewDidLoad() {
-        let urls = storage.getBookmarks()
-        let sidebar = Sidebar(urls)
+        let sidebar = Sidebar()
         storageOutlineView.sidebarItems = sidebar.getList()
         
         super.viewDidLoad()
-        
-
         
         editArea.delegate = self
         search.delegate = self
@@ -89,10 +86,8 @@ class ViewController: NSViewController,
                 }
             }
         }
-        
-
-        
-        watchFSEvents()
+    
+        startFileWatcher()
         
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
@@ -194,11 +189,11 @@ class ViewController: NSViewController,
         }
     }
     
-    func watchFSEvents() {
+    private func startFileWatcher() {
         let paths = storage.getProjectPaths()
-        let filewatcher = FileWatcher(paths)
         
-        filewatcher.callback = { event in
+        filewatcher = FileWatcher(paths)
+        filewatcher?.callback = { event in
             if UserDataService.instance.fsUpdatesDisabled {
                 return
             }
@@ -268,7 +263,13 @@ class ViewController: NSViewController,
                 self.watcherCreateTrigger(url)
             }
         }
-        filewatcher.start()
+        
+        filewatcher?.start()
+    }
+    
+    public func restartFileWatcher() {
+        filewatcher?.stop()
+        startFileWatcher()
     }
     
     func watcherCreateTrigger(_ url: URL) {
@@ -799,12 +800,11 @@ class ViewController: NSViewController,
         guard let project = sidebarProject else {
             return
         }
-        
+                
         disablePreview()
         editArea.string = content
         
         let note = Note(name: name, project: project)
-        note.initURL()
         
         if let unwrappedType = type {
             note.type = unwrappedType
@@ -812,11 +812,11 @@ class ViewController: NSViewController,
             note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
         }
         
+        note.initURL()
         note.content = NSMutableAttributedString(string: content)
         note.isCached = true
         note.save()
         
-        storage.add(note)
         note.markdownCache()
         refillEditArea()
         

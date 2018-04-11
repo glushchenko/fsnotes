@@ -41,7 +41,6 @@ class SandboxBookmark {
             }
         }
         
-        print(successfullyRestored)
         return successfullyRestored
     }
     
@@ -85,6 +84,7 @@ class SandboxBookmark {
     }
     
     func removeBy(_ url: URL) {
+        load()
         bookmarks.removeValue(forKey: url)
         save()
     }
