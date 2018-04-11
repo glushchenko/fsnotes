@@ -76,8 +76,10 @@ class Storage {
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
                 let surl = subFolder as URL
+                print(surl)
+                print(isTrash())
                 
-                guard !projectExist(url: surl), ![".Trash", "i"].contains(surl.lastPathComponent) else {
+                guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash") else {
                     continue
                 }
                 
@@ -118,6 +120,10 @@ class Storage {
         }
         
         return URL(fileURLWithPath: path)
+    }
+    
+    private func isTrash() {
+        print(NSSearchPathForDirectoriesInDomains(.trashDirectory, .userDomainMask, true))
     }
     
     func projectExist(url: URL) -> Bool {
@@ -171,22 +177,6 @@ class Storage {
             loadLabel(project)
         }
         
-        /* subfolders support
-        if let generalSubFolders = getGeneralSubFolders() {
-            for item in generalSubFolders {
-                if let storage = storageItemList.filter({ $0.getUrl() == item as? URL }).first {
-                    //loadLabel(storage)
-                } else {
-                    let storageItem = StorageItem(context: CoreDataManager.instance.context)
-                    storageItem.path = item.absoluteString
-                    storageItem.label = item.lastPathComponent
-                    CoreDataManager.instance.save()
-                    loadLabel(storageItem)
-                }
-            }
-        }
-        */
- 
         if let list = sortNotes(noteList: noteList) {
             noteList = list
         }

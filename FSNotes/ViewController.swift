@@ -32,16 +32,13 @@ class ViewController: NSViewController,
     @IBOutlet weak var notesTableView: NotesTableView!
     @IBOutlet var noteMenu: NSMenu!
     @IBOutlet weak var storageOutlineView: SidebarProjectView!
-    
+    @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
+    
     override func viewDidAppear() {
             notesListCustomView.layer?.backgroundColor = NSColor.red.cgColor
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
-        
-        // autosave size and position
-        self.view.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "MainWindow"))
-        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         
         // editarea paddings
         editArea.textContainerInset.height = 10
@@ -55,15 +52,20 @@ class ViewController: NSViewController,
         setTableRowHeight()
         
         super.viewDidAppear()
-        
-        //print()
     }
     
     override func viewDidLoad() {
+        sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
+        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
+                    
+        super.viewDidLoad()
+        
+        // Init sidebar items
         let sidebar = Sidebar()
         storageOutlineView.sidebarItems = sidebar.getList()
         
-        super.viewDidLoad()
+        // Autosave size and position
+    
         
         editArea.delegate = self
         search.delegate = self
@@ -473,6 +475,11 @@ class ViewController: NSViewController,
                 moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: notesTableView)
             }
         }
+        
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == 11 {
+            toggleSidebar("")
+            
+        }
     }
     
     override var representedObject: Any? {
@@ -575,6 +582,21 @@ class ViewController: NSViewController,
         let size = UserDefaultsManagement.sidebarSize
         splitView.setPosition(CGFloat(size), ofDividerAt: 0)
         UserDefaultsManagement.hideSidebar = false
+    }
+    
+    @IBAction func toggleSidebar(_ sender: Any) {
+        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        
+        if !UserDefaultsManagement.hideRealSidebar {
+            UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
+            UserDefaultsManagement.hideRealSidebar = true
+            vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
+            return
+        }
+        
+        let size = UserDefaultsManagement.realSidebarSize
+        vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
+        UserDefaultsManagement.hideRealSidebar = false
     }
     
     var timer = Timer()

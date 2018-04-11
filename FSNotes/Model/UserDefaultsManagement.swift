@@ -383,6 +383,30 @@ public class UserDefaultsManagement {
         }
     }
     
+    static var hideRealSidebar: Bool {
+        get {
+            if let hide = UserDefaults.standard.object(forKey: "hideRealSidebar") {
+                return hide as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hideRealSidebar")
+        }
+    }
+    
+    static var realSidebarSize: Int {
+        get {
+            if let size = UserDefaults.standard.object(forKey: "realSidebarSize") {
+                return size as! Int
+            }
+            return 100
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "realSidebarSize")
+        }
+    }
+    
     static var codeBlockHighlight: Bool {
         get {
             if let highlight = UserDefaults.standard.object(forKey: Constants.codeBlockHighlight) {

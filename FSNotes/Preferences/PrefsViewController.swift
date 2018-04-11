@@ -12,7 +12,6 @@ import CoreData
 
 class PrefsViewController: NSViewController {
 
-    @IBOutlet weak var storageTableView: StorageTableView!
     @IBOutlet var externalEditorApp: NSTextField!
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
@@ -69,9 +68,6 @@ class PrefsViewController: NSViewController {
         
         noteFontColor.color = UserDefaultsManagement.fontColor
         backgroundColor.color = UserDefaultsManagement.bgColor
-        
-        storageTableView.list = CoreDataManager.instance.fetchStorageList()
-        storageTableView.reloadData()
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -98,56 +94,7 @@ class PrefsViewController: NSViewController {
             window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         }
     }
-    
-    @IBAction func addStorage(_ sender: Any) {
-        let openPanel = NSOpenPanel()
-        openPanel.allowsMultipleSelection = false
-        openPanel.canChooseDirectories = true
-        openPanel.canChooseFiles = true
-        openPanel.canCreateDirectories = true
         
-        openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
-                let bookmark = SandboxBookmark.sharedInstance()
-                let url = openPanel.url
-                
-                bookmark.load()
-                bookmark.store(url: url!)
-                bookmark.save()
-                
-                if let url = openPanel.url {
-                    var storage: StorageItem
-                    let selected = self.storageTableView.getSelected()
-                    
-                    if selected != nil {
-                        storage = selected!
-                    } else {
-                        let context = CoreDataManager.instance.context
-                        storage = StorageItem(context: context)
-                    }
-                    
-                    storage.path = url.absoluteString
-                    
-                    // reset instantiated storage
-                    if selected != nil && selected?.label == "general" {
-                        CoreDataManager.instance.setDefaultStorage(storage: storage)
-                        self.storage.generalUrl = nil
-                    }
-                    
-                    CoreDataManager.instance.save()
-                    self.reloadStorage()
-                }
-            }
-        }
-    }
-    
-    @IBAction func removeStorage(_ sender: Any) {
-        if let storage = storageTableView.getSelected(), storage.label != "general" {
-            CoreDataManager.instance.remove(storage: storage)
-            reloadStorage()
-        }
-    }
-    
     @IBAction func externalEditor(_ sender: Any) {
         UserDefaultsManagement.externalEditor = externalEditorApp.stringValue
     }
@@ -281,16 +228,7 @@ class PrefsViewController: NSViewController {
             }
         }
     }
-    
-    func reloadStorage() {
-        storage.loadDocuments()
         
-        self.storageTableView.reload()
-        self.viewController.updateTable() {
-            self.viewController.loadMoveMenu()
-        }
-    }
-    
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
         guard let item = sender.selectedItem else {
             return
