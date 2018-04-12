@@ -116,6 +116,7 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
+        viewController.titleLabel.stringValue = note.title
         
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url

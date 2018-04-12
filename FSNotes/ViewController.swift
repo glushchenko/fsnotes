@@ -34,8 +34,8 @@ class ViewController: NSViewController,
     @IBOutlet weak var storageOutlineView: SidebarProjectView!
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
-    @IBOutlet weak var sidebarNotesView: SidebarNotesView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleLabel: NSTextField!
     
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
@@ -60,6 +60,7 @@ class ViewController: NSViewController,
     override func viewDidLoad() {
         sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
         splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
+        titleLabel.stringValue = "FSNotes"
         
         super.viewDidLoad()
         
@@ -473,9 +474,9 @@ class ViewController: NSViewController,
             }
         }
         
+        // Toggle sidebar cmd+shift+control+b
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == 11 {
             toggleSidebar("")
-            
         }
     }
     
@@ -569,6 +570,8 @@ class ViewController: NSViewController,
     }
     
     @IBAction func toggleNoteList(_ sender: Any) {
+        print(splitView.subviews)
+        
         if !UserDefaultsManagement.hideSidebar {
             UserDefaultsManagement.sidebarSize = Int(splitView.subviews[0].frame.width)
             UserDefaultsManagement.hideSidebar = true
@@ -576,7 +579,10 @@ class ViewController: NSViewController,
             return
         }
         
-        let size = UserDefaultsManagement.sidebarSize
+        var size = UserDefaultsManagement.sidebarSize
+        if size < 10 {
+            size = 250
+        }
         splitView.setPosition(CGFloat(size), ofDividerAt: 0)
         UserDefaultsManagement.hideSidebar = false
     }

@@ -129,6 +129,10 @@ class SidebarCellView: NSTableCellView {
                 guard let url = openPanel.url else {
                     return
                 }
+                
+                guard !self.storage.projectExist(url: url) else {
+                    return
+                }
 
                 let bookmark = SandboxBookmark.sharedInstance()
                 _ = bookmark.load()
