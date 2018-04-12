@@ -116,7 +116,6 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
-        viewController.titleLabel.stringValue = note.title
         
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
@@ -177,7 +176,7 @@ class EditTextView: NSTextView {
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
       
-        self.window?.title = note.title
+        viewController.titleLabel.stringValue = note.title
         restoreCursorPosition()
     }
     
@@ -216,6 +215,7 @@ class EditTextView: NSTextView {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = false
+        viewController.titleLabel.stringValue = "FSNotes"
     }
     
     func formatShortcut(keyCode: UInt16, modifier: UInt = 0) -> Bool {

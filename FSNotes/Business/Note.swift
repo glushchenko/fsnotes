@@ -36,6 +36,7 @@ public class Note: NSObject {
     
     init(name: String, project: Project) {
         self.project = project
+        self.name = name
         type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
     }
     

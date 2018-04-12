@@ -1279,6 +1279,12 @@ CA
                                 <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Add" id="3zv-SD-lSX">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="addProject:" target="urA-eK-bWB" id="q5J-D4-DSO"/>
+                            </connections>
+                        </menuItem>
                         <menuItem title="Rename" keyEquivalent="r" id="fzU-ZR-Ubv">
                             <connections>
                                 <action selector="renameMenu:" target="urA-eK-bWB" id="Jh4-4H-wc0"/>
@@ -1302,6 +1308,6 @@ CA
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="makeNote" width="512" height="512"/>
         <image name="pin" width="128" height="128"/>
-        <image name="repository" width="39.932773590087891" height="39.932773590087891"/>
+        <image name="repository" width="40.271186828613281" height="40.271186828613281"/>
     </resources>
 </document>

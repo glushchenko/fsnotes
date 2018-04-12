@@ -63,18 +63,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             
             switch si.type {
             case .All:
-                if let image = NSImage.init(named: .homeTemplate) {
-                    cell.icon.image = image
-                    cell.icon.isHidden = false
-                    cell.label.frame.origin.x = 25
-                }
+                cell.icon.image = NSImage(imageLiteralResourceName: "home.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
                 
             case .Trash:
-                if let image = NSImage.init(named: .trashFull) {
-                    cell.icon.image = image
-                    cell.icon.isHidden = false
-                    cell.label.frame.origin.x = 25
-                }
+                cell.icon.image = NSImage(imageLiteralResourceName: "trash.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
                 
             case .Label:
                 cell.icon.isHidden = true
@@ -127,16 +123,39 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         }
     }
 
-    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         if (clickedRow > -1) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
+            
+            guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
+            let sidebarItem = si[selectedRow]
+            
+            if ["Library", "Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil {
+                for item in menu.items {
+                    if item.title != "Add" {
+                        item.isHidden = true
+                    }
+                }
+                
+                return
+            }
+            
+            for item in menu.items {
+                item.isHidden = false
+            }
+            
+            if let project = si[selectedRow].project, let i = menu.items.index(where: {$0.title == "Rename"}) {
+                if project.isRoot {
+                    menu.item(at: i)?.isHidden = true
+                } else {
+                    menu.item(at: i)?.isHidden = false
+                }
+            }
         }
     }
     
     @IBAction func revealInFinder(_ sender: Any) {
         guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
-        
         let sidebarItem = si[selectedRow]
         guard let p = sidebarItem.project else { return }
         
@@ -161,9 +180,9 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         
         let sidebarItem = si[selectedRow]
         guard let project = sidebarItem.project else { return }
-        guard sidebarItem.type == .Category else { return }
+        guard sidebarItem.type != .All || sidebarItem.type != .Trash || sidebarItem.name != "Library" else { return }
         
-        if !project.isRoot {
+        if !project.isRoot && sidebarItem.type == .Category {
             guard let w = self.superview?.window else {
                 return
             }
@@ -196,6 +215,22 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         self.reloadData()
     }
     
+    @IBAction func addProject(_ sender: Any) {
+        guard
+            let projectRow = rowView(atRow: selectedRow, makeIfNecessary: false),
+            let cell = projectRow.view(atColumn: 0) as? SidebarCellView,
+            let sidebarItems = sidebarItems, sidebarItems.indices.contains(selectedRow) else { return }
+        
+        let sidebarItem = sidebarItems[selectedRow]
+        
+        guard let project = sidebarItem.project else {
+            cell.add(sidebarItem)
+            return
+        }
+        
+        cell.add(project)
+    }
+    
     override func keyDown(with event: NSEvent) {
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 15 {
             revealInFinder("")
@@ -211,7 +246,13 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             deleteMenu("")
             return
         }
-                
+        
+        // Tab or right arrow to search
+        if event.keyCode == 48 || event.keyCode == 124 {
+            self.viewDelegate?.search.becomeFirstResponder()
+            return
+        }
+                        
         super.keyDown(with: event)
     }
 }

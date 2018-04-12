@@ -39,16 +39,17 @@ class Storage {
     private var bookmarks = [URL]()
     
     init() {
+        #if CLOUDKIT
         if let cloudDriveURL = getCloudDrive() {
             let project = Project(url: cloudDriveURL, label: "iCloud Drive", isRoot: true)
             add(project: project)
         }
+        #endif
         
         // FSNotes container, when iCloud Drive disabled 
         if projects.count == 0, let local = getLocalURL() {
             let project = Project(url: local, label: "Local", isRoot: true)
             add(project: project)
-
         }
         
         let bookmark = SandboxBookmark.sharedInstance()

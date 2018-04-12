@@ -62,6 +62,10 @@ class ViewController: NSViewController,
         splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         titleLabel.stringValue = "FSNotes"
         
+        if UserDefaultsManagement.hideRealSidebar {
+            searchTopConstraint.constant = CGFloat(25)
+        }
+        
         super.viewDidLoad()
         
         // Init sidebar items
@@ -489,6 +493,8 @@ class ViewController: NSViewController,
     @IBAction func makeNote(_ sender: NSTextField) {
         let value = sender.stringValue
         if (value.count > 0) {
+            search.stringValue = ""
+            editArea.clear()
             createNote(name: value)
         } else {
             createNote()
@@ -498,7 +504,7 @@ class ViewController: NSViewController,
     @IBAction func fileName(_ sender: NSTextField) {
         let value = sender.stringValue
         
-        guard let note = notesTableView.getNoteFromSelectedRow() else {
+        guard let note = notesTableView.getNoteFromSelectedRow(), let url = note.url else {
             return
         }
         
@@ -530,13 +536,14 @@ class ViewController: NSViewController,
             return
         }
         
-        do {
-            try FileManager.default.moveItem(at: note.url, to: newUrl)
-            print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
-        } catch {}
+        note.url = newUrl
+        note.parseURL()
         
-        if isSoftRename {
-            note.url = newUrl
+        do {
+            try FileManager.default.moveItem(at: url, to: newUrl)
+            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
+        } catch {
+            note.url = url
             note.parseURL()
         }
         

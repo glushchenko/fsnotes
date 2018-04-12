@@ -49,45 +49,50 @@ class SidebarCellView: NSTableCellView {
         }
     }
     
-    @IBAction func add(_ sender: NSButton) {
-        let cell = sender.superview as? SidebarCellView
-        guard let si = cell?.objectValue as? SidebarItem else {
-            return
+    @IBAction func add(_ sender: Any) {
+        var unwrappedProject: Project?
+    
+        if sender is NSButton,
+            let sender = sender as? NSButton,
+            let cell = sender.superview as? SidebarCellView,
+            let si = cell.objectValue as? SidebarItem,
+            let p = si.project {
+            unwrappedProject = p
         }
         
-        guard let project = si.project else {
+        if sender is Project {
+            unwrappedProject = sender as? Project
+        }
+        
+        if sender is SidebarItem {
             addRoot()
             return
         }
         
+        guard let project = unwrappedProject else {
+            addRoot()
+            return
+        }
+        
+        if project.label == "Library" {
+            addRoot()
+            return
+        }
+        
+        guard let window = self.superview?.window else { return }
+        
         let alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        alert.messageText = "Please enter project name:"
+        alert.messageText = "New project"
+        alert.informativeText = "Please enter project name:"
         alert.accessoryView = field
         alert.alertStyle = .informational
-        alert.runModal()
-        
-        let value = field.stringValue
-        guard value.count > 0 else { return }
-        
-        do {
-            let projectURL = project.url.appendingPathComponent(value, isDirectory: true)
-            try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
-            
-            let newProject = Project(url: projectURL, parent: project)
-            storage.add(project: newProject)
-            
-            let vc = getViewController()
-            vc.restartFileWatcher()
-            
-            if let sidebar = superview?.superview as? SidebarProjectView {
-                sidebar.sidebarItems = Sidebar().getList()
-                sidebar.reloadData()
+        alert.addButton(withTitle: "Add")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                self.addChild(field: field, project: project)
             }
-        } catch {
-            let alert = NSAlert()
-            alert.messageText = error.localizedDescription
-            alert.runModal()
         }
     }
     
@@ -110,12 +115,35 @@ class SidebarCellView: NSTableCellView {
             alert.runModal()
         }
         
-        // reload storage data
         guard let vc = self.window?.contentViewController as? ViewController else { return }
-        
         vc.storage.removeBy(project: project)
         vc.storage.loadLabel(project)
         vc.updateTable {}
+    }
+    
+    private func addChild(field: NSTextField, project: Project) {
+        let value = field.stringValue
+        guard value.count > 0 else { return }
+        
+        do {
+            let projectURL = project.url.appendingPathComponent(value, isDirectory: true)
+            try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
+            
+            let newProject = Project(url: projectURL, parent: project)
+            storage.add(project: newProject)
+            
+            let vc = getViewController()
+            vc.restartFileWatcher()
+            
+            if let sidebar = superview?.superview as? SidebarProjectView {
+                sidebar.sidebarItems = Sidebar().getList()
+                sidebar.reloadData()
+            }
+        } catch {
+            let alert = NSAlert()
+            alert.messageText = error.localizedDescription
+            alert.runModal()
+        }
     }
     
     private func addRoot() {
@@ -142,6 +170,7 @@ class SidebarCellView: NSTableCellView {
                 let vc = self.getViewController()
                 let newProject = Project(url: url, isRoot: true)
                 self.storage.add(project: newProject)
+                self.storage.loadLabel(newProject)
                 vc.restartFileWatcher()
                 
                 if let sidebar = self.superview?.superview as? SidebarProjectView {
@@ -157,7 +186,5 @@ class SidebarCellView: NSTableCellView {
         
         return vc!
     }
-    
-    
-    
+
 }

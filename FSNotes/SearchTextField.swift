@@ -25,6 +25,7 @@ class SearchTextField: NSTextField {
             return
         }
         
+        // Left arrow
         if (event.keyCode == 123) {
             vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
             vc.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
