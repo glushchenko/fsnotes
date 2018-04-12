@@ -34,11 +34,14 @@ class ViewController: NSViewController,
     @IBOutlet weak var storageOutlineView: SidebarProjectView!
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
+    @IBOutlet weak var sidebarNotesView: SidebarNotesView!
+    @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     
     override func viewDidAppear() {
-            notesListCustomView.layer?.backgroundColor = NSColor.red.cgColor
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
+        
+        splitView.subviews[1].backgroundColor = NSColor.white
         
         // editarea paddings
         editArea.textContainerInset.height = 10
@@ -57,15 +60,12 @@ class ViewController: NSViewController,
     override func viewDidLoad() {
         sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
         splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
-                    
+        
         super.viewDidLoad()
         
         // Init sidebar items
         let sidebar = Sidebar()
         storageOutlineView.sidebarItems = sidebar.getList()
-        
-        // Autosave size and position
-    
         
         editArea.delegate = self
         search.delegate = self
@@ -120,10 +120,7 @@ class ViewController: NSViewController,
             keyValueWatcher()
         #endif
     }
-    
 
-    
-    
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBAction func sortBy(_ sender: NSMenuItem) {
         if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
@@ -591,12 +588,14 @@ class ViewController: NSViewController,
             UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
             UserDefaultsManagement.hideRealSidebar = true
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
+            searchTopConstraint.constant = CGFloat(25)
             return
         }
         
         let size = UserDefaultsManagement.realSidebarSize
         vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
         UserDefaultsManagement.hideRealSidebar = false
+        searchTopConstraint.constant = CGFloat(8)
     }
     
     var timer = Timer()

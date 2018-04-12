@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Foundation
 
 class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
     var sidebarItems: [SidebarItem]? = nil
@@ -32,7 +33,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if let si = item as? SidebarItem, si.type == .Label {
-            return 35
+            return 30
         }
         return 25
     }
@@ -193,5 +194,24 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         
         self.sidebarItems = Sidebar().getList()
         self.reloadData()
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 15 {
+            revealInFinder("")
+            return
+        }
+        
+        if event.modifierFlags.contains(.command) && event.keyCode == 15 {
+            renameMenu("")
+            return
+        }
+        
+        if event.modifierFlags.contains(.command) && event.keyCode == 51 {
+            deleteMenu("")
+            return
+        }
+                
+        super.keyDown(with: event)
     }
 }

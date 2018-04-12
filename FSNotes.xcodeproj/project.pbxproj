@@ -135,8 +135,8 @@
 		D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC69200288FC00A1760F /* NSTextStorage+.swift */; };
 		D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
 		D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
-		D7CB9908207E73BA00037E91 /* NSSplitView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9907207E73BA00037E91 /* NSSplitView+.swift */; };
-		D7CB9909207E73BA00037E91 /* NSSplitView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9907207E73BA00037E91 /* NSSplitView+.swift */; };
+		D7CB990B207E9F3500037E91 /* NSView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB990A207E9F3500037E91 /* NSView+.swift */; };
+		D7CB990C207E9F3500037E91 /* NSView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB990A207E9F3500037E91 /* NSView+.swift */; };
 		D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
@@ -345,7 +345,7 @@
 		D7C5429A1FC4A74000EF1F94 /* StorageItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableRowView.swift; sourceTree = "<group>"; };
-		D7CB9907207E73BA00037E91 /* NSSplitView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSplitView+.swift"; sourceTree = "<group>"; };
+		D7CB990A207E9F3500037E91 /* NSView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+.swift"; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
@@ -617,7 +617,7 @@
 				D708AC69200288FC00A1760F /* NSTextStorage+.swift */,
 				D76025C2204F2820000B9F59 /* UIFont+.swift */,
 				D7ADFD0D2064143D00B531F9 /* URL+.swift */,
-				D7CB9907207E73BA00037E91 /* NSSplitView+.swift */,
+				D7CB990A207E9F3500037E91 /* NSView+.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1167,6 +1167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7C5429D1FC4A83F00EF1F94 /* StorageItem+CoreDataClass.swift in Sources */,
+				D7CB990B207E9F3500037E91 /* NSView+.swift in Sources */,
 				D7C5429E1FC4A83F00EF1F94 /* StorageItem+CoreDataProperties.swift in Sources */,
 				D7475F552069245B00233126 /* DateFormatter+.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
@@ -1193,7 +1194,6 @@
 				D74112281FABA21B00AB619A /* MainWindow.swift in Sources */,
 				D7097FCB1FB8CA4A00144D8F /* StorageTableView.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
-				D7CB9908207E73BA00037E91 /* NSSplitView+.swift in Sources */,
 				D741122B1FACA10A00AB619A /* PrefsWindow.swift in Sources */,
 				D708AC6A200288FC00A1760F /* NSTextStorage+.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
@@ -1221,6 +1221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7ADFD0F2064285900B531F9 /* URL+.swift in Sources */,
+				D7CB990C207E9F3500037E91 /* NSView+.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,
 				D7475F562069245B00233126 /* DateFormatter+.swift in Sources */,
 				D708AC6B200299F600A1760F /* NSTextStorage+.swift in Sources */,
@@ -1247,7 +1248,6 @@
 				D76025B3204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D7E81C331F925B5F00416A91 /* UserDefaultsManagement.swift in Sources */,
 				D7E81C341F925B5F00416A91 /* EditTextView.swift in Sources */,
-				D7CB9909207E73BA00037E91 /* NSSplitView+.swift in Sources */,
 				D7E81C351F925B5F00416A91 /* CoreDataManager.swift in Sources */,
 				D7E81C361F925B5F00416A91 /* AppDelegate.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,

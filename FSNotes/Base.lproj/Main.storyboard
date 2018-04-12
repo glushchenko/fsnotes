@@ -1016,11 +1016,10 @@
                                         <subviews>
                                             <customView ambiguous="YES" id="8ej-mX-KM6" customClass="SidebarNotesView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="155" height="600"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 <subviews>
-                                                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gaD-Xx-kYm" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
+                                                    <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gaD-Xx-kYm" customClass="SearchTextField" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="9" y="570" width="137" height="22"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="Search and create" bezelStyle="round" id="o2l-IY-X2S">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1031,13 +1030,13 @@
                                                         </connections>
                                                     </textField>
                                                     <scrollView focusRingType="none" ambiguous="YES" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="49" horizontalPageScroll="10" verticalLineScroll="49" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzf-Jh-YEb">
-                                                        <rect key="frame" x="0.0" y="38" width="155" height="524"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="155" height="562"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" ambiguous="YES" drawsBackground="NO" id="MtJ-BC-rZB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="155" height="524"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="155" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="48" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="155" height="524"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="155" height="562"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1135,25 +1134,28 @@
                                                 <constraints>
                                                     <constraint firstAttribute="bottom" secondItem="Kzf-Jh-YEb" secondAttribute="bottom" id="GCr-xh-vvQ"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="O0H-rJ-5SF"/>
-                                                    <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="38" id="S24-u4-1C8"/>
+                                                    <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="gaD-Xx-kYm" secondAttribute="bottom" constant="8" id="S24-u4-1C8"/>
+                                                    <constraint firstAttribute="trailing" secondItem="gaD-Xx-kYm" secondAttribute="trailing" constant="9" id="TW9-hk-TlU"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kzf-Jh-YEb" secondAttribute="trailing" id="gF5-JY-xgD"/>
+                                                    <constraint firstItem="gaD-Xx-kYm" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="8" id="jla-xW-fW2"/>
+                                                    <constraint firstItem="gaD-Xx-kYm" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" constant="9" id="lWl-Ul-pBf"/>
                                                 </constraints>
                                             </customView>
                                             <customView appearanceType="aqua" ambiguous="YES" id="at7-wA-VAS">
                                                 <rect key="frame" x="156" y="0.0" width="480" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
-                                                    <scrollView ambiguous="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="562"/>
+                                                    <scrollView ambiguous="YES" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL">
+                                                        <rect key="frame" x="0.0" y="-600" width="480" height="572"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="562"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="480" height="572"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView ambiguous="YES" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="562"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="480" height="572"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="0.0" height="562"/>
+                                                                    <size key="minSize" width="480" height="572"/>
                                                                     <size key="maxSize" width="636" height="10000000"/>
                                                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </textView>
@@ -1167,21 +1169,32 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" hidden="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" doubleValue="1" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
-                                                            <rect key="frame" x="-14" y="0.0" width="14" height="38"/>
+                                                            <rect key="frame" x="21" y="0.0" width="14" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="184" y="239" width="103" height="121"/>
+                                                        <rect key="frame" x="182" y="239" width="103" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNote" id="WpA-pT-SDs"/>
                                                     </imageView>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
+                                                        <rect key="frame" x="0.0" y="-20" width="480" height="14"/>
+                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
+                                                            <font key="font" size="13" name=".AppleSystemUIFont"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="qJO-7f-vkL" secondAttribute="trailing" id="GZ2-jz-8Ue"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="QX8-11-49c"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="3" id="ZXL-jc-Tfr"/>
+                                                    <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="3" id="eAG-eB-pQr"/>
                                                     <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
-                                                    <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" id="nhl-aw-9Zt"/>
+                                                    <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" id="kLx-Os-kkP"/>
                                                 </constraints>
                                             </customView>
                                         </subviews>
@@ -1206,7 +1219,9 @@
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
                         <outlet property="search" destination="gaD-Xx-kYm" id="jiw-n1-Ydc"/>
+                        <outlet property="searchTopConstraint" destination="jla-xW-fW2" id="Y44-aN-8Rm"/>
                         <outlet property="searchWrapper" destination="gaD-Xx-kYm" id="1k0-hP-rbp"/>
+                        <outlet property="sidebarNotesView" destination="8ej-mX-KM6" id="prE-rG-u23"/>
                         <outlet property="sidebarSplitView" destination="dO0-pK-Ktm" id="2FH-Og-FOV"/>
                         <outlet property="splitView" destination="yWu-3F-P62" id="DnG-p7-z81"/>
                         <outlet property="storageOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
