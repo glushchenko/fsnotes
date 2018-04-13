@@ -68,32 +68,29 @@ class ViewController: NSViewController,
         
         super.viewDidLoad()
         
-        // Init sidebar items
-        let sidebar = Sidebar()
-        storageOutlineView.sidebarItems = sidebar.getList()
-        
         editArea.delegate = self
         search.delegate = self
         splitView.delegate = self
         storageOutlineView.viewDelegate = self
         
-        if CoreDataManager.instance.getBy(label: "general") == nil {
-            let context = CoreDataManager.instance.context
-            let storage = StorageItem(context: context)
-            storage.path = UserDefaultsManagement.storageUrl.absoluteString
-            storage.label = "general"
-            CoreDataManager.instance.save()
-        }
-        
         if storage.noteList.count == 0 {
             storage.loadDocuments()
             updateTable() {
+                
                 if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
                     self.notesTableView.selectRow(i)
+                    self.notesTableView.scrollRowToVisible(i)
+                } else if self.notesTableView.noteList.count > 0 {
+                    self.focusTable()
                 }
             }
         }
     
+        // Init sidebar items
+        let sidebar = Sidebar()
+        storageOutlineView.sidebarItems = sidebar.getList()
+        
+        // Wtach FS changes
         startFileWatcher()
         
         let font = UserDefaultsManagement.noteFont
@@ -124,6 +121,9 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             keyValueWatcher()
         #endif
+        
+        splitView.setPosition(CGFloat(250), ofDividerAt: 0)
+        
     }
 
     @IBOutlet weak var sortByOutlet: NSMenuItem!
@@ -159,14 +159,14 @@ class ViewController: NSViewController,
     }
     
     @objc func moveNote(_ sender: NSMenuItem) {
-        let storageItem = sender.representedObject as! StorageItem
+        let project = sender.representedObject as! Project
         
-        guard let notes = notesTableView.getSelectedNotes(), let url = storageItem.getUrl() else {
+        guard let notes = notesTableView.getSelectedNotes() else {
             return
         }
         
         for note in notes {
-            let destination = url.appendingPathComponent(note.name)
+            let destination = project.url.appendingPathComponent(note.name)
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
             } catch {
@@ -577,8 +577,6 @@ class ViewController: NSViewController,
     }
     
     @IBAction func toggleNoteList(_ sender: Any) {
-        print(splitView.subviews)
-        
         if !UserDefaultsManagement.hideSidebar {
             UserDefaultsManagement.sidebarSize = Int(splitView.subviews[0].frame.width)
             UserDefaultsManagement.hideSidebar = true
@@ -768,11 +766,11 @@ class ViewController: NSViewController,
     
     func focusTable() {
         DispatchQueue.main.async {
-            let index = self.notesTableView.selectedRow > -1 ? 1 : 0
+            let index = self.notesTableView.selectedRow > -1 ? self.notesTableView.selectedRow : 0
             
             self.notesTableView.window?.makeFirstResponder(self.notesTableView)
             self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            self.notesTableView.scrollRowToVisible(0)
+            self.notesTableView.scrollRowToVisible(index)
         }
     }
     
@@ -978,9 +976,9 @@ class ViewController: NSViewController,
     }
     
     func loadMoveMenu() {
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        let projects = storage.getProjects()
         
-        if storageItemList.count > 1 {
+        if projects.count > 1 {
             if let prevMenu = noteMenu.item(withTitle: "Move") {
                 noteMenu.removeItem(prevMenu)
             }
@@ -991,25 +989,20 @@ class ViewController: NSViewController,
             
             let moveMenu = NSMenu()
             let label = NSMenuItem()
-            label.title = "Storage:"
+            label.title = "Project:"
             let sep = NSMenuItem.separator()
             
             moveMenu.addItem(label)
             moveMenu.addItem(sep)
             
-            for storageItem in storageItemList {
-                guard let url = storageItem.getUrl() else {
-                    return
-                }
-                
-                var title = url.lastPathComponent
-                if let label = storageItem.label {
-                    title = label
+            for project in projects {
+                guard !project.isTrash else {
+                    continue
                 }
                 
                 let menuItem = NSMenuItem()
-                menuItem.title = title
-                menuItem.representedObject = storageItem
+                menuItem.title = project.label
+                menuItem.representedObject = project
                 menuItem.action = #selector(moveNote(_:))
                 
                 moveMenu.addItem(menuItem)

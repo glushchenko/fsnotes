@@ -77,9 +77,6 @@ class Storage {
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
                 let surl = subFolder as URL
-                print(surl)
-                print(isTrash())
-                
                 guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash") else {
                     continue
                 }
@@ -122,11 +119,7 @@ class Storage {
         
         return URL(fileURLWithPath: path)
     }
-    
-    private func isTrash() {
-        print(NSSearchPathForDirectoriesInDomains(.trashDirectory, .userDomainMask, true))
-    }
-    
+        
     func projectExist(url: URL) -> Bool {
         return projects.contains(where: {$0.url == url})
     }
@@ -287,6 +280,8 @@ class Storage {
             
             #if CLOUDKIT
                 note.isPinned = keyStore.bool(forKey: name)
+            #else
+                
             #endif
             
             note.load(url)
@@ -338,22 +333,11 @@ class Storage {
     }
     
     func checkFirstRun() -> Bool {
-        let destination = getBaseURL()
-        let path = destination.path
-        
-        if !FileManager.default.fileExists(atPath: path) {
-            do {
-                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("General storage not found: \(error)")
-            }
-        }
-        
-        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else {
-            return false
-        }
+        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else { return false }
+        guard let destination = getDemoSubdirURL() else { return false }
         
         let initialPath = resourceURL.appendingPathComponent("Initial").path
+        let path = destination.path
         
         do {
             let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
@@ -404,18 +388,24 @@ class Storage {
             }
     }
     
-    func getBaseURL() -> URL {
+    func getDemoSubdirURL() -> URL? {
 #if os(OSX)
-        if let gu = generalUrl {
-            return gu
+        if let project = projects.first {
+            let pURL = project.url.appendingPathComponent("FSNotes")
+            
+            do {
+                try FileManager.default.createDirectory(at: pURL, withIntermediateDirectories: false, attributes: nil)
+            } catch {
+                return nil
+            }
+            
+            let childProject = Project(url: pURL, parent: project)
+            add(project: childProject)
+            
+            return pURL
         }
-    
-        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let path = storage.path, let url = URL(string: path) else {
-            return UserDefaultsManagement.storageUrl
-        }
-    
-        generalUrl = url
-        return url
+        
+        return nil
 #else
         return UserDefaultsManagement.documentDirectory
 #endif

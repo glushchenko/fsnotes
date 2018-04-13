@@ -101,7 +101,6 @@ class SidebarCellView: NSTableCellView {
         guard let si = cell?.objectValue as? SidebarItem, let project = si.project else { return }
         
         let newURL = project.url.deletingLastPathComponent().appendingPathComponent(sender.stringValue)
-        print(newURL)
         
         do {
             try FileManager.default.moveItem(at: project.url, to: newURL)

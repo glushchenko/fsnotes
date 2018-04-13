@@ -24,8 +24,6 @@ class Sidebar {
             list.append(SidebarItem(name: project.label, project: project, type: .Label))
             let childProjects = storage.getChildProjects(project: project)
             for childProject in childProjects {
-                print(childProject.label)
-                
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category))
             }
         }

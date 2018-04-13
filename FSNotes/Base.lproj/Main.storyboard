@@ -495,7 +495,7 @@
         <scene sceneID="mVP-iC-cBD">
             <objects>
                 <windowController showSeguePresentationStyle="single" id="Ozi-at-KZg" customClass="PrefsWindowController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="PrefsWindow" animationBehavior="default" id="ldu-U8-PD1" customClass="PrefsWindow" customModule="FSNotes" customModuleProvider="target">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="PrefsWindow" animationBehavior="default" id="ldu-U8-PD1">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
@@ -1221,7 +1221,6 @@
                         <outlet property="search" destination="gaD-Xx-kYm" id="jiw-n1-Ydc"/>
                         <outlet property="searchTopConstraint" destination="jla-xW-fW2" id="Y44-aN-8Rm"/>
                         <outlet property="searchWrapper" destination="gaD-Xx-kYm" id="1k0-hP-rbp"/>
-                        <outlet property="sidebarNotesView" destination="8ej-mX-KM6" id="prE-rG-u23"/>
                         <outlet property="sidebarSplitView" destination="dO0-pK-Ktm" id="2FH-Og-FOV"/>
                         <outlet property="splitView" destination="yWu-3F-P62" id="DnG-p7-z81"/>
                         <outlet property="storageOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>

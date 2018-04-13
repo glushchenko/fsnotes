@@ -246,12 +246,12 @@ public class Note: NSObject {
     func addPin() {
         sharedStorage.pinned += 1
         isPinned = true
-        CoreDataManager.instance.save()
         
         #if CLOUDKIT || os(iOS)
             let keyStore = NSUbiquitousKeyValueStore()
             keyStore.set(true, forKey: name)
             keyStore.synchronize()
+            return
         #endif
     }
     
@@ -264,6 +264,7 @@ public class Note: NSObject {
                 let keyStore = NSUbiquitousKeyValueStore()
                 keyStore.set(false, forKey: name)
                 keyStore.synchronize()
+                return
             #endif
         }
     }
@@ -273,7 +274,6 @@ public class Note: NSObject {
             addPin()
         } else {
             removePin()
-            CoreDataManager.instance.save()
         }
     }
     

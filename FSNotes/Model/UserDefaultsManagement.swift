@@ -28,7 +28,7 @@ public class UserDefaultsManagement {
     typealias Font = UIFont
 #endif
     
-    static var DefaultFont = "Helvetica Neue"
+    static var DefaultFont = ".AppleSystemUIFont"
     static var DefaultFontSize = 14
     
     static var DefaultFontColor = Color.black
@@ -92,7 +92,11 @@ public class UserDefaultsManagement {
     
     static var noteFont: Font! {
         get {
-            return Font(name: self.fontName, size: CGFloat(self.fontSize))
+            if let font = Font(name: self.fontName, size: CGFloat(self.fontSize)) {
+                return font
+            }
+            
+            return Font.systemFont(ofSize: CGFloat(self.fontSize))
         }
         set {
             guard let newValue = newValue else {return}
