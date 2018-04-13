@@ -151,6 +151,8 @@
 		D7E6D9CE207F9878003ECAFC /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E6D9CA207F9878003ECAFC /* trash.png */; };
 		D7E6D9D0207F98A8003ECAFC /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E6D9CF207F98A7003ECAFC /* repository.png */; };
 		D7E6D9D1207F98A8003ECAFC /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E6D9CF207F98A7003ECAFC /* repository.png */; };
+		D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F62078B22D0055F159 /* SidebarItem.swift */; };
+		D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */; };
 		D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
 		D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7E81C301F925B5F00416A91 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */; };
@@ -526,34 +528,17 @@
 		D7793C711F211C6000CA39B7 /* FSNotes */ = {
 			isa = PBXGroup;
 			children = (
-				D7B00BA71FBB14010021472E /* Preferences */,
-				D7CD5F6A1F51184A006AA35D /* Utils */,
+				D7CD5F6A1F51184A006AA35D /* Extensions */,
 				D7B6E59C20794B4C00FE0E20 /* Business */,
+				D7E6D9D520808652003ECAFC /* Helpers */,
 				D773DE811F36F4AF00A39C9F /* Model */,
+				D7E6D9D2208085BB003ECAFC /* View */,
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
-				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
-				D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */,
-				D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */,
-				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
 				D74112271FABA21B00AB619A /* MainWindow.swift */,
 				275592961F3AE9B5006B8988 /* MainWindowController.swift */,
-				D7A9FD301FCB4873008ED23C /* MarkdownView.swift */,
-				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
-				D7B024A62019BCF3008544C3 /* NoteAttribute.swift */,
-				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
-				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
-				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
-				D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */,
-				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
-				D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */,
-				D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */,
-				D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */,
-				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
-				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
-				D75EE7FC2078C5460055F159 /* SidebarCellView.swift */,
-				D7169A5C2077BA140025D2C9 /* StorageView.swift */,
-				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
 				D7793C741F211C6000CA39B7 /* ViewController.swift */,
+				D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */,
+				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7465F27207F2CD600E46A52 /* Images.xcassets */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
@@ -563,29 +548,23 @@
 			path = FSNotes;
 			sourceTree = "<group>";
 		};
-		D7B00BA71FBB14010021472E /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */,
-				D7508FCD1F3438540047AB76 /* PrefsViewController.swift */,
-			);
-			path = Preferences;
-			sourceTree = "<group>";
-		};
 		D7B6E59C20794B4C00FE0E20 /* Business */ = {
 			isa = PBXGroup;
 			children = (
 				D7B6E599207912E300FE0E20 /* Project.swift */,
 				D75EE7F92078B3C00055F159 /* Sidebar.swift */,
 				D79FE8A01F77D04A00113CFD /* Note.swift */,
-				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
+				D75EE7F62078B22D0055F159 /* SidebarItem.swift */,
+				D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
+				D7E025071F3B6DDB00EDDA32 /* Storage.swift */,
+				D7B024A62019BCF3008544C3 /* NoteAttribute.swift */,
 				D708AC662000EF5800A1760F /* NoteType.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
 		};
-		D7CD5F6A1F51184A006AA35D /* Utils */ = {
+		D7CD5F6A1F51184A006AA35D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				D7475F542069245B00233126 /* DateFormatter+.swift */,
@@ -596,7 +575,7 @@
 				D7ADFD0D2064143D00B531F9 /* URL+.swift */,
 				D7CB990A207E9F3500037E91 /* NSView+.swift */,
 			);
-			path = Utils;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D7D61FCC1F32EEA1004357C2 /* Resources */ = {
@@ -625,6 +604,37 @@
 				D7E6D9CA207F9878003ECAFC /* trash.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D7E6D9D2208085BB003ECAFC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D797004B1F3DD10700BAD94D /* EditTextView.swift */,
+				D7A9FD301FCB4873008ED23C /* MarkdownView.swift */,
+				D735E5BC1F2EF66000173215 /* NoteCellView.swift */,
+				D735E5BE1F2F001500173215 /* NoteRowView.swift */,
+				D7A415131F2FBDA00099B82C /* NotesTableView.swift */,
+				D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */,
+				D7508FC71F337E850047AB76 /* SearchTextField.swift */,
+				D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */,
+				D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */,
+				D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */,
+				D75EE7FC2078C5460055F159 /* SidebarCellView.swift */,
+				D7169A5C2077BA140025D2C9 /* StorageView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D7E6D9D520808652003ECAFC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */,
+				D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */,
+				D76025B1204EEF64000B9F59 /* TextFormatter.swift */,
+				D777D7802009115C00D86B33 /* ImagesProcessor.swift */,
+				D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
@@ -1109,6 +1119,7 @@
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
 				D76025C4204F2849000B9F59 /* UIFont+.swift in Sources */,
+				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7C803EF2046ED91005DA599 /* NSTextStorage+.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
@@ -1121,6 +1132,7 @@
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
 				D7BDFE5A201F677B00897A58 /* String+.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
+				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
 				D7B6E59E20794B9200FE0E20 /* Sidebar.swift in Sources */,
 				D7DB5EDA2025BD7900E7E1B6 /* PageViewController.swift in Sources */,

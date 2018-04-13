@@ -281,7 +281,14 @@ class Storage {
             #if CLOUDKIT
                 note.isPinned = keyStore.bool(forKey: name)
             #else
-                
+                let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.pin")
+                let isPinned = data?.withUnsafeBytes { (ptr: UnsafePointer<Bool>) -> Bool in
+                    return ptr.pointee
+                }
+            
+                if let pin = isPinned {
+                    note.isPinned = pin
+                }
             #endif
             
             note.load(url)

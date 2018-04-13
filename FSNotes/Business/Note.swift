@@ -253,6 +253,10 @@ public class Note: NSObject {
             keyStore.synchronize()
             return
         #endif
+        
+        var pin = true
+        let data = Data(bytes: &pin, count: 1)
+        try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
     }
     
     func removePin() {
@@ -266,6 +270,10 @@ public class Note: NSObject {
                 keyStore.synchronize()
                 return
             #endif
+            
+            var pin = false
+            let data = Data(bytes: &pin, count: 1)
+            try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
         }
     }
     
