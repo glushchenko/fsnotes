@@ -62,9 +62,7 @@ class ViewController: NSViewController,
         splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         titleLabel.stringValue = "FSNotes"
         
-        if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
-            searchTopConstraint.constant = CGFloat(25)
-        }
+        checkSidebarConstraint()
         
         super.viewDidLoad()
         
@@ -1056,6 +1054,15 @@ class ViewController: NSViewController,
                 self.reloadView()
             }
         }
+    }
+    
+    func checkSidebarConstraint() {
+        if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
+            searchTopConstraint.constant = CGFloat(25)
+            return
+        }
+        
+        searchTopConstraint.constant = 8
     }
     
 }

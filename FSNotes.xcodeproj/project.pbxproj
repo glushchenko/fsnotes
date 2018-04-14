@@ -494,13 +494,6 @@
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
 		};
-		D773DE811F36F4AF00A39C9F /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		D7793C661F211C6000CA39B7 = {
 			isa = PBXGroup;
 			children = (
@@ -531,7 +524,6 @@
 				D7CD5F6A1F51184A006AA35D /* Extensions */,
 				D7B6E59C20794B4C00FE0E20 /* Business */,
 				D7E6D9D520808652003ECAFC /* Helpers */,
-				D773DE811F36F4AF00A39C9F /* Model */,
 				D7E6D9D2208085BB003ECAFC /* View */,
 				D7793C721F211C6000CA39B7 /* AppDelegate.swift */,
 				D74112271FABA21B00AB619A /* MainWindow.swift */,

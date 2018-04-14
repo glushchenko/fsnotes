@@ -17,4 +17,9 @@ class MainSplitView: NSSplitView, NSSplitViewDelegate {
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         return 200
     }
+    
+    func splitViewDidResizeSubviews(_ notification: Notification) {
+        let vc = self.window?.contentViewController as! ViewController
+        vc.checkSidebarConstraint()
+    }
 }
