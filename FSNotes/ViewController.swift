@@ -88,7 +88,7 @@ class ViewController: NSViewController,
         let sidebar = Sidebar()
         storageOutlineView.sidebarItems = sidebar.getList()
         
-        // Wtach FS changes
+        // Watch FS changes
         startFileWatcher()
         
         let font = UserDefaultsManagement.noteFont
@@ -598,18 +598,17 @@ class ViewController: NSViewController,
     @IBAction func toggleSidebar(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
         
-        if !UserDefaultsManagement.hideRealSidebar {
+        if !UserDefaultsManagement.hideRealSidebar && sidebarSplitView.subviews[0].frame.width != 0.0 {
             UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
             UserDefaultsManagement.hideRealSidebar = true
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
             searchTopConstraint.constant = CGFloat(25)
-            return
+        } else {
+            let size = UserDefaultsManagement.realSidebarSize > 0 ? UserDefaultsManagement.realSidebarSize : 200
+            vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
+            UserDefaultsManagement.hideRealSidebar = false
+            searchTopConstraint.constant = CGFloat(8)
         }
-        
-        let size = UserDefaultsManagement.realSidebarSize
-        vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
-        UserDefaultsManagement.hideRealSidebar = false
-        searchTopConstraint.constant = CGFloat(8)
     }
     
     var timer = Timer()

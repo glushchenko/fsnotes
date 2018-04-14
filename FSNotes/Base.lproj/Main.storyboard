@@ -861,6 +861,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="autocloseBrackets:" target="IAM-xZ-Bfs" id="yht-wc-VKE"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </view>
@@ -1186,7 +1189,7 @@
                                                         </scroller>
                                                     </scrollView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="182" y="239" width="103" height="121"/>
+                                                        <rect key="frame" x="181" y="239" width="104" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNote" id="WpA-pT-SDs"/>
                                                     </imageView>
