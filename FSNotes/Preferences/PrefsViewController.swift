@@ -30,6 +30,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var backgroundColor: NSColorWell!
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var restoreCursorButton: NSButton!
+    @IBOutlet weak var autocloseBrackets: NSButton!
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     let storage = Storage.sharedInstance()
@@ -63,6 +64,8 @@ class PrefsViewController: NSViewController {
         
         restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
         
+        autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
+
         markdownCodeTheme.selectItem(withTitle: UserDefaultsManagement.codeTheme)
         
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
@@ -314,4 +317,7 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.restoreCursorPosition = (sender.state == .on)
     }
     
+    @IBAction func autocloseBrackets(_ sender: NSButton) {
+        UserDefaultsManagement.autocloseBrackets = (sender.state == .on)
+    }
 }
