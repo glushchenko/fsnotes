@@ -67,19 +67,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
         return true
     }
-    
-    func application(_ application: NSApplication, open urls: [URL]) {
-        if let url = urls.first {
-            let name = url.lastPathComponent
-            if let note = storage.getBy(title: name),
-                let window = NSApplication.shared.windows.first,
-                let controller = window.contentViewController as? ViewController {
-                controller.search.stringValue = name
-                controller.updateTable() {
-                    controller.notesTableView.setSelected(note: note)
-                }
-            }
-        }
-    }
-
 }

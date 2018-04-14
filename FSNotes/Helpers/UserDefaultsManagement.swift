@@ -62,6 +62,7 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
         static let TableOrientation = "isUseHorizontalMode"
+        static let AutocloseBrackets = "autocloseBrackets"
     }
         
     static var fontName: String {
@@ -542,6 +543,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.NightModeBrightnessLevel)
+        }
+    }
+    
+    static var autocloseBrackets: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutocloseBrackets) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutocloseBrackets)
         }
     }
     

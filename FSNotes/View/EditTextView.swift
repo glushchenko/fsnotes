@@ -427,7 +427,31 @@ class EditTextView: NSTextView {
         guard let note = EditTextView.note else {
             return
         }
-    
+        
+        let brackets = [
+            "(" : ")",
+            "[" : "]",
+            "{" : "}",
+            "'" : "'",
+            "\"" : "\"",
+        ]
+        if UserDefaultsManagement.autocloseBrackets,
+            let openingBracket = event.characters,
+            let closingBracket = brackets[openingBracket] {
+            if selectedRange().length > 0 {
+                let before = NSMakeRange(selectedRange().lowerBound, 0)
+                self.insertText(openingBracket, replacementRange: before)
+                let after = NSMakeRange(selectedRange().upperBound, 0)
+                self.insertText(closingBracket, replacementRange: after)
+            }
+            else {
+                super.keyDown(with: event)
+                self.insertText(closingBracket, replacementRange: selectedRange())
+                self.moveBackward(self)
+            }
+            return
+        }
+        
         if event.keyCode == kVK_Return {
             super.keyDown(with: event)
             
