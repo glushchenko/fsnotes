@@ -62,7 +62,7 @@ class ViewController: NSViewController,
         splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         titleLabel.stringValue = "FSNotes"
         
-        if UserDefaultsManagement.hideRealSidebar {
+        if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
             searchTopConstraint.constant = CGFloat(25)
         }
         
@@ -166,16 +166,21 @@ class ViewController: NSViewController,
         }
         
         for note in notes {
+            let prevProject = note.project
             let destination = project.url.appendingPathComponent(note.name)
             do {
+                note.project = project
                 try FileManager.default.moveItem(at: note.url, to: destination)
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = "Hmm, something goes wrong 🙈"
                 alert.informativeText = "Note with name \(note.name) already exist in selected storage."
                 alert.runModal()
+                note.project = prevProject
             }
         }
+        
+        updateTable {}
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
@@ -468,7 +473,7 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
-            if notesTableView.selectedRow >= 0  {
+            if notesTableView.selectedRow >= 0 {
                 let moveMenu = noteMenu.item(withTitle: "Move")
                 let view = notesTableView.rect(ofRow: notesTableView.selectedRow)
                 let x = splitView.subviews[0].frame.width + 5

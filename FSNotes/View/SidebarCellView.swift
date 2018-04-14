@@ -133,6 +133,7 @@ class SidebarCellView: NSTableCellView {
             
             let vc = getViewController()
             vc.restartFileWatcher()
+            vc.loadMoveMenu()
             
             if let sidebar = superview?.superview as? SidebarProjectView {
                 sidebar.sidebarItems = Sidebar().getList()
@@ -171,6 +172,7 @@ class SidebarCellView: NSTableCellView {
                 self.storage.add(project: newProject)
                 self.storage.loadLabel(newProject)
                 vc.restartFileWatcher()
+                vc.loadMoveMenu()
                 
                 if let sidebar = self.superview?.superview as? SidebarProjectView {
                     sidebar.sidebarItems = Sidebar().getList()

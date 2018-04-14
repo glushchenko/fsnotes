@@ -18,7 +18,35 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
-        super.draw(dirtyRect)
+        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data")])
+        
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
+        
+        let board = info.draggingPasteboard()
+        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
+        
+        guard let sidebarItem = item as? SidebarItem, let vd = viewDelegate, let project = sidebarItem.project else { return false }
+        
+        for url in urls {
+            let name = url.lastPathComponent
+            let note = Note(url: url)
+            note.parseURL()
+            note.reloadContent()
+            note.project = project
+            note.url = project.url.appendingPathComponent(name)
+            note.save()
+            note.markdownCache()
+            vd.reloadView()
+        }
+        
+        return true
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+        
+        return .copy
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
@@ -29,6 +57,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         }
         
         return 0
+    }
+    
+    func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
+        print(operation)
     }
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
