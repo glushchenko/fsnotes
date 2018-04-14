@@ -67,20 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
         return true
     }
-    
-    func application(_ application: NSApplication, open urls: [URL]) {
-        if let url = urls.first {
-            let name = url.lastPathComponent
-            if let note = storage.getBy(title: name),
-                let window = NSApplication.shared.windows.first,
-                let controller = window.contentViewController as? ViewController {
-                controller.updateTable(filter: name) {
-                    controller.notesTableView.setSelected(note: note)
-                }
-            }
-        }
-    }
-    
+        
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "FSNotes")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
