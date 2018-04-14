@@ -1057,7 +1057,13 @@ class ViewController: NSViewController,
     }
     
     func checkSidebarConstraint() {
+        if sidebarSplitView.subviews[0].frame.width > 50 {
+            searchTopConstraint.constant = 8
+            return
+        }
+        
         if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
+            
             searchTopConstraint.constant = CGFloat(25)
             return
         }
