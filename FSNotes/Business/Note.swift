@@ -10,32 +10,41 @@
 import Foundation
 import CoreData
 
-@objc(Note)
-public class Note: NSManagedObject {
+public class Note: NSObject {
+    @objc var title: String = ""
+    var project: Project? = nil
     var type: NoteType = .Markdown
     var url: URL!
-    @objc var title: String = ""
     var content: NSMutableAttributedString = NSMutableAttributedString()
-    
     var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
     var sharedStorage = Storage.sharedInstance()
     
-    convenience init(name: String) {
-        let context = CoreDataManager.instance.context
-        let entity = CoreDataManager.instance.entityForName(entityName: "Note")
+    public var name: String = ""
+    public var isPinned: Bool = false
+    public var modifiedLocalAt: Date?
+    
+    init(url: URL) {
+        self.url = url
         
-        self.init(entity: entity, insertInto: context)
-        self.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
-        
-        make(newName: name)
-        storage = CoreDataManager.instance.fetchGeneralStorage()
+        if let project = sharedStorage.getProjectBy(url: url) {
+            self.project = project
+        }
     }
     
-    func make(newName: String) {
-        url = getUniqueFileName(name: newName)
+    init(name: String, project: Project) {
+        self.project = project
+        self.name = name
+        type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+    }
+    
+    func initURL() {
+        if let uniqURL = getUniqueFileName(name: name) {
+            url = uniqURL
+        }
+        
         parseURL()
     }
     
@@ -48,22 +57,7 @@ public class Note: NSManagedObject {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
     }
-    
-    func initWith(url: URL, fileName: String) {
-        storage = CoreDataManager.instance.fetchGeneralStorage()
         
-        self.url = sharedStorage.getBaseURL().appendingPathComponent(fileName)
-        parseURL()
-        
-        let options = getDocOptions()
-        
-        do {
-            self.content = try NSMutableAttributedString(url: url, options: options, documentAttributes: nil)
-        } catch {
-            print("Document \"\(fileName)\" not loaded. Error: \(error)")
-        }
-    }
-    
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
@@ -126,7 +120,11 @@ public class Note: NSManagedObject {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
             #if os(OSX)
-                try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                if isTrash() {
+                    try FileManager.default.removeItem(at: url)
+                } else {
+                    try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                }
             #else
                 try FileManager.default.removeItem(at: url)
             #endif
@@ -207,7 +205,7 @@ public class Note: NSManagedObject {
         return modifiedLocalAt
     }
     
-    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL {
+    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL? {
         let defaultName = "Untitled Note"
         
         var name = name
@@ -220,8 +218,10 @@ public class Note: NSManagedObject {
         } else if name.isEmpty {
             name = defaultName
         }
-    
-        var fileUrl = sharedStorage.getBaseURL()
+        
+        guard let p = project else { return nil }
+        
+        var fileUrl = p.url
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(type.rawValue)
         
@@ -246,13 +246,17 @@ public class Note: NSManagedObject {
     func addPin() {
         sharedStorage.pinned += 1
         isPinned = true
-        CoreDataManager.instance.save()
         
         #if CLOUDKIT || os(iOS)
             let keyStore = NSUbiquitousKeyValueStore()
             keyStore.set(true, forKey: name)
             keyStore.synchronize()
+            return
         #endif
+        
+        var pin = true
+        let data = Data(bytes: &pin, count: 1)
+        try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
     }
     
     func removePin() {
@@ -264,7 +268,12 @@ public class Note: NSManagedObject {
                 let keyStore = NSUbiquitousKeyValueStore()
                 keyStore.set(false, forKey: name)
                 keyStore.synchronize()
+                return
             #endif
+            
+            var pin = false
+            let data = Data(bytes: &pin, count: 1)
+            try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
         }
     }
     
@@ -273,7 +282,6 @@ public class Note: NSManagedObject {
             addPin()
         } else {
             removePin()
-            CoreDataManager.instance.save()
         }
     }
     
@@ -319,18 +327,7 @@ public class Note: NSManagedObject {
         if (url.pathComponents.count > 0) {
             name = url.pathComponents.last!
             type = .withExt(rawValue: url.pathExtension)
-            
-            var titleName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
-            
-            if let storageUnwrapped = storage, let label = storageUnwrapped.label, label != "general" {
-                let trimmedLabel = label.trim()
-                
-                if !trimmedLabel.isEmpty {
-                    titleName = trimmedLabel + " / " + titleName
-                }
-            }
-            
-            title = titleName
+            title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
         }
     }
     
@@ -353,7 +350,7 @@ public class Note: NSManagedObject {
             return
         }
         
-        sharedStorage.saveNote(note: self, userInitiated: false, cloudSync: cloudSync)
+        sharedStorage.add(self)
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {
@@ -380,23 +377,13 @@ public class Note: NSManagedObject {
         }
     }
     
-    func checkLocalSyncState(_ currentDate: Date) {        
-        if currentDate != modifiedLocalAt {
-            isSynced = false
-        }
-    }
-    
     func isGeneral() -> Bool {
 #if os(OSX)
-        guard let storageItem = storage else {
+        guard let p = project else {
             return false
         }
         
-        guard let label = storageItem.label else {
-            return false
-        }
-        
-        return (label == "general")
+        return (p.label == "general")
 #else
         return true
 #endif
@@ -443,11 +430,11 @@ public class Note: NSManagedObject {
         return options
     }
     
-    func getStoragePath() -> String? {
-        if let storageItem = storage, let storagePath = storageItem.getUrl() {
-            return storagePath.path
+    func isTrash() -> Bool {
+        guard let p = project else {
+            return false
         }
         
-        return nil
+        return p.isTrash
     }
 }

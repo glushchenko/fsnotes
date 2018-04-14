@@ -24,10 +24,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func keyUp(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else {
+            super.keyUp(with: event)
+            return
+        }
+        
         // Tab
         if (event.keyCode == 48 && !event.modifierFlags.contains(.control)) {
-            let viewController = self.window?.contentViewController as? ViewController
-            viewController?.focusEditArea()
+            vc.focusEditArea()
+        }
+        
+        // Left arrow
+        if (event.keyCode == 123) {
+            vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
+            vc.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
         }
         
         super.keyUp(with: event)
@@ -179,7 +189,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func removeByNotes(notes: [Note]) {
         for note in notes {
-            if let i = noteList.index(of: note) {
+            if let i = noteList.index(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .effectFade)

@@ -13,8 +13,11 @@ import CoreData
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
-    NSSplitViewDelegate {
+    NSSplitViewDelegate,
+    NSOutlineViewDelegate,
+    NSOutlineViewDataSource {
     
+    private var filewatcher: FileWatcher?
     var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
     var prevQuery: String?
@@ -27,16 +30,18 @@ class ViewController: NSViewController,
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
-    
     @IBOutlet var noteMenu: NSMenu!
+    @IBOutlet weak var storageOutlineView: SidebarProjectView!
+    @IBOutlet weak var sidebarSplitView: NSSplitView!
+    @IBOutlet weak var notesListCustomView: NSView!
+    @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleLabel: NSTextField!
     
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
         
-        // autosave size and position
-        self.view.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "MainWindow"))
-        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
+        splitView.subviews[1].backgroundColor = NSColor.white
         
         // editarea paddings
         editArea.textContainerInset.height = 10
@@ -48,38 +53,43 @@ class ViewController: NSViewController,
         }
         
         setTableRowHeight()
-                
+        
         super.viewDidAppear()
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+        sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
+        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
+        titleLabel.stringValue = "FSNotes"
         
-        let bookmark = SandboxBookmark()
-        bookmark.load()
+        checkSidebarConstraint()
+        
+        super.viewDidLoad()
         
         editArea.delegate = self
         search.delegate = self
         splitView.delegate = self
-        
-        if CoreDataManager.instance.getBy(label: "general") == nil {
-            let context = CoreDataManager.instance.context
-            let storage = StorageItem(context: context)
-            storage.path = UserDefaultsManagement.storageUrl.absoluteString
-            storage.label = "general"
-            CoreDataManager.instance.save()
-        }
-        
-        watchFSEvents()
+        storageOutlineView.viewDelegate = self
         
         if storage.noteList.count == 0 {
             storage.loadDocuments()
-            updateTable(filter: "") {
+            updateTable() {
+                
                 if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
                     self.notesTableView.selectRow(i)
+                    self.notesTableView.scrollRowToVisible(i)
+                } else if self.notesTableView.noteList.count > 0 {
+                    self.focusTable()
                 }
             }
         }
+    
+        // Init sidebar items
+        let sidebar = Sidebar()
+        storageOutlineView.sidebarItems = sidebar.getList()
+        
+        // Watch FS changes
+        startFileWatcher()
         
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
@@ -109,8 +119,11 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             keyValueWatcher()
         #endif
+        
+        splitView.setPosition(CGFloat(250), ofDividerAt: 0)
+        
     }
-    
+
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBAction func sortBy(_ sender: NSMenuItem) {
         if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
@@ -144,23 +157,28 @@ class ViewController: NSViewController,
     }
     
     @objc func moveNote(_ sender: NSMenuItem) {
-        let storageItem = sender.representedObject as! StorageItem
+        let project = sender.representedObject as! Project
         
-        guard let notes = notesTableView.getSelectedNotes(), let url = storageItem.getUrl() else {
+        guard let notes = notesTableView.getSelectedNotes() else {
             return
         }
         
         for note in notes {
-            let destination = url.appendingPathComponent(note.name)
+            let prevProject = note.project
+            let destination = project.url.appendingPathComponent(note.name)
             do {
+                note.project = project
                 try FileManager.default.moveItem(at: note.url, to: destination)
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = "Hmm, something goes wrong 🙈"
                 alert.informativeText = "Note with name \(note.name) already exist in selected storage."
                 alert.runModal()
+                note.project = prevProject
             }
         }
+        
+        updateTable {}
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
@@ -178,18 +196,11 @@ class ViewController: NSViewController,
         }
     }
     
-    func watchFSEvents() {
-        var pathList: [String] = []
+    private func startFileWatcher() {
+        let paths = storage.getProjectPaths()
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        for storageItem in storageItemList {
-            if let path = storageItem.getUrl()?.path {
-                pathList.append(NSString(string: path).expandingTildeInPath)
-            }
-        }
-        
-        let filewatcher = FileWatcher(pathList)
-        filewatcher.callback = { event in
+        filewatcher = FileWatcher(paths)
+        filewatcher?.callback = { event in
             if UserDataService.instance.fsUpdatesDisabled {
                 return
             }
@@ -202,10 +213,20 @@ class ViewController: NSViewController,
                 return
             }
             
+            if event.fileRemoved {
+                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
+                
+                self.storage.removeNotes(notes: [note], fsRemove: false) {
+                    DispatchQueue.main.async {
+                        self.notesTableView.removeByNotes(notes: [note])
+                    }
+                }
+            }
+            
             if event.fileRenamed {
                 let note = self.storage.getBy(url: url)
-                let fileExistInFS = self.checkFile(url: url, pathList: pathList)
-
+                let fileExistInFS = self.checkFile(url: url, pathList: paths)
+                
                 if note != nil {
                     if fileExistInFS {
                         self.watcherCreateTrigger(url)
@@ -229,7 +250,7 @@ class ViewController: NSViewController,
                 return
             }
             
-            guard self.checkFile(url: url, pathList: pathList) else {
+            guard self.checkFile(url: url, pathList: paths) else {
                 return
             }
             
@@ -249,7 +270,13 @@ class ViewController: NSViewController,
                 self.watcherCreateTrigger(url)
             }
         }
-        filewatcher.start()
+        
+        filewatcher?.start()
+    }
+    
+    public func restartFileWatcher() {
+        filewatcher?.stop()
+        startFileWatcher()
     }
     
     func watcherCreateTrigger(_ url: URL) {
@@ -257,7 +284,7 @@ class ViewController: NSViewController,
         
         guard n == nil else {
             if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
-                self.updateTable(filter: "") {
+                self.updateTable() {
                     self.notesTableView.setSelected(note: nUnwrapped)
                     UserDataService.instance.lastRenamed = nil
                 }
@@ -265,26 +292,24 @@ class ViewController: NSViewController,
             return
         }
         
-        var note: Note
-        if let existNote = CoreDataManager.instance.getBy(url: url) {
-            note = existNote
-        } else {
-            note = CoreDataManager.instance.make()
+        guard storage.getProjectBy(url: url) != nil else {
+            return
         }
         
-        note.storage = CoreDataManager.instance.fetchStorageItemBy(fileUrl: url)
+        let note = Note(url: url)
+        note.parseURL()
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
         refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
-        storage.saveNote(note: note)
+        storage.add(note)
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.lastRenamed,
                 let note = self.storage.getBy(url: url) {
-                self.updateTable(filter: "") {
+                self.updateTable() {
                     self.notesTableView.setSelected(note: note)
                     UserDataService.instance.lastRenamed = nil
                 }
@@ -294,7 +319,7 @@ class ViewController: NSViewController,
         }
         
         if note.name == "FSNotes - Readme.md" {
-            updateTable(filter: "") {
+            updateTable() {
                 self.notesTableView.selectRow(0)
                 note.addPin()
             }
@@ -314,7 +339,7 @@ class ViewController: NSViewController,
         let selectedNote = notesTable.getSelectedNote()
         let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable(filter: self.search.stringValue) {
+        self.updateTable() {
             if let selected = selectedNote, let index = notesTable.getIndex(selected) {
                 notesTable.selectRowIndexes([index], byExtendingSelection: false)
                 self.refillEditArea(cursor: cursor)
@@ -362,6 +387,8 @@ class ViewController: NSViewController,
         // Focus search bar on ESC
         if (event.keyCode == 53) {
             cleanSearchAndEditArea()
+            storageOutlineView.deselectAll(nil)
+            updateTable() {}
         }
         
         // Focus search field shortcut (cmd-L)
@@ -444,7 +471,7 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
-            if notesTableView.selectedRow >= 0  {
+            if notesTableView.selectedRow >= 0 {
                 let moveMenu = noteMenu.item(withTitle: "Move")
                 let view = notesTableView.rect(ofRow: notesTableView.selectedRow)
                 let x = splitView.subviews[0].frame.width + 5
@@ -452,6 +479,11 @@ class ViewController: NSViewController,
                 
                 moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: notesTableView)
             }
+        }
+        
+        // Toggle sidebar cmd+shift+control+b
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == 11 {
+            toggleSidebar("")
         }
     }
     
@@ -464,6 +496,8 @@ class ViewController: NSViewController,
     @IBAction func makeNote(_ sender: NSTextField) {
         let value = sender.stringValue
         if (value.count > 0) {
+            search.stringValue = ""
+            editArea.clear()
             createNote(name: value)
         } else {
             createNote()
@@ -473,14 +507,14 @@ class ViewController: NSViewController,
     @IBAction func fileName(_ sender: NSTextField) {
         let value = sender.stringValue
         
-        guard let note = notesTableView.getNoteFromSelectedRow() else {
+        guard let note = notesTableView.getNoteFromSelectedRow(), let url = note.url else {
             return
         }
         
         let newName = sender.stringValue + "." + note.url.pathExtension
         let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
         
-        if let itemStorage = note.storage, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
+        if let itemStorage = note.project, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
             let alert = NSAlert()
             alert.messageText = "Hmm, something goes wrong 🙈"
             alert.informativeText = "Note with name \(value) already exist in selected storage."
@@ -505,13 +539,14 @@ class ViewController: NSViewController,
             return
         }
         
-        do {
-            try FileManager.default.moveItem(at: note.url, to: newUrl)
-            print("File moved from \"\(note.url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
-        } catch {}
+        note.url = newUrl
+        note.parseURL()
         
-        if isSoftRename {
-            note.url = newUrl
+        do {
+            try FileManager.default.moveItem(at: url, to: newUrl)
+            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
+        } catch {
+            note.url = url
             note.parseURL()
         }
         
@@ -552,9 +587,28 @@ class ViewController: NSViewController,
             return
         }
         
-        let size = UserDefaultsManagement.sidebarSize
+        var size = UserDefaultsManagement.sidebarSize
+        if size < 10 {
+            size = 250
+        }
         splitView.setPosition(CGFloat(size), ofDividerAt: 0)
         UserDefaultsManagement.hideSidebar = false
+    }
+    
+    @IBAction func toggleSidebar(_ sender: Any) {
+        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        
+        if !UserDefaultsManagement.hideRealSidebar && sidebarSplitView.subviews[0].frame.width != 0.0 {
+            UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
+            UserDefaultsManagement.hideRealSidebar = true
+            vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
+            searchTopConstraint.constant = CGFloat(25)
+        } else {
+            let size = UserDefaultsManagement.realSidebarSize > 0 ? UserDefaultsManagement.realSidebarSize : 200
+            vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
+            UserDefaultsManagement.hideRealSidebar = false
+            searchTopConstraint.constant = CGFloat(8)
+        }
     }
     
     var timer = Timer()
@@ -576,7 +630,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selected]
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
-            storage.saveNote(note: note, userInitiated: true)
+            storage.add(note)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
                 moveAtTop(id: selected)
@@ -590,19 +644,45 @@ class ViewController: NSViewController,
     
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
-        let value = self.search.stringValue
-        
         UserDataService.instance.searchTrigger = true
         
         filterQueue.cancelAllOperations()
         filterQueue.addOperation {
-            self.updateTable(filter: value, search: true) {}
+            DispatchQueue.main.async {
+                self.updateTable(search: true) {}
+            }
         }
     }
     
     var filterQueue = OperationQueue.init()
 
-    func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
+    func getSidebarProject() -> Project? {
+        let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
+        
+        if let project = sidebarItem?.project {
+            return project
+        }
+        
+        return nil
+    }
+    
+    func getSidebarType() -> SidebarItemType? {
+        let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
+        
+        if let type = sidebarItem?.type {
+            return type
+        }
+        
+        return nil
+    }
+    
+    
+    
+    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+        let filter = self.search.stringValue
+        let project = getSidebarProject()
+        let type = getSidebarType()
+        
         if !search, let list = storage.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
         }
@@ -625,6 +705,14 @@ class ViewController: NSViewController,
                         filter.isEmpty
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
+                    ) && (
+                        type == .Trash && $0.isTrash()
+                        || type == .All && !$0.isTrash()
+                        || (
+                            (type == .Category || type == .Label)
+                            && project != nil && $0.project == project
+                        ) || type == nil && project == nil && !$0.isTrash()
+                        || project != nil && project!.isRoot && $0.project?.parent == project
                     )
                 )
             }
@@ -680,11 +768,11 @@ class ViewController: NSViewController,
     
     func focusTable() {
         DispatchQueue.main.async {
-            let index = self.notesTableView.selectedRow > -1 ? 1 : 0
+            let index = self.notesTableView.selectedRow > -1 ? self.notesTableView.selectedRow : 0
             
             self.notesTableView.window?.makeFirstResponder(self.notesTableView)
             self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-            self.notesTableView.scrollRowToVisible(0)
+            self.notesTableView.scrollRowToVisible(index)
         }
     }
     
@@ -693,7 +781,7 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         search.stringValue = ""
         editArea.clear()
-        updateTable(filter: "") {}
+        updateTable() {}
     }
     
     func makeNoteShortcut() {
@@ -736,10 +824,21 @@ class ViewController: NSViewController,
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
+        var sidebarProject = getSidebarProject()
+        
+        if sidebarProject == nil {
+            let projects = storage.getProjects()
+            sidebarProject = projects.first
+        }
+        
+        guard let project = sidebarProject else {
+            return
+        }
+                
         disablePreview()
         editArea.string = content
         
-        let note = CoreDataManager.instance.make()
+        let note = Note(name: name, project: project)
         
         if let unwrappedType = type {
             note.type = unwrappedType
@@ -747,18 +846,15 @@ class ViewController: NSViewController,
             note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
         }
         
-        note.make(newName: name)
+        note.initURL()
         note.content = NSMutableAttributedString(string: content)
-        note.isSynced = false
-        note.storage = CoreDataManager.instance.fetchGeneralStorage()
         note.isCached = true
         note.save()
         
-        storage.saveNote(note: note, userInitiated: true)
         note.markdownCache()
         refillEditArea()
         
-        updateTable(filter: "") {
+        updateTable() {
             if let index = self.notesTableView.getIndex(note) {
                 self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
                 self.notesTableView.scrollRowToVisible(index)
@@ -791,7 +887,7 @@ class ViewController: NSViewController,
         }
         
         if selectedRows.count > 1 {
-            updateTable(filter: "") {}
+            updateTable() {}
         }
     }
         
@@ -882,9 +978,9 @@ class ViewController: NSViewController,
     }
     
     func loadMoveMenu() {
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
+        let projects = storage.getProjects()
         
-        if storageItemList.count > 1 {
+        if projects.count > 1 {
             if let prevMenu = noteMenu.item(withTitle: "Move") {
                 noteMenu.removeItem(prevMenu)
             }
@@ -895,25 +991,20 @@ class ViewController: NSViewController,
             
             let moveMenu = NSMenu()
             let label = NSMenuItem()
-            label.title = "Storage:"
+            label.title = "Project:"
             let sep = NSMenuItem.separator()
             
             moveMenu.addItem(label)
             moveMenu.addItem(sep)
             
-            for storageItem in storageItemList {
-                guard let url = storageItem.getUrl() else {
-                    return
-                }
-                
-                var title = url.lastPathComponent
-                if let label = storageItem.label {
-                    title = label
+            for project in projects {
+                guard !project.isTrash else {
+                    continue
                 }
                 
                 let menuItem = NSMenuItem()
-                menuItem.title = title
-                menuItem.representedObject = storageItem
+                menuItem.title = project.label
+                menuItem.representedObject = project
                 menuItem.action = #selector(moveNote(_:))
                 
                 moveMenu.addItem(menuItem)
@@ -963,5 +1054,21 @@ class ViewController: NSViewController,
             }
         }
     }
+    
+    func checkSidebarConstraint() {
+        if sidebarSplitView.subviews[0].frame.width > 50 {
+            searchTopConstraint.constant = 8
+            return
+        }
+        
+        if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
+            
+            searchTopConstraint.constant = CGFloat(25)
+            return
+        }
+        
+        searchTopConstraint.constant = 8
+    }
+    
 }
 

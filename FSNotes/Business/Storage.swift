@@ -13,6 +13,8 @@ class Storage {
     static var instance: Storage? = nil
     
     var noteList = [Note]()
+    private var projects = [Project]()
+    
     var notesDict: [String: Note] = [:]
     var generalUrl: URL?
     
@@ -34,6 +36,126 @@ class Storage {
     ]
 #endif
     
+    private var bookmarks = [URL]()
+    
+    init() {
+        #if CLOUDKIT
+        if let cloudDriveURL = getCloudDrive() {
+            let project = Project(url: cloudDriveURL, label: "iCloud Drive", isRoot: true)
+            add(project: project)
+        }
+        #endif
+        
+        // FSNotes container, when iCloud Drive disabled 
+        if projects.count == 0, let local = getLocalURL() {
+            let project = Project(url: local, label: "Local", isRoot: true)
+            add(project: project)
+        }
+        
+        let bookmark = SandboxBookmark.sharedInstance()
+        bookmarks = bookmark.load()
+        
+        for url in bookmarks {
+            guard !projectExist(url: url) else {
+                continue
+            }
+            
+            let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
+            add(project: project)
+        }
+    }
+    
+    public func getChildProjects(project: Project) -> [Project] {
+        return projects.filter({ $0.parent == project })
+    }
+    
+    public func getRootProjects() -> [Project] {
+        return projects.filter({ $0.isRoot })
+    }
+    
+    private func chechSub(url: URL, parent: Project) {
+        if let subFolders = getSubFolders(url: url) {
+            for subFolder in subFolders {
+                let surl = subFolder as URL
+                guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash") else {
+                    continue
+                }
+                
+                let project = Project(url: surl, label: surl.lastPathComponent, parent: parent)
+                projects.append(project)
+            }
+        }
+    }
+    
+    private func checkTrashForVolume(url: URL) {
+        guard let trashURL = getTrash(url: url) else {
+            return
+        }
+        
+        guard !projectExist(url: trashURL) else {
+            return
+        }
+        
+        let project = Project(url: trashURL, isTrash: true)
+        projects.append(project)
+    }
+    
+    private func getCloudDrive() -> URL? {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+            
+            var isDirectory = ObjCBool(true)
+            if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: &isDirectory), isDirectory.boolValue {
+                return iCloudDocumentsURL
+            }
+        }
+        
+        return nil
+    }
+    
+    private func getLocalURL() -> URL? {
+        guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
+            return nil
+        }
+        
+        return URL(fileURLWithPath: path)
+    }
+        
+    func projectExist(url: URL) -> Bool {
+        return projects.contains(where: {$0.url == url})
+    }
+    
+    public func removeBy(project: Project) {
+        let list = noteList.filter({ $0.project ==
+            project })
+        
+        for note in list {
+            if let i = noteList.index(of: note) {
+                noteList.remove(at: i)
+            }
+        }
+        
+        if let i = projects.index(of: project) {
+            projects.remove(at: i)
+        }
+    }
+    
+    public func add(project: Project) {
+        projects.append(project)
+        
+        if project.isRoot {
+            chechSub(url: project.url, parent: project)
+            checkTrashForVolume(url: project.url)
+        }
+    }
+    
+    func getTrash(url: URL) -> URL? {
+        return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
+    }
+    
+    public func getBookmarks() -> [URL] {
+        return bookmarks
+    }
+    
     public static func sharedInstance() -> Storage {
         guard let storage = self.instance else {
             self.instance = Storage()
@@ -45,28 +167,10 @@ class Storage {
     func loadDocuments(tryCount: Int = 0) {
         noteList.removeAll()
         
-        let storageItemList = CoreDataManager.instance.fetchStorageList()
-        
-        for item in storageItemList {
-            loadLabel(item)
+        for project in projects {
+            loadLabel(project)
         }
         
-        /* subfolders support
-        if let generalSubFolders = getGeneralSubFolders() {
-            for item in generalSubFolders {
-                if let storage = storageItemList.filter({ $0.getUrl() == item as? URL }).first {
-                    //loadLabel(storage)
-                } else {
-                    let storageItem = StorageItem(context: CoreDataManager.instance.context)
-                    storageItem.path = item.absoluteString
-                    storageItem.label = item.lastPathComponent
-                    CoreDataManager.instance.save()
-                    loadLabel(storageItem)
-                }
-            }
-        }
-        */
- 
         if let list = sortNotes(noteList: noteList) {
             noteList = list
         }
@@ -88,6 +192,40 @@ class Storage {
         #endif
     }
     
+    public func getProjects() -> [Project] {
+        return projects
+    }
+    
+    public func getCloudDriveProjects() -> [Project] {
+        return projects.filter({$0.isCloudDrive == true})
+    }
+    
+    public func getLocalProjects() -> [Project] {
+        return projects.filter({$0.isCloudDrive == false})
+    }
+    
+    public func getProjectPaths() -> [String] {
+        var pathList: [String] = []
+        let projects = getProjects()
+        
+        for project in projects {
+            pathList.append(NSString(string: project.url.path).expandingTildeInPath)
+        }
+        
+        return pathList
+    }
+    
+    public func getProjectBy(url: URL) -> Project? {
+        let projectURL = url.deletingLastPathComponent()
+        
+        return
+            projects.first(where: {
+                return (
+                    $0.url == projectURL
+                )
+            })
+    }
+        
     func sortNotes(noteList: [Note]?) -> [Note]? {
         guard let list = noteList else {
             return nil
@@ -122,65 +260,44 @@ class Storage {
         }
     }
     
-    func loadLabel(_ item: StorageItem) {
+    func loadLabel(_ item: Project) {
         let keyStore = NSUbiquitousKeyValueStore()
-        
-        guard let url = item.getUrl() else {
-            return
-        }
-        
-        let documents = readDirectory(url)
-        let existNotes = CoreDataManager.instance.fetchAll()
-        
-        for note in existNotes {
-            var path: String = ""
-            if let storage = note.storage, let unwrappedPath = storage.path {
-                path = unwrappedPath
-            }
-            notesDict[note.name + path] = note
-        }
-        
+        let documents = readDirectory(item.url)
+
         for document in documents {
-            var note: Note
-            
             let url = document.0
-            let date = document.1
+            let note = Note(url: url)
+            note.parseURL()
             let name = url.pathComponents.last!
-            let uniqName = name + item.path!
             
             if (url.pathComponents.count == 0) {
                 continue
             }
             
-            if notesDict[uniqName] == nil {
-                note = CoreDataManager.instance.make()
-                note.isSynced = false
-            } else {
-                note = notesDict[uniqName]!
-                note.checkLocalSyncState(date)
-            }
-            
+            note.modifiedLocalAt = document.1
             note.creationDate = document.2
-            note.storage = item
+            note.project = item
             
             #if CLOUDKIT
                 note.isPinned = keyStore.bool(forKey: name)
+            #else
+                let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.pin")
+                let isPinned = data?.withUnsafeBytes { (ptr: UnsafePointer<Bool>) -> Bool in
+                    return ptr.pointee
+                }
+            
+                if let pin = isPinned {
+                    note.isPinned = pin
+                }
             #endif
             
             note.load(url)
-            
-            if !note.isSynced {
-                note.modifiedLocalAt = date
-            }
-            
             if note.isPinned {
                 pinned += 1
             }
             
             noteList.append(note)
         }
-        
-        CoreDataManager.instance.save()
     }
     
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
@@ -207,13 +324,13 @@ class Storage {
     }
     
     func add(_ note: Note) {
-        if !noteList.contains(where: { $0.name == note.name && $0.storage == note.storage }) {
+        if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            noteList.append(note)
         }
     }
     
     func removeBy(note: Note) {
-        if let i = noteList.index(of: note) {
+        if let i = noteList.index(where: {$0 === note}) {
             noteList.remove(at: i)
         }
     }
@@ -223,22 +340,11 @@ class Storage {
     }
     
     func checkFirstRun() -> Bool {
-        let destination = getBaseURL()
-        let path = destination.path
-        
-        if !FileManager.default.fileExists(atPath: path) {
-            do {
-                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true, attributes: nil)
-            } catch {
-                print("General storage not found: \(error)")
-            }
-        }
-        
-        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else {
-            return false
-        }
+        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else { return false }
+        guard let destination = getDemoSubdirURL() else { return false }
         
         let initialPath = resourceURL.appendingPathComponent("Initial").path
+        let path = destination.path
         
         do {
             let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
@@ -253,32 +359,6 @@ class Storage {
         }
 
         return true
-    }
-    
-    func getOrCreate(name: String) -> Note {
-        var note: Note?
-        
-        note = noteList.first(where: {
-            return ($0.name == name && $0.isGeneral())
-        })
-        
-        if note == nil {
-            note = Note(context: CoreDataManager.instance.context)
-            note?.name = name
-            CoreDataManager.instance.context.insert(note!)
-            add(note!)
-        }
-        
-        return note!
-    }
-    
-    func getModified() -> Note? {
-        return
-            noteList.first(where: {
-                return (
-                    !$0.isSynced && $0.isGeneral()
-                )
-            })
     }
     
     func getBy(url: URL) -> Note? {
@@ -315,18 +395,24 @@ class Storage {
             }
     }
     
-    func getBaseURL() -> URL {
+    func getDemoSubdirURL() -> URL? {
 #if os(OSX)
-        if let gu = generalUrl {
-            return gu
+        if let project = projects.first {
+            let pURL = project.url.appendingPathComponent("FSNotes")
+            
+            do {
+                try FileManager.default.createDirectory(at: pURL, withIntermediateDirectories: false, attributes: nil)
+            } catch {
+                return nil
+            }
+            
+            let childProject = Project(url: pURL, parent: project)
+            add(project: childProject)
+            
+            return pURL
         }
-    
-        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let path = storage.path, let url = URL(string: path) else {
-            return UserDefaultsManagement.storageUrl
-        }
-    
-        generalUrl = url
-        return url
+        
+        return nil
 #else
         return UserDefaultsManagement.documentDirectory
 #endif
@@ -351,7 +437,11 @@ class Storage {
             for note in markdownDocuments {
                 note.markdownCache()
                 
-                if note == EditTextView.note {
+                guard let currentNote = EditTextView.note else {
+                    continue
+                }
+                
+                if note.url == currentNote.url {
                 #if os(OSX)
                     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
                     viewController.refillEditArea()
@@ -392,17 +482,16 @@ class Storage {
             removeBy(note: note)
         }
         
-        CoreDataManager.instance.removeNotes(notes: notes, fsRemove: fsRemove)
+        if fsRemove {
+            for note in notes {
+                note.removeFile()
+            }
+        }
+        
         completion()
     }
-    
-    func saveNote(note: Note, userInitiated: Bool = false, cloudSync: Bool = true) {
-        add(note)
-    }
-    
-    func getGeneralSubFolders() -> [NSURL]? {
-        guard let storage = CoreDataManager.instance.fetchGeneralStorage(), let url = storage.getUrl() else { return nil }
         
+    func getSubFolders(url: URL) -> [NSURL]? {
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
         
         var subdirs = [NSURL]()
@@ -421,5 +510,9 @@ class Storage {
         }
         
         return subdirs
+    }
+    
+    public func getCurrentProject() -> Project? {
+        return projects.first
     }
 }

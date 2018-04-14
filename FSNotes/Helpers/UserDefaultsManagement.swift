@@ -28,7 +28,7 @@ public class UserDefaultsManagement {
     typealias Font = UIFont
 #endif
     
-    static var DefaultFont = "Helvetica Neue"
+    static var DefaultFont = ".AppleSystemUIFont"
     static var DefaultFontSize = 14
     
     static var DefaultFontColor = Color.black
@@ -93,7 +93,11 @@ public class UserDefaultsManagement {
     
     static var noteFont: Font! {
         get {
-            return Font(name: self.fontName, size: CGFloat(self.fontSize))
+            if let font = Font(name: self.fontName, size: CGFloat(self.fontSize)) {
+                return font
+            }
+            
+            return Font.systemFont(ofSize: CGFloat(self.fontSize))
         }
         set {
             guard let newValue = newValue else {return}
@@ -381,6 +385,30 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "sidebarSize")
+        }
+    }
+    
+    static var hideRealSidebar: Bool {
+        get {
+            if let hide = UserDefaults.standard.object(forKey: "hideRealSidebar") {
+                return hide as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "hideRealSidebar")
+        }
+    }
+    
+    static var realSidebarSize: Int {
+        get {
+            if let size = UserDefaults.standard.object(forKey: "realSidebarSize") {
+                return size as! Int
+            }
+            return 100
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "realSidebarSize")
         }
     }
     

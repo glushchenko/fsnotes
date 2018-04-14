@@ -97,7 +97,7 @@ class NotesTableView: UITableView,
                 }
 
                 let note = self.notes[indexPath.row]
-                guard let storageItem = note.storage, !storageItem.fileExist(fileName: name, ext: note.url.pathExtension) else {
+                guard let project = note.project, !project.fileExist(fileName: name, ext: note.url.pathExtension) else {
                     let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     self.viewDelegate?.present(alert, animated: true, completion: nil)

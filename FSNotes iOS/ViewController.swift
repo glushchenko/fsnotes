@@ -38,15 +38,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
         
         notesTable.separatorStyle = .singleLine
         UserDefaultsManagement.fontSize = 17
-        
-        if CoreDataManager.instance.getBy(label: "general") == nil {
-            let context = CoreDataManager.instance.context
-            let storage = StorageItem(context: context)
-            storage.path = UserDefaultsManagement.documentDirectory.absoluteString
-            storage.label = "general"
-            CoreDataManager.instance.save()
-        }
-        
+                
         if storage.noteList.count == 0 {
             storage.loadDocuments()
 

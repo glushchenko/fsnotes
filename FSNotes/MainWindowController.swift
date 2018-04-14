@@ -15,6 +15,8 @@ NSWindowDelegate {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
+        self.window?.titleVisibility = .hidden
+        self.window?.setFrameAutosaveName(NSWindow.FrameAutosaveName(rawValue: "MainWindow"))
     }
     
     func windowDidResize(_ notification: Notification) {

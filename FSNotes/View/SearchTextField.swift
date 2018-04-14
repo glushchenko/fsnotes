@@ -15,10 +15,20 @@ class SearchTextField: NSTextField {
     }
     
     override func keyUp(with event: NSEvent) {
+        guard let vc = self.window?.contentViewController as? ViewController else {
+            return
+        }
+        
         // Down arrow
         if (event.keyCode == 125) {
-            let viewController = self.window?.contentViewController as? ViewController
-            viewController?.focusTable()
+            vc.focusTable()
+            return
+        }
+        
+        // Left arrow
+        if (event.keyCode == 123) {
+            vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
+            vc.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
         }
     }
  

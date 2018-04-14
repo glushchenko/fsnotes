@@ -298,10 +298,13 @@ public class NotesTextProcessor {
             return
         }
         
+        var isActiveStorage = false
         #if os(iOS)
-            let isActiveStorage = true
+            isActiveStorage = true
         #else
-            let isActiveStorage = (EditTextView.note == note)
+            if let n = EditTextView.note {
+                isActiveStorage = (n === note)
+            }
         #endif
         
         if isActiveStorage {
@@ -589,7 +592,7 @@ public class NotesTextProcessor {
                 var substring = textStorageNSString.substring(with: _range)
                 guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
                 
-                if substring.starts(with: "/i/"), let storage = note.storage, let url = storage.getUrl(), let path = url.appendingPathComponent(substring).path.removingPercentEncoding {
+                if substring.starts(with: "/i/"), let project = note.project, let path = project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 }
                 
