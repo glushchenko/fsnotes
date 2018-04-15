@@ -598,16 +598,18 @@ class ViewController: NSViewController,
     @IBAction func toggleSidebar(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
         
-        if !UserDefaultsManagement.hideRealSidebar && sidebarSplitView.subviews[0].frame.width != 0.0 {
+        if !UserDefaultsManagement.hideRealSidebar && vc.sidebarSplitView.subviews[0].frame.width != 0.0 {
             UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
             UserDefaultsManagement.hideRealSidebar = true
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
-            searchTopConstraint.constant = CGFloat(25)
+            vc.searchTopConstraint.constant = CGFloat(25)
         } else {
             let size = UserDefaultsManagement.realSidebarSize > 0 ? UserDefaultsManagement.realSidebarSize : 200
+            
             vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
             UserDefaultsManagement.hideRealSidebar = false
-            searchTopConstraint.constant = CGFloat(8)
+            UserDefaultsManagement.realSidebarSize = size
+            vc.searchTopConstraint.constant = CGFloat(8)
         }
     }
     

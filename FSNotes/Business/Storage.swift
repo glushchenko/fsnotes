@@ -77,7 +77,8 @@ class Storage {
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
                 let surl = subFolder as URL
-                guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash") else {
+                guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash"),
+                    !surl.lastPathComponent.starts(with: ".")  else {
                     continue
                 }
                 
