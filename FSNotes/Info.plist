@@ -34,6 +34,30 @@
 				<string>fsnotes</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>icons</string>
+			<key>CFBundleURLName</key>
+			<string>co.fluder.fsnotes</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nv</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>icons</string>
+			<key>CFBundleURLName</key>
+			<string>co.fluder.fsnotes</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nvalt</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>125</string>
