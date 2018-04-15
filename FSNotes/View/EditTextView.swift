@@ -432,7 +432,6 @@ class EditTextView: NSTextView {
             "(" : ")",
             "[" : "]",
             "{" : "}",
-            "'" : "'",
             "\"" : "\"",
         ]
         if UserDefaultsManagement.autocloseBrackets,
