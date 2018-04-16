@@ -73,17 +73,33 @@ extension AppDelegate {
         }
     }
     
-    /// Handles URLs with the path /new/note-name/encoded-note-contents
+    /// Handles URLs with the following paths:
+    ///   - fsnotes://make/?title=URI-escaped-title&html=URI-escaped-HTML-data
+    ///   - fsnotes://make/?title=URI-escaped-title&txt=URI-escaped-plain-text
+    ///   - fsnotes://make/?txt=URI-escaped-plain-text
+    ///
+    /// The three possible parameters (title, txt, html) are all optional.
+    ///
     func RouteFSNotesNew(_ url: URL) {
-        let pathComponents = url.pathComponents
-        let noteTitle = pathComponents[1]
-        let noteBody = pathComponents[2]
+        var title = ""
+        var body = ""
+        
+        if let titleParam = url["title"] {
+            title = titleParam
+        }
+        
+        if let txtParam = url["txt"] {
+            body = txtParam
+        }
+        else if let htmlParam = url["html"] {
+            body = htmlParam
+        }
         
         guard let window = NSApplication.shared.windows.first,
             let controller = window.contentViewController as? ViewController
             else { return }
         
-        controller.createNote(name: noteTitle, content: noteBody)
+        controller.createNote(name: title, content: body)
     }
     
     
@@ -137,7 +153,7 @@ extension AppDelegate {
         if let titleParam = url["title"] {
             title = titleParam
         }
-
+        
         if let txtParam = url["txt"] {
             body = txtParam
         }
