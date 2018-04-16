@@ -79,6 +79,76 @@
                                                 <action selector="fileMenuNewRTF:" target="Ady-hI-5gd" id="vIt-8s-yDP"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
+                                        <menuItem title="Rename" keyEquivalent="r" id="jLq-8F-n0X">
+                                            <connections>
+                                                <action selector="renameMenu:" target="L4m-js-agn" id="H0Y-Fe-qfr"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete" id="TjZ-PX-YVo">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <connections>
+                                                <action selector="deleteNote:" target="L4m-js-agn" id="AiT-JP-62A"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Pin/unpin" keyEquivalent="8" id="You-zo-rbl">
+                                            <connections>
+                                                <action selector="pinMenu:" target="L4m-js-agn" id="uSp-AH-paW"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Open external" keyEquivalent="e" id="7MT-fy-lXN">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="openInExternalEditor:" target="L4m-js-agn" id="pbC-EO-vOS"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="rXU-X3-UjC">
+                                            <connections>
+                                                <action selector="revealInFinder:" target="L4m-js-agn" id="xsj-tr-R2Y"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="Folder" id="Fuh-qO-nt2">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Folder" id="BYI-2F-BJo">
+                                    <items>
+                                        <menuItem title="Add root folder" id="S8Z-Js-fwB">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Add folder" keyEquivalent="N" id="SrH-fe-Hog">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Rename folder" keyEquivalent="R" id="Tap-iY-hyA">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="F5A-zs-zwP">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete folder" id="RuM-sf-kcZ">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
+                                            <connections>
+                                                <action selector="deleteMenu:" target="yxb-XH-bXh" id="FWV-BA-fcU"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -486,10 +556,12 @@
                         <outlet property="sortByOutlet" destination="rHB-xF-GgG" id="Z3o-fD-Poh"/>
                     </connections>
                 </customObject>
+                <customObject id="3kq-Pd-JKK" customClass="SidebarCellView" customModule="FSNotes" customModuleProvider="target"/>
+                <customObject id="yxb-XH-bXh" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rlq-iU-PD6"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="91" y="6"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="mVP-iC-cBD">
@@ -526,11 +598,11 @@
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
                                         <view key="view" ambiguous="YES" id="KEU-U8-bg0">
-                                            <rect key="frame" x="10" y="33" width="199" height="0.0"/>
+                                            <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Hz-R4-h7D">
-                                                    <rect key="frame" x="20" y="-63" width="171" height="22"/>
+                                                    <rect key="frame" x="20" y="218" width="171" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="TextEdit" drawsBackground="YES" id="1XY-bI-DX7">
                                                         <font key="font" metaFont="system"/>
@@ -542,7 +614,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
-                                                    <rect key="frame" x="18" y="-33" width="161" height="17"/>
+                                                    <rect key="frame" x="18" y="248" width="161" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Open in external editor:" id="zcY-e5-gKs">
                                                         <font key="font" metaFont="system"/>
@@ -551,7 +623,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-C6-1X6">
-                                                    <rect key="frame" x="238" y="-63" width="87" height="22"/>
+                                                    <rect key="frame" x="238" y="218" width="87" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="gth-SV-C1S">
                                                         <font key="font" metaFont="system"/>
@@ -563,7 +635,7 @@
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-CO-c4Y">
-                                                    <rect key="frame" x="236" y="-33" width="136" height="17"/>
+                                                    <rect key="frame" x="236" y="248" width="136" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default file extension:" id="ctD-Qn-kDS">
                                                         <font key="font" metaFont="system"/>
@@ -572,15 +644,15 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rjd-D6-Jj2" customClass="MASShortcutView">
-                                                    <rect key="frame" x="236" y="-155" width="178" height="47"/>
+                                                    <rect key="frame" x="236" y="126" width="178" height="47"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </customView>
                                                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XYa-Po-O09" customClass="MASShortcutView">
-                                                    <rect key="frame" x="20" y="-155" width="169" height="47"/>
+                                                    <rect key="frame" x="20" y="126" width="169" height="47"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </customView>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bMo-2z-4jT">
-                                                    <rect key="frame" x="18" y="-107" width="105" height="17"/>
+                                                    <rect key="frame" x="18" y="174" width="105" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Search shortcut:" id="a6n-hz-V8D">
                                                         <font key="font" metaFont="system"/>
@@ -589,7 +661,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TXq-y1-xzw">
-                                                    <rect key="frame" x="234" y="-107" width="152" height="17"/>
+                                                    <rect key="frame" x="234" y="174" width="152" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Save clipboard shortcut:" id="gbE-yH-ECm">
                                                         <font key="font" metaFont="system"/>
@@ -598,7 +670,7 @@
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BIH-5M-4PT">
-                                                    <rect key="frame" x="20" y="-84" width="394" height="5"/>
+                                                    <rect key="frame" x="20" y="197" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                             </subviews>
@@ -840,7 +912,7 @@
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                                    <rect key="frame" x="19" y="163" width="397" height="5"/>
+                                                    <rect key="frame" x="19" y="163" width="397" height="130"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
@@ -978,9 +1050,6 @@
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                        <connections>
-                                                                                            <action selector="projectName:" target="I0q-sX-uBq" id="Y0e-aG-BTg"/>
-                                                                                        </connections>
                                                                                     </textFieldCell>
                                                                                 </textField>
                                                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNt-mn-bYH">
@@ -991,7 +1060,7 @@
                                                                                         <font key="font" metaFont="systemBold" size="12"/>
                                                                                     </buttonCell>
                                                                                     <connections>
-                                                                                        <action selector="add:" target="I0q-sX-uBq" id="LBe-Fy-zqJ"/>
+                                                                                        <action selector="add:" target="I0q-sX-uBq" id="1Ni-H9-HG0"/>
                                                                                     </connections>
                                                                                 </button>
                                                                             </subviews>
@@ -1255,7 +1324,7 @@
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="New plain text" keyEquivalent="n" id="bF9-1E-bzg">
+                        <menuItem title="New" keyEquivalent="n" id="bF9-1E-bzg">
                             <connections>
                                 <action selector="makeMenu:" target="XfG-lQ-9wD" id="Vf5-ax-zBr"/>
                             </connections>
@@ -1298,26 +1367,29 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Reveal In Finder" keyEquivalent="R" id="goN-LO-L7l">
+                        <menuItem title="Add" keyEquivalent="N" id="3zv-SD-lSX">
+                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
-                                <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
+                                <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Add" id="3zv-SD-lSX">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                            <connections>
-                                <action selector="addProject:" target="urA-eK-bWB" id="q5J-D4-DSO"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Rename" keyEquivalent="r" id="fzU-ZR-Ubv">
+                        <menuItem title="Rename" keyEquivalent="R" id="fzU-ZR-Ubv">
+                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="renameMenu:" target="urA-eK-bWB" id="Jh4-4H-wc0"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Reveal In Finder" keyEquivalent="R" id="goN-LO-L7l">
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Delete" id="RwR-P0-ycK">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
+                            <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                             <connections>
                                 <action selector="deleteMenu:" target="urA-eK-bWB" id="AFb-ct-LdH"/>
                             </connections>

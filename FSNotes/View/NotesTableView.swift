@@ -42,6 +42,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         super.keyUp(with: event)
     }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        return false
+    }
         
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {

@@ -8,18 +8,61 @@
 
 import Cocoa
 import Foundation
+import Carbon.HIToolbox
 
 class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
+    
     var sidebarItems: [SidebarItem]? = nil
     var viewDelegate: ViewController? = nil
     
     private var storage = Storage.sharedInstance()
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.title == "Add root folder" {
+            return true
+        }
         
+        let vc = getViewController()
+        guard let sidebarItem = getSidebarItem(), sidebarItem.project != nil, vc.notesTableView.selectedRow == -1 else { return false }
+        
+        return true
+    }
+
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
         registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data")])
         
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_N {
+            addProject("")
+            return
+        }
+        
+        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_R {
+            revealInFinder("")
+            return
+        }
+        
+        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_R {
+            renameMenu("")
+            return
+        }
+        
+        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_Delete {
+            deleteMenu("")
+            return
+        }
+        
+        // Tab or right arrow to search
+        if event.keyCode == 48 || event.keyCode == 124 {
+            self.viewDelegate?.search.becomeFirstResponder()
+            return
+        }
+        
+        super.keyDown(with: event)
     }
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
@@ -57,10 +100,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         }
         
         return 0
-    }
-    
-    func outlineView(_ outlineView: NSOutlineView, draggingSession session: NSDraggingSession, endedAt screenPoint: NSPoint, operation: NSDragOperation) {
-        print(operation)
     }
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
@@ -187,20 +226,23 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @IBAction func revealInFinder(_ sender: Any) {
-        guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
-        let sidebarItem = si[selectedRow]
-        guard let p = sidebarItem.project else { return }
+        guard let si = getSidebarItem(), let p = si.project else { return }
         
-       NSWorkspace.shared.activateFileViewerSelecting([p.url])
+        NSWorkspace.shared.activateFileViewerSelecting([p.url])
     }
     
     @IBAction func renameMenu(_ sender: Any) {
-        guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
+        let vc = getViewController()
+        guard let v = vc.storageOutlineView else { return }
         
-        let sidebarItem = si[selectedRow]
+        let selected = v.selectedRow
+        guard let si = v.sidebarItems,
+            si.indices.contains(selected) else { return }
+        
+        let sidebarItem = si[selected]
         guard
             sidebarItem.type == .Category,
-            let projectRow = rowView(atRow: selectedRow, makeIfNecessary: false),
+            let projectRow = v.rowView(atRow: selected, makeIfNecessary: false),
             let cell = projectRow.view(atColumn: 0) as? SidebarCellView else { return }
         
         cell.label.isEditable = true
@@ -208,14 +250,17 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @IBAction func deleteMenu(_ sender: Any) {
-        guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
+        let vc = getViewController()
+        guard let v = vc.storageOutlineView else { return }
         
-        let sidebarItem = si[selectedRow]
-        guard let project = sidebarItem.project else { return }
-        guard sidebarItem.type != .All || sidebarItem.type != .Trash || sidebarItem.name != "Library" else { return }
+        let selected = v.selectedRow
+        guard let si = v.sidebarItems, si.indices.contains(selected) else { return }
+        
+        let sidebarItem = si[selected]
+        guard let project = sidebarItem.project, sidebarItem.type != .All || sidebarItem.type != .Trash || sidebarItem.name != "Library" else { return }
         
         if !project.isRoot && sidebarItem.type == .Category {
-            guard let w = self.superview?.window else {
+            guard let w = v.superview?.window else {
                 return
             }
             
@@ -227,14 +272,60 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     try? FileManager.default.trashItem(at: project.url, resultingItemURL: nil)
-                    self.removeProject(project: project)
+                    v.removeProject(project: project)
                 }
             }
             return
         }
         
         SandboxBookmark().removeBy(project.url)
-        removeProject(project: project)
+        v.removeProject(project: project)
+    }
+    
+    @IBAction func addProject(_ sender: Any) {
+        let vc = getViewController()
+        guard let v = vc.storageOutlineView else { return }
+        
+        var unwrappedProject: Project?
+        if let si = v.getSidebarItem(),
+            let p = si.project {
+            unwrappedProject = p
+        }
+        
+        if sender is NSMenuItem, let mi = sender as? NSMenuItem, mi.title == "Add root folder" {
+            unwrappedProject = nil
+        }
+        
+        if sender is SidebarCellView, let cell = sender as? SidebarCellView, let si = cell.objectValue as? SidebarItem {
+            if let p = si.project {
+                unwrappedProject = p
+            } else {
+                addRoot()
+                return
+            }
+        }
+        
+        guard let project = unwrappedProject else {
+            addRoot()
+            return
+        }
+        
+        let window = NSApp.windows[0]
+        let alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        alert.messageText = "New project"
+        alert.informativeText = "Please enter project name:"
+        alert.accessoryView = field
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: "Add")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                self.addChild(field: field, project: project)
+            }
+        }
+        
+        field.becomeFirstResponder()
     }
     
     private func removeProject(project: Project) {
@@ -247,44 +338,79 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         self.reloadData()
     }
     
-    @IBAction func addProject(_ sender: Any) {
-        guard
-            let projectRow = rowView(atRow: selectedRow, makeIfNecessary: false),
-            let cell = projectRow.view(atColumn: 0) as? SidebarCellView,
-            let sidebarItems = sidebarItems, sidebarItems.indices.contains(selectedRow) else { return }
+    private func addChild(field: NSTextField, project: Project) {
+        let value = field.stringValue
+        guard value.count > 0 else { return }
         
-        let sidebarItem = sidebarItems[selectedRow]
-        
-        guard let project = sidebarItem.project else {
-            cell.add(sidebarItem)
-            return
+        do {
+            let projectURL = project.url.appendingPathComponent(value, isDirectory: true)
+            try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
+            
+            let newProject = Project(url: projectURL, parent: project.getParent())
+            storage.add(project: newProject)
+            reloadSidebar()
+        } catch {
+            let alert = NSAlert()
+            alert.messageText = error.localizedDescription
+            alert.runModal()
         }
-        
-        cell.add(project)
     }
     
-    override func keyDown(with event: NSEvent) {
-        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 15 {
-            revealInFinder("")
-            return
+    private func addRoot() {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = openPanel.url else {
+                    return
+                }
+                
+                guard !self.storage.projectExist(url: url) else {
+                    return
+                }
+                
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+                bookmark.store(url: url)
+                bookmark.save()
+                
+                let newProject = Project(url: url, isRoot: true)
+                self.storage.add(project: newProject)
+                self.storage.loadLabel(newProject)
+                self.reloadSidebar()
+            }
         }
-        
-        if event.modifierFlags.contains(.command) && event.keyCode == 15 {
-            renameMenu("")
-            return
-        }
-        
-        if event.modifierFlags.contains(.command) && event.keyCode == 51 {
-            deleteMenu("")
-            return
-        }
-        
-        // Tab or right arrow to search
-        if event.keyCode == 48 || event.keyCode == 124 {
-            self.viewDelegate?.search.becomeFirstResponder()
-            return
-        }
-                        
-        super.keyDown(with: event)
     }
+    
+
+    
+    private func getViewController() -> ViewController {
+        let vc = NSApp.windows.first?.contentViewController as? ViewController
+        
+        return vc!
+    }
+    
+    private func getSidebarItem() -> SidebarItem? {
+        let vc = getViewController()
+        guard let v = vc.storageOutlineView else { return nil }
+        
+        let selected = v.selectedRow
+        guard let si = v.sidebarItems,
+            si.indices.contains(selected) else { return nil }
+        
+        let sidebarItem = si[selected]
+        return sidebarItem
+    }
+    
+    private func reloadSidebar() {
+        let vc = getViewController()
+        vc.restartFileWatcher()
+        vc.loadMoveMenu()
+        vc.storageOutlineView.sidebarItems = Sidebar().getList()
+        vc.storageOutlineView.reloadData()
+    }
+    
 }

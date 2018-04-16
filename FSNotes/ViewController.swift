@@ -123,6 +123,20 @@ class ViewController: NSViewController,
         splitView.setPosition(CGFloat(250), ofDividerAt: 0)
         
     }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return false}
+        
+        if ["New", "New RTF"].contains(menuItem.title) {
+            return true
+        }
+        
+        if vc.notesTableView.selectedRow == -1 {
+            return false
+        }
+        
+        return true
+    }
 
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBAction func sortBy(_ sender: NSMenuItem) {
@@ -568,15 +582,28 @@ class ViewController: NSViewController,
     }
     
     @IBAction func pinMenu(_ sender: Any) {
-        pin(notesTableView.selectedRowIndexes)
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        vc.pin(vc.notesTableView.selectedRowIndexes)
     }
     
     @IBAction func renameMenu(_ sender: Any) {
-        renameNote(selectedRow: notesTableView.clickedRow)
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        vc.renameNote(selectedRow: vc.notesTableView.clickedRow)
     }
     
     @IBAction func deleteNote(_ sender: Any) {
-        deleteNotes(notesTableView.selectedRowIndexes)
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
+    }
+    
+    @IBAction func openInExternalEditor(_ sender: Any) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        vc.external(selectedRow: vc.notesTableView.selectedRow)
+    }
+    
+    @IBAction func revealInFinder(_ sender: Any) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        vc.finder(selectedRow: vc.notesTableView.selectedRow)
     }
     
     @IBAction func toggleNoteList(_ sender: Any) {

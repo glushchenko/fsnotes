@@ -51,4 +51,16 @@ class Project: Equatable {
         
         return false
     }
+    
+    public func getParent() -> Project {
+        if isRoot {
+            return self
+        }
+        
+        if let parent = self.parent {
+            return parent.getParent()
+        }
+        
+        return self
+    }
 }
