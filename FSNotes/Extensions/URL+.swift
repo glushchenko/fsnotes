@@ -82,4 +82,11 @@ extension URL {
         return NSError(domain: NSPOSIXErrorDomain, code: Int(err),
                        userInfo: [NSLocalizedDescriptionKey: String(cString: strerror(err))])
     }
+    
+    // Access the URL parameters eg nv://make?title=blah&txt=body like so:
+    // let titleStr = myURL['title']
+    subscript(queryParam:String) -> String? {
+        guard let url = URLComponents(string: self.absoluteString) else { return nil }
+        return url.queryItems?.first(where: { $0.name == queryParam })?.value
+    }
 }
