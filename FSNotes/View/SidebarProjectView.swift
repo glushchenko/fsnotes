@@ -18,7 +18,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private var storage = Storage.sharedInstance()
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if menuItem.title == "Add root folder" {
+        if menuItem.title == "Attach storage" {
             return true
         }
         
@@ -152,8 +152,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
                 
-            default:
-                break
+            case .Tag:
+                cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
             }
         }
         return cell
@@ -167,15 +169,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
-        guard let x = item as? SidebarItem else {
+        guard let sidebarItem = item as? SidebarItem else {
             return false
         }
         
-        if x.type == .Label && x.name == "Library" {
-            return false
-        }
-        
-        return true
+        return sidebarItem.isSelectable()
     }
     
     func outlineView(_ outlineView: NSOutlineView, rowViewForItem item: Any) -> NSTableRowView? {
@@ -405,7 +403,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         return sidebarItem
     }
     
-    private func reloadSidebar() {
+    public func reloadSidebar() {
         let vc = getViewController()
         vc.restartFileWatcher()
         vc.loadMoveMenu()

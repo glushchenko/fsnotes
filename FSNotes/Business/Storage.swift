@@ -14,6 +14,7 @@ class Storage {
     
     var noteList = [Note]()
     private var projects = [Project]()
+    private var tagNames = [String]()
     
     var notesDict: [String: Note] = [:]
     var generalUrl: URL?
@@ -151,7 +152,15 @@ class Storage {
     }
     
     func getTrash(url: URL) -> URL? {
-        return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
+        #if os(OSX)
+            return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
+        #endif
+        
+        if #available(iOS 11.0, *) {
+            return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
+        } else {
+            return nil
+        }
     }
     
     public func getBookmarks() -> [URL] {
@@ -271,6 +280,17 @@ class Storage {
             let note = Note(url: url)
             note.parseURL()
             let name = url.pathComponents.last!
+            let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
+            
+            if let tagNames = tags?.tagNames {
+                for tag in tagNames {
+                    if !self.tagNames.contains(tag) {
+                        self.tagNames.append(tag)
+                    }
+                }
+                
+                note.tagNames = tagNames
+            }
             
             if (url.pathComponents.count == 0) {
                 continue
@@ -516,5 +536,23 @@ class Storage {
     
     public func getCurrentProject() -> Project? {
         return projects.first
+    }
+    
+    public func getTags() -> [String] {
+        return tagNames
+    }
+    
+    public func addTag(_ string: String) {
+        if !tagNames.contains(string) {
+            tagNames.append(string)
+        }
+    }
+    
+    public func removeTag(_ string: String) {
+        if noteList.filter({ $0.tagNames.contains(string) }).count == 1 {
+            if let i = tagNames.index(of: string) {
+                tagNames.remove(at: i)
+            }
+        }
     }
 }

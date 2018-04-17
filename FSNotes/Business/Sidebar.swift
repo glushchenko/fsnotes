@@ -27,6 +27,15 @@ class Sidebar {
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category))
             }
         }
+        
+        let tags = storage.getTags()
+        if tags.count > 0 {
+            list.append(SidebarItem(name: "# Tags", type: .Label))
+            
+            for tag in tags {
+                list.append(SidebarItem(name: tag, type: .Tag))
+            }
+        }
     }
     
     func getList() -> [SidebarItem] {

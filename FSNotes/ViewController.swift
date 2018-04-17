@@ -162,14 +162,6 @@ class ViewController: NSViewController,
         }
     }
     
-    @IBAction func fileMenuNewNote(_ sender: Any) {
-        createNote()
-    }
-    
-    @IBAction func fileMenuNewRTF(_ sender: Any) {
-        createNote(type: .RichText)
-    }
-    
     @objc func moveNote(_ sender: NSMenuItem) {
         let project = sender.representedObject as! Project
         
@@ -400,6 +392,10 @@ class ViewController: NSViewController,
         
         // Focus search bar on ESC
         if (event.keyCode == 53) {
+            if let a = alert {
+                NSApp.windows[0].endSheet(a.window)
+            }
+            
             cleanSearchAndEditArea()
             storageOutlineView.deselectAll(nil)
             updateTable() {}
@@ -485,14 +481,7 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
-            if notesTableView.selectedRow >= 0 {
-                let moveMenu = noteMenu.item(withTitle: "Move")
-                let view = notesTableView.rect(ofRow: notesTableView.selectedRow)
-                let x = splitView.subviews[0].frame.width + 5
-                let general = moveMenu?.submenu?.item(at: 0)
-                
-                moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: notesTableView)
-            }
+            moveMenu("")
         }
         
         // Toggle sidebar cmd+shift+control+b
@@ -515,6 +504,27 @@ class ViewController: NSViewController,
             createNote(name: value)
         } else {
             createNote()
+        }
+    }
+    
+    @IBAction func fileMenuNewNote(_ sender: Any) {
+        createNote()
+    }
+    
+    @IBAction func fileMenuNewRTF(_ sender: Any) {
+        createNote(type: .RichText)
+    }
+    
+    @IBAction func moveMenu(_ sender: Any) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
+        if vc.notesTableView.selectedRow >= 0 {
+            let moveMenu = vc.noteMenu.item(withTitle: "Move")
+            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+            let x = vc.splitView.subviews[0].frame.width + 5
+            let general = moveMenu?.submenu?.item(at: 0)
+            
+            moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
         }
     }
     
@@ -594,6 +604,35 @@ class ViewController: NSViewController,
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
+    }
+    
+    var alert: NSAlert?
+    @IBAction func tagNote(_ sender: Any) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
+        guard let note = notes.first else { return }
+        
+        let window = NSApp.windows[0]
+        vc.alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        field.stringValue = note.getCommaSeparatedTags()
+        
+        vc.alert?.messageText = "Tags"
+        vc.alert?.informativeText = "Please enter tags (comma separated):"
+        vc.alert?.accessoryView = field
+        vc.alert?.alertStyle = .informational
+        vc.alert?.addButton(withTitle: "Ok")
+        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                for note in notes {
+                    note.saveTags(field.stringValue)
+                }
+                
+                vc.storageOutlineView.reloadSidebar()
+            }
+        }
+        
+        field.becomeFirstResponder()
     }
     
     @IBAction func openInExternalEditor(_ sender: Any) {
@@ -705,10 +744,23 @@ class ViewController: NSViewController,
         return nil
     }
     
-    
+    func getSidebarItem() -> SidebarItem? {
+        if let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem {
+        
+            return sidebarItem
+        }
+        
+        return nil
+    }
     
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.stringValue
+        
+        var sidebarName = ""
+        if let sidebarItem = getSidebarItem() {
+            sidebarName = sidebarItem.name
+        }
+        
         let project = getSidebarProject()
         let type = getSidebarType()
         
@@ -742,6 +794,7 @@ class ViewController: NSViewController,
                             && project != nil && $0.project == project
                         ) || type == nil && project == nil && !$0.isTrash()
                         || project != nil && project!.isRoot && $0.project?.parent == project
+                        || type == .Tag && $0.tagNames.contains(sidebarName)
                     )
                 )
             }

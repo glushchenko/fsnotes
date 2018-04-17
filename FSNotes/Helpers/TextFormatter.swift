@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import Carbon.HIToolbox
-
 
 #if os(OSX)
     import Cocoa
+    import Carbon.HIToolbox
     typealias Font = NSFont
     typealias TextView = NSTextView
 #else

@@ -21,6 +21,7 @@ public class Note: NSObject {
     var creationDate: Date? = Date()
     var isCached = false
     var sharedStorage = Storage.sharedInstance()
+    var tagNames = [String]()
     
     public var name: String = ""
     public var isPinned: Bool = false
@@ -254,9 +255,11 @@ public class Note: NSObject {
             return
         #endif
         
-        var pin = true
-        let data = Data(bytes: &pin, count: 1)
-        try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
+        #if os(OSX)
+            var pin = true
+            let data = Data(bytes: &pin, count: 1)
+            try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
+        #endif
     }
     
     func removePin() {
@@ -271,9 +274,11 @@ public class Note: NSObject {
                 return
             #endif
             
-            var pin = false
-            let data = Data(bytes: &pin, count: 1)
-            try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
+            #if os(OSX)
+                var pin = false
+                let data = Data(bytes: &pin, count: 1)
+                try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
+            #endif
         }
     }
     
@@ -436,5 +441,41 @@ public class Note: NSObject {
         }
         
         return p.isTrash
+    }
+    
+    public func getCommaSeparatedTags() -> String {
+        return tagNames.map { String($0) }.joined(separator: ", ")
+    }
+    
+    public func saveTags(_ string: String) {
+        var newTagsClean = [String]()
+        let newTags = string.split(separator: ",")
+        for newTag in newTags {
+            newTagsClean.append(
+                String(newTag).trimmingCharacters(in: .whitespacesAndNewlines)
+            )
+        }
+        
+        var new = [String]()
+        var removed = [String]()
+        
+        for tag in tagNames {
+            if !newTagsClean.contains(tag) {
+                removed.append(tag)
+            }
+        }
+        
+        for newTagClean in newTagsClean {
+            if !tagNames.contains(newTagClean) {
+                new.append(newTagClean)
+            }
+        }
+        
+        for n in new { sharedStorage.addTag(n) }
+        for r in removed { sharedStorage.removeTag(r) }
+        
+        tagNames = newTagsClean
+        
+        try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
     }
 }

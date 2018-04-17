@@ -36,7 +36,7 @@ class SidebarCellView: NSTableCellView {
     override func mouseEntered(with event: NSEvent) {
         guard let sidebarItem = objectValue as? SidebarItem else { return }
         
-        if sidebarItem.type == .Label {
+        if sidebarItem.type == .Label && sidebarItem.name != "# Tags" {
             plus.isHidden = false
         }
     }

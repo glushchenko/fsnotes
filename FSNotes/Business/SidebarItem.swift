@@ -18,4 +18,20 @@ class SidebarItem {
         self.project = project
         self.type = type
     }
+    
+    public func hasPlusOnHover() -> Bool {
+        if type == .Label && name != "# Tags" {
+            return true
+        }
+        
+        return false
+    }
+    
+    public func isSelectable() -> Bool {
+        if type == .Label && ["Library", "# Tags"].contains(name) {
+            return false
+        }
+        
+        return true
+    }
 }

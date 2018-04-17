@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Cocoa
 
 class SandboxBookmark {
     static var instance: SandboxBookmark? = nil
@@ -50,16 +49,18 @@ class SandboxBookmark {
     }
     
     func store(url: URL) {
+        #if os(OSX)
         do {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
         } catch {
             Swift.print ("Error storing bookmarks")
         }
-        
+        #endif
     }
     
     func restore(_ bookmark: (key: URL, value: Data)) {
+        #if os(OSX)
         let restoredUrl: URL?
         var isStale = false
         
@@ -81,6 +82,7 @@ class SandboxBookmark {
                 }
             }
         }
+        #endif
     }
     
     func removeBy(_ url: URL) {

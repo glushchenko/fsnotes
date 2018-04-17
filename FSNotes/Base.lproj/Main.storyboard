@@ -109,6 +109,16 @@ CA
                                                 <action selector="revealInFinder:" target="L4m-js-agn" id="xsj-tr-R2Y"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Tags" keyEquivalent="t" id="XZ6-FD-yro">
+                                            <connections>
+                                                <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Move" keyEquivalent="T" id="CvG-Kp-kdK">
+                                            <connections>
+                                                <action selector="moveMenu:" target="L4m-js-agn" id="CDY-Sr-IPD"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -116,19 +126,19 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Folder" id="BYI-2F-BJo">
                                     <items>
-                                        <menuItem title="Add root folder" id="S8Z-Js-fwB">
+                                        <menuItem title="Attach storage" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Add folder" keyEquivalent="N" id="SrH-fe-Hog">
+                                        <menuItem title="Add" keyEquivalent="N" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename folder" keyEquivalent="R" id="Tap-iY-hyA">
+                                        <menuItem title="Rename" keyEquivalent="R" id="Tap-iY-hyA">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
                                                 <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
@@ -140,7 +150,7 @@ CA
                                                 <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete folder" id="RuM-sf-kcZ">
+                                        <menuItem title="Delete" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -912,7 +922,7 @@ CA
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                                    <rect key="frame" x="19" y="163" width="397" height="130"/>
+                                                    <rect key="frame" x="19" y="163" width="397" height="4"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
@@ -1361,6 +1371,16 @@ CA
                         <menuItem title="Reveal in Finder" alternate="YES" keyEquivalent="R" id="xSO-lW-k8f">
                             <connections>
                                 <action selector="finderMenu:" target="XfG-lQ-9wD" id="xPJ-Ag-5hy"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Tags" keyEquivalent="t" id="f2h-Tl-AHi">
+                            <connections>
+                                <action selector="tagNote:" target="XfG-lQ-9wD" id="Xu2-Mz-4PC"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Move" keyEquivalent="T" id="Yab-h9-tkk">
+                            <connections>
+                                <action selector="moveMenu:" target="XfG-lQ-9wD" id="ZMV-Y3-u3t"/>
                             </connections>
                         </menuItem>
                     </items>
