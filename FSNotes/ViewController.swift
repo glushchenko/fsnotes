@@ -1009,6 +1009,7 @@ class ViewController: NSViewController,
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.editArea.clear()
                 self.storage.removeNotes(notes: notes) {
+                    self.storageOutlineView.reloadSidebar()
                     DispatchQueue.main.async {
                         self.notesTableView.removeByNotes(notes: notes)
                     }

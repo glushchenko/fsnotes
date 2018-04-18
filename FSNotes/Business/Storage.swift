@@ -513,6 +513,7 @@ class Storage {
         }
         
         for note in notes {
+            note.saveTags("")
             removeBy(note: note)
         }
         
