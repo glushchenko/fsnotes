@@ -407,15 +407,6 @@ class ViewController: NSViewController,
             search.becomeFirstResponder()
         }
         
-        // Remove note (cmd-delete)
-        if (event.keyCode == 51 && event.modifierFlags.contains(.command)) {
-            let focusOnEditArea = (editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
-            
-            if !focusOnEditArea || event.modifierFlags.contains(.shift) {
-                deleteNotes(notesTableView.selectedRowIndexes)
-            }
-        }
-        
         // Note edit mode and select file name (cmd-r)
         if (
             event.keyCode == 15
@@ -595,7 +586,12 @@ class ViewController: NSViewController,
     
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-        vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
+        
+        let focusOnEditArea = (vc.editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
+        
+        if !focusOnEditArea {
+            vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
+        }
     }
     
     var alert: NSAlert?
@@ -990,9 +986,23 @@ class ViewController: NSViewController,
             return
         }
         
+        var isTrash = false
+        if let sidebarItem = getSidebarItem() {
+            isTrash = sidebarItem.isTrash()
+        }
+        
+        let messageText =
+            isTrash
+                ? "Are you sure you want to irretrievably delete \(notes.count) note(s)?"
+                : "Are you sure you want to move \(notes.count) note(s) to the trash?"
+        
         let alert = NSAlert.init()
-        alert.messageText = "Are you sure you want to move \(notes.count) note(s) to the trash?"
-        alert.informativeText = "This action cannot be undone."
+        alert.messageText = messageText
+        
+        if isTrash {
+            alert.informativeText = "This action cannot be undone."
+        }
+        
         alert.addButton(withTitle: "Remove note(s)")
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in

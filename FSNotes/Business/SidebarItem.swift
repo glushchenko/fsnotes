@@ -34,4 +34,8 @@ class SidebarItem {
         
         return true
     }
+    
+    public func isTrash() -> Bool {
+        return (type == .Trash)
+    }
 }
