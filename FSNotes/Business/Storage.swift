@@ -280,17 +280,29 @@ class Storage {
             let note = Note(url: url)
             note.parseURL()
             let name = url.pathComponents.last!
-            let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
             
-            if let tagNames = tags?.tagNames {
-                for tag in tagNames {
-                    if !self.tagNames.contains(tag) {
-                        self.tagNames.append(tag)
+            #if os(OSX)
+                let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
+
+                if let tagNames = tags?.tagNames {
+                    for tag in tagNames {
+                        if !self.tagNames.contains(tag) {
+                            self.tagNames.append(tag)
+                        }
+                    }
+                    
+                    note.tagNames = tagNames
+                }
+            #else
+                if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
+                    let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
+                    for tag in tags {
+                        if let tagName = tag as? String {
+                            note.tagNames.append(tagName)
+                        }
                     }
                 }
-                
-                note.tagNames = tagNames
-            }
+            #endif
             
             if (url.pathComponents.count == 0) {
                 continue

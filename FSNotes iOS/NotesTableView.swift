@@ -91,7 +91,7 @@ class NotesTableView: UITableView,
                 textField.attributedText = NSAttributedString(string: note.title)
             }
             
-            let confirmAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+            let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
                 guard let name = alertController.textFields?[0].text, name.count > 0 else {
                     return
                 }

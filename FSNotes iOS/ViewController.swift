@@ -310,8 +310,9 @@ class ViewController: UIViewController, UISearchBarDelegate {
             searchBar.endEditing(true)
             return
         }
+        guard let project = storage.getProjects().first else { return }
         
-        let note = Note(name: name)
+        let note = Note(name: name, project: project)
         note.save()
         
         updateList()
@@ -326,7 +327,9 @@ class ViewController: UIViewController, UISearchBarDelegate {
     }
     
     func createNote(content: String) {
-        let note = Note(name: "")
+        guard let project = storage.getProjects().first else { return }
+        
+        let note = Note(name: "", project: project)
         note.content = NSMutableAttributedString(string: content)
         note.save()
         updateList()
@@ -374,7 +377,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
     }
     
     @objc func makeNew() {
-        let note = Note(name: "")
+        guard let project = storage.getProjects().first else { return }
+        let note = Note(name: "", project: project)
         note.save()
         updateList()
         

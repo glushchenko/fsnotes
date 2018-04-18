@@ -136,6 +136,7 @@
 		D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BC5205C6ED200D96A6D /* undo@3x.png */; };
 		D7D318482086187C00FEB5EA /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D318472086187C00FEB5EA /* tag.png */; };
 		D7D318492086187C00FEB5EA /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D318472086187C00FEB5EA /* tag.png */; };
+		D7D3184A2086771000FEB5EA /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7ADFD0D2064143D00B531F9 /* URL+.swift */; };
 		D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */; };
@@ -1123,6 +1124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D3184A2086771000FEB5EA /* URL+.swift in Sources */,
 				D7B03AFC2085D4E5008FC097 /* SandboxBookmark.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,

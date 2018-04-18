@@ -447,6 +447,7 @@ public class Note: NSObject {
         return tagNames.map { String($0) }.joined(separator: ", ")
     }
     
+    #if os(OSX)
     public func saveTags(_ string: String) {
         var newTagsClean = [String]()
         let newTags = string.split(separator: ",")
@@ -478,4 +479,5 @@ public class Note: NSObject {
         
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
     }
+    #endif
 }
