@@ -184,6 +184,7 @@ class ViewController: NSViewController,
             }
         }
         
+        editArea.clear()
         updateTable {}
     }
         
@@ -473,15 +474,6 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.shift)
         ) {
             finder(selectedRow: notesTableView.selectedRow)
-        }
-        
-        // Open menu and focus move (cmd-shift-t)
-        if (
-            event.keyCode == kVK_ANSI_T
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
-        ) {
-            moveMenu("")
         }
         
         // Toggle sidebar cmd+shift+control+b
