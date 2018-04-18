@@ -615,13 +615,14 @@ class ViewController: NSViewController,
         let window = NSApp.windows[0]
         vc.alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        field.placeholderString = "sex, drugs, rock and roll"
         field.stringValue = note.getCommaSeparatedTags()
         
         vc.alert?.messageText = "Tags"
         vc.alert?.informativeText = "Please enter tags (comma separated):"
         vc.alert?.accessoryView = field
         vc.alert?.alertStyle = .informational
-        vc.alert?.addButton(withTitle: "Ok")
+        vc.alert?.addButton(withTitle: "OK")
         vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 for note in notes {

@@ -922,7 +922,7 @@ CA
                                                     </connections>
                                                 </button>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                                    <rect key="frame" x="19" y="163" width="397" height="4"/>
+                                                    <rect key="frame" x="19" y="163" width="397" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
@@ -1061,6 +1061,9 @@ CA
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
+                                                                                    <connections>
+                                                                                        <action selector="projectName:" target="I0q-sX-uBq" id="Mx3-zh-Tac"/>
+                                                                                    </connections>
                                                                                 </textField>
                                                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNt-mn-bYH">
                                                                                     <rect key="frame" x="131" y="-9" width="18" height="19"/>
@@ -1272,7 +1275,7 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="181" y="239" width="104" height="121"/>
+                                                        <rect key="frame" x="180" y="239" width="105" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNote" id="WpA-pT-SDs"/>
                                                     </imageView>
