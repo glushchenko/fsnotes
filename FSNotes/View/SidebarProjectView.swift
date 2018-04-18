@@ -290,7 +290,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             unwrappedProject = p
         }
         
-        if sender is NSMenuItem, let mi = sender as? NSMenuItem, mi.title == "Add root folder" {
+        if sender is NSMenuItem, let mi = sender as? NSMenuItem, mi.title == "Attach storage" {
             unwrappedProject = nil
         }
         

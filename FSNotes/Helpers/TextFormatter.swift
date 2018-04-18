@@ -280,26 +280,35 @@ public class TextFormatter {
             let prefix = nsPrev.substring(with: match.range)
             
             if prevString == prefix + "\n" {
-                // Remove the previous line.
-                textView.setSelectedRange(prevParagraphRange)
+                setSRange(prevParagraphRange)
                 textView.delete(self)
                 return
             }
             
-            textView.insertText(prefix, replacementRange: textView.selectedRange())
+            #if os(iOS)
+                textView.insertText(prefix)
+            #else
+                textView.insertText(prefix, replacementRange: textView.selectedRange())
+            #endif
             return
         }
         
         if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: matchDigits.range)
             if prevString == prefix + "\n" {
-                textView.setSelectedRange(prevParagraphRange)
+                setSRange(prevParagraphRange)
                 textView.delete(self)
                 return
             }
             
             if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
-                textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)), replacementRange: textView.selectedRange())
+               
+                #if os(iOS)
+                    textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)))
+                #else
+                    textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)), replacementRange: textView.selectedRange())
+                #endif
+                
             }
         }
     }
