@@ -55,6 +55,14 @@ class ViewController: NSViewController,
         setTableRowHeight()
         
         super.viewDidAppear()
+        
+        if !UserDefaultsManagement.hideRealSidebar {
+            var size = UserDefaultsManagement.realSidebarSize
+            if size < 10 {
+                size = 200
+            }
+            sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
+        }
     }
     
     override func viewDidLoad() {
@@ -653,13 +661,19 @@ class ViewController: NSViewController,
     @IBAction func toggleSidebar(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
         
-        if !UserDefaultsManagement.hideRealSidebar && vc.sidebarSplitView.subviews[0].frame.width != 0.0 {
-            UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
+        if !UserDefaultsManagement.hideRealSidebar {
+            if vc.sidebarSplitView.subviews[0].frame.width != 0.0 {
+                UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
+            }
+            
             UserDefaultsManagement.hideRealSidebar = true
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
             vc.searchTopConstraint.constant = CGFloat(25)
         } else {
-            let size = UserDefaultsManagement.realSidebarSize > 0 ? UserDefaultsManagement.realSidebarSize : 200
+            let size =
+                UserDefaultsManagement.realSidebarSize > 10
+                    ? UserDefaultsManagement.realSidebarSize
+                    : 200
             
             vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
             UserDefaultsManagement.hideRealSidebar = false
