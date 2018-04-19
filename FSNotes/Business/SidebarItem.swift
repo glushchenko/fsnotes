@@ -28,7 +28,7 @@ class SidebarItem {
     }
     
     public func isSelectable() -> Bool {
-        if type == .Label && ["Library", "# Tags"].contains(name) {
+        if type == .Label && ["FSNotes", "# Tags"].contains(name) {
             return false
         }
         

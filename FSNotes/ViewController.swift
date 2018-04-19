@@ -55,14 +55,6 @@ class ViewController: NSViewController,
         setTableRowHeight()
         
         super.viewDidAppear()
-        
-        if !UserDefaultsManagement.hideRealSidebar {
-            var size = UserDefaultsManagement.realSidebarSize
-            if size < 10 {
-                size = 200
-            }
-            sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
-        }
     }
     
     override func viewDidLoad() {

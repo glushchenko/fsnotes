@@ -162,9 +162,10 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var documentDirectory: URL {
+    static var documentDirectory: URL? {
         get {
             if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+                
                 if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                     do {
                         try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
@@ -178,37 +179,47 @@ public class UserDefaultsManagement {
                 }
             }
             
-            let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+            if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+                return URL(fileURLWithPath: path)
+            }
     
-            return URL(fileURLWithPath: path)
+            return nil
         }
     }
     
-    static var storagePath: String {
+    static var storagePath: String? {
         get {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
+                
                 do {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
                     
-                    return storagePath as! String
+                    return storagePath as? String
                 } catch {
-                    UserDefaultsManagement.storagePath = documentDirectory.path
-                    print(error.localizedDescription);
+                    print(error)
                 }
             }
             
-            return documentDirectory.path
+            if let dd = documentDirectory {
+                return dd.path
+            }
+            
+            return nil
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
         }
     }
     
-    static var storageUrl: URL {
+    static var storageUrl: URL? {
         get {
-            let expanded = NSString(string: self.storagePath).expandingTildeInPath
+            if let path = storagePath {
+                let expanded = NSString(string: path).expandingTildeInPath
 
-            return URL.init(fileURLWithPath: expanded)
+                return URL.init(fileURLWithPath: expanded)
+            }
+            
+            return nil
         }
     }
     

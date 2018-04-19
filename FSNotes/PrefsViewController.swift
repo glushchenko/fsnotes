@@ -30,6 +30,42 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var restoreCursorButton: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
+
+    @IBOutlet weak var defaultStoragePath: NSPathControl!
+    
+    @IBAction func changeDefaultStorage(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = openPanel.url else {
+                    return
+                }
+                
+                UserDefaultsManagement.storagePath = url.path
+                self.defaultStoragePath.stringValue = url.path
+                
+                guard !self.storage.projectExist(url: url) else {
+                    return
+                }
+                
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+                bookmark.store(url: url)
+                bookmark.save()
+                
+                if let vc = self.controller {
+                    let newProject = Project(url: url, isRoot: true)
+                    self.storage.add(project: newProject)
+                    self.storage.loadLabel(newProject)
+                    vc.storageOutlineView.reloadSidebar()
+                }
+            }
+        }
+    }
     
     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
     let storage = Storage.sharedInstance()
@@ -71,6 +107,10 @@ class PrefsViewController: NSViewController {
         
         noteFontColor.color = UserDefaultsManagement.fontColor
         backgroundColor.color = UserDefaultsManagement.bgColor
+        
+        if let url = UserDefaultsManagement.storageUrl {
+            defaultStoragePath.stringValue = url.path
+        }
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
