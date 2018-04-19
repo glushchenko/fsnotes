@@ -713,7 +713,7 @@ CA
                                                     <pathCell key="cell" selectable="YES" editable="YES" alignment="left" id="3NY-lU-xWa">
                                                         <font key="font" metaFont="system"/>
                                                         <url key="url" string="file://localhost/Applications/"/>
-                                                        <color key="backgroundColor" red="0.8980392157" green="0.92549019610000005" blue="0.97254901959999995" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="1" colorSpace="deviceRGB"/>
                                                     </pathCell>
                                                 </pathControl>
                                             </subviews>
@@ -1267,7 +1267,7 @@ CA
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" id="O0H-rJ-5SF"/>
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="gaD-Xx-kYm" secondAttribute="bottom" constant="8" id="S24-u4-1C8"/>
                                                     <constraint firstAttribute="trailing" secondItem="gaD-Xx-kYm" secondAttribute="trailing" constant="9" id="TW9-hk-TlU"/>
-                                                    <constraint firstAttribute="width" constant="155" id="VZ9-Xh-pKQ"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="155" id="VZ9-Xh-pKQ"/>
                                                     <constraint firstAttribute="trailing" secondItem="Kzf-Jh-YEb" secondAttribute="trailing" id="gF5-JY-xgD"/>
                                                     <constraint firstItem="gaD-Xx-kYm" firstAttribute="top" secondItem="8ej-mX-KM6" secondAttribute="top" constant="8" id="jla-xW-fW2"/>
                                                     <constraint firstItem="gaD-Xx-kYm" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" constant="9" id="lWl-Ul-pBf"/>
@@ -1296,7 +1296,7 @@ CA
                                                             <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                                         </clipView>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="480" id="VeM-DS-2dh"/>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="480" id="1Ss-OK-0sm"/>
                                                         </constraints>
                                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                                                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0fC-ae-uwb">
