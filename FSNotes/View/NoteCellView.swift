@@ -87,8 +87,9 @@ class NoteCellView: NSTableCellView {
     
     func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1, color: NSColor) {
         let string = preview.stringValue
-        let fontName = UserDefaultsManagement.fontName
-        let font = NSFont(name: fontName, size: 11)!
+        let fontName = UserDefaultsManagement.noteFont.fontName
+        guard let font = NSFont(name: fontName, size: 11) else { return }
+            
         let textColor = color
         
         let textParagraph = NSMutableParagraphStyle()
