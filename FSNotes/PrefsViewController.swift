@@ -240,11 +240,15 @@ class PrefsViewController: NSViewController {
     }
     
     func initShortcuts() {
+        let mas = MASShortcutMonitor.shared()
+        
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
         
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
+                mas?.unregisterShortcut(UserDefaultsManagement.newNoteShortcut)
+                
                 let keyCode = self.newNoteshortcutView.shortcutValue.keyCode
                 let modifierFlags = self.newNoteshortcutView.shortcutValue.modifierFlags
                 
@@ -253,14 +257,13 @@ class PrefsViewController: NSViewController {
                 MASShortcutMonitor.shared().register(self.newNoteshortcutView.shortcutValue, withAction: {
                     self.controller?.makeNoteShortcut()
                 })
-            } else {
-                UserDefaultsManagement.newNoteShortcut = MASShortcut(keyCode: 45, modifierFlags: 917504)
             }
         }
         
         searchNotesShortcut.shortcutValueChange = { (sender) in
-            
             if ((self.searchNotesShortcut.shortcutValue) != nil) {
+                mas?.unregisterShortcut(UserDefaultsManagement.searchNoteShortcut)
+                
                 let keyCode = self.searchNotesShortcut.shortcutValue.keyCode
                 let modifierFlags = self.searchNotesShortcut.shortcutValue.modifierFlags
                 
@@ -269,8 +272,6 @@ class PrefsViewController: NSViewController {
                 MASShortcutMonitor.shared().register(self.searchNotesShortcut.shortcutValue, withAction: {
                     self.controller?.searchShortcut()
                 })
-            } else {
-                UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: 37, modifierFlags: 917504)
             }
         }
     }
