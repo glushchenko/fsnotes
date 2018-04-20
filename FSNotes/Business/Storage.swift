@@ -46,11 +46,9 @@ class Storage {
         guard let url = UserDefaultsManagement.storageUrl else { return }
         
         var name = url.lastPathComponent
-        #if CLOUDKIT
-            if let iCloudURL = getCloudDrive(), iCloudURL == url {
-                name = "iCloud Drive"
-            }
-        #endif
+        if let iCloudURL = getCloudDrive(), iCloudURL == url {
+            name = "iCloud Drive"
+        }
         
         let project = Project(url: url, label: name, isRoot: true)
         add(project: project)
