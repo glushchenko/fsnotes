@@ -1019,7 +1019,7 @@ CA
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="FSNotes" allowsToolTipsWhenApplicationIsInactive="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="MainWindow" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA" customClass="MainWindow" customModule="FSNotes" customModuleProvider="target">
+                    <window key="window" title="FSNotes" allowsToolTipsWhenApplicationIsInactive="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="MainWindow" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA" customClass="MainWindow" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="800" height="600"/>
@@ -1044,7 +1044,7 @@ CA
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="MainSplitView" customModule="FSNotes" customModuleProvider="target">
+                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <subviews>
                                     <customView fixedFrame="YES" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
@@ -1141,7 +1141,7 @@ CA
                                             </scrollView>
                                         </subviews>
                                     </customView>
-                                    <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62">
+                                    <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="164" y="0.0" width="636" height="600"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
@@ -1334,8 +1334,8 @@ CA
                                             </customView>
                                         </subviews>
                                         <holdingPriorities>
-                                            <real value="250"/>
-                                            <real value="250"/>
+                                            <real value="399"/>
+                                            <real value="173"/>
                                         </holdingPriorities>
                                     </splitView>
                                 </subviews>

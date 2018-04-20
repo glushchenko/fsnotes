@@ -36,12 +36,14 @@ class ViewController: NSViewController,
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: NSTextField!
-    
+
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
         
-        splitView.subviews[1].backgroundColor = NSColor.white
+        if (sidebarSplitView.subviews.count > 1) {
+            sidebarSplitView.subviews[1].backgroundColor = NSColor.white
+        }
         
         // editarea paddings
         editArea.textContainerInset.height = 10
@@ -49,17 +51,19 @@ class ViewController: NSViewController,
         editArea.isEditable = false
         
         if (UserDefaultsManagement.horizontalOrientation) {
+            titleLabel.isHidden = true
             self.splitView.isVertical = false
         }
         
         setTableRowHeight()
         
         super.viewDidAppear()
+        
+        sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
+        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
     }
     
     override func viewDidLoad() {
-        sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
-        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SplitView")
         titleLabel.stringValue = "FSNotes"
         
         checkSidebarConstraint()
@@ -68,7 +72,7 @@ class ViewController: NSViewController,
         
         editArea.delegate = self
         search.delegate = self
-        splitView.delegate = self
+        sidebarSplitView.delegate = self
         storageOutlineView.viewDelegate = self
         
         if storage.noteList.count == 0 {
@@ -119,8 +123,6 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             keyValueWatcher()
         #endif
-        
-        splitView.setPosition(CGFloat(250), ofDividerAt: 0)
         
     }
     
@@ -188,12 +190,16 @@ class ViewController: NSViewController,
         updateTable {}
     }
         
-    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {        
         return splitView.frame.width / 2
     }
     
     var refilled: Bool = false
+    
     func splitViewDidResizeSubviews(_ notification: Notification) {
+        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        vc.checkSidebarConstraint()
+                
         if !refilled {
             self.refilled = true
             DispatchQueue.main.async() {
@@ -636,17 +642,12 @@ class ViewController: NSViewController,
     
     @IBAction func toggleNoteList(_ sender: Any) {
         if !UserDefaultsManagement.hideSidebar {
-            UserDefaultsManagement.sidebarSize = Int(splitView.subviews[0].frame.width)
             UserDefaultsManagement.hideSidebar = true
-            splitView.setPosition(0, ofDividerAt: 0)
+            splitView.subviews[0].isHidden = true
             return
         }
         
-        var size = UserDefaultsManagement.sidebarSize
-        if size < 10 {
-            size = 250
-        }
-        splitView.setPosition(CGFloat(size), ofDividerAt: 0)
+        splitView.subviews[0].isHidden = false
         UserDefaultsManagement.hideSidebar = false
     }
     

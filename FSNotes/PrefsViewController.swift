@@ -148,6 +148,7 @@ class PrefsViewController: NSViewController {
         horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = true
         controller?.splitView.setPosition(215, ofDividerAt: 0)
+        controller?.titleLabel.isHidden = false
         
         UserDefaultsManagement.cellSpacing = 38
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
@@ -160,6 +161,8 @@ class PrefsViewController: NSViewController {
         verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
         controller?.splitView.isVertical = false
         controller?.splitView.setPosition(145, ofDividerAt: 0)
+        controller?.titleLabel.isHidden = true
+        
         
         UserDefaultsManagement.cellSpacing = 12
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
