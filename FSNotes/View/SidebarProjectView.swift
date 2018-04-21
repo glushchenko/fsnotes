@@ -22,6 +22,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             return true
         }
         
+        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isDefault, !["Add", "Reveal in Finder"].contains(menuItem.title) {
+            return false
+        }
+        
         let vc = getViewController()
         guard let sidebarItem = getSidebarItem(), sidebarItem.project != nil, vc.notesTableView.selectedRow == -1 else { return false }
         
@@ -32,7 +36,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         delegate = self
         dataSource = self
         registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data")])
-        
     }
     
     override func keyDown(with event: NSEvent) {
@@ -167,7 +170,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         }
         return false
     }
-    
+        
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
         guard let sidebarItem = item as? SidebarItem else {
             return false
@@ -199,13 +202,21 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
             let sidebarItem = si[selectedRow]
             
-            if ["Library", "Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil {
+            if let p = sidebarItem.project, p.isDefault {
+                for item in menu.items {
+                    if !["Add", "Reveal in Finder"].contains(item.title) {
+                        item.isHidden = true
+                    }
+                }
+                return
+            }
+
+            if ["Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil {
                 for item in menu.items {
                     if item.title != "Add" {
                         item.isHidden = true
                     }
                 }
-                
                 return
             }
             
@@ -255,7 +266,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         guard let si = v.sidebarItems, si.indices.contains(selected) else { return }
         
         let sidebarItem = si[selected]
-        guard let project = sidebarItem.project, sidebarItem.type != .All || sidebarItem.type != .Trash || sidebarItem.name != "Library" else { return }
+        guard let project = sidebarItem.project, !project.isDefault && sidebarItem.type != .All && sidebarItem.type != .Trash  else { return }
         
         if !project.isRoot && sidebarItem.type == .Category {
             guard let w = v.superview?.window else {

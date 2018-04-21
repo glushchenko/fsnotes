@@ -27,7 +27,7 @@ class SidebarItem {
         return false
     }
     
-    public func isSelectable() -> Bool {
+    public func isSelectable() -> Bool {        
         if type == .Label && ["FSNotes", "# Tags"].contains(name) {
             return false
         }
@@ -37,5 +37,13 @@ class SidebarItem {
     
     public func isTrash() -> Bool {
         return (type == .Trash)
+    }
+    
+    public func isGroupItem() -> Bool {
+        if project == nil && ["Notes", "Trash"].contains(name) {
+            return true
+        }
+        
+        return false
     }
 }

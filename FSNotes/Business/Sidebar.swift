@@ -14,7 +14,6 @@ class Sidebar {
     
     init() {
         list = [
-            SidebarItem(name: "FSNotes", type: .Label),
             SidebarItem(name: "Notes", type: .All),
             SidebarItem(name: "Trash", type: .Trash),
         ]

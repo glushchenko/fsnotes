@@ -50,7 +50,7 @@ class Storage {
             name = "iCloud Drive"
         }
         
-        let project = Project(url: url, label: name, isRoot: true)
+        let project = Project(url: url, label: name, isRoot: true, isDefault: true)
         add(project: project)
                 
         for url in bookmarks {

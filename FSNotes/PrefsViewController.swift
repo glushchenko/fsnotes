@@ -41,28 +41,19 @@ class PrefsViewController: NSViewController {
         openPanel.canChooseFiles = false
         openPanel.begin { (result) -> Void in
             if result.rawValue == NSFileHandlingPanelOKButton {
-                guard let url = openPanel.url else {
-                    return
-                }
-                
-                UserDefaultsManagement.storagePath = url.path
-                self.defaultStoragePath.stringValue = url.path
-                
-                guard !self.storage.projectExist(url: url) else {
-                    return
-                }
+                guard let url = openPanel.url else { return }
+                guard let currentURL = UserDefaultsManagement.storageUrl else { return }
                 
                 let bookmark = SandboxBookmark.sharedInstance()
                 _ = bookmark.load()
+                bookmark.remove(url: currentURL)
                 bookmark.store(url: url)
                 bookmark.save()
                 
-                if let vc = self.controller {
-                    let newProject = Project(url: url, isRoot: true)
-                    self.storage.add(project: newProject)
-                    self.storage.loadLabel(newProject)
-                    vc.storageOutlineView.reloadSidebar()
-                }
+                UserDefaultsManagement.storagePath = url.path
+                self.defaultStoragePath.stringValue = url.path
+                            
+                self.restart()
             }
         }
     }

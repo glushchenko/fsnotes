@@ -641,13 +641,15 @@ class ViewController: NSViewController,
     }
     
     @IBAction func toggleNoteList(_ sender: Any) {
+        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        
         if !UserDefaultsManagement.hideSidebar {
             UserDefaultsManagement.hideSidebar = true
-            splitView.subviews[0].isHidden = true
+            vc.splitView.subviews[0].isHidden = true
             return
         }
-        
-        splitView.subviews[0].isHidden = false
+
+        vc.splitView.subviews[0].isHidden = false
         UserDefaultsManagement.hideSidebar = false
     }
     

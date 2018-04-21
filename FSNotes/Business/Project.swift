@@ -15,12 +15,14 @@ class Project: Equatable {
     var isCloudDrive: Bool = false
     var isRoot: Bool
     var parent: Project?
+    var isDefault: Bool
     
-    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil) {
+    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false) {
         self.url = url
         self.isTrash = isTrash
         self.isRoot = isRoot
         self.parent = parent
+        self.isDefault = isDefault
         
         if let l = label {
             self.label = l

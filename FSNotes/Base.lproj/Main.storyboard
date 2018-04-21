@@ -465,13 +465,13 @@ CA
                                         </menuItem>
                                         <menuItem title="Hide/show notes" keyEquivalent="B" id="WHt-T4-l9c">
                                             <connections>
-                                                <action selector="toggleNoteList" target="Ady-hI-5gd" id="3un-zf-15Z"/>
+                                                <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Hide/show sidebar" keyEquivalent="B" id="DCh-5P-PZe">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleSidebar:" target="L4m-js-agn" id="FP7-Wz-Hed"/>
+                                                <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Sort by" id="rHB-xF-GgG">
@@ -1019,7 +1019,7 @@ CA
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="FSNotes" allowsToolTipsWhenApplicationIsInactive="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="MainWindow" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA" customClass="MainWindow" customModuleProvider="target">
+                    <window key="window" title="FSNotes" allowsToolTipsWhenApplicationIsInactive="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" frameAutosaveName="MainWindow" animationBehavior="default" tabbingMode="disallowed" id="IQv-IB-iLA" customClass="MainWindow" customModule="FSNotes" customModuleProvider="target">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" texturedBackground="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="800" height="600"/>
@@ -1059,7 +1059,7 @@ CA
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="163" height="580"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="163" height="570"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1128,7 +1128,7 @@ CA
                                                         </outlineView>
                                                     </subviews>
                                                     <nil key="backgroundColor"/>
-                                                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="20" bottom="0.0"/>
+                                                    <edgeInsets key="contentInsets" left="0.0" right="0.0" top="30" bottom="0.0"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="hZT-KZ-qyF">
                                                     <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
@@ -1363,7 +1363,7 @@ CA
                         <outlet property="searchTopConstraint" destination="jla-xW-fW2" id="Y44-aN-8Rm"/>
                         <outlet property="searchWrapper" destination="gaD-Xx-kYm" id="1k0-hP-rbp"/>
                         <outlet property="sidebarSplitView" destination="dO0-pK-Ktm" id="2FH-Og-FOV"/>
-                        <outlet property="splitView" destination="yWu-3F-P62" id="DnG-p7-z81"/>
+                        <outlet property="splitView" destination="yWu-3F-P62" id="IYq-T3-4b1"/>
                         <outlet property="storageOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
                         <outlet property="titleLabel" destination="rZx-hk-GcJ" id="wKj-zD-Ovz"/>
                     </connections>
