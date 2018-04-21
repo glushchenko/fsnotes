@@ -592,12 +592,8 @@ class ViewController: NSViewController,
     
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-        
-        let focusOnEditArea = (vc.editArea.window?.firstResponder?.isKind(of: EditTextView.self))!
-        
-        if !focusOnEditArea {
-            vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
-        }
+
+        vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
     }
     
     var alert: NSAlert?
