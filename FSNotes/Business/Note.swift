@@ -480,4 +480,10 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
     }
     #endif
+    
+    public func addTag(_ name: String) {
+        guard !tagNames.contains(name) else { return }
+        tagNames.append(name)
+        try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
+    }
 }

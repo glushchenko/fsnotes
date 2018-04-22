@@ -401,6 +401,7 @@ class ViewController: NSViewController,
         if (event.keyCode == 53) {
             if let a = alert {
                 NSApp.windows[0].endSheet(a.window)
+                return
             }
             
             cleanSearchAndEditArea()

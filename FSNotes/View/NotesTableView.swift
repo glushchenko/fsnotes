@@ -81,6 +81,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return nil
     }
     
+    func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
+        let data = NSKeyedArchiver.archivedData(withRootObject: rowIndexes)
+        let type = NSPasteboard.PasteboardType.init(rawValue: "notesTable")
+        pboard.declareTypes([type], owner: self)
+        pboard.setData(data, forType: type)
+        return true
+    }
+    
     func getNoteFromSelectedRow() -> Note? {
         var note: Note? = nil
         var selected = self.selectedRow

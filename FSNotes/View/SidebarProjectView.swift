@@ -35,7 +35,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
-        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data")])
+        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data"), NSPasteboard.PasteboardType.init(rawValue: "notesTable")])
     }
     
     override func keyDown(with event: NSEvent) {
@@ -69,11 +69,23 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
-        
+        guard let sidebarItem = item as? SidebarItem else { return false }
         let board = info.draggingPasteboard()
+        
+        if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            let vc = getViewController()
+            
+            for row in rows {
+                let note = vc.notesTableView.noteList[row]
+                note.addTag(sidebarItem.name)
+            }
+            
+            return true
+        }
+        
         guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
         
-        guard let sidebarItem = item as? SidebarItem, let vd = viewDelegate, let project = sidebarItem.project else { return false }
+        guard let vd = viewDelegate, let project = sidebarItem.project else { return false }
         
         for url in urls {
             let name = url.lastPathComponent
@@ -91,8 +103,25 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
+        guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
+        let board = info.draggingPasteboard()
+
+        switch sidebarItem.type {
+        case .Tag:
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
+                return .copy
+            }
+            break
+        case .Category, .Label:
+            if sidebarItem.isSelectable(), let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
+                return .copy
+            }
+            break
+        default:
+            break
+        }
         
-        return .copy
+        return NSDragOperation()
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
