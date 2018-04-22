@@ -171,6 +171,10 @@ class ViewController: NSViewController,
             return
         }
         
+        move(notes: notes, project: project)
+    }
+    
+    public func move(notes: [Note], project: Project) {
         for note in notes {
             let prevProject = note.project
             let destination = project.url.appendingPathComponent(note.name)

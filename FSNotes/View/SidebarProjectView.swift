@@ -72,34 +72,54 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         guard let sidebarItem = item as? SidebarItem else { return false }
         let board = info.draggingPasteboard()
         
-        if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-            let vc = getViewController()
+        switch sidebarItem.type {
+        case .Tag:
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+                let vc = getViewController()
+                
+                for row in rows {
+                    let note = vc.notesTableView.noteList[row]
+                    note.addTag(sidebarItem.name)
+                }
+                
+                return true
+            }
+            break
+        case .Label, .Category:
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet, let project = sidebarItem.project {
+                let vc = getViewController()
+                
+                var notes = [Note]()
+                for row in rows {
+                    let note = vc.notesTableView.noteList[row]
+                    notes.append(note)
+                }
+                
+                vc.move(notes: notes, project: project)
+                
+                return true
+            }
             
-            for row in rows {
-                let note = vc.notesTableView.noteList[row]
-                note.addTag(sidebarItem.name)
+            guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], let vd = viewDelegate, let project = sidebarItem.project else { return false }
+            
+            for url in urls {
+                let name = url.lastPathComponent
+                let note = Note(url: url)
+                note.parseURL()
+                note.reloadContent()
+                note.project = project
+                note.url = project.url.appendingPathComponent(name)
+                note.save()
+                note.markdownCache()
+                vd.reloadView()
             }
             
             return true
+        default:
+            break
         }
-        
-        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
-        
-        guard let vd = viewDelegate, let project = sidebarItem.project else { return false }
-        
-        for url in urls {
-            let name = url.lastPathComponent
-            let note = Note(url: url)
-            note.parseURL()
-            note.reloadContent()
-            note.project = project
-            note.url = project.url.appendingPathComponent(name)
-            note.save()
-            note.markdownCache()
-            vd.reloadView()
-        }
-        
-        return true
+
+        return false
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
@@ -113,7 +133,13 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             }
             break
         case .Category, .Label:
-            if sidebarItem.isSelectable(), let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
+            guard sidebarItem.isSelectable() else { break }
+            
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
+                return .move
+            }
+            
+            if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
                 return .copy
             }
             break
