@@ -191,7 +191,7 @@ class ViewController: NSViewController,
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {        
-        return splitView.frame.width / 2
+        return sidebarSplitView.frame.width / 5
     }
     
     var refilled: Bool = false
@@ -1160,6 +1160,8 @@ class ViewController: NSViewController,
         
         searchTopConstraint.constant = 8
     }
+    
+    
     
 }
 
