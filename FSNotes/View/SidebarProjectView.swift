@@ -26,8 +26,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             return false
         }
         
-        let vc = getViewController()
-        guard let sidebarItem = getSidebarItem(), sidebarItem.project != nil, vc.notesTableView.selectedRow == -1 else { return false }
+        guard let sidebarItem = getSidebarItem(), sidebarItem.project != nil else { return false }
         
         return true
     }
