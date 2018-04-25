@@ -65,4 +65,12 @@ class Project: Equatable {
         
         return self
     }
+    
+    public func getFullLabel() -> String {
+        if isRoot {
+            return label
+        }
+        
+        return "\(getParent().getFullLabel()) -> \(label)"
+    }
 }

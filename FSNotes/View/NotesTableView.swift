@@ -166,8 +166,38 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        let viewController = self.window?.contentViewController as! ViewController
+        
         if (clickedRow > -1 && selectedRow < 0) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
+        }
+        
+        guard
+            let submenu = menu.item(withTitle: "Move")?.submenu,
+            let note = getSelectedNote(),
+            let project = note.project else { return }
+        
+        submenu.removeAllItems()
+        
+        if !note.isTrash() {
+            let trashMenu = NSMenuItem()
+            trashMenu.title = "Trash"
+            trashMenu.action = #selector(viewController.deleteNote(_:))
+            submenu.addItem(trashMenu)
+            submenu.addItem(NSMenuItem.separator())
+        }
+
+        let projects = storage.getProjects()
+        for item in projects {
+            if project == item || item.isTrash {
+                continue
+            }
+            
+            let menuItem = NSMenuItem()
+            menuItem.title = item.getFullLabel()
+            menuItem.representedObject = item
+            menuItem.action = #selector(viewController.moveNote(_:))
+            submenu.addItem(menuItem)
         }
     }
     
