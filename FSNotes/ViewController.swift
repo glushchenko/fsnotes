@@ -129,12 +129,30 @@ class ViewController: NSViewController,
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return false}
         
-        if ["New", "New RTF"].contains(menuItem.title) {
-            return true
-        }
-        
-        if vc.notesTableView.selectedRow == -1 {
-            return false
+        if let title = menuItem.menu?.title {
+            switch title {
+            case "File":
+                if ["New", "New RTF"].contains(menuItem.title) {
+                    return true
+                }
+                
+                if vc.notesTableView.selectedRow == -1 {
+                    return false
+                }
+                break
+            case "Folder":
+                if ["Attach storage"].contains(menuItem.title) {
+                    return true
+                }
+                
+                guard let p = vc.getSidebarProject(), !p.isTrash else {
+                    return false
+                }
+            
+                return true
+            default:
+                return true
+            }
         }
         
         return true
