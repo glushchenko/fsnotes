@@ -515,6 +515,12 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: NSTextField) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
+        if let type = vc.getSidebarType(), type == .Trash {
+            vc.storageOutlineView.deselectAll(nil)
+        }
+        
         let value = sender.stringValue
         if (value.count > 0) {
             search.stringValue = ""
@@ -526,11 +532,23 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileMenuNewNote(_ sender: Any) {
-        createNote()
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
+        if let type = vc.getSidebarType(), type == .Trash {
+            vc.storageOutlineView.deselectAll(nil)
+        }
+        
+        vc.createNote()
     }
     
     @IBAction func fileMenuNewRTF(_ sender: Any) {
-        createNote(type: .RichText)
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
+        if let type = vc.getSidebarType(), type == .Trash {
+            vc.storageOutlineView.deselectAll(nil)
+        }
+        
+        vc.createNote(type: .RichText)
     }
     
     @IBAction func moveMenu(_ sender: Any) {
@@ -606,7 +624,13 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeMenu(_ sender: Any) {
-        createNote()
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
+        if let type = vc.getSidebarType(), type == .Trash {
+            vc.storageOutlineView.deselectAll(nil)
+        }
+        
+        vc.createNote()
     }
     
     @IBAction func pinMenu(_ sender: Any) {

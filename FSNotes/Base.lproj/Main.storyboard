@@ -71,18 +71,18 @@
                                         </menuItem>
                                         <menuItem title="New" keyEquivalent="n" id="2Ci-Yj-aWK">
                                             <connections>
-                                                <action selector="fileMenuNewNote:" target="Ady-hI-5gd" id="HKF-P0-9Jc"/>
+                                                <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="New RTF" keyEquivalent="N" id="Tys-UY-xaW">
                                             <connections>
-                                                <action selector="fileMenuNewRTF:" target="Ady-hI-5gd" id="vIt-8s-yDP"/>
+                                                <action selector="fileMenuNewRTF:" target="L4m-js-agn" id="7O9-Gp-1o1"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
                                         <menuItem title="Search and create" keyEquivalent="l" id="hPY-aY-QOE">
                                             <connections>
-                                                <action selector="searchAndCreate:" target="L4m-js-agn" id="770-aI-jTe"/>
+                                                <action selector="searchAndCreate:" target="L4m-js-agn" id="ChM-Mj-Rdf"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
@@ -1384,7 +1384,7 @@ CA
                         </menuItem>
                         <menuItem title="New RTF" keyEquivalent="N" id="qV0-jX-O3d">
                             <connections>
-                                <action selector="fileMenuNewRTF:" target="rPt-NT-nkU" id="3W6-Ba-2D5"/>
+                                <action selector="fileMenuNewRTF:" target="XfG-lQ-9wD" id="IrK-og-cvB"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Rename" keyEquivalent="r" id="XBB-Sr-T1D">
