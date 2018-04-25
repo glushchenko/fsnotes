@@ -132,7 +132,7 @@ class ViewController: NSViewController,
         if let title = menuItem.menu?.title {
             switch title {
             case "File":
-                if ["New", "New RTF"].contains(menuItem.title) {
+                if ["New", "New RTF", "Search and create"].contains(menuItem.title) {
                     return true
                 }
                 
@@ -158,6 +158,12 @@ class ViewController: NSViewController,
         return true
     }
 
+    @IBAction func searchAndCreate(_ sender: Any) {
+        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        
+        vc.search.becomeFirstResponder()
+    }
+    
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBAction func sortBy(_ sender: NSMenuItem) {
         if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {

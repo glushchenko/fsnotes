@@ -80,6 +80,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
+                                        <menuItem title="Search and create" keyEquivalent="l" id="hPY-aY-QOE">
+                                            <connections>
+                                                <action selector="searchAndCreate:" target="L4m-js-agn" id="770-aI-jTe"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
                                         <menuItem title="Rename" keyEquivalent="r" id="jLq-8F-n0X">
                                             <connections>
                                                 <action selector="renameMenu:" target="L4m-js-agn" id="H0Y-Fe-qfr"/>
@@ -1131,7 +1137,7 @@ CA
                                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="30" bottom="0.0"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="hZT-KZ-qyF">
-                                                    <rect key="frame" x="0.0" y="584" width="144" height="16"/>
+                                                    <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="su1-Ap-Xqc">
