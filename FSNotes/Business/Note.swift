@@ -124,7 +124,16 @@ public class Note: NSObject {
                 if isTrash() {
                     try FileManager.default.removeItem(at: url)
                 } else {
-                    try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                    guard let dst = getTrashURL()?.appendingPathComponent(name) else { return }
+                    
+                    do {
+                        try FileManager.default.moveItem(at: url, to: dst)
+                    } catch {
+                        let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
+                        guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return }
+                        
+                        try FileManager.default.moveItem(at: url, to: reserveDst)
+                    }
                 }
             #else
                 try FileManager.default.removeItem(at: url)
@@ -135,6 +144,14 @@ public class Note: NSObject {
             print("Remove went wrong: \(error)")
             return
         }
+    }
+    
+    private func getTrashURL() -> URL? {
+        if let url = sharedStorage.getTrash(url: url) {
+            return url
+        }
+        
+        return nil
     }
         
     @objc func getPreviewForLabel() -> String {
