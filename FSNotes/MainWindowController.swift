@@ -50,6 +50,6 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
             return editorUndoManager
         }
         
-        return nil
+        return notesListUndoManager
     }
 }

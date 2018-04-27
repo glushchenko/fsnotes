@@ -32,6 +32,9 @@ public class TextFormatter {
     private var cursor: Int?
     private var maxWidth: CGFloat
     
+    private var prevSelectedString: NSAttributedString
+    private var prevSelectedRange: NSRange
+    
     init(textView: TextView, note: Note) {
         #if os(OSX)
             storage = textView.textStorage!
@@ -50,6 +53,9 @@ public class TextFormatter {
         self.type = note.type
         self.textView = textView
         self.note = note
+        
+        prevSelectedString = storage.attributedSubstring(from: range)
+        prevSelectedRange = range
     }
     
     func getString() -> NSMutableAttributedString {
@@ -57,6 +63,8 @@ public class TextFormatter {
     }
     
     func bold() {
+        var charsDiff = 0
+        
         if type == .Markdown {
             attributedString.mutableString.setString("**" + attributedString.string + "**")
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
@@ -66,6 +74,8 @@ public class TextFormatter {
             } else {
                 setSRange(NSMakeRange(range.upperBound + 4, 0))
             }
+            
+            charsDiff = 4
         }
         
         if type == .RichText {
@@ -81,9 +91,13 @@ public class TextFormatter {
             
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
         }
+        
+        registerUndo(charsDiff)
     }
     
     func italic() {
+        var charsDiff = 0
+        
         if type == .Markdown {
             attributedString.mutableString.setString("_" + attributedString.string + "_")
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
@@ -93,6 +107,8 @@ public class TextFormatter {
             } else {
                 setSRange(NSMakeRange(range.upperBound + 2, 0))
             }
+            
+            charsDiff = 2
         }
         
         if type == .RichText {
@@ -108,9 +124,26 @@ public class TextFormatter {
             
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
         }
+        
+        registerUndo(charsDiff)
     }
     
-    @objc func tab(_ undoInfo: UndoInfo? = nil) {
+    private func registerUndo(_ charsDiff: Int) {
+        let string = prevSelectedString
+        let range = prevSelectedRange
+        var rangeDiff: NSRange = range
+        
+        if let etv = textView as? EditTextView {
+            if charsDiff != 0  {
+                rangeDiff = NSMakeRange(range.lowerBound, range.length + charsDiff )
+            }
+            
+            let undo = UndoData(string: string, range: rangeDiff)
+            note.undoManager.registerUndo(withTarget: etv, selector: #selector(etv.undoEdit), object: undo)
+        }
+    }
+    
+    func tab() {
         let rangeLength = range.length
         
         #if os(OSX)
@@ -121,6 +154,8 @@ public class TextFormatter {
                 if note.type == .Markdown {
                     highlight()
                 }
+                
+                registerUndo(1)
                 return
             }
         #else
@@ -129,14 +164,11 @@ public class TextFormatter {
             }
         #endif
         
-        if let undo = undoInfo {
-            range = undo.replacementRange
-        }
-
         guard storage.length >= range.upperBound, range.length > 0 else {
             #if os(iOS)
                 storage.replaceCharacters(in: range, with: "\t")
                 setSRange(NSMakeRange(range.upperBound + 1, 0))
+                registerUndo(1)
             #endif
             return
         }
@@ -146,6 +178,7 @@ public class TextFormatter {
         
         var result: String = ""
         var added: Int = 0
+        var diff = 0
         for line in lines {
             if lines.first == line {
                 result += "\t" + line
@@ -153,14 +186,12 @@ public class TextFormatter {
             }
             added = added + 1
             result += "\n\t" + line
+            diff += 1
         }
         
         storage.replaceCharacters(in: range, with: result)
         
         let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
-        let undoInfo = UndoInfo(text: result, replacementRange: newRange)
-        textView.undoManager?.registerUndo(withTarget: self, selector: #selector(unTab), object: undoInfo)
-        
         if let note = EditTextView.note, note.type == .Markdown {
             note.content = NSMutableAttributedString(attributedString: getAttributedString())
             let async = newRange.length > 1000
@@ -177,17 +208,12 @@ public class TextFormatter {
         if note.type == .Markdown {
             highlight()
         }
+        
+        registerUndo(diff + 1)
     }
     
-    @objc func unTab(_ undoInfo: UndoInfo? = nil) {
-        guard let undo = textView.undoManager else {
-            return
-        }
-        
+    func unTab() {
         var initialLocation = 0
-        if let undo = undoInfo {
-            range = undo.replacementRange
-        }
         
         guard storage.length >= range.location + range.length else {
             return
@@ -205,14 +231,17 @@ public class TextFormatter {
         
         var result: [String] = []
         var removed: Int = 1
+        var diff = 1
         for var line in lines {
             if line.starts(with: "\t") {
                 removed = removed + 1
+                diff += 1
                 line.removeFirst()
             }
             
             if line.starts(with: " ") {
                 removed = removed + 1
+                diff += 1
                 line.removeFirst()
             }
             
@@ -223,9 +252,6 @@ public class TextFormatter {
         storage.replaceCharacters(in: range, with: x)
         
         var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
-        let undoInfo = UndoInfo(text: x, replacementRange: newRange)
-        undo.registerUndo(withTarget: self, selector: #selector(tab), object: undoInfo)
-        
         if let note = EditTextView.note, note.type == .Markdown {
             note.content = NSMutableAttributedString(attributedString: getAttributedString())
             let async = newRange.length > 1000
@@ -244,11 +270,14 @@ public class TextFormatter {
         if note.type == .Markdown {
             highlight()
         }
+        
+        registerUndo(-diff)
     }
     
     func header() {
-        storage.replaceCharacters(in: range, with: "#")
+        storage.replaceCharacters(in: range, with: "# ")
         setSRange(NSMakeRange(range.upperBound + 1, 0))
+        registerUndo(1)
     }
     
     func highlight() {
@@ -407,6 +436,7 @@ public class TextFormatter {
 class UndoInfo: NSObject {
     let text: String
     let replacementRange: NSRange
+    var string: NSAttributedString? = nil
     
     init(text: String, replacementRange: NSRange) {
         self.text = text

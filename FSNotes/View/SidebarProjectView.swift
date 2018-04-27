@@ -484,8 +484,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         let vc = getViewController()
         vc.restartFileWatcher()
         vc.loadMoveMenu()
+        
+        let selected = vc.storageOutlineView.selectedRow
         vc.storageOutlineView.sidebarItems = Sidebar().getList()
         vc.storageOutlineView.reloadData()
+        vc.storageOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
     }
     
 }

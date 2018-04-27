@@ -45,7 +45,7 @@ class EditTextView: NSTextView {
         
         super.mouseMoved(with: event)
     }
-        
+    
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
         
         let nsString = string as NSString
@@ -618,6 +618,10 @@ class EditTextView: NSTextView {
         let search = viewController.search.stringValue
         
         return search
+    }
+    
+    @objc func undoEdit(_ object: UndoData) {
+        textStorage?.replaceCharacters(in: object.range, with: object.string)
     }
     
 }
