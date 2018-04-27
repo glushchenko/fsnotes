@@ -121,7 +121,11 @@ class EditTextView: NSTextView {
         UserDefaultsManagement.lastSelectedURL = note.url
         
         subviews.removeAll()
-        undoManager?.removeAllActions()
+        
+        if let appd = NSApplication.shared.delegate as? AppDelegate,
+            let md = appd.mainWindowController {
+            md.editorUndoManager = note.undoManager
+        }
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()

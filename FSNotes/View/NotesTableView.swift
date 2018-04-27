@@ -36,6 +36,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         // Left arrow
         if (event.keyCode == 123) {
+            if let fr = self.window?.firstResponder, fr.isKind(of: NSTextView.self) {
+                super.keyUp(with: event)
+                return
+            }
+            
             vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
             vc.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
         }
@@ -235,6 +240,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .effectFade)
+            }
+        }
+    }
+    
+    @objc public func unDelete(_ urls: [URL: URL]) {
+        for (src, dst) in urls {
+            do {
+                try FileManager.default.moveItem(at: src, to: dst)
+            } catch {
+                print(error)
             }
         }
     }

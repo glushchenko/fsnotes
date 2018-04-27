@@ -26,6 +26,7 @@ public class Note: NSObject {
     public var name: String = ""
     public var isPinned: Bool = false
     public var modifiedLocalAt: Date?
+    public var undoManager = UndoManager()
     
     init(url: URL) {
         self.url = url
@@ -116,24 +117,29 @@ public class Note: NSObject {
         newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
         return newUrl
     }
-        
-    func removeFile() {
+    
+    // Return URL moved in
+    func removeFile() -> Array<URL>? {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
             #if os(OSX)
                 if isTrash() {
                     try FileManager.default.removeItem(at: url)
                 } else {
-                    guard let dst = getTrashURL()?.appendingPathComponent(name) else { return }
+                    guard let dst = getTrashURL()?.appendingPathComponent(name) else { return nil }
                     
                     do {
                         try FileManager.default.moveItem(at: url, to: dst)
                     } catch {
                         let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
-                        guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return }
+                        guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
                         
                         try FileManager.default.moveItem(at: url, to: reserveDst)
+                        
+                        return [reserveDst, url]
                     }
+                    
+                    return [dst, url]
                 }
             #else
                 try FileManager.default.removeItem(at: url)
@@ -142,8 +148,10 @@ public class Note: NSObject {
             }
         } catch let error as NSError {
             print("Remove went wrong: \(error)")
-            return
+            return nil
         }
+        
+        return nil
     }
     
     private func getTrashURL() -> URL? {
@@ -496,11 +504,11 @@ public class Note: NSObject {
         
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
     }
-    #endif
     
     public func addTag(_ name: String) {
         guard !tagNames.contains(name) else { return }
         tagNames.append(name)
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
+    #endif
 }

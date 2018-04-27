@@ -208,10 +208,11 @@ class ViewController: UIViewController, UISearchBarDelegate {
                         let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
                         
                         let documents = UserDefaultsManagement.documentDirectory
-                        let to = documents.appendingPathComponent(conflictName)
                         
                         do {
-                            try FileManager.default.copyItem(at: conflict.url, to: to)
+                            if let to = documents?.appendingPathComponent(conflictName) {
+                                try FileManager.default.copyItem(at: conflict.url, to: to)
+                            }
                         } catch {
                             print(error)
                         }

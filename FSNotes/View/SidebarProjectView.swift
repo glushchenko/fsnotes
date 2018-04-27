@@ -22,7 +22,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             return true
         }
         
-        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isDefault, !["Add", "Reveal in Finder"].contains(menuItem.title) {
+        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isDefault, !["New folder", "Reveal folder"].contains(menuItem.title) {
             return false
         }
         
@@ -84,8 +84,8 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return true
             }
             break
-        case .Label, .Category:
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet, let project = sidebarItem.project {
+        case .Label, .Category, .Trash:
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 let vc = getViewController()
                 
                 var notes = [Note]()
@@ -94,7 +94,19 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                     notes.append(note)
                 }
                 
-                vc.move(notes: notes, project: project)
+                if let project = sidebarItem.project {
+                    vc.move(notes: notes, project: project)
+                }
+                
+                if sidebarItem.isTrash() {
+                    vc.editArea.clear()
+                    vc.storage.removeNotes(notes: notes) { _ in
+                        vc.storageOutlineView.reloadSidebar()
+                        DispatchQueue.main.async {
+                            vc.notesTableView.removeByNotes(notes: notes)
+                        }
+                    }
+                }
                 
                 return true
             }
@@ -126,7 +138,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         let board = info.draggingPasteboard()
 
         switch sidebarItem.type {
-        case .Tag:
+        case .Tag, .Trash:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
                 return .copy
             }
@@ -258,18 +270,18 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             
             if let p = sidebarItem.project, p.isDefault {
                 for item in menu.items {
-                    if !["Add", "Reveal in Finder"].contains(item.title) {
+                    if !["New folder", "Reveal folder"].contains(item.title) {
                         item.isHidden = true
+                    } else {
+                        item.isHidden = false
                     }
                 }
                 return
             }
 
-            if ["Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil {
+            if (["Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil) || sidebarItem.type == .Tag || sidebarItem.name == "# Tags" {
                 for item in menu.items {
-                    if item.title != "Add" {
-                        item.isHidden = true
-                    }
+                    item.isHidden = true
                 }
                 return
             }

@@ -257,7 +257,7 @@ class ViewController: NSViewController,
             if event.fileRemoved {
                 guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
                 
-                self.storage.removeNotes(notes: [note], fsRemove: false) {
+                self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
                     DispatchQueue.main.async {
                         self.notesTableView.removeByNotes(notes: [note])
                     }
@@ -278,7 +278,7 @@ class ViewController: NSViewController,
                         
                         print("FSWatcher remove note: \"\(unwrappedNote.name)\"")
                         
-                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: false) {
+                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: false) { _ in
                             DispatchQueue.main.async {
                                 self.notesTableView.removeByNotes(notes: [unwrappedNote])
                             }
@@ -642,13 +642,19 @@ class ViewController: NSViewController,
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         vc.renameNote(selectedRow: vc.notesTableView.clickedRow)
     }
-    
+        
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
 
-        vc.deleteNotes(vc.notesTableView.selectedRowIndexes)
+        vc.deleteNotes(vc.notesTableView.selectedRowIndexes) { urls in
+            if let appd = NSApplication.shared.delegate as? AppDelegate, let md = appd.mainWindowController {
+                let undoManager = md.notesListUndoManager
+                undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
+                undoManager.setActionName("Delete")
+            }
+        }
     }
-    
+        
     var alert: NSAlert?
     @IBAction func tagNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
@@ -1039,8 +1045,9 @@ class ViewController: NSViewController,
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
     }
     
-    func deleteNotes(_ selectedRows: IndexSet) {
+    func deleteNotes(_ selectedRows: IndexSet, completion: @escaping ([URL: URL]?) -> ()) {
         guard let notes = notesTableView.getSelectedNotes() else {
+            completion(nil)
             return
         }
         
@@ -1059,19 +1066,32 @@ class ViewController: NSViewController,
         
         if isTrash {
             alert.informativeText = "This action cannot be undone."
-        }
-        
-        alert.addButton(withTitle: "Remove note(s)")
-        alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                self.editArea.clear()
-                self.storage.removeNotes(notes: notes) {
-                    self.storageOutlineView.reloadSidebar()
-                    DispatchQueue.main.async {
-                        self.notesTableView.removeByNotes(notes: notes)
+            
+            alert.addButton(withTitle: "Remove note(s)")
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    self.editArea.clear()
+                    self.storage.removeNotes(notes: notes) { _ in
+                        self.storageOutlineView.reloadSidebar()
+                        DispatchQueue.main.async {
+                            self.notesTableView.removeByNotes(notes: notes)
+                        }
                     }
                 }
+            }
+            
+            completion(nil)
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.editArea.clear()
+            self.notesTableView.removeByNotes(notes: notes)
+            
+            self.storage.removeNotes(notes: notes) { removed in
+                completion(removed)
+                self.storageOutlineView.reloadSidebar()
             }
         }
     }

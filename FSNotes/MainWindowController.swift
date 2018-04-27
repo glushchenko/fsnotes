@@ -9,8 +9,10 @@
 import AppKit
 
 
-class MainWindowController: NSWindowController,
-NSWindowDelegate {
+class MainWindowController: NSWindowController, NSWindowDelegate {
+    let notesListUndoManager = UndoManager()
+    var editorUndoManager = UndoManager()
+    
     override func windowDidLoad() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
@@ -35,5 +37,19 @@ NSWindowDelegate {
     func refreshEditArea() {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
         controller?.focusEditArea()
+    }
+    
+    func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
+        guard let fr = window.firstResponder else { return nil }
+        
+        if fr.isKind(of: NotesTableView.self) {
+            return notesListUndoManager
+        }
+        
+        if fr.isKind(of: EditTextView.self) {
+            return editorUndoManager
+        }
+        
+        return nil
     }
 }

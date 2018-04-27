@@ -138,25 +138,25 @@ CA
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Add" keyEquivalent="N" id="SrH-fe-Hog">
+                                        <menuItem title="New folder" keyEquivalent="N" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="R" id="Tap-iY-hyA">
+                                        <menuItem title="Rename folder" keyEquivalent="R" id="Tap-iY-hyA">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
                                                 <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="F5A-zs-zwP">
+                                        <menuItem title="Reveal folder" keyEquivalent="R" id="F5A-zs-zwP">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete" id="RuM-sf-kcZ">
+                                        <menuItem title="Delete folder" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -1430,25 +1430,25 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Add" keyEquivalent="N" id="3zv-SD-lSX">
+                        <menuItem title="New folder" keyEquivalent="N" id="3zv-SD-lSX">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename" keyEquivalent="R" id="fzU-ZR-Ubv">
+                        <menuItem title="Rename folder" keyEquivalent="R" id="fzU-ZR-Ubv">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="renameMenu:" target="urA-eK-bWB" id="Jh4-4H-wc0"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Reveal In Finder" keyEquivalent="R" id="goN-LO-L7l">
+                        <menuItem title="Reveal folder" keyEquivalent="R" id="goN-LO-L7l">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
                                 <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete" id="RwR-P0-ycK">
+                        <menuItem title="Delete folder" id="RwR-P0-ycK">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>

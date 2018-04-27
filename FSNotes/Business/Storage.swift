@@ -503,24 +503,34 @@ class Storage {
         }
     }
     
-    func removeNotes(notes: [Note], fsRemove: Bool = true, completion: @escaping () -> Void) {
+    func removeNotes(notes: [Note], fsRemove: Bool = true, completion: @escaping ([URL: URL]?) -> ()) {
         guard notes.count > 0 else {
-            completion()
+            completion(nil)
             return
         }
         
         for note in notes {
-            note.saveTags("")
+            #if os(OSX)
+                note.saveTags("")
+            #endif
             removeBy(note: note)
         }
         
+        var removed = [URL: URL]()
+        
         if fsRemove {
             for note in notes {
-                note.removeFile()
+                if let trashURLs = note.removeFile() {
+                    removed[trashURLs[0]] = trashURLs[1]
+                }
             }
         }
         
-        completion()
+        if removed.count > 0 {
+            completion(removed)
+        } else {
+            completion(nil)
+        }
     }
         
     func getSubFolders(url: URL) -> [NSURL]? {

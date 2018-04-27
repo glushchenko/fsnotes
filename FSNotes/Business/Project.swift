@@ -71,6 +71,6 @@ class Project: Equatable {
             return label
         }
         
-        return "\(getParent().getFullLabel()) -> \(label)"
+        return "\(getParent().getFullLabel()) › \(label)"
     }
 }
