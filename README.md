@@ -21,7 +21,7 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 - synchronization over iCloud Drive / Dropbox
 - multi folder storage
 - fast copy markdown code to clipboard
-- live markdown highligting with code blocks (over 170 languages)
+- live markdown highlighting with code blocks (over 170 languages)
 - themes for code highlighting
 - markdown images preview in editor
 - images drag and drop
