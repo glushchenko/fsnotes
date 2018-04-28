@@ -72,8 +72,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                 viewController.focusEditArea(firstResponder: nil)
             }
-            
-            UserDataService.instance.searchTrigger = false
         } else {
             viewController.editArea.clear()
         }

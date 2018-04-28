@@ -40,13 +40,17 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     }
     
     func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
-        guard let fr = window.firstResponder else { return nil }
+        guard let fr = window.firstResponder else {
+            return notesListUndoManager
+        }
         
         if fr.isKind(of: NotesTableView.self) {
             return notesListUndoManager
         }
         
         if fr.isKind(of: EditTextView.self) {
+            guard let vc = NSApp.windows[0].contentViewController as? ViewController, let ev = vc.editArea, ev.isEditable else { return notesListUndoManager }
+            
             return editorUndoManager
         }
         

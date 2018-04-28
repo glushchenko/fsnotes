@@ -132,6 +132,10 @@ class ViewController: NSViewController,
         if let title = menuItem.menu?.title {
             switch title {
             case "File":
+                if let resp = NSApp.windows[0].firstResponder, resp.isKind(of: EditTextView.self), menuItem.title == "Delete" {
+                    return false
+                }
+                
                 if ["New", "New RTF", "Search and create"].contains(menuItem.title) {
                     return true
                 }
@@ -408,12 +412,11 @@ class ViewController: NSViewController,
             
             let selected = self.notesTableView.selectedRow
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
-                if let note = self.notesTableView.getSelectedNote(){
+                if let note = self.notesTableView.getSelectedNote() {
                     self.editArea.fill(note: note)
+                    self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
                 }
             }
-            
-            self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
         }
     }
         
@@ -650,11 +653,14 @@ class ViewController: NSViewController,
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
 
+        UserDataService.instance.searchTrigger = true
         vc.deleteNotes(vc.notesTableView.selectedRowIndexes) { urls in
             if let appd = NSApplication.shared.delegate as? AppDelegate, let md = appd.mainWindowController {
                 let undoManager = md.notesListUndoManager
                 undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
                 undoManager.setActionName("Delete")
+                vc.search.becomeFirstResponder()
+                UserDataService.instance.searchTrigger = false
             }
         }
     }
@@ -774,7 +780,9 @@ class ViewController: NSViewController,
         filterQueue.cancelAllOperations()
         filterQueue.addOperation {
             DispatchQueue.main.async {
-                self.updateTable(search: true) {}
+                self.updateTable(search: true) {
+                    UserDataService.instance.searchTrigger = false
+                }
             }
         }
     }
@@ -1090,8 +1098,8 @@ class ViewController: NSViewController,
         }
         
         DispatchQueue.main.async {
-            self.editArea.clear()
             self.notesTableView.removeByNotes(notes: notes)
+            self.editArea.clear()
             
             self.storage.removeNotes(notes: notes) { removed in
                 completion(removed)
