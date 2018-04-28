@@ -445,16 +445,15 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="p1N-Ks-tWf"/>
-                                        <menuItem title="Image" keyEquivalent="I" id="yx6-SW-3vn">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                        <menuItem title="Link" keyEquivalent="i" id="xfW-7n-cIw">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="tlM-Xg-RXe"/>
+                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="Px2-d1-in0"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Link" keyEquivalent="J" id="xfW-7n-cIw">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
+                                        <menuItem title="Image" keyEquivalent="I" id="yx6-SW-3vn">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="vu1-vi-Zhn"/>
+                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="brX-3N-WEO"/>
                                             </connections>
                                         </menuItem>
                                     </items>

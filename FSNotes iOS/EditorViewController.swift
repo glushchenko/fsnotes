@@ -306,7 +306,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func headerPressed() {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
-            formatter.header()
+            formatter.header("#")
         }
     }
     

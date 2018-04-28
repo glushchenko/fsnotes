@@ -57,16 +57,22 @@ class EditTextView: NSTextView {
         return nil
     }
     
-    @IBAction func editorMenuItem(_ sender: Any) {
+    @IBAction func editorMenuItem(_ sender: NSMenuItem) {
+        if sender.title == "Image" {
+            sender.keyEquivalentModifierMask = [.shift, .command]
+        }
+
         let keyEquivalent = (sender as AnyObject).keyEquivalent.lowercased()
+        let dict = [
+            "b": kVK_ANSI_B, "i": kVK_ANSI_I, "j": kVK_ANSI_J, "y": kVK_ANSI_Y,
+            "u": kVK_ANSI_U, "1": kVK_ANSI_1, "2": kVK_ANSI_2, "3": kVK_ANSI_3,
+            "4": kVK_ANSI_4, "5": kVK_ANSI_5, "6": kVK_ANSI_6] as [String: Int]
         
-        let dict = ["b": kVK_ANSI_B, "i": kVK_ANSI_I, "j": kVK_ANSI_J, "y": kVK_ANSI_Y, "u": kVK_ANSI_U, "1": kVK_ANSI_1, "2": kVK_ANSI_2, "3": kVK_ANSI_3, "4": kVK_ANSI_4, "5": kVK_ANSI_5, "6": kVK_ANSI_6] as [String: Int]
-        
-        if (dict[keyEquivalent] != nil) {
-            let keyCode = UInt16(dict[keyEquivalent]!)
-            let modifier = (sender as AnyObject).keyEquivalentModifierMask == NSEvent.ModifierFlags.control ? 393475 : 0
+        if let key = dict[keyEquivalent] {
+            let keyCode = UInt16(key)
+            guard let modifier = (sender as AnyObject).keyEquivalentModifierMask else { return }
             
-            _ = formatShortcut(keyCode: keyCode, modifier: UInt(modifier))
+            _ = formatShortcut(keyCode: keyCode, modifier: modifier)
         }
     }
     
@@ -87,15 +93,14 @@ class EditTextView: NSTextView {
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        //return super.performKeyEquivalent(with: event)
         /* Skip command-shift-b conflicted with cmd-b */
-        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.keyCode == 11 {
+        if
+            event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.shift)
+            && event.keyCode == kVK_ANSI_B {
+            
             return super.performKeyEquivalent(with: event)
-        }
-        
-        if (event.modifierFlags.contains(.command) || event.modifierFlags.rawValue == 393475) {
-            if (formatShortcut(keyCode: event.keyCode, modifier: event.modifierFlags.rawValue as UInt)) {
-                return true
-            }
         }
         
         return super.performKeyEquivalent(with: event)
@@ -222,83 +227,40 @@ class EditTextView: NSTextView {
         viewController.titleLabel.stringValue = "FSNotes"
     }
     
-    func formatShortcut(keyCode: UInt16, modifier: UInt = 0) -> Bool {
-        let mainWindow = NSApplication.shared.windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        let editArea = viewController.editArea!
-        
-        guard let note = getSelectedNote(), !UserDefaultsManagement.preview else {
-            return false
-        }
-        
-        if (!editArea.isEditable) {
-            return false
-        }
+    func formatShortcut(keyCode: UInt16, modifier: NSEvent.ModifierFlags) -> Bool {
+        guard
+            let mainWindow = NSApplication.shared.windows.first,
+            let vc = mainWindow.contentViewController as? ViewController,
+            let editArea = vc.editArea,
+            let note = getSelectedNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable else { return false }
 
-        let text = editArea.textStorage!.string as NSString
-        let range = editArea.selectedRange()
-        let selectedText = text.substring(with: range) as NSString
-        
-        let attributedSelected = editArea.attributedSubstring(forProposedRange: range, actualRange: nil)
-        var attributedText = NSMutableAttributedString()
-        
-        if (attributedSelected == nil) {
-           attributedText.addAttributes([.font: UserDefaultsManagement.noteFont], range: NSMakeRange(0, selectedText.length))
-        } else {
-            attributedText = NSMutableAttributedString(attributedString: attributedSelected!)
-        }
-        
-        if typingAttributes[.font] == nil {
-            typingAttributes[.font] = UserDefaultsManagement.noteFont
-        }
+        let formatter = TextFormatter(textView: editArea, note: note)
         
         switch keyCode {
         case 11: // cmd-b
-            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.bold()
             return true
-        case 34:
-            // control-shift-i
-            if (note.type == .Markdown && modifier == 393475) {
-                attributedText.mutableString.setString("![](" + attributedText.string + ")")
-                break
+        case 34: // command-shift-i (image) | command-option-i (link) | command-i
+            if (note.type == .Markdown && modifier.contains([.command, .shift])) {
+                formatter.image()
+                return true
+            }
+            
+            if (note.type == .Markdown && modifier.contains([.command, .option])) { //
+                formatter.link()
+                return true
             }
         
-            // cmd-i
-            let formatter = TextFormatter(textView: editArea, note: note)
             formatter.italic()
             return true
         case 32: // cmd-u
-            if note.type == .RichText {
-                if (selectedText.length > 0) {
-                    attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: NSMakeRange(0, selectedText.length))
-                }
-                
-                if (typingAttributes[.underlineStyle] == nil) {
-                    attributedText.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: NSMakeRange(0, selectedText.length))
-                    typingAttributes[.underlineStyle] = 1
-                } else {
-                    typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
-                }
-            }
-            break
+            formatter.underline()
+            return true
         case 16: // cmd-y
-            if note.type == .RichText {
-                if (selectedText.length > 0) {
-                    attributedText.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: NSMakeRange(0, selectedText.length))
-                }
-                
-                if (typingAttributes[.strikethroughStyle] == nil) {
-                    attributedText.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: NSMakeRange(0, selectedText.length))
-                    typingAttributes[.strikethroughStyle] = 2
-                } else {
-                    typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
-                }
-            }
-            
-            if note.type == .Markdown {
-                attributedText.mutableString.setString("~~" + attributedText.string + "~~")
-            }
+            formatter.strike()
+            return true
         case (18...23): // cmd-1/6 (headers 1/6)
             if note.type == .Markdown {
                 var string = ""
@@ -312,37 +274,14 @@ class EditTextView: NSTextView {
                     offset = offset + 1
                 }
                 
-                attributedText.mutableString.setString(string + " " + attributedText.string)
+                formatter.header(string)
+                return true
             }
-            break
-        case 38: // control-shift-j (link)
-            if (note.type == .Markdown && modifier == 393475) {
-                attributedText.mutableString.setString("[](" + attributedText.string + ")")
-            }
-            break
+            
+            return false
         default:
             return false
         }
-        
-        editArea.textStorage!.replaceCharacters(in: range, with: attributedText)
-        
-        if note.type == .RichText {
-            editArea.setSelectedRange(range)
-            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save()
-            return true
-        }
-
-        if note.type == .Markdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.scanMarkdownSyntax(editArea.textStorage!, paragraphRange: paragraphRange, note: note)
-            
-            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save()
-            
-            return true
-        }
-        
-        return false
     }
     
     func getParagraphRange() -> NSRange? {

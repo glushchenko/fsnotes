@@ -426,7 +426,7 @@ class ViewController: NSViewController,
         }
         
         // Focus search bar on ESC
-        if (event.keyCode == 53) {
+        if (event.keyCode == kVK_Escape) {
             if let a = alert {
                 NSApp.windows[0].endSheet(a.window)
                 return
@@ -438,13 +438,13 @@ class ViewController: NSViewController,
         }
         
         // Focus search field shortcut (cmd-L)
-        if (event.keyCode == 37 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == kVK_ANSI_L && event.modifierFlags.contains(.command)) {
             search.becomeFirstResponder()
         }
         
         // Note edit mode and select file name (cmd-r)
         if (
-            event.keyCode == 15
+            event.keyCode == kVK_ANSI_R
             && event.modifierFlags.contains(.command)
             && !event.modifierFlags.contains(.shift)
         ) {
@@ -453,7 +453,7 @@ class ViewController: NSViewController,
         
         // Make note shortcut (cmd-n)
         if (
-            event.keyCode == 45
+            event.keyCode == kVK_ANSI_N
             && event.modifierFlags.contains(.command)
             && !event.modifierFlags.contains(.shift)
         ) {
@@ -462,7 +462,7 @@ class ViewController: NSViewController,
         
         // Make note shortcut (cmd-n)
         if (
-            event.keyCode == 45
+            event.keyCode == kVK_ANSI_N
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
@@ -470,23 +470,27 @@ class ViewController: NSViewController,
         }
         
         // Pin note shortcut (cmd-8)
-        if (event.keyCode == 28 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == kVK_ANSI_8 && event.modifierFlags.contains(.command)) {
             pin(notesTableView.selectedRowIndexes)
         }
         
         // Next note (cmd-j)
-        if (event.keyCode == 38 && event.modifierFlags.contains(.command)) {
+        if (
+            event.keyCode == kVK_ANSI_J
+            && event.modifierFlags.contains([.command])
+            && !event.modifierFlags.contains(.option)
+        ) {
             notesTableView.selectNext()
         }
         
         // Prev note (cmd-k)
-        if (event.keyCode == 40 && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
             notesTableView.selectPrev()
         }
                 
         // Open in external editor (cmd-control-e)
         if (
-            event.keyCode == 14
+            event.keyCode == kVK_ANSI_E
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.control)
         ) {
@@ -495,7 +499,7 @@ class ViewController: NSViewController,
         
         // Open in finder (cmd-shift-r)
         if (
-            event.keyCode == 15
+            event.keyCode == kVK_ANSI_R
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
@@ -503,7 +507,7 @@ class ViewController: NSViewController,
         }
         
         // Toggle sidebar cmd+shift+control+b
-        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == 11 {
+        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
         }
     }
