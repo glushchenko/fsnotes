@@ -28,6 +28,16 @@
                                                 <segue destination="Ozi-at-KZg" kind="show" id="CVH-KN-olw"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="KF2-I2-ZON"/>
+                                        <menuItem title="Empty Trash" id="G9H-Lg-TXE">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="emptyTrash:" target="L4m-js-agn" id="d27-Z5-1ap"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -685,7 +695,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BIH-5M-4PT">
-                                                    <rect key="frame" x="20" y="105" width="394" height="5"/>
+                                                    <rect key="frame" x="20" y="105" width="394" height="4"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4Kr-dW-0Jm">

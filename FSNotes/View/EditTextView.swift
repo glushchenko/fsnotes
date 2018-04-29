@@ -37,6 +37,22 @@ class EditTextView: NSTextView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
+    
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        guard let note = EditTextView.note else { return false }
+        
+        if note.isRTF() {
+            let disableRTF = [
+                "Header 1", "Header 2", "Header 3", "Header 4", "Header 5",
+                "Header 6", "Link", "Image", "Toggle preview"
+            ]
+            
+            return !disableRTF.contains(menuItem.title)
+        } else {
+            let disable = ["Underline", "Strikethrough"]
+            return !disable.contains(menuItem.title)
+        }
+    }
 
     override func mouseMoved(with event: NSEvent) {
         if UserDefaultsManagement.preview {

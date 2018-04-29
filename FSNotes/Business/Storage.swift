@@ -575,4 +575,11 @@ class Storage {
             }
         }
     }
+    
+    public func getAllTrash() -> [Note] {
+        return
+            noteList.filter {
+                $0.isTrash()
+            }
+    }
 }

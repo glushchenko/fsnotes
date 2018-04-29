@@ -49,7 +49,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        return false
+        return true
     }
         
     // Custom note highlight style

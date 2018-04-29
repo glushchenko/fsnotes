@@ -131,9 +131,19 @@ class ViewController: NSViewController,
         
         if let title = menuItem.menu?.title {
             switch title {
+            case "FSNotes":
+                if menuItem.title == "Empty Trash" {
+                    menuItem.keyEquivalentModifierMask = UserDefaultsManagement.focusInEditorOnNoteSelect
+                            ? [.command, .option, .shift]
+                            : [.command, .shift]
+                    return true
+                }
             case "File":
-                if let resp = NSApp.windows[0].firstResponder, resp.isKind(of: EditTextView.self), menuItem.title == "Delete" {
-                    return false
+                if menuItem.title == "Delete" {
+                    menuItem.keyEquivalentModifierMask =
+                        UserDefaultsManagement.focusInEditorOnNoteSelect
+                            ? [.command, .option]
+                            : [.command]
                 }
                 
                 if ["New", "New RTF", "Search and create"].contains(menuItem.title) {
@@ -740,6 +750,15 @@ class ViewController: NSViewController,
             UserDefaultsManagement.realSidebarSize = size
             vc.searchTopConstraint.constant = CGFloat(8)
         }
+    }
+    
+    @IBAction func emptyTrash(_ sender: NSMenuItem) {
+        let notes = storage.getAllTrash()
+        for note in notes {
+            _ = note.removeFile()
+        }
+        
+        NSSound(named: NSSound.Name(rawValue: "Pop"))?.play()
     }
     
     var timer = Timer()
