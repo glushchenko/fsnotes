@@ -665,15 +665,53 @@ class ViewController: NSViewController,
         
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-
+        guard let notes = vc.notesTableView.getSelectedNotes() else {
+            return
+        }
+        
+        var isTrash = false
+        if let sidebarItem = vc.getSidebarItem() {
+            isTrash = sidebarItem.isTrash()
+        }
+        
+        if isTrash {
+            let alert = NSAlert.init()
+            alert.messageText = "Are you sure you want to irretrievably delete \(notes.count) note(s)?"
+            alert.informativeText = "This action cannot be undone."
+            alert.addButton(withTitle: "Remove note(s)")
+            alert.addButton(withTitle: "Cancel")
+            alert.beginSheetModal(for: vc.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    vc.editArea.clear()
+                    vc.storage.removeNotes(notes: notes) { _ in
+                        vc.storageOutlineView.reloadSidebar()
+                        DispatchQueue.main.async {
+                            vc.notesTableView.removeByNotes(notes: notes)
+                        }
+                    }
+                }
+            }
+            
+            return
+        }
+        
         UserDataService.instance.searchTrigger = true
-        vc.deleteNotes(vc.notesTableView.selectedRowIndexes) { urls in
-            if let appd = NSApplication.shared.delegate as? AppDelegate, let md = appd.mainWindowController {
-                let undoManager = md.notesListUndoManager
-                undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
-                undoManager.setActionName("Delete")
-                vc.search.becomeFirstResponder()
-                UserDataService.instance.searchTrigger = false
+        vc.editArea.clear()
+        vc.storage.removeNotes(notes: notes) { urls in
+            vc.storageOutlineView.reloadSidebar()
+            DispatchQueue.main.async {
+                vc.notesTableView.removeByNotes(notes: notes)
+                
+                if
+                    let appd = NSApplication.shared.delegate as? AppDelegate,
+                    let md = appd.mainWindowController {
+                    
+                    let undoManager = md.notesListUndoManager
+                    undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
+                    undoManager.setActionName("Delete")
+                    vc.search.becomeFirstResponder()
+                    UserDataService.instance.searchTrigger = false
+                }
             }
         }
     }
@@ -1086,57 +1124,6 @@ class ViewController: NSViewController,
         let fileNameLength = fileName.length
         
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
-    }
-    
-    func deleteNotes(_ selectedRows: IndexSet, completion: @escaping ([URL: URL]?) -> ()) {
-        guard let notes = notesTableView.getSelectedNotes() else {
-            completion(nil)
-            return
-        }
-        
-        var isTrash = false
-        if let sidebarItem = getSidebarItem() {
-            isTrash = sidebarItem.isTrash()
-        }
-        
-        let messageText =
-            isTrash
-                ? "Are you sure you want to irretrievably delete \(notes.count) note(s)?"
-                : "Are you sure you want to move \(notes.count) note(s) to the trash?"
-        
-        let alert = NSAlert.init()
-        alert.messageText = messageText
-        
-        if isTrash {
-            alert.informativeText = "This action cannot be undone."
-            
-            alert.addButton(withTitle: "Remove note(s)")
-            alert.addButton(withTitle: "Cancel")
-            alert.beginSheetModal(for: self.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
-                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                    self.editArea.clear()
-                    self.storage.removeNotes(notes: notes) { _ in
-                        self.storageOutlineView.reloadSidebar()
-                        DispatchQueue.main.async {
-                            self.notesTableView.removeByNotes(notes: notes)
-                        }
-                    }
-                }
-            }
-            
-            completion(nil)
-            return
-        }
-        
-        DispatchQueue.main.async {
-            self.notesTableView.removeByNotes(notes: notes)
-            self.editArea.clear()
-            
-            self.storage.removeNotes(notes: notes) { removed in
-                completion(removed)
-                self.storageOutlineView.reloadSidebar()
-            }
-        }
     }
     
     func finder(selectedRow: Int) {
