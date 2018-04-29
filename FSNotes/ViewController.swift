@@ -212,7 +212,7 @@ class ViewController: NSViewController,
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = "Hmm, something goes wrong 🙈"
-                alert.informativeText = "Note with name \(note.name) already exist in selected storage."
+                alert.informativeText = "Note with name \"\(note.name)\" already exists in selected storage."
                 alert.runModal()
                 note.project = prevProject
             }
@@ -584,7 +584,7 @@ class ViewController: NSViewController,
         if let itemStorage = note.project, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
             let alert = NSAlert()
             alert.messageText = "Hmm, something goes wrong 🙈"
-            alert.informativeText = "Note with name \(value) already exist in selected storage."
+            alert.informativeText = "Note with name \"\(value)\" already exists in selected storage."
             alert.runModal()
             
             note.parseURL()
@@ -773,6 +773,8 @@ class ViewController: NSViewController,
         UserDataService.instance.fsUpdatesDisabled = false
     }
     
+    var searchTimer = Timer()
+    
     // Changed search field
     override func controlTextDidChange(_ obj: Notification) {
         UserDataService.instance.searchTrigger = true
@@ -781,10 +783,20 @@ class ViewController: NSViewController,
         filterQueue.addOperation {
             DispatchQueue.main.async {
                 self.updateTable(search: true) {
-                    UserDataService.instance.searchTrigger = false
+                    if UserDefaultsManagement.focusInEditorOnNoteSelect {
+                        self.searchTimer.invalidate()
+                        self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
+                    } else {
+                        UserDataService.instance.searchTrigger = false
+                    }
                 }
             }
         }
+    }
+    
+    @objc func onEndSearch() {
+        UserDataService.instance.searchTrigger = false
+        print("end search")
     }
     
     var filterQueue = OperationQueue.init()
