@@ -78,12 +78,16 @@ class ViewController: NSViewController,
         if storage.noteList.count == 0 {
             storage.loadDocuments()
             updateTable() {
-                
                 if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = self.storage.getBy(url: url), let i = self.notesTableView.getIndex(lastNote) {
                     self.notesTableView.selectRow(i)
                     self.notesTableView.scrollRowToVisible(i)
                 } else if self.notesTableView.noteList.count > 0 {
                     self.focusTable()
+                }
+                
+                let lastSidebarItem = UserDefaultsManagement.lastProject
+                if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
+                    self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
                 }
             }
         }
@@ -123,7 +127,6 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             keyValueWatcher()
         #endif
-        
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

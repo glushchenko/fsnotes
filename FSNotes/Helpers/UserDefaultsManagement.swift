@@ -47,6 +47,7 @@ public class UserDefaultsManagement {
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HidePreviewKey = "hidePreview"
         static let LastSelectedPath = "lastSelectedPath"
+        static let LastProject = "lastProject"
         static let LiveImagesPreview = "liveImagesPreview"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
@@ -566,6 +567,19 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.AutocloseBrackets)
+        }
+    }
+    
+    static var lastProject: Int {
+        get {
+            if let lastProject = UserDefaults.standard.object(forKey: Constants.LastProject) {
+                return lastProject as! Int
+            } else {
+                return 0
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.LastProject)
         }
     }
     

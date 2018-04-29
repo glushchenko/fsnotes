@@ -257,6 +257,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                         
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
+                UserDefaultsManagement.lastProject = i
                 vd.prevQuery = nil
                 vd.updateTable() {}
             }
