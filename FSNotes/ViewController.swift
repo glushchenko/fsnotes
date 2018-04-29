@@ -796,7 +796,6 @@ class ViewController: NSViewController,
     
     @objc func onEndSearch() {
         UserDataService.instance.searchTrigger = false
-        print("end search")
     }
     
     var filterQueue = OperationQueue.init()
@@ -832,8 +831,8 @@ class ViewController: NSViewController,
     
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.stringValue
-        
         var sidebarName = ""
+        
         if let sidebarItem = getSidebarItem() {
             sidebarName = sidebarItem.name
         }
@@ -847,7 +846,7 @@ class ViewController: NSViewController,
         
         let searchTermsArray = filter.split(separator: " ")
         var source = storage.noteList
-        
+       
         if let query = prevQuery, filter.range(of: query) != nil, let unwrappedList = filteredNoteList {
             source = unwrappedList
         } else {
@@ -866,12 +865,10 @@ class ViewController: NSViewController,
                     ) && (
                         type == .Trash && $0.isTrash()
                         || type == .All && !$0.isTrash()
-                        || (
-                            (type == .Category || type == .Label)
-                            && project != nil && $0.project == project
-                        ) || type == nil && project == nil && !$0.isTrash()
-                        || project != nil && project!.isRoot && $0.project?.parent == project
                         || type == .Tag && $0.tagNames.contains(sidebarName)
+                        || [.Category, .Label].contains(type) && project != nil && $0.project == project
+                        || type == nil && project == nil && !$0.isTrash()
+                        || project != nil && project!.isRoot && $0.project?.parent == project
                     )
                 )
             }

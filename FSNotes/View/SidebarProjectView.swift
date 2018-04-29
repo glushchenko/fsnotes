@@ -252,10 +252,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     func outlineViewSelectionDidChange(_ notification: Notification) {
         if let view = notification.object as? NSOutlineView {
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
+            
             vd.editArea.clear()
                         
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
+                vd.prevQuery = nil
                 vd.updateTable() {}
             }
         }
