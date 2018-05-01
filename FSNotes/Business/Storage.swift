@@ -74,6 +74,10 @@ class Storage {
     private func chechSub(url: URL, parent: Project) {
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
+                if projects.count > 100 {
+                    return
+                }
+                
                 let surl = subFolder as URL
                 
                 guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash"),
@@ -538,7 +542,9 @@ class Storage {
         
         var subdirs = [NSURL]()
         
+        var i = 0
         while let url = fileEnumerator.nextObject() as? NSURL {
+            i = i + 1
             do {
                 var resourceValue: AnyObject?
                 try url.getResourceValue(&resourceValue, forKey: URLResourceKey.isDirectoryKey)
@@ -548,6 +554,10 @@ class Storage {
             }
             catch let error as NSError {
                 print("Error: ", error.localizedDescription)
+            }
+            
+            if i > 50000 {
+                break
             }
         }
         
