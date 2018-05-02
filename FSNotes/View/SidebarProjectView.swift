@@ -16,6 +16,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     var viewDelegate: ViewController? = nil
     
     private var storage = Storage.sharedInstance()
+    private var isFirstLaunch = true
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.title == "Attach storage" {
@@ -259,7 +260,17 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             if sidebar.indices.contains(i) {
                 UserDefaultsManagement.lastProject = i
                 vd.prevQuery = nil
-                vd.updateTable() {}
+                vd.updateTable() {
+                    if self.isFirstLaunch {
+                        if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = vd.storage.getBy(url: url), let i = vd.notesTableView.getIndex(lastNote) {
+                            vd.notesTableView.selectRow(i)
+                            vd.notesTableView.scrollRowToVisible(i)
+                        } else if vd.notesTableView.noteList.count > 0 {
+                            vd.focusTable()
+                        }
+                        self.isFirstLaunch = false
+                    }
+                }
             }
         }
     }
