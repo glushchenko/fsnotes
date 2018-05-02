@@ -806,6 +806,20 @@ class ViewController: NSViewController,
         NSSound(named: NSSound.Name(rawValue: "Pop"))?.play()
     }
     
+    @IBAction func printNotes(_ sender: NSMenuItem) {
+        let pv = NSTextView(frame: editArea.frame)
+        if editArea.isRichText {
+            if let data = editArea.rtf(from: NSMakeRange(0, (editArea.string as NSString).length)) {
+                pv.replaceCharacters(in: NSMakeRange(0, 0), withRTF: data)
+                pv.textColor = .black
+            }
+        } else {
+            pv.string = editArea.string
+        }
+        
+        pv.printView(nil)
+    }
+    
     var timer = Timer()
     
     // Changed main edit view

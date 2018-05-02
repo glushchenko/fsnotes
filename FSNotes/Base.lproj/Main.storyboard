@@ -135,6 +135,12 @@ CA
                                                 <action selector="moveMenu:" target="L4m-js-agn" id="CDY-Sr-IPD"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="d6q-jI-8MY"/>
+                                        <menuItem title="Print" keyEquivalent="p" id="OV0-om-POJ">
+                                            <connections>
+                                                <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -695,7 +701,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BIH-5M-4PT">
-                                                    <rect key="frame" x="20" y="105" width="394" height="4"/>
+                                                    <rect key="frame" x="20" y="105" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4Kr-dW-0Jm">
