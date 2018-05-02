@@ -337,6 +337,7 @@ class ViewController: NSViewController,
         startFileWatcher()
     }
     
+    var sidebarTimer = Timer()
     func watcherCreateTrigger(_ url: URL) {
         let n = storage.getBy(url: url)
         
@@ -382,6 +383,9 @@ class ViewController: NSViewController,
                 note.addPin()
             }
         }
+        
+        sidebarTimer.invalidate()
+        sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
     }
     
     func checkFile(url: URL, pathList: [String]) -> Bool {

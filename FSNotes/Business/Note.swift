@@ -58,6 +58,10 @@ public class Note: NSObject {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
+        
+        if !isTrash() {
+            loadTags()
+        }
     }
         
     func reload() -> Bool {
@@ -511,4 +515,27 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
     #endif
+    
+    public func loadTags() {
+        #if os(OSX)
+            let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
+            if let tagNames = tags?.tagNames {
+                for tag in tagNames {
+                    if !self.tagNames.contains(tag) {
+                        self.tagNames.append(tag)
+                    }
+                    sharedStorage.addTag(tag)
+                }
+            }
+        #else
+            if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
+                let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
+                for tag in tags {
+                    if let tagName = tag as? String {
+                        self.tagNames.append(tagName)
+                    }
+                }
+            }
+        #endif
+    }
 }

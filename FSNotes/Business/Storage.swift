@@ -14,7 +14,7 @@ class Storage {
     
     var noteList = [Note]()
     private var projects = [Project]()
-    private var tagNames = [String]()
+    public var tagNames = [String]()
     
     var notesDict: [String: Note] = [:]
     var generalUrl: URL?
@@ -280,30 +280,8 @@ class Storage {
             let url = document.0
             let note = Note(url: url)
             note.parseURL()
+            note.loadTags()
             let name = url.pathComponents.last!
-            
-            #if os(OSX)
-                let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
-
-                if let tagNames = tags?.tagNames {
-                    for tag in tagNames {
-                        if !self.tagNames.contains(tag) {
-                            self.tagNames.append(tag)
-                        }
-                    }
-                    
-                    note.tagNames = tagNames
-                }
-            #else
-                if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
-                    let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
-                    for tag in tags {
-                        if let tagName = tag as? String {
-                            note.tagNames.append(tagName)
-                        }
-                    }
-                }
-            #endif
             
             if (url.pathComponents.count == 0) {
                 continue
@@ -515,7 +493,9 @@ class Storage {
         
         for note in notes {
             #if os(OSX)
-                note.saveTags("")
+                for tag in note.tagNames {
+                    removeTag(tag)
+                }
             #endif
             removeBy(note: note)
         }
@@ -579,7 +559,7 @@ class Storage {
     }
     
     public func removeTag(_ string: String) {
-        if noteList.filter({ $0.tagNames.contains(string) }).count == 1 {
+        if noteList.filter({ $0.tagNames.contains(string) && !$0.isTrash() }).count < 2 {
             if let i = tagNames.index(of: string) {
                 tagNames.remove(at: i)
             }

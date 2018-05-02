@@ -483,7 +483,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         return sidebarItem
     }
     
-    public func reloadSidebar() {
+    @objc public func reloadSidebar() {
         let vc = getViewController()
         vc.restartFileWatcher()
         vc.loadMoveMenu()
