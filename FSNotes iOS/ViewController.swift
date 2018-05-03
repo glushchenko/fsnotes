@@ -313,7 +313,10 @@ class ViewController: UIViewController, UISearchBarDelegate {
         }
         guard let project = storage.getProjects().first else { return }
         
+        search.text = ""
+        
         let note = Note(name: name, project: project)
+        note.initURL()
         note.save()
         
         updateList()
@@ -321,7 +324,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
         }
-        
+    
         evc.note = note
         pageController.switchToEditor()
         evc.fill(note: note)
@@ -331,6 +334,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
         guard let project = storage.getProjects().first else { return }
         
         let note = Note(name: "", project: project)
+        note.initURL()
         note.content = NSMutableAttributedString(string: content)
         note.save()
         updateList()
@@ -379,7 +383,9 @@ class ViewController: UIViewController, UISearchBarDelegate {
     
     @objc func makeNew() {
         guard let project = storage.getProjects().first else { return }
+        
         let note = Note(name: "", project: project)
+        note.initURL()
         note.save()
         updateList()
         

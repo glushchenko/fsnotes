@@ -35,18 +35,18 @@
                 if let f = value as? UIFont {
                     let familyName = UserDefaultsManagement.noteFont.familyName
                     
-                    let newFontDescriptor = f.fontDescriptor.withFamily(familyName).withSymbolicTraits(f.fontDescriptor.symbolicTraits)
-                    
-                    var newFont = UIFont(descriptor: newFontDescriptor!, size: CGFloat(UserDefaultsManagement.fontSize))
-                    
-                    if #available(iOS 11.0, *) {
-                        let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                        newFont = fontMetrics.scaledFont(for: newFont)
+                    if let newFontDescriptor = f.fontDescriptor.withFamily(familyName).withSymbolicTraits(f.fontDescriptor.symbolicTraits) {
+                        
+                        var newFont = UIFont(descriptor: newFontDescriptor, size: CGFloat(UserDefaultsManagement.fontSize))
+                        
+                        if #available(iOS 11.0, *) {
+                            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                            newFont = fontMetrics.scaledFont(for: newFont)
+                        }
+                        
+                        removeAttribute(.font, range: range)
+                        addAttribute(.font, value: newFont, range: range)
                     }
-                    
-                    removeAttribute(.font, range: range)
-                    addAttribute(.font, value: newFont, range: range)
-                
                 }
             }
             endEditing()

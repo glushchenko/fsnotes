@@ -73,7 +73,7 @@ class NotesTableView: UITableView,
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
-            self.storage.removeNotes(notes: [note]) {
+            self.storage.removeNotes(notes: [note]) {_ in 
                 DispatchQueue.main.async {
                     self.removeByNotes(notes: [note])
                 }
@@ -168,7 +168,7 @@ class NotesTableView: UITableView,
                 }
                 
                 let note = self.notes[row]
-                self.storage.removeNotes(notes: [note]) {
+                self.storage.removeNotes(notes: [note]) {_ in 
                     DispatchQueue.main.async {
                         self.removeByNotes(notes: [note])
                     }
