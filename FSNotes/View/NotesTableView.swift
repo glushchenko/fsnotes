@@ -136,10 +136,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return true
         }
         
-        if event.modifierFlags.contains(.control) {
+        if event.modifierFlags.contains(.control) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_B {
             return true
         }
         
+        if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
+            return true
+        }
+                
         if (event.keyCode == kVK_ANSI_M && event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift)) {
             return true
         }
