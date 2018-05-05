@@ -11,25 +11,27 @@ import NightNight
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
-    UITableViewDataSource,
-    UIGestureRecognizerDelegate {
+    UITableViewDataSource {
     
     var notes = [Note]()
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
     
     override func draw(_ rect: CGRect) {
+        /*
         let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressGesture.minimumPressDuration = 0.5
         longPressGesture.delegate = self
         addGestureRecognizer(longPressGesture)
+        */
+ 
         
         dataSource = self
         delegate = self
         
         super.draw(rect)
     }
-    
+        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
@@ -183,4 +185,51 @@ class NotesTableView: UITableView,
         }
     }
     
+    var sidebarWidth: CGFloat = 0
+    var width: CGFloat = 0
+    
+    @objc func handleSwipe(_ swipe: UIPanGestureRecognizer) {
+        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
+        
+        let translation = swipe.translation(in: vc.notesTable)
+        
+        if swipe.state == .began {
+            self.width = vc.notesTable.frame.size.width
+            self.sidebarWidth = vc.sidebarTableView.frame.size.width
+            return
+        }
+        
+        if swipe.state == .changed && vc.notesTable.width > translation.x {
+            guard let windowWidth = self.superview?.frame.width else { return }
+            
+            let newWidth = vc.notesTable.sidebarWidth + translation.x
+            
+            if newWidth < 0 {
+                vc.sidebarTableView.isHidden = true
+                vc.notesTable.frame.origin.x = 0
+                vc.notesTable.frame.size.width = windowWidth
+                return
+            }
+            
+            if newWidth > windowWidth / 2 {
+                vc.sidebarTableView.frame.size.width = windowWidth / 2
+                vc.notesTable.frame.origin.x = windowWidth / 2
+                vc.notesTable.frame.size.width = windowWidth / 2
+                return
+            }
+            
+            vc.sidebarTableView.isHidden = false
+            vc.sidebarTableView.frame.size.width = vc.notesTable.sidebarWidth + translation.x
+            vc.notesTable.frame.size.width = vc.notesTable.width - translation.x
+            vc.notesTable.frame.origin.x = vc.sidebarTableView.frame.size.width
+            
+            return
+        }
+
+        if swipe.state == .ended {
+            self.width = vc.notesTable.frame.size.width
+            self.sidebarWidth = vc.sidebarTableView.frame.size.width
+        }
+    }
 }

@@ -533,6 +533,7 @@ public class Note: NSObject {
                 for tag in tags {
                     if let tagName = tag as? String {
                         self.tagNames.append(tagName)
+                        sharedStorage.addTag(tagName)
                     }
                 }
             }

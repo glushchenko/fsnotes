@@ -6,17 +6,23 @@
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
-import Foundation
+#if os(OSX)
+    import Cocoa
+#else
+    import UIKit
+#endif
 
 class SidebarItem {
     var name: String
     var project: Project?
     var type: SidebarItemType
+    public var icon: Image?
     
-    init(name: String, project: Project? = nil, type: SidebarItemType) {
+    init(name: String, project: Project? = nil, type: SidebarItemType, icon: Image? = nil) {
         self.name = name
         self.project = project
         self.type = type
+        self.icon = icon
     }
     
     public func hasPlusOnHover() -> Bool {

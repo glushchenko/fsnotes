@@ -10,11 +10,12 @@ import UIKit
 import NightNight
 import Solar
 
-class ViewController: UIViewController, UISearchBarDelegate {
+class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
+    @IBOutlet weak var sidebarTableView: SidebarTableView!
     
     let storage = Storage.sharedInstance()
     
@@ -27,25 +28,26 @@ class ViewController: UIViewController, UISearchBarDelegate {
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
         
-        super.viewDidLoad()
-
         initNewButton()
         initSettingsButton()
         
         search.delegate = self
         search.autocapitalizationType = .none
-        notesTable.viewDelegate = self
         
-        notesTable.separatorStyle = .singleLine
+        notesTable.viewDelegate = self
+        ///notesTable.separatorStyle = .singleLine
+        
         UserDefaultsManagement.fontSize = 17
                 
         if storage.noteList.count == 0 {
             storage.loadDocuments()
-
-            updateTable(filter: "") {
-                
-            }
+            updateTable() {}
         }
+        
+        sidebarTableView.sidebar = Sidebar()
+        print("sidebar data attached")
+        
+        sidebarTableView.reloadData()
         
         guard let pageController = self.parent as? PageViewController else {
             return
@@ -61,6 +63,22 @@ class ViewController: UIViewController, UISearchBarDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
+        
+        let swipe = UIPanGestureRecognizer(target: notesTable, action: #selector(notesTable.handleSwipe))
+        swipe.delegate = self
+        view.addGestureRecognizer(swipe)
+        
+        //sidebarTableView.frame.size.width = 100
+        //print()
+        //sidebarTableView.frame.origin.y = 0
+        print(sidebarTableView.frame.origin.x)
+        print(sidebarTableView.frame.origin.y)
+        print(sidebarTableView.frame.size.width)
+        print(sidebarTableView.frame.size.height)
+        
+        //sidebarTableView.load
+        
+        super.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,6 +107,8 @@ class ViewController: UIViewController, UISearchBarDelegate {
             
             notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
         }
+        
+        sidebarTableView.draw(sidebarTableView.frame)
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -252,7 +272,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
         
         if removed > 0 || added > 0 {
             storage.loadDocuments()
-            updateTable(filter: "") {
+            updateTable() {
                 print("Table was updated.")
             }
         }
@@ -260,7 +280,21 @@ class ViewController: UIViewController, UISearchBarDelegate {
         cloudDriveQuery?.enableUpdates()
     }
         
-    func updateTable(filter: String, search: Bool = false, completion: @escaping () -> Void) {
+    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+        print("update")
+        
+        let filter = self.search.text!
+        
+        var type: SidebarItemType? = nil
+        var project: Project? = nil
+        var sidebarName = ""
+        
+        if let sidebarItem = getSidebarItem() {
+            sidebarName = sidebarItem.name
+            type = sidebarItem.type
+            project = sidebarItem.project
+        }
+        
         if !search, let list = storage.sortNotes(noteList: storage.noteList) {
             storage.noteList = list
         }
@@ -283,6 +317,13 @@ class ViewController: UIViewController, UISearchBarDelegate {
                         filter.isEmpty
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
+                    ) && (
+                        type == .Trash && $0.isTrash()
+                            || type == .All && !$0.isTrash()
+                            || type == .Tag && $0.tagNames.contains(sidebarName)
+                            || [.Category, .Label].contains(type) && project != nil && $0.project == project
+                            || type == nil && project == nil && !$0.isTrash()
+                            || project != nil && project!.isRoot && $0.project?.parent == project
                     )
                 )
         }
@@ -303,7 +344,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
 
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        updateTable(filter: searchText, completion: {})
+        updateTable(completion: {})
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -341,7 +382,7 @@ class ViewController: UIViewController, UISearchBarDelegate {
     }
 
     func updateList() {
-        updateTable(filter: search.text!) {
+        updateTable() {
             self.notesTable.reloadData()
         }
     }
@@ -448,6 +489,15 @@ class ViewController: UIViewController, UISearchBarDelegate {
             NotesTextProcessor.hl = nil
             evc.refill()
         }
+    }
+    
+    private func getSidebarItem() -> SidebarItem? {
+        guard
+            let indexPath = sidebarTableView.indexPathForSelectedRow,
+            let sidebar = sidebarTableView.sidebar,
+            let item = sidebar.getByIndexPath(path: indexPath) else { return nil }
+        
+        return item
     }
 }
 
