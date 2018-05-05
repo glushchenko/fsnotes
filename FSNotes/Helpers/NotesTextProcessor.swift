@@ -1281,8 +1281,8 @@ public class NotesTextProcessor {
         // We detect and process app urls [[link]]
         NotesTextProcessor.appUrlRegex.matches(storage.string, range: range) { (result) -> Void in
             guard let innerRange = result?.range else { return }
-            let from = String.Index.init(encodedOffset: innerRange.lowerBound + 2)
-            let to = String.Index.init(encodedOffset: innerRange.upperBound - 2)
+            let from = String.Index(encodedOffset: innerRange.lowerBound + 2)
+            let to = String.Index(encodedOffset: innerRange.upperBound - 2)
             
             let appLink = storage.string[from..<to]
             storage.addAttribute(.link, value: "fsnotes://find/" + appLink, range: innerRange)

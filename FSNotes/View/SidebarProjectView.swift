@@ -35,7 +35,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
-        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data"), NSPasteboard.PasteboardType.init(rawValue: "notesTable")])
+        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data"), NSPasteboard.PasteboardType(rawValue: "notesTable")])
     }
     
     override func keyDown(with event: NSEvent) {
@@ -74,7 +74,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         
         switch sidebarItem.type {
         case .Tag:
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            if let data = board.data(forType: NSPasteboard.PasteboardType(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 let vc = getViewController()
                 
                 for row in rows {
@@ -86,7 +86,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             }
             break
         case .Label, .Category, .Trash:
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+            if let data = board.data(forType: NSPasteboard.PasteboardType(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 let vc = getViewController()
                 
                 var notes = [Note]()
@@ -140,14 +140,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
 
         switch sidebarItem.type {
         case .Tag, .Trash:
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
+            if let data = board.data(forType: NSPasteboard.PasteboardType(rawValue: "notesTable")), !data.isEmpty {
                 return .copy
             }
             break
         case .Category, .Label:
             guard sidebarItem.isSelectable() else { break }
             
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
+            if let data = board.data(forType: NSPasteboard.PasteboardType(rawValue: "notesTable")), !data.isEmpty {
                 return .move
             }
             
@@ -353,13 +353,13 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return
             }
             
-            let alert = NSAlert.init()
+            let alert = NSAlert()
             alert.messageText = "Are you sure you want to remove project \"\(project.label)\" and all files inside?"
             alert.informativeText = "This action cannot be undone."
             alert.addButton(withTitle: "Remove")
             alert.addButton(withTitle: "Cancel")
             alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
-                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                if returnCode == .alertFirstButtonReturn {
                     try? FileManager.default.trashItem(at: project.url, resultingItemURL: nil)
                     v.removeProject(project: project)
                 }

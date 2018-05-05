@@ -51,7 +51,7 @@ class SandboxBookmark {
     func store(url: URL) {
         #if os(OSX)
         do {
-            let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
+            let data = try url.bookmarkData(options: .withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
         } catch {
             Swift.print ("Error storing bookmarks")
@@ -65,7 +65,7 @@ class SandboxBookmark {
         var isStale = false
         
         do {
-            restoredUrl = try URL.init(resolvingBookmarkData: bookmark.value, options: NSURL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
+            restoredUrl = try URL(resolvingBookmarkData: bookmark.value, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
         } catch {
             Swift.print ("Error restoring bookmarks")
             restoredUrl = nil

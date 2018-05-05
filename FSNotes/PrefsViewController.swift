@@ -78,15 +78,15 @@ class PrefsViewController: NSViewController {
             verticalRadio.cell?.state = NSControl.StateValue(rawValue: 1)
         }
         
-        hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
+        hidePreview.state = UserDefaultsManagement.hidePreview ? .on : .off
         
         fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
                 
-        codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
+        codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? .on : .off
         
-        liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
+        liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? .on : .off
         
-        inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
+        inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? .on : .off
         
         restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
         
@@ -105,13 +105,13 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
-        UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
+        UserDefaultsManagement.liveImagesPreview = (sender.state == .on)
         
         controller?.refillEditArea()
     }
     
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
-        UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
+        UserDefaultsManagement.codeBlockHighlight = (sender.state == .on)
         
         restart()
     }
@@ -193,7 +193,7 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func changePreview(_ sender: Any) {
-        UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == NSControl.StateValue.on)
+        UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == .on)
         controller?.notesTableView.reloadData()
     }
     

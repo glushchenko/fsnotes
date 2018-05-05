@@ -204,7 +204,7 @@ public class ImagesProcessor {
         
         #if os(OSX)
             image.size = self.computeInEditorSize(image: image)
-            let fileWrapper = FileWrapper.init()
+            let fileWrapper = FileWrapper()
             fileWrapper.icon = image
             attachment.fileWrapper = fileWrapper
         #else

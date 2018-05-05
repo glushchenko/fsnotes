@@ -161,8 +161,8 @@ class NotesTableView: UITableView,
         let indexPath = self.indexPathForRow(at: p)
         if indexPath == nil {
             print("Long press on table view, not row.")
-        } else if (longPressGesture.state == UIGestureRecognizerState.began) {
-            let alert = UIAlertController.init(title: "Are you sure you want to remove note?", message: "This action cannot be undone.", preferredStyle: .alert)
+        } else if (longPressGesture.state == .began) {
+            let alert = UIAlertController(title: "Are you sure you want to remove note?", message: "This action cannot be undone.", preferredStyle: .alert)
             
             let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
                 guard let row = indexPath?.row else {

@@ -217,7 +217,7 @@ class ViewController: NSViewController,
                 note.project = project
                 try FileManager.default.moveItem(at: note.url, to: destination)
             } catch {
-                let alert = NSAlert.init()
+                let alert = NSAlert()
                 alert.messageText = "Hmm, something goes wrong 🙈"
                 alert.informativeText = "Note with name \"\(note.name)\" already exists in selected storage."
                 alert.runModal()
@@ -425,7 +425,7 @@ class ViewController: NSViewController,
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
                 if let note = self.notesTableView.getSelectedNote() {
                     self.editArea.fill(note: note)
-                    self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
+                    self.editArea.setSelectedRange(NSRange(location: location, length: 0))
                 }
             }
         }
@@ -673,13 +673,13 @@ class ViewController: NSViewController,
         }
         
         if isTrash {
-            let alert = NSAlert.init()
+            let alert = NSAlert()
             alert.messageText = "Are you sure you want to irretrievably delete \(notes.count) note(s)?"
             alert.informativeText = "This action cannot be undone."
             alert.addButton(withTitle: "Remove note(s)")
             alert.addButton(withTitle: "Cancel")
             alert.beginSheetModal(for: vc.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
-                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                if returnCode == .alertFirstButtonReturn {
                     vc.editArea.clear()
                     vc.storage.removeNotes(notes: notes) { _ in
                         vc.storageOutlineView.reloadSidebar()
@@ -870,7 +870,7 @@ class ViewController: NSViewController,
         UserDataService.instance.searchTrigger = false
     }
     
-    var filterQueue = OperationQueue.init()
+    var filterQueue = OperationQueue()
 
     func getSidebarProject() -> Project? {
         let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem

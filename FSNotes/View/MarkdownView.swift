@@ -81,7 +81,7 @@ open class MarkdownView: WKWebView {
     private func getPreviewStyle() -> String {
         var codeStyle = ""
         if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
-            codeStyle = try! String.init(contentsOfFile: hgPath)
+            codeStyle = try! String(contentsOfFile: hgPath)
         }
         
         let familyName = UserDefaultsManagement.noteFont.familyName

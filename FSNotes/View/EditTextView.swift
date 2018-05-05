@@ -227,7 +227,7 @@ class EditTextView: NSTextView {
         processor.highlightKeyword(search: search, remove: true)
         
         // restore cursor
-        setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
+        setSelectedRange(NSRange(location: cursorLocation, length: 0))
     }
     
     func clear() {
@@ -512,7 +512,7 @@ class EditTextView: NSTextView {
     func getPreviewStyle() -> String {
         var codeStyle = ""
         if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
-            codeStyle = try! String.init(contentsOfFile: hgPath)
+            codeStyle = try! String(contentsOfFile: hgPath)
         }
         
         guard let familyName = UserDefaultsManagement.noteFont.familyName else {

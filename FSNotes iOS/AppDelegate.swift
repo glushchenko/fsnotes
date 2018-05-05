@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let locationManager = CLLocationManager()
         if UserDefaultsManagement.nightModeAuto,
             let location = locationManager.location,
-            let solar = Solar.init(coordinate: location.coordinate) {
+            let solar = Solar(coordinate: location.coordinate) {
             
             if solar.isNighttime {
                 UIApplication.shared.statusBarStyle = .lightContent
@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") {
+        if let defaults = UserDefaults(suiteName: "group.fsnotes-manager") {
             defaults.synchronize()
             if let notes = defaults.array(forKey: "import") as? [String] {
                 if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController {

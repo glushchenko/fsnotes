@@ -217,7 +217,7 @@ public class UserDefaultsManagement {
             if let path = storagePath {
                 let expanded = NSString(string: path).expandingTildeInPath
 
-                return URL.init(fileURLWithPath: expanded)
+                return URL(fileURLWithPath: expanded)
             }
             
             return nil

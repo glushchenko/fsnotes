@@ -120,7 +120,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         // Dispose of any resources that can be recreated.
     }
     
-    var filterQueue = OperationQueue.init()
+    var filterQueue = OperationQueue()
     var filteredNoteList: [Note]?
     var prevQuery: String?
     var cloudDriveQuery: NSMetadataQuery?
@@ -216,7 +216,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         let ext = url.pathExtension
                         let name = url.deletingPathExtension().lastPathComponent
                         
-                        let date = Date.init()
+                        let date = Date()
                         let dateFormatter = ISO8601DateFormatter()
                         dateFormatter.formatOptions = [
                             .withYear,
