@@ -13,10 +13,10 @@ import MobileCoreServices
 
 class ShareViewController: UIViewController {
     private var importData: [String] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         for item in self.extensionContext!.inputItems as! [NSExtensionItem] {
             for provider in item.attachments! as! [NSItemProvider] {
                 if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
@@ -36,24 +36,24 @@ class ShareViewController: UIViewController {
                 }
             }
         }
-        
+
         self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
     }
-    
+
     func save(text: String) {
         guard let defaults = UserDefaults(suiteName: "group.fsnotes-manager") else {
             return
         }
         defaults.synchronize()
-        
+
         if let unhandledData = defaults.array(forKey: "import") as? [String] {
             self.importData = unhandledData
         }
-        
+
         self.importData.append(text)
         defaults.set(self.importData, forKey: "import")
         defaults.synchronize()
-        
+
         if let ext = self.extensionContext {
             ext.completeRequest(returningItems: ext.inputItems, completionHandler: nil)
         }

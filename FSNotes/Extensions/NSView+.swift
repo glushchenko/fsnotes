@@ -17,7 +17,7 @@ extension NSView {
                 return nil
             }
         }
-        
+
         set {
             self.wantsLayer = true
             self.layer?.backgroundColor = newValue?.cgColor
