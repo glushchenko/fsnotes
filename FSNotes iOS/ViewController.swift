@@ -16,6 +16,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
+    @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
     
     let storage = Storage.sharedInstance()
     
@@ -35,7 +36,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         search.autocapitalizationType = .none
         
         notesTable.viewDelegate = self
-        ///notesTable.separatorStyle = .singleLine
         
         UserDefaultsManagement.fontSize = 17
                 
@@ -45,8 +45,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         sidebarTableView.sidebar = Sidebar()
-        print("sidebar data attached")
-        
         sidebarTableView.reloadData()
         
         guard let pageController = self.parent as? PageViewController else {
@@ -67,16 +65,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let swipe = UIPanGestureRecognizer(target: notesTable, action: #selector(notesTable.handleSwipe))
         swipe.delegate = self
         view.addGestureRecognizer(swipe)
-        
-        //sidebarTableView.frame.size.width = 100
-        //print()
-        //sidebarTableView.frame.origin.y = 0
-        print(sidebarTableView.frame.origin.x)
-        print(sidebarTableView.frame.origin.y)
-        print(sidebarTableView.frame.size.width)
-        print(sidebarTableView.frame.size.height)
-        
-        //sidebarTableView.load
         
         super.viewDidLoad()
     }
@@ -281,8 +269,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
         
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
-        print("update")
-        
         let filter = self.search.text!
         
         var type: SidebarItemType? = nil
@@ -340,8 +326,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         prevQuery = filter
     }
-    
-
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         updateTable(completion: {})

@@ -388,10 +388,10 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var sidebarSize: Int {
+    static var sidebarSize: CGFloat {
         get {
-            if let size = UserDefaults.standard.object(forKey: "sidebarSize") {
-                return size as! Int
+            if let size = UserDefaults.standard.object(forKey: "sidebarSize"), let width = size as? CGFloat {
+                return width
             }
             return 250
         }
@@ -582,5 +582,4 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.LastProject)
         }
     }
-    
 }

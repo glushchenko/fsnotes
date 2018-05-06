@@ -24,7 +24,6 @@ class NotesTableView: UITableView,
         longPressGesture.delegate = self
         addGestureRecognizer(longPressGesture)
         */
- 
         
         dataSource = self
         delegate = self
@@ -209,6 +208,7 @@ class NotesTableView: UITableView,
                 vc.sidebarTableView.isHidden = true
                 vc.notesTable.frame.origin.x = 0
                 vc.notesTable.frame.size.width = windowWidth
+                UserDefaultsManagement.sidebarSize = windowWidth
                 return
             }
             
@@ -219,8 +219,9 @@ class NotesTableView: UITableView,
                 return
             }
             
+            let sidebarWidth = vc.notesTable.sidebarWidth + translation.x
             vc.sidebarTableView.isHidden = false
-            vc.sidebarTableView.frame.size.width = vc.notesTable.sidebarWidth + translation.x
+            vc.sidebarTableView.frame.size.width = sidebarWidth
             vc.notesTable.frame.size.width = vc.notesTable.width - translation.x
             vc.notesTable.frame.origin.x = vc.sidebarTableView.frame.size.width
             
@@ -228,8 +229,10 @@ class NotesTableView: UITableView,
         }
 
         if swipe.state == .ended {
+            let sidebarWidth = vc.sidebarTableView.frame.size.width
             self.width = vc.notesTable.frame.size.width
-            self.sidebarWidth = vc.sidebarTableView.frame.size.width
+            self.sidebarWidth = sidebarWidth
+            UserDefaultsManagement.sidebarSize = sidebarWidth
         }
     }
 }

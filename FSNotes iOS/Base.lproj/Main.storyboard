@@ -104,6 +104,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="40" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Mge-lh-GR9" customClass="SidebarTableView" customModule="FSNotes_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="80" width="99" height="587"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="99" id="Huw-14-GSA"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sidebarCell" rowHeight="53" id="O2q-T0-6CW" customClass="SidebarTableCellView" customModule="FSNotes_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="40" width="99" height="53"/>
@@ -155,6 +158,7 @@
                         <outlet property="search" destination="dnZ-cX-WSJ" id="l1k-VI-rtI"/>
                         <outlet property="settingsButton" destination="WWg-XD-moy" id="Hg1-hc-iAT"/>
                         <outlet property="sidebarTableView" destination="Mge-lh-GR9" id="PMJ-cU-cu8"/>
+                        <outlet property="sidebarWidthConstraint" destination="Huw-14-GSA" id="Rje-QT-Z5R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

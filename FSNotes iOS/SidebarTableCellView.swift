@@ -23,7 +23,7 @@ class SidebarTableCellView: UITableViewCell {
         if let image = sidebarItem.icon {
             icon.image = image
         }
-        
+                
         label.font = UIFont(name: "Helvetica", size: 14)
         label.text = sidebarItem.name
     }
