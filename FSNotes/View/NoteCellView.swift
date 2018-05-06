@@ -157,7 +157,7 @@ class NoteCellView: NSTableCellView {
     }
     
     func udpateSelectionHighlight() {
-        if ( self.backgroundStyle == .dark ) {
+        if self.backgroundStyle == .dark {
             applyPreviewStyle(.white)
             date.textColor = .white
         } else {

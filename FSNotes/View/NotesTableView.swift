@@ -189,7 +189,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if !note.isTrash() {
             let trashMenu = NSMenuItem()
             trashMenu.title = "Trash"
-            trashMenu.action = #selector(viewController.deleteNote(_:))
+            trashMenu.action = #selector(viewController.deleteNote)
             submenu.addItem(trashMenu)
             submenu.addItem(NSMenuItem.separator())
         }
@@ -203,7 +203,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let menuItem = NSMenuItem()
             menuItem.title = item.getFullLabel()
             menuItem.representedObject = item
-            menuItem.action = #selector(viewController.moveNote(_:))
+            menuItem.action = #selector(viewController.moveNote)
             submenu.addItem(menuItem)
         }
     }

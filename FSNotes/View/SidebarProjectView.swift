@@ -409,7 +409,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         alert.addButton(withTitle: "Add")
         alert.addButton(withTitle: "Cancel")
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+            if returnCode == .alertFirstButtonReturn {
                 self.addChild(field: field, project: project)
             }
         }

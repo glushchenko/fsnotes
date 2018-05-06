@@ -162,8 +162,8 @@ class HandlerCopyCode: NSObject, WKScriptMessageHandler {
                                didReceive message: WKScriptMessage) {
         let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
         let pasteboard = NSPasteboard.general
-        pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-        pasteboard.setString(message, forType: NSPasteboard.PasteboardType.string)
+        pasteboard.declareTypes([.string], owner: nil)
+        pasteboard.setString(message, forType: .string)
     }
 }
 

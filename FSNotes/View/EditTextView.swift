@@ -362,7 +362,7 @@ class EditTextView: NSTextView {
     override func paste(_ sender: Any?) {
         super.paste(sender)
         
-        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), let storage = textStorage else {
+        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: .string), let storage = textStorage else {
             return
         }
         
