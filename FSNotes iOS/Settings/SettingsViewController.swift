@@ -10,51 +10,51 @@ import UIKit
 import NightNight
 
 class SettingsViewController: UITableViewController {
-    
+
     var sections = ["General", "Editor", "UI"]
     var rowsInSection = [2, 2, 2]
-        
+
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
-        
+
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
         super.viewDidLoad()
-        
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SettingsViewController.done))
         self.title = "Settings"
     }
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rowsInSection[section]
     }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        
+
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
-        
+
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:
@@ -67,7 +67,7 @@ class SettingsViewController: UITableViewController {
                 return cell
             }
         }
-        
+
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
@@ -80,7 +80,7 @@ class SettingsViewController: UITableViewController {
                 return cell
             }
         }
-        
+
         if indexPath.section == 0x02 {
             switch indexPath.row {
             case 0:
@@ -93,13 +93,13 @@ class SettingsViewController: UITableViewController {
                 return cell
             }
         }
-        
+
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var lvc: UIViewController?
-        
+
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:
@@ -110,16 +110,16 @@ class SettingsViewController: UITableViewController {
                 return
             }
         }
-        
+
         if indexPath.section == 0x01 {
             if let cell = tableView.cellForRow(at: indexPath) {
                 if cell.accessoryType == .none {
                     cell.accessoryType = .checkmark
-                    
+
                 } else {
                     cell.accessoryType = .none
                 }
-                
+
                 if indexPath.row == 1 {
                     UserDefaultsManagement.liveImagesPreview = (cell.accessoryType == .checkmark)
                 } else {
@@ -127,7 +127,7 @@ class SettingsViewController: UITableViewController {
                 }
             }
         }
-        
+
         if indexPath.section == 0x02 {
             switch indexPath.row {
             case 0:
@@ -135,17 +135,17 @@ class SettingsViewController: UITableViewController {
             case 1:
                 lvc = NightModeViewController(style: .grouped)
             default: break
-                
+
             }
         }
-        
+
         if let controller = lvc {
             let navigationController = UINavigationController(rootViewController: controller)
-            
+
             self.present(navigationController, animated: true, completion: nil)
         }
     }
-    
+
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
     }

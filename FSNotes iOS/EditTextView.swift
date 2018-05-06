@@ -10,6 +10,6 @@ import UIKit
 
 class EditTextView: UITextView {
     public static var note: Note?
-    
-    
+
+
 }

@@ -16,11 +16,11 @@ extension String {
 
     // Search the string for the existence of any of the terms in the
     // provided array of terms.
-    func localizedCaseInsensitiveContainsTerms(_ terms: [Substring]) -> Bool {        
+    func localizedCaseInsensitiveContainsTerms(_ terms: [Substring]) -> Bool {
         // Use magic from https://stackoverflow.com/a/41902740/2778502
         return terms.first(where: { !self.localizedLowercase.contains($0) }) == nil
     }
-    
+
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }

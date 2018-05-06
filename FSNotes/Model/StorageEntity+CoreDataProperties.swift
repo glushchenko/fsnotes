@@ -1,6 +1,6 @@
 //
 //  StorageEntity+CoreDataProperties.swift
-//  
+//
 //
 //  Created by Oleksandr Glushchenko on 11/14/17.
 //

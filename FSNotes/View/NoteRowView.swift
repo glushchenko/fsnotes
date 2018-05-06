@@ -13,7 +13,7 @@ class NoteRowView: NSTableRowView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
     }
-    
+
     override func drawSelection(in dirtyRect: NSRect) {
         if self.selectionHighlightStyle != .none {
             let selectionRect = NSInsetRect(self.bounds, 0, 0)

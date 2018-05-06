@@ -20,12 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
-        
+
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             launchedShortcutItem = shortcutItem
             shouldPerformAdditionalDelegateHandling = false
         }
-        
+
         if let shortcutItems = application.shortcutItems, shortcutItems.isEmpty {
             let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
                                                              localizedTitle: "New document",
@@ -37,13 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                              localizedSubtitle: "Focus in search field",
                                                              icon: UIApplicationShortcutIcon(type: .search),
                                                              userInfo: nil)
-            
+
             application.shortcutItems = [shortcutNew, shortcutSearch]
         }
-        
+
         return shouldPerformAdditionalDelegateHandling
     }
-    
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaultsManagement.nightModeAuto,
             let location = locationManager.location,
             let solar = Solar(coordinate: location.coordinate) {
-            
+
             if solar.isNighttime {
                 UIApplication.shared.statusBarStyle = .lightContent
                 NightNight.theme = .night
@@ -71,19 +71,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIApplication.shared.statusBarStyle = .default
                 NightNight.theme = .normal
             }
-            
+
             guard
                 let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
                 let evc = viewController.viewControllers[0] as? EditorViewController else {
                     return
             }
-            
+
             evc.refill()
         }
-        
+
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+
         if let defaults = UserDefaults(suiteName: "group.fsnotes-manager") {
             defaults.synchronize()
             if let notes = defaults.array(forKey: "import") as? [String] {
@@ -95,18 +95,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
+
         guard let shortcut = launchedShortcutItem else { return }
         _ = handleShortCutItem(shortcut)
-        
+
         // Reset which shortcut was chosen for next time.
         launchedShortcutItem = nil
     }
-    
+
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        
+
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
-            
+
             if let files = try? FileManager.default.contentsOfDirectory(atPath: iCloudDocumentsURL.path) {
                 for file in files {
                     if file.hasSuffix(".icloud") {
@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
-            
+
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                 do {
                     try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
@@ -124,36 +124,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-                
+
         return true
     }
-    
+
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         let handledShortCutItem = handleShortCutItem(shortcutItem)
         completionHandler(handledShortCutItem)
     }
-    
+
     enum ShortcutIdentifier: String {
         case makeNew
         case search
-        
+
         // MARK: - Initializers
-        
+
         init?(fullType: String) {
             guard let last = fullType.components(separatedBy: ".").last else { return nil }
             self.init(rawValue: last)
         }
-        
+
         // MARK: - Properties
-        
+
         var type: String {
             return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
         }
     }
-    
+
     // MARK: Static Properties
     static let applicationShortcutUserInfoIconKey = "applicationShortcutUserInfoIconKey"
-    
+
     func handleShortCutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
         var handled = false
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
@@ -161,9 +161,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController else {
             return false
         }
-        
+
         pageViewController.switchToList()
-        
+
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
             viewController.makeNew()
@@ -179,7 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return handled
     }
-    
-    
+
+
 }
 
