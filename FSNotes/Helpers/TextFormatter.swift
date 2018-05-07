@@ -36,17 +36,17 @@ public class TextFormatter {
     private var prevSelectedRange: NSRange
 
     init(textView: TextView, note: Note) {
-        if textView.typingAttributes[.font] == nil {
-            textView.typingAttributes[.font] = UserDefaultsManagement.noteFont
-        }
+
+        range = textView.selectedRange
 
         #if os(OSX)
             storage = textView.textStorage!
-            range = textView.selectedRange
             attributedSelected = textView.attributedString()
+            if textView.typingAttributes[.font] == nil {
+                textView.typingAttributes[.font] = UserDefaultsManagement.noteFont
+            }
         #else
             storage = textView.textStorage
-            range = textView.selectedRange
             attributedSelected = textView.attributedText
         #endif
 
@@ -137,13 +137,15 @@ public class TextFormatter {
             if (attributedString.length > 0) {
                 attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: selectedRange)
             }
-
-            if (textView.typingAttributes[.underlineStyle] == nil) {
-                attributedString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: selectedRange)
-                textView.typingAttributes[.underlineStyle] = 1
-            } else {
-                textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
-            }
+            
+            #if os(OSX)
+                if (textView.typingAttributes[.underlineStyle] == nil) {
+                    attributedString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: selectedRange)
+                    textView.typingAttributes[.underlineStyle] = 1
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
+                }
+            #endif
 
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
             registerUndo()
@@ -156,12 +158,14 @@ public class TextFormatter {
                 attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: selectedRange)
             }
 
-            if (textView.typingAttributes[.strikethroughStyle] == nil) {
-                attributedString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: selectedRange)
-                textView.typingAttributes[.strikethroughStyle] = 2
-            } else {
-                textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
-            }
+            #if os(OSX)
+                if (textView.typingAttributes[.strikethroughStyle] == nil) {
+                    attributedString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: selectedRange)
+                    textView.typingAttributes[.strikethroughStyle] = 2
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
+                }
+            #endif
 
             storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
             registerUndo()
@@ -313,7 +317,13 @@ public class TextFormatter {
     }
 
     func header(_ string: String) {
-        attributedString.mutableString.setString(string + " " + attributedString.string)
+        #if os(OSX)
+            let prefix = string + " "
+        #else
+            let prefix = string
+        #endif
+        
+        attributedString.mutableString.setString(prefix + attributedString.string)
         storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
 
         setSRange(NSMakeRange(range.upperBound + 1 + string.count, 0))
@@ -377,8 +387,10 @@ public class TextFormatter {
             let prefix = nsPrev.substring(with: match.range)
 
             if prevString == prefix + "\n" {
-                textView.setSelectedRange(prevParagraphRange)
-                textView.delete(nil)
+                #if os(OSX)
+                    textView.setSelectedRange(prevParagraphRange)
+                    textView.delete(nil)
+                #endif
                 return
             }
 
@@ -393,8 +405,10 @@ public class TextFormatter {
         if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: matchDigits.range)
             if prevString == prefix + "\n" {
-                textView.setSelectedRange(prevParagraphRange)
-                textView.delete(nil)
+                #if os(OSX)
+                    textView.setSelectedRange(prevParagraphRange)
+                    textView.delete(nil)
+                #endif
                 return
             }
 
@@ -418,9 +432,12 @@ public class TextFormatter {
             if charsDiff != 0  {
                 rangeDiff = NSMakeRange(range.lowerBound, range.length + charsDiff )
             }
+            
+            #if os(OSX)
+                let undo = UndoData(string: string, range: rangeDiff)
+                note.undoManager.registerUndo(withTarget: etv, selector: #selector(etv.undoEdit), object: undo)
+            #endif
 
-            let undo = UndoData(string: string, range: rangeDiff)
-            note.undoManager.registerUndo(withTarget: etv, selector: #selector(etv.undoEdit), object: undo)
         }
     }
 

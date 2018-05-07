@@ -21,13 +21,13 @@ class Sidebar {
     init() {
 
         list = [
-            SidebarItem(name: "Notes", type: .All, icon: Image(named: "home.png")),
-            SidebarItem(name: "Trash", type: .Trash, icon: Image(named: "trash.png")),
+            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home.png")),
+            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash.png")),
         ]
 
         let rootProjects = storage.getRootProjects()
         for project in rootProjects {
-            let icon = Image(named: "repository.png")
+            let icon = getImage(named: "repository.png")
 
             #if os(OSX)
                 let type: SidebarItemType = .Label
@@ -45,7 +45,7 @@ class Sidebar {
 
         let tags = storage.getTags()
         if tags.count > 0 {
-            let icon = Image(named: "tag.png")
+            let icon = getImage(named: "tag.png")
 
             #if os(OSX)
                 list.append(SidebarItem(name: "# Tags", type: .Label, icon: icon))
@@ -70,15 +70,35 @@ class Sidebar {
     }
 
     public func getByIndexPath(path: IndexPath) -> SidebarItem? {
+        #if os(OSX)
+            let i = path.item
+        #else
+            let i = path.row
+        #endif
+        
         switch path.section {
         case 0:
-            return list[path.row]
+            return list[i]
         case 1:
-            return getProjects()[path.row]
+            return getProjects()[i]
         case 2:
-            return getTags()[path.row]
+            return getTags()[i]
         default:
             return nil
         }
+    }
+    
+    private func getImage(named: String) -> Image? {
+        #if os(OSX)
+            if let image = NSImage(named: NSImage.Name.init(rawValue: named)) {
+                return image
+            }
+        #else
+            if let image = UIImage(named: named) {
+                return image
+            }
+        #endif
+        
+        return nil
     }
 }
