@@ -12,7 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?
     var storage = Storage.sharedInstance()
-    
+
     var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
@@ -21,19 +21,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openHelp(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
     }
-    
+
     @IBAction func openMainWindow(_ sender: Any) {
         mainWindowController?.makeNew()
     }
-    
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
         NSFontManager.shared.fontPanel(false)?.orderOut(self)
-        
+
         #if CLOUDKIT
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
-            
+
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                 do {
                     try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
@@ -48,23 +48,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-    
+
     func applicationDidBecomeActive(_ notification: Notification) {
         if UserDataService.instance.isShortcutCall {
             UserDataService.instance.isShortcutCall = false
             return
         }
-        
+
         mainWindowController?.refreshEditArea()
     }
-    
+
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
             mainWindowController?.makeNew()
         } else {
             mainWindowController?.refreshEditArea()
         }
-                
+
         return true
     }
 }

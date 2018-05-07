@@ -10,12 +10,12 @@ import Foundation
 
 class UserDataService {
     static let instance = UserDataService()
-    
+
     fileprivate var _isShortcutCall = false
     fileprivate var _searchTrigger = false
     fileprivate var _lastRenamed: URL? = nil
     fileprivate var _fsUpdates = false
-    
+
     var isShortcutCall: Bool {
         get {
             return _isShortcutCall
@@ -24,7 +24,7 @@ class UserDataService {
             _isShortcutCall = newValue
         }
     }
-    
+
     var searchTrigger: Bool {
         get {
             return _searchTrigger
@@ -33,7 +33,7 @@ class UserDataService {
             _searchTrigger = newValue
         }
     }
-    
+
     var lastRenamed: URL? {
         get {
             return _lastRenamed
@@ -42,7 +42,7 @@ class UserDataService {
             _lastRenamed = newValue
         }
     }
-    
+
     var fsUpdatesDisabled: Bool {
         get {
             return _fsUpdates
