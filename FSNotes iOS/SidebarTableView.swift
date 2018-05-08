@@ -24,10 +24,10 @@ class SidebarTableView: UITableView,
         
         backgroundColor = UIColor(red:0.89, green:0.89, blue:0.89, alpha:1.0)
         
-        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
-        
-        vc.sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
+        if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageViewController.orderedViewControllers[0] as? ViewController {
+            vc.sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
+        }
         
         super.draw(rect)
     }

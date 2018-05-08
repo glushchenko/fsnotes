@@ -120,7 +120,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDf-m9-quL">
-                                                    <rect key="frame" x="34" y="16" width="122" height="21"/>
+                                                    <rect key="frame" x="31" y="14" width="122" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -155,6 +155,7 @@
                     </view>
                     <connections>
                         <outlet property="notesTable" destination="sUC-hL-bgg" id="Iqp-8V-0Ly"/>
+                        <outlet property="notesWidthConstraint" destination="byF-EV-XVF" id="A2B-rK-cpg"/>
                         <outlet property="search" destination="dnZ-cX-WSJ" id="l1k-VI-rtI"/>
                         <outlet property="settingsButton" destination="WWg-XD-moy" id="Hg1-hc-iAT"/>
                         <outlet property="sidebarTableView" destination="Mge-lh-GR9" id="PMJ-cU-cu8"/>

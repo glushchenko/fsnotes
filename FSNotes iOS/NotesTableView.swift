@@ -18,15 +18,14 @@ class NotesTableView: UITableView,
     var viewDelegate: ViewController? = nil
     
     override func draw(_ rect: CGRect) {
-        /*
-        let longPressGesture: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
-        longPressGesture.minimumPressDuration = 0.5
-        longPressGesture.delegate = self
-        addGestureRecognizer(longPressGesture)
-        */
-        
         dataSource = self
         delegate = self
+        
+        if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageViewController.orderedViewControllers[0] as? ViewController {
+            
+            vc.notesWidthConstraint.constant = vc.view.frame.width - UserDefaultsManagement.sidebarSize
+        }
         
         super.draw(rect)
     }
@@ -184,55 +183,5 @@ class NotesTableView: UITableView,
         }
     }
     
-    var sidebarWidth: CGFloat = 0
-    var width: CGFloat = 0
-    
-    @objc func handleSwipe(_ swipe: UIPanGestureRecognizer) {
-        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
-        
-        let translation = swipe.translation(in: vc.notesTable)
-        
-        if swipe.state == .began {
-            self.width = vc.notesTable.frame.size.width
-            self.sidebarWidth = vc.sidebarTableView.frame.size.width
-            return
-        }
-        
-        if swipe.state == .changed && vc.notesTable.width > translation.x {
-            guard let windowWidth = self.superview?.frame.width else { return }
-            
-            let newWidth = vc.notesTable.sidebarWidth + translation.x
-            
-            if newWidth < 0 {
-                vc.sidebarTableView.isHidden = true
-                vc.notesTable.frame.origin.x = 0
-                vc.notesTable.frame.size.width = windowWidth
-                UserDefaultsManagement.sidebarSize = windowWidth
-                return
-            }
-            
-            if newWidth > windowWidth / 2 {
-                vc.sidebarTableView.frame.size.width = windowWidth / 2
-                vc.notesTable.frame.origin.x = windowWidth / 2
-                vc.notesTable.frame.size.width = windowWidth / 2
-                return
-            }
-            
-            let sidebarWidth = vc.notesTable.sidebarWidth + translation.x
-            vc.sidebarTableView.isHidden = false
-            vc.sidebarTableView.frame.size.width = sidebarWidth
-            vc.notesTable.frame.size.width = vc.notesTable.width - translation.x
-            vc.notesTable.frame.origin.x = vc.sidebarTableView.frame.size.width
-            
-            return
-        }
 
-        if swipe.state == .ended {
-            let sidebarWidth = vc.sidebarTableView.frame.size.width
-            self.width = vc.notesTable.frame.size.width
-            self.sidebarWidth = sidebarWidth
-            UserDefaultsManagement.sidebarSize = sidebarWidth
-        }
-    }
 }

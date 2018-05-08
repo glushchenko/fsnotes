@@ -17,6 +17,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notesWidthConstraint: NSLayoutConstraint!
     
     let storage = Storage.sharedInstance()
     
@@ -62,11 +63,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
         
-        let swipe = UIPanGestureRecognizer(target: notesTable, action: #selector(notesTable.handleSwipe))
+        NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
+        let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
         swipe.delegate = self
         view.addGestureRecognizer(swipe)
         
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {        
+        sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
+        notesWidthConstraint.constant = view.frame.width - UserDefaultsManagement.sidebarSize
+        
+        var sRect: CGRect = sidebarTableView.frame
+        sRect.size.width = UserDefaultsManagement.sidebarSize
+        sidebarTableView.draw(sRect)
+        
+        //super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,8 +109,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
             notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
         }
-        
-        sidebarTableView.draw(sidebarTableView.frame)
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -437,6 +449,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     @objc func rotated() {
+        viewWillAppear(false)
         initNewButton()
     }
     
@@ -482,6 +495,56 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let item = sidebar.getByIndexPath(path: indexPath) else { return nil }
         
         return item
+    }
+    
+    var sidebarWidth: CGFloat = 0
+    var width: CGFloat = 0
+    
+    @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
+        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
+        
+        let windowWidth = self.view.frame.width
+        let translation = swipe.translation(in: vc.notesTable)
+        
+        if swipe.state == .began {
+            self.width = vc.notesTable.frame.size.width
+            self.sidebarWidth = vc.sidebarTableView.frame.size.width
+            return
+        }
+        
+        let sidebarWidth = self.sidebarWidth + translation.x
+        var finSidebarWidth: CGFloat = sidebarWidth
+        
+        if sidebarWidth < 0 {
+            //vc.sidebarTableView.isHidden = true
+            vc.sidebarTableView.frame.size.width = 0
+            
+            vc.notesTable.frame.origin.x = 0
+            vc.notesTable.frame.size.width = windowWidth
+            
+            
+            finSidebarWidth = 0
+        }
+        
+        if sidebarWidth > windowWidth / 2 {
+            vc.sidebarTableView.frame.size.width = windowWidth / 2
+            
+            vc.notesTable.frame.size.width = windowWidth / 2
+            vc.notesTable.frame.origin.x = windowWidth / 2
+            
+            finSidebarWidth = windowWidth / 2
+        }
+        
+        if swipe.state == .changed {
+            vc.sidebarTableView.frame.size.width = finSidebarWidth
+            vc.notesTable.frame.size.width = windowWidth - finSidebarWidth
+            vc.notesTable.frame.origin.x = finSidebarWidth
+        }
+        
+        if swipe.state == .ended {
+            UserDefaultsManagement.sidebarSize = finSidebarWidth
+        }
     }
 }
 
