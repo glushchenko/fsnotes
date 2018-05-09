@@ -38,7 +38,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="276" height="88.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
                                                     <rect key="frame" x="0.0" y="17" width="23" height="23"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="23" id="KlO-n1-B2e"/>
@@ -532,6 +532,6 @@ GhQcFB4UJxQsFDIUOhQ8FD4UQBRCFEcUTyW7Jb0lwiXQJdQl2yXgJe0l8CX9JgImCiYNJhImGiYdJi8m
 MiY3AAAAAAAAAgEAAAAAAAAAWQAAAAAAAAAAAAAAAAAAJjk
 </mutableData>
         </image>
-        <image name="pin.png" width="128" height="128"/>
+        <image name="pin_white.png" width="128" height="128"/>
     </resources>
 </document>

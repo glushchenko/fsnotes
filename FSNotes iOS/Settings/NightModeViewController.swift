@@ -125,6 +125,14 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
             }
             
             tableView.reloadData()
+            
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let vc = pageController.orderedViewControllers[0] as? ViewController  else {
+                return
+            }
+            
+            vc.sidebarTableView.sidebar = Sidebar()
+            vc.sidebarTableView.reloadData()
+            vc.notesTable.reloadData()
         }
     }
     

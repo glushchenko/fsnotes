@@ -25,7 +25,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
                 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x2e2c32)
         
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
@@ -72,7 +74,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {        
+    override func viewWillAppear(_ animated: Bool) {
         sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
         notesWidthConstraint.constant = view.frame.width - UserDefaultsManagement.sidebarSize
         
@@ -461,7 +463,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController else {
+            let evc = viewController.viewControllers[0] as? EditorViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController else {
             return
         }
         
@@ -475,6 +478,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             NotesTextProcessor.hl = nil
             evc.refill()
             
+            vc.sidebarTableView.sidebar = Sidebar()
+            vc.sidebarTableView.reloadData()
+            vc.notesTable.reloadData()
+            
             return
         }
         
@@ -485,6 +492,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             UserDefaultsManagement.codeTheme = "monokai-sublime"
             NotesTextProcessor.hl = nil
             evc.refill()
+            
+            vc.sidebarTableView.sidebar = Sidebar()
+            vc.sidebarTableView.reloadData()
+            vc.notesTable.reloadData()
         }
     }
     

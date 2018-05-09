@@ -11,6 +11,7 @@
     typealias Image = NSImage
 #else
     import UIKit
+    import NightNight
     typealias Image = UIImage
 #endif
 
@@ -19,15 +20,21 @@ class Sidebar {
     let storage = Storage.sharedInstance()
     
     init() {
+        var night = ""
+        #if os(iOS)
+        if NightNight.theme == .night {
+                night = "_white"
+        }
+        #endif
         
         list = [
-            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home.png")),
-            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash.png")),
+            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home\(night).png")),
+            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash\(night).png")),
         ]
         
         let rootProjects = storage.getRootProjects()
         for project in rootProjects {
-            let icon = getImage(named: "repository.png")
+            let icon = getImage(named: "repository\(night).png")
             
             #if os(OSX)
                 let type: SidebarItemType = .Label
@@ -45,7 +52,7 @@ class Sidebar {
         
         let tags = storage.getTags()
         if tags.count > 0 {
-            let icon = getImage(named: "tag.png")
+            let icon = getImage(named: "tag\(night).png")
             
             #if os(OSX)
                 list.append(SidebarItem(name: "# Tags", type: .Label, icon: icon))

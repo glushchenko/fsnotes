@@ -21,9 +21,7 @@ class SidebarTableView: UITableView,
     override func draw(_ rect: CGRect) {
         dataSource = self
         delegate = self
-        
-        backgroundColor = UIColor(red:0.89, green:0.89, blue:0.89, alpha:1.0)
-        
+                
         if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageViewController.orderedViewControllers[0] as? ViewController {
             vc.sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
@@ -60,6 +58,10 @@ class SidebarTableView: UITableView,
             cell.configure(sidebarItem: sidebarItem)
         }
         
+        let view = UIView()
+        view.mixedBackgroundColor = MixedColor(normal: 0xccdbcd, night: 0x686372)
+        cell.selectedBackgroundView = view
+        
         return cell
     }
     
@@ -74,9 +76,10 @@ class SidebarTableView: UITableView,
         
         return 50
     }
+    
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.backgroundColor = UIColor(red:0.73, green:0.73, blue:0.73, alpha:1.0)
+            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x514c47)
             
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             
@@ -86,6 +89,7 @@ class SidebarTableView: UITableView,
             }
             
             view.textLabel?.font = font.bold()
+            view.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         }
     }
     
@@ -98,6 +102,11 @@ class SidebarTableView: UITableView,
         
         let vc = getListController()
         vc.updateList()
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x2e2c32)
+        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
     
     func getListController() -> ViewController {

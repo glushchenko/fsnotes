@@ -75,11 +75,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard
                 let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                let evc = viewController.viewControllers[0] as? EditorViewController else {
+                let evc = viewController.viewControllers[0] as? EditorViewController,
+                let vc = pageController.orderedViewControllers[0] as? ViewController else {
                     return
             }
             
             evc.refill()
+            vc.sidebarTableView.sidebar = Sidebar()
+            vc.sidebarTableView.reloadData()
+            vc.notesTable.reloadData()
         }
         
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.

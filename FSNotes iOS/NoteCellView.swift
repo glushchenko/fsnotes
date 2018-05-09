@@ -25,6 +25,13 @@ class NoteCellView: UITableViewCell {
         
         pin.isHidden = !note.isPinned
         
+        var imageName = ""
+        if NightNight.theme == .night {
+            imageName = "_white"
+        }
+        
+        pin.image = UIImage(named: "pin\(imageName).png" )
+        
         if let font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
                 let fontMetrics = UIFontMetrics(forTextStyle: .headline)
