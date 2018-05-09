@@ -17,7 +17,7 @@ import Foundation
 #endif
 
 public class UserDefaultsManagement {
-    
+
 #if os(OSX)
     typealias Color = NSColor
     typealias Image = NSImage
@@ -27,10 +27,10 @@ public class UserDefaultsManagement {
     typealias Image = UIImage
     typealias Font = UIFont
 #endif
-    
+
     static var DefaultFont = ".AppleSystemUIFont"
     static var DefaultFontSize = 14
-    
+
     static var DefaultFontColor = Color.black
     static var DefaultBgColor = Color.white
 
@@ -65,7 +65,7 @@ public class UserDefaultsManagement {
         static let TableOrientation = "isUseHorizontalMode"
         static let AutocloseBrackets = "autocloseBrackets"
     }
-        
+
     static var fontName: String {
         get {
             if let returnFontName = UserDefaults.standard.object(forKey: Constants.FontNameKey) {
@@ -78,7 +78,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.FontNameKey)
         }
     }
-    
+
     static var fontSize: Int {
         get {
             if let returnFontSize = UserDefaults.standard.object(forKey: Constants.FontSizeKey) {
@@ -91,23 +91,23 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.FontSizeKey)
         }
     }
-    
+
     static var noteFont: Font! {
         get {
             if let font = Font(name: self.fontName, size: CGFloat(self.fontSize)) {
                 return font
             }
-            
+
             return Font.systemFont(ofSize: CGFloat(self.fontSize))
         }
         set {
             guard let newValue = newValue else {return}
-            
+
             self.fontName = newValue.fontName
             self.fontSize = Int(newValue.pointSize)
         }
     }
-    
+
     static var fontColor: Color {
         get {
             if let returnFontColor = UserDefaults.standard.object(forKey: Constants.FontColorKey), let color = NSKeyedUnarchiver.unarchiveObject(with: returnFontColor as! Data) as? Color {
@@ -135,7 +135,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(data, forKey: Constants.BgColorKey)
         }
     }
-    
+
     static var externalEditor: String {
         get {
             let name = UserDefaults.standard.object(forKey: "externalEditorApp")
@@ -162,15 +162,15 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.TableOrientation)
         }
     }
-    
+
     static var documentDirectory: URL? {
         get {
             if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
-                
+
                 if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                     do {
                         try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-                        
+
                         return iCloudDocumentsURL
                     } catch {
                         print("Home directory creation: \(error)")
@@ -179,39 +179,39 @@ public class UserDefaultsManagement {
                    return iCloudDocumentsURL
                 }
             }
-            
+
             if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
                 return URL(fileURLWithPath: path)
             }
-    
+
             return nil
         }
     }
-    
+
     static var storagePath: String? {
         get {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
-                
+
                 do {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
-                    
+
                     return storagePath as? String
                 } catch {
                     print(error)
                 }
             }
-            
+
             if let dd = documentDirectory {
                 return dd.path
             }
-            
+
             return nil
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
         }
     }
-    
+
     static var storageUrl: URL? {
         get {
             if let path = storagePath {
@@ -219,11 +219,11 @@ public class UserDefaultsManagement {
 
                 return URL.init(fileURLWithPath: expanded)
             }
-            
+
             return nil
         }
     }
-    
+
     static var storageExtension: String {
         get {
             if let storageExtension = UserDefaults.standard.object(forKey: Constants.StorageExtensionKey) {
@@ -236,13 +236,13 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
         }
     }
-    
+
 #if os(OSX)
     static var newNoteShortcut: MASShortcut {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
             let modifier = UserDefaults.standard.object(forKey: Constants.NewNoteKeyModifier)
-            
+
             if (code != nil && modifier != nil) {
                 return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
             } else {
@@ -254,12 +254,12 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.NewNoteKeyModifier)
         }
     }
-    
+
     static var searchNoteShortcut: MASShortcut {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyCode)
             let modifier = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyModifier)
-            
+
             if (code != nil && modifier != nil) {
                 return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
             } else {
@@ -272,7 +272,7 @@ public class UserDefaultsManagement {
         }
     }
 #endif
-        
+
     static var preview: Bool {
         get {
             if let preview = UserDefaults.standard.object(forKey: Constants.Preview) {
@@ -285,7 +285,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.Preview)
         }
     }
-    
+
     static var lastSync: Date? {
         get {
             if let sync = UserDefaults.standard.object(forKey: "lastSync") {
@@ -298,7 +298,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "lastSync")
         }
     }
-    
+
     static var hideOnDeactivate: Bool {
         get {
             if let hideOnDeactivate = UserDefaults.standard.object(forKey: Constants.HideOnDeactivate) {
@@ -311,7 +311,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.HideOnDeactivate)
         }
     }
-    
+
     static var cellSpacing: Int {
         get {
             if let cellSpacing = UserDefaults.standard.object(forKey: Constants.CellSpacing) {
@@ -324,8 +324,8 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.CellSpacing)
         }
     }
-        
-    static var cellViewFrameOriginY: CGFloat? {        
+
+    static var cellViewFrameOriginY: CGFloat? {
         get {
             if let value = UserDefaults.standard.object(forKey: Constants.CellFrameOriginY) {
                 return value as? CGFloat
@@ -336,7 +336,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.CellFrameOriginY)
         }
     }
-    
+
     static var hidePreview: Bool {
         get {
             if let returnMode = UserDefaults.standard.object(forKey: Constants.HidePreviewKey) {
@@ -349,7 +349,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewKey)
         }
     }
-        
+
     static var sort: SortBy {
         get {
             if let result = UserDefaults.standard.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
@@ -362,7 +362,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue.rawValue, forKey: "sortBy")
         }
     }
-    
+
     static var sortDirection: Bool {
         get {
             if let returnMode = UserDefaults.standard.object(forKey: "sortDirection") {
@@ -375,7 +375,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "sortDirection")
         }
     }
-    
+
     static var hideSidebar: Bool {
         get {
             if let hide = UserDefaults.standard.object(forKey: "hideSidebar") {
@@ -387,7 +387,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "hideSidebar")
         }
     }
-    
+
     static var sidebarSize: CGFloat {
         get {
             if let size = UserDefaults.standard.object(forKey: "sidebarSize"), let width = size as? CGFloat {
@@ -399,7 +399,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "sidebarSize")
         }
     }
-    
+
     static var hideRealSidebar: Bool {
         get {
             if let hide = UserDefaults.standard.object(forKey: "hideRealSidebar") {
@@ -411,7 +411,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "hideRealSidebar")
         }
     }
-    
+
     static var realSidebarSize: Int {
         get {
             if let size = UserDefaults.standard.object(forKey: "realSidebarSize") {
@@ -423,7 +423,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "realSidebarSize")
         }
     }
-    
+
     static var codeBlockHighlight: Bool {
         get {
             if let highlight = UserDefaults.standard.object(forKey: Constants.codeBlockHighlight) {
@@ -435,13 +435,13 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
         }
     }
-    
+
     static var codeTheme: String {
         get {
             if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
                 return theme as! String
             }
-            
+
             #if os(OSX)
                 return "atom-one-light"
             #else
@@ -456,7 +456,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
         }
     }
-    
+
     static var lastSelectedURL: URL? {
         get {
             if let path = UserDefaults.standard.object(forKey: Constants.LastSelectedPath) as? String, let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
@@ -470,7 +470,7 @@ public class UserDefaultsManagement {
             }
         }
     }
-    
+
     static var liveImagesPreview: Bool {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.LiveImagesPreview) {
@@ -482,7 +482,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.LiveImagesPreview)
         }
     }
-    
+
     static var focusInEditorOnNoteSelect: Bool {
         get {
             if let result = UserDefaults.standard.object(forKey: "focusInEditorOnNoteSelect") {
@@ -494,20 +494,20 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "focusInEditorOnNoteSelect")
         }
     }
-    
+
     static var defaultLanguage: String? {
         get {
             if let dl = UserDefaults.standard.object(forKey: Constants.DefaultLanguageKey) as? String {
                 return dl
             }
-            
+
             return nil
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.DefaultLanguageKey)
         }
     }
-    
+
     static var restoreCursorPosition: Bool {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.RestoreCursorPosition) {
@@ -519,7 +519,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.RestoreCursorPosition)
         }
     }
-    
+
     static var nightModeAuto: Bool {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.NightModeAuto) {
@@ -531,7 +531,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.NightModeAuto)
         }
     }
-    
+
     #if os(iOS)
         static var nightModeType: NightMode {
             get {
@@ -545,7 +545,7 @@ public class UserDefaultsManagement {
             }
         }
     #endif
-    
+
     static var maxNightModeBrightnessLevel: Float {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.NightModeBrightnessLevel) {
@@ -557,7 +557,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.NightModeBrightnessLevel)
         }
     }
-    
+
     static var autocloseBrackets: Bool {
         get {
             if let result = UserDefaults.standard.object(forKey: Constants.AutocloseBrackets) {
@@ -569,7 +569,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.AutocloseBrackets)
         }
     }
-    
+
     static var lastProject: Int {
         get {
             if let lastProject = UserDefaults.standard.object(forKey: Constants.LastProject) {

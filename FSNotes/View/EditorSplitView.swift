@@ -13,11 +13,11 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
         self.delegate = self
         super.draw(dirtyRect)
     }
-    
+
     override func maxPossiblePositionOfDivider(at dividerIndex: Int) -> CGFloat {
         return 250
     }
-    
+
     override var dividerColor: NSColor {
         return NSColor(red:0.83, green:0.83, blue:0.83, alpha:1.0)
     }
