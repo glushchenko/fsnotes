@@ -18,8 +18,6 @@ class SidebarTableCellView: UITableViewCell {
     func configure(sidebarItem: SidebarItem) {
         self.sidebarItem = sidebarItem
         
-        backgroundColor = UIColor(red:0.89, green:0.89, blue:0.89, alpha:1.0)
-        
         if let image = sidebarItem.icon {
             icon.image = image
         }

@@ -74,12 +74,12 @@ class SidebarTableView: UITableView,
             return 0
         }
         
-        return 50
+        return 45
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x514c47)
+            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x596263)
             
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             
@@ -98,14 +98,12 @@ class SidebarTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-        
         let vc = getListController()
         vc.updateList()
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x313636)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
     

@@ -27,7 +27,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
-        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x2e2c32)
+        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x313636)
         
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
