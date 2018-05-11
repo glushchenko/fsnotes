@@ -82,8 +82,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var sRect: CGRect = sidebarTableView.frame
         sRect.size.width = UserDefaultsManagement.sidebarSize
         sidebarTableView.draw(sRect)
-        
-        //super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -275,8 +273,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         if removed > 0 || added > 0 {
             storage.loadDocuments()
-            updateTable() {
-                print("Table was updated.")
+            DispatchQueue.main.async {
+                self.updateTable() {
+                    print("Table was updated.")
+                }
             }
         }
         
@@ -422,9 +422,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     @objc func makeNew() {
-        guard let project = storage.getProjects().first else { return }
+        var currentProject: Project
         
-        let note = Note(name: "", project: project)
+        if let project = storage.getProjects().first {
+            currentProject = project
+        } else {
+            return
+        }
+        
+        if let item = getSidebarItem(), let project = item.project, !project.isTrash {
+            currentProject = project
+        }
+        
+        let note = Note(name: "", project: currentProject)
         note.initURL()
         note.save()
         updateList()
@@ -529,22 +539,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var finSidebarWidth: CGFloat = sidebarWidth
         
         if sidebarWidth < 0 {
-            //vc.sidebarTableView.isHidden = true
             vc.sidebarTableView.frame.size.width = 0
-            
             vc.notesTable.frame.origin.x = 0
             vc.notesTable.frame.size.width = windowWidth
-            
-            
             finSidebarWidth = 0
         }
         
         if sidebarWidth > windowWidth / 2 {
             vc.sidebarTableView.frame.size.width = windowWidth / 2
-            
             vc.notesTable.frame.size.width = windowWidth / 2
             vc.notesTable.frame.origin.x = windowWidth / 2
-            
             finSidebarWidth = windowWidth / 2
         }
         
