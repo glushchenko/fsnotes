@@ -393,7 +393,12 @@ public class UserDefaultsManagement {
             if let size = UserDefaults.standard.object(forKey: "sidebarSize"), let width = size as? CGFloat {
                 return width
             }
-            return 250
+            
+            #if os(iOS)
+                return 0
+            #else
+                return 250
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "sidebarSize")

@@ -30,7 +30,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
         
-        
         guard let note = self.note else {
             return
         }
@@ -122,7 +121,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
         }
         
-        editArea.isScrollEnabled = false
         editArea.delegate = self
         let cursor = editArea.selectedTextRange
         

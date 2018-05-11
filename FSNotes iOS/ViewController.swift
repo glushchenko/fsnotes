@@ -68,6 +68,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
+        swipe.minimumNumberOfTouches = 2
         swipe.delegate = self
         view.addGestureRecognizer(swipe)
         
