@@ -126,12 +126,13 @@ public class Note: NSObject {
     func removeFile() -> Array<URL>? {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
-            #if os(OSX)
                 if isTrash() {
                     try FileManager.default.removeItem(at: url)
-                } else {
+                }
+                
+                #if os(OSX)
                     guard let dst = getTrashURL()?.appendingPathComponent(name) else { return nil }
-                    
+                
                     do {
                         try FileManager.default.moveItem(at: url, to: dst)
                     } catch {
@@ -142,12 +143,16 @@ public class Note: NSObject {
                         
                         return [reserveDst, url]
                     }
-                    
+                
                     return [dst, url]
-                }
-            #else
-                try FileManager.default.removeItem(at: url)
-            #endif
+                #else
+                    if #available(iOS 11.0, *) {
+                        try FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                    } else {
+                        try FileManager.default.removeItem(at: url)
+                    }
+                #endif
+                
                 print("Note moved to trash: \(name)")
             }
         } catch let error as NSError {
