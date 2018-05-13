@@ -25,7 +25,7 @@ public class Note: NSObject {
     
     public var name: String = ""
     public var isPinned: Bool = false
-    public var modifiedLocalAt: Date?
+    public var modifiedLocalAt = Date()
     public var undoManager = UndoManager()
     
     init(url: URL) {
@@ -68,12 +68,8 @@ public class Note: NSObject {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
         }
-        
-        guard let prevModifiedAt = modifiedLocalAt else {
-            return false
-        }
-                
-        if (modifiedAt != prevModifiedAt) {
+                        
+        if (modifiedAt != modifiedLocalAt) {
             if let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
@@ -194,18 +190,14 @@ public class Note: NSObject {
         return preview.condenseWhitespace()
     }
     
-    @objc func getDateForLabel() -> String {
-        guard let date = self.modifiedLocalAt else {
-            return "-"
-        }
-        
+    @objc func getDateForLabel() -> String {        
         let dateFormatter = DateFormatter()
         let calendar = NSCalendar.current
-        if calendar.isDateInToday(date) {
-            return dateFormatter.formatTimeForDisplay(date)
+        if calendar.isDateInToday(modifiedLocalAt) {
+            return dateFormatter.formatTimeForDisplay(modifiedLocalAt)
         }
         else {
-            return dateFormatter.formatDateForDisplay(date)
+            return dateFormatter.formatDateForDisplay(modifiedLocalAt)
         }
     }
     

@@ -256,8 +256,8 @@ class Storage {
         
         case .ModificationDate:
             return list.sorted(by: {
-                if $0.isPinned == $1.isPinned, let prevDate = $0.modifiedLocalAt, let nextDate = $1.modifiedLocalAt {
-                    return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
+                if $0.isPinned == $1.isPinned {
+                    return sortDirection && $0.modifiedLocalAt > $1.modifiedLocalAt || !sortDirection && $0.modifiedLocalAt < $1.modifiedLocalAt
                 }
                 return $0.isPinned && !$1.isPinned
             })

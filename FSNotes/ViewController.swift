@@ -8,7 +8,6 @@
 
 import Cocoa
 import MASShortcut
-import CoreData
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
@@ -18,7 +17,6 @@ class ViewController: NSViewController,
     NSOutlineViewDataSource {
     
     private var filewatcher: FileWatcher?
-    var lastSelectedNote: Note?
     var filteredNoteList: [Note]?
     var prevQuery: String?
     let storage = Storage.sharedInstance()
@@ -71,7 +69,8 @@ class ViewController: NSViewController,
         super.viewDidLoad()
         
         editArea.delegate = self
-        search.delegate = self
+        search.vcDelegate = self
+        
         sidebarSplitView.delegate = self
         storageOutlineView.viewDelegate = self
         
@@ -471,7 +470,7 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.command)
             && !event.modifierFlags.contains(.shift)
         ) {
-            makeNote(NSTextField())
+            makeNote(SearchTextField())
         }
         
         // Make note shortcut (cmd-n)
@@ -532,7 +531,7 @@ class ViewController: NSViewController,
         }
     }
     
-    @IBAction func makeNote(_ sender: NSTextField) {
+    @IBAction func makeNote(_ sender: SearchTextField) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
@@ -845,33 +844,6 @@ class ViewController: NSViewController,
         UserDataService.instance.fsUpdatesDisabled = false
     }
     
-    var searchTimer = Timer()
-    
-    // Changed search field
-    override func controlTextDidChange(_ obj: Notification) {
-        UserDataService.instance.searchTrigger = true
-        
-        filterQueue.cancelAllOperations()
-        filterQueue.addOperation {
-            DispatchQueue.main.async {
-                self.updateTable(search: true) {
-                    if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                        self.searchTimer.invalidate()
-                        self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
-                    } else {
-                        UserDataService.instance.searchTrigger = false
-                    }
-                }
-            }
-        }
-    }
-    
-    @objc func onEndSearch() {
-        UserDataService.instance.searchTrigger = false
-    }
-    
-    var filterQueue = OperationQueue.init()
-
     func getSidebarProject() -> Project? {
         let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
         
@@ -902,7 +874,7 @@ class ViewController: NSViewController,
     }
     
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
-        let filter = self.search.stringValue
+        let filter = self.search.stringValue.lowercased()
         var sidebarName = ""
         
         if let sidebarItem = getSidebarItem() {
@@ -935,15 +907,33 @@ class ViewController: NSViewController,
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
                     ) && (
-                        type == .Trash && $0.isTrash()
-                        || type == .All && !$0.isTrash()
+                        type == .All
                         || type == .Tag && $0.tagNames.contains(sidebarName)
                         || [.Category, .Label].contains(type) && project != nil && $0.project == project
-                        || type == nil && project == nil && !$0.isTrash()
+                        || type == nil && project == nil
                         || project != nil && project!.isRoot && $0.project?.parent == project
+                        || type == .Trash
+                    ) && (
+                        type == .Trash && $0.isTrash()
+                        || type != .Trash && !$0.isTrash()
                     )
                 )
             }
+        
+        if filter.count > 0 {
+            filteredNoteList?.sort(by: { prevNote, nextNote in
+                if prevNote.title.lowercased().starts(with: filter) && nextNote.title.lowercased().starts(with: filter) {
+                    
+                    if prevNote.title.lowercased() == filter {
+                        return true
+                    } else {
+                        return prevNote.modifiedLocalAt > nextNote.modifiedLocalAt
+                    }
+                }
+                
+                return prevNote.title.lowercased().starts(with: filter)
+            })
+        }
         
         if let unwrappedList = filteredNoteList {
             notesTableView.noteList = unwrappedList
@@ -954,6 +944,8 @@ class ViewController: NSViewController,
             
             if search {
                 if (self.notesTableView.noteList.count > 0) {
+                    let note = self.notesTableView.noteList[0]
+                    self.search.suggestAutocomplete(note)
                     self.selectNullTableRow()
                 } else {
                     self.editArea.clear()
@@ -964,10 +956,6 @@ class ViewController: NSViewController,
         }
         
         prevQuery = filter
-    }
-        
-    override func controlTextDidEndEditing(_ obj: Notification) {
-        search.focusRingType = .none
     }
     
     @objc func selectNullTableRow() {
@@ -1034,7 +1022,7 @@ class ViewController: NSViewController,
         UserDataService.instance.isShortcutCall = true
         
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        controller?.focusEditArea(firstResponder: search)
+        controller?.search.becomeFirstResponder()
         
         NSApp.activate(ignoringOtherApps: true)
         self.view.window?.makeKeyAndOrderFront(self)
