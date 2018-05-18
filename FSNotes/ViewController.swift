@@ -979,7 +979,10 @@ class ViewController: NSViewController,
                     self.editArea.restoreCursorPosition()
                 }
             }
+            return
         }
+        
+        editArea.window?.makeFirstResponder(resp)
     }
     
     func focusTable() {
@@ -1022,10 +1025,11 @@ class ViewController: NSViewController,
         UserDataService.instance.isShortcutCall = true
         
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        controller?.search.becomeFirstResponder()
         
         NSApp.activate(ignoringOtherApps: true)
         self.view.window?.makeKeyAndOrderFront(self)
+        
+        controller?.focusEditArea(firstResponder: search)
     }
     
     func moveAtTop(id: Int) {
@@ -1070,6 +1074,7 @@ class ViewController: NSViewController,
         note.markdownCache()
         refillEditArea()
         
+        self.search.stringValue.removeAll()
         updateTable() {
             if let index = self.notesTableView.getIndex(note) {
                 self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
@@ -1077,7 +1082,6 @@ class ViewController: NSViewController,
             }
             
             self.focusEditArea()
-            self.search.stringValue.removeAll()
         }
     }
     
