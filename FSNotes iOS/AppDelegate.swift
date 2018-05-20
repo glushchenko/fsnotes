@@ -30,15 +30,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
                                                              localizedTitle: "New document",
                                                              localizedSubtitle: "",
-                                                             icon: UIApplicationShortcutIcon(type: .add),
+                                                             icon: UIApplicationShortcutIcon(type: .compose),
                                                              userInfo: nil)
+            
+            let shortcutNewClipboard = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.clipboard.type,
+                                                               localizedTitle: "Save clipboard",
+                                                               localizedSubtitle: "",
+                                                               icon: UIApplicationShortcutIcon(type: .add),
+                                                               userInfo: nil)
+            
             let shortcutSearch = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.search.type,
                                                              localizedTitle: "Search",
                                                              localizedSubtitle: "Focus in search field",
                                                              icon: UIApplicationShortcutIcon(type: .search),
                                                              userInfo: nil)
             
-            application.shortcutItems = [shortcutNew, shortcutSearch]
+            application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
         }
         
         return shouldPerformAdditionalDelegateHandling
@@ -140,6 +147,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     enum ShortcutIdentifier: String {
         case makeNew
         case search
+        case clipboard
         
         // MARK: - Initializers
         
@@ -171,6 +179,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
             viewController.makeNew()
+            handled = true
+            break
+        case ShortcutIdentifier.clipboard.type:
+            let pasteboardString: String? = UIPasteboard.general.string
+            if let content = pasteboardString {
+                viewController.makeNew(content: content.trim())
+            }
             handled = true
             break
         case ShortcutIdentifier.search.type:

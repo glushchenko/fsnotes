@@ -191,7 +191,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
                 
                 if let note = storage.getBy(name: fsName) {
-                    if let fsDate = note.readModificatonDate(), let noteDate = note.modifiedLocalAt, fsDate == noteDate {
+                    if let fsDate = note.readModificatonDate(), fsDate == note.modifiedLocalAt {
                         continue
                     }
                     
@@ -296,7 +296,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             project = sidebarItem.project
         }
         
-        if !search, let list = storage.sortNotes(noteList: storage.noteList) {
+        if !search, let list = storage.sortNotes(noteList: storage.noteList, filter: "") {
             storage.noteList = list
         }
         
@@ -421,7 +421,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
     }
     
-    @objc func makeNew() {
+    @objc func makeNew(content: String? = nil) {
         var currentProject: Project
         
         if let project = storage.getProjects().first {
@@ -436,6 +436,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         let note = Note(name: "", project: currentProject)
         note.initURL()
+        
+        if let content = content {
+            note.content = NSMutableAttributedString(string: content)
+        }
+        
         note.save()
         updateList()
         
