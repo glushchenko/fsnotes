@@ -63,7 +63,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
         
-        height = editArea.frame.size.height
+        if height == 0 {
+            height = editArea.frame.size.height
+        }
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
             return
