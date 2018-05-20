@@ -18,7 +18,6 @@ class ViewController: NSViewController,
     
     private var filewatcher: FileWatcher?
     var filteredNoteList: [Note]?
-    var prevQuery: String?
     let storage = Storage.sharedInstance()
     
     @IBOutlet var emptyEditAreaImage: NSImageView!
@@ -190,7 +189,7 @@ class ViewController: NSViewController,
             
             let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
-            if let list = storage.sortNotes(noteList: storage.noteList) {
+            if let list = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue) {
                 storage.noteList = list
                 viewController.notesTableView.noteList = list
                 viewController.notesTableView.reloadData()
@@ -884,18 +883,8 @@ class ViewController: NSViewController,
         let project = getSidebarProject()
         let type = getSidebarType()
         
-        if !search, let list = storage.sortNotes(noteList: storage.noteList) {
-            storage.noteList = list
-        }
-        
         let searchTermsArray = filter.split(separator: " ")
-        var source = storage.noteList
-       
-        if let query = prevQuery, filter.range(of: query) != nil, let unwrappedList = filteredNoteList {
-            source = unwrappedList
-        } else {
-            prevQuery = nil
-        }
+        let source = storage.noteList
         
         filteredNoteList =
             source.filter() {
@@ -920,23 +909,10 @@ class ViewController: NSViewController,
                 )
             }
         
-        if filter.count > 0 {
-            filteredNoteList?.sort(by: { prevNote, nextNote in
-                if prevNote.title.lowercased().starts(with: filter) && nextNote.title.lowercased().starts(with: filter) {
-                    
-                    if prevNote.title.lowercased() == filter {
-                        return true
-                    } else {
-                        return prevNote.modifiedLocalAt > nextNote.modifiedLocalAt
-                    }
-                }
-                
-                return prevNote.title.lowercased().starts(with: filter)
-            })
-        }
-        
         if let unwrappedList = filteredNoteList {
-            notesTableView.noteList = unwrappedList
+            if let list = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue) {
+                notesTableView.noteList = list
+            }
         }
         
         DispatchQueue.main.async {
@@ -954,8 +930,6 @@ class ViewController: NSViewController,
             
             completion()
         }
-        
-        prevQuery = filter
     }
     
     @objc func selectNullTableRow() {

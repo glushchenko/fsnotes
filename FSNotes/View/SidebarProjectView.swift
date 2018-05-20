@@ -259,7 +259,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
                 UserDefaultsManagement.lastProject = i
-                vd.prevQuery = nil
                 vd.updateTable() {
                     if self.isFirstLaunch {
                         if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = vd.storage.getBy(url: url), let i = vd.notesTableView.getIndex(lastNote) {

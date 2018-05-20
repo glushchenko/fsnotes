@@ -183,7 +183,7 @@ class Storage {
             loadLabel(project)
         }
         
-        if let list = sortNotes(noteList: noteList) {
+        if let list = sortNotes(noteList: noteList, filter: "") {
             noteList = list
         }
         
@@ -238,38 +238,46 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note]?) -> [Note]? {
+    func sortNotes(noteList: [Note]?, filter: String) -> [Note]? {
+        var searchQuery = ""
+        if filter.count > 0 {
+            searchQuery = filter.lowercased()
+        }
+        
         guard let list = noteList else {
             return nil
         }
         
+        return list.sorted(by: {
+            if filter.count > 0 && $0.title.lowercased().starts(with: searchQuery) {
+                if $0.title.lowercased().starts(with: searchQuery) && $1.title.lowercased().starts(with: searchQuery) {
+                    return sortQuery(note: $0, next: $1)
+                }
+                
+                return true
+            }
+            
+            return sortQuery(note: $0, next: $1)
+        })
+    }
+    
+    private func sortQuery(note: Note, next: Note) -> Bool {
         let sortDirection = UserDefaultsManagement.sortDirection
         
-        switch UserDefaultsManagement.sort {
-        case .CreationDate:
-            return list.sorted(by: {
-                if $0.isPinned == $1.isPinned, let prevDate = $0.creationDate, let nextDate = $1.creationDate {
+        if note.isPinned == next.isPinned {
+            switch UserDefaultsManagement.sort {
+            case .CreationDate:
+                if let prevDate = note.creationDate, let nextDate = next.creationDate {
                     return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
                 }
-                return $0.isPinned && !$1.isPinned
-            })
-        
-        case .ModificationDate:
-            return list.sorted(by: {
-                if $0.isPinned == $1.isPinned {
-                    return sortDirection && $0.modifiedLocalAt > $1.modifiedLocalAt || !sortDirection && $0.modifiedLocalAt < $1.modifiedLocalAt
-                }
-                return $0.isPinned && !$1.isPinned
-            })
-        
-        case .Title:
-            return list.sorted(by: {
-                if $0.isPinned == $1.isPinned {
-                    return sortDirection && $0.title < $1.title || !sortDirection && $0.title > $1.title
-                }
-                return $0.isPinned && !$1.isPinned
-            })
+            case .ModificationDate:
+                return sortDirection && note.modifiedLocalAt > next.modifiedLocalAt || !sortDirection && note.modifiedLocalAt < next.modifiedLocalAt
+            case .Title:
+                return sortDirection && note.title < next.title || !sortDirection && note.title > next.title
+            }
         }
+        
+        return note.isPinned && !next.isPinned
     }
     
     func loadLabel(_ item: Project) {
