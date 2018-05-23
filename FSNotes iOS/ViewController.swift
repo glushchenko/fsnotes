@@ -410,7 +410,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         button.setImage(image, for: UIControlState.normal)
         button.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
         self.view.addSubview(button)
-        button.addTarget(self, action: #selector(self.makeNew), for: .touchDown)
+        button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
     }
     
     func initSettingsButton() {
@@ -421,7 +421,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
     }
     
-    @objc func makeNew(content: String? = nil) {
+    @objc func newButtonAction() {
+        createNote(content: nil)
+    }
+    
+    func createNote(content: String? = nil) {
         var currentProject: Project
         
         if let project = storage.getProjects().first {

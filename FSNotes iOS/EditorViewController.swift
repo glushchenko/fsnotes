@@ -146,7 +146,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.scrollRangeToVisible(NSRange(location:0, length:0))
-        height = editArea.frame.size.height
+        
+        if height == 0 {
+            height = editArea.frame.size.height
+        }
+        
         editArea.selectedTextRange = cursor
         
         switch note.type {

@@ -17,27 +17,31 @@ class ShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for item in self.extensionContext!.inputItems as! [NSExtensionItem] {
-            for provider in item.attachments! as! [NSItemProvider] {
-                if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
-                    provider.loadItem(forTypeIdentifier: kUTTypeText as String, options: nil, completionHandler: { (text, error) in
-                        if let data = text as? String {
-                            self.save(text: data)
-                            return
+        if let context = self.extensionContext, let input = context.inputItems as? [NSExtensionItem] {
+            for item in input {
+                if let a = item.attachments as? [NSItemProvider] {
+                    for provider in a {
+                        if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
+                            provider.loadItem(forTypeIdentifier: kUTTypeText as String, options: nil, completionHandler: { (text, error) in
+                                if let data = text as? String {
+                                    self.save(text: data)
+                                    return
+                                }
+                            })
+                        } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                            provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
+                                if let data = url as? NSURL, let textLink = data.absoluteString {
+                                    self.save(text: textLink)
+                                    return
+                                }
+                            })
                         }
-                    })
-                } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                    provider.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
-                        if let data = url as? NSURL, let textLink = data.absoluteString {
-                            self.save(text: textLink)
-                            return
-                        }
-                    })
+                    }
                 }
             }
+            
+            context.completeRequest(returningItems: context.inputItems, completionHandler: nil)
         }
-        
-        self.extensionContext!.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
     }
     
     func save(text: String) {

@@ -178,13 +178,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
-            viewController.makeNew()
+            viewController.createNote()
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
             let pasteboardString: String? = UIPasteboard.general.string
             if let content = pasteboardString {
-                viewController.makeNew(content: content.trim())
+                viewController.createNote(content: content.trim())
             }
             handled = true
             break
