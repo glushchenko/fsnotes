@@ -691,6 +691,8 @@ class ViewController: NSViewController,
             return
         }
         
+        let selectedRow = vc.notesTableView.selectedRow
+        
         UserDataService.instance.searchTrigger = true
         vc.editArea.clear()
         vc.storage.removeNotes(notes: notes) { urls in
@@ -705,7 +707,12 @@ class ViewController: NSViewController,
                     let undoManager = md.notesListUndoManager
                     undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
                     undoManager.setActionName("Delete")
-                    vc.search.becomeFirstResponder()
+                    
+                    if selectedRow > -1 {
+                        vc.notesTableView.selectRow(selectedRow)
+                        UserDataService.instance.skipListReload = true
+                    }
+                    
                     UserDataService.instance.searchTrigger = false
                 }
             }

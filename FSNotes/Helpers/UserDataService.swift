@@ -15,6 +15,7 @@ class UserDataService {
     fileprivate var _searchTrigger = false
     fileprivate var _lastRenamed: URL? = nil
     fileprivate var _fsUpdates = false
+    fileprivate var _skipListReload = false
     
     var isShortcutCall: Bool {
         get {
@@ -49,6 +50,15 @@ class UserDataService {
         }
         set {
             _fsUpdates = newValue
+        }
+    }
+    
+    var skipListReload: Bool {
+        get {
+            return _skipListReload
+        }
+        set {
+            _skipListReload = newValue
         }
     }
 }

@@ -251,6 +251,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard !UserDataService.instance.skipListReload else {
+            UserDataService.instance.skipListReload = false
+            return
+        }
+        
         if let view = notification.object as? NSOutlineView {
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
             
