@@ -556,14 +556,14 @@ class EditTextView: NSTextView {
         
         replaceCharacters(in: affectedRange, with: "![](/i/\(name))")
         
-        note.save()
-        
         if let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             cacheNote(note: note)
         }
         
         loadImages()
+        note.save()
+        
         return true
     }
     

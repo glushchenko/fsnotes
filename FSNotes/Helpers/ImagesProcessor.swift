@@ -135,8 +135,9 @@ public class ImagesProcessor {
     }
     
     func getFilePath(innerRange: NSRange) -> String {
-        let link = NSRange(location: innerRange.location + 1, length: innerRange.length - 2)
+        let link = NSRange(location: innerRange.location + 1 + offset, length: innerRange.length - 2)
         let path = textStorageNSString.substring(with: link)
+
         return path
     }
     
