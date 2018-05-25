@@ -1045,6 +1045,10 @@ class ViewController: NSViewController,
         note.isCached = true
         note.save()
         
+        if let si = getSidebarItem(), si.type == .Tag {
+            note.addTag(si.name)
+        }
+        
         note.markdownCache()
         refillEditArea()
         
