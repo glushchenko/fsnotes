@@ -59,6 +59,7 @@ public class UserDefaultsManagement {
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
+        static let ShowDockIcon = "showDockIcon"
         static let SortBy = "sortBy"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
@@ -585,6 +586,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.LastProject)
+        }
+    }
+    
+    static var showDockIcon: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.ShowDockIcon) {
+                return result as! Bool
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.ShowDockIcon)
         }
     }
 }

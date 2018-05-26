@@ -43,6 +43,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         #endif
+        
+        NSApp.setActivationPolicy(UserDefaultsManagement.showDockIcon ? .regular : .accessory)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

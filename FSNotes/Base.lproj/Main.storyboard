@@ -633,7 +633,7 @@ CA
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Hz-R4-h7D">
-                                                    <rect key="frame" x="20" y="132" width="171" height="22"/>
+                                                    <rect key="frame" x="20" y="142" width="171" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="TextEdit" drawsBackground="YES" id="1XY-bI-DX7">
                                                         <font key="font" metaFont="system"/>
@@ -645,7 +645,7 @@ CA
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
-                                                    <rect key="frame" x="18" y="162" width="161" height="17"/>
+                                                    <rect key="frame" x="18" y="172" width="161" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Open in external editor:" id="zcY-e5-gKs">
                                                         <font key="font" metaFont="system"/>
@@ -654,7 +654,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-C6-1X6">
-                                                    <rect key="frame" x="235" y="132" width="87" height="22"/>
+                                                    <rect key="frame" x="235" y="142" width="87" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="gth-SV-C1S">
                                                         <font key="font" metaFont="system"/>
@@ -666,7 +666,7 @@ CA
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-CO-c4Y">
-                                                    <rect key="frame" x="233" y="162" width="136" height="17"/>
+                                                    <rect key="frame" x="233" y="172" width="136" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Default file extension:" id="ctD-Qn-kDS">
                                                         <font key="font" metaFont="system"/>
@@ -701,11 +701,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BIH-5M-4PT">
-                                                    <rect key="frame" x="20" y="105" width="394" height="5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                </box>
-                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4Kr-dW-0Jm">
-                                                    <rect key="frame" x="20" y="195" width="391" height="5"/>
+                                                    <rect key="frame" x="18" y="88" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="81L-hB-Mc1">
@@ -737,6 +733,21 @@ CA
                                                         <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="1" colorSpace="deviceRGB"/>
                                                     </pathCell>
                                                 </pathControl>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BWu-lt-Hmt">
+                                                    <rect key="frame" x="19" y="105" width="132" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Show icon in dock" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bJv-E9-bwW">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="showDockIcon:" target="IAM-xZ-Bfs" id="M9W-LG-9zs"/>
+                                                    </connections>
+                                                </button>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="4Kr-dW-0Jm">
+                                                    <rect key="frame" x="21" y="201" width="391" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1026,6 +1037,7 @@ CA
                         <outlet property="noteFontColor" destination="o3v-hr-61f" id="85o-eq-cu8"/>
                         <outlet property="restoreCursorButton" destination="APN-cG-GJc" id="0gs-zg-XIx"/>
                         <outlet property="searchNotesShortcut" destination="XYa-Po-O09" id="9Ik-wd-Lp8"/>
+                        <outlet property="showDockIcon" destination="BWu-lt-Hmt" id="Ish-F8-kNp"/>
                         <outlet property="tabView" destination="Y4e-bh-2Sn" id="kq3-ym-Lvs"/>
                         <outlet property="verticalRadio" destination="oZC-jG-fL4" id="zba-Ca-akw"/>
                     </connections>
@@ -1480,7 +1492,7 @@ CA
     </scenes>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
-        <image name="makeNote" width="512" height="512"/>
+        <image name="makeNote" width="122.87999725341797" height="122.87999725341797"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
     </resources>

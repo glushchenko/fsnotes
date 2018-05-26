@@ -30,8 +30,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var restoreCursorButton: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
-
     @IBOutlet weak var defaultStoragePath: NSPathControl!
+    @IBOutlet weak var showDockIcon: NSButton!
     
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -102,6 +102,8 @@ class PrefsViewController: NSViewController {
         if let url = UserDefaultsManagement.storageUrl {
             defaultStoragePath.stringValue = url.path
         }
+        
+        showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -291,5 +293,19 @@ class PrefsViewController: NSViewController {
     
     @IBAction func autocloseBrackets(_ sender: NSButton) {
         UserDefaultsManagement.autocloseBrackets = (sender.state == .on)
+    }
+    
+    var dockIconTimer: Timer?
+    
+    @IBAction func showDockIcon(_ sender: NSButton) {
+        UserDefaultsManagement.showDockIcon = (sender.state == .on)
+        
+        NSApp.setActivationPolicy(sender.state == .on ? .regular : .accessory)
+        dockIconTimer?.invalidate()
+        dockIconTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(activateApp), userInfo: nil, repeats: false)
+    }
+    
+    @objc private func activateApp() {
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
