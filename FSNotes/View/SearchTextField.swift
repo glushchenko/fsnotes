@@ -32,6 +32,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     override func keyUp(with event: NSEvent) {
         if (event.keyCode == kVK_DownArrow) {
             vcDelegate.focusTable()
+            vcDelegate.notesTableView.selectNext()
             return
         }
         
@@ -77,10 +78,10 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     }
     
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
-        
         switch commandSelector.description {
         case "cancelOperation:":
             allowAutocomplete = true
+            return true
         case "deleteBackward:":
             allowAutocomplete = false
             textView.deleteBackward(self)
@@ -91,12 +92,17 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
             } else {
                 vcDelegate.makeNote(self)
             }
+            return true
         case "insertTab:":
             vcDelegate.focusEditArea()
-        default: break
+            vcDelegate.editArea.scrollToCursor()
+            return true
+        case "deleteWordBackward:":
+            textView.deleteWordBackward(self)
+            return true
+        default:
+            return false
         }
-        
-        return true
     }
     
     override func controlTextDidChange(_ obj: Notification) {
