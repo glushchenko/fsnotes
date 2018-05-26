@@ -39,7 +39,7 @@ class ViewController: NSViewController,
         self.view.window!.titlebarAppearsTransparent = true
         
         if (sidebarSplitView.subviews.count > 1) {
-            sidebarSplitView.subviews[1].backgroundColor = NSColor.white
+            sidebarSplitView.subviews[1].viewBackgroundColor = NSColor.white
         }
         
         // editarea paddings

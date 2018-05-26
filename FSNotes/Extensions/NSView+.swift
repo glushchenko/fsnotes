@@ -9,7 +9,7 @@
 import Cocoa
 
 extension NSView {
-    var backgroundColor: NSColor? {
+    var viewBackgroundColor: NSColor? {
         get {
             if let colorRef = self.layer?.backgroundColor {
                 return NSColor(cgColor: colorRef)
