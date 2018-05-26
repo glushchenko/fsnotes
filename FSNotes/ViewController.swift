@@ -806,17 +806,22 @@ class ViewController: NSViewController,
     }
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
-        let pv = NSTextView(frame: editArea.frame)
-        if editArea.isRichText {
-            if let data = editArea.rtf(from: NSMakeRange(0, (editArea.string as NSString).length)) {
-                pv.replaceCharacters(in: NSMakeRange(0, 0), withRTF: data)
-                pv.textColor = .black
-            }
-        } else {
-            pv.string = editArea.string
-        }
+        let pv = NSTextView(frame: NSMakeRect(0, 0, 528, 688))
+        pv.textStorage?.append(editArea.attributedString())
         
-        pv.printView(nil)
+        let printInfo = NSPrintInfo.shared
+        printInfo.isHorizontallyCentered = false
+        printInfo.isVerticallyCentered = false
+        printInfo.scalingFactor = 1
+        printInfo.topMargin = 40
+        printInfo.leftMargin = 40
+        printInfo.rightMargin = 40
+        printInfo.bottomMargin = 40
+        
+        let operation: NSPrintOperation = NSPrintOperation(view: pv, printInfo: printInfo)
+        operation.printPanel.options.insert(NSPrintPanel.Options.showsPaperSize)
+        operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
+        operation.run()
     }
     
     var timer = Timer()
