@@ -29,13 +29,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        // Tab
-        if (event.keyCode == 48 && !event.modifierFlags.contains(.control)) {
+        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)) || event.keyCode == kVK_Return {
             vc.focusEditArea()
         }
         
-        // Left arrow
-        if (event.keyCode == 123) {
+        if (event.keyCode == kVK_LeftArrow) {
             if let fr = self.window?.firstResponder, fr.isKind(of: NSTextView.self) {
                 super.keyUp(with: event)
                 return

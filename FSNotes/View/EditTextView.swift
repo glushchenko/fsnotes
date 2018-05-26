@@ -493,6 +493,8 @@ class EditTextView: NSTextView {
         if position <= storage.length {
             setSelectedRange(NSMakeRange(position, 0))
         }
+        
+        scrollToCursor()
     }
     
     func cacheNote(note: Note) {
@@ -577,6 +579,11 @@ class EditTextView: NSTextView {
     
     @objc func undoEdit(_ object: UndoData) {
         textStorage?.replaceCharacters(in: object.range, with: object.string)
+    }
+    
+    public func scrollToCursor() {
+        let cursorRange = NSMakeRange(self.selectedRange().location, 0)
+        scrollRangeToVisible(cursorRange)
     }
     
 }
