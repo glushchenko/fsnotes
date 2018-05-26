@@ -295,17 +295,15 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.autocloseBrackets = (sender.state == .on)
     }
     
-    var dockIconTimer: Timer?
-    
     @IBAction func showDockIcon(_ sender: NSButton) {
-        UserDefaultsManagement.showDockIcon = (sender.state == .on)
+        let isEnabled = sender.state == .on
+        UserDefaultsManagement.showDockIcon = isEnabled
         
-        NSApp.setActivationPolicy(sender.state == .on ? .regular : .accessory)
-        dockIconTimer?.invalidate()
-        dockIconTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(activateApp), userInfo: nil, repeats: false)
-    }
-    
-    @objc private func activateApp() {
-        NSApp.activate(ignoringOtherApps: true)
+        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
+        
+        DispatchQueue.main.async {
+            NSMenu.setMenuBarVisible(true)
+            NSApp.activate(ignoringOtherApps: true)
+        }
     }
 }

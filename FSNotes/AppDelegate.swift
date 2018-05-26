@@ -44,7 +44,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         #endif
         
-        NSApp.setActivationPolicy(UserDefaultsManagement.showDockIcon ? .regular : .accessory)
+        if UserDefaultsManagement.showDockIcon {
+            if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
+                app.activate()
+                
+                DispatchQueue.main.async {
+                    NSMenu.setMenuBarVisible(true)
+                    NSApp.setActivationPolicy(.regular)
+                    NSApp.activate(ignoringOtherApps: true)
+                }
+            }
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

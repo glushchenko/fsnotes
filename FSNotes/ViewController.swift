@@ -998,7 +998,7 @@ class ViewController: NSViewController,
     }
     
     func searchShortcut() {
-        if (NSApplication.shared.isActive) {
+        if (NSApplication.shared.isActive && !NSApplication.shared.isHidden) {
             NSApplication.shared.hide(nil)
             return
         }
