@@ -379,7 +379,7 @@ public class TextFormatter {
         let nsPrev = prevString as NSString
         
         guard let regex = try? NSRegularExpression(pattern: "^( |\t)*([-|–|—|*|•|\\+]{1} )"),
-            let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+. ") else {
+            let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+\\. ") else {
             return
         }
         
