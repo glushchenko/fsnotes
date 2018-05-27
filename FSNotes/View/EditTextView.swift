@@ -41,6 +41,10 @@ class EditTextView: NSTextView {
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let note = EditTextView.note else { return false }
         
+        if let vc = self.getVc(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
+            return false
+        }
+        
         if note.isRTF() {
             let disableRTF = [
                 "Header 1", "Header 2", "Header 3", "Header 4", "Header 5",
@@ -586,6 +590,22 @@ class EditTextView: NSTextView {
     public func scrollToCursor() {
         let cursorRange = NSMakeRange(self.selectedRange().location, 0)
         scrollRangeToVisible(cursorRange)
+    }
+    
+    public func hasFocus() -> Bool {
+        if let fr = self.window?.firstResponder, fr.isKind(of: EditTextView.self) {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func getVc() -> ViewController? {
+        if let viewController = NSApplication.shared.windows.first?.contentViewController as? ViewController {
+            return viewController
+        }
+        
+        return nil
     }
     
 }

@@ -135,6 +135,10 @@ class ViewController: NSViewController,
                 }
             case "File":
                 if menuItem.title == "Delete" {
+                    if !UserDefaultsManagement.focusInEditorOnNoteSelect && vc.editArea.hasFocus() {
+                        return false
+                    }
+                    
                     menuItem.keyEquivalentModifierMask =
                         UserDefaultsManagement.focusInEditorOnNoteSelect
                             ? [.command, .option]
@@ -157,10 +161,8 @@ class ViewController: NSViewController,
                 guard let p = vc.getSidebarProject(), !p.isTrash else {
                     return false
                 }
-            
-                return true
             default:
-                return true
+                break
             }
         }
         
