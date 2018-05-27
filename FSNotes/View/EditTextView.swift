@@ -163,7 +163,9 @@ class EditTextView: NSTextView {
             let css = getPreviewStyle()
             
             do {
-                downView = try? MarkdownView(frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
+                guard let imagesStorage = note.project?.url else { return }
+                
+                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
                 }
                 
                 addSubview(downView!)

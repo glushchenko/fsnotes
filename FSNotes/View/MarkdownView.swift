@@ -26,7 +26,7 @@ open class MarkdownView: WKWebView {
      
      - returns: An instance of Self
      */
-    public init(frame: CGRect, markdownString: String, openLinksInBrowser: Bool = true, css: String, templateBundle: Bundle? = nil, didLoadSuccessfully: DownViewClosure? = nil) throws {
+    public init(imagesStorage: URL? = nil, frame: CGRect, markdownString: String, openLinksInBrowser: Bool = true, css: String, templateBundle: Bundle? = nil, didLoadSuccessfully: DownViewClosure? = nil) throws {
         self.didLoadSuccessfully = didLoadSuccessfully
         
         if let templateBundle = templateBundle {
@@ -51,7 +51,7 @@ open class MarkdownView: WKWebView {
         super.init(frame: frame, configuration: configuration)
         
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
-        try loadHTMLView(markdownString, css: getPreviewStyle())
+        try loadHTMLView(markdownString, css: getPreviewStyle(), imagesStorage: imagesStorage)
     }
     
     required public init?(coder: NSCoder) {
@@ -93,12 +93,12 @@ open class MarkdownView: WKWebView {
                 font = fontMetrics.scaledFont(for: font!)
                 if let fontSize = font?.pointSize {
                     let fs = Int(fontSize)
-                    return "body {font: \(fs)pt \(familyName); } code, pre {font: \(fs)pt Courier New; font-weight: bold; } \(codeStyle)"
+                    return "body {font: \(fs)pt \(familyName); } code, pre {font: \(fs)pt Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
                 }
             }
         #endif
         
-        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} \(codeStyle)"
+        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} img {display: block; margin: 0 auto;} \(codeStyle)"
     }
     
     // MARK: - Private Properties
@@ -116,10 +116,47 @@ open class MarkdownView: WKWebView {
 
 private extension MarkdownView {
     
-    func loadHTMLView(_ markdownString: String, css: String) throws {
-        let htmlString = try markdownString.toHTML()
+    func loadHTMLView(_ markdownString: String, css: String, imagesStorage: URL? = nil) throws {
+        var htmlString = try markdownString.toHTML()
+        
+        if let imagesStorage = imagesStorage {
+            htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)
+        }
+        
         let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
+        
         loadHTMLString(pageHTMLString, baseURL: baseURL)
+    }
+    
+    private func loadImages(imagesStorage: URL, html: String) -> String {
+        var htmlString = html
+        
+        do {
+            let regex = try NSRegularExpression(pattern: "<img.*?src=\"([^\"]*)\"")
+            let results = regex.matches(in: html, range: NSRange(html.startIndex..., in: html))
+            
+            
+            let images = results.map {
+                String(html[Range($0.range, in: html)!])
+            }
+            
+            for image in images {
+                let localPath = image.replacingOccurrences(of: "<img src=\"", with: "").dropLast()
+                
+                if localPath.starts(with: "/") {
+                    let fullImageURL = imagesStorage
+                    let imageURL = fullImageURL.appendingPathComponent(String(localPath))
+                    let imageData = try Data(contentsOf: imageURL)
+                    let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
+                    
+                    htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
+                }
+            }
+        } catch let error {
+            print("Images regex: \(error.localizedDescription)")
+        }
+        
+        return htmlString
     }
     
     func htmlFromTemplate(_ htmlString: String, css: String) throws -> String {
