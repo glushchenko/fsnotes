@@ -72,7 +72,13 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         
         if allowAutocomplete && note.title.lowercased().starts(with: searchQuery.lowercased()) {
             stringValue = note.title
-            currentEditor()?.selectedRange = NSRange(searchQuery.count..<note.title.count)
+            
+            // Convert to NSString to avoid issues with unicode characters
+            let text = note.title as NSString
+            let queryString = searchQuery as NSString
+            let range = NSRange(queryString.length..<text.length)
+            
+            currentEditor()?.selectedRange = range
             allowAutocomplete = false
         }
     }
