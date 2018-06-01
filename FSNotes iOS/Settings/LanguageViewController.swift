@@ -36,11 +36,8 @@ class LanguageViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let dl = label.text {
-            UserDefaultsManagement.defaultLanguage = dl
-            
-            self.dismiss(animated: true, completion: nil)
-        }
+        UserDefaultsManagement.defaultLanguage = indexPath.row
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,14 +63,10 @@ class LanguageViewController: UITableViewController {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         
-        guard let language = UserDefaultsManagement.defaultLanguage else {
-            return
-        }
+        let language = UserDefaultsManagement.defaultLanguage
         
-        if let l = languages {
-            if l[indexPath.row] == language {
-                cell.accessoryType = .checkmark
-            }
+        if indexPath.row == language {
+            cell.accessoryType = .checkmark
         }
     }
 

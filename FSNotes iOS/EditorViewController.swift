@@ -80,14 +80,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     override var textInputMode: UITextInputMode? {
-        guard let defaultLang = UserDefaultsManagement.defaultLanguage else {
-            return super.textInputMode
-        }
+        let defaultLang = UserDefaultsManagement.defaultLanguage
         
-        for tim in UITextInputMode.activeInputModes {
-            if tim.primaryLanguage == defaultLang {
-                return tim
-            }
+        if UITextInputMode.activeInputModes.count - 1 >= defaultLang {
+            return UITextInputMode.activeInputModes[defaultLang]
         }
         
         return super.textInputMode

@@ -501,13 +501,13 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var defaultLanguage: String? {
+    static var defaultLanguage: Int {
         get {
-            if let dl = UserDefaults.standard.object(forKey: Constants.DefaultLanguageKey) as? String {
+            if let dl = UserDefaults.standard.object(forKey: Constants.DefaultLanguageKey) as? Int {
                 return dl
             }
             
-            return nil
+            return 0
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.DefaultLanguageKey)
