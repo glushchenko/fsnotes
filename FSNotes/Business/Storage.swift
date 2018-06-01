@@ -72,7 +72,9 @@ class Storage {
     }
     
     private func chechSub(url: URL, parent: Project) {
-        if let subFolders = getSubFolders(url: url) {
+        let parentPath = url.path + "/i/"
+        
+        if url.lastPathComponent != "i", let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
                 if projects.count > 100 {
                     return
@@ -80,8 +82,10 @@ class Storage {
                 
                 let surl = subFolder as URL
                 
+                
+                
                 guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash"),
-                    !surl.path.contains("/.") else {
+                    !surl.path.contains("/."), !surl.path.contains(parentPath) else {
                     continue
                 }
                 

@@ -18,10 +18,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: UITextView!
     
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
-        editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
-        
-        // textView is a UITextView
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
@@ -117,7 +113,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        editArea.attributedText = note.content
+        if note.isRTF() {
+            view.backgroundColor = UIColor.white
+            editArea.backgroundColor = UIColor.white
+        } else {
+            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        }
+        
+        if note.type == .PlainText {
+            let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+            editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [NSAttributedStringKey.foregroundColor: foregroundColor])
+        } else {
+            editArea.attributedText = note.content
+        }
         
         if note.type == .Markdown {
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
