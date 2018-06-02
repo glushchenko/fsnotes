@@ -202,6 +202,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             fill(note: note)
         }
     }
+    
+    public func reloadPreview() {
+        if UserDefaultsManagement.preview, let note = self.note {
+            removeMdSubviewIfExist(reload: true, note: note)
+        }
+    }
         
     func textViewDidChange(_ textView: UITextView) {
         guard let note = self.note else {
@@ -358,7 +364,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UserDefaultsManagement.preview = isPreviewMode
     }
     
-    func removeMdSubviewIfExist() {
+    func removeMdSubviewIfExist(reload: Bool = false, note: Note? = nil) {
         guard view.subviews.indices.contains(1) else {
             return
         }
@@ -369,8 +375,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     sub.removeFromSuperview()
                 }
             }
+            
+            if reload, let note = note {
+                self.loadPreview(note: note)
+            }
         }
-
     }
     
     func initLinksColor() {

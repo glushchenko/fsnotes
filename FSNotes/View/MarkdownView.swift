@@ -88,12 +88,12 @@ open class MarkdownView: WKWebView {
         
         #if os(iOS)
             if #available(iOS 11.0, *) {
-                var font = UserDefaultsManagement.noteFont
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font!)
-                if let fontSize = font?.pointSize {
-                    let fs = Int(fontSize)
-                    return "body {font: \(fs)pt '\(familyName)'; } code, pre {font: \(fs)pt Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                if let font = UserDefaultsManagement.noteFont {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    let fontSize = fontMetrics.scaledFont(for: font).pointSize
+                    let fs = Int(fontSize) - 2
+                    
+                    return "body {font: \(fs)px '\(familyName)'; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
                 }
             }
         #endif
