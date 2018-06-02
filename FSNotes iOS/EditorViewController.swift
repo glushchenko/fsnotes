@@ -25,12 +25,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let n = note, n.type == .Markdown {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
-        
-        guard let note = self.note else {
-            return
-        }
-        
-        fill(note: note)
+                
         super.viewDidLoad()
         
         addToolBar(textField: editArea)
@@ -121,6 +116,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
             editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [NSAttributedStringKey.foregroundColor: foregroundColor])
         } else {
+            NotesTextProcessor.updateFont(note: note)
             editArea.attributedText = note.content
         }
         

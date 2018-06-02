@@ -282,6 +282,17 @@ public class NotesTextProcessor {
         return nil
     }
     
+    public static func updateFont(note: Note) {
+        if var font = UserDefaultsManagement.noteFont {
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+        
+            note.content.addAttribute(.font, value: font, range: NSRange(0..<note.content.length))
+        }
+    }
+    
     public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage?, string: NSString, note: Note) {
         let content: NSAttributedString
         if let storageUnwrapped = storage {
@@ -458,22 +469,15 @@ public class NotesTextProcessor {
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
         
-        // Reset highlightr
-        styleApplier.removeAttribute(.link, range: paragraphRange)
-        styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
+        #if os(OSX)
+            // Reset highlightr
+            styleApplier.removeAttribute(.link, range: paragraphRange)
+            styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         
-        if isFullScan {
-            if var font = UserDefaultsManagement.noteFont {
-                #if os(iOS)
-                if #available(iOS 11.0, *) {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-                #endif
-                
+            if isFullScan, let font = UserDefaultsManagement.noteFont {
                 styleApplier.addAttribute(.font, value: font, range: paragraphRange)
             }
-        }
+        #endif
         
         #if os(iOS)
             if NightNight.theme == .night {
