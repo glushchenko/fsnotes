@@ -164,7 +164,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         metadataQuery.operationQueue = workerQueue
         
         cloudDriveQuery = metadataQuery
-        cloudDriveQuery?.searchScopes = [NSMetadataQueryUbiquitousDocumentsScope]
+        cloudDriveQuery?.searchScopes = [
+            NSMetadataQueryUbiquitousDocumentsScope,
+            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope
+        ]
+        
         cloudDriveQuery?.predicate = NSPredicate(value: true)
         cloudDriveQuery?.enableUpdates()
         cloudDriveQuery?.start()
@@ -183,6 +187,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
             for item in changedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
+                
+                print("changed: ")
+                print(url)
                 
                 let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
                 if url.deletingLastPathComponent?.lastPathComponent == ".Trash" {
@@ -253,6 +260,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
             for item in addedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
+                print("added: ")
+                print(url)
                 
                 if FileManager.default.isUbiquitousItem(at: url as URL) {
                     try? FileManager.default.startDownloadingUbiquitousItem(at: url as URL)
