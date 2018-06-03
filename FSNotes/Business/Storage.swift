@@ -64,11 +64,11 @@ class Storage {
     }
     
     public func getChildProjects(project: Project) -> [Project] {
-        return projects.filter({ $0.parent == project })
+        return projects.filter({ $0.parent == project }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
     
     public func getRootProjects() -> [Project] {
-        return projects.filter({ $0.isRoot })
+        return projects.filter({ $0.isRoot }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
     
     private func chechSub(url: URL, parent: Project) {
