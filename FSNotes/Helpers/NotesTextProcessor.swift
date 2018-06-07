@@ -282,6 +282,7 @@ public class NotesTextProcessor {
         return nil
     }
     
+    #if os(iOS)
     public static func updateFont(note: Note) {
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
@@ -292,6 +293,7 @@ public class NotesTextProcessor {
             note.content.addAttribute(.font, value: font, range: NSRange(0..<note.content.length))
         }
     }
+    #endif
     
     public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage?, string: NSString, note: Note) {
         let content: NSAttributedString

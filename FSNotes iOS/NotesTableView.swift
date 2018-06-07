@@ -60,6 +60,10 @@ class NotesTableView: UITableView,
         
         let note = notes[indexPath.row]
         if let evc = viewController.viewControllers[0] as? EditorViewController {
+            if let editArea = evc.editArea, let u = editArea.undoManager {
+                u.removeAllActions()
+            }
+            
             evc.fill(note: note)
             pageController.switchToEditor()
         }

@@ -12,11 +12,11 @@ import Foundation
     import Cocoa
     import Carbon.HIToolbox
     typealias Font = NSFont
-    typealias TextView = NSTextView
+    typealias TextView = EditTextView
 #else
     import UIKit
     typealias Font = UIFont
-    typealias TextView = UITextView
+    typealias TextView = EditTextView
 #endif
 
 public class TextFormatter {
@@ -57,8 +57,8 @@ public class TextFormatter {
         self.textView = textView
         self.note = note
         
-        prevSelectedString = storage.attributedSubstring(from: range)
         prevSelectedRange = range
+        prevSelectedString = storage.attributedSubstring(from: prevSelectedRange)
     }
     
     func getString() -> NSMutableAttributedString {
@@ -66,69 +66,82 @@ public class TextFormatter {
     }
     
     func bold() {
-        var charsDiff = 0
-        
         if type == .Markdown {
-            attributedString.mutableString.setString("**" + attributedString.string + "**")
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+            let string = "**" + attributedString.string + "**"
+            let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
             
-            if (attributedString.length == 4) {
-                setSRange(NSMakeRange(range.location + 2, 0))
-            } else {
-                setSRange(NSMakeRange(range.upperBound + 4, 0))
-            }
-            
-            charsDiff = 4
+            self.replaceWith(string: string)
+            setSRange(NSMakeRange(location, 0))
         }
         
         if type == .RichText {
-            if (attributedString.length > 0) {
-                let font = attributedString.attribute(.font, at: 0, longestEffectiveRange: nil, in: selectedRange) as! Font
-                
-                let newFont = toggleBoldFont(font: font)
-                attributedString.addAttribute(.font, value: newFont, range: selectedRange)
+            let newFont = toggleBoldFont(font: getTypingAttributes())
+            guard attributedString.length > 0 else {
+                setTypingAttributes(font: newFont)
+                return
             }
             
-            let newFont = toggleBoldFont(font: getTypingAttributes())
-            setTypingAttributes(font: newFont)
+            textView.undoManager?.beginUndoGrouping()
+            #if os(OSX)
+                if textView.selectedRange().length > 0 {
+                    let string = NSMutableAttributedString(attributedString: attributedString)
+                        string.addAttribute(.font, value: newFont, range: selectedRange)
+                    textView.insertText(string, replacementRange: textView.selectedRange())
+                }
+                setTypingAttributes(font: newFont)
+            #else
+                let selectedRange = textView.selectedRange
+                let selectedTextRange = textView.selectedTextRange!
+                let selectedText = textView.textStorage.attributedSubstring(from: selectedRange)
             
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+                let mutableAttributedString = NSMutableAttributedString(attributedString: selectedText)
+                mutableAttributedString.toggleBoldFont()
+            
+                textView.replace(selectedTextRange, withText: selectedText.string)
+                textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+            #endif
+            textView.undoManager?.endUndoGrouping()
         }
-        
-        registerUndo(charsDiff)
     }
     
     func italic() {
-        var charsDiff = 0
-        
         if type == .Markdown {
-            attributedString.mutableString.setString("_" + attributedString.string + "_")
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+            let string = "_" + attributedString.string + "_"
+            let location = string.count == 2 ? range.location + 1 : range.upperBound + 2
             
-            if (attributedString.length == 2) {
-                setSRange(NSMakeRange(range.location + 1, 0))
-            } else {
-                setSRange(NSMakeRange(range.upperBound + 2, 0))
-            }
-            
-            charsDiff = 2
+            self.replaceWith(string: string)
+            setSRange(NSMakeRange(location, 0))
         }
         
         if type == .RichText {
-            if (attributedString.length > 0) {
-                let font = attributedString.attribute(.font, at: 0, longestEffectiveRange: nil, in: selectedRange) as! Font
-                
-                let newFont = toggleItalicFont(font: font)
-                attributedString.addAttribute(.font, value: newFont, range: selectedRange)
+            let newFont = toggleItalicFont(font: getTypingAttributes())
+            
+            guard attributedString.length > 0 else {
+                setTypingAttributes(font: newFont)
+                return
             }
             
-            let newFont = toggleItalicFont(font: getTypingAttributes())
-            setTypingAttributes(font: newFont)
+            textView.undoManager?.beginUndoGrouping()
+            #if os(OSX)
+                if textView.selectedRange().length > 0 {
+                    let string = NSMutableAttributedString(attributedString: attributedString)
+                    string.addAttribute(.font, value: newFont, range: selectedRange)
+                    textView.insertText(string, replacementRange: textView.selectedRange())
+                }
+                setTypingAttributes(font: newFont)
+            #else
+                let selectedRange = textView.selectedRange
+                let selectedTextRange = textView.selectedTextRange!
+                let selectedText = textView.textStorage.attributedSubstring(from: selectedRange)
             
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+                let mutableAttributedString = NSMutableAttributedString(attributedString: selectedText)
+                mutableAttributedString.toggleItalicFont()
+            
+                textView.replace(selectedTextRange, withText: selectedText.string)
+                textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+            #endif
+            textView.undoManager?.endUndoGrouping()
         }
-        
-        registerUndo(charsDiff)
     }
     
     public func underline() {
@@ -172,16 +185,11 @@ public class TextFormatter {
         }
         
         if note.type == .Markdown {
-            attributedString.mutableString.setString("~~" + attributedString.string + "~~")
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+            let string = "~~" + attributedString.string + "~~"
+            let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
             
-            if (attributedString.length == 4) {
-                setSRange(NSMakeRange(range.location + 2, 0))
-            } else {
-                setSRange(NSMakeRange(range.upperBound + 4, 0))
-            }
-            
-            registerUndo(4)
+            self.replaceWith(string: string)
+            setSRange(NSMakeRange(location, 0))
         }
     }
     
@@ -208,9 +216,8 @@ public class TextFormatter {
         
         guard storage.length >= range.upperBound, range.length > 0 else {
             #if os(iOS)
-                storage.replaceCharacters(in: range, with: "\t")
+                self.replaceWith(string: "\t", range: range)
                 setSRange(NSMakeRange(range.upperBound + 1, 0))
-                registerUndo(1)
             #endif
             return
         }
@@ -231,7 +238,7 @@ public class TextFormatter {
             diff += 1
         }
         
-        storage.replaceCharacters(in: range, with: result)
+        self.replaceWith(string: result, range: range)
         
         let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
         if let note = EditTextView.note, note.type == .Markdown {
@@ -291,7 +298,7 @@ public class TextFormatter {
         }
         
         let x = result.joined(separator: "\n")
-        storage.replaceCharacters(in: range, with: x)
+        self.replaceWith(string: x, range: range)
         
         var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
         if let note = EditTextView.note, note.type == .Markdown {
@@ -319,15 +326,16 @@ public class TextFormatter {
     func header(_ string: String) {
         #if os(OSX)
             let prefix = string + " "
+            let length = string.count + 1
         #else
             let prefix = string
+            let length = 1
         #endif
         
-        attributedString.mutableString.setString(prefix + attributedString.string)
-        storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+        self.replaceWith(string: prefix, range: range)
         
-        setSRange(NSMakeRange(range.upperBound + 1 + string.count, 0))
-        registerUndo(string.count + 1)
+        setSRange(NSMakeRange(range.location + length, 0))
+        registerUndo(length)
     }
     
     public func link() {
@@ -423,21 +431,44 @@ public class TextFormatter {
         }
     }
     
-    private func registerUndo(_ charsDiff: Int = 0) {
-        let string = prevSelectedString
-        let range = prevSelectedRange
-        var rangeDiff: NSRange = range
+    private func replaceWith(string: String, range: NSRange? = nil) {
+        #if os(iOS)
+            var selectedRange: UITextRange
         
-        if let etv = textView as? EditTextView {
+            if let range = range,
+                let start = textView.position(from: textView.beginningOfDocument, offset: range.location),
+                let end = textView.position(from: start, offset: range.length),
+                let sRange = textView.textRange(from: start, to: end) {
+                selectedRange = sRange
+            } else {
+                selectedRange = textView.selectedTextRange!
+            }
+        
+            textView.undoManager?.beginUndoGrouping()
+            textView.replace(selectedRange, withText: string)
+            textView.undoManager?.endUndoGrouping()
+        #else
+            let selectedRange = textView.selectedRange
+            textView.undoManager?.beginUndoGrouping()
+            textView.replaceCharacters(in: selectedRange, with: string)
+            textView.undoManager?.endUndoGrouping()
+        #endif
+    }
+    
+    private func registerUndo(_ charsDiff: Int = 0) {
+        #if os(OSX)
+            let string = prevSelectedString
+            let range = prevSelectedRange
+            var rangeDiff: NSRange = range
+        
             if charsDiff != 0  {
                 rangeDiff = NSMakeRange(range.lowerBound, range.length + charsDiff )
             }
-            
-            #if os(OSX)
-                let undo = UndoData(string: string, range: rangeDiff)
-                note.undoManager.registerUndo(withTarget: etv, selector: #selector(etv.undoEdit), object: undo)
-            #endif
-        }
+        
+            let undo = UndoData(string: string, range: rangeDiff)
+        
+            note.undoManager.registerUndo(withTarget: textView, selector: #selector(textView.undoEdit), object: undo)
+        #endif
     }
     
     deinit {
@@ -472,6 +503,10 @@ public class TextFormatter {
                 note.save()
             }
         }
+        
+        #if os(iOS)
+            textView.initUndoRedoButons()
+        #endif
     }
     
     func getParagraphRange() -> NSRange? {
@@ -505,6 +540,10 @@ public class TextFormatter {
         #if os(OSX)
             return textView.typingAttributes[.font] as! Font
         #else
+            if let font = textView.currentFont {
+                return font
+            }
+        
             return textView.typingAttributes[NSAttributedStringKey.font.rawValue] as! Font
         #endif
     }
@@ -513,6 +552,7 @@ public class TextFormatter {
         #if os(OSX)
             textView.typingAttributes[.font] = font
         #else
+            textView.typingFont = font
             textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         #endif
     }

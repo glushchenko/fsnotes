@@ -286,14 +286,11 @@ class EditTextView: NSTextView {
         case (18...23): // cmd-1/6 (headers 1/6)
             if note.type == .Markdown {
                 var string = ""
-                var offset = 2
-                
-                for index in [18,19,20,21,23,22] {
+                for index in [18, 19, 20, 21, 23, 22] {
                     string = string + "#"
                     if Int(keyCode) == index {
                         break
                     }
-                    offset = offset + 1
                 }
                 
                 formatter.header(string)
@@ -584,7 +581,9 @@ class EditTextView: NSTextView {
     }
     
     @objc func undoEdit(_ object: UndoData) {
+        textStorage?.beginEditing()
         textStorage?.replaceCharacters(in: object.range, with: object.string)
+        textStorage?.endEditing()
     }
     
     public func scrollToCursor() {

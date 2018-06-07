@@ -188,9 +188,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for item in changedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
                 
-                print("changed: ")
-                print(url)
-                
                 let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
                 if url.deletingLastPathComponent?.lastPathComponent == ".Trash" {
                     removed = removed + 1
@@ -248,20 +245,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         conflict.isResolved = true
                     }
                 }
-                
-                DispatchQueue.main.async {
-                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController, let note = evc.note, note.name == fsName {
-                        evc.fill(note: note)
-                    }
-                }
             }
         }
         
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
             for item in addedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
-                print("added: ")
-                print(url)
                 
                 if FileManager.default.isUbiquitousItem(at: url as URL) {
                     try? FileManager.default.startDownloadingUbiquitousItem(at: url as URL)

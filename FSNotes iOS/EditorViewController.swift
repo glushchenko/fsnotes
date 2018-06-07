@@ -12,10 +12,11 @@ import Down
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
+    
     private var isHighlighted: Bool = false
     private var downView: MarkdownView?
     
-    @IBOutlet weak var editArea: UITextView!
+    @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
@@ -37,8 +38,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
-        
-        undoManager?.enableUndoRegistration()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,10 +87,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
+        EditTextView.note = note
         
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
         
         self.navigationItem.title = note.title
+        
         UserDefaultsManagement.preview = false
         removeMdSubviewIfExist()
         
@@ -103,6 +104,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         guard editArea != nil else {
             return
         }
+        
+        editArea.initUndoRedoButons()
         
         if note.isRTF() {
             view.backgroundColor = UIColor.white
@@ -116,8 +119,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
             editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [NSAttributedStringKey.foregroundColor: foregroundColor])
         } else {
-            NotesTextProcessor.updateFont(note: note)
             editArea.attributedText = note.content
+            editArea.textStorage.updateFont()
         }
         
         if note.type == .Markdown {
@@ -158,7 +161,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         case .PlainText:
             editArea.font = UserDefaultsManagement.noteFont
         case .RichText:
-            storage.updateFont()
+            break
         case .Markdown:
             return
         }
@@ -206,12 +209,45 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             removeMdSubviewIfExist(reload: true, note: note)
         }
     }
+    
+    // RTF style completions
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
+        guard let note = self.note, note.isRTF() else {
+            return true
+        }
+        
+        var i = 0
+        let length = editArea.selectedRange.length
+        
+        if length > 0 {
+            i = editArea.selectedRange.location
+        } else if editArea.selectedRange.location != 0 {
+            i = editArea.selectedRange.location - 1
+        }
+        
+        guard i > 0 else { return true }
+    
+        let upper = editArea.selectedRange.upperBound
+        let substring = editArea.attributedText.attributedSubstring(from: NSRange(i..<upper))
+        var typingFont = substring.attribute(.font, at: 0, effectiveRange: nil)
+        
+        if let font = editArea.typingFont {
+            typingFont = font
+            editArea.typingFont = nil
+        }
+
+        editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = typingFont
+        editArea.currentFont = typingFont as? UIFont
+        
+        return true
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         guard let note = self.note else {
             return
         }
-    
+        
         if isHighlighted {
             let search = getSearchText()
             let processor = NotesTextProcessor(storage: textView.textStorage)
@@ -241,6 +277,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         }
+        
+        editArea.initUndoRedoButons()
     }
     
     func getSearchText() -> String {
@@ -286,6 +324,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         textField.delegate = self
         textField.inputAccessoryView = toolBar
+        
+        if let etv = textField as? EditTextView {
+            etv.initUndoRedoButons()
+        }
     }
     
     @objc func boldPressed(){
@@ -328,7 +370,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func cancelPressed(){
-        view.endEditing(true) // or do something
+        view.endEditing(true)
     }
     
     @objc func preferredContentSizeChanged() {
@@ -338,11 +380,31 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func undoPressed() {
-        editArea.undoManager?.undo()
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = vc.viewControllers[0] as? EditorViewController,
+            let ea = evc.editArea,
+            let um = ea.undoManager else {
+                return
+        }
+        
+        um.undo()
+        ea.initUndoRedoButons()
     }
     
     @objc func redoPressed() {
-        editArea.undoManager?.redo()
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = vc.viewControllers[0] as? EditorViewController,
+            let ea = evc.editArea,
+            let um = ea.undoManager else {
+                return
+        }
+        
+        um.redo()
+        ea.initUndoRedoButons()
     }
     
     @objc func preview() {

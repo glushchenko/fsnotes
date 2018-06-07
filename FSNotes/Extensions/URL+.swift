@@ -21,10 +21,11 @@ extension URL {
             
             // Create buffer with required size:
             var data = Data(count: length)
+            let count = data.count
             
             // Retrieve attribute:
-            let result =  data.withUnsafeMutableBytes {
-                getxattr(fileSystemPath, name, $0, data.count, 0, 0)
+            let result = data.withUnsafeMutableBytes {
+                getxattr(fileSystemPath, name, $0, count, 0, 0)
             }
             guard result >= 0 else { throw URL.posixError(errno) }
             return data
@@ -61,10 +62,11 @@ extension URL {
             
             // Create buffer with required size:
             var data = Data(count: length)
+            let count = data.count
             
             // Retrieve attribute list:
             let result = data.withUnsafeMutableBytes {
-                listxattr(fileSystemPath, $0, data.count, 0)
+                listxattr(fileSystemPath, $0, count, 0)
             }
             guard result >= 0 else { throw URL.posixError(errno) }
             
