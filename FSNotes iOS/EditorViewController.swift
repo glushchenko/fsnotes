@@ -128,6 +128,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.delegate = self
+        editArea.delegate?.textViewDidChange!(editArea)
+        
         let cursor = editArea.selectedTextRange
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -148,8 +150,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.highlightKeyword(search: search)
             isHighlighted = true
         }
-        
-        editArea.scrollRangeToVisible(NSRange(location:0, length:0))
         
         if height == 0 {
             height = editArea.frame.size.height
