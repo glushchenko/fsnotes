@@ -14,6 +14,7 @@ class Storage {
     
     var noteList = [Note]()
     private var projects = [Project]()
+    private var imageFolders = [URL]()
     public var tagNames = [String]()
     
     var notesDict: [String: Note] = [:]
@@ -74,15 +75,18 @@ class Storage {
     private func chechSub(url: URL, parent: Project) {
         let parentPath = url.path + "/i/"
         
-        if url.lastPathComponent != "i", let subFolders = getSubFolders(url: url) {
+        if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
+                if subFolder.lastPathComponent == "i" {
+                    self.imageFolders.append(subFolder as URL)
+                    continue
+                }
+                
                 if projects.count > 100 {
                     return
                 }
                 
                 let surl = subFolder as URL
-                
-                
                 
                 guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash"),
                     !surl.path.contains("/."), !surl.path.contains(parentPath) else {
@@ -289,7 +293,14 @@ class Storage {
         let documents = readDirectory(item.url)
 
         for document in documents {
-            let url = document.0
+            let url = document.0 as URL
+            
+            #if os(iOS)
+                if FileManager.default.isUbiquitousItem(at: url) {
+                    try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+                }
+            #endif
+            
             let note = Note(url: url)
             note.parseURL()
             note.loadTags()
@@ -583,5 +594,43 @@ class Storage {
             noteList.filter {
                 $0.isTrash()
             }
+    }
+    
+    public func initiateCloudDriveSync() {
+        for project in projects {
+            self.syncDirectory(url: project.url)
+        }
+        
+        for imageFolder in imageFolders {
+            self.syncDirectory(url: imageFolder)
+        }
+    }
+    
+    public func syncDirectory(url: URL) {
+        do {
+            let directoryFiles =
+                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey])
+            
+            let images =
+                directoryFiles.filter {
+                    ["icloud"].contains($0.pathExtension.lowercased())}.map{
+                        url in (
+                            url,
+                            (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                                )?.contentModificationDate ?? Date.distantPast,
+                            (try? url.resourceValues(forKeys: [.creationDateKey])
+                                )?.creationDate ?? Date.distantPast
+                        )
+            }
+            
+            for image in images {
+                let url = image.0 as URL
+                if FileManager.default.isUbiquitousItem(at: url) {
+                    try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+                }
+            }
+        } catch {
+            print("Project not found, url: \(url)")
+        }
     }
 }

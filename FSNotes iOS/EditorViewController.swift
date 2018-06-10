@@ -244,6 +244,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                return
+        }
+        
+        vc.cloudDriveQuery?.disableUpdates()
+        
         guard let note = self.note else {
             return
         }
@@ -279,6 +287,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.initUndoRedoButons()
+        
+        vc.cloudDriveQuery?.enableUpdates()
     }
     
     func getSearchText() -> String {

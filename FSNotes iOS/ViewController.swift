@@ -43,6 +43,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.fontSize = 17
                 
         if storage.noteList.count == 0 {
+            storage.initiateCloudDriveSync()
             storage.loadDocuments()
             updateTable() {}
         }
@@ -243,6 +244,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         }
                         
                         conflict.isResolved = true
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController, let note = evc.note,
+                        note.name == fsName,
+                        evc.editArea.textStorage.string != note.content.string {
+                        evc.fill(note: note)
                     }
                 }
             }

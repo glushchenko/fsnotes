@@ -515,19 +515,14 @@
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7ED3FFC20CD0ADE001438EE /* Extensions */,
 				D7F6CFEE2056ABDB008C584A /* Settings */,
+				D7ED3FFB20CD0AA3001438EE /* View */,
 				D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */,
 				D7679388201F21F5000F7BBF /* AppDelegate.swift */,
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
-				D714496120C72D3400D7AD46 /* UIImage+Alpha.swift */,
-				D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
-				D7BDFE69201F68B700897A58 /* NotesTableView.swift */,
-				D7D9503C209D806F001FB60B /* SidebarTableView.swift */,
-				D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */,
-				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
-				D7BDFE6B201F6DC200897A58 /* EditTextView.swift */,
 				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
@@ -680,6 +675,27 @@
 				D72A19982020AB940025CF5B /* UserDataService.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D7ED3FFB20CD0AA3001438EE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D7BDFE6B201F6DC200897A58 /* EditTextView.swift */,
+				D7BDFE69201F68B700897A58 /* NotesTableView.swift */,
+				D7D9503C209D806F001FB60B /* SidebarTableView.swift */,
+				D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */,
+				D7BDFE6F201F788D00897A58 /* NoteCellView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D7ED3FFC20CD0ADE001438EE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D714496120C72D3400D7AD46 /* UIImage+Alpha.swift */,
+				D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
