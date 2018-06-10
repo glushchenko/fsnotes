@@ -292,10 +292,18 @@ class Storage {
         let keyStore = NSUbiquitousKeyValueStore()
         let documents = readDirectory(item.url)
 
+        let isFirst = true
         for document in documents {
             let url = document.0 as URL
             
             #if os(iOS)
+                if
+                    isFirst,
+                    let currentNoteURL = EditTextView.note?.url,
+                    currentNoteURL == url {
+                    continue
+                }
+            
                 if FileManager.default.isUbiquitousItem(at: url) {
                     try? FileManager.default.startDownloadingUbiquitousItem(at: url)
                 }
