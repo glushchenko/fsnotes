@@ -53,10 +53,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
         
-        if height == 0 {
-            height = editArea.frame.size.height
-        }
-        
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
             return
         }
@@ -82,8 +78,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         return super.textInputMode
     }
-    
-    private var height: CGFloat = 0.0
     
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
@@ -149,10 +143,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let processor = NotesTextProcessor(storage: storage)
             processor.highlightKeyword(search: search)
             isHighlighted = true
-        }
-        
-        if height == 0 {
-            height = editArea.frame.size.height
         }
         
         editArea.selectedTextRange = cursor
@@ -301,12 +291,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            editArea.frame.size.height = height - keyboardSize.height
+            self.view.frame.size.height = UIScreen.main.bounds.height
+            self.view.frame.size.height -= keyboardSize.height
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        editArea.frame.size.height = height
+        self.view.frame.size.height = UIScreen.main.bounds.height
     }
     
     func addToolBar(textField: UITextView){

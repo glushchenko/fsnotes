@@ -21,7 +21,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     let storage = Storage.sharedInstance()
     
-    override func viewDidLoad() {        
+    override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
                 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
@@ -32,7 +32,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
         
-        initNewButton()
+        loadPlusButton()
         initSettingsButton()
         
         search.delegate = self
@@ -67,6 +67,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
         
         NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
         swipe.minimumNumberOfTouches = 2
@@ -411,13 +415,35 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
     
-    func initNewButton() {
+    private var addButton: UIButton?
+    
+    func loadPlusButton() {
+        if let button = getButton() {
+            let width = self.view.frame.width
+            let height = self.view.frame.height
+            
+            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 80), y: CGFloat(height - 80)), size: CGSize(width: 48, height: 48))
+            return
+        }
+        
         let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 48, height: 48)))
         let image = UIImage(named: "plus.png")
         button.setImage(image, for: UIControlState.normal)
-        button.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        button.tag = 1
+        button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
         self.view.addSubview(button)
         button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
+    }
+    
+    private func getButton() -> UIButton? {
+        for sub in self.view.subviews {
+            
+            if sub.tag == 1 {
+                return sub as? UIButton
+            }
+        }
+        
+        return nil
     }
     
     func initSettingsButton() {
@@ -479,7 +505,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     @objc func rotated() {
         viewWillAppear(false)
-        initNewButton()
+        loadPlusButton()
         
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -584,6 +610,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if swipe.state == .ended {
             UserDefaultsManagement.sidebarSize = finSidebarWidth
         }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame.size.height = UIScreen.main.bounds.height
+            self.view.frame.size.height -= keyboardSize.height
+            loadPlusButton()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.frame.size.height = UIScreen.main.bounds.height
+        loadPlusButton()
     }
 }
 
