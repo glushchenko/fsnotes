@@ -189,17 +189,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var added = 0
         
         if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
-            
             for item in changedMetadataItems {
                 let url = item.value(forAttribute: NSMetadataItemURLKey) as! NSURL
                 
-                let fsName = item.value(forAttribute: NSMetadataItemFSNameKey) as! String
                 if url.deletingLastPathComponent?.lastPathComponent == ".Trash" {
                     removed = removed + 1
                     continue
                 }
                 
-                if let note = storage.getBy(name: fsName) {
+                let note = storage.getBy(url: url as URL)
+                
+                if let note = note {
                     if let fsDate = note.readModificatonDate(), fsDate == note.modifiedLocalAt {
                         continue
                     }
@@ -252,10 +252,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
                 
                 DispatchQueue.main.async {
-                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController, let note = evc.note,
-                        note.name == fsName,
-                        evc.editArea.textStorage.string != note.content.string {
-                        evc.fill(note: note)
+                    if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                        let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+                        let evc = viewController.viewControllers[0] as? EditorViewController {
+                        
+                        if let note = note,
+                            let currentURL = EditTextView.note?.url,
+                            note.url == currentURL,
+                            evc.editArea.attributedText.string != note.content.string {
+                            evc.fill(note: note)
+                        }
                     }
                 }
             }
@@ -283,8 +289,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         if removed > 0 || added > 0 {
-            storage.loadDocuments()
             DispatchQueue.main.async {
+                let url = EditTextView.note?.url
+                EditTextView.note = nil
+                
+                self.storage.loadDocuments()
+                
+                if let url = url {
+                    let note = self.storage.getBy(url: url)
+                    EditTextView.note = note
+                }
+                
                 self.updateTable() {
                     print("Table was updated.")
                 }
@@ -292,6 +307,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         cloudDriveQuery?.enableUpdates()
+    }
+    
+    private func getEVC() -> EditorViewController? {
+        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = viewController.viewControllers[0] as? EditorViewController {
+            return evc
+        }
+        
+        return nil
     }
         
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
