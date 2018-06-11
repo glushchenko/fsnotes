@@ -432,7 +432,8 @@ public class NotesTextProcessor {
     #else
         var boldFont: UIFont {
             get {
-                var font = UIFont.boldSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+                var font = UserDefaultsManagement.noteFont.bold()
+                font.withSize(CGFloat(UserDefaultsManagement.fontSize))
                 
                 if #available(iOS 11.0, *) {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
@@ -445,7 +446,8 @@ public class NotesTextProcessor {
         
         var italicFont: UIFont {
             get {
-                var font = UIFont.italicSystemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+                var font = UserDefaultsManagement.noteFont.italic()
+                font.withSize(CGFloat(UserDefaultsManagement.fontSize))
                 
                 if #available(iOS 11.0, *) {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
