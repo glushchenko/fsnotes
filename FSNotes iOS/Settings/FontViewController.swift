@@ -10,7 +10,7 @@ import UIKit
 import NightNight
 
 class FontViewController: UITableViewController {
-    private var fontFamilyNames: [String]? = []
+    private var fontFamilyNames: [String]? = [".SF UI Text"]
     
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
