@@ -122,7 +122,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.delegate = self
-        editArea.delegate?.textViewDidChange!(editArea)
         
         let cursor = editArea.selectedTextRange
         
