@@ -77,10 +77,18 @@ class NotesTableView: UITableView,
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
-            self.storage.removeNotes(notes: [note]) {_ in 
-                DispatchQueue.main.async {
-                    self.removeByNotes(notes: [note])
+            
+            _ = note.removeFile()
+            
+            if !note.isTrash() {
+                if let url = self.storage.getTrash(url: note.url) {
+                    note.url = url.appendingPathComponent(note.name)
+                    note.parseURL()
                 }
+            }
+            
+            DispatchQueue.main.async {
+                self.removeByNotes(notes: [note])
             }
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)

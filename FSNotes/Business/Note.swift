@@ -23,6 +23,10 @@ public class Note: NSObject {
     var sharedStorage = Storage.sharedInstance()
     var tagNames = [String]()
     
+    #if os(iOS)
+        var metaId: Int?
+    #endif
+    
     public var name: String = ""
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()
@@ -40,6 +44,14 @@ public class Note: NSObject {
         self.project = project
         self.name = name
         type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+    }
+    
+    public func loadProject(url: URL) {
+        self.url = url
+        
+        if let project = sharedStorage.getProjectBy(url: url) {
+            self.project = project
+        }
     }
     
     func initURL() {
@@ -360,6 +372,8 @@ public class Note: NSObject {
             type = .withExt(rawValue: url.pathExtension)
             title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
         }
+        
+        loadProject(url: url)
     }
     
     func save(cloudSync: Bool = true) {
