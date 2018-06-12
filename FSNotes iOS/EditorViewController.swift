@@ -206,6 +206,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return true
         }
         
+        // Paste in UITextView
+        if text == UIPasteboard.general.string && note.isMarkdown() {
+            self.editArea.insertText(text)
+            NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
+            return false
+        }
+        
         if text == "\n" {
             self.editArea.insertText("\n")
             let formatter = TextFormatter(textView: self.editArea, note: note)
