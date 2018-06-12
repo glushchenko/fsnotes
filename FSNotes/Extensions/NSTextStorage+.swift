@@ -33,9 +33,9 @@
             beginEditing()
             enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
                 if let f = value as? UIFont {
-                    let familyName = UserDefaultsManagement.noteFont.familyName
+                    let fontName = UserDefaultsManagement.noteFont.fontName
                     
-                    let fd = UIFontDescriptor(name: familyName, size: CGFloat(UserDefaultsManagement.fontSize))
+                    let fd = UIFontDescriptor(name: fontName, size: CGFloat(UserDefaultsManagement.fontSize))
                     fd.withSymbolicTraits(f.fontDescriptor.symbolicTraits)
                     var newFont = UIFont(descriptor: fd, size: CGFloat(UserDefaultsManagement.fontSize))
                     
