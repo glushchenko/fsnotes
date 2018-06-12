@@ -174,19 +174,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="8" y="26" width="359" height="641"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
+                                <rect key="frame" x="8" y="26" width="359" height="621"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="top" secondItem="Po0-6n-iUO" secondAttribute="top" constant="6" id="N5x-s4-zby"/>
+                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="top" secondItem="Po0-6n-iUO" secondAttribute="top" constant="5" id="N5x-s4-zby"/>
                             <constraint firstItem="Po0-6n-iUO" firstAttribute="trailing" secondItem="ecm-ZU-dhM" secondAttribute="trailing" constant="8" id="RB6-wy-4rq"/>
-                            <constraint firstItem="Po0-6n-iUO" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" id="TH4-jD-Xnb"/>
+                            <constraint firstItem="Po0-6n-iUO" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" constant="5" id="TH4-jD-Xnb"/>
                             <constraint firstItem="ecm-ZU-dhM" firstAttribute="leading" secondItem="Po0-6n-iUO" secondAttribute="leading" constant="8" id="V6w-av-pPX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Po0-6n-iUO"/>

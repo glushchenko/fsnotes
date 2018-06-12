@@ -114,10 +114,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [NSAttributedStringKey.foregroundColor: foregroundColor])
         } else {
             editArea.attributedText = note.content
-            editArea.textStorage.updateFont()
         }
         
         if note.type == .Markdown {
+            editArea.textStorage.updateFont()
+            
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
         }
         
@@ -201,10 +202,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        guard let note = self.note, note.isRTF() else {
+        guard let note = self.note else {
             return true
         }
+        
+        if text == "\n" {
+            self.editArea.insertText("\n")
+            let formatter = TextFormatter(textView: self.editArea, note: note)
+            formatter.newLine()
+            return false
+        }
+        
+        guard note.isRTF() else { return true }
         
         var i = 0
         let length = editArea.selectedRange.length

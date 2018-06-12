@@ -398,6 +398,9 @@ public class TextFormatter {
                 #if os(OSX)
                     textView.setSelectedRange(prevParagraphRange)
                     textView.delete(nil)
+                #else
+                    textView.selectedRange = prevParagraphRange
+                    textView.deleteBackward()
                 #endif
                 return
             }
@@ -416,6 +419,9 @@ public class TextFormatter {
                 #if os(OSX)
                     textView.setSelectedRange(prevParagraphRange)
                     textView.delete(nil)
+                #else
+                    textView.selectedRange = prevParagraphRange
+                    textView.deleteBackward()
                 #endif
                 return
             }
