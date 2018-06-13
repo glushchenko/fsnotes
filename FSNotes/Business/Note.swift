@@ -135,33 +135,37 @@ public class Note: NSObject {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
                 if isTrash() {
-                    try FileManager.default.removeItem(at: url)
+                    try? FileManager.default.removeItem(at: url)
                 }
                 
                 #if os(OSX)
                     guard let dst = getTrashURL()?.appendingPathComponent(name) else { return nil }
-                
-                    do {
-                        try FileManager.default.moveItem(at: url, to: dst)
-                    } catch {
-                        let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
-                        guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
-                        
-                        try FileManager.default.moveItem(at: url, to: reserveDst)
-                        
-                        return [reserveDst, url]
-                    }
-                
-                    return [dst, url]
                 #else
-                    if #available(iOS 11.0, *) {
-                        try FileManager.default.trashItem(at: url, resultingItemURL: nil)
-                    } else {
-                        try FileManager.default.removeItem(at: url)
+                    guard let dst = getTrashURL()?.appendingPathComponent(name) else {
+                        if #available(iOS 11.0, *) {
+                            try? FileManager.default.trashItem(at: url, resultingItemURL: nil)
+                        } else {
+                            try? FileManager.default.removeItem(at: url)
+                        }
+                        return nil
                     }
                 #endif
                 
+                do {
+                    try FileManager.default.moveItem(at: url, to: dst)
+                } catch {
+                    let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
+                    
+                    guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
+                    
+                    try FileManager.default.moveItem(at: url, to: reserveDst)
+                    
+                    return [reserveDst, url]
+                }
+                
                 print("Note moved to trash: \(name)")
+                
+                return [dst, url]
             }
         } catch let error as NSError {
             print("Remove went wrong: \(error)")

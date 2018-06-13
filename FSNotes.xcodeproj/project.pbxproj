@@ -44,6 +44,7 @@
 		D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
+		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
 		D739955E2051D1AB009017EE /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
 		D739955F2051D1AB009017EE /* italic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955C2051D1AA009017EE /* italic@2x.png */; };
 		D73995602051D1AB009017EE /* italic.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955D2051D1AB009017EE /* italic.png */; };
@@ -298,6 +299,7 @@
 		D735E5B81F2E45CC00173215 /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icons.icns; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
+		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
 		D739955B2051D1AA009017EE /* italic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@3x.png"; sourceTree = "<group>"; };
 		D739955C2051D1AA009017EE /* italic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@2x.png"; sourceTree = "<group>"; };
 		D739955D2051D1AB009017EE /* italic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = italic.png; sourceTree = "<group>"; };
@@ -520,6 +522,7 @@
 				D7ED3FFB20CD0AA3001438EE /* View */,
 				D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */,
 				D7679388201F21F5000F7BBF /* AppDelegate.swift */,
+				D73673A720D10CF2000BA61D /* CloudDriveManager.swift */,
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
@@ -1228,6 +1231,7 @@
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
+				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,

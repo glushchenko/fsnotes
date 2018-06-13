@@ -20,6 +20,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var notesWidthConstraint: NSLayoutConstraint!
     
     let storage = Storage.sharedInstance()
+    public var cloudDriveManager: CloudDriveManager?
     
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
@@ -57,7 +58,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         pageController.disableSwipe()
         
-        cloudDriveWatcher()
+        self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
         keyValueWatcher()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
@@ -129,15 +130,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var filterQueue = OperationQueue.init()
     var filteredNoteList: [Note]?
     var prevQuery: String?
-    var cloudDriveQuery: NSMetadataQuery?
     
-    private let workerQueue: OperationQueue = {
-        let workerQueue = OperationQueue()
-        workerQueue.name = "co.fluder.fsnotes.manager.browserdatasource.workerQueue"
-        workerQueue.maxConcurrentOperationCount = 1
-        return workerQueue
-    }()
-        
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
         
@@ -163,211 +156,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
         }
     }
-    
-    func cloudDriveWatcher() {
-        let metadataQuery = NSMetadataQuery()
-        metadataQuery.operationQueue = workerQueue
-        
-        cloudDriveQuery = metadataQuery
-        cloudDriveQuery?.searchScopes = [
-            NSMetadataQueryUbiquitousDocumentsScope,
-            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope
-        ]
-        
-        cloudDriveQuery?.predicate = NSPredicate(value: true)
-        cloudDriveQuery?.enableUpdates()
-        cloudDriveQuery?.start()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleMetadataQueryUpdates), name: NSNotification.Name.NSMetadataQueryDidUpdate, object: metadataQuery)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(queryDidFinishGathering), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: metadataQuery)
-    }
-    
-    @objc func queryDidFinishGathering(notification: NSNotification) {
-        cloudDriveQuery?.disableUpdates()
-        cloudDriveQuery?.stop()
-        
-        if let items = cloudDriveQuery?.results as? [NSMetadataItem] {
-            for item in items {
-                if  let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
-                    let note = storage.getBy(url: url) {
-                    note.metaId = cloudDriveQuery?.index(ofResult: item)
-                }
-            }
-        }
-        
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: self.cloudDriveQuery)
-        
-        cloudDriveQuery?.start()
-        cloudDriveQuery?.enableUpdates()
-    }
-    
-    @objc func handleMetadataQueryUpdates(notification: NSNotification) {
-        cloudDriveQuery?.disableUpdates()
-        
-        if let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] {
-            for item in changedMetadataItems {
-                guard
-                    let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
-                    let i = cloudDriveQuery?.index(ofResult: item) else {
-                    continue
-                }
-                
-                if let note = storage.getBy(url: url) {
-                    note.metaId = i
-                }
-                
-                if let note = storage.getBy(metaId: i) {
-
-                    // Move to trash
-                    if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
-                        note.url = url
-                        
-                        DispatchQueue.main.async {
-                            guard let isTrash = self.getSidebarItem()?.isTrash() else { return }
-                            
-                            if !isTrash,
-                                self.isFitInSidebar(note: note),
-                                let i = self.notesTable.notes.firstIndex(of: note) {
-                                
-                                self.notesTable.notes.remove(at: i)
-                                self.notesTable.beginUpdates()
-                                self.notesTable.deleteRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                                self.notesTable.endUpdates()
-                            }
-                            
-                            if isTrash {
-                                self.notesTable.notes.insert(note, at: 0)
-                                self.notesTable.beginUpdates()
-                                self.notesTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                                self.notesTable.endUpdates()
-                            }
-                            
-                            note.parseURL()
-                        }
-                    }
-                    
-                    // Reload current text storage
-                    if url == EditTextView.note?.url {
-                        DispatchQueue.main.async {
-                            if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                                let evc = viewController.viewControllers[0] as? EditorViewController,
-                                evc.editArea.attributedText.string != note.content.string {
-                                evc.fill(note: note)
-                            }
-                        }
-                    }
-                    
-                    // Reload or move
-                    if note.url == url {
-                        _ = note.reload()
-                    } else {
-                        note.url = url
-                    }
-                    
-                    // Resolve conflicts if exist
-                    if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
-                        for conflict in conflicts {
-                            guard let localizedName = conflict.localizedName else {
-                                continue
-                            }
-                            
-                            let url = URL(fileURLWithPath: localizedName)
-                            let ext = url.pathExtension
-                            let name = url.deletingPathExtension().lastPathComponent
-                            
-                            let date = Date.init()
-                            let dateFormatter = ISO8601DateFormatter()
-                            dateFormatter.formatOptions = [
-                                .withYear,
-                                .withMonth,
-                                .withDay,
-                                .withTime
-                            ]
-                            let dateString: String = dateFormatter.string(from: date)
-                            let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
-                            
-                            let documents = UserDefaultsManagement.documentDirectory
-                            
-                            do {
-                                if let to = documents?.appendingPathComponent(conflictName) {
-                                    try FileManager.default.copyItem(at: conflict.url, to: to)
-                                }
-                            } catch {
-                                print(error)
-                            }
-                            
-                            conflict.isResolved = true
-                        }
-                    }
-                    
-                // Add
-                } else if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-                    
-                    let note = Note(url: url)
-                    note.metaId = i
-                    note.parseURL()
-                    note.loadTags()
-                    _ = note.reload()
-                    
-                    let i = self.getInsertPosition()
-                    self.storage.noteList.insert(note, at: i)
-                    
-                    DispatchQueue.main.async {
-                        if self.isFitInSidebar(note: note) {
-                            self.notesTable.notes.insert(note, at: i)
-                            self.notesTable.beginUpdates()
-                            self.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                            self.notesTable.endUpdates()
-                        }
-                    }
-                }
-                
-            }
-        }
-        
-        if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
-            for item in addedMetadataItems {
-                guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else { continue }
-                
-                if FileManager.default.isUbiquitousItem(at: url) {
-                    try? FileManager.default.startDownloadingUbiquitousItem(at: url)
-                }
-            }
-        }
-        
-        // Remove from trash or permanent
-        if let removedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
             
-            for item in removedMetadataItems {
-                guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL, let note = storage.getBy(url: url) else { continue }
-                
-                self.storage.removeNotes(notes: [note]) {_ in
-                    DispatchQueue.main.async {
-                        self.notesTable.removeByNotes(notes: [note])
-                    }
-                }
-            }
-        }
-        
-        cloudDriveQuery?.enableUpdates()
-    }
-    
-    private func isDownloaded(url: URL) -> Bool {
-        var isDownloaded: AnyObject? = nil
-        
-        do {
-            try (url as NSURL).getResourceValue(&isDownloaded, forKey: URLResourceKey.ubiquitousItemDownloadingStatusKey)
-        } catch _ {}
-        
-        if isDownloaded as? URLUbiquitousItemDownloadingStatus == URLUbiquitousItemDownloadingStatus.current {
-            return true
-        }
-        
-        return false
-    }
-    
     private func getEVC() -> EditorViewController? {
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
@@ -422,7 +211,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         prevQuery = filter
     }
     
-    private func isFitInSidebar(note: Note) -> Bool {
+    public func isFitInSidebar(note: Note) -> Bool {
         var type: SidebarItemType? = nil
         var project: Project? = nil
         var sidebarName = ""
@@ -553,6 +342,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     func createNote(content: String? = nil) {
         var currentProject: Project
+        var tag: String?
         
         if let project = storage.getProjects().first {
             currentProject = project
@@ -560,12 +350,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             return
         }
         
-        if let item = getSidebarItem(), let project = item.project, !project.isTrash {
-            currentProject = project
+        if let item = getSidebarItem() {
+            if item.type == .Tag {
+                tag = item.name
+            }
+            
+            if let project = item.project, !project.isTrash {
+                currentProject = project
+            }
         }
         
         let note = Note(name: "", project: currentProject)
         note.initURL()
+        
+        if let tag = tag {
+            note.tagNames.append(tag)
+        }
         
         if let content = content {
             note.content = NSMutableAttributedString(string: content)
@@ -652,7 +452,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
     
-    private func getSidebarItem() -> SidebarItem? {
+    public func getSidebarItem() -> SidebarItem? {
         guard
             let indexPath = sidebarTableView.indexPathForSelectedRow,
             let sidebar = sidebarTableView.sidebar,
@@ -728,6 +528,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         return i
+    }
+    
+    public func refreshTextStorage(note: Note) {
+        DispatchQueue.main.async {
+            if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+                let evc = viewController.viewControllers[0] as? EditorViewController,
+                evc.editArea.attributedText.string != note.content.string {
+                evc.fill(note: note)
+            }
+        }
     }
 }
 

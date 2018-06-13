@@ -255,7 +255,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
         }
         
-        vc.cloudDriveQuery?.disableUpdates()
+        vc.cloudDriveManager?.cloudDriveQuery.disableUpdates()
         
         guard let note = self.note else {
             return
@@ -293,7 +293,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.initUndoRedoButons()
         
-        vc.cloudDriveQuery?.enableUpdates()
+        vc.cloudDriveManager?.cloudDriveQuery.enableUpdates()
     }
     
     func getSearchText() -> String {

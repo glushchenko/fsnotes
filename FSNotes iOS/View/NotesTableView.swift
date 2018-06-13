@@ -78,13 +78,13 @@ class NotesTableView: UITableView,
             
             let note = self.notes[indexPath.row]
             
-            _ = note.removeFile()
-            
             if !note.isTrash() {
-                if let url = self.storage.getTrash(url: note.url) {
-                    note.url = url.appendingPathComponent(note.name)
+                if let trashURLs = note.removeFile() {
+                    note.url = trashURLs[0]
                     note.parseURL()
                 }
+            } else {
+                _ = note.removeFile()
             }
             
             DispatchQueue.main.async {
