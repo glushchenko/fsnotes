@@ -195,5 +195,11 @@ class NotesTableView: UITableView,
         }
     }
     
+    public func updateLabel(note: Note) {
+        if let i = self.notes.index(of: note) {
+            let indexPath = IndexPath(row: i, section: 0)
+            reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
 
 }

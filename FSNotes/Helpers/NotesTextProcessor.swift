@@ -473,11 +473,11 @@ public class NotesTextProcessor {
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
         
-        #if os(OSX)
-            // Reset highlightr
-            styleApplier.removeAttribute(.link, range: paragraphRange)
-            styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
+        // Reset highlightr
+        styleApplier.removeAttribute(.link, range: paragraphRange)
+        styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         
+        #if os(OSX)
             if isFullScan, let font = UserDefaultsManagement.noteFont {
                 styleApplier.addAttribute(.font, value: font, range: paragraphRange)
             }
@@ -1308,6 +1308,8 @@ public class NotesTextProcessor {
      
         let string = storage.string as NSString
         var paragraphRange = string.paragraphRange(for: range)
+        
+        print(paragraphRange)
         let currentString = string.substring(with: paragraphRange)
         
         // Proper paragraph scan for two line markup "==" and "--"

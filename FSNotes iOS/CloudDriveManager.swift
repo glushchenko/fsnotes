@@ -89,17 +89,22 @@ class CloudDriveManager {
             if let note = storage.getBy(metaId: i) {
                 if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
                     self.moveToTrash(note: note, url: url)
+                    continue
                 }
+                
+                if note.url != url {
+                    note.url = url
+                    note.parseURL()
+                }
+                
+                _ = note.reload()
                 
                 if url == EditTextView.note?.url {
                     self.delegate.refreshTextStorage(note: note)
                 }
-                
-                if note.url == url {
-                    _ = note.reload()
-                } else {
-                    note.url = url
-                    note.parseURL()
+
+                DispatchQueue.main.async {
+                    self.delegate.notesTable.updateLabel(note: note)
                 }
                 
                 self.resolveConflict(url: url)
@@ -213,11 +218,14 @@ class CloudDriveManager {
         note.url = url
         
         DispatchQueue.main.async {
-            guard let isTrash = self.delegate.getSidebarItem()?.isTrash() else { return }
+            var isTrash = false
+            if let sidebarItem = self.delegate.getSidebarItem(), sidebarItem.isTrash() {
+                isTrash = true
+            }
             
             if !isTrash,
                 self.delegate.isFitInSidebar(note: note),
-                let i = self.delegate.notesTable.notes.firstIndex(of: note) {
+                let i = self.delegate.notesTable.notes.index(of: note) {
                 
                 self.delegate.notesTable.notes.remove(at: i)
                 self.delegate.notesTable.beginUpdates()
