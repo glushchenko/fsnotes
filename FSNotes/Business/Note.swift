@@ -425,19 +425,7 @@ public class Note: NSObject {
             return nil
         }
     }
-    
-    func isGeneral() -> Bool {
-#if os(OSX)
-        guard let p = project else {
-            return false
-        }
         
-        return (p.label == "general")
-#else
-        return true
-#endif
-    }
-    
     func getTitleWithoutLabel() -> String {
         return url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
     }

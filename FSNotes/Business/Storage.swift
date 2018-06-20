@@ -414,6 +414,7 @@ class Storage {
             })
     }
     
+    #if os(iOS)
     public func getBy(metaId: Int) -> Note? {
         return
             noteList.first(where: {
@@ -422,12 +423,13 @@ class Storage {
                 )
             })
     }
+    #endif
     
     func getBy(name: String) -> Note? {
         return
             noteList.first(where: {
                 return (
-                    $0.name == name && $0.isGeneral()
+                    $0.name == name
                 )
             })
     }
