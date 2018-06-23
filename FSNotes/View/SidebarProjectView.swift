@@ -545,12 +545,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     public func addTags(_ tags: [String]) {
         for tag in tags {
-            if var si = sidebarItems, si.first(where: {$0.type == .Tag && $0.name == tag }) == nil {
+            if let si = sidebarItems, si.first(where: {$0.type == .Tag && $0.name == tag }) == nil {
                 let sidebarTag = SidebarItem(name: tag, project: nil, type: .Tag, icon: nil)
-                si.append(sidebarTag)
+                sidebarItems?.append(sidebarTag)
                 
                 self.beginUpdates()
-                self.insertItems(at: [si.count - 1], inParent: nil, withAnimation: .effectFade)
+                self.insertItems(at: [si.count], inParent: nil, withAnimation: .effectFade)
                 self.endUpdates()
             }
         }
