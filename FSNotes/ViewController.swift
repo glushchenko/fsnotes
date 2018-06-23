@@ -740,11 +740,16 @@ class ViewController: NSViewController,
         vc.alert?.addButton(withTitle: "OK")
         vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                for note in notes {
-                    note.saveTags(field.stringValue)
+                if let tags = TagList(tags: field.stringValue).get() {
+                    var removed = [String]()
+                    for note in notes {
+                        removed = note.saveTags(tags)
+                    }
+                    
+                    vc.storageOutlineView.removeTags(removed)
+                    vc.storageOutlineView.addTags(tags)
+                    vc.alert = nil
                 }
-                
-                vc.storageOutlineView.reloadSidebar()
             }
         }
         

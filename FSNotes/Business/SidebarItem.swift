@@ -24,15 +24,7 @@ class SidebarItem {
         self.type = type
         self.icon = icon
     }
-    
-    public func hasPlusOnHover() -> Bool {
-        if type == .Label && name != "# Tags" {
-            return true
-        }
         
-        return false
-    }
-    
     public func isSelectable() -> Bool {        
         if type == .Label && ["# Tags"].contains(name) {
             return false

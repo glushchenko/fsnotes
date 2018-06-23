@@ -38,13 +38,34 @@ class SidebarCellView: NSTableCellView {
         
         if sidebarItem.type == .Label && sidebarItem.name != "# Tags" {
             plus.isHidden = false
+            
+            return
+        }
+        
+        let vc = getViewController()
+        if sidebarItem.type == .Tag, let note = vc.notesTableView.getSelectedNote() {
+            if note.tagNames.contains(sidebarItem.name) {
+                plus.alternateTitle = sidebarItem.name
+                plus.image = NSImage.init(named: NSImage.Name.stopProgressTemplate)
+                plus.image?.size = NSSize(width: 10, height: 10)
+                plus.isHidden = false
+                plus.target = self
+                plus.action = #selector(removeTag(sender:))
+            } else {
+                plus.alternateTitle = sidebarItem.name
+                plus.image = NSImage.init(named: NSImage.Name.addTemplate)
+                plus.image?.size = NSSize(width: 10, height: 10)
+                plus.isHidden = false
+                plus.target = self
+                plus.action = #selector(addTag(sender:))
+            }
         }
     }
     
     override func mouseExited(with event: NSEvent) {
         guard let sidebarItem = objectValue as? SidebarItem else { return }
         
-        if sidebarItem.type == .Label {
+        if sidebarItem.type == .Label || sidebarItem.type == .Tag {
             plus.isHidden = true
         }
     }
@@ -82,6 +103,42 @@ class SidebarCellView: NSTableCellView {
         let vc = NSApp.windows[0].contentViewController as? ViewController
         
         return vc!
+    }
+    
+    @objc public func removeTag(sender: Any?) {
+        guard let button = sender as? NSButton else { return }
+        
+        let vc = getViewController()
+        if let note = vc.notesTableView.getSelectedNote() {
+            let tag = button.alternateTitle
+            note.removeTag(tag)
+            
+            let vc = getViewController()
+            
+            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
+                vc.storageOutlineView.deselectTag(item: sidebarItem)
+                
+                if !vc.storage.tagNames.contains(tag) {
+                    vc.storageOutlineView.remove(sidebarItem: sidebarItem)
+                }
+            }
+        }
+    }
+    
+    @objc public func addTag(sender: Any?) {
+        guard let button = sender as? NSButton else { return }
+        
+        let vc = getViewController()
+        if let note = vc.notesTableView.getSelectedNote() {
+            let tag = button.alternateTitle
+            note.addTag(tag)
+            
+            let vc = getViewController()
+            
+            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
+                vc.storageOutlineView.selectTag(item: sidebarItem)
+            }
+        }
     }
 
 }

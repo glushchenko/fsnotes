@@ -480,15 +480,8 @@ public class Note: NSObject {
     }
     
     #if os(OSX)
-    public func saveTags(_ string: String) {
-        var newTagsClean = [String]()
-        let newTags = string.split(separator: ",")
-        for newTag in newTags {
-            newTagsClean.append(
-                String(newTag).trimmingCharacters(in: .whitespacesAndNewlines)
-            )
-        }
-        
+    public func saveTags(_ string: [String]) -> [String] {
+        let newTagsClean = string
         var new = [String]()
         var removed = [String]()
         
@@ -505,18 +498,44 @@ public class Note: NSObject {
         }
         
         for n in new { sharedStorage.addTag(n) }
-        for r in removed { sharedStorage.removeTag(r) }
+        
+        var removedFromStorage = [String]()
+        for r in removed {
+            if sharedStorage.removeTag(r) {
+                removedFromStorage.append(r)
+            }
+        }
         
         tagNames = newTagsClean
         
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
+        
+        return removedFromStorage
     }
     
     public func addTag(_ name: String) {
         guard !tagNames.contains(name) else { return }
+        
         tagNames.append(name)
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
+    
+    public func removeTag(_ name: String) {
+        guard tagNames.contains(name) else { return }
+        
+        if let i = tagNames.firstIndex(of: name) {
+            tagNames.remove(at: i)
+        }
+        
+        if sharedStorage.noteList.first(where: {$0.tagNames.contains(name)}) == nil {
+            if let i = sharedStorage.tagNames.firstIndex(of: name) {
+                sharedStorage.tagNames.remove(at: i)
+            }
+        }
+        
+        _ = saveTags(tagNames)
+    }
+    
     #endif
     
     public func loadTags() {
@@ -527,7 +546,10 @@ public class Note: NSObject {
                     if !self.tagNames.contains(tag) {
                         self.tagNames.append(tag)
                     }
-                    sharedStorage.addTag(tag)
+                    
+                    if let project = project, !project.isTrash {
+                        sharedStorage.addTag(tag)
+                    }
                 }
             }
         #else
@@ -536,7 +558,10 @@ public class Note: NSObject {
                 for tag in tags {
                     if let tagName = tag as? String {
                         self.tagNames.append(tagName)
-                        sharedStorage.addTag(tagName)
+                        
+                        if let project = project, !project.isTrash {
+                            sharedStorage.addTag(tagName)
+                        }
                     }
                 }
             }

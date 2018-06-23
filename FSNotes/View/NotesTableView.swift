@@ -65,6 +65,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let viewController = self.window?.contentViewController as! ViewController
         
         if (noteList.indices.contains(selectedRow)) {
+            let note = noteList[selectedRow]
+            
+            if let items = viewController.storageOutlineView.sidebarItems {
+                for item in items {
+                    if item.type == .Tag {
+                        if note.tagNames.contains(item.name) {
+                            viewController.storageOutlineView.selectTag(item: item)
+                        } else {
+                            viewController.storageOutlineView.deselectTag(item: item)
+                        }
+                    }
+                }
+            }
+            
             viewController.editArea.fill(note: noteList[selectedRow], highlight: true)
             
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
@@ -72,6 +86,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         } else {
             viewController.editArea.clear()
+            viewController.storageOutlineView.deselectAllTags()
         }
     }
     

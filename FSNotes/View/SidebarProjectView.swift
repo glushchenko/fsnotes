@@ -80,6 +80,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 for row in rows {
                     let note = vc.notesTableView.noteList[row]
                     note.addTag(sidebarItem.name)
+                    selectTag(item: sidebarItem)
                 }
                 
                 return true
@@ -255,6 +256,8 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             UserDataService.instance.skipListReload = false
             return
         }
+        
+        self.deselectAllTags()
         
         if let view = notification.object as? NSOutlineView {
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
@@ -507,6 +510,64 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         vc.storageOutlineView.sidebarItems = Sidebar().getList()
         vc.storageOutlineView.reloadData()
         vc.storageOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
+    }
+    
+    public func selectTag(item: SidebarItem) {
+        let i = self.row(forItem: item)
+        if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {
+            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag_red.png"))
+        }
+    }
+    
+    public func deselectTag(item: SidebarItem) {
+        let i = self.row(forItem: item)
+        if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
+            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+        }
+    }
+    
+    public func deselectAllTags() {
+        guard let items = self.sidebarItems?.filter({$0.type == .Tag}) else { return }
+        for item in items {
+            let i = self.row(forItem: item)
+            if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
+                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+            }
+        }
+    }
+    
+    public func remove(sidebarItem: SidebarItem) {
+        if let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == sidebarItem.name }) {
+            sidebarItems?.remove(at: i)
+            self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+        }
+    }
+    
+    public func addTags(_ tags: [String]) {
+        for tag in tags {
+            if var si = sidebarItems, si.first(where: {$0.type == .Tag && $0.name == tag }) == nil {
+                let sidebarTag = SidebarItem(name: tag, project: nil, type: .Tag, icon: nil)
+                si.append(sidebarTag)
+                
+                self.beginUpdates()
+                self.insertItems(at: [si.count - 1], inParent: nil, withAnimation: .effectFade)
+                self.endUpdates()
+            }
+        }
+        
+        for tag in tags {
+            if let item = sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag }) {
+                selectTag(item: item)
+            }
+        }
+    }
+    
+    public func removeTags(_ tags: [String]) {
+        for tag in tags {
+            if let item = sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag }) {
+                remove(sidebarItem: item)
+            }
+        }
     }
     
 }

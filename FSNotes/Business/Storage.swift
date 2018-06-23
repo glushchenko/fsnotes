@@ -600,12 +600,15 @@ class Storage {
         }
     }
     
-    public func removeTag(_ string: String) {
+    public func removeTag(_ string: String) -> Bool {
         if noteList.filter({ $0.tagNames.contains(string) && !$0.isTrash() }).count < 2 {
             if let i = tagNames.index(of: string) {
                 tagNames.remove(at: i)
+                return true
             }
         }
+        
+        return false
     }
     
     public func getAllTrash() -> [Note] {
