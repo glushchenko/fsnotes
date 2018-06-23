@@ -742,11 +742,16 @@ class ViewController: NSViewController,
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 if let tags = TagList(tags: field.stringValue).get() {
                     var removed = [String]()
+                    var deselected = [String]()
+                    
                     for note in notes {
-                        removed = note.saveTags(tags)
+                        let r = note.saveTags(tags)
+                        removed = r.0
+                        deselected = r.1
                     }
                     
                     vc.storageOutlineView.removeTags(removed)
+                    vc.storageOutlineView.deselectTags(deselected)
                     vc.storageOutlineView.addTags(tags)
                     vc.alert = nil
                 }

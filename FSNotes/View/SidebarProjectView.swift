@@ -512,6 +512,18 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         vc.storageOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
     }
     
+    public func deselectTags(_ list: [String]) {
+        for tag in list {
+            if
+                let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == tag }),
+                let row = self.rowView(atRow: i, makeIfNecessary: false),
+                let cell = row.view(atColumn: 0) as? SidebarCellView {
+                
+                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+            }
+        }
+    }
+    
     public func selectTag(item: SidebarItem) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {

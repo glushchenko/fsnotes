@@ -480,7 +480,7 @@ public class Note: NSObject {
     }
     
     #if os(OSX)
-    public func saveTags(_ string: [String]) -> [String] {
+    public func saveTags(_ string: [String]) -> ([String], [String]) {
         let newTagsClean = string
         var new = [String]()
         var removed = [String]()
@@ -510,7 +510,7 @@ public class Note: NSObject {
         
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
         
-        return removedFromStorage
+        return (removedFromStorage, removed)
     }
     
     public func addTag(_ name: String) {
