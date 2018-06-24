@@ -29,7 +29,7 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 FSNotes is written on **Swift 4**, open source (MIT license)
 
 <a href="https://itunes.apple.com/app/fsnotes/id1277179284">
-	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/mac/images/badge-download-on-the-mac-app-store.svg" alt="">
+	<img src="https://fsnot.es/img/badge-download-on-the-mac-app-store.svg" alt="">
 </a> 
 
 ---
@@ -49,5 +49,5 @@ FSNotes is written on **Swift 4**, open source (MIT license)
 - Sharing extension
 
 <a href="https://itunes.apple.com/app/fsnotes-manager/id1346501102">
-	<img src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" alt="">
+	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
 </a> 
