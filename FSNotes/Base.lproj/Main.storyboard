@@ -1015,11 +1015,49 @@ CA
                                             </subviews>
                                         </view>
                                     </tabViewItem>
+                                    <tabViewItem label="Advanced" identifier="" id="U2i-1m-lBm">
+                                        <view key="view" id="Qbl-QU-oWF">
+                                            <rect key="frame" x="10" y="33" width="434" height="281"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kbO-AD-4WA">
+                                                    <rect key="frame" x="21" y="217" width="319" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="4GP-fg-elE">
+                                                        <font key="font" metaFont="system"/>
+                                                        <url key="url" string="file:///Applications/"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </pathCell>
+                                                </pathControl>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YlI-9Y-odu">
+                                                    <rect key="frame" x="19" y="235" width="170" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Archive storage:" id="Juj-Gn-1Vs">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AMP-QH-gYQ">
+                                                    <rect key="frame" x="343" y="212" width="79" height="28"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BwK-KZ-q9a">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="changeArchiveStorage:" target="IAM-xZ-Bfs" id="wEH-Np-tqd"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                    </tabViewItem>
                                 </tabViewItems>
                             </tabView>
                         </subviews>
                     </view>
                     <connections>
+                        <outlet property="archivePathControl" destination="kbO-AD-4WA" id="XFS-tj-piq"/>
                         <outlet property="autocloseBrackets" destination="gk5-il-WSG" id="IxL-W1-HLK"/>
                         <outlet property="backgroundColor" destination="OZO-BG-4Lc" id="EzT-ry-g0H"/>
                         <outlet property="cellSpacing" destination="X4v-hO-tFb" id="TBp-Vn-sFc"/>

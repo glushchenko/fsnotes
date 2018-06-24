@@ -19,6 +19,15 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private var isFirstLaunch = true
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
+            
+            if menuItem.title == "Reveal folder" {
+                return true
+            }
+            
+            return false
+        }
+        
         if menuItem.title == "Attach storage" {
             return true
         }
@@ -227,6 +236,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
+                
+            case .Archive:
+                cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
             }
         }
         return cell
@@ -288,6 +302,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             
             guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
             let sidebarItem = si[selectedRow]
+            
+            if let p = sidebarItem.project, p.isArchive {
+                return
+            }
             
             if let p = sidebarItem.project, p.isDefault {
                 for item in menu.items {
@@ -579,6 +597,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             if let item = sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag }) {
                 remove(sidebarItem: item)
             }
+        }
+    }
+    
+    public func selectArchive() {
+        if let i = sidebarItems?.firstIndex(where: {$0.type == .Archive }) {
+            selectRowIndexes([1], byExtendingSelection: false)
         }
     }
     

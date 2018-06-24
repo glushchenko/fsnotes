@@ -206,10 +206,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             submenu.addItem(trashMenu)
             submenu.addItem(NSMenuItem.separator())
         }
+        
+        if !note.isInArchive() {
+            let archiveMenu = NSMenuItem()
+            archiveMenu.title = "Archive"
+            archiveMenu.action = #selector(viewController.archiveNote(_:))
+            submenu.addItem(archiveMenu)
+            submenu.addItem(NSMenuItem.separator())
+        }
 
         let projects = storage.getProjects()
         for item in projects {
-            if project == item || item.isTrash {
+            if project == item || item.isTrash || item.isArchive {
                 continue
             }
             

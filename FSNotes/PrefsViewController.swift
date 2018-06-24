@@ -32,6 +32,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var autocloseBrackets: NSButton!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var showDockIcon: NSButton!
+    @IBOutlet weak var archivePathControl: NSPathControl!
     
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -104,6 +105,8 @@ class PrefsViewController: NSViewController {
         }
         
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
+        
+        archivePathControl.url = UserDefaultsManagement.archiveDirectory
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -306,4 +309,42 @@ class PrefsViewController: NSViewController {
             NSApp.activate(ignoringOtherApps: true)
         }
     }
+    
+    @IBAction func changeArchiveStorage(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = true
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = false
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = openPanel.url else { return }
+                guard let currentURL = UserDefaultsManagement.archiveDirectory else { return }
+                
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+                bookmark.remove(url: currentURL)
+                bookmark.store(url: url)
+                bookmark.save()
+                
+                UserDefaultsManagement.archiveDirectory = url
+                self.archivePathControl.url = url
+                
+                let storage = self.storage
+                let vc = self.viewController
+                
+                if let archive = storage.getArchive() {
+                    archive.url = url
+                    storage.unload(project: archive)
+                    storage.loadLabel(archive)
+                    storage.cacheMarkdown(project: archive)
+                    
+                    vc.notesTableView.reloadData()
+                    vc.storageOutlineView.reloadData()
+                    vc.storageOutlineView.selectArchive()
+                }
+            }
+        }
+    }
+    
 }

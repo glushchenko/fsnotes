@@ -720,7 +720,19 @@ class ViewController: NSViewController,
             }
         }
     }
+    
+    @IBAction func archiveNote(_ sender: Any) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         
+        guard let notes = vc.notesTableView.getSelectedNotes() else {
+            return
+        }
+        
+        if let project = storage.getArchive() {
+            move(notes: notes, project: project)
+        }
+    }
+    
     var alert: NSAlert?
     @IBAction func tagNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
@@ -920,12 +932,13 @@ class ViewController: NSViewController,
                         || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
                         })
                     ) && (
-                        type == .All
+                        type == .All && $0.project != nil && !$0.project!.isArchive
                         || type == .Tag && $0.tagNames.contains(sidebarName)
                         || [.Category, .Label].contains(type) && project != nil && $0.project == project
-                        || type == nil && project == nil
+                        || type == nil && project == nil && $0.project != nil && !$0.project!.isArchive
                         || project != nil && project!.isRoot && $0.project?.parent == project
                         || type == .Trash
+                        || type == .Archive && $0.project != nil && $0.project!.isArchive
                     ) && (
                         type == .Trash && $0.isTrash()
                         || type != .Trash && !$0.isTrash()

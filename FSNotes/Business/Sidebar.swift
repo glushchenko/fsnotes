@@ -27,10 +27,19 @@ class Sidebar {
         }
         #endif
         
-        list = [
-            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home\(night).png")),
-            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash\(night).png")),
-        ]
+        list.append(
+            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home\(night).png"))
+        )
+        
+        if let archiveProject = storage.getArchive() {
+            list.append(
+                SidebarItem(name: "Archive", project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
+            )
+        }
+        
+        list.append(
+            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash\(night).png"))
+        )
         
         let rootProjects = storage.getRootProjects()
         for project in rootProjects {
@@ -46,6 +55,10 @@ class Sidebar {
             
             let childProjects = storage.getChildProjects(project: project)
             for childProject in childProjects {
+                if childProject.url == UserDefaultsManagement.archiveDirectory {
+                    continue
+                }
+                
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category, icon: icon))
             }
         }
@@ -73,7 +86,7 @@ class Sidebar {
     }
     
     public func getProjects() -> [SidebarItem] {
-        return list.filter({ $0.type == .Category  })
+        return list.filter({ $0.type == .Category && $0.type != .Archive })
     }
     
     public func getByIndexPath(path: IndexPath) -> SidebarItem? {

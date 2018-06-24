@@ -475,6 +475,14 @@ public class Note: NSObject {
         return p.isTrash
     }
     
+    public func isInArchive() -> Bool {
+        guard let p = project, UserDefaultsManagement.archiveDirectory != nil else {
+            return false
+        }
+        
+        return p.isArchive
+    }
+    
     public func getCommaSeparatedTags() -> String {
         return tagNames.map { String($0) }.joined(separator: ", ")
     }

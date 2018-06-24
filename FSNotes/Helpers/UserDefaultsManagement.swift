@@ -35,6 +35,7 @@ public class UserDefaultsManagement {
     static var DefaultBgColor = Color.white
 
     private struct Constants {
+        static let ArchiveDirectoryKey = "archiveDirectory"
         static let BgColorKey = "bgColorKeyed"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
@@ -598,6 +599,39 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.ShowDockIcon)
+        }
+    }
+    
+    static var archiveDirectory: URL? {
+        get {
+            if
+                let path = UserDefaults.standard.object(forKey: Constants.ArchiveDirectoryKey) as? String,
+                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                
+                return URL(string: "file://" + encodedPath + "/")
+            }
+            
+            if let archive = storageUrl?.appendingPathComponent("Archive") {
+                if !FileManager.default.fileExists(atPath: archive.path) {
+                    do {
+                        try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
+                        
+                        return archive
+                    } catch {
+                        print(error)
+                    }
+                } else {
+                    return archive
+                }
+            }
+            
+            return nil
+        }
+        
+        set {
+            if let url = newValue {
+                UserDefaults.standard.set(url.path, forKey: Constants.ArchiveDirectoryKey)
+            }
         }
     }
 }

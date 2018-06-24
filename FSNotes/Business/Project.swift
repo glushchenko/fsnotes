@@ -16,13 +16,15 @@ class Project: Equatable {
     var isRoot: Bool
     var parent: Project?
     var isDefault: Bool
+    var isArchive: Bool
     
-    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false) {
+    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false) {
         self.url = url
         self.isTrash = isTrash
         self.isRoot = isRoot
         self.parent = parent
         self.isDefault = isDefault
+        self.isArchive = isArchive
         
         if let l = label {
             self.label = l

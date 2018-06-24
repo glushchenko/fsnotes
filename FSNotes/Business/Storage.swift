@@ -53,13 +53,22 @@ class Storage {
         
         let project = Project(url: url, label: name, isRoot: true, isDefault: true)
         add(project: project)
-                
+        
         for url in bookmarks {
             guard !projectExist(url: url) else {
                 continue
             }
             
+            if url == UserDefaultsManagement.archiveDirectory {
+                continue
+            }
+            
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
+            add(project: project)
+        }
+        
+        if let archive = UserDefaultsManagement.archiveDirectory {
+            let project = Project(url: archive, label: "Archive", isRoot: false, isDefault: false, isArchive: true)
             add(project: project)
         }
     }
@@ -69,7 +78,7 @@ class Storage {
     }
     
     public func getRootProjects() -> [Project] {
-        return projects.filter({ $0.isRoot }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+        return projects.filter({ $0.isRoot && $0.url != UserDefaultsManagement.archiveDirectory }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
     
     private func chechSub(url: URL, parent: Project) {
@@ -77,6 +86,10 @@ class Storage {
         
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
+                if subFolder as URL == UserDefaultsManagement.archiveDirectory {
+                    continue
+                }
+                
                 if subFolder.lastPathComponent == "i" {
                     self.imageFolders.append(subFolder as URL)
                     continue
@@ -154,10 +167,18 @@ class Storage {
     public func add(project: Project) {
         projects.append(project)
         
-        if project.isRoot {
+        if project.isRoot && project.url != UserDefaultsManagement.archiveDirectory {
             chechSub(url: project.url, parent: project)
             checkTrashForVolume(url: project.url)
         }
+    }
+    
+    public func getArchive() -> Project? {
+        if let project = projects.first(where: { $0.isArchive }) {
+            return project
+        }
+        
+        return nil
     }
     
     func getTrash(url: URL) -> URL? {
@@ -344,6 +365,10 @@ class Storage {
         }
     }
     
+    public func unload(project: Project) {
+        noteList.removeAll(where: { $0.project != nil && $0.project!.isArchive })
+    }
+    
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         do {
             let directoryFiles =
@@ -476,7 +501,7 @@ class Storage {
     var isActiveCaching = false
     var terminateBusyQueue = false
     
-    func cacheMarkdown() {
+    func cacheMarkdown(project: Project? = nil) {
         guard !self.isActiveCaching else {
             self.terminateBusyQueue = true
             return
@@ -485,8 +510,16 @@ class Storage {
         DispatchQueue.global(qos: .background).async {
             self.isActiveCaching = true
             
-            let markdownDocuments = self.noteList.filter{
-                $0.isMarkdown()
+            var markdownDocuments = [Note]()
+            
+            if let project = project {
+                markdownDocuments = self.noteList.filter{
+                    $0.isMarkdown() && $0.project == project
+                }
+            } else {
+                markdownDocuments = self.noteList.filter{
+                    $0.isMarkdown()
+                }
             }
             
             for note in markdownDocuments {

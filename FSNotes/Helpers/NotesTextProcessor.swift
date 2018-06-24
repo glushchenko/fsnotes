@@ -1308,8 +1308,6 @@ public class NotesTextProcessor {
      
         let string = storage.string as NSString
         var paragraphRange = string.paragraphRange(for: range)
-        
-        print(paragraphRange)
         let currentString = string.substring(with: paragraphRange)
         
         // Proper paragraph scan for two line markup "==" and "--"
