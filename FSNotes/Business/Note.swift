@@ -72,7 +72,9 @@ public class Note: NSObject {
         }
         
         if !isTrash() {
-            loadTags()
+            if project == nil || (project != nil && !project!.isArchive) {
+                loadTags()
+            }
         }
     }
         
@@ -519,6 +521,12 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
         
         return (removedFromStorage, removed)
+    }
+    
+    public func removeAllTags() -> [String] {
+        let result = saveTags([])
+        
+        return result.0
     }
     
     public func addTag(_ name: String) {

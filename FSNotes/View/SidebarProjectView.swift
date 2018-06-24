@@ -95,7 +95,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return true
             }
             break
-        case .Label, .Category, .Trash:
+        case .Label, .Category, .Trash, .Archive:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
                 let vc = getViewController()
                 
@@ -154,7 +154,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return .copy
             }
             break
-        case .Category, .Label:
+        case .Category, .Label, .Archive:
             guard sidebarItem.isSelectable() else { break }
             
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
@@ -602,7 +602,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     public func selectArchive() {
         if let i = sidebarItems?.firstIndex(where: {$0.type == .Archive }) {
-            selectRowIndexes([1], byExtendingSelection: false)
+            selectRowIndexes([i], byExtendingSelection: false)
         }
     }
     

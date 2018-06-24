@@ -729,6 +729,11 @@ class ViewController: NSViewController,
         }
         
         if let project = storage.getArchive() {
+            for note in notes {
+                let removed = note.removeAllTags()
+                vc.storageOutlineView.removeTags(removed)
+            }
+            
             move(notes: notes, project: project)
         }
     }

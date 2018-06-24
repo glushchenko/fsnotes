@@ -332,7 +332,11 @@ class Storage {
             
             let note = Note(url: url)
             note.parseURL()
-            note.loadTags()
+            
+            if item.isArchive {
+                note.loadTags()
+            }
+            
             let name = url.pathComponents.last!
             
             if (url.pathComponents.count == 0) {
