@@ -159,8 +159,7 @@ public class TextFormatter {
                 }
             #endif
             
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
-            registerUndo()
+            textView.insertText(attributedString, replacementRange: textView.selectedRange)
         }
     }
     
@@ -180,8 +179,7 @@ public class TextFormatter {
                 }
             #endif
             
-            storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
-            registerUndo()
+            textView.insertText(attributedString, replacementRange: textView.selectedRange)
         }
         
         if note.type == .Markdown {
@@ -198,14 +196,12 @@ public class TextFormatter {
         
         #if os(OSX)
             if range.length == 0 {
-                storage.replaceCharacters(in: range, with: "\t")
+                replaceWith(string: "\t", range: range)
                 setSRange(NSMakeRange(range.upperBound + 1, 0))
                 
                 if note.type == .Markdown {
                     highlight()
                 }
-                
-                registerUndo(1)
                 return
             }
         #else
@@ -257,8 +253,6 @@ public class TextFormatter {
         if note.type == .Markdown {
             highlight()
         }
-        
-        registerUndo(diff + 1)
     }
     
     func unTab() {
@@ -319,8 +313,6 @@ public class TextFormatter {
         if note.type == .Markdown {
             highlight()
         }
-        
-        registerUndo(-diff)
     }
     
     func header(_ string: String) {
@@ -333,37 +325,29 @@ public class TextFormatter {
         #endif
         
         self.replaceWith(string: prefix, range: range)
-        
         setSRange(NSMakeRange(range.location + length, 0))
-        registerUndo(length)
     }
     
     public func link() {
         let text = "[" + attributedString.string + "]()"
-        attributedString.mutableString.setString(text)
-        storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+        replaceWith(string: text, range: range)
         
         if (attributedString.length == 4) {
             setSRange(NSMakeRange(range.location + 1, 0))
         } else {
             setSRange(NSMakeRange(range.upperBound + 3, 0))
         }
-        
-        registerUndo(4)
     }
     
     public func image() {
         let text = "![" + attributedString.string + "]()"
-        attributedString.mutableString.setString(text)
-        storage.replaceCharacters(in: textView.selectedRange, with: attributedString)
+        replaceWith(string: text)
         
         if (attributedString.length == 5) {
             setSRange(NSMakeRange(range.location + 2, 0))
         } else {
             setSRange(NSMakeRange(range.upperBound + 4, 0))
         }
-        
-        registerUndo(5)
     }
     
     func highlight() {
@@ -456,27 +440,11 @@ public class TextFormatter {
         #else
             let selectedRange = textView.selectedRange
             textView.undoManager?.beginUndoGrouping()
-            textView.replaceCharacters(in: selectedRange, with: string)
+            textView.insertText(string, replacementRange: selectedRange)
             textView.undoManager?.endUndoGrouping()
         #endif
     }
-    
-    private func registerUndo(_ charsDiff: Int = 0) {
-        #if os(OSX)
-            let string = prevSelectedString
-            let range = prevSelectedRange
-            var rangeDiff: NSRange = range
         
-            if charsDiff != 0  {
-                rangeDiff = NSMakeRange(range.lowerBound, range.length + charsDiff )
-            }
-        
-            let undo = UndoData(string: string, range: rangeDiff)
-        
-            note.undoManager.registerUndo(withTarget: textView, selector: #selector(textView.undoEdit), object: undo)
-        #endif
-    }
-    
     deinit {
         if note.type == .Markdown {
             if var font = UserDefaultsManagement.noteFont {
@@ -565,7 +533,7 @@ public class TextFormatter {
     
     func setSRange(_ range: NSRange) {
         #if os(OSX)
-            if range.upperBound < storage.length {
+            if range.upperBound <= storage.length {
                 textView.setSelectedRange(range)
             }
         #else
