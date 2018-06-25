@@ -415,8 +415,7 @@ public class NotesTextProcessor {
         return nil
     }
     
-    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note) {
-        
+    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note, textChanged: Bool = false) {
         let isFullScan = styleApplier.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         
         let textStorageNSString = styleApplier.string as NSString
@@ -473,12 +472,12 @@ public class NotesTextProcessor {
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
         
-        // Reset highlightr
         styleApplier.removeAttribute(.link, range: paragraphRange)
         styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
         
         #if os(OSX)
-            if isFullScan, let font = UserDefaultsManagement.noteFont {
+            if let font = UserDefaultsManagement.noteFont,
+                isFullScan || textChanged {
                 styleApplier.addAttribute(.font, value: font, range: paragraphRange)
             }
         #endif
@@ -1297,14 +1296,12 @@ public class NotesTextProcessor {
         }
     }
     
-    public func scanParagraph() {
+    public func scanParagraph(textChanged: Bool = false) {
         guard let note = self.note, let storage = self.storage, let range = self.range, let maxWidth = self.width else {
             return
         }
         
-        guard storage.length >= range.location + range.length else {
-            return
-        }
+        guard (storage.length >= range.location + range.length) || textChanged else { return }
      
         let string = storage.string as NSString
         var paragraphRange = string.paragraphRange(for: range)
@@ -1322,7 +1319,7 @@ public class NotesTextProcessor {
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
         } else {
-            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
+            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note, textChanged: true)
             
             if UserDefaultsManagement.liveImagesPreview {
                 let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: maxWidth, note: note)

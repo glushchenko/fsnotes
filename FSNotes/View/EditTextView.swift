@@ -458,8 +458,9 @@ class EditTextView: NSTextView {
             return
         }
         
+        let textChanged = event.keyCode == kVK_Return
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
-        processor.scanParagraph()
+        processor.scanParagraph(textChanged: textChanged)
         cacheNote(note: note)
     }
     
