@@ -472,6 +472,23 @@ CA
                                                 <action selector="editorMenuItem:" target="N0L-g4-qwj" id="brX-3N-WEO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="iDC-du-8d9"/>
+                                        <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
+                                            <connections>
+                                                <action selector="shiftLeft:" target="Ady-hI-5gd" id="fP7-F6-api"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Shift Right" keyEquivalent="]" id="IPu-Ll-IBE">
+                                            <connections>
+                                                <action selector="shiftRight:" target="Ady-hI-5gd" id="kJe-pA-OMN"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
+                                        <menuItem title="Toggle Todo" keyEquivalent="0" id="n0M-SN-fzg">
+                                            <connections>
+                                                <action selector="toggleTodo:" target="Ady-hI-5gd" id="ryY-TU-G03"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>

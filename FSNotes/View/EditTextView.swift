@@ -608,4 +608,28 @@ class EditTextView: NSTextView {
         return nil
     }
     
+    @IBAction func shiftLeft(_ sender: Any) {
+        guard let f = self.getTextFormatter() else { return }
+        
+        f.unTab()
+    }
+    
+    @IBAction func shiftRight(_ sender: Any) {
+        guard let f = self.getTextFormatter() else { return }
+        
+        f.tab()
+    }
+    
+    @IBAction func toggleTodo(_ sender: Any) {
+        guard let f = self.getTextFormatter() else { return }
+        
+        f.toggleTodo()
+    }
+    
+    private func getTextFormatter() -> TextFormatter? {
+        guard let note = EditTextView.note else { return nil }
+        
+        return TextFormatter(textView: self, note: note)
+    }
+    
 }

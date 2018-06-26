@@ -192,63 +192,35 @@ public class TextFormatter {
     }
     
     func tab() {
-        let rangeLength = range.length
+        guard let pRange = getParagraphRange() else { return }
         
-        #if os(OSX)
-            if range.length == 0 {
-                replaceWith(string: "\t", range: range)
-                setSRange(NSMakeRange(range.upperBound + 1, 0))
-                
-                if note.type == .Markdown {
-                    highlight()
-                }
-                return
+        guard range.length > 0 else {
+            let location = textView.selectedRange().location
+            let text = storage.attributedSubstring(from: pRange).string
+            
+            textView.insertText("\t" + text, replacementRange: pRange)
+            setSRange(NSMakeRange(location + 1, 0))
+            
+            if note.type == .Markdown {
+                highlight()
             }
-        #else
-            if range.length == 0, let cp = getParagraphRange() {
-                range = NSMakeRange(cp.location, cp.length)
-            }
-        #endif
-        
-        guard storage.length >= range.upperBound, range.length > 0 else {
-            #if os(iOS)
-                self.replaceWith(string: "\t", range: range)
-                setSRange(NSMakeRange(range.upperBound + 1, 0))
-            #endif
+            
             return
         }
         
-        let code = storage.attributedSubstring(from: range).string
-        let lines = code.components(separatedBy: CharacterSet.newlines)
-        
-        var result: String = ""
-        var added: Int = 0
-        var diff = 0
-        for line in lines {
-            if lines.first == line {
-                result += "\t" + line
-                continue
-            }
-            added = added + 1
-            result += "\n\t" + line
-            diff += 1
+        let string = storage.attributedSubstring(from: pRange).string
+        var lines = [String]()
+        string.enumerateLines { (line, _) in
+            lines.append("\t" + line)
         }
         
-        self.replaceWith(string: result, range: range)
-        
-        let newRange = NSRange(range.lowerBound..<range.upperBound + added + 1)
-        if let note = EditTextView.note, note.type == .Markdown {
-            note.content = NSMutableAttributedString(attributedString: getAttributedString())
-            let async = newRange.length > 1000
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            note.save()
+        var result = lines.joined(separator: "\n")
+        if pRange.upperBound != storage.length {
+           result = result + "\n"
         }
         
-        if rangeLength > 0 {
-            setSRange(newRange)
-        } else {
-            setSRange(NSMakeRange(newRange.upperBound, 0))
-        }
+        textView.insertText(result, replacementRange: pRange)
+        setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
         if note.type == .Markdown {
             highlight()
@@ -256,59 +228,39 @@ public class TextFormatter {
     }
     
     func unTab() {
-        var initialLocation = 0
+        guard let pRange = getParagraphRange() else { return }
         
-        guard storage.length >= range.location + range.length else {
+        guard range.length > 0 else {
+            var text = storage.attributedSubstring(from: pRange).string
+            guard [" ", "\t"].contains(text.removeFirst()) else { return }
+            textView.insertText(text, replacementRange: pRange)
+            setSRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
+        
+            if note.type == .Markdown {
+                highlight()
+            }
+            
             return
         }
         
-        var code = storage.mutableString.substring(with: range)
-        if range.length == 0 {
-            initialLocation = range.location
-            let string = storage.string as NSString
-            range = string.paragraphRange(for: range)
-            code = storage.attributedSubstring(from: range).string
-        }
-        
-        let lines = code.components(separatedBy: CharacterSet.newlines)
-        
-        var result: [String] = []
-        var removed: Int = 1
-        var diff = 1
-        for var line in lines {
-            if line.starts(with: "\t") {
-                removed = removed + 1
-                diff += 1
+        let string = storage.attributedSubstring(from: pRange).string
+        var resultList: [String] = []
+        string.enumerateLines { (line, _) in
+            var line = line
+            if !line.isEmpty && [" ", "\t"].contains(line.first) {
                 line.removeFirst()
             }
             
-            if line.starts(with: " ") {
-                removed = removed + 1
-                diff += 1
-                line.removeFirst()
-            }
-            
-            result.append(line)
+            resultList.append(line)
         }
         
-        let x = result.joined(separator: "\n")
-        self.replaceWith(string: x, range: range)
-        
-        var newRange = NSRange(range.lowerBound..<range.upperBound - removed + 1)
-        if let note = EditTextView.note, note.type == .Markdown {
-            note.content = NSMutableAttributedString(attributedString: getAttributedString())
-            let async = newRange.length > 1000
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: newRange, async: async)
-            
-            note.save()
+        var result = resultList.joined(separator: "\n")
+        if pRange.upperBound != storage.length {
+            result = result + "\n"
         }
         
-        if initialLocation > 0 {
-            newRange = NSMakeRange(initialLocation - removed + 1, 0)
-        }
-        
-        setSRange(newRange)
-        range = newRange
+        textView.insertText(result, replacementRange: pRange)
+        setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
         if note.type == .Markdown {
             highlight()
@@ -421,6 +373,24 @@ public class TextFormatter {
         }
     }
     
+    public func toggleTodo() {
+        guard let paragraphRange = getParagraphRange() else { return }
+        
+        let paragraph = self.storage.attributedSubstring(from: paragraphRange)
+        let firstChar = paragraph.string.first
+        
+        if ["-", "+"].contains(firstChar) {
+            let toggleChar = firstChar == "-" ? "+" : "-"
+            let range = NSRange(location: paragraphRange.location, length: 1)
+            
+            textView.insertText(toggleChar, replacementRange: range)
+        } else {
+            let range = NSRange(location: paragraphRange.location, length: 0)
+            
+            textView.insertText("- ", replacementRange: range)
+        }
+    }
+    
     private func replaceWith(string: String, range: NSRange? = nil) {
         #if os(iOS)
             var selectedRange: UITextRange
@@ -438,9 +408,13 @@ public class TextFormatter {
             textView.replace(selectedRange, withText: string)
             textView.undoManager?.endUndoGrouping()
         #else
-            let selectedRange = textView.selectedRange
+            var r = textView.selectedRange
+            if let range = range {
+                r = range
+            }
+        
             textView.undoManager?.beginUndoGrouping()
-            textView.insertText(string, replacementRange: selectedRange)
+            textView.insertText(string, replacementRange: r)
             textView.undoManager?.endUndoGrouping()
         #endif
     }
@@ -547,6 +521,18 @@ public class TextFormatter {
         #else
             return textView.attributedText
         #endif
+    }
+    
+    var initialRange: NSRange?
+    
+    public func saveSelectedRange() {
+        initialRange = textView.selectedRange()
+    }
+    
+    public func restoreSelectedRange() {
+        if let r = initialRange {
+        textView.setSelectedRange(r)
+        }
     }
 }
 
