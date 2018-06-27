@@ -371,7 +371,8 @@ public class NotesTextProcessor {
             DispatchQueue.global().async {
                 if let code = self.highlight(codeRange, language: preDefinedLanguage) {
                     DispatchQueue.main.async(execute: {
-                        NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
+                        let codeM = NotesTextProcessor.updateParagraphStyle(code: code)
+                        NotesTextProcessor.updateStorage(range: range, code: codeM, storage: storage, string: string, note: note)
                     })
                 }
             }
@@ -380,8 +381,17 @@ public class NotesTextProcessor {
         }
             
         if let code = NotesTextProcessor.highlight(codeRange, language: preDefinedLanguage) {
-            NotesTextProcessor.updateStorage(range: range, code: code, storage: storage, string: string, note: note)
+            let codeM = NotesTextProcessor.updateParagraphStyle(code: code)
+            NotesTextProcessor.updateStorage(range: range, code: codeM, storage: storage, string: string, note: note)
         }
+    }
+    
+    public static func updateParagraphStyle(code: NSAttributedString) -> NSMutableAttributedString {
+        let codeM = NSMutableAttributedString(attributedString: code)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        codeM.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<codeM.length))
+        return codeM
     }
     
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
