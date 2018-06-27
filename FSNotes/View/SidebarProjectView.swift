@@ -492,8 +492,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 bookmark.save()
                 
                 let newProject = Project(url: url, isRoot: true)
-                self.storage.add(project: newProject)
-                self.storage.loadLabel(newProject)
+                let projects = self.storage.add(project: newProject)
+                for project in projects {
+                    self.storage.loadLabel(project)
+                }
+                
                 self.reloadSidebar()
             }
         }
@@ -533,7 +536,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     public func deselectTags(_ list: [String]) {
         for tag in list {
             if
-                let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == tag }),
+                let i = sidebarItems?.index(where: {$0.type == .Tag && $0.name == tag }),
                 let row = self.rowView(atRow: i, makeIfNecessary: false),
                 let cell = row.view(atColumn: 0) as? SidebarCellView {
                 
@@ -567,7 +570,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     public func remove(sidebarItem: SidebarItem) {
-        if let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == sidebarItem.name }) {
+        if let i = sidebarItems?.index(where: {$0.type == .Tag && $0.name == sidebarItem.name }) {
             sidebarItems?.remove(at: i)
             self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
         }
@@ -601,7 +604,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     public func selectArchive() {
-        if let i = sidebarItems?.firstIndex(where: {$0.type == .Archive }) {
+        if let i = sidebarItems?.index(where: {$0.type == .Archive }) {
             selectRowIndexes([i], byExtendingSelection: false)
         }
     }

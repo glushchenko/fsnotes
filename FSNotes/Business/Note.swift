@@ -539,12 +539,12 @@ public class Note: NSObject {
     public func removeTag(_ name: String) {
         guard tagNames.contains(name) else { return }
         
-        if let i = tagNames.firstIndex(of: name) {
+        if let i = tagNames.index(of: name) {
             tagNames.remove(at: i)
         }
         
         if sharedStorage.noteList.first(where: {$0.tagNames.contains(name)}) == nil {
-            if let i = sharedStorage.tagNames.firstIndex(of: name) {
+            if let i = sharedStorage.tagNames.index(of: name) {
                 sharedStorage.tagNames.remove(at: i)
             }
         }

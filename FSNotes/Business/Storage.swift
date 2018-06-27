@@ -81,7 +81,8 @@ class Storage {
         return projects.filter({ $0.isRoot && $0.url != UserDefaultsManagement.archiveDirectory }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
     
-    private func chechSub(url: URL, parent: Project) {
+    private func chechSub(url: URL, parent: Project) -> [Project] {
+        var added = [Project]()
         let parentPath = url.path + "/i/"
         
         if let subFolders = getSubFolders(url: url) {
@@ -96,7 +97,7 @@ class Storage {
                 }
                 
                 if projects.count > 100 {
-                    return
+                    return added
                 }
                 
                 let surl = subFolder as URL
@@ -108,8 +109,11 @@ class Storage {
                 
                 let project = Project(url: surl, label: surl.lastPathComponent, parent: parent)
                 projects.append(project)
+                added.append(project)
             }
         }
+        
+        return added
     }
     
     private func checkTrashForVolume(url: URL) {
@@ -164,13 +168,18 @@ class Storage {
         }
     }
     
-    public func add(project: Project) {
+    public func add(project: Project) -> [Project] {
+        var added = [Project]()
         projects.append(project)
+        added.append(project)
         
         if project.isRoot && project.url != UserDefaultsManagement.archiveDirectory {
-            chechSub(url: project.url, parent: project)
+            let addedSubProjects = chechSub(url: project.url, parent: project)
+            added = added + addedSubProjects
             checkTrashForVolume(url: project.url)
         }
+        
+        return added
     }
     
     public func getArchive() -> Project? {
@@ -370,7 +379,12 @@ class Storage {
     }
     
     public func unload(project: Project) {
-        noteList.removeAll(where: { $0.project != nil && $0.project!.isArchive })
+        let notes = noteList.filter({ $0.project != nil && $0.project!.isArchive })
+        for note in notes {
+            if let i = noteList.index(of: note) {
+                noteList.remove(at: i)
+            }
+        }
     }
     
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
