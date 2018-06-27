@@ -461,7 +461,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
             
             let newProject = Project(url: projectURL, parent: project.getParent())
-            storage.add(project: newProject)
+            _ = storage.add(project: newProject)
             reloadSidebar()
         } catch {
             let alert = NSAlert()

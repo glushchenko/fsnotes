@@ -36,6 +36,11 @@ class EditTextView: NSTextView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        defaultParagraphStyle = paragraphStyle
+        typingAttributes[.paragraphStyle] = paragraphStyle
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -154,7 +159,7 @@ class EditTextView: NSTextView {
         
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
-
+        
         typingAttributes.removeAll()
         typingAttributes[.font] = UserDefaultsManagement.noteFont
         
@@ -206,9 +211,13 @@ class EditTextView: NSTextView {
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
-      
+        
         viewController.titleLabel.stringValue = note.title
         restoreCursorPosition()
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        storage.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<storage.length))
     }
     
     @objc func loadImages() {

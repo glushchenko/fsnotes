@@ -52,7 +52,7 @@ class Storage {
         }
         
         let project = Project(url: url, label: name, isRoot: true, isDefault: true)
-        add(project: project)
+        _ = add(project: project)
         
         for url in bookmarks {
             guard !projectExist(url: url) else {
@@ -64,12 +64,12 @@ class Storage {
             }
             
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
-            add(project: project)
+            _ = add(project: project)
         }
         
         if let archive = UserDefaultsManagement.archiveDirectory {
             let project = Project(url: archive, label: "Archive", isRoot: false, isDefault: false, isArchive: true)
-            add(project: project)
+            _ = add(project: project)
         }
     }
     
@@ -505,7 +505,7 @@ class Storage {
             }
             
             let childProject = Project(url: pURL, parent: project)
-            add(project: childProject)
+            _ = add(project: childProject)
             
             return pURL
         }
@@ -587,7 +587,7 @@ class Storage {
         for note in notes {
             #if os(OSX)
                 for tag in note.tagNames {
-                    removeTag(tag)
+                    _ = removeTag(tag)
                 }
             #endif
             removeBy(note: note)

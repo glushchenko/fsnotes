@@ -49,6 +49,7 @@ public class UserDefaultsManagement {
         static let HidePreviewKey = "hidePreview"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
+        static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LiveImagesPreview = "liveImagesPreview"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
@@ -632,6 +633,18 @@ public class UserDefaultsManagement {
             if let url = newValue {
                 UserDefaults.standard.set(url.path, forKey: Constants.ArchiveDirectoryKey)
             }
+        }
+    }
+    
+    static var editorLineSpacing: Float {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.LineSpacingEditorKey) {
+                return result as! Float
+            }
+            return 1
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.LineSpacingEditorKey)
         }
     }
 }
