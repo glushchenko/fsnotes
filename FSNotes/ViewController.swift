@@ -270,7 +270,9 @@ class ViewController: NSViewController,
                 
                 self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
                     DispatchQueue.main.async {
-                        self.notesTableView.removeByNotes(notes: [note])
+                        if self.notesTableView.numberOfRows > 0 {
+                            self.notesTableView.removeByNotes(notes: [note])
+                        }
                     }
                 }
             }
@@ -828,6 +830,13 @@ class ViewController: NSViewController,
     }
     
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
+        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        
+        if let sidebarItem = vc.getSidebarItem(), sidebarItem.isTrash() {
+            let indexSet = IndexSet(integersIn: 0..<vc.notesTableView.noteList.count)
+            vc.notesTableView.removeRows(at: indexSet, withAnimation: .effectFade)
+        }
+        
         let notes = storage.getAllTrash()
         for note in notes {
             _ = note.removeFile()
