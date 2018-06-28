@@ -35,6 +35,9 @@ public class TextFormatter {
     private var prevSelectedString: NSAttributedString
     private var prevSelectedRange: NSRange
     
+    private var isAutomaticQuoteSubstitutionEnabled: Bool = false
+    private var isAutomaticDashSubstitutionEnabled: Bool = false
+    
     init(textView: TextView, note: Note) {
         range = textView.selectedRange
         
@@ -59,6 +62,12 @@ public class TextFormatter {
         
         prevSelectedRange = range
         prevSelectedString = storage.attributedSubstring(from: prevSelectedRange)
+        
+        self.isAutomaticQuoteSubstitutionEnabled = textView.isAutomaticQuoteSubstitutionEnabled
+        self.isAutomaticDashSubstitutionEnabled = textView.isAutomaticDashSubstitutionEnabled
+        
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+        textView.isAutomaticDashSubstitutionEnabled = false
     }
     
     func getString() -> NSMutableAttributedString {
@@ -219,11 +228,8 @@ public class TextFormatter {
            result = result + "\n"
         }
         
-        let smartQuoteState = textView.isAutomaticQuoteSubstitutionEnabled
-        textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.insertText(result, replacementRange: pRange)
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
-        textView.isAutomaticQuoteSubstitutionEnabled = smartQuoteState
         
         if note.type == .Markdown {
             highlight()
@@ -421,8 +427,11 @@ public class TextFormatter {
             textView.undoManager?.endUndoGrouping()
         #endif
     }
-        
+    
     deinit {
+        textView.isAutomaticQuoteSubstitutionEnabled = self.isAutomaticQuoteSubstitutionEnabled
+        textView.isAutomaticDashSubstitutionEnabled = self.isAutomaticDashSubstitutionEnabled
+        
         if note.type == .Markdown {
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
