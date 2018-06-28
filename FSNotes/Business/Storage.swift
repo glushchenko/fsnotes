@@ -311,7 +311,7 @@ class Storage {
             case .ModificationDate:
                 return sortDirection && note.modifiedLocalAt > next.modifiedLocalAt || !sortDirection && note.modifiedLocalAt < next.modifiedLocalAt
             case .Title:
-                return sortDirection && note.title < next.title || !sortDirection && note.title > next.title
+                return sortDirection && note.title.lowercased() < next.title.lowercased() || !sortDirection && note.title.lowercased() > next.title.lowercased()
             }
         }
         
