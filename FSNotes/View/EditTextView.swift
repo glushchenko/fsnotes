@@ -35,12 +35,29 @@ class EditTextView: NSTextView {
     }
     
     override func draw(_ dirtyRect: NSRect) {
-        super.draw(dirtyRect)
-        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
         defaultParagraphStyle = paragraphStyle
         typingAttributes[.paragraphStyle] = paragraphStyle
+        
+        super.draw(dirtyRect)
+    }
+    
+    override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        let sg = menu.item(withTitle: "Spelling and Grammar")?.submenu
+        let s = menu.item(withTitle: "Substitutions")?.submenu
+        
+        sg?.item(withTitle: "Check Spelling While Typing")?.state = self.isContinuousSpellCheckingEnabled ? .on : .off
+        sg?.item(withTitle: "Check Grammar With Spelling")?.state = self.isGrammarCheckingEnabled ? .on : .off
+        sg?.item(withTitle: "Correct Spelling Automatically")?.state = self.isAutomaticSpellingCorrectionEnabled ? .on : .off
+        
+        s?.item(withTitle: "Smart Copy/Paste")?.state = self.smartInsertDeleteEnabled ? .on : .off
+        s?.item(withTitle: "Smart Quotes")?.state = self.isAutomaticQuoteSubstitutionEnabled ? .on : .off
+        
+        s?.item(withTitle: "Smart Dashes")?.state = self.isAutomaticDashSubstitutionEnabled ? .on : .off
+        s?.item(withTitle: "Smart Links")?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
+        s?.item(withTitle: "Text Replacement")?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
+        s?.item(withTitle: "Data Detectors")?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
