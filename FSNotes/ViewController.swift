@@ -573,6 +573,8 @@ class ViewController: NSViewController,
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         
         if vc.notesTableView.selectedRow >= 0 {
+            vc.loadMoveMenu()
+            
             let moveMenu = vc.noteMenu.item(withTitle: "Move")
             let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
             let x = vc.splitView.subviews[0].frame.width + 5
@@ -1196,40 +1198,51 @@ class ViewController: NSViewController,
     }
     
     func loadMoveMenu() {
-        let projects = storage.getProjects()
+        guard
+            let vc = NSApp.windows[0].contentViewController as? ViewController,
+            let note = vc.notesTableView.getSelectedNote(),
+            let project = note.project else { return }
         
-        if projects.count > 1 {
-            if let prevMenu = noteMenu.item(withTitle: "Move") {
-                noteMenu.removeItem(prevMenu)
-            }
-            
-            let moveMenuItem = NSMenuItem()
-            moveMenuItem.title = "Move"
-            noteMenu.addItem(moveMenuItem)
-            
-            let moveMenu = NSMenu()
-            let label = NSMenuItem()
-            label.title = "Project:"
-            let sep = NSMenuItem.separator()
-            
-            moveMenu.addItem(label)
-            moveMenu.addItem(sep)
-            
-            for project in projects {
-                guard !project.isTrash else {
-                    continue
-                }
-                
-                let menuItem = NSMenuItem()
-                menuItem.title = project.label
-                menuItem.representedObject = project
-                menuItem.action = #selector(moveNote(_:))
-                
-                moveMenu.addItem(menuItem)
-            }
-            
-            noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
+        if let prevMenu = noteMenu.item(withTitle: "Move") {
+            noteMenu.removeItem(prevMenu)
         }
+        
+        let moveMenuItem = NSMenuItem()
+        moveMenuItem.title = "Move"
+        
+        noteMenu.addItem(moveMenuItem)
+        let moveMenu = NSMenu()
+        
+        if !note.isInArchive() {
+            let archiveMenu = NSMenuItem()
+            archiveMenu.title = "Archive"
+            archiveMenu.action = #selector(vc.archiveNote(_:))
+            moveMenu.addItem(archiveMenu)
+            moveMenu.addItem(NSMenuItem.separator())
+        }
+        
+        if !note.isTrash() {
+            let trashMenu = NSMenuItem()
+            trashMenu.title = "Trash"
+            trashMenu.action = #selector(vc.deleteNote(_:))
+            moveMenu.addItem(trashMenu)
+            moveMenu.addItem(NSMenuItem.separator())
+        }
+                
+        let projects = storage.getProjects()
+        for item in projects {
+            if project == item || item.isTrash || item.isArchive {
+                continue
+            }
+            
+            let menuItem = NSMenuItem()
+            menuItem.title = item.getFullLabel()
+            menuItem.representedObject = item
+            menuItem.action = #selector(vc.moveNote(_:))
+            moveMenu.addItem(menuItem)
+        }
+        
+        noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
     }
 
     func loadSortBySetting() {
