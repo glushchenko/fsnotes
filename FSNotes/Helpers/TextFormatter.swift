@@ -219,8 +219,11 @@ public class TextFormatter {
            result = result + "\n"
         }
         
+        let smartQuoteState = textView.isAutomaticQuoteSubstitutionEnabled
+        textView.isAutomaticQuoteSubstitutionEnabled = false
         textView.insertText(result, replacementRange: pRange)
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
+        textView.isAutomaticQuoteSubstitutionEnabled = smartQuoteState
         
         if note.type == .Markdown {
             highlight()
