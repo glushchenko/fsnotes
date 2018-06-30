@@ -70,7 +70,7 @@ class EditTextView: NSTextView {
         let textHeight = CGFloat(UserDefaultsManagement.fontSize)
         let margin = ((rect.size.height + lineHeight) / 2 - textHeight) / 2
         
-        NSColor(red:0.02, green:0.65, blue:0.53, alpha:1.0).set()
+        NSColor(red:0.44, green:0.50, blue:0.52, alpha:1.0).set()
         
         __NSRectFill(NSRect(x: rect.origin.x, y: rect.origin.y + margin, width: rect.size.width + 1, height: rect.size.height))
     }
