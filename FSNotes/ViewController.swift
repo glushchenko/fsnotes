@@ -43,12 +43,13 @@ class ViewController: NSViewController,
         }
         
         // editarea paddings
-        editArea.textContainerInset.height = 10
+        
+        editArea.textContainerInset.height = 0
         editArea.textContainerInset.width = 5
         editArea.isEditable = false
         
         if (UserDefaultsManagement.horizontalOrientation) {
-            titleLabel.isHidden = true
+            //titleLabel.isHidden = true
             self.splitView.isVertical = false
         }
         
