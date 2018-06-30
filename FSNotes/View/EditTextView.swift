@@ -60,6 +60,21 @@ class EditTextView: NSTextView {
         s?.item(withTitle: "Data Detectors")?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
     }
     
+    override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
+        guard let lineHeightMultiple = defaultParagraphStyle?.lineHeightMultiple else {
+            super.drawInsertionPoint(in: rect, color: color, turnedOn: flag)
+            return
+        }
+        
+        let lineHeight = CGFloat(UserDefaultsManagement.fontSize) * CGFloat(lineHeightMultiple)
+        let textHeight = CGFloat(UserDefaultsManagement.fontSize)
+        let margin = ((rect.size.height + lineHeight) / 2 - textHeight) / 2
+        
+        NSColor(red:0.02, green:0.65, blue:0.53, alpha:1.0).set()
+        
+        __NSRectFill(NSRect(x: rect.origin.x, y: rect.origin.y + margin, width: rect.size.width + 1, height: rect.size.height))
+    }
+    
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let note = EditTextView.note else { return false }
         
