@@ -536,6 +536,38 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
     
+    public func duplicate() {
+        let ext = self.url.pathExtension
+        var url = self.url.deletingPathExtension()
+        let name = url.lastPathComponent
+        url.deleteLastPathComponent()
+        
+        let df = DateFormatter()
+        df.dateFormat = "yyyyMMddhhmmss"
+        let now = df.string(from: Date())
+        url.appendPathComponent(name + " " + now)
+        url.appendPathExtension(ext)
+        
+        let attributes = getFileAttributes()
+        
+        do {
+            guard let fileWrapper = getFileWrapper(attributedString: content) else {
+                print("Wrapper not found")
+                return
+            }
+            
+            try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            
+            UserDataService.instance.lastRenamed = url
+            UserDataService.instance.skipListReload = true
+            
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+        } catch {
+            print("Write error \(error)")
+            return
+        }
+    }
+    
     public func removeTag(_ name: String) {
         guard tagNames.contains(name) else { return }
         

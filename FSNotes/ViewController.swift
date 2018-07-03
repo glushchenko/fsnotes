@@ -1311,7 +1311,27 @@ class ViewController: NSViewController,
         searchTopConstraint.constant = 8
     }
     
+    @IBAction func duplicate(_ sender: Any) {
+        if let note = notesTableView.getSelectedNote() {
+            note.duplicate()
+        }
+    }
     
+    @IBAction func copyURL(_ sender: Any) {
+        if let note = notesTableView.getSelectedNote(), let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            let name = "fsnotes://find/\(title)"
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(name, forType: NSPasteboard.PasteboardType.string)
+            
+            let notification = NSUserNotification()
+            notification.title = "FSNotes"
+            notification.informativeText = "URL has been copied to clipboard"
+            notification.soundName = NSUserNotificationDefaultSoundName
+            NSUserNotificationCenter.default.deliver(notification)
+        }
+    }
     
 }
 
