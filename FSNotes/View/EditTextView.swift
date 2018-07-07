@@ -44,20 +44,20 @@ class EditTextView: NSTextView {
     }
     
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
-        let sg = menu.item(withTitle: "Spelling and Grammar")?.submenu
-        let s = menu.item(withTitle: "Substitutions")?.submenu
+        let sg = menu.item(withTitle: NSLocalizedString("Spelling and Grammar", comment: ""))?.submenu
+        let s = menu.item(withTitle: NSLocalizedString("Substitutions", comment: ""))?.submenu
         
-        sg?.item(withTitle: "Check Spelling While Typing")?.state = self.isContinuousSpellCheckingEnabled ? .on : .off
-        sg?.item(withTitle: "Check Grammar With Spelling")?.state = self.isGrammarCheckingEnabled ? .on : .off
-        sg?.item(withTitle: "Correct Spelling Automatically")?.state = self.isAutomaticSpellingCorrectionEnabled ? .on : .off
+        sg?.item(withTitle: NSLocalizedString("Check Spelling While Typing", comment: ""))?.state = self.isContinuousSpellCheckingEnabled ? .on : .off
+        sg?.item(withTitle: NSLocalizedString("Check Grammar With Spelling", comment: ""))?.state = self.isGrammarCheckingEnabled ? .on : .off
+        sg?.item(withTitle: NSLocalizedString("Correct Spelling Automatically", comment: ""))?.state = self.isAutomaticSpellingCorrectionEnabled ? .on : .off
         
-        s?.item(withTitle: "Smart Copy/Paste")?.state = self.smartInsertDeleteEnabled ? .on : .off
-        s?.item(withTitle: "Smart Quotes")?.state = self.isAutomaticQuoteSubstitutionEnabled ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Smart Copy/Paste", comment: ""))?.state = self.smartInsertDeleteEnabled ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Smart Quotes", comment: ""))?.state = self.isAutomaticQuoteSubstitutionEnabled ? .on : .off
         
-        s?.item(withTitle: "Smart Dashes")?.state = self.isAutomaticDashSubstitutionEnabled ? .on : .off
-        s?.item(withTitle: "Smart Links")?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
-        s?.item(withTitle: "Text Replacement")?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
-        s?.item(withTitle: "Data Detectors")?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Smart Dashes", comment: ""))?.state = self.isAutomaticDashSubstitutionEnabled ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Smart Links", comment: ""))?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Text Replacement", comment: ""))?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
+        s?.item(withTitle: NSLocalizedString("Data Detectors", comment: ""))?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
     }
     
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
@@ -84,13 +84,24 @@ class EditTextView: NSTextView {
         
         if note.isRTF() {
             let disableRTF = [
-                "Header 1", "Header 2", "Header 3", "Header 4", "Header 5",
-                "Header 6", "Link", "Image", "Toggle preview"
+                NSLocalizedString("Header 1", comment: ""),
+                NSLocalizedString("Header 2", comment: ""),
+                NSLocalizedString("Header 3", comment: ""),
+                NSLocalizedString("Header 4", comment: ""),
+                NSLocalizedString("Header 5", comment: ""),
+                NSLocalizedString("Header 6", comment: ""),
+                NSLocalizedString("Link", comment: ""),
+                NSLocalizedString("Image", comment: ""),
+                NSLocalizedString("Toggle preview", comment: "")
             ]
             
             return !disableRTF.contains(menuItem.title)
         } else {
-            let disable = ["Underline", "Strikethrough"]
+            let disable = [
+                NSLocalizedString("Underline", comment: ""),
+                NSLocalizedString("Strikethrough", comment: "")
+            ]
+            
             return !disable.contains(menuItem.title)
         }
     }
@@ -115,7 +126,7 @@ class EditTextView: NSTextView {
     }
     
     @IBAction func editorMenuItem(_ sender: NSMenuItem) {
-        if sender.title == "Image" {
+        if sender.title == NSLocalizedString("Image", comment: "") {
             sender.keyEquivalentModifierMask = [.shift, .command]
         }
 

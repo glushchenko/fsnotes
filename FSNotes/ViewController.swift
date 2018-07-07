@@ -125,17 +125,17 @@ class ViewController: NSViewController,
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return false}
         
-        if let title = menuItem.menu?.title {
+        if let title = menuItem.menu?.identifier?.rawValue {
             switch title {
-            case "FSNotes":
-                if menuItem.title == "Empty Trash" {
+            case "fsnotesMenu":
+                if menuItem.identifier?.rawValue == "emptyTrashMenu" {
                     menuItem.keyEquivalentModifierMask = UserDefaultsManagement.focusInEditorOnNoteSelect
                             ? [.command, .option, .shift]
                             : [.command, .shift]
                     return true
                 }
-            case "File":
-                if menuItem.title == "Delete" {
+            case "fileMenu":
+                if menuItem.title == "fileMenu.delete" {
                     if !UserDefaultsManagement.focusInEditorOnNoteSelect && vc.editArea.hasFocus() {
                         return false
                     }
@@ -146,7 +146,7 @@ class ViewController: NSViewController,
                             : [.command]
                 }
                 
-                if ["New", "New RTF", "Search and create"].contains(menuItem.title) {
+                if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate"].contains(menuItem.identifier?.rawValue) {
                     return true
                 }
                 
@@ -154,8 +154,8 @@ class ViewController: NSViewController,
                     return false
                 }
                 break
-            case "Folder":
-                if ["Attach storage"].contains(menuItem.title) {
+            case "folderMenu":
+                if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
                     return true
                 }
                 
@@ -219,8 +219,8 @@ class ViewController: NSViewController,
                 try FileManager.default.moveItem(at: note.url, to: destination)
             } catch {
                 let alert = NSAlert.init()
-                alert.messageText = "Hmm, something goes wrong 🙈"
-                alert.informativeText = "Note with name \"\(note.name)\" already exists in selected storage."
+                alert.messageText = NSLocalizedString("Hmm, something goes wrong 🙈", comment: "")
+                alert.informativeText = String(format: NSLocalizedString("Note with name \"%@\" already exists in selected storage.", comment: ""), note.name)
                 alert.runModal()
                 note.project = prevProject
             }
@@ -578,7 +578,8 @@ class ViewController: NSViewController,
         if vc.notesTableView.selectedRow >= 0 {
             vc.loadMoveMenu()
             
-            let moveMenu = vc.noteMenu.item(withTitle: "Move")
+            let moveTitle = NSLocalizedString("Move", comment: "Menu")
+            let moveMenu = vc.noteMenu.item(withTitle: moveTitle)
             let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
             let x = vc.splitView.subviews[0].frame.width + 5
             let general = moveMenu?.submenu?.item(at: 0)
@@ -679,10 +680,11 @@ class ViewController: NSViewController,
         
         if isTrash {
             let alert = NSAlert.init()
-            alert.messageText = "Are you sure you want to irretrievably delete \(notes.count) note(s)?"
-            alert.informativeText = "This action cannot be undone."
-            alert.addButton(withTitle: "Remove note(s)")
-            alert.addButton(withTitle: "Cancel")
+            alert.messageText = String(format: NSLocalizedString("Are you sure you want to irretrievably delete %d note(s)?", comment: ""), notes.count)
+            
+            alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
+            alert.addButton(withTitle: NSLocalizedString("Remove note(s)", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
             alert.beginSheetModal(for: vc.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     vc.editArea.clear()
@@ -713,7 +715,7 @@ class ViewController: NSViewController,
                     
                     let undoManager = md.notesListUndoManager
                     undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
-                    undoManager.setActionName("Delete")
+                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
                     
                     if selectedRow > -1 {
                         vc.notesTableView.selectRow(selectedRow)
@@ -755,8 +757,8 @@ class ViewController: NSViewController,
         field.placeholderString = "sex, drugs, rock and roll"
         field.stringValue = note.getCommaSeparatedTags()
         
-        vc.alert?.messageText = "Tags"
-        vc.alert?.informativeText = "Please enter tags (comma separated):"
+        vc.alert?.messageText = NSLocalizedString("Tags", comment: "Menu")
+        vc.alert?.informativeText = NSLocalizedString("Please enter tags (comma separated):", comment: "Menu")
         vc.alert?.accessoryView = field
         vc.alert?.alertStyle = .informational
         vc.alert?.addButton(withTitle: "OK")
@@ -1188,13 +1190,13 @@ class ViewController: NSViewController,
     }
     
     func enablePreview() {
-        self.view.window!.title = "FSNotes [preview]"
+        self.view.window!.title = NSLocalizedString("FSNotes [preview]", comment: "")
         UserDefaultsManagement.preview = true
         refillEditArea()
     }
     
     func disablePreview() {
-        self.view.window!.title = "FSNotes [edit]"
+        self.view.window!.title = NSLocalizedString("FSNotes [edit]", comment: "")
         UserDefaultsManagement.preview = false
         refillEditArea()
     }
@@ -1213,19 +1215,20 @@ class ViewController: NSViewController,
             let note = vc.notesTableView.getSelectedNote(),
             let project = note.project else { return }
         
-        if let prevMenu = noteMenu.item(withTitle: "Move") {
+        let moveTitle = NSLocalizedString("Move", comment: "Menu")
+        if let prevMenu = noteMenu.item(withTitle: moveTitle) {
             noteMenu.removeItem(prevMenu)
         }
         
         let moveMenuItem = NSMenuItem()
-        moveMenuItem.title = "Move"
+        moveMenuItem.title = NSLocalizedString("Move", comment: "Menu")
         
         noteMenu.addItem(moveMenuItem)
         let moveMenu = NSMenu()
         
         if !note.isInArchive() {
             let archiveMenu = NSMenuItem()
-            archiveMenu.title = "Archive"
+            archiveMenu.title = NSLocalizedString("Archive", comment: "Sidebar label")
             archiveMenu.action = #selector(vc.archiveNote(_:))
             moveMenu.addItem(archiveMenu)
             moveMenu.addItem(NSMenuItem.separator())
@@ -1233,7 +1236,7 @@ class ViewController: NSViewController,
         
         if !note.isTrash() {
             let trashMenu = NSMenuItem()
-            trashMenu.title = "Trash"
+            trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
             trashMenu.action = #selector(vc.deleteNote(_:))
             moveMenu.addItem(trashMenu)
             moveMenu.addItem(NSMenuItem.separator())
@@ -1256,7 +1259,15 @@ class ViewController: NSViewController,
     }
 
     func loadSortBySetting() {
-        guard let menu = NSApp.menu, let view = menu.item(withTitle: "View"), let submenu = view.submenu, let sortMenu = submenu.item(withTitle: "Sort by"), let sortItems = sortMenu.submenu else {
+        let viewLabel = NSLocalizedString("View", comment: "Menu")
+        let sortByLabel = NSLocalizedString("Sort By", comment: "View menu")
+        
+        guard
+            let menu = NSApp.menu,
+            let view = menu.item(withTitle: viewLabel),
+            let submenu = view.submenu,
+            let sortMenu = submenu.item(withTitle: sortByLabel),
+            let sortItems = sortMenu.submenu else {
             return
         }
         
@@ -1327,7 +1338,7 @@ class ViewController: NSViewController,
             
             let notification = NSUserNotification()
             notification.title = "FSNotes"
-            notification.informativeText = "URL has been copied to clipboard"
+            notification.informativeText = NSLocalizedString("URL has been copied to clipboard", comment: "") 
             notification.soundName = NSUserNotificationDefaultSoundName
             NSUserNotificationCenter.default.deliver(notification)
         }

@@ -28,17 +28,17 @@ class Sidebar {
         #endif
         
         list.append(
-            SidebarItem(name: "Notes", type: .All, icon: getImage(named: "home\(night).png"))
+            SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
         )
         
         if let archiveProject = storage.getArchive() {
             list.append(
-                SidebarItem(name: "Archive", project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
+                SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
             )
         }
         
         list.append(
-            SidebarItem(name: "Trash", type: .Trash, icon: getImage(named: "trash\(night).png"))
+            SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night).png"))
         )
         
         let rootProjects = storage.getRootProjects()
@@ -68,7 +68,8 @@ class Sidebar {
             let icon = getImage(named: "tag\(night).png")
             
             #if os(OSX)
-                list.append(SidebarItem(name: "# Tags", type: .Label, icon: icon))
+                let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
+                list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
             #endif
             
             for tag in tags {

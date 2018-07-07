@@ -67,8 +67,10 @@ class Storage {
             _ = add(project: project)
         }
         
+        let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
+        
         if let archive = UserDefaultsManagement.archiveDirectory {
-            let project = Project(url: archive, label: "Archive", isRoot: false, isDefault: false, isArchive: true)
+            let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
             _ = add(project: project)
         }
     }

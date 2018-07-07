@@ -21,18 +21,25 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
             
-            if menuItem.title == "Reveal folder" {
+            
+            if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
                 return true
             }
             
             return false
         }
         
-        if menuItem.title == "Attach storage" {
+        if menuItem.title == NSLocalizedString("Attach storage", comment: "") {
             return true
         }
         
-        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isDefault, !["New folder", "Reveal folder"].contains(menuItem.title) {
+        if
+            let sidebarItem = getSidebarItem(),
+            let project = sidebarItem.project, project.isDefault,
+            ![
+                NSLocalizedString("New folder", comment: ""),
+                NSLocalizedString("Reveal folder", comment: "")
+            ].contains(menuItem.title) {
             return false
         }
         
@@ -309,7 +316,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             
             if let p = sidebarItem.project, p.isDefault {
                 for item in menu.items {
-                    if !["New folder", "Reveal folder"].contains(item.title) {
+                    if ![
+                            NSLocalizedString("New folder", comment: ""),
+                            NSLocalizedString("Reveal folder", comment: "")
+                        ].contains(item.title) {
                         item.isHidden = true
                     } else {
                         item.isHidden = false
@@ -318,7 +328,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return
             }
 
-            if (["Notes", "Trash"].contains(sidebarItem.name) && sidebarItem.project == nil) || sidebarItem.type == .Tag || sidebarItem.name == "# Tags" {
+            let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
+            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar label")
+            let trashLabel = NSLocalizedString("Notes", comment: "Sidebar label")
+            
+            if ([notesLabel, trashLabel].contains(sidebarItem.name) && sidebarItem.project == nil) || sidebarItem.type == .Tag || sidebarItem.name == "# \(tagsLabel)" {
                 for item in menu.items {
                     item.isHidden = true
                 }
@@ -329,7 +343,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 item.isHidden = false
             }
             
-            if let project = si[selectedRow].project, let i = menu.items.index(where: {$0.title == "Rename"}) {
+            if let project = si[selectedRow].project, let i = menu.items.index(where: {$0.title == NSLocalizedString("Notes", comment: "Rename")}) {
                 if project.isRoot {
                     menu.item(at: i)?.isHidden = true
                 } else {
@@ -379,10 +393,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             }
             
             let alert = NSAlert.init()
-            alert.messageText = "Are you sure you want to remove project \"\(project.label)\" and all files inside?"
-            alert.informativeText = "This action cannot be undone."
-            alert.addButton(withTitle: "Remove")
-            alert.addButton(withTitle: "Cancel")
+            let messageText = NSLocalizedString("Are you sure you want to remove project \"%@\" and all files inside?", comment: "")
+            
+            alert.messageText = String(format: messageText, project.label)
+            alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "Delete menu")
+            alert.addButton(withTitle: NSLocalizedString("Remove", comment: "Delete menu"))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Delete menu"))
             alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     try? FileManager.default.trashItem(at: project.url, resultingItemURL: nil)
@@ -406,7 +422,9 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             unwrappedProject = p
         }
         
-        if sender is NSMenuItem, let mi = sender as? NSMenuItem, mi.title == "Attach storage" {
+        if sender is NSMenuItem,
+            let mi = sender as? NSMenuItem,
+            mi.title == NSLocalizedString("Attach storage", comment: "") {
             unwrappedProject = nil
         }
         
@@ -427,12 +445,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         let window = NSApp.windows[0]
         let alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        alert.messageText = "New project"
-        alert.informativeText = "Please enter project name:"
+        alert.messageText = NSLocalizedString("New project", comment: "")
+        alert.informativeText = NSLocalizedString("Please enter project name:", comment: "")
         alert.accessoryView = field
         alert.alertStyle = .informational
-        alert.addButton(withTitle: "Add")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: NSLocalizedString("Add", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.addChild(field: field, project: project)

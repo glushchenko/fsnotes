@@ -25,6 +25,10 @@
 		D71354012042AECD00E3776F /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FF2042AECD00E3776F /* settings@2x.png */; };
 		D71354022042AECD00E3776F /* settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71354002042AECD00E3776F /* settings@3x.png */; };
 		D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71354032042AFC800E3776F /* SettingsViewController.swift */; };
+		D71429F620ED558B00C3F6EE /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D71429F520ED558B00C3F6EE /* en.lproj */; };
+		D71429F720ED558B00C3F6EE /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D71429F520ED558B00C3F6EE /* en.lproj */; };
+		D71429F920ED559D00C3F6EE /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D71429F820ED559D00C3F6EE /* ru.lproj */; };
+		D71429FA20ED559D00C3F6EE /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D71429F820ED559D00C3F6EE /* ru.lproj */; };
 		D714496220C72D3500D7AD46 /* UIImage+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714496120C72D3400D7AD46 /* UIImage+Alpha.swift */; };
 		D7166F531F32F751001A883F /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
 		D7166F541F32F75E001A883F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
@@ -291,6 +295,8 @@
 		D71353FF2042AECD00E3776F /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
 		D71354002042AECD00E3776F /* settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@3x.png"; sourceTree = "<group>"; };
 		D71354032042AFC800E3776F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		D71429F520ED558B00C3F6EE /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
+		D71429F820ED559D00C3F6EE /* ru.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ru.lproj; sourceTree = "<group>"; };
 		D714496120C72D3400D7AD46 /* UIImage+Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Alpha.swift"; sourceTree = "<group>"; };
 		D7169A5C2077BA140025D2C9 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
@@ -376,6 +382,10 @@
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
+		D7CECCC320ECFDBA0082A49E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		D7CECCC420ECFDBA0082A49E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		D7CECCC520ECFDBA0082A49E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D7CECCC620ECFDBA0082A49E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		D7D03BB8205C6D1900D96A6D /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
@@ -625,6 +635,8 @@
 		D7D61FCC1F32EEA1004357C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D71429F820ED559D00C3F6EE /* ru.lproj */,
+				D71429F520ED558B00C3F6EE /* en.lproj */,
 				D76025B5204F071B000B9F59 /* Toolbar */,
 				D7ED6891200F87BD00FF975A /* Initial */,
 				D71C4A4D1F520F0E00EBA30B /* DownView.bundle */,
@@ -987,6 +999,7 @@
 				D7BBCA7C208C7523002CE3C3 /* tag.png in Resources */,
 				D7465F28207F2CD600E46A52 /* Images.xcassets in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
+				D71429F620ED558B00C3F6EE /* en.lproj in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6892200F87BD00FF975A /* Initial in Resources */,
 				D7DF401F20A37717000F8B13 /* tag_white.png in Resources */,
@@ -998,6 +1011,7 @@
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7DF402820A377F4000F8B13 /* home_white.png in Resources */,
+				D71429F920ED559D00C3F6EE /* ru.lproj in Resources */,
 				D7166F531F32F751001A883F /* icons.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1012,6 +1026,7 @@
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
 				D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */,
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
+				D71429F720ED558B00C3F6EE /* en.lproj in Resources */,
 				D7E6D9CC207F9878003ECAFC /* home.png in Resources */,
 				D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7BBCA7D208C7523002CE3C3 /* tag.png in Resources */,
@@ -1023,6 +1038,7 @@
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
 				D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */,
+				D71429FA20ED559D00C3F6EE /* ru.lproj in Resources */,
 				D7E81C541F925B5F00416A91 /* icons.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1376,6 +1392,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D75F333B205EC34800CC887E /* Base */,
+				D7CECCC620ECFDBA0082A49E /* ru */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -1384,6 +1401,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D767938D201F21F5000F7BBF /* Base */,
+				D7CECCC420ECFDBA0082A49E /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1392,6 +1410,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D7679395201F21F5000F7BBF /* Base */,
+				D7CECCC520ECFDBA0082A49E /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1400,6 +1419,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D7793C791F211C6000CA39B7 /* Base */,
+				D7CECCC320ECFDBA0082A49E /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1505,6 +1525,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1562,6 +1583,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
