@@ -34,6 +34,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var showDockIcon: NSButton!
     @IBOutlet weak var archivePathControl: NSPathControl!
     @IBOutlet weak var lineSpacing: NSSlider!
+    @IBOutlet weak var languagePopUp: NSPopUpButton!
     
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -70,7 +71,7 @@ class PrefsViewController: NSViewController {
     }
     
     override func viewDidAppear() {
-        self.view.window!.title = "Preferences"
+        self.view.window!.title = NSLocalizedString("Preferences", comment: "") 
         
         externalEditorApp.stringValue = UserDefaultsManagement.externalEditor
         
@@ -110,6 +111,22 @@ class PrefsViewController: NSViewController {
         archivePathControl.url = UserDefaultsManagement.archiveDirectory
         
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
+        
+        let languages = [
+            LanguageType(rawValue: 0x00),
+            LanguageType(rawValue: 0x01)
+        ]
+        
+        for language in languages {
+            if let lang = language?.description, let id = language?.rawValue {
+                languagePopUp.addItem(withTitle: lang)
+                languagePopUp.lastItem?.state = (id == UserDefaultsManagement.defaultLanguage) ? .on : .off
+                
+                if id == UserDefaultsManagement.defaultLanguage {
+                    languagePopUp.selectItem(withTitle: lang)
+                }
+            }
+        }
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -361,5 +378,15 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
     }
     
+    @IBAction func languagePopUp(_ sender: NSPopUpButton) {
+        let type = LanguageType.withName(rawValue: sender.title)
+        
+        UserDefaultsManagement.defaultLanguage = type.rawValue
+        
+        UserDefaults.standard.set([type.code], forKey: "AppleLanguages")
+        UserDefaults.standard.synchronize()
+        
+        restart()
+    }
     
 }
