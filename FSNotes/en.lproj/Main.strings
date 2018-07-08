@@ -65,6 +65,9 @@
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "Redo";
 
+/* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "6yz-uX-0Fr"; */
+"6yz-uX-0Fr.title" = "Language (need app restart):";
+
 /* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "78Y-hA-62v"; */
 "78Y-hA-62v.title" = "Correct Spelling Automatically";
 
@@ -227,8 +230,8 @@
 /* Class = "NSMenuItem"; title = "Toggle preview"; ObjectID = "PdU-Em-Ugm"; */
 "PdU-Em-Ugm.title" = "Toggle preview";
 
-/* Class = "NSTextFieldCell"; title = "Background Color:"; ObjectID = "Psk-r4-JT5"; */
-"Psk-r4-JT5.title" = "Background Color:";
+/* Class = "NSTextFieldCell"; title = "Background:"; ObjectID = "Psk-r4-JT5"; */
+"Psk-r4-JT5.title" = "Background:";
 
 /* Class = "NSMenuItem"; title = "Copy URL"; ObjectID = "Rg2-j1-Foz"; */
 "Rg2-j1-Foz.title" = "Copy URL";
@@ -323,8 +326,8 @@
 /* Class = "NSButtonCell"; title = "Show icon in dock"; ObjectID = "bJv-E9-bwW"; */
 "bJv-E9-bwW.title" = "Show icon in dock";
 
-/* Class = "NSTextFieldCell"; title = "Note list spacing"; ObjectID = "bXK-wP-sZc"; */
-"bXK-wP-sZc.title" = "Note list spacing";
+/* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
+"bXK-wP-sZc.title" = "Note list spacing:";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Use Selection for Find";
@@ -398,8 +401,8 @@
 /* Class = "NSMenu"; title = "Services"; ObjectID = "hz9-B4-Xy5"; */
 "hz9-B4-Xy5.title" = "Services";
 
-/* Class = "NSTextFieldCell"; title = "Line spacing"; ObjectID = "iUm-Zm-zeg"; */
-"iUm-Zm-zeg.title" = "Line spacing";
+/* Class = "NSTextFieldCell"; title = "Line spacing:"; ObjectID = "iUm-Zm-zeg"; */
+"iUm-Zm-zeg.title" = "Line spacing:";
 
 /* Class = "NSMenuItem"; title = "Pin/unpin"; ObjectID = "jFN-Dp-LON"; */
 "jFN-Dp-LON.title" = "Pin/unpin";

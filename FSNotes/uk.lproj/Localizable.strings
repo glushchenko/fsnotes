@@ -6,23 +6,23 @@
  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
  */
 
-"Preferences" = "Настройки";
+"Preferences" = "Налаштування";
 
 // Alerts
 
-"Remove" = "Удалить";
-"Cancel" = "Отмена";
-"Delete" = "Удаление";
+"Remove" = "Видалити";
+"Cancel" = "Відміна";
+"Delete" = "Видалити";
 
 // Sidebar
 
 "Tags" = "Теги";
-"Notes" = "Заметки";
-"Archive" = "Архив";
-"Trash" = "Корзина";
-"Move" = "Переместить";
+"Notes" = "Нотатки";
+"Archive" = "Архів";
+"Trash" = "Сміття";
+"Move" = "Перемістити";
 
-"This action cannot be undone." = "Это действие не может быть отменено.";
+"This action cannot be undone." = "Ця дія не може бути відмінена.";
 
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
 

@@ -1,12 +1,12 @@
-/* 
-  Localizable.strings
-  FSNotes
+/*
+ Localizable.strings
+ FSNotes
+ 
+ Created by Oleksandr Glushchenko on 7/4/18.
+ Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+ */
 
-  Created by Oleksandr Glushchenko on 7/4/18.
-  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
-*/
-
-"Preferences" = "Настройки";
+"Preferences" = "Настройки!!!";
 
 // Alerts
 
@@ -74,4 +74,3 @@
 "Add" = "Добавить";
 
 "New folder" = "Новая директория";
-
