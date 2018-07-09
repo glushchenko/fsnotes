@@ -35,6 +35,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var archivePathControl: NSPathControl!
     @IBOutlet weak var lineSpacing: NSSlider!
     @IBOutlet weak var languagePopUp: NSPopUpButton!
+    @IBOutlet weak var textMatchAutoSelection: NSButton!
     
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -127,6 +128,8 @@ class PrefsViewController: NSViewController {
                 }
             }
         }
+        
+        textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -388,5 +391,10 @@ class PrefsViewController: NSViewController {
         
         restart()
     }
+    
+    @IBAction func textMatchAutoSelection(_ sender: NSButton) {
+        UserDefaultsManagement.textMatchAutoSelection = (sender.state == .on)
+    }
+    
     
 }

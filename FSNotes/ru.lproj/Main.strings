@@ -215,7 +215,7 @@
 "Fuh-qO-nt2.title" = "Директория";
 
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "fzU-ZR-Ubv"; */
-"fzU-ZR-Ubv.title" = "Переименовать";
+"fzU-ZR-Ubv.title" = "Переименовать директорию";
 
 /* Class = "NSMenuItem"; title = "Empty Trash"; ObjectID = "G9H-Lg-TXE"; */
 "G9H-Lg-TXE.title" = "Очистить корзину";
@@ -537,3 +537,5 @@
 
 /* Class = "NSTextFieldCell"; title = "Open in external editor:"; ObjectID = "zcY-e5-gKs"; */
 "zcY-e5-gKs.title" = "Внешний редактор:";
+
+"ZqK-gu-KdQ.title" = "Выбирать заметку, если тело соответствует запросу";
