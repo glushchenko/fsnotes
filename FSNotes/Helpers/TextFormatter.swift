@@ -63,11 +63,13 @@ public class TextFormatter {
         prevSelectedRange = range
         prevSelectedString = storage.attributedSubstring(from: prevSelectedRange)
         
-        self.isAutomaticQuoteSubstitutionEnabled = textView.isAutomaticQuoteSubstitutionEnabled
-        self.isAutomaticDashSubstitutionEnabled = textView.isAutomaticDashSubstitutionEnabled
+        #if os(OSX)
+            self.isAutomaticQuoteSubstitutionEnabled = textView.isAutomaticQuoteSubstitutionEnabled
+            self.isAutomaticDashSubstitutionEnabled = textView.isAutomaticDashSubstitutionEnabled
         
-        textView.isAutomaticQuoteSubstitutionEnabled = false
-        textView.isAutomaticDashSubstitutionEnabled = false
+            textView.isAutomaticQuoteSubstitutionEnabled = false
+            textView.isAutomaticDashSubstitutionEnabled = false
+        #endif
     }
     
     func getString() -> NSMutableAttributedString {
@@ -166,9 +168,9 @@ public class TextFormatter {
                 } else {
                     textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
                 }
-            #endif
             
-            textView.insertText(attributedString, replacementRange: textView.selectedRange)
+                textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #endif
         }
     }
     
@@ -186,9 +188,9 @@ public class TextFormatter {
                 } else {
                     textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
                 }
-            #endif
             
-            textView.insertText(attributedString, replacementRange: textView.selectedRange)
+                textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #endif
         }
         
         if note.type == .Markdown {
@@ -204,11 +206,15 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
         
         guard range.length > 0 else {
-            let location = textView.selectedRange().location
-            let text = storage.attributedSubstring(from: pRange).string
-            
-            textView.insertText("\t" + text, replacementRange: pRange)
-            setSRange(NSMakeRange(location + 1, 0))
+            #if os(OSX)
+                let location = textView.selectedRange().location
+                let text = storage.attributedSubstring(from: pRange).string
+                textView.insertText("\t" + text, replacementRange: pRange)
+                setSRange(NSMakeRange(location + 1, 0))
+            #else
+                replaceWith(string: "\t", range: range)
+                setSRange(NSMakeRange(range.upperBound + 1, 0))
+            #endif
             
             if note.type == .Markdown {
                 highlight()
@@ -228,7 +234,12 @@ public class TextFormatter {
            result = result + "\n"
         }
         
-        textView.insertText(result, replacementRange: pRange)
+        #if os(OSX)
+            textView.insertText(result, replacementRange: pRange)
+        #else
+            replaceWith(string: result)
+        #endif
+        
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
         if note.type == .Markdown {
@@ -242,8 +253,14 @@ public class TextFormatter {
         guard range.length > 0 else {
             var text = storage.attributedSubstring(from: pRange).string
             guard [" ", "\t"].contains(text.removeFirst()) else { return }
-            textView.insertText(text, replacementRange: pRange)
-            setSRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
+            
+            #if os(OSX)
+                textView.insertText(text, replacementRange: pRange)
+                setSRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
+            #else
+                // TODO: implement me!
+                // replaceWith(string: text)
+            #endif
         
             if note.type == .Markdown {
                 highlight()
@@ -268,7 +285,12 @@ public class TextFormatter {
             result = result + "\n"
         }
         
-        textView.insertText(result, replacementRange: pRange)
+        #if os(OSX)
+            textView.insertText(result, replacementRange: pRange)
+        #else
+            replaceWith(string: result)
+        #endif
+        
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
         if note.type == .Markdown {
@@ -382,6 +404,7 @@ public class TextFormatter {
         }
     }
     
+    #if os(OSX)
     public func toggleTodo() {
         guard let paragraphRange = getParagraphRange() else { return }
         
@@ -399,6 +422,7 @@ public class TextFormatter {
             textView.insertText("- ", replacementRange: range)
         }
     }
+    #endif
     
     private func replaceWith(string: String, range: NSRange? = nil) {
         #if os(iOS)
@@ -429,8 +453,10 @@ public class TextFormatter {
     }
     
     deinit {
-        textView.isAutomaticQuoteSubstitutionEnabled = self.isAutomaticQuoteSubstitutionEnabled
-        textView.isAutomaticDashSubstitutionEnabled = self.isAutomaticDashSubstitutionEnabled
+        #if os(OSX)
+            textView.isAutomaticQuoteSubstitutionEnabled = self.isAutomaticQuoteSubstitutionEnabled
+            textView.isAutomaticDashSubstitutionEnabled = self.isAutomaticDashSubstitutionEnabled
+        #endif
         
         if note.type == .Markdown {
             if var font = UserDefaultsManagement.noteFont {
@@ -533,18 +559,6 @@ public class TextFormatter {
         #else
             return textView.attributedText
         #endif
-    }
-    
-    var initialRange: NSRange?
-    
-    public func saveSelectedRange() {
-        initialRange = textView.selectedRange()
-    }
-    
-    public func restoreSelectedRange() {
-        if let r = initialRange {
-        textView.setSelectedRange(r)
-        }
     }
 }
 
