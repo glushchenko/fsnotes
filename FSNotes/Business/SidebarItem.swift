@@ -25,8 +25,10 @@ class SidebarItem {
         self.icon = icon
     }
         
-    public func isSelectable() -> Bool {        
-        if type == .Label && ["# Tags"].contains(name) {
+    public func isSelectable() -> Bool {
+        let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
+        
+        if type == .Label && ["# \(tagsLabel)"].contains(name) {
             return false
         }
         
@@ -38,7 +40,9 @@ class SidebarItem {
     }
     
     public func isGroupItem() -> Bool {
-        if project == nil && ["Notes", "Trash"].contains(name) {
+        let notesLabel = NSLocalizedString("Notes", comment: "Sidebar label")
+        let trashLabel = NSLocalizedString("Trash", comment: "Sidebar label")
+        if project == nil && [notesLabel, trashLabel].contains(name) {
             return true
         }
         

@@ -66,6 +66,7 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
         static let TableOrientation = "isUseHorizontalMode"
+        static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let AutocloseBrackets = "autocloseBrackets"
     }
         
@@ -645,6 +646,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.LineSpacingEditorKey)
+        }
+    }
+    
+    static var textMatchAutoSelection: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.TextMatchAutoSelection) {
+                return result as! Bool
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.TextMatchAutoSelection)
         }
     }
 }
