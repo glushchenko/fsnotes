@@ -68,7 +68,14 @@ class EditTextView: NSTextView {
         
         let lineHeight = CGFloat(UserDefaultsManagement.fontSize) * CGFloat(lineHeightMultiple)
         let textHeight = CGFloat(UserDefaultsManagement.fontSize)
-        let margin = ((rect.size.height + lineHeight) / 2 - textHeight) / 2
+        var margin = ((rect.size.height + lineHeight) / 2 - textHeight) / 2
+        
+        let location = selectedRange().location
+        let prevLocation = location > 1 ? location - 1 : location
+        
+        if hasAttachmentAt(location: location) || hasAttachmentAt(location: prevLocation) {
+            margin = 0
+        }
         
         NSColor(red:0.44, green:0.50, blue:0.52, alpha:1.0).set()
         
@@ -682,6 +689,12 @@ class EditTextView: NSTextView {
         guard let note = EditTextView.note else { return nil }
         
         return TextFormatter(textView: self, note: note)
+    }
+    
+    private func hasAttachmentAt(location: Int) -> Bool {
+        guard let length = textStorage?.length, length > location else { return false }
+
+        return (textStorage?.attribute(NSAttributedStringKey.attachment, at: location, effectiveRange: nil) != nil)
     }
     
 }
