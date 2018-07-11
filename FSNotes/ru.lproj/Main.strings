@@ -437,7 +437,7 @@
 "TjZ-PX-YVo.title" = "Удалить";
 
 /* Class = "NSMenuItem"; title = "Data Detectors"; ObjectID = "tRr-pd-1PS"; */
-"tRr-pd-1PS.title" = "Определение данных";
+"tRr-pd-1PS.title" = "Детекторы данных";
 
 /* Class = "NSMenuItem"; title = "New RTF"; ObjectID = "Tys-UY-xaW"; */
 "Tys-UY-xaW.title" = "Создать RTF";
