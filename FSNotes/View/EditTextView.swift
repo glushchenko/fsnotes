@@ -28,12 +28,6 @@ class EditTextView: NSTextView {
     
     var downView: MarkdownView?
     
-    override func drawBackground(in rect: NSRect) {
-        backgroundColor = UserDefaultsManagement.bgColor
-        
-        super.drawBackground(in: rect)
-    }
-    
     override func draw(_ dirtyRect: NSRect) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -62,7 +56,6 @@ class EditTextView: NSTextView {
     
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         guard let lineHeightMultiple = defaultParagraphStyle?.lineHeightMultiple else {
-            super.drawInsertionPoint(in: rect, color: color, turnedOn: flag)
             return
         }
         
@@ -79,7 +72,7 @@ class EditTextView: NSTextView {
         
         NSColor(red:0.44, green:0.50, blue:0.52, alpha:1.0).set()
         
-        __NSRectFill(NSRect(x: rect.origin.x, y: rect.origin.y + margin, width: rect.size.width + 1, height: rect.size.height))
+        __NSRectFill(NSRect(x: rect.origin.x, y: rect.origin.y + margin, width: rect.size.width, height: rect.size.height))
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {

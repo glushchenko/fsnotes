@@ -204,7 +204,6 @@ public class ImagesProcessor {
         let attachment = NSTextAttachment()
         
         #if os(OSX)
-            image.size = self.computeInEditorSize(image: image)
             let fileWrapper = FileWrapper.init()
             fileWrapper.icon = image
             attachment.fileWrapper = fileWrapper

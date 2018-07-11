@@ -47,6 +47,8 @@ class ViewController: NSViewController,
         editArea.textContainerInset.height = 0
         editArea.textContainerInset.width = 5
         editArea.isEditable = false
+        editArea.backgroundColor = UserDefaultsManagement.bgColor
+        editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
         
         if (UserDefaultsManagement.horizontalOrientation) {
             //titleLabel.isHidden = true
