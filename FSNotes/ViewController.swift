@@ -42,8 +42,6 @@ class ViewController: NSViewController,
             sidebarSplitView.subviews[1].viewBackgroundColor = NSColor.white
         }
         
-        // editarea paddings
-        
         editArea.textContainerInset.height = 0
         editArea.textContainerInset.width = 5
         editArea.isEditable = false
@@ -51,7 +49,6 @@ class ViewController: NSViewController,
         editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
         
         if (UserDefaultsManagement.horizontalOrientation) {
-            //titleLabel.isHidden = true
             self.splitView.isVertical = false
         }
         
@@ -256,7 +253,7 @@ class ViewController: NSViewController,
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
     }
-        
+    
     func reloadView(note: Note? = nil) {
         let notesTable = self.notesTableView!
         let selectedNote = notesTable.getSelectedNote()

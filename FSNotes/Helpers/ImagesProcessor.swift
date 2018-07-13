@@ -176,6 +176,24 @@ public class ImagesProcessor {
     }
     
     func writeImage(data: Data, url: URL) -> String? {
+        if self.note.type == .TextBundle {
+            let assetsUrl = self.note.url.appendingPathComponent("assets")
+            
+            if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {
+                try? FileManager.default.createDirectory(at: assetsUrl, withIntermediateDirectories: false, attributes: nil)
+            }
+            
+            let destination = URL(fileURLWithPath: assetsUrl.path)
+            guard let fileName = getFileName(from: url, to: destination) else {
+                return nil
+            }
+            
+            let to = destination.appendingPathComponent(fileName)
+            try? data.write(to: to, options: .atomic)
+            
+            return fileName
+        }
+        
         if let project = self.note.project {
             let destination = URL(fileURLWithPath: project.url.path + "/i/")
             _ = makeInitialDirectory(cacheURL: destination)

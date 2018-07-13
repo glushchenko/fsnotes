@@ -595,7 +595,9 @@ class EditTextView: NSTextView {
         
         let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
         
-        guard let fileName = processor.writeImage(data: data, url: url), let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+        guard let fileName = processor.writeImage(data: data, url: url),
+              let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else
+        {
             return false
         }
         
@@ -603,7 +605,12 @@ class EditTextView: NSTextView {
         let caretLocation = characterIndexForInsertion(at: dropPoint)
         let affectedRange = NSRange(location: caretLocation, length: 0)
         
-        replaceCharacters(in: affectedRange, with: "![](/i/\(name))")
+        var markup = "![](/i/\(name))"
+        if note.type == .TextBundle {
+            markup = "![](assets/\(name))"
+        }
+        
+        replaceCharacters(in: affectedRange, with: markup)
         
         if let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)

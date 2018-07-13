@@ -403,6 +403,10 @@ public class Note: NSObject {
             var url = self.url
             
             if type == .TextBundle {
+                if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
+                    try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
+                }
+                
                 url?.appendPathComponent("text.markdown")
             }
             
