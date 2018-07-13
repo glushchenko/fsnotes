@@ -35,40 +35,30 @@ class FileSystemEventManager {
                 return
             }
             
-            if path.contains(".textbundle") {
-                self.handleTextBundle(event: event, url: url)
-                return
-            }
-            
-            if event.fileRemoved {
+            if event.fileRemoved || event.dirRemoved {
                 guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
                 
                 self.removeNote(note: note)
             }
             
-            if event.fileRenamed {
+            if event.fileRenamed || event.dirRenamed {
                 self.moveHandler(url: url, pathList: self.observedFolders)
                 return
             }
             
-            guard self.checkFile(url: url, pathList: self.observedFolders) else {
+            guard self.checkFile(url: self.handleTextBundle(url: url), pathList: self.observedFolders) else {
                 return
             }
             
-            if event.fileChange {
-                let wrappedNote = self.storage.getBy(url: url)
-                
-                if let note = wrappedNote, note.reload() {
-                    note.markdownCache()
-                    self.delegate.refillEditArea()
-                } else {
-                    self.importNote(url)
-                }
-                return
-            }
-            
+            // order is important, invoke only before change
             if event.fileCreated {
-                self.importNote(url)
+                self.importNote(self.handleTextBundle(url: url))
+                return
+            }
+            
+            if event.fileChange, let note = self.storage.getBy(url: self.handleTextBundle(url: url)) {
+                note.markdownCache()
+                self.delegate.refillEditArea()
             }
         }
         
@@ -170,12 +160,13 @@ class FileSystemEventManager {
         }
     }
     
-    private func handleTextBundle(event: FileWatcherEvent, url: URL) {
-        if event.fileCreated && url.lastPathComponent == "text.markdown" {
+    private func handleTextBundle(url: URL) -> URL {
+        if url.lastPathComponent == "text.markdown" && url.path.contains(".textbundle") {
             let path = url.deletingLastPathComponent().path
-            let url = URL(fileURLWithPath: path)
-            importNote(url)
+            return URL(fileURLWithPath: path)
         }
+        
+        return url
     }
     
     public func restart() {
