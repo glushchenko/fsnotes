@@ -222,7 +222,14 @@ public class Note: NSObject {
     func getContent() -> NSAttributedString? {
         do {
             let options = getDocOptions()
-            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+            var url = self.url
+            
+            if type == .TextBundle {
+                url?.appendPathComponent("text.markdown")
+            }
+            
+            guard let docUrl = url else { return nil }
+            return try NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
         }
@@ -285,7 +292,7 @@ public class Note: NSObject {
     }
     
     func isMarkdown() -> Bool {
-        return (type == .Markdown)
+        return (type == .Markdown) || (type == .TextBundle)
     }
     
     func addPin() {
@@ -393,9 +400,17 @@ public class Note: NSObject {
                 return
             }
             
-            try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            var url = self.url
             
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+            if type == .TextBundle {
+                url?.appendPathComponent("text.markdown")
+            }
+            
+            guard let docUrl = url else { return }
+            
+            try fileWrapper.write(to: docUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
         } catch {
             print("Write error \(error)")
             return

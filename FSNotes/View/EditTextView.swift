@@ -69,7 +69,7 @@ class EditTextView: NSTextView {
             validateSubmenu(menuItem.menu!)
         }
         
-        if let title = menuItem.menu?.title, title == "Format", let vc = self.getVc(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
+        if menuItem.menu?.identifier?.rawValue == "formatMenu", let vc = self.getVc(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
             return false
         }
         

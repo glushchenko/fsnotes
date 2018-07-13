@@ -16,7 +16,7 @@ class ViewController: NSViewController,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource {
     
-    private var filewatcher: FileWatcher?
+    public var fsManager: FileSystemEventManager?
     var filteredNoteList: [Note]?
     let storage = Storage.sharedInstance()
     
@@ -91,8 +91,8 @@ class ViewController: NSViewController,
             }
         }
         
-        // Watch FS changes
-        startFileWatcher()
+        self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
+        self.fsManager?.start()
         
         let font = UserDefaultsManagement.noteFont
         editArea.font = font
@@ -251,150 +251,12 @@ class ViewController: NSViewController,
         }
     }
     
-    private func startFileWatcher() {
-        let paths = storage.getProjectPaths()
-        
-        filewatcher = FileWatcher(paths)
-        filewatcher?.callback = { event in
-            if UserDataService.instance.fsUpdatesDisabled {
-                return
-            }
-            
-            guard let path = event.path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
-                return
-            }
-            
-            guard let url = URL(string: "file://" + path) else {
-                return
-            }
-            
-            if event.fileRemoved {
-                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
-                
-                self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
-                    DispatchQueue.main.async {
-                        if self.notesTableView.numberOfRows > 0 {
-                            self.notesTableView.removeByNotes(notes: [note])
-                        }
-                    }
-                }
-            }
-            
-            if event.fileRenamed {
-                let note = self.storage.getBy(url: url)
-                let fileExistInFS = self.checkFile(url: url, pathList: paths)
-                
-                if note != nil {
-                    if fileExistInFS {
-                        self.watcherCreateTrigger(url)
-                    } else {
-                        guard let unwrappedNote = note else {
-                            return
-                        }
-                        
-                        print("FSWatcher remove note: \"\(unwrappedNote.name)\"")
-                        
-                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: false) { _ in
-                            DispatchQueue.main.async {
-                                self.notesTableView.removeByNotes(notes: [unwrappedNote])
-                            }
-                        }
-                    }
-                } else if fileExistInFS {
-                    self.watcherCreateTrigger(url)
-                }
-                
-                return
-            }
-            
-            guard self.checkFile(url: url, pathList: paths) else {
-                return
-            }
-            
-            if event.fileChange {
-                let wrappedNote = self.storage.getBy(url: url)
-                
-                if let note = wrappedNote, note.reload() {
-                    note.markdownCache()
-                    self.refillEditArea()
-                } else {
-                    self.watcherCreateTrigger(url)
-                }
-                return
-            }
-            
-            if event.fileCreated {
-                self.watcherCreateTrigger(url)
-            }
-        }
-        
-        filewatcher?.start()
-    }
-    
-    public func restartFileWatcher() {
-        filewatcher?.stop()
-        startFileWatcher()
-    }
-    
     var sidebarTimer = Timer()
-    func watcherCreateTrigger(_ url: URL) {
-        let n = storage.getBy(url: url)
-        
-        guard n == nil else {
-            if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
-                self.updateTable() {
-                    self.notesTableView.setSelected(note: nUnwrapped)
-                    UserDataService.instance.lastRenamed = nil
-                }
-            }
-            return
-        }
-        
-        guard storage.getProjectBy(url: url) != nil else {
-            return
-        }
-        
-        let note = Note(url: url)
-        note.parseURL()
-        note.load(url)
-        note.loadModifiedLocalAt()
-        note.markdownCache()
-        refillEditArea()
-        
-        print("FSWatcher import note: \"\(note.name)\"")
-        storage.add(note)
-        
-        DispatchQueue.main.async {
-            if let url = UserDataService.instance.lastRenamed,
-                let note = self.storage.getBy(url: url) {
-                self.updateTable() {
-                    self.notesTableView.setSelected(note: note)
-                    UserDataService.instance.lastRenamed = nil
-                }
-            } else {
-                self.reloadView(note: note)
-            }
-        }
-        
-        if note.name == "FSNotes - Readme.md" {
-            updateTable() {
-                self.notesTableView.selectRow(0)
-                note.addPin()
-            }
-        }
-        
+    public func reloadSideBar() {
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
     }
-    
-    func checkFile(url: URL, pathList: [String]) -> Bool {
-        return (
-            FileManager.default.fileExists(atPath: url.path)
-            && storage.allowedExtensions.contains(url.pathExtension)
-            && pathList.contains(url.deletingLastPathComponent().path)
-        )
-    }
-    
+        
     func reloadView(note: Note? = nil) {
         let notesTable = self.notesTableView!
         let selectedNote = notesTable.getSelectedNote()

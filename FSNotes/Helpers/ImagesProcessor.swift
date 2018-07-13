@@ -123,6 +123,12 @@ public class ImagesProcessor {
         
         let storagePath = noteStorage.url.path
         
+        if note.type == .TextBundle {
+            if let name = path.removingPercentEncoding {
+                return "\(note.url.path)/\(name)"
+            }
+        }
+        
         if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
             notePath = storagePath + "/i/" + encodedPath
             return notePath

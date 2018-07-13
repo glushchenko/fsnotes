@@ -463,7 +463,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private func removeProject(project: Project) {
         self.storage.removeBy(project: project)
         
-        self.viewDelegate?.restartFileWatcher()
+        self.viewDelegate?.fsManager?.restart()
         self.viewDelegate?.cleanSearchAndEditArea()
         
         self.sidebarItems = Sidebar().getList()
@@ -542,7 +542,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     @objc public func reloadSidebar() {
         let vc = getViewController()
-        vc.restartFileWatcher()
+        vc.fsManager?.restart()
         vc.loadMoveMenu()
         
         let selected = vc.storageOutlineView.selectedRow

@@ -20,7 +20,7 @@ class Storage {
     var notesDict: [String: Note] = [:]
     var generalUrl: URL?
     
-    var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension]
+    var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension, "textbundle"]
     
     var pinned: Int = 0
     
@@ -104,8 +104,12 @@ class Storage {
                 
                 let surl = subFolder as URL
                 
-                guard !projectExist(url: surl), surl.lastPathComponent != "i", !surl.path.contains(".Trash"),
-                    !surl.path.contains("/."), !surl.path.contains(parentPath) else {
+                guard !projectExist(url: surl),
+                    surl.lastPathComponent != "i",
+                    !surl.path.contains(".Trash"),
+                    !surl.path.contains("/."),
+                    !surl.path.contains(parentPath),
+                    !surl.path.contains(".textbundle") else {
                     continue
                 }
                 
