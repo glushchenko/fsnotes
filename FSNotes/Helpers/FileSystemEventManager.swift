@@ -12,16 +12,16 @@ class FileSystemEventManager {
     private var storage: Storage
     private var delegate: ViewController
     private var watcher: FileWatcher?
+    private var observedFolders: [String]
     
     init(storage: Storage, delegate: ViewController) {
         self.storage = storage
         self.delegate = delegate
+        self.observedFolders = self.storage.getProjectPaths()
     }
     
     public func start() {
-        let paths = storage.getProjectPaths()
-        
-        watcher = FileWatcher(paths)
+        watcher = FileWatcher(self.observedFolders)
         watcher?.callback = { event in
             if UserDataService.instance.fsUpdatesDisabled {
                 return
@@ -35,46 +35,23 @@ class FileSystemEventManager {
                 return
             }
             
-            if event.fileRemoved {
-                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
-                
-                self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
-                    DispatchQueue.main.async {
-                        if self.delegate.notesTableView.numberOfRows > 0 {
-                            self.delegate.notesTableView.removeByNotes(notes: [note])
-                        }
-                    }
-                }
-            }
-            
-            if event.fileRenamed {
-                let note = self.storage.getBy(url: url)
-                let fileExistInFS = self.checkFile(url: url, pathList: paths)
-                
-                if note != nil {
-                    if fileExistInFS {
-                        self.watcherCreateTrigger(url)
-                    } else {
-                        guard let unwrappedNote = note else {
-                            return
-                        }
-                        
-                        print("FSWatcher remove note: \"\(unwrappedNote.name)\"")
-                        
-                        self.storage.removeNotes(notes: [unwrappedNote], fsRemove: false) { _ in
-                            DispatchQueue.main.async {
-                                self.delegate.notesTableView.removeByNotes(notes: [unwrappedNote])
-                            }
-                        }
-                    }
-                } else if fileExistInFS {
-                    self.watcherCreateTrigger(url)
-                }
-                
+            if path.contains(".textbundle") {
+                self.handleTextBundle(event: event, url: url)
                 return
             }
             
-            guard self.checkFile(url: url, pathList: paths) else {
+            if event.fileRemoved {
+                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
+                
+                self.removeNote(note: note)
+            }
+            
+            if event.fileRenamed {
+                self.moveHandler(url: url, pathList: self.observedFolders)
+                return
+            }
+            
+            guard self.checkFile(url: url, pathList: self.observedFolders) else {
                 return
             }
             
@@ -85,17 +62,35 @@ class FileSystemEventManager {
                     note.markdownCache()
                     self.delegate.refillEditArea()
                 } else {
-                    self.watcherCreateTrigger(url)
+                    self.importNote(url)
                 }
                 return
             }
             
             if event.fileCreated {
-                self.watcherCreateTrigger(url)
+                self.importNote(url)
             }
         }
         
         watcher?.start()
+    }
+    
+    private func moveHandler(url: URL, pathList: [String]) {
+        let fileExistInFS = self.checkFile(url: url, pathList: pathList)
+        
+        guard let note = self.storage.getBy(url: url) else {
+            if fileExistInFS {
+                self.importNote(url)
+            }
+            return
+        }
+        
+        if fileExistInFS {
+            renameNote(note: note)
+            return
+        }
+        
+        removeNote(note: note)
     }
     
     private func checkFile(url: URL, pathList: [String]) -> Bool {
@@ -106,7 +101,7 @@ class FileSystemEventManager {
         )
     }
     
-    private func watcherCreateTrigger(_ url: URL) {
+    private func importNote(_ url: URL) {
         let n = storage.getBy(url: url)
         guard n == nil else {
             if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
@@ -154,8 +149,38 @@ class FileSystemEventManager {
         self.delegate.reloadSideBar()
     }
     
+    private func renameNote(note: Note) {
+        if note.url == UserDataService.instance.lastRenamed {
+            self.delegate.updateTable() {
+                self.delegate.notesTableView.setSelected(note: note)
+                UserDataService.instance.lastRenamed = nil
+            }
+        }
+    }
+    
+    private func removeNote(note: Note) {
+        print("FSWatcher remove note: \"\(note.name)\"")
+        
+        self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
+            DispatchQueue.main.async {
+                if self.delegate.notesTableView.numberOfRows > 0 {
+                    self.delegate.notesTableView.removeByNotes(notes: [note])
+                }
+            }
+        }
+    }
+    
+    private func handleTextBundle(event: FileWatcherEvent, url: URL) {
+        if event.fileCreated && url.lastPathComponent == "text.markdown" {
+            let path = url.deletingLastPathComponent().path
+            let url = URL(fileURLWithPath: path)
+            importNote(url)
+        }
+    }
+    
     public func restart() {
         watcher?.stop()
+        self.observedFolders = self.storage.getProjectPaths()
         start()
     }
 }
