@@ -371,14 +371,9 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func lineSpacing(_ sender: NSSlider) {
-        let editor = self.viewController.editArea
-        guard let length = editor?.textStorage?.length else {return }
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(sender.floatValue)
-        editor?.textStorage?.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(0..<length))
-
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
+        
+        self.viewController.editArea.applyLeftParagraphStyle()
     }
     
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {

@@ -389,14 +389,14 @@ public class NotesTextProcessor {
     public static func updateParagraphStyle(code: NSAttributedString) -> NSMutableAttributedString {
         let codeM = NSMutableAttributedString(attributedString: code)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         codeM.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<codeM.length))
         return codeM
     }
     
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.headIndent = CGFloat(20)
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         return paragraphStyle
     }
     

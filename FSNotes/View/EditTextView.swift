@@ -15,6 +15,7 @@ class EditTextView: NSTextView {
     public static var note: Note?
     var isHighlighted: Bool = false
     let storage = Storage.sharedInstance()
+    let caretWidth: CGFloat = 2
     
     class UndoInfo: NSObject {
         let text: String
@@ -27,40 +28,36 @@ class EditTextView: NSTextView {
     }
     
     var downView: MarkdownView?
-    
-    override func draw(_ dirtyRect: NSRect) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        defaultParagraphStyle = paragraphStyle
-        typingAttributes[.paragraphStyle] = paragraphStyle
         
-        super.draw(dirtyRect)
-    }
-    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
     
+    //MARK: caret width
+    
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
-        guard let lineHeightMultiple = defaultParagraphStyle?.lineHeightMultiple else {
-            return
+        var newRect = NSRect(origin: rect.origin, size: rect.size)
+        newRect.size.width = self.caretWidth
+        
+        if let range = getParagraphRange(), range.upperBound != textStorage?.length || (
+            range.upperBound == textStorage?.length
+            && textStorage?.string.last == "\n"
+            && selectedRange().location != textStorage?.length
+        ) {
+            newRect.size.height = newRect.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing)
         }
         
-        let lineHeight = CGFloat(UserDefaultsManagement.fontSize) * CGFloat(lineHeightMultiple)
-        let textHeight = CGFloat(UserDefaultsManagement.fontSize)
-        var margin = ((rect.size.height + lineHeight) / 2 - textHeight) / 2
-        
-        let location = selectedRange().location
-        let prevLocation = location > 1 ? location - 1 : location
-        
-        if hasAttachmentAt(location: location) || hasAttachmentAt(location: prevLocation) {
-            margin = 0
-        }
-        
-        NSColor(red:0.44, green:0.50, blue:0.52, alpha:1.0).set()
-        
-        __NSRectFill(NSRect(x: rect.origin.x, y: rect.origin.y + margin, width: rect.size.width, height: rect.size.height))
+        let clr = NSColor(red:0.47, green:0.53, blue:0.69, alpha:1.0)
+        super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
     }
+    
+    override func setNeedsDisplay(_ invalidRect: NSRect) {
+        var newInvalidRect = NSRect(origin: invalidRect.origin, size: invalidRect.size)
+        newInvalidRect.size.width += self.caretWidth - 1
+        super.setNeedsDisplay(newInvalidRect)
+    }
+ 
+    // MARK: Menu
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let note = EditTextView.note else { return false }
@@ -206,7 +203,11 @@ class EditTextView: NSTextView {
             let css = getPreviewStyle()
             
             do {
-                guard let imagesStorage = note.project?.url else { return }
+                guard var imagesStorage = note.project?.url else { return }
+                
+                if note.type == .TextBundle {
+                    imagesStorage = note.url
+                }
                 
                 downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
                 }
@@ -249,13 +250,11 @@ class EditTextView: NSTextView {
         viewController.titleLabel.stringValue = note.title
         restoreCursorPosition()
         
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        storage.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<storage.length))
+        applyLeftParagraphStyle()
     }
     
     @objc func loadImages() {
-        if let note = self.getSelectedNote() {
+        if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: textStorage!, maxWidth: frame.width, note: note)
             processor.load()
         }
@@ -308,12 +307,7 @@ class EditTextView: NSTextView {
             formatter.bold()
             return true
         case 34: // command-shift-i (image) | command-option-i (link) | command-i
-            if (note.type == .Markdown && modifier.contains([.command, .shift])) {
-                formatter.image()
-                return true
-            }
-            
-            if (note.type == .Markdown && modifier.contains([.command, .option])) { //
+            if (note.isMarkdown() && modifier.contains([.command, .option])) { //
                 formatter.link()
                 return true
             }
@@ -327,7 +321,7 @@ class EditTextView: NSTextView {
             formatter.strike()
             return true
         case (18...23): // cmd-1/6 (headers 1/6)
-            if note.type == .Markdown {
+            if note.isMarkdown() {
                 var string = ""
                 for index in [18, 19, 20, 21, 23, 22] {
                     string = string + "#"
@@ -355,6 +349,19 @@ class EditTextView: NSTextView {
         let string = storage.string as NSString
         let paragraphRange = string.paragraphRange(for: range)
         
+        return paragraphRange
+    }
+    
+    private func getParagraphRange(for location: Int) -> NSRange? {
+        guard let mw = NSApplication.shared.windows.first,
+            let c = mw.contentViewController as? ViewController,
+            let editArea = c.editArea,
+            let storage = editArea.textStorage else { return nil }
+        
+        let string = storage.string as NSString
+        let range = NSRange(location: location, length: 0)
+        let paragraphRange = string.paragraphRange(for: range)
+    
         return paragraphRange
     }
     
@@ -417,8 +424,7 @@ class EditTextView: NSTextView {
         let range = NSRange(start..<end)
         
         NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
-        
-        note.save()
+        note.save(needImageUnLoad: true)
         
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
@@ -573,54 +579,100 @@ class EditTextView: NSTextView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        registerForDraggedTypes([NSPasteboard.PasteboardType(kUTTypeFileURL as String)])
+        registerForDraggedTypes([
+            NSPasteboard.PasteboardType(kUTTypeFileURL as String)
+        ])
     }
-
+    
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let board = sender.draggingPasteboard()
         var data: Data
         
-        guard let note = getSelectedNote(), let storage = textStorage, let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
-            urls.count > 0 else {
-            return false
+        guard let note = getSelectedNote(), let storage = textStorage else { return false }
+        
+        if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableAttributedString {
+            
+            let dropPoint = convert(sender.draggingLocation(), from: nil)
+            let caretLocation = characterIndexForInsertion(at: dropPoint)
+            
+            let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+            let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
+            
+            guard
+                let path = attributedText.attribute(filePathKey, at: 0, effectiveRange: nil) as? String,
+                let position = attributedText.attribute(positionKey, at: 0, effectiveRange: nil) as? Int else { return false }
+
+            let attachment = NSTextAttachment()
+            let fileWrapper = FileWrapper.init()
+            let image = NSImage(contentsOf: note.url.appendingPathComponent(path))
+            fileWrapper.icon = image
+            attachment.fileWrapper = fileWrapper
+            attributedText.addAttribute(.attachment, value: attachment, range: NSRange(0..<1))
+            let ps = NSMutableParagraphStyle()
+            ps.alignment = .center
+            ps.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            attributedText.addAttribute(.paragraphStyle, value: ps, range: NSRange(0..<1))
+
+            let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
+            guard locationDiff < storage.length else { return false }
+            
+            textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
+            textStorage?.removeAttribute(.paragraphStyle, range: NSRange(location: position, length: 1))
+            textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attributedText)
+            
+            let fullRange = NSRange(0..<storage.length)
+            note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: fullRange))
+            note.save(needImageUnLoad: true)
+            
+            setSelectedRange(NSRange(location: caretLocation, length: 0))
+            
+            return true
         }
         
-        let url = urls[0]
-        
-        do {
-            data = try Data(contentsOf: url)
-        } catch {
-            return false
+        if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
+            urls.count > 0 {
+            for url in urls {
+                do {
+                    data = try Data(contentsOf: url)
+                } catch {
+                    return false
+                }
+                
+                let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
+                
+                guard let fileName = processor.writeImage(data: data, url: url),
+                      let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else
+                {
+                    return false
+                }
+                
+                let dropPoint = convert(sender.draggingLocation(), from: nil)
+                let caretLocation = characterIndexForInsertion(at: dropPoint)
+                let affectedRange = NSRange(location: caretLocation, length: 0)
+                
+                var markup = "![](/i/\(name))"
+                if note.type == .TextBundle {
+                    markup = "![](assets/\(name))"
+                }
+                
+                replaceCharacters(in: affectedRange, with: markup + "\n\n")
+            }
+            
+            let fullRange = NSRange(0..<storage.length)
+            note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: fullRange))
+            note.save(needImageUnLoad: true)
+            
+            loadImages()
+            
+            if !UserDefaultsManagement.liveImagesPreview {
+                NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: fullRange)
+                cacheNote(note: note)
+            }
+            
+            return true
         }
         
-        let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
-        
-        guard let fileName = processor.writeImage(data: data, url: url),
-              let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else
-        {
-            return false
-        }
-        
-        let dropPoint = convert(sender.draggingLocation(), from: nil)
-        let caretLocation = characterIndexForInsertion(at: dropPoint)
-        let affectedRange = NSRange(location: caretLocation, length: 0)
-        
-        var markup = "![](/i/\(name))"
-        if note.type == .TextBundle {
-            markup = "![](assets/\(name))"
-        }
-        
-        replaceCharacters(in: affectedRange, with: markup)
-        
-        if let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
-            cacheNote(note: note)
-        }
-        
-        loadImages()
-        note.save()
-        
-        return true
+        return false
     }
     
     func getSearchText() -> String {
@@ -676,6 +728,12 @@ class EditTextView: NSTextView {
         f.toggleTodo()
     }
     
+    @IBAction func insertMarkdownImage(_ sender: Any) {
+        guard let f = self.getTextFormatter() else { return }
+        
+        f.image()
+    }
+    
     private func getTextFormatter() -> TextFormatter? {
         guard let note = EditTextView.note else { return nil }
         
@@ -703,6 +761,30 @@ class EditTextView: NSTextView {
         s?.item(withTitle: NSLocalizedString("Smart Links", comment: ""))?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
         s?.item(withTitle: NSLocalizedString("Text Replacement", comment: ""))?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
         s?.item(withTitle: NSLocalizedString("Data Detectors", comment: ""))?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
+    }
+        
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
+        
+        let attributedString = NSMutableAttributedString(attributedString: selected)
+        let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
+        attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))
+        
+        let data = NSKeyedArchiver.archivedData(withRootObject: attributedString)
+        let type = NSPasteboard.PasteboardType.init(rawValue: "attributedText")
+        let board = sender.draggingPasteboard()
+        board.setData(data, forType: type)
+        
+        return .copy
+    }
+    
+    public func applyLeftParagraphStyle() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        paragraphStyle.alignment = .left
+        typingAttributes[.paragraphStyle] = paragraphStyle
+        defaultParagraphStyle = paragraphStyle
+        textStorage?.updateParagraphStyle()
     }
     
 }

@@ -16,7 +16,6 @@ public class Note: NSObject {
     var type: NoteType = .Markdown
     var url: URL!
     var content: NSMutableAttributedString = NSMutableAttributedString()
-    var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
@@ -389,8 +388,10 @@ public class Note: NSObject {
         loadProject(url: url)
     }
     
-    func save(cloudSync: Bool = true) {
-        syncSkipDate = Date()
+    func save(needImageUnLoad: Bool = false) {
+        if needImageUnLoad {
+            unLoadImages()
+        }
         
         let attributes = getFileAttributes()
         
@@ -421,6 +422,15 @@ public class Note: NSObject {
         }
         
         sharedStorage.add(self)
+    }
+    
+    private func unLoadImages() {
+        if isMarkdown() && UserDefaultsManagement.liveImagesPreview {
+            let contentCopy = NSMutableAttributedString(attributedString: content.copy() as! NSAttributedString)
+            
+            let processor = ImagesProcessor(styleApplier: contentCopy, maxWidth: 0, note: self)
+            processor.unLoad()
+        }
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {

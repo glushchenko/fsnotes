@@ -47,13 +47,15 @@ public class ImagesProcessor {
     }
     
     public func load() {
-        let string = styleApplier.string
+        var offset = 0
         
-        NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
+        NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
+            guard var range = result?.range else { return }
             
-            let mdLink = self.textStorageNSString.substring(with: range)
-            let mdTitleLength = self.computeMarkdownTitleLength(mdLink: mdLink)
+            range = NSRange(location: range.location - offset, length: range.length)
+            let mdLink = self.styleApplier.attributedSubstring(from: range).string
+            let title = self.getTitle(link: mdLink)
+            offset += mdLink.count - 1
             
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
@@ -66,28 +68,27 @@ public class ImagesProcessor {
                 self.styleApplier.addAttribute(.font, value: font, range: range)
             }
             
-            NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+            if !UserDefaultsManagement.liveImagesPreview {
+                NotesTextProcessor.imageOpeningSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+                
+                NotesTextProcessor.imageClosingSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
             }
             
-            NotesTextProcessor.imageClosingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
+            NotesTextProcessor.parenRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
-                self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-            }
-            
-            NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
-                
-                self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                
                 var url: URL?
-                var isCached = false
                 
                 let filePath = self.getFilePath(innerRange: innerRange)
+                print("file path: \(filePath)")
+                
                 if let localNotePath = self.getLocalNotePath(path: filePath, innerRange: innerRange), FileManager.default.fileExists(atPath: localNotePath) {
                     url = URL(fileURLWithPath: localNotePath)
-                    isCached = true
                 } else if let fs = URL(string: filePath) {
                     url = fs
                 }
@@ -96,11 +97,40 @@ public class ImagesProcessor {
                     return
                 }
                 
-                if !isCached {
-                    _ = self.writeImage(data: imageData, url: imageURL)
-                }
+                let attrStringWithImage = NSMutableAttributedString(attributedString:  self.getImageAttributedString(image: image))
                 
-                self.replaceAttributedString(innerRange: innerRange, mdTitleLength: mdTitleLength, image: image)
+                let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+                let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+                
+                attrStringWithImage.addAttribute(pathKey, value: filePath, range: NSRange(0..<1))
+                attrStringWithImage.addAttribute(titleKey, value: title, range: NSRange(0..<1))
+                
+                self.styleApplier.replaceCharacters(in: range, with: attrStringWithImage)
+            }
+        }
+    }
+    
+    public func unLoad() {
+        note.content = NSMutableAttributedString(attributedString: styleApplier.attributedSubstring(from: NSRange(0..<styleApplier.length)))
+        
+        var offset = 0
+        
+        self.styleApplier.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.styleApplier.length)) { (value, range, stop) in
+            
+            if value != nil {
+                let newRange = NSRange(location: range.location + offset, length: range.length)
+                
+                let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+                let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+                
+                guard
+                    let path = self.styleApplier.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
+                    let title = self.styleApplier.attribute(titleKey, at: range.location, effectiveRange: nil) as? String else { return }
+                
+                if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                    self.note.content.replaceCharacters(in: newRange, with: "![\(title)](\(pathEncoded))")
+                    offset += 4 + path.count + title.count
+                }
             }
         }
     }
@@ -114,6 +144,15 @@ public class ImagesProcessor {
         return mdTitleLength
     }
     
+    private func getTitle(link: String) -> String {
+        if let match = link.range(of: "\\[(.+)\\]", options: .regularExpression) {
+            let title = link[match]
+            return String(title.dropLast().dropFirst())
+        }
+        
+        return ""
+    }
+    
     func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
         var notePath: String
         
@@ -125,33 +164,35 @@ public class ImagesProcessor {
         
         if note.type == .TextBundle {
             if let name = path.removingPercentEncoding {
+                print("\(note.url.path)/\(name)")
                 return "\(note.url.path)/\(name)"
             }
         }
         
-        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
             notePath = storagePath + "/i/" + encodedPath
-            return notePath
-        } else if let path = getFilePath(innerRange: innerRange).removingPercentEncoding {
-            notePath = storagePath + "/" + path
             return notePath
         }
         
-        return nil
+        let path = getFilePath(innerRange: innerRange)
+        notePath = storagePath + "/" + path
+        return notePath
     }
     
     func getFilePath(innerRange: NSRange) -> String {
         let link = NSRange(location: innerRange.location + 1 + offset, length: innerRange.length - 2)
-        let path = textStorageNSString.substring(with: link)
+        if let path = styleApplier.attributedSubstring(from: link).string.removingPercentEncoding {
+            return path
+        }
 
-        return path
+        return ""
     }
     
     func getFileName(from: URL, to: URL) -> String? {
         var name: String?
         let path = from.absoluteString
         
-        if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+        if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
             name = webName
         }
         
@@ -223,7 +264,7 @@ public class ImagesProcessor {
     func getImageAttributedString(image: Image) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        paragraphStyle.lineSpacing = 15
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         
         let attachment = NSTextAttachment()
         
@@ -239,7 +280,6 @@ public class ImagesProcessor {
         let mutableString = NSMutableAttributedString(attributedString: attributedString)
         
         mutableString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<1))
-        mutableString.addAttribute(.baselineOffset, value: -15, range: NSRange(0..<1))
         
         return mutableString
     }

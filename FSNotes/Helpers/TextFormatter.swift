@@ -77,10 +77,13 @@ public class TextFormatter {
     }
     
     func bold() {
-        if type == .Markdown {
+        print("bold")
+        
+        if note.isMarkdown() {
             let string = "**" + attributedString.string + "**"
             let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
             
+            print(string)
             self.replaceWith(string: string)
             setSRange(NSMakeRange(location, 0))
         }
@@ -116,7 +119,7 @@ public class TextFormatter {
     }
     
     func italic() {
-        if type == .Markdown {
+        if note.isMarkdown() {
             let string = "_" + attributedString.string + "_"
             let location = string.count == 2 ? range.location + 1 : range.upperBound + 2
             
@@ -193,7 +196,7 @@ public class TextFormatter {
             #endif
         }
         
-        if note.type == .Markdown {
+        if note.isMarkdown() {
             let string = "~~" + attributedString.string + "~~"
             let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
             
@@ -216,7 +219,7 @@ public class TextFormatter {
                 setSRange(NSMakeRange(range.upperBound + 1, 0))
             #endif
             
-            if note.type == .Markdown {
+            if note.isMarkdown() {
                 highlight()
             }
             
@@ -242,7 +245,7 @@ public class TextFormatter {
         
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
-        if note.type == .Markdown {
+        if note.isMarkdown() {
             highlight()
         }
     }
@@ -262,7 +265,7 @@ public class TextFormatter {
                 // replaceWith(string: text)
             #endif
         
-            if note.type == .Markdown {
+            if note.isMarkdown() {
                 highlight()
             }
             
@@ -293,7 +296,7 @@ public class TextFormatter {
         
         setSRange(NSRange(location: pRange.lowerBound, length: result.count))
         
-        if note.type == .Markdown {
+        if note.isMarkdown() {
             highlight()
         }
     }
@@ -458,7 +461,7 @@ public class TextFormatter {
             textView.isAutomaticDashSubstitutionEnabled = self.isAutomaticDashSubstitutionEnabled
         #endif
         
-        if note.type == .Markdown {
+        if note.isMarkdown() {
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
                 if #available(iOS 11.0, *) {
@@ -471,11 +474,11 @@ public class TextFormatter {
             }
         }
         
-        if note.type == .Markdown, let paragraphRange = getParagraphRange() {
+        if note.isMarkdown(), let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
         }
         
-        if note.type == .Markdown || note.type == .RichText {
+        if note.isMarkdown() || note.type == .RichText {
             var text: NSAttributedString?
             
             #if os(OSX)

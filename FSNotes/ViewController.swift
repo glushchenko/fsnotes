@@ -48,6 +48,11 @@ class ViewController: NSViewController,
         editArea.backgroundColor = UserDefaultsManagement.bgColor
         editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        editArea.defaultParagraphStyle = paragraphStyle
+        editArea.typingAttributes[.paragraphStyle] = paragraphStyle
+        
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
         }
@@ -745,8 +750,9 @@ class ViewController: NSViewController,
         ) {
             editArea.removeHighlight()
             let note = notesTableView.noteList[selected]
+            
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save()
+            note.save(needImageUnLoad: true)
             storage.add(note)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {

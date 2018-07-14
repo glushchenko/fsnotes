@@ -23,7 +23,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
-        if let n = note, n.type == .Markdown {
+        if let n = note, n.isMarkdown() {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
                 
@@ -43,7 +43,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
         
-        if let n = note, n.type == .Markdown {
+        if let n = note, n.isMarkdown() {
             self.navigationItem.rightBarButtonItem?.title = "Preview"
         }
         
@@ -116,7 +116,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.attributedText = note.content
         }
         
-        if note.type == .Markdown {
+        if note.isMarkdown() {
             editArea.textStorage.updateFont()
             
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
@@ -281,7 +281,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
-        note.save()
+        note.save(needImageUnLoad: true)
         
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {

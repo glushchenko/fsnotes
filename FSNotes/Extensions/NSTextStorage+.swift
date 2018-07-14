@@ -24,6 +24,27 @@
             }
             endEditing()
         }
+        
+        func updateParagraphStyle() {
+            beginEditing()
+            
+            let p = NSMutableParagraphStyle()
+            p.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            
+            let attachmentParagraph = NSMutableParagraphStyle()
+            attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+            attachmentParagraph.alignment = .center
+            
+            addAttribute(NSAttributedStringKey.paragraphStyle, value: p, range: NSRange(0..<length))
+            
+            enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+                if let _ = value as? NSTextAttachment {
+                    addAttribute(NSAttributedStringKey.paragraphStyle, value: attachmentParagraph, range: range)
+                }
+            }
+            
+            endEditing()
+        }
     }
 #else
     import UIKit

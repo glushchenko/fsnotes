@@ -51,7 +51,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
-        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data"), NSPasteboard.PasteboardType.init(rawValue: "notesTable")])
+        registerForDraggedTypes([
+                NSPasteboard.PasteboardType(rawValue: "public.data"),
+                NSPasteboard.PasteboardType.init(rawValue: "notesTable")
+            ])
     }
     
     override func keyDown(with event: NSEvent) {
