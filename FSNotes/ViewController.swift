@@ -33,7 +33,8 @@ class ViewController: NSViewController,
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: NSTextField!
-
+    @IBOutlet weak var shareButton: NSButton!
+    
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -56,6 +57,8 @@ class ViewController: NSViewController,
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
         }
+        
+        shareButton.sendAction(on: .leftMouseDown)
         
         setTableRowHeight()
         
@@ -1216,5 +1219,33 @@ class ViewController: NSViewController,
         }
     }
     
+    //MARK: Share Service
+    
+    @IBAction func shareSheet(_ sender: NSButton) {
+        if let note = notesTableView.getSelectedNote() {
+            let sharingPicker = NSSharingServicePicker(items: [note.content])
+            sharingPicker.delegate = self
+            sharingPicker.show(relativeTo: NSZeroRect, of: sender, preferredEdge: .minY)
+        }
+    }
+    
+    public func saveTextAtClipboard() {
+        if let note = notesTableView.getSelectedNote() {
+            print(note.content.string)
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(note.content.string, forType: NSPasteboard.PasteboardType.string)
+        }
+    }
+    
+    public func saveHtmlAtClipboard() {
+        if let note = notesTableView.getSelectedNote() {
+            guard let render = try? note.content.string.toHTML() else { return }
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
+        }
+    }
+        
 }
 

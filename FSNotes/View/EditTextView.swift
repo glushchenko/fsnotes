@@ -478,8 +478,7 @@ class EditTextView: NSTextView {
                 return
             }
             
-            let formatter = TextFormatter(textView: self, note: note)
-            formatter.tab()
+            insertTab(nil)
             saveCursorPosition()
             return
         }
@@ -617,7 +616,6 @@ class EditTextView: NSTextView {
             guard locationDiff < storage.length else { return false }
             
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
-            textStorage?.removeAttribute(.paragraphStyle, range: NSRange(location: position, length: 1))
             textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attributedText)
             
             let fullRange = NSRange(0..<storage.length)

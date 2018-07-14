@@ -287,6 +287,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
             
             vd.editArea.clear()
+            vd.search.stringValue = ""
                         
             let i = view.selectedRow
             if sidebar.indices.contains(i) {

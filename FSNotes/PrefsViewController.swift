@@ -135,7 +135,10 @@ class PrefsViewController: NSViewController {
     @IBAction func liveImagesPreview(_ sender: NSButton) {
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
         
-        controller?.refillEditArea()
+        if let note = EditTextView.note {
+            NotesTextProcessor.scanBasicSyntax(note: note)
+            controller?.refillEditArea()
+        }
     }
     
     @IBAction func codeBlockHighlight(_ sender: NSButton) {

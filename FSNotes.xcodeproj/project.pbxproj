@@ -11,6 +11,10 @@
 		6F46BBE71F55320E000D7DB2 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F46BBE61F55320E000D7DB2 /* String+.swift */; };
 		7116B6EF541108F7A48EBF4A /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B1EC33343C49C1F21859483 /* Pods_FSNotes__iCloud_Documents_.framework */; };
 		93D1825473D129F6D510814D /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
+		D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
+		D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
+		D7038E2020FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
+		D7038E2120FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
 		D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7063969202230BB00BC8446 /* EditorViewController.swift */; };
 		D708AC672000EF5800A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D708AC682000F0E100A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
@@ -285,6 +289,8 @@
 		9B1EC33343C49C1F21859483 /* Pods_FSNotes__iCloud_Documents_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__iCloud_Documents_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__CloudKit_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6B2C2AB86ECC93C9C8FD65 /* Pods-FSNotes iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		D7038E1C20FA86C100A54E69 /* SharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingService.swift; sourceTree = "<group>"; };
+		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
 		D7063969202230BB00BC8446 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
 		D708AC69200288FC00A1760F /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
@@ -645,6 +651,7 @@
 				D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */,
 				D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */,
 				D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */,
+				D7038E1F20FA957300A54E69 /* copy.png */,
 				D735E5B81F2E45CC00173215 /* icons.icns */,
 				D7D3D5191F4483EA00D152FE /* pin.png */,
 				D7F6CFF52056F1BE008C584A /* plus.png */,
@@ -685,6 +692,7 @@
 				D75EE7FC2078C5460055F159 /* SidebarCellView.swift */,
 				D7169A5C2077BA140025D2C9 /* StorageView.swift */,
 				D783B504208A1BFD00328A41 /* EditorSplitView.swift */,
+				D7038E1C20FA86C100A54E69 /* SharingService.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -991,6 +999,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7E6D9CD207F9878003ECAFC /* trash.png in Resources */,
+				D7038E2020FA957400A54E69 /* copy.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
@@ -1027,6 +1036,7 @@
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
 				D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */,
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
+				D7038E2120FA957400A54E69 /* copy.png in Resources */,
 				D7E6D9CC207F9878003ECAFC /* home.png in Resources */,
 				D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7BBCA7D208C7523002CE3C3 /* tag.png in Resources */,
@@ -1307,6 +1317,7 @@
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D708AC6A200288FC00A1760F /* NSTextStorage+.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
+				D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
 				D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */,
 				D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */,
@@ -1361,6 +1372,7 @@
 				D7E81C341F925B5F00416A91 /* EditTextView.swift in Sources */,
 				D7E81C361F925B5F00416A91 /* AppDelegate.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
+				D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
 				D7E81C381F925B5F00416A91 /* Storage.swift in Sources */,
 				D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */,
