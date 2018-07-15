@@ -57,12 +57,18 @@ class FileSystemEventManager {
             }
             
             if event.fileChange,
-                let note = self.storage.getBy(url: self.handleTextBundle(url: url)),
-                let content = try? String(contentsOf: url),
-                content != note.content.string
+                let note = self.storage.getBy(url: self.handleTextBundle(url: url))
             {
-                note.markdownCache()
-                self.delegate.refillEditArea()
+                if note.isMarkdown() {
+                    if let content = try? String(contentsOf: url),
+                        content != note.content.string {
+                        note.reloadContent()
+                        note.markdownCache()
+                        self.delegate.refillEditArea()
+                    }
+                } else {
+                    self.delegate.refillEditArea()
+                }
             }
         }
         

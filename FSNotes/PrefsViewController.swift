@@ -133,6 +133,10 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
+        if UserDefaultsManagement.liveImagesPreview {
+            controller?.editArea.unLoadImages()
+        }
+        
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
         
         if let note = EditTextView.note {

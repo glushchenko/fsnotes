@@ -523,9 +523,7 @@ class EditTextView: NSTextView {
     }
     
     func restoreCursorPosition() {
-        guard let storage = textStorage else {
-            return
-        }
+        guard let storage = textStorage else { return }
         
         var position = storage.length
         
@@ -595,33 +593,27 @@ class EditTextView: NSTextView {
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             
             let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+            let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
             let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
             
             guard
                 let path = attributedText.attribute(filePathKey, at: 0, effectiveRange: nil) as? String,
+                let title = attributedText.attribute(titleKey, at: 0, effectiveRange: nil) as? String,
                 let position = attributedText.attribute(positionKey, at: 0, effectiveRange: nil) as? Int else { return false }
-
-            let attachment = NSTextAttachment()
-            let fileWrapper = FileWrapper.init()
-            let image = NSImage(contentsOf: note.url.appendingPathComponent(path))
-            fileWrapper.icon = image
-            attachment.fileWrapper = fileWrapper
-            attributedText.addAttribute(.attachment, value: attachment, range: NSRange(0..<1))
-            let ps = NSMutableParagraphStyle()
-            ps.alignment = .center
-            ps.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-            attributedText.addAttribute(.paragraphStyle, value: ps, range: NSRange(0..<1))
+            
+            guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
+            let cacheUrl = note.getImageCacheUrl()
+            
+            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl)
+            guard let attachmentText = attachment.getAttributedString() else { return false }
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
             guard locationDiff < storage.length else { return false }
             
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
-            textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attributedText)
+            textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
             
-            let fullRange = NSRange(0..<storage.length)
-            note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: fullRange))
-            note.save(needImageUnLoad: true)
-            
+            unLoadImages()
             setSelectedRange(NSRange(location: caretLocation, length: 0))
             
             return true
@@ -639,7 +631,7 @@ class EditTextView: NSTextView {
                 let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
                 
                 guard let fileName = processor.writeImage(data: data, url: url),
-                      let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else
+                      let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else
                 {
                     return false
                 }
@@ -656,14 +648,11 @@ class EditTextView: NSTextView {
                 replaceCharacters(in: affectedRange, with: markup + "\n\n")
             }
             
-            let fullRange = NSRange(0..<storage.length)
-            note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: fullRange))
-            note.save(needImageUnLoad: true)
-            
+            unLoadImages()
             loadImages()
             
             if !UserDefaultsManagement.liveImagesPreview {
-                NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: fullRange)
+                NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
                 cacheNote(note: note)
             }
             
@@ -671,6 +660,12 @@ class EditTextView: NSTextView {
         }
         
         return false
+    }
+    
+    public func unLoadImages() {
+        guard let note = getSelectedNote() else { return }
+        note.content = NSMutableAttributedString(attributedString:  attributedString())
+        note.save(needImageUnLoad: true)
     }
     
     func getSearchText() -> String {
@@ -784,5 +779,51 @@ class EditTextView: NSTextView {
         defaultParagraphStyle = paragraphStyle
         textStorage?.updateParagraphStyle()
     }
+    
+    override func clicked(onLink link: Any, at charIndex: Int) {
+        let range = NSRange(location: charIndex, length: 1)
+        
+        let char = attributedSubstring(forProposedRange: range, actualRange: nil)
+        if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
+            if let url = URL(string: link as! String) {
+                NSWorkspace.shared.open(url)
+            }
+            
+            return
+        }
+        
+        let window = NSApp.windows[0]
+        let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+        
+        guard let vc = window.contentViewController as? ViewController else { return }
+
+        vc.alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        field.placeholderString = "All Hail the Crimson King"
+        
+        if let title = char?.attribute(titleKey, at: 0, effectiveRange: nil) as? String {
+            field.stringValue = title
+        }
+        
+        vc.alert?.messageText = NSLocalizedString("Image title", comment: "Edit area")
+        vc.alert?.informativeText = NSLocalizedString("Please enter image title:", comment: "Edit area")
+        vc.alert?.accessoryView = field
+        vc.alert?.alertStyle = .informational
+        vc.alert?.addButton(withTitle: "OK")
+        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                self.textStorage?.addAttribute(titleKey, value: field.stringValue, range: range)
+                
+                if let note = vc.notesTableView.getSelectedNote() {
+                    note.content = NSMutableAttributedString(attributedString: self.attributedString())
+                    note.save(needImageUnLoad: true)
+                }
+            }
+        }
+        
+        field.becomeFirstResponder()
+    }
+    
+    
     
 }

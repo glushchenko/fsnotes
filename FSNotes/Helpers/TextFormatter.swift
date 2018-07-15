@@ -77,13 +77,10 @@ public class TextFormatter {
     }
     
     func bold() {
-        print("bold")
-        
         if note.isMarkdown() {
             let string = "**" + attributedString.string + "**"
             let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
             
-            print(string)
             self.replaceWith(string: string)
             setSRange(NSMakeRange(location, 0))
         }

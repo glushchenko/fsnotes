@@ -85,7 +85,6 @@ public class ImagesProcessor {
                 var url: URL?
                 
                 let filePath = self.getFilePath(innerRange: innerRange)
-                print("file path: \(filePath)")
                 
                 if let localNotePath = self.getLocalNotePath(path: filePath, innerRange: innerRange), FileManager.default.fileExists(atPath: localNotePath) {
                     url = URL(fileURLWithPath: localNotePath)
@@ -93,19 +92,13 @@ public class ImagesProcessor {
                     url = fs
                 }
                 
-                guard let imageURL = url, let imageData = try? Data(contentsOf: imageURL), let image = Image(data: imageData) else {
-                    return
+                guard let imageUrl = url else { return }
+                
+                let cacheUrl = self.note.project?.url.appendingPathComponent("/.cache/")
+                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl)
+                if let attributedStringWithImage = imageAttachment.getAttributedString() {
+                    self.styleApplier.replaceCharacters(in: range, with: attributedStringWithImage)
                 }
-                
-                let attrStringWithImage = NSMutableAttributedString(attributedString:  self.getImageAttributedString(image: image))
-                
-                let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-                let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
-                
-                attrStringWithImage.addAttribute(pathKey, value: filePath, range: NSRange(0..<1))
-                attrStringWithImage.addAttribute(titleKey, value: title, range: NSRange(0..<1))
-                
-                self.styleApplier.replaceCharacters(in: range, with: attrStringWithImage)
             }
         }
     }
@@ -119,7 +112,6 @@ public class ImagesProcessor {
             
             if value != nil {
                 let newRange = NSRange(location: range.location + offset, length: range.length)
-                
                 let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
                 let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
                 
@@ -127,7 +119,7 @@ public class ImagesProcessor {
                     let path = self.styleApplier.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
                     let title = self.styleApplier.attribute(titleKey, at: range.location, effectiveRange: nil) as? String else { return }
                 
-                if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                     self.note.content.replaceCharacters(in: newRange, with: "![\(title)](\(pathEncoded))")
                     offset += 4 + path.count + title.count
                 }
@@ -164,12 +156,11 @@ public class ImagesProcessor {
         
         if note.type == .TextBundle {
             if let name = path.removingPercentEncoding {
-                print("\(note.url.path)/\(name)")
                 return "\(note.url.path)/\(name)"
             }
         }
         
-        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             notePath = storagePath + "/i/" + encodedPath
             return notePath
         }
@@ -192,7 +183,7 @@ public class ImagesProcessor {
         var name: String?
         let path = from.absoluteString
         
-        if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+        if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             name = webName
         }
         
@@ -302,36 +293,6 @@ public class ImagesProcessor {
         }
         
         return false
-    }
-    
-    func replaceAttributedString(innerRange: NSRange, mdTitleLength: Int, image: Image) {
-        let attrStringWithImage = self.getImageAttributedString(image: image)
-        
-        guard self.styleApplier.length >= innerRange.location + innerRange.length else {
-            return
-        }
-        
-        let attachmentExist = self.isContainAttachment(innerRange: innerRange, mdTitleLength: mdTitleLength)
-        
-        let newLine = self.isContainNewLine(innerRange: innerRange, mdTitleLength: mdTitleLength)
-        
-        let j = offset + newLineOffset - mdTitleLength
-        
-        guard !attachmentExist else {
-            self.styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 5 + j, 1), with: attrStringWithImage)
-            return
-        }
-        
-        if !newLine {
-            self.styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 3 + j, 0), with: NSAttributedString(string: "\n"))
-            self.styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 3 + j, 0), with: attrStringWithImage)
-            
-            offset = offset + 2
-        } else {
-            self.styleApplier.replaceCharacters(in: NSMakeRange(innerRange.lowerBound - 4 + j, 0), with: attrStringWithImage)
-            
-            offset = offset + 1
-        }
     }
     
     #if os(OSX)

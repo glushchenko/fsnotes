@@ -1231,7 +1231,6 @@ class ViewController: NSViewController,
     
     public func saveTextAtClipboard() {
         if let note = notesTableView.getSelectedNote() {
-            print(note.content.string)
             let pasteboard = NSPasteboard.general
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
             pasteboard.setString(note.content.string, forType: NSPasteboard.PasteboardType.string)

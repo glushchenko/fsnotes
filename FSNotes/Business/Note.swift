@@ -644,4 +644,24 @@ public class Note: NSObject {
             }
         #endif
     }
+    
+    public func getImageUrl(imageName: String) -> URL? {
+        if imageName.starts(with: "http://") || imageName.starts(with: "https://") {
+            return URL(string: imageName)
+        }
+        
+        if type == .TextBundle {
+            return url.appendingPathComponent(imageName)
+        }
+        
+        if type == .Markdown {
+            return project?.url.appendingPathComponent(imageName)
+        }
+        
+        return nil
+    }
+    
+    public func getImageCacheUrl() -> URL? {
+        return project?.url.appendingPathComponent("/.cache/")
+    }
 }

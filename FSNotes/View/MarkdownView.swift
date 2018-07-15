@@ -144,8 +144,7 @@ private extension MarkdownView {
                 
                 if localPath.starts(with: "/") || localPath.starts(with: "assets/") {
                     let fullImageURL = imagesStorage
-                    let imageURL = fullImageURL.appendingPathComponent(String(localPath))
-                    
+                    let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
                     let imageData = try Data(contentsOf: imageURL)
                     let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
                     
