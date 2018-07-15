@@ -51,7 +51,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     override func draw(_ dirtyRect: NSRect) {
         delegate = self
         dataSource = self
-        registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "public.data"), NSPasteboard.PasteboardType.init(rawValue: "notesTable")])
+        registerForDraggedTypes([
+                NSPasteboard.PasteboardType(rawValue: "public.data"),
+                NSPasteboard.PasteboardType.init(rawValue: "notesTable")
+            ])
     }
     
     override func keyDown(with event: NSEvent) {
@@ -284,6 +287,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
             
             vd.editArea.clear()
+            vd.search.stringValue = ""
                         
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
@@ -463,7 +467,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private func removeProject(project: Project) {
         self.storage.removeBy(project: project)
         
-        self.viewDelegate?.restartFileWatcher()
+        self.viewDelegate?.fsManager?.restart()
         self.viewDelegate?.cleanSearchAndEditArea()
         
         self.sidebarItems = Sidebar().getList()
@@ -542,7 +546,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     @objc public func reloadSidebar() {
         let vc = getViewController()
-        vc.restartFileWatcher()
+        vc.fsManager?.restart()
         vc.loadMoveMenu()
         
         let selected = vc.storageOutlineView.selectedRow

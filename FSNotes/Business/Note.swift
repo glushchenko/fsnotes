@@ -16,7 +16,6 @@ public class Note: NSObject {
     var type: NoteType = .Markdown
     var url: URL!
     var content: NSMutableAttributedString = NSMutableAttributedString()
-    var syncSkipDate: Date?
     var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
@@ -222,7 +221,14 @@ public class Note: NSObject {
     func getContent() -> NSAttributedString? {
         do {
             let options = getDocOptions()
-            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+            var url = self.url
+            
+            if type == .TextBundle {
+                url?.appendPathComponent("text.markdown")
+            }
+            
+            guard let docUrl = url else { return nil }
+            return try NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
         } catch {
             print(error.localizedDescription)
         }
@@ -285,7 +291,7 @@ public class Note: NSObject {
     }
     
     func isMarkdown() -> Bool {
-        return (type == .Markdown)
+        return (type == .Markdown) || (type == .TextBundle)
     }
     
     func addPin() {
@@ -382,8 +388,10 @@ public class Note: NSObject {
         loadProject(url: url)
     }
     
-    func save(cloudSync: Bool = true) {
-        syncSkipDate = Date()
+    func save(needImageUnLoad: Bool = false) {
+        if needImageUnLoad {
+            unLoadImages()
+        }
         
         let attributes = getFileAttributes()
         
@@ -393,15 +401,51 @@ public class Note: NSObject {
                 return
             }
             
-            try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            var url = self.url
             
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+            if type == .TextBundle {
+                if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
+                    try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
+                    self.writeTextBundleInfo(url: uurl)
+                }
+                
+                url?.appendPathComponent("text.markdown")
+            }
+            
+            guard let docUrl = url else { return }
+            
+            try fileWrapper.write(to: docUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
         } catch {
             print("Write error \(error)")
             return
         }
         
         sharedStorage.add(self)
+    }
+    
+    private func writeTextBundleInfo(url: URL) {
+        let url = url.appendingPathComponent("info.json")
+        
+        let info = """
+        {
+            "transient" : true,
+            "type" : "net.daringfireball.markdown",
+            "creatorIdentifier" : "co.fluder.fsnotes",
+            "version" : 2
+        }
+        """
+        try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
+    }
+    
+    private func unLoadImages() {
+        if isMarkdown() && UserDefaultsManagement.liveImagesPreview {
+            let contentCopy = NSMutableAttributedString(attributedString: content.copy() as! NSAttributedString)
+            
+            let processor = ImagesProcessor(styleApplier: contentCopy, maxWidth: 0, note: self)
+            processor.unLoad()
+        }
     }
     
     func getFileAttributes() -> [FileAttributeKey: Any] {
@@ -614,5 +658,25 @@ public class Note: NSObject {
                 }
             }
         #endif
+    }
+    
+    public func getImageUrl(imageName: String) -> URL? {
+        if imageName.starts(with: "http://") || imageName.starts(with: "https://") {
+            return URL(string: imageName)
+        }
+        
+        if type == .TextBundle {
+            return url.appendingPathComponent(imageName)
+        }
+        
+        if type == .Markdown {
+            return project?.url.appendingPathComponent(imageName)
+        }
+        
+        return nil
+    }
+    
+    public func getImageCacheUrl() -> URL? {
+        return project?.url.appendingPathComponent("/.cache/")
     }
 }

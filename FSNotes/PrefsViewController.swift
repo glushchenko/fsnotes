@@ -133,9 +133,16 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
+        if UserDefaultsManagement.liveImagesPreview {
+            controller?.editArea.unLoadImages()
+        }
+        
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
         
-        controller?.refillEditArea()
+        if let note = EditTextView.note {
+            NotesTextProcessor.fullScan(note: note)
+            controller?.refillEditArea()
+        }
     }
     
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
@@ -371,14 +378,9 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func lineSpacing(_ sender: NSSlider) {
-        let editor = self.viewController.editArea
-        guard let length = editor?.textStorage?.length else {return }
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(sender.floatValue)
-        editor?.textStorage?.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSRange(0..<length))
-
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
+        
+        self.viewController.editArea.applyLeftParagraphStyle()
     }
     
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {

@@ -29,7 +29,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)) || event.keyCode == kVK_Return {
+        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)) || event.keyCode == kVK_Return, !UserDefaultsManagement.preview {
             vc.focusEditArea()
         }
         

@@ -389,14 +389,14 @@ public class NotesTextProcessor {
     public static func updateParagraphStyle(code: NSAttributedString) -> NSMutableAttributedString {
         let codeM = NSMutableAttributedString(attributedString: code)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         codeM.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<codeM.length))
         return codeM
     }
     
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.headIndent = CGFloat(20)
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         return paragraphStyle
     }
     
@@ -610,6 +610,10 @@ public class NotesTextProcessor {
                 guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
                 
                 if substring.starts(with: "/i/"), let project = note.project, let path = project.url.appendingPathComponent(substring).path.removingPercentEncoding {
+                    substring = "file://" + path
+                }
+                
+                if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 }
                 
