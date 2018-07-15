@@ -406,6 +406,7 @@ public class Note: NSObject {
             if type == .TextBundle {
                 if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
                     try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
+                    self.writeTextBundleInfo(url: uurl)
                 }
                 
                 url?.appendPathComponent("text.markdown")
@@ -422,6 +423,20 @@ public class Note: NSObject {
         }
         
         sharedStorage.add(self)
+    }
+    
+    private func writeTextBundleInfo(url: URL) {
+        let url = url.appendingPathComponent("info.json")
+        
+        let info = """
+        {
+            "transient" : true,
+            "type" : "net.daringfireball.markdown",
+            "creatorIdentifier" : "co.fluder.fsnotes",
+            "version" : 2
+        }
+        """
+        try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
     }
     
     private func unLoadImages() {
