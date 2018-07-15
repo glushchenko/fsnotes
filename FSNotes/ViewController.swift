@@ -1065,6 +1065,9 @@ class ViewController: NSViewController,
     }
     
     func enablePreview() {
+        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        vc.editArea.window?.makeFirstResponder(vc.notesTableView)
+        
         self.view.window!.title = NSLocalizedString("FSNotes [preview]", comment: "")
         UserDefaultsManagement.preview = true
         refillEditArea()

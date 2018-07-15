@@ -252,7 +252,7 @@ public class TextFormatter {
         
         guard range.length > 0 else {
             var text = storage.attributedSubstring(from: pRange).string
-            guard [" ", "\t"].contains(text.removeFirst()) else { return }
+            guard text.count > 0, [" ", "\t"].contains(text.removeFirst()) else { return }
             
             #if os(OSX)
                 textView.insertText(text, replacementRange: pRange)
