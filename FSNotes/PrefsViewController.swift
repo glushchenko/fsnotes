@@ -140,7 +140,7 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
         
         if let note = EditTextView.note {
-            NotesTextProcessor.scanBasicSyntax(note: note)
+            NotesTextProcessor.fullScan(note: note)
             controller?.refillEditArea()
         }
     }

@@ -646,9 +646,9 @@ class EditTextView: NSTextView {
                 }
                 
                 replaceCharacters(in: affectedRange, with: markup + "\n\n")
+                unLoadImages()
             }
             
-            unLoadImages()
             loadImages()
             
             if !UserDefaultsManagement.liveImagesPreview {
