@@ -426,12 +426,12 @@ class EditTextView: NSTextView {
         NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
         note.save(needImageUnLoad: true)
         
+        cacheNote(note: note)
+        
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
             processor.load()
         }
-        
-        cacheNote(note: note)
     }
     
     override func keyDown(with event: NSEvent) {
@@ -510,6 +510,7 @@ class EditTextView: NSTextView {
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
         processor.scanParagraph(textChanged: textChanged)
         cacheNote(note: note)
+        note.unLoadImages()
     }
     
     func saveCursorPosition() {
@@ -588,7 +589,6 @@ class EditTextView: NSTextView {
         guard let note = getSelectedNote(), let storage = textStorage else { return false }
         
         if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableAttributedString {
-            
             let dropPoint = convert(sender.draggingLocation(), from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             
@@ -621,6 +621,13 @@ class EditTextView: NSTextView {
         
         if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
             urls.count > 0 {
+            
+            let dropPoint = convert(sender.draggingLocation(), from: nil)
+            let caretLocation = characterIndexForInsertion(at: dropPoint)
+            
+            var result = String()
+            unLoadImages()
+            
             for url in urls {
                 do {
                     data = try Data(contentsOf: url)
@@ -636,26 +643,25 @@ class EditTextView: NSTextView {
                     return false
                 }
                 
-                let dropPoint = convert(sender.draggingLocation(), from: nil)
-                let caretLocation = characterIndexForInsertion(at: dropPoint)
                 let affectedRange = NSRange(location: caretLocation, length: 0)
                 
                 var markup = "![](/i/\(name))"
                 if note.type == .TextBundle {
                     markup = "![](assets/\(name))"
                 }
-                
-                replaceCharacters(in: affectedRange, with: markup + "\n\n")
-                unLoadImages()
+                markup += "\n\n"
+                result.append(markup)
             }
             
-            loadImages()
-            
+            insertText(result, replacementRange: NSRange(location: caretLocation, length: 0))
+       
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
                 cacheNote(note: note)
             }
             
+            loadImages()
+
             return true
         }
         
@@ -759,6 +765,7 @@ class EditTextView: NSTextView {
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
         
+        print(11111)
         let attributedString = NSMutableAttributedString(attributedString: selected)
         let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
         attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))

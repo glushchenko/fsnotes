@@ -439,7 +439,7 @@ public class Note: NSObject {
         try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
     }
     
-    private func unLoadImages() {
+    public func unLoadImages() {
         if isMarkdown() && UserDefaultsManagement.liveImagesPreview {
             let contentCopy = NSMutableAttributedString(attributedString: content.copy() as! NSAttributedString)
             

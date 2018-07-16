@@ -782,6 +782,7 @@
 				9962CE97D3AEB8CA8F87BF6C /* [CP] Embed Pods Frameworks */,
 				D713542C2042D46E00E3776F /* Embed Watch Content */,
 				D73E3DE0205D17360044FF84 /* Embed App Extensions */,
+				AF041A5C63CD8E5C48CA810D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -802,6 +803,7 @@
 				D7793C6C1F211C6000CA39B7 /* Frameworks */,
 				D7793C6D1F211C6000CA39B7 /* Resources */,
 				EF05BC144E24BED78E33FAB7 /* [CP] Embed Pods Frameworks */,
+				4F60631C2EB37BC65B8EDE55 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -821,6 +823,7 @@
 				D7E81C471F925B5F00416A91 /* Frameworks */,
 				D7E81C491F925B5F00416A91 /* Resources */,
 				BF61150B51B7D0597D6A832B /* [CP] Embed Pods Frameworks */,
+				986CD03B3906CD6B3F8B8B3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1075,6 +1078,36 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		4F60631C2EB37BC65B8EDE55 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		986CD03B3906CD6B3F8B8B3E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9962CE97D3AEB8CA8F87BF6C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1097,6 +1130,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF041A5C63CD8E5C48CA810D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF61150B51B7D0597D6A832B /* [CP] Embed Pods Frameworks */ = {
