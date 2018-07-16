@@ -765,7 +765,6 @@ class EditTextView: NSTextView {
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
         
-        print(11111)
         let attributedString = NSMutableAttributedString(attributedString: selected)
         let positionKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.position")
         attributedString.addAttribute(positionKey, value: selectedRange().location, range: NSRange(0..<1))

@@ -62,7 +62,7 @@ class FileSystemEventManager {
                 if note.isMarkdown() {
                     if let content = try? String(contentsOf: url),
                         content != note.content.string {
-                        note.reloadContent()
+                        note.reloadFileContent()
                         note.markdownCache()
                         self.delegate.refillEditArea()
                     }

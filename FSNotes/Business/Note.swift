@@ -236,7 +236,7 @@ public class Note: NSObject {
         return nil
     }
     
-    func reloadContent() {
+    func reloadFileContent() {
         if let content = getContent() {
             self.content = NSMutableAttributedString(attributedString: content)
         }

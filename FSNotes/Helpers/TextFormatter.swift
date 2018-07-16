@@ -486,7 +486,7 @@ public class TextFormatter {
             
             if let t = text {
                 note.content = NSMutableAttributedString(attributedString: t)
-                note.save()
+                note.save(needImageUnLoad: true)
             }
         }
         
