@@ -358,6 +358,12 @@ public class TextFormatter {
             return
         }
         
+        if prevString.starts(with: "\t") {
+            if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
+                textView.insertText(newLinePadding, replacementRange: textView.selectedRange())
+            }
+        }
+        
         if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: match.range)
             

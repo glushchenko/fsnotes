@@ -458,28 +458,35 @@ class EditTextView: NSTextView {
             "{" : "}",
             "\"" : "\"",
         ]
+        
         if UserDefaultsManagement.autocloseBrackets,
             let openingBracket = event.characters,
             let closingBracket = brackets[openingBracket] {
             if selectedRange().length > 0 {
                 let before = NSMakeRange(selectedRange().lowerBound, 0)
-                self.insertText(openingBracket, replacementRange: before)
+                self.insertText(self.applyStyle(openingBracket), replacementRange: before)
                 let after = NSMakeRange(selectedRange().upperBound, 0)
-                self.insertText(closingBracket, replacementRange: after)
+                self.insertText(self.applyStyle(closingBracket), replacementRange: after)
             }
             else {
                 super.keyDown(with: event)
-                self.insertText(closingBracket, replacementRange: selectedRange())
+                self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
                 self.moveBackward(self)
             }
             return
         }
         
         if event.keyCode == kVK_Return {
-            super.keyDown(with: event)
+            insertText(applyStyle("\n"), replacementRange: selectedRange())
             
             let formatter = TextFormatter(textView: self, note: note)
             formatter.newLine()
+            
+            if let range = getParagraphRange(), let storage = textStorage {
+                let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
+                processor.scanParagraph(textChanged: true)
+            }
+            
             return
         }
         
@@ -491,7 +498,14 @@ class EditTextView: NSTextView {
                 return
             }
             
-            insertTab(nil)
+            let tab = self.applyStyle("\t")
+            insertText(tab, replacementRange: selectedRange())
+            
+            if let range = getParagraphRange(), let storage = textStorage {
+                let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
+                processor.scanParagraph(textChanged: true)
+            }
+            
             saveCursorPosition()
             return
         }
@@ -511,7 +525,22 @@ class EditTextView: NSTextView {
             return
         }
         
+        // Init style for code block
+        
+        let paragraphRange = getParagraphRange()
+        let checkCodeBlock = (paragraphRange != nil && isCodeBlock(range: paragraphRange!))
+        let copyTypingAttributes = typingAttributes
+        
+        if checkCodeBlock {
+            typingAttributes = getCodeBlockAttributes()
+        }
+        
         super.keyDown(with: event)
+        
+        if checkCodeBlock {
+            typingAttributes = copyTypingAttributes
+        }
+        
         saveCursorPosition()
         
         let range = selectedRanges[0] as! NSRange
@@ -522,9 +551,45 @@ class EditTextView: NSTextView {
         let textChanged = event.keyCode == kVK_Return
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
         processor.scanParagraph(textChanged: textChanged)
-        print("scan")
         cacheNote(note: note)
         note.unLoadImages()
+    }
+    
+    public func applyStyle(_ text: String) -> NSMutableAttributedString {
+        let attributedText = NSMutableAttributedString(string: text)
+        
+        guard attributedText.length > 0 else { return attributedText }
+        
+        if let paragraphRange = getParagraphRange(), self.isCodeBlock(range: paragraphRange) {
+            let range = NSRange(0..<text.count)
+            attributedText.addAttributes(getCodeBlockAttributes(), range: range)
+        }
+        
+        return attributedText
+    }
+    
+    public func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        
+        var attributes: [NSAttributedStringKey : Any] = [
+            .backgroundColor: NotesTextProcessor.codeBackground,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        if let font = NotesTextProcessor.codeFont {
+            attributes[.font] = font
+        }
+        
+        return attributes
+    }
+    
+    private func isCodeBlock(range: NSRange) -> Bool {
+        guard let storage = textStorage else { return false }
+        
+        let string = storage.attributedSubstring(from: range).string
+        
+        return string.starts(with: "\t") || string.starts(with: "\n")
     }
     
     func saveCursorPosition() {
@@ -656,8 +721,6 @@ class EditTextView: NSTextView {
                 {
                     return false
                 }
-                
-                let affectedRange = NSRange(location: caretLocation, length: 0)
                 
                 var markup = "![](/i/\(name))"
                 if note.type == .TextBundle {

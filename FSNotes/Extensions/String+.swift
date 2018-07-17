@@ -24,4 +24,22 @@ extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
+    
+    public func getPrefixMatchSequentially(char: String) -> String? {
+        var result = String()
+        
+        for c in self {
+            if c.description == char {
+                result += char
+                continue
+            }
+            break
+        }
+        
+        if result.count > 0 {
+            return result
+        }
+        
+        return nil
+    }
 }
