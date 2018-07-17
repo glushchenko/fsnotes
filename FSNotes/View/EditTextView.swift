@@ -435,6 +435,19 @@ class EditTextView: NSTextView {
     }
     
     override func keyDown(with event: NSEvent) {
+        guard !(
+            event.modifierFlags.contains(.shift) &&
+            [
+                kVK_UpArrow,
+                kVK_DownArrow,
+                kVK_LeftArrow,
+                kVK_RightArrow
+            ].contains(Int(event.keyCode))
+        ) else {
+            super.keyDown(with: event)
+            return
+        }
+        
         guard let note = EditTextView.note else {
             return
         }
@@ -509,6 +522,7 @@ class EditTextView: NSTextView {
         let textChanged = event.keyCode == kVK_Return
         let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
         processor.scanParagraph(textChanged: textChanged)
+        print("scan")
         cacheNote(note: note)
         note.unLoadImages()
     }

@@ -25,6 +25,10 @@
 		D70BA87720599D1300875E9C /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87420599D1200875E9C /* header.png */; };
 		D70BA87820599D1300875E9C /* header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87520599D1300875E9C /* header@3x.png */; };
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
+		D70FE12D20FE198200813F9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12B20FE198200813F9E /* Localizable.strings */; };
+		D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12E20FE198200813F9E /* InfoPlist.strings */; };
+		D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE13120FE198200813F9E /* InfoPlist.strings */; };
+		D70FE13620FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE13420FE198200813F9E /* InfoPlist.strings */; };
 		D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */; };
 		D712FED2206F67C500370BA4 /* NightMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FED1206F67C500370BA4 /* NightMode.swift */; };
 		D71353FE2042AE5F00E3776F /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FD2042AE5F00E3776F /* settings.png */; };
@@ -300,6 +304,11 @@
 		D70BA87420599D1200875E9C /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		D70BA87520599D1300875E9C /* header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@3x.png"; sourceTree = "<group>"; };
 		D70BA87620599D1300875E9C /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
+		D70FE12C20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D70FE12F20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D70FE13220FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D70FE13520FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D70FE13720FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeViewController.swift; sourceTree = "<group>"; };
 		D712FED1206F67C500370BA4 /* NightMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMode.swift; sourceTree = "<group>"; };
 		D71353FD2042AE5F00E3776F /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
@@ -510,6 +519,7 @@
 				D75F3338205EC34800CC887E /* ShareViewController.swift */,
 				D75F333A205EC34800CC887E /* MainInterface.storyboard */,
 				D75F333D205EC34800CC887E /* Info.plist */,
+				D70FE13420FE198200813F9E /* InfoPlist.strings */,
 			);
 			path = "FSNotes iOS Share";
 			sourceTree = "<group>";
@@ -557,6 +567,8 @@
 				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
+				D70FE12E20FE198200813F9E /* InfoPlist.strings */,
+				D70FE12B20FE198200813F9E /* Localizable.strings */,
 				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
 			);
 			path = "FSNotes iOS";
@@ -604,6 +616,7 @@
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7465F27207F2CD600E46A52 /* Images.xcassets */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
+				D70FE13120FE198200813F9E /* InfoPlist.strings */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
 				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
 			);
@@ -921,6 +934,7 @@
 				en,
 				Base,
 				uk,
+				ru,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -941,6 +955,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D75F333C205EC34800CC887E /* MainInterface.storyboard in Resources */,
+				D70FE13620FE198200813F9E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,6 +976,7 @@
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
 				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
+				D70FE12D20FE198200813F9E /* Localizable.strings in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
@@ -990,6 +1006,7 @@
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */,
 				D767938E201F21F5000F7BBF /* Main.storyboard in Resources */,
+				D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */,
 				D71354022042AECD00E3776F /* settings@3x.png in Resources */,
 				D739955E2051D1AB009017EE /* italic@3x.png in Resources */,
@@ -1005,6 +1022,7 @@
 				D7E6D9CD207F9878003ECAFC /* trash.png in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
+				D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7E6D9CB207F9878003ECAFC /* home.png in Resources */,
@@ -1407,6 +1425,38 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		D70FE12B20FE198200813F9E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D70FE12C20FE198200813F9E /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		D70FE12E20FE198200813F9E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D70FE12F20FE198200813F9E /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D70FE13120FE198200813F9E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D70FE13220FE198200813F9E /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D70FE13420FE198200813F9E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D70FE13520FE198200813F9E /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		D75F333A205EC34800CC887E /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1419,6 +1469,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D767938D201F21F5000F7BBF /* Base */,
+				D70FE13720FE198200813F9E /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
