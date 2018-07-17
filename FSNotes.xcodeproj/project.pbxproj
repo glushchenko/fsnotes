@@ -795,7 +795,6 @@
 				9962CE97D3AEB8CA8F87BF6C /* [CP] Embed Pods Frameworks */,
 				D713542C2042D46E00E3776F /* Embed Watch Content */,
 				D73E3DE0205D17360044FF84 /* Embed App Extensions */,
-				AF041A5C63CD8E5C48CA810D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1116,21 +1115,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AF041A5C63CD8E5C48CA810D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BF61150B51B7D0597D6A832B /* [CP] Embed Pods Frameworks */ = {

@@ -211,11 +211,9 @@ class ViewController: NSViewController,
             
             let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
-            if let list = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue) {
-                storage.noteList = list
-                viewController.notesTableView.noteList = list
-                viewController.notesTableView.reloadData()
-            }
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue)
+            viewController.notesTableView.noteList = storage.noteList
+            viewController.notesTableView.reloadData()
         }
     }
     
@@ -799,7 +797,7 @@ class ViewController: NSViewController,
     
     func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
         let filter = self.search.stringValue.lowercased()
-        var sidebarName = getSidebarItem()?.name ?? ""
+        let sidebarName = getSidebarItem()?.name ?? ""
         
         let selectedProject = getSidebarProject()
         let type = getSidebarType()
@@ -828,9 +826,7 @@ class ViewController: NSViewController,
         }
         
         if let unwrappedList = filteredNoteList {
-            if let list = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue) {
-                notesTableView.noteList = list
-            }
+            notesTableView.noteList = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue)
         }
         
         DispatchQueue.main.async {
@@ -990,24 +986,26 @@ class ViewController: NSViewController,
         guard !selectedRows.isEmpty else {
             return
         }
-        
+
+        var selectedNotes = [Note]()
         for selectedRow in selectedRows {
-            let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
-            let cell = row.view(atColumn: 0) as! NoteCellView
-            
-            let note = cell.objectValue as! Note
-            let selected = selectedRow
-            
+            guard let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as? NoteRowView,
+                let cell = row.view(atColumn: 0) as? NoteCellView,
+                let note = cell.objectValue as? Note
+                else { continue }
+
+            selectedNotes.append(note)
             note.togglePin()
-            
-            if selectedRows.count < 2 {
-                moveAtTop(id: selected)
-            }
-            
             cell.renderPin()
         }
-        
-        updateTable()
+
+        guard let list = filteredNoteList else { return }
+        let resorted = storage.sortNotes(noteList: list, filter: self.search.stringValue)
+
+        notesTableView.noteList = resorted
+        notesTableView.reloadData()
+        let newIndexes = selectedNotes.compactMap({ note in resorted.firstIndex(of: note) })
+        notesTableView.selectRowIndexes(IndexSet(newIndexes), byExtendingSelection: false)
     }
         
     func renameNote(selectedRow: Int) {
