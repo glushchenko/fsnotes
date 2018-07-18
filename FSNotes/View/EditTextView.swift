@@ -341,7 +341,11 @@ class EditTextView: NSTextView {
     }
     
     func getParagraphRange() -> NSRange? {
-        guard let mw = NSApplication.shared.windows.first, let c = mw.contentViewController as? ViewController, let editArea = c.editArea, let storage = editArea.textStorage else {
+        guard let mw = NSApplication.shared.windows.first,
+            let c = mw.contentViewController as? ViewController,
+            let editArea = c.editArea,
+            let storage = editArea.textStorage
+        else {
             return nil
         }
         
@@ -435,6 +439,8 @@ class EditTextView: NSTextView {
     }
     
     override func keyDown(with event: NSEvent) {
+        guard let storage = self.textStorage else { return }
+        
         guard !(
             event.modifierFlags.contains(.shift) &&
             [
@@ -459,6 +465,8 @@ class EditTextView: NSTextView {
             "\"" : "\"",
         ]
         
+        let sRange = selectedRange()
+        
         if UserDefaultsManagement.autocloseBrackets,
             let openingBracket = event.characters,
             let closingBracket = brackets[openingBracket] {
@@ -471,23 +479,57 @@ class EditTextView: NSTextView {
             else {
                 super.keyDown(with: event)
                 self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
+                
+                let attributes = getCodeBlockAttributes()
+                storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
                 self.moveBackward(self)
             }
             return
         }
         
-        if event.keyCode == kVK_Return {
-            var result = "\n"
+        if event.keyCode == kVK_Delete {
+            deleteBackward(nil)
             
-            if let prevParagraphRange = getParagraphRange() {
+            let sRange = selectedRange()
+            
+            guard sRange.location > 0,
+                let pr = getParagraphRange(for: sRange.location),
+                let currentPR = getParagraphRange()
+            else { return }
+            
+            // Is code block and not first position
+            
+            if isCodeBlock(range: pr), pr.lowerBound != selectedRange().location {
+                let attributes = getCodeBlockAttributes()
+                storage.addAttributes(attributes, range: currentPR)
+            }
+            
+            // Remove background if:
+            // 1) Cursor on paragraph first char
+            // 2) Paragraph contain new line
+            
+            if currentPR.lowerBound == selectedRange().location && currentPR.length == 1  {
+                storage.removeAttribute(.backgroundColor, range: currentPR)
+            }
+            
+            return
+        }
+        
+        if event.keyCode == kVK_Return {
+            guard let currentPR = getParagraphRange() else { return }
+            let sRange = selectedRange()
+            
+            var result = "\n"
+            if let prevParagraphRange = getParagraphRange(), currentPR.lowerBound != sRange.location {
                 let prevString = (string as NSString).substring(with: prevParagraphRange)
                 if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
                     result.append(newLinePadding)
+                    insertText(applyStyle(result), replacementRange: selectedRange())
+                    return
                 }
             }
             
-            insertText(applyStyle(result), replacementRange: selectedRange())
-            
+            insertText("\n", replacementRange: selectedRange())
             return
         }
         
@@ -499,11 +541,43 @@ class EditTextView: NSTextView {
                 return
             }
             
+            guard let currentPR = getParagraphRange() else { return }
+            let paragraph = storage.attributedSubstring(from: currentPR).string
             let sRange = selectedRange()
-            let tab = self.applyStyle("\t\n")
-            insertText(tab, replacementRange: selectedRange())
-            setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
-
+            
+            // center
+            if (sRange.location != 0 || sRange.location != storage.length) && paragraph.count == 1 {
+                insertText("\t", replacementRange: sRange)
+                let attributes = getCodeBlockAttributes()
+                let attributeRange = NSRange(location: sRange.location, length: 2)
+                storage.addAttributes(attributes, range: attributeRange)
+                return
+            }
+            
+            // first & last
+            if (sRange.location == 0 || sRange.location == storage.length) && paragraph.count == 0 {
+                insertText(applyStyle("\t\n"), replacementRange: sRange)
+                
+                let attributes = getCodeBlockAttributes()
+                let attributeRange = NSRange(location: sRange.location, length: 2)
+                storage.addAttributes(attributes, range: attributeRange)
+                
+                setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
+                return
+            }
+            
+            if self.isCodeBlock(paragraph: paragraph) {
+                self.insertText("\t", replacementRange: sRange)
+                
+                let attributes = getCodeBlockAttributes()
+                let attributeRange = NSRange(location: sRange.location, length: 1)
+                storage.addAttributes(attributes, range: attributeRange)
+                
+                setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
+                return
+            }
+            
+            insertTab(nil)
             saveCursorPosition()
             return
         }
@@ -542,7 +616,7 @@ class EditTextView: NSTextView {
         saveCursorPosition()
         
         let range = selectedRanges[0] as! NSRange
-        guard let storage = textStorage, note.content.length >= range.location + range.length else {
+        guard note.content.length >= range.location + range.length else {
             return
         }
         
@@ -551,6 +625,10 @@ class EditTextView: NSTextView {
         processor.scanParagraph(textChanged: textChanged)
         cacheNote(note: note)
         note.unLoadImages()
+    }
+    
+    private func isCodeBlock(paragraph: String) -> Bool {
+        return paragraph.starts(with: "\t") || paragraph.starts(with: "    ")
     }
     
     public func applyStyle(_ text: String) -> NSMutableAttributedString {
@@ -587,7 +665,7 @@ class EditTextView: NSTextView {
         
         let string = storage.attributedSubstring(from: range).string
         
-        return string.starts(with: "\t") || string.starts(with: "\n")
+        return string.starts(with: "\t") || string.starts(with: "    ")
     }
     
     func saveCursorPosition() {
