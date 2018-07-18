@@ -528,7 +528,11 @@ public class Note: NSObject {
         
         return p.isArchive
     }
-    
+
+    public func contains<S: StringProtocol>(terms: [S]) -> Bool {
+        return name.localizedStandardContains(terms) || content.string.localizedStandardContains(terms)
+    }
+
     public func getCommaSeparatedTags() -> String {
         return tagNames.map { String($0) }.joined(separator: ", ")
     }

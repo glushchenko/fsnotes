@@ -93,7 +93,7 @@ class SidebarCellView: NSTableCellView {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         vc.storage.removeBy(project: project)
         vc.storage.loadLabel(project)
-        vc.updateTable {}
+        vc.updateTable()
     }
     
     @IBAction func add(_ sender: Any) {

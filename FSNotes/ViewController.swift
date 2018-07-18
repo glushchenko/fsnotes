@@ -15,11 +15,20 @@ class ViewController: NSViewController,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource {
-    
+    // MARK: - Properties
     public var fsManager: FileSystemEventManager?
-    var filteredNoteList: [Note]?
     let storage = Storage.sharedInstance()
-    
+    var filteredNoteList: [Note]?
+    var alert: NSAlert?
+    var refilled: Bool = false
+    var timer = Timer()
+    var sidebarTimer = Timer()
+
+    override var representedObject: Any? {
+        didSet { }  // Update the view, if already loaded.
+    }
+
+    // MARK: - IBOutlets
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet weak var searchWrapper: NSTextField!
@@ -34,7 +43,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: NSTextField!
     @IBOutlet weak var shareButton: NSButton!
-    
+    @IBOutlet weak var sortByOutlet: NSMenuItem!
+
+    // MARK: - Overrides
     override func viewDidAppear() {
         self.view.window!.title = "FSNotes"
         self.view.window!.titlebarAppearsTransparent = true
@@ -182,8 +193,7 @@ class ViewController: NSViewController,
         
         vc.search.becomeFirstResponder()
     }
-    
-    @IBOutlet weak var sortByOutlet: NSMenuItem!
+
     @IBAction func sortBy(_ sender: NSMenuItem) {
         if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
             UserDefaultsManagement.sort = sortBy
@@ -199,11 +209,9 @@ class ViewController: NSViewController,
             
             let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
-            if let list = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue) {
-                storage.noteList = list
-                viewController.notesTableView.noteList = list
-                viewController.notesTableView.reloadData()
-            }
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue)
+            viewController.notesTableView.noteList = storage.noteList
+            viewController.notesTableView.reloadData()
         }
     }
     
@@ -234,14 +242,12 @@ class ViewController: NSViewController,
         }
         
         editArea.clear()
-        updateTable {}
+        updateTable()
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {        
         return sidebarSplitView.frame.width / 5
     }
-    
-    var refilled: Bool = false
     
     func splitViewDidResizeSubviews(_ notification: Notification) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
@@ -255,9 +261,8 @@ class ViewController: NSViewController,
             }
         }
     }
-    
-    var sidebarTimer = Timer()
-    public func reloadSideBar() {
+        
+    func reloadSideBar() {
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
     }
@@ -320,7 +325,7 @@ class ViewController: NSViewController,
             
             cleanSearchAndEditArea()
             storageOutlineView.deselectAll(nil)
-            updateTable() {}
+            updateTable()
         }
         
         // Focus search field shortcut (cmd-L)
@@ -395,12 +400,6 @@ class ViewController: NSViewController,
         // Toggle sidebar cmd+shift+control+b
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
-        }
-    }
-    
-    override var representedObject: Any? {
-        didSet {
-            // Update the view, if already loaded.
         }
     }
     
@@ -613,8 +612,7 @@ class ViewController: NSViewController,
             move(notes: notes, project: project)
         }
     }
-    
-    var alert: NSAlert?
+
     @IBAction func tagNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else { return }
@@ -736,30 +734,28 @@ class ViewController: NSViewController,
         operation.run()
     }
     
-    var timer = Timer()
-    
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(enableFSUpdates), userInfo: nil, repeats: false)
 
         UserDataService.instance.fsUpdatesDisabled = true
-        let selected = notesTableView.selectedRow
+        let index = notesTableView.selectedRow
         
         if (
-            notesTableView.noteList.indices.contains(selected)
-            && selected > -1
+            notesTableView.noteList.indices.contains(index)
+            && index > -1
             && !UserDefaultsManagement.preview
         ) {
             editArea.removeHighlight()
-            let note = notesTableView.noteList[selected]
+            let note = notesTableView.noteList[index]
             
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save(needImageUnLoad: true)
             storage.add(note)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
-                moveAtTop(id: selected)
+                moveNoteToTop(note: index)
             }
         }
     }
@@ -797,48 +793,38 @@ class ViewController: NSViewController,
         return nil
     }
     
-    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+    func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
         let filter = self.search.stringValue.lowercased()
-        var sidebarName = ""
+        let sidebarName = getSidebarItem()?.name ?? ""
         
-        if let sidebarItem = getSidebarItem() {
-            sidebarName = sidebarItem.name
-        }
-        
-        let project = getSidebarProject()
+        let selectedProject = getSidebarProject()
         let type = getSidebarType()
-        
-        let searchTermsArray = filter.split(separator: " ")
+
+        let terms = filter.split(separator: " ")
         let source = storage.noteList
         
         filteredNoteList =
-            source.filter() {
-                let searchContent = "\($0.name) \($0.content.string)"
+            source.filter() { note in
                 return (
-                    !$0.name.isEmpty
-                    && (
-                        filter.isEmpty
-                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
-                        })
-                    ) && (
-                        type == .All && $0.project != nil && !$0.project!.isArchive
-                        || type == .Tag && $0.tagNames.contains(sidebarName)
-                        || [.Category, .Label].contains(type) && project != nil && $0.project == project
-                        || type == nil && project == nil && $0.project != nil && !$0.project!.isArchive
-                        || project != nil && project!.isRoot && $0.project?.parent == project
-                        || type == .Trash
-                        || type == .Archive && $0.project != nil && $0.project!.isArchive
-                    ) && (
-                        type == .Trash && $0.isTrash()
-                        || type != .Trash && !$0.isTrash()
+                    !note.name.isEmpty
+                        && (filter.isEmpty || note.contains(terms: terms))
+                        && (
+                            type == .All && note.project != nil && !note.project!.isArchive
+                                || type == .Tag && note.tagNames.contains(sidebarName)
+                                || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
+                                || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
+                                || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
+                                || type == .Trash
+                                || type == .Archive && note.project != nil && note.project!.isArchive
+                        ) && (
+                            type == .Trash && note.isTrash()
+                                || type != .Trash && !note.isTrash()
                     )
                 )
-            }
+        }
         
         if let unwrappedList = filteredNoteList {
-            if let list = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue) {
-                notesTableView.noteList = list
-            }
+            notesTableView.noteList = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue)
         }
         
         DispatchQueue.main.async {
@@ -905,7 +891,7 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         search.stringValue = ""
         editArea.clear()
-        updateTable() {}
+        updateTable()
     }
     
     func makeNoteShortcut() {
@@ -937,14 +923,14 @@ class ViewController: NSViewController,
         controller?.focusEditArea(firstResponder: search)
     }
     
-    func moveAtTop(id: Int) {
-        let isPinned = notesTableView.noteList[id].isPinned
+    func moveNoteToTop(note index: Int) {
+        let isPinned = notesTableView.noteList[index].isPinned
         let position = isPinned ? 0 : countVisiblePinned()
-        let note = notesTableView.noteList.remove(at: id)
+        let note = notesTableView.noteList.remove(at: index)
 
         notesTableView.noteList.insert(note, at: position)
-        notesTableView.moveRow(at: id, to: position)
-        notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
+        notesTableView.moveRow(at: index, to: position)
+        notesTableView.reloadData(forRowIndexes: [index, position], columnIndexes: [0])
         notesTableView.scrollRowToVisible(0)
     }
     
@@ -995,29 +981,32 @@ class ViewController: NSViewController,
     }
     
     func pin(_ selectedRows: IndexSet) {
-        guard !selectedRows.isEmpty else {
-            return
-        }
-        
-        for selectedRow in selectedRows {
-            let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
-            let cell = row.view(atColumn: 0) as! NoteCellView
-            
-            let note = cell.objectValue as! Note
-            let selected = selectedRow
-            
+        guard !selectedRows.isEmpty, let notes = filteredNoteList else { return }
+
+        var selectedNotes = [(Int, Note)]()
+        for row in selectedRows {
+            guard let rowView = notesTableView.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView,
+                let cell = rowView.view(atColumn: 0) as? NoteCellView,
+                let note = cell.objectValue as? Note
+                else { continue }
+
+            selectedNotes.append((row, note))
             note.togglePin()
-            
-            if selectedRows.count < 2 {
-                moveAtTop(id: selected)
-            }
-            
             cell.renderPin()
         }
-        
-        if selectedRows.count > 1 {
-            updateTable() {}
+
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        notesTableView.noteList = resorted
+        let newIndexes = IndexSet(selectedNotes.compactMap({ row, note in resorted.firstIndex(of: note) }))
+
+        notesTableView.beginUpdates()
+        for (row, note) in selectedNotes.reversed() {
+            guard let newRow = resorted.firstIndex(of: note) else { continue }
+            notesTableView.moveRow(at: row, to: newRow)
         }
+        notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
+        notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
+        notesTableView.endUpdates()
     }
         
     func renameNote(selectedRow: Int) {
