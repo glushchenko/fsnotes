@@ -8,16 +8,16 @@
 
 import Foundation
 
-class UserDataService {
-    static let instance = UserDataService()
-    
+public class UserDataService {
+    public static let instance = UserDataService()
+
     fileprivate var _isShortcutCall = false
     fileprivate var _searchTrigger = false
-    fileprivate var _lastRenamed: URL? = nil
+    fileprivate var _lastRenamed: URL?
     fileprivate var _fsUpdates = false
     fileprivate var _skipListReload = false
-    
-    var isShortcutCall: Bool {
+
+    public var isShortcutCall: Bool {
         get {
             return _isShortcutCall
         }
@@ -25,8 +25,8 @@ class UserDataService {
             _isShortcutCall = newValue
         }
     }
-    
-    var searchTrigger: Bool {
+
+    public var searchTrigger: Bool {
         get {
             return _searchTrigger
         }
@@ -34,8 +34,8 @@ class UserDataService {
             _searchTrigger = newValue
         }
     }
-    
-    var lastRenamed: URL? {
+
+    public var lastRenamed: URL? {
         get {
             return _lastRenamed
         }
@@ -43,8 +43,8 @@ class UserDataService {
             _lastRenamed = newValue
         }
     }
-    
-    var fsUpdatesDisabled: Bool {
+
+    public var fsUpdatesDisabled: Bool {
         get {
             return _fsUpdates
         }
@@ -52,8 +52,8 @@ class UserDataService {
             _fsUpdates = newValue
         }
     }
-    
-    var skipListReload: Bool {
+
+    public var skipListReload: Bool {
         get {
             return _skipListReload
         }

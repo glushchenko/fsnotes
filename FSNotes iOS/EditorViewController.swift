@@ -150,9 +150,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         switch note.type {
         case .PlainText:
             editArea.font = UserDefaultsManagement.noteFont
-        case .RichText:
-            break
-        case .Markdown:
+        default:
             return
         }
     }

@@ -9,6 +9,8 @@
 import Carbon
 import Cocoa
 
+import FSNotesCore_macOS
+
 class NotesTableView: NSTableView, NSTableViewDataSource,
     NSTableViewDelegate {
     

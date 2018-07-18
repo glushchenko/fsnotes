@@ -9,6 +9,8 @@
 import Cocoa
 import Carbon.HIToolbox
 
+import FSNotesCore_macOS
+
 class SearchTextField: NSTextField, NSTextFieldDelegate {
 
     public var vcDelegate: ViewController!

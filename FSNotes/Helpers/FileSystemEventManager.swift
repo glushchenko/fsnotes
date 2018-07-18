@@ -8,6 +8,8 @@
 
 import Foundation
 
+import FSNotesCore_macOS
+
 class FileSystemEventManager {
     private var storage: Storage
     private var delegate: ViewController

@@ -12,6 +12,20 @@ def common_pods
     pod 'Down', '~> 0.5.2'
 end
 
+def framework_pods
+    pod 'SwiftLint', '~> 0.26.0'
+end
+
+target 'FSNotesCore_iOS' do
+    platform :ios, IOS_TARGET_VERSION
+    framework_pods
+end
+
+target 'FSNotesCore_macOS' do
+    platform :osx, MAC_TARGET_VERSION
+    framework_pods
+end
+
 target 'FSNotes' do
     platform :osx, MAC_TARGET_VERSION
 

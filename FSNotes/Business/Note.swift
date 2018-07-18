@@ -21,6 +21,7 @@ public class Note: NSObject {
     var isCached = false
     var sharedStorage = Storage.sharedInstance()
     var tagNames = [String]()
+    let dateFormatter = DateFormatter()
     
     #if os(iOS)
         var metaId: Int?
@@ -208,7 +209,6 @@ public class Note: NSObject {
     }
     
     @objc func getDateForLabel() -> String {        
-        let dateFormatter = DateFormatter()
         let calendar = NSCalendar.current
         if calendar.isDateInToday(modifiedLocalAt) {
             return dateFormatter.formatTimeForDisplay(modifiedLocalAt)
@@ -465,8 +465,7 @@ public class Note: NSObject {
         do {
             let range = NSRange(location: 0, length: attributedString.length)
             let documentAttributes = getDocAttributes()
-            let fileWrapper = try attributedString.fileWrapper(from: range, documentAttributes: documentAttributes)
-            return fileWrapper
+            return try attributedString.fileWrapper(from: range, documentAttributes: documentAttributes)
         } catch {
             return nil
         }
@@ -580,36 +579,39 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
     
-    public func duplicate() {
-        let ext = self.url.pathExtension
-        var url = self.url.deletingPathExtension()
+    public func duplicate() -> (URL?, Bool) {
+        var url: URL = self.url
+
+        let ext = url.pathExtension
+        url.deletePathExtension()
+
         let name = url.lastPathComponent
         url.deleteLastPathComponent()
         
-        let df = DateFormatter()
-        df.dateFormat = "yyyyMMddhhmmss"
-        let now = df.string(from: Date())
+        let now = dateFormatter.formatForDuplicate(Date())
         url.appendPathComponent(name + " " + now)
         url.appendPathExtension(ext)
         
         let attributes = getFileAttributes()
-        
+
+        guard let fileWrapper = getFileWrapper(attributedString: content) else {
+            print("Wrapper not found")
+            return (nil, false)
+        }
+
         do {
-            guard let fileWrapper = getFileWrapper(attributedString: content) else {
-                print("Wrapper not found")
-                return
-            }
-            
             try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-            
-            UserDataService.instance.lastRenamed = url
-            UserDataService.instance.skipListReload = true
-            
+        } catch {
+            print("Write error \(error)")
+            return (url, false)
+        }
+
+        do {
             try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
         } catch {
             print("Write error \(error)")
-            return
         }
+        return (url, true)
     }
     
     public func removeTag(_ name: String) {

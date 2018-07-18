@@ -12,6 +12,8 @@ import Solar
 import NightNight
 import CoreLocation
 
+import FSNotesCore_iOS
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

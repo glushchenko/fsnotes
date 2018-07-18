@@ -8,6 +8,8 @@
 
 import Cocoa
 
+import FSNotesCore_macOS
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?

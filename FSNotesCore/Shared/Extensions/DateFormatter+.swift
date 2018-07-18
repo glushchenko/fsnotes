@@ -8,21 +8,23 @@
 
 import Foundation
 
-
-extension DateFormatter {
-    func formatDateForDisplay(_ date: Date) -> String {
+public extension DateFormatter {
+    public func formatDateForDisplay(_ date: Date) -> String {
         dateStyle = .short
         timeStyle = .none
         locale = NSLocale.autoupdatingCurrent
         return string(from: date)
     }
-    
-    func formatTimeForDisplay(_ date: Date) -> String {
+
+    public func formatTimeForDisplay(_ date: Date) -> String {
         dateStyle = .none
         timeStyle = .short
         locale = NSLocale.autoupdatingCurrent
         return string(from: date)
     }
 
+    public func formatForDuplicate(_ date: Date) -> String {
+        dateFormat = "yyyyMMddhhmmss"
+        return string(from: date)
+    }
 }
-

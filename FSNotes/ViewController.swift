@@ -9,6 +9,8 @@
 import Cocoa
 import MASShortcut
 
+import FSNotesCore_macOS
+
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
@@ -1202,7 +1204,9 @@ class ViewController: NSViewController,
     
     @IBAction func duplicate(_ sender: Any) {
         if let note = notesTableView.getSelectedNote() {
-            note.duplicate()
+            let (url, skipReload) = note.duplicate()
+            UserDataService.instance.lastRenamed = url
+            UserDataService.instance.skipListReload = skipReload
         }
     }
     
