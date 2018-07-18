@@ -95,10 +95,12 @@ public class ImagesProcessor {
                 guard let imageUrl = url else { return }
                 
                 let cacheUrl = self.note.project?.url.appendingPathComponent("/.cache/")
+                #if os(OSX)
                 let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl)
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
                     self.styleApplier.replaceCharacters(in: range, with: attributedStringWithImage)
                 }
+                #endif
             }
         }
     }

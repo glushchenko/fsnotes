@@ -10,6 +10,8 @@ import Cocoa
 import Foundation
 import Carbon.HIToolbox
 
+import FSNotesCore_macOS
+
 class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
     
     var sidebarItems: [SidebarItem]? = nil
