@@ -15,11 +15,9 @@ class ViewController: NSViewController,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource {
-    public var fsManager: FileSystemEventManager?
     // MARK: - Properties
+    public var fsManager: FileSystemEventManager?
     let storage = Storage.sharedInstance()
-
-    private var filewatcher: FileWatcher?
     var filteredNoteList: [Note]?
     var alert: NSAlert?
     var refilled: Bool = false
@@ -742,22 +740,22 @@ class ViewController: NSViewController,
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(enableFSUpdates), userInfo: nil, repeats: false)
 
         UserDataService.instance.fsUpdatesDisabled = true
-        let selected = notesTableView.selectedRow
+        let index = notesTableView.selectedRow
         
         if (
-            notesTableView.noteList.indices.contains(selected)
-            && selected > -1
+            notesTableView.noteList.indices.contains(index)
+            && index > -1
             && !UserDefaultsManagement.preview
         ) {
             editArea.removeHighlight()
-            let note = notesTableView.noteList[selected]
+            let note = notesTableView.noteList[index]
             
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save(needImageUnLoad: true)
             storage.add(note)
             
             if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
-                moveAtTop(id: selected)
+                moveNoteToTop(note: index)
             }
         }
     }
@@ -925,14 +923,14 @@ class ViewController: NSViewController,
         controller?.focusEditArea(firstResponder: search)
     }
     
-    func moveAtTop(id: Int) {
-        let isPinned = notesTableView.noteList[id].isPinned
+    func moveNoteToTop(note index: Int) {
+        let isPinned = notesTableView.noteList[index].isPinned
         let position = isPinned ? 0 : countVisiblePinned()
-        let note = notesTableView.noteList.remove(at: id)
+        let note = notesTableView.noteList.remove(at: index)
 
         notesTableView.noteList.insert(note, at: position)
-        notesTableView.moveRow(at: id, to: position)
-        notesTableView.reloadData(forRowIndexes: [id, position], columnIndexes: [0])
+        notesTableView.moveRow(at: index, to: position)
+        notesTableView.reloadData(forRowIndexes: [index, position], columnIndexes: [0])
         notesTableView.scrollRowToVisible(0)
     }
     
@@ -983,29 +981,32 @@ class ViewController: NSViewController,
     }
     
     func pin(_ selectedRows: IndexSet) {
-        guard !selectedRows.isEmpty else {
-            return
-        }
+        guard !selectedRows.isEmpty, let notes = filteredNoteList else { return }
 
-        var selectedNotes = [Note]()
-        for selectedRow in selectedRows {
-            guard let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as? NoteRowView,
-                let cell = row.view(atColumn: 0) as? NoteCellView,
+        var selectedNotes = [(Int, Note)]()
+        for row in selectedRows {
+            guard let rowView = notesTableView.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView,
+                let cell = rowView.view(atColumn: 0) as? NoteCellView,
                 let note = cell.objectValue as? Note
                 else { continue }
 
-            selectedNotes.append(note)
+            selectedNotes.append((row, note))
             note.togglePin()
             cell.renderPin()
         }
 
-        guard let list = filteredNoteList else { return }
-        let resorted = storage.sortNotes(noteList: list, filter: self.search.stringValue)
-
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
         notesTableView.noteList = resorted
-        notesTableView.reloadData()
-        let newIndexes = selectedNotes.compactMap({ note in resorted.firstIndex(of: note) })
-        notesTableView.selectRowIndexes(IndexSet(newIndexes), byExtendingSelection: false)
+        let newIndexes = IndexSet(selectedNotes.compactMap({ row, note in resorted.firstIndex(of: note) }))
+
+        notesTableView.beginUpdates()
+        for (row, note) in selectedNotes.reversed() {
+            guard let newRow = resorted.firstIndex(of: note) else { continue }
+            notesTableView.moveRow(at: row, to: newRow)
+        }
+        notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
+        notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
+        notesTableView.endUpdates()
     }
         
     func renameNote(selectedRow: Int) {
