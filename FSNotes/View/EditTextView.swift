@@ -477,15 +477,16 @@ class EditTextView: NSTextView {
         }
         
         if event.keyCode == kVK_Return {
-            insertText(applyStyle("\n"), replacementRange: selectedRange())
+            var result = "\n"
             
-            let formatter = TextFormatter(textView: self, note: note)
-            formatter.newLine()
-            
-            if let range = getParagraphRange(), let storage = textStorage {
-                let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
-                processor.scanParagraph(textChanged: true)
+            if let prevParagraphRange = getParagraphRange() {
+                let prevString = (string as NSString).substring(with: prevParagraphRange)
+                if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
+                    result.append(newLinePadding)
+                }
             }
+            
+            insertText(applyStyle(result), replacementRange: selectedRange())
             
             return
         }
@@ -498,14 +499,11 @@ class EditTextView: NSTextView {
                 return
             }
             
-            let tab = self.applyStyle("\t")
+            let sRange = selectedRange()
+            let tab = self.applyStyle("\t\n")
             insertText(tab, replacementRange: selectedRange())
-            
-            if let range = getParagraphRange(), let storage = textStorage {
-                let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
-                processor.scanParagraph(textChanged: true)
-            }
-            
+            setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
+
             saveCursorPosition()
             return
         }
