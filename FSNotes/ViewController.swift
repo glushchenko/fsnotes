@@ -999,11 +999,11 @@ class ViewController: NSViewController,
 
         let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
         notesTableView.noteList = resorted
-        let newIndexes = IndexSet(selectedNotes.compactMap({ row, note in resorted.firstIndex(of: note) }))
+        let newIndexes = IndexSet(selectedNotes.compactMap({ row, note in resorted.index(of: note) }))
 
         notesTableView.beginUpdates()
         for (row, note) in selectedNotes.reversed() {
-            guard let newRow = resorted.firstIndex(of: note) else { continue }
+            guard let newRow = resorted.index(of: note) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
         }
         notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)

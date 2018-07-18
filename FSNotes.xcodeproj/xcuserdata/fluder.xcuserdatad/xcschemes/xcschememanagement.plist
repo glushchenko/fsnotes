@@ -34,6 +34,26 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>FSNotesCore iOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>17</integer>
+		</dict>
+		<key>FSNotesCore iOSTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>18</integer>
+		</dict>
+		<key>FSNotesCore macOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>FSNotesCore macOSTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>Keeper.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
