@@ -211,10 +211,28 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return false
         }
         
+        // Delete backward pressed
+        if self.deleteBackwardPressed(text: text) {
+            self.editArea.deleteBackward()
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.deleteKey()
+            return false
+        }
+        
+        // New line
         if text == "\n" {
-            self.editArea.insertText("\n")
-            let formatter = TextFormatter(textView: self.editArea, note: note)
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            
+            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range, maxWidth: self.editArea.frame.width)
+            processor.scanParagraph(textChanged: true)
+            return false
+        }
+        
+        // Tab
+        if text == "\t" {
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
             return false
         }
         
@@ -244,6 +262,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.currentFont = typingFont as? UIFont
         
         return true
+    }
+    
+    private func deleteBackwardPressed(text: String) -> Bool {
+        if let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
+            return true
+        }
+        
+        return false
     }
     
     func textViewDidChange(_ textView: UITextView) {
