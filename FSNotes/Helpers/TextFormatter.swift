@@ -434,7 +434,7 @@ public class TextFormatter {
         // New Line insertion
         
         self.insertText("\n", replacementRange: selectedRange)
-    
+        
         // Fenced code block style handler
         
         if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string) {
@@ -465,8 +465,6 @@ public class TextFormatter {
         }
         
         if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
-            
-            print(match)
             let prefix = nsPrev.substring(with: match.range)
             
             if prevString == prefix + "\n" {

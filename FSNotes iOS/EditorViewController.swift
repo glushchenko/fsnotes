@@ -223,6 +223,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            
+            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range, maxWidth: self.editArea.frame.width)
+            processor.scanParagraph(textChanged: true)
             return false
         }
         
