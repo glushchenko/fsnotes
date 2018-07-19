@@ -531,43 +531,8 @@ class EditTextView: NSTextView {
                 return
             }
             
-            guard let currentPR = getParagraphRange() else { return }
-            let paragraph = storage.attributedSubstring(from: currentPR).string
-            let sRange = selectedRange()
-            
-            // center
-            if (sRange.location != 0 || sRange.location != storage.length) && paragraph.count == 1 {
-                insertText("\t", replacementRange: sRange)
-                let attributes = getCodeBlockAttributes()
-                let attributeRange = NSRange(location: sRange.location, length: 2)
-                storage.addAttributes(attributes, range: attributeRange)
-                return
-            }
-            
-            // first & last
-            if (sRange.location == 0 || sRange.location == storage.length) && paragraph.count == 0 {
-                insertText(applyStyle("\t\n"), replacementRange: sRange)
-                
-                let attributes = getCodeBlockAttributes()
-                let attributeRange = NSRange(location: sRange.location, length: 2)
-                storage.addAttributes(attributes, range: attributeRange)
-                
-                setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
-                return
-            }
-            
-            if self.isCodeBlock(range: currentPR) {
-                self.insertText("\t", replacementRange: sRange)
-                
-                let attributes = getCodeBlockAttributes()
-                let attributeRange = NSRange(location: sRange.location, length: 1)
-                storage.addAttributes(attributes, range: attributeRange)
-                
-                setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
-                return
-            }
-            
-            insertTab(nil)
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
             saveCursorPosition()
             return
         }

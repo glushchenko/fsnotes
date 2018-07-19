@@ -212,9 +212,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         if text == "\n" {
-            self.editArea.insertText("\n")
-            let formatter = TextFormatter(textView: self.editArea, note: note)
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            return false
+        }
+        
+        if text == "\t" {
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
             return false
         }
         

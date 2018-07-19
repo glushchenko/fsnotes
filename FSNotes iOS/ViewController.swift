@@ -170,8 +170,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
         
-        if !search, let list = storage.sortNotes(noteList: storage.noteList, filter: "") {
-            storage.noteList = list
+        if !search {
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: "")
         }
         
         let searchTermsArray = filter.split(separator: " ")
