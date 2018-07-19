@@ -499,37 +499,27 @@ class EditTextView: NSTextView {
             
             // Is code block and not first position
             
-            if isCodeBlock(range: pr), pr.lowerBound != selectedRange().location {
-                let attributes = getCodeBlockAttributes()
-                storage.addAttributes(attributes, range: currentPR)
-            }
-            
-            // Remove background if:
-            // 1) Cursor on paragraph first char
-            // 2) Paragraph contain new line
-            
-            if currentPR.lowerBound == selectedRange().location && currentPR.length == 1  {
-                storage.removeAttribute(.backgroundColor, range: currentPR)
+            if isCodeBlock(range: pr) {
+                if pr.lowerBound != selectedRange().location {
+                    let attributes = getCodeBlockAttributes()
+                    storage.addAttributes(attributes, range: currentPR)
+                }
+            } else {
+                // Remove background if:
+                // 1) Cursor on paragraph first char
+                // 2) Paragraph contain new line
+                
+                if currentPR.lowerBound == selectedRange().location && currentPR.length == 1  {
+                    storage.removeAttribute(.backgroundColor, range: currentPR)
+                }
             }
             
             return
         }
         
         if event.keyCode == kVK_Return {
-            guard let currentPR = getParagraphRange() else { return }
-            let sRange = selectedRange()
-            
-            var result = "\n"
-            if let prevParagraphRange = getParagraphRange(), currentPR.lowerBound != sRange.location {
-                let prevString = (string as NSString).substring(with: prevParagraphRange)
-                if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
-                    result.append(newLinePadding)
-                    insertText(applyStyle(result), replacementRange: selectedRange())
-                    return
-                }
-            }
-            
-            insertText("\n", replacementRange: selectedRange())
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.newLine()
             return
         }
         
@@ -566,7 +556,7 @@ class EditTextView: NSTextView {
                 return
             }
             
-            if self.isCodeBlock(paragraph: paragraph) {
+            if self.isCodeBlock(range: currentPR) {
                 self.insertText("\t", replacementRange: sRange)
                 
                 let attributes = getCodeBlockAttributes()
@@ -665,7 +655,15 @@ class EditTextView: NSTextView {
         
         let string = storage.attributedSubstring(from: range).string
         
-        return string.starts(with: "\t") || string.starts(with: "    ")
+        if string.starts(with: "\t") || string.starts(with: "    ") {
+            return true
+        }
+        
+        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: storage.string) {
+            return true
+        }
+        
+        return false
     }
     
     func saveCursorPosition() {

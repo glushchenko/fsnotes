@@ -38,7 +38,9 @@ public class TextFormatter {
     private var isAutomaticQuoteSubstitutionEnabled: Bool = false
     private var isAutomaticDashSubstitutionEnabled: Bool = false
     
-    init(textView: TextView, note: Note) {
+    private var shouldScanMarkdown: Bool
+    
+    init(textView: TextView, note: Note, shouldScanMarkdown: Bool = true) {
         range = textView.selectedRange
         
         #if os(OSX)
@@ -70,6 +72,8 @@ public class TextFormatter {
             textView.isAutomaticQuoteSubstitutionEnabled = false
             textView.isAutomaticDashSubstitutionEnabled = false
         #endif
+        
+        self.shouldScanMarkdown = note.isMarkdown() ? shouldScanMarkdown : false
     }
     
     func getString() -> NSMutableAttributedString {
@@ -342,10 +346,39 @@ public class TextFormatter {
         }
     }
     
-    func newLine() {
-        guard let paragraphRange = getParagraphRange(), storage.length > paragraphRange.lowerBound - 1 else {
+    public func newLine() {
+        
+        // Before new line inserted. CodeBlock margin autocomplete and style
+        
+        guard let currentParagraphRange = self.getParagraphRange() else { return }
+        
+        let currentParagraph = storage.attributedSubstring(from: currentParagraphRange)
+        let sRange = self.getTextViewSelectedRange()
+        var result = "\n"
+        
+        if currentParagraphRange.lowerBound != sRange.location,
+           let newLinePadding = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
+            result.append(newLinePadding)
+            let styledCode = self.addCodeBlockStyle(result)
+            self.textView.insertText(styledCode, replacementRange: sRange)
             return
         }
+        
+        // New Line insertion
+        
+        self.textView.insertText("\n", replacementRange: self.textView.selectedRange())
+    
+        // Fenced code block style handler
+        
+        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string) {
+            let attributes = self.textView.getCodeBlockAttributes()
+            storage.addAttributes(attributes, range: fencedRange)
+        }
+        
+        // Autocomplete unordered lists
+        
+        let paragraphRange = getTextViewSelectedRange()
+        guard storage.length > paragraphRange.lowerBound - 1 else { return }
         
         let nsString = storage.string as NSString
         let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(paragraphRange.lowerBound - 1, 0))
@@ -360,11 +393,13 @@ public class TextFormatter {
         
         if prevString.starts(with: "\t") {
             if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
-                textView.insertText(newLinePadding, replacementRange: textView.selectedRange())
+                textView.insertText(newLinePadding, replacementRange: getTextViewSelectedRange())
             }
         }
         
         if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
+            
+            print(match)
             let prefix = nsPrev.substring(with: match.range)
             
             if prevString == prefix + "\n" {
@@ -385,6 +420,8 @@ public class TextFormatter {
             #endif
             return
         }
+        
+        // Autocomplete ordered lists
         
         if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
             let prefix = nsPrev.substring(with: matchDigits.range)
@@ -477,7 +514,7 @@ public class TextFormatter {
             }
         }
         
-        if note.isMarkdown(), let paragraphRange = getParagraphRange() {
+        if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
         }
         
@@ -509,6 +546,10 @@ public class TextFormatter {
         }
         
         return nil
+    }
+    
+    public func getTextViewSelectedRange() -> NSRange {
+        return textView.selectedRange()
     }
     
     
@@ -565,6 +606,33 @@ public class TextFormatter {
         #else
             return textView.attributedText
         #endif
+    }
+    
+    private func addCodeBlockStyle(_ text: String) -> NSMutableAttributedString {
+        let attributedText = NSMutableAttributedString(string: text)
+        
+        guard attributedText.length > 0 else { return attributedText }
+        
+        let range = NSRange(0..<text.count)
+        attributedText.addAttributes(self.getCodeBlockAttributes(), range: range)
+        
+        return attributedText
+    }
+    
+    private func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        
+        var attributes: [NSAttributedStringKey : Any] = [
+            .backgroundColor: NotesTextProcessor.codeBackground,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        if let font = NotesTextProcessor.codeFont {
+            attributes[.font] = font
+        }
+        
+        return attributes
     }
 }
 
