@@ -346,12 +346,38 @@ public class TextFormatter {
         }
     }
     
+    public func deleteKey() {
+        let sRange = self.textView.selectedRange
+        
+        guard sRange.location > 0,
+            let pr = self.getParagraphRange(for: sRange.location),
+            let currentPR = getParagraphRange()
+            else { return }
+        
+        // This is code block and not first position
+        
+        if isCodeBlock(range: pr) {
+            if pr.lowerBound != sRange.location {
+                let attributes = getCodeBlockAttributes()
+                storage.addAttributes(attributes, range: currentPR)
+            }
+        } else {
+            // Remove background if:
+            // 1) Cursor on paragraph first char
+            // 2) Paragraph contain new line
+            
+            if currentPR.lowerBound == self.textView.selectedRange.location && currentPR.length == 1  {
+                storage.removeAttribute(.backgroundColor, range: currentPR)
+            }
+        }
+    }
+    
     public func tabKey() {
         guard let currentPR = getParagraphRange() else { return }
         let paragraph = storage.attributedSubstring(from: currentPR).string
         let sRange = self.textView.selectedRange
         
-        // center
+        // Middle
         if (sRange.location != 0 || sRange.location != storage.length) && paragraph.count == 1 {
             self.insertText("\t", replacementRange: sRange)
             let attributes = self.getCodeBlockAttributes()
@@ -360,7 +386,7 @@ public class TextFormatter {
             return
         }
         
-        // first & last
+        // First & Last
         if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 {
             let codeStyle = self.addCodeBlockStyle("\t\n")
             self.insertText(codeStyle, replacementRange: sRange)
@@ -376,9 +402,9 @@ public class TextFormatter {
         if self.isCodeBlock(range: currentPR) {
             self.insertText("\t", replacementRange: sRange)
             
-            let attributes = getCodeBlockAttributes()
+            let attributes = self.getCodeBlockAttributes()
             let attributeRange = NSRange(location: sRange.location, length: 1)
-            storage.addAttributes(attributes, range: attributeRange)
+            self.storage.addAttributes(attributes, range: attributeRange)
             
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
             return
@@ -586,6 +612,14 @@ public class TextFormatter {
         }
         
         return nil
+    }
+    
+    private func getParagraphRange(for location: Int) -> NSRange? {
+        let string = storage.string as NSString
+        let range = NSRange(location: location, length: 0)
+        let paragraphRange = string.paragraphRange(for: range)
+        
+        return paragraphRange
     }
     
     func toggleBoldFont(font: Font) -> Font {

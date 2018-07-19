@@ -356,19 +356,6 @@ class EditTextView: NSTextView {
         return paragraphRange
     }
     
-    private func getParagraphRange(for location: Int) -> NSRange? {
-        guard let mw = NSApplication.shared.windows.first,
-            let c = mw.contentViewController as? ViewController,
-            let editArea = c.editArea,
-            let storage = editArea.textStorage else { return nil }
-        
-        let string = storage.string as NSString
-        let range = NSRange(location: location, length: 0)
-        let paragraphRange = string.paragraphRange(for: range)
-    
-        return paragraphRange
-    }
-    
     func toggleBoldFont(font: NSFont) -> NSFont {
         guard let family = UserDefaultsManagement.noteFont.familyName else {
             return UserDefaultsManagement.noteFont
@@ -490,30 +477,8 @@ class EditTextView: NSTextView {
         if event.keyCode == kVK_Delete {
             deleteBackward(nil)
             
-            let sRange = selectedRange()
-            
-            guard sRange.location > 0,
-                let pr = getParagraphRange(for: sRange.location),
-                let currentPR = getParagraphRange()
-            else { return }
-            
-            // Is code block and not first position
-            
-            if isCodeBlock(range: pr) {
-                if pr.lowerBound != selectedRange().location {
-                    let attributes = getCodeBlockAttributes()
-                    storage.addAttributes(attributes, range: currentPR)
-                }
-            } else {
-                // Remove background if:
-                // 1) Cursor on paragraph first char
-                // 2) Paragraph contain new line
-                
-                if currentPR.lowerBound == selectedRange().location && currentPR.length == 1  {
-                    storage.removeAttribute(.backgroundColor, range: currentPR)
-                }
-            }
-            
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.deleteKey()
             return
         }
         

@@ -211,12 +211,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return false
         }
         
+        // Delete backward pressed
+        if self.deleteBackwardPressed(text: text) {
+            self.editArea.deleteBackward()
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.deleteKey()
+            return false
+        }
+        
+        // New line
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
             return false
         }
         
+        // Tab
         if text == "\t" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.tabKey()
@@ -249,6 +259,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.currentFont = typingFont as? UIFont
         
         return true
+    }
+    
+    private func deleteBackwardPressed(text: String) -> Bool {
+        if let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
+            return true
+        }
+        
+        return false
     }
     
     func textViewDidChange(_ textView: UITextView) {
