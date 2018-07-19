@@ -704,21 +704,23 @@ public class TextFormatter {
     
     private func insertText(_ string: Any, replacementRange: NSRange) {
         if let attributedString = string as? NSAttributedString {
-            self.storage.replaceCharacters(in: replacementRange, with: attributedString)
-            
             #if os(iOS)
+                self.storage.replaceCharacters(in: replacementRange, with: attributedString)
                 let range = NSRange(location: replacementRange.location + attributedString.length, length: 0)
                 self.setSelectedRange(range)
+            #else
+                self.textView.insertText(attributedString, replacementRange: replacementRange)
             #endif
             return
         }
         
         if let plainString = string as? String {
-            self.storage.replaceCharacters(in: replacementRange, with: plainString)
-            
             #if os(iOS)
+                self.storage.replaceCharacters(in: replacementRange, with: plainString)
                 let range = NSRange(location: replacementRange.location + plainString.count, length: 0)
                 self.setSelectedRange(range)
+            #else
+                self.textView.insertText(plainString, replacementRange: replacementRange)
             #endif
         }
     }

@@ -486,9 +486,6 @@ class EditTextView: NSTextView {
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
             
-            let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
-            processor.scanParagraph(textChanged: true)
-            
             return
         }
         
