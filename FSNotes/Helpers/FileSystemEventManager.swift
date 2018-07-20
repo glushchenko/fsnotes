@@ -72,14 +72,10 @@ class FileSystemEventManager {
         
         guard let note = self.storage.getBy(url: url) else {
             if fileExistInFS {
-                print(url)
                 self.importNote(url)
             }
             return
         }
-        
-        print(note)
-        print(fileExistInFS)
         
         if fileExistInFS {
             renameNote(note: note)

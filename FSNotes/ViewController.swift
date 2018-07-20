@@ -130,8 +130,10 @@ class ViewController: NSViewController,
         }
         
         NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
-            self.keyDown(with: $0)
-            return $0
+            if self.keyDown(with: $0) {
+                return $0
+            }
+            return NSEvent()
         }
                 
         loadMoveMenu()
@@ -310,19 +312,66 @@ class ViewController: NSViewController,
         }
     }
         
-    override func keyDown(with event: NSEvent) {
+    public func keyDown(with event: NSEvent) -> Bool {
+        
+        // return / cmd + return navigation
+        if event.keyCode == kVK_Return {
+            if let fr = NSApp.mainWindow?.firstResponder {
+                if event.modifierFlags.contains(.command) {
+                    if fr.isKind(of: NotesTableView.self) {
+                        NSApp.mainWindow?.makeFirstResponder(self.storageOutlineView)
+                        return false
+                    }
+                    
+                    if fr.isKind(of: EditTextView.self) {
+                        NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+                        return false
+                    }
+                } else {
+                    if fr.isKind(of: SidebarProjectView.self) {
+                        self.notesTableView.selectNext()
+                        NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+                        return false
+                    }
+                    
+                    if fr.isKind(of: NotesTableView.self) && !UserDefaultsManagement.preview {
+                        NSApp.mainWindow?.makeFirstResponder(self.editArea)
+                        return false
+                    }
+                }
+            }
+            
+            return true
+        }
         
         // Control + Tab
-        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.control) {
-            self.notesTableView.window?.makeFirstResponder(self.notesTableView)
-            return
+        if event.keyCode == kVK_Tab {
+            if event.modifierFlags.contains(.control) {
+                self.notesTableView.window?.makeFirstResponder(self.notesTableView)
+                return true
+            }
+
+            if let fr = NSApp.mainWindow?.firstResponder, fr.isKind(of: NotesTableView.self) {
+                NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
+                return false
+            }
         }
         
         // Focus search bar on ESC
         if (event.keyCode == kVK_Escape) {
             if let a = alert {
                 NSApp.windows[0].endSheet(a.window)
-                return
+                return true
+            }
+            
+            let hasSelectedNotes = notesTableView.selectedRow > -1
+            let hasSelectedBarItem = storageOutlineView.selectedRow > -1
+            
+            if hasSelectedBarItem && hasSelectedNotes {
+                UserDataService.instance.isNotesTableEscape = true
+                notesTableView.deselectAll(nil)
+                NSApp.mainWindow?.makeFirstResponder(search)
+                return false
             }
             
             cleanSearchAndEditArea()
@@ -403,6 +452,8 @@ class ViewController: NSViewController,
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
         }
+        
+        return true
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
@@ -917,12 +968,15 @@ class ViewController: NSViewController,
         
         UserDataService.instance.isShortcutCall = true
         
+        NSApp.activate(ignoringOtherApps: true)
+        NSApp.mainWindow?.makeKeyAndOrderFront(self)
+        
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
         
-        NSApp.activate(ignoringOtherApps: true)
-        self.view.window?.makeKeyAndOrderFront(self)
-        
-        controller?.focusEditArea(firstResponder: search)
+        if let search = controller?.search {
+            NSApp.mainWindow?.makeFirstResponder(search)
+            search.becomeFirstResponder()
+        }
     }
     
     func moveNoteToTop(note index: Int) {

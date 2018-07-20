@@ -16,6 +16,7 @@ public class UserDataService {
     fileprivate var _lastRenamed: URL?
     fileprivate var _fsUpdates = false
     fileprivate var _skipListReload = false
+    fileprivate var _isNotesTableEscape = false
 
     public var isShortcutCall: Bool {
         get {
@@ -59,6 +60,15 @@ public class UserDataService {
         }
         set {
             _skipListReload = newValue
+        }
+    }
+    
+    public var isNotesTableEscape: Bool {
+        get {
+            return _isNotesTableEscape
+        }
+        set {
+            _isNotesTableEscape = newValue
         }
     }
 }
