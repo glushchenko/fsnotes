@@ -160,7 +160,6 @@ class CloudDriveManager {
     private func add(metaId: Int, url: URL) {
         let note = Note(url: url)
         note.metaId = metaId
-        note.parseURL()
         note.loadTags()
         _ = note.reload()
         

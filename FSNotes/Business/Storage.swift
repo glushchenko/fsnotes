@@ -340,7 +340,6 @@ class Storage {
             #endif
             
             let note = Note(url: url)
-            note.parseURL()
             
             if item.isArchive {
                 note.loadTags()

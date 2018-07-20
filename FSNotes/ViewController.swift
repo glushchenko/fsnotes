@@ -368,6 +368,7 @@ class ViewController: NSViewController,
             let hasSelectedBarItem = storageOutlineView.selectedRow > -1
             
             if hasSelectedBarItem && hasSelectedNotes {
+                UserDefaultsManagement.lastProject = 0
                 UserDataService.instance.isNotesTableEscape = true
                 notesTableView.deselectAll(nil)
                 NSApp.mainWindow?.makeFirstResponder(search)
@@ -981,7 +982,7 @@ class ViewController: NSViewController,
     
     func moveNoteToTop(note index: Int) {
         let isPinned = notesTableView.noteList[index].isPinned
-        let position = isPinned ? 0 : countVisiblePinned()
+        let position = isPinned ? 0 : notesTableView.countVisiblePinned()
         let note = notesTableView.noteList.remove(at: index)
 
         notesTableView.noteList.insert(note, at: position)
@@ -1098,17 +1099,7 @@ class ViewController: NSViewController,
             NSWorkspace.shared.openFile(note.url.path, withApplication: UserDefaultsManagement.externalEditor)
         }
     }
-    
-    func countVisiblePinned() -> Int {
-        var i = 0
-        for note in notesTableView.noteList {
-            if (note.isPinned) {
-                i += 1
-            }
-        }
-        return i
-    }
-    
+        
     func enablePreview() {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         vc.editArea.window?.makeFirstResponder(vc.notesTableView)
@@ -1247,9 +1238,8 @@ class ViewController: NSViewController,
     
     @IBAction func duplicate(_ sender: Any) {
         if let note = notesTableView.getSelectedNote() {
-            let (url, skipReload) = note.duplicate()
-            UserDataService.instance.lastRenamed = url
-            UserDataService.instance.skipListReload = skipReload
+            let newNote = note.duplicate()
+            self.notesTableView.insertNew(note: newNote)
         }
     }
     
@@ -1295,6 +1285,6 @@ class ViewController: NSViewController,
             pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
         }
     }
-        
+    
 }
 

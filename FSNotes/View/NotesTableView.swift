@@ -257,4 +257,23 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
     }
     
+    public func countVisiblePinned() -> Int {
+        var i = 0
+        for note in noteList {
+            if (note.isPinned) {
+                i += 1
+            }
+        }
+        return i
+    }
+    
+    public func insertNew(note: Note) {
+        let at = self.countVisiblePinned()
+        self.noteList.insert(note, at: at)
+        self.beginUpdates()
+        self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
+        self.reloadData(forRowIndexes: IndexSet(integer: at - 1), columnIndexes: [0])
+        self.endUpdates()
+    }
+    
 }

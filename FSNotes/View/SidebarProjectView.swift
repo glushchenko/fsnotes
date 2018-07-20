@@ -139,7 +139,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             for url in urls {
                 let name = url.lastPathComponent
                 let note = Note(url: url)
-                note.parseURL()
                 note.reloadFileContent()
                 note.project = project
                 note.url = project.url.appendingPathComponent(name)

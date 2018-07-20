@@ -147,6 +147,8 @@
 		D7B03AFC2085D4E5008FC097 /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */; };
 		D7B3391520DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B3391620DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
+		D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
+		D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
 		D7B6E59A207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59B207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
@@ -1824,6 +1826,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				D7E6ACE920832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
 				D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
@@ -1874,6 +1877,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */,
 				D7E6ACEA20832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
 				D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,

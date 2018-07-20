@@ -8,7 +8,6 @@
 //
 
 import Foundation
-import CoreData
 
 public class Note: NSObject {
     @objc var title: String = ""
@@ -38,6 +37,10 @@ public class Note: NSObject {
         if let project = sharedStorage.getProjectBy(url: url) {
             self.project = project
         }
+        
+        super.init()
+        
+        self.parseURL()
     }
     
     init(name: String, project: Project) {
@@ -584,7 +587,7 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
     
-    public func duplicate() -> (URL?, Bool) {
+    public func duplicate() -> Note {
         var url: URL = self.url
 
         let ext = url.pathExtension
@@ -597,26 +600,14 @@ public class Note: NSObject {
         url.appendPathComponent(name + " " + now)
         url.appendPathExtension(ext)
         
-        let attributes = getFileAttributes()
+        let note = Note(url: url)
+        note.content = content
+        note.save()
 
-        guard let fileWrapper = getFileWrapper(attributedString: content) else {
-            print("Wrapper not found")
-            return (nil, false)
-        }
-
-        do {
-            try fileWrapper.write(to: url, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-        } catch {
-            print("Write error \(error)")
-            return (url, false)
-        }
-
-        do {
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
-        } catch {
-            print("Write error \(error)")
-        }
-        return (url, true)
+        UserDataService.instance.lastRenamed = url
+        UserDataService.instance.skipListReload = true
+        
+        return note
     }
     
     public func removeTag(_ name: String) {

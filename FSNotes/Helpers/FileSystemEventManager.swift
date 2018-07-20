@@ -110,7 +110,6 @@ class FileSystemEventManager {
         }
         
         let note = Note(url: url)
-        note.parseURL()
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
@@ -169,11 +168,19 @@ class FileSystemEventManager {
         if note.isMarkdown() {
             var content = String()
             if note.type == .Markdown {
-                content = try! String(contentsOf: note.url)
+                do {
+                    content = try String(contentsOf: note.url)
+                } catch {
+                    print(error)
+                }
             }
             
             if note.type == .TextBundle {
-                content = try! String(contentsOf: note.url.appendingPathComponent("text.markdown"))
+                do {
+                    content = try String(contentsOf: note.url.appendingPathComponent("text.markdown"))
+                } catch {
+                    print(error)
+                }
             }
             
             if content != note.content.string {
