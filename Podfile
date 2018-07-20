@@ -16,13 +16,15 @@ def framework_pods
     pod 'SwiftLint', '~> 0.26.0'
 end
 
-target 'FSNotesCore_iOS' do
+target 'FSNotesCore iOS' do
     platform :ios, IOS_TARGET_VERSION
+    pod 'NightNight', '~> 0.5.0'
     framework_pods
 end
 
-target 'FSNotesCore_macOS' do
+target 'FSNotesCore macOS' do
     platform :osx, MAC_TARGET_VERSION
+    pod 'MASShortcut', '~> 2.0'
     framework_pods
 end
 

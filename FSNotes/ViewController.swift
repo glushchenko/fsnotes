@@ -756,7 +756,7 @@ class ViewController: NSViewController,
             note.save(needImageUnLoad: true)
             storage.add(note)
             
-            if UserDefaultsManagement.sort == .ModificationDate && UserDefaultsManagement.sortDirection == true {
+            if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
                 moveNoteToTop(note: index)
             }
         }

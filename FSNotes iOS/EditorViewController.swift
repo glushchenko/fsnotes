@@ -134,7 +134,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let range = NSRange(0..<storage.length)
         
         if UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: width, note: note)
+            let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
         }
         
@@ -153,6 +153,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         default:
             return
         }
+        
+        editArea.applyLeftParagraphStyle()
     }
     
     func loadPreview(note: Note) {
@@ -224,7 +226,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
             
-            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range, maxWidth: self.editArea.frame.width)
+            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
             processor.scanParagraph(textChanged: true)
             return false
         }
@@ -296,7 +298,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let storage = editArea.textStorage
         let width = editArea.frame.width
         
-        let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: width)
+        let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
@@ -305,7 +307,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
-        note.save(needImageUnLoad: true)
+        DispatchQueue.global().async {
+            note.save(needImageUnLoad: true)
+        }
         
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {

@@ -304,13 +304,13 @@ class Storage {
         
         if note.isPinned == next.isPinned {
             switch UserDefaultsManagement.sort {
-            case .CreationDate:
+            case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
                     return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
                 }
-            case .ModificationDate:
+            case .modificationDate:
                 return sortDirection && note.modifiedLocalAt > next.modifiedLocalAt || !sortDirection && note.modifiedLocalAt < next.modifiedLocalAt
-            case .Title:
+            case .title:
                 return sortDirection && note.title.lowercased() < next.title.lowercased() || !sortDirection && note.title.lowercased() > next.title.lowercased()
             }
         }

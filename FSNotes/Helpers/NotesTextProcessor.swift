@@ -84,11 +84,10 @@ public class NotesTextProcessor {
     private var range: NSRange?
     private var width: CGFloat?
     
-    init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil, maxWidth: CGFloat? = nil) {
+    init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil) {
         self.note = note
         self.storage = storage
         self.range = range
-        self.width = maxWidth
     }
     
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
@@ -1317,7 +1316,7 @@ public class NotesTextProcessor {
     }
     
     public func scanParagraph(textChanged: Bool = false) {
-        guard let note = self.note, let storage = self.storage, let range = self.range, let maxWidth = self.width else {
+        guard let note = self.note, let storage = self.storage, let range = self.range else {
             return
         }
         
@@ -1342,7 +1341,7 @@ public class NotesTextProcessor {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note, textChanged: true)
             
             if UserDefaultsManagement.liveImagesPreview {
-                let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: maxWidth, note: note)
+                let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, note: note)
                 processor.load()
             }
         }

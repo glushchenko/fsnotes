@@ -30,7 +30,6 @@ public class TextFormatter {
     private var range: NSRange
     private var newSelectedRange: NSRange?
     private var cursor: Int?
-    private var maxWidth: CGFloat
     
     private var prevSelectedString: NSAttributedString
     private var prevSelectedRange: NSRange
@@ -54,7 +53,6 @@ public class TextFormatter {
             attributedSelected = textView.attributedText
         #endif
         
-        self.maxWidth = textView.frame.width
         self.attributedString = NSMutableAttributedString(attributedString: attributedSelected.attributedSubstring(from: range))
         self.selectedRange = NSRange(0..<attributedString.length)
         
@@ -703,11 +701,22 @@ public class TextFormatter {
     }
     
     private func insertText(_ string: Any, replacementRange: NSRange) {
+        
+        
+        #if os(iOS)
+            guard let start = textView.position(from: self.textView.beginningOfDocument, offset: replacementRange.location),
+                let end = textView.position(from: start, offset: replacementRange.length),
+                let uiTextRange = textView.textRange(from: start, to: end) else { return }
+        #endif
+        
         if let attributedString = string as? NSAttributedString {
             #if os(iOS)
-                self.storage.replaceCharacters(in: replacementRange, with: attributedString)
+                self.textView.undoManager?.beginUndoGrouping()
+                self.textView.replace(uiTextRange, withText: attributedString.string)
+                self.textView.undoManager?.endUndoGrouping()
+                //self.storage.replaceCharacters(in: replacementRange, with: attributedString)
                 let range = NSRange(location: replacementRange.location + attributedString.length, length: 0)
-                self.setSelectedRange(range)
+                //self.setSelectedRange(range)
             #else
                 self.textView.insertText(attributedString, replacementRange: replacementRange)
             #endif
@@ -716,9 +725,12 @@ public class TextFormatter {
         
         if let plainString = string as? String {
             #if os(iOS)
-                self.storage.replaceCharacters(in: replacementRange, with: plainString)
+                self.textView.undoManager?.beginUndoGrouping()
+                self.textView.replace(uiTextRange, withText: plainString)
+                self.textView.undoManager?.endUndoGrouping()
+                //self.storage.replaceCharacters(in: replacementRange, with: plainString)
                 let range = NSRange(location: replacementRange.location + plainString.count, length: 0)
-                self.setSelectedRange(range)
+                //self.setSelectedRange(range)
             #else
                 self.textView.insertText(plainString, replacementRange: replacementRange)
             #endif

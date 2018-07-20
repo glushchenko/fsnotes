@@ -27,8 +27,8 @@ public extension String {
     public func getPrefixMatchSequentially(char: String) -> String? {
         var result = String()
         
-        for c in self {
-            if c.description == char {
+        for current in self {
+            if current.description == char {
                 result += char
                 continue
             }

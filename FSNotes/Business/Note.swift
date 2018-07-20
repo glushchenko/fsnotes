@@ -388,17 +388,20 @@ public class Note: NSObject {
         loadProject(url: url)
     }
     
-    func save(needImageUnLoad: Bool = false) {
+    func save(needImageUnLoad: Bool = false, text: String? = nil) {
         if needImageUnLoad {
             unLoadImages()
+            return
         }
         
         let attributes = getFileAttributes()
         
         do {
-            guard let fileWrapper = getFileWrapper(attributedString: content) else {
-                print("Wrapper not found")
-                return
+            var fileWrapper: FileWrapper?
+            if let text = text {
+                fileWrapper = getFileWrapper(attributedString: NSAttributedString(string: text))
+            } else {
+                fileWrapper = getFileWrapper(attributedString: content)
             }
             
             var url = self.url
@@ -414,7 +417,7 @@ public class Note: NSObject {
             
             guard let docUrl = url else { return }
             
-            try fileWrapper.write(to: docUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
+            try fileWrapper?.write(to: docUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
             
             try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
         } catch {
@@ -441,10 +444,8 @@ public class Note: NSObject {
     
     public func unLoadImages() {
         if isMarkdown() && UserDefaultsManagement.liveImagesPreview {
-            let contentCopy = NSMutableAttributedString(attributedString: content.copy() as! NSAttributedString)
-            
-            let processor = ImagesProcessor(styleApplier: contentCopy, maxWidth: 0, note: self)
-            processor.unLoad()
+            let plainText = ImagesProcessor.getPlainText(styleApplier: content)
+            save(needImageUnLoad: false, text: plainText)
         }
     }
     

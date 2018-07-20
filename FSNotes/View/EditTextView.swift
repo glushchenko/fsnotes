@@ -10,6 +10,7 @@ import Cocoa
 import Down
 import Highlightr
 import Carbon.HIToolbox
+import FSNotesCore_macOS
 
 class EditTextView: NSTextView {
     public static var note: Note?
@@ -255,7 +256,7 @@ class EditTextView: NSTextView {
     
     @objc func loadImages() {
         if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: textStorage!, maxWidth: frame.width, note: note)
+            let processor = ImagesProcessor(styleApplier: textStorage!, note: note)
             processor.load()
         }
     }
@@ -420,7 +421,7 @@ class EditTextView: NSTextView {
         cacheNote(note: note)
         
         if UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: frame.width, note: note)
+            let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
         }
     }
@@ -542,7 +543,7 @@ class EditTextView: NSTextView {
         }
         
         let textChanged = event.keyCode == kVK_Return
-        let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: frame.width)
+        let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         processor.scanParagraph(textChanged: textChanged)
         cacheNote(note: note)
         note.unLoadImages()
@@ -719,7 +720,7 @@ class EditTextView: NSTextView {
                     return false
                 }
                 
-                let processor = ImagesProcessor(styleApplier: storage, maxWidth: frame.width, note: note)
+                let processor = ImagesProcessor(styleApplier: storage, note: note)
                 
                 guard let fileName = processor.writeImage(data: data, url: url),
                       let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else
