@@ -157,7 +157,7 @@ class ViewController: NSViewController,
                     return true
                 }
             case "fileMenu":
-                if menuItem.title == "fileMenu.delete" {
+                if menuItem.identifier?.rawValue == "fileMenu.delete" {
                     if !UserDefaultsManagement.focusInEditorOnNoteSelect && vc.editArea.hasFocus() {
                         return false
                     }

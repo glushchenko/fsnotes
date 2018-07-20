@@ -475,7 +475,7 @@ class EditTextView: NSTextView {
             return
         }
         
-        if event.keyCode == kVK_Delete {
+        if event.keyCode == kVK_Delete && !event.modifierFlags.contains(.command) {
             deleteBackward(nil)
             
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
