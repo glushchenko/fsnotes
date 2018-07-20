@@ -268,11 +268,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func insertNew(note: Note) {
+        guard let vc = self.window?.contentViewController as? ViewController else { return }
+        
         let at = self.countVisiblePinned()
         self.noteList.insert(note, at: at)
+        vc.filteredNoteList?.insert(note, at: at)
+        
         self.beginUpdates()
         self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
-        self.reloadData(forRowIndexes: IndexSet(integer: at - 1), columnIndexes: [0])
+        self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
         self.endUpdates()
     }
     
