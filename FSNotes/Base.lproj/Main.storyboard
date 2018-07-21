@@ -1198,7 +1198,7 @@ CA
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <subviews>
-                                    <customView fixedFrame="YES" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
+                                    <customView id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
@@ -1214,6 +1214,7 @@ CA
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <tableViewGridLines key="gridStyleMask" vertical="YES"/>
                                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                             <tableColumns>
                                                                 <tableColumn width="141" minWidth="16" maxWidth="1000" id="Gwp-vX-YaR">
@@ -1278,7 +1279,6 @@ CA
                                                             </connections>
                                                         </outlineView>
                                                     </subviews>
-                                                    <nil key="backgroundColor"/>
                                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                                                 </clipView>
                                                 <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="20" bottom="0.0"/>
@@ -1291,7 +1291,18 @@ CA
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
+                                            <customView canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes">
+                                                <rect key="frame" x="0.0" y="562" width="144" height="38"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="38" id="9sA-Ak-h1e"/>
+                                                </constraints>
+                                            </customView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="vp7-cq-QSI" firstAttribute="top" secondItem="5sB-7J-vgE" secondAttribute="top" id="2aO-4z-1Ox"/>
+                                            <constraint firstAttribute="trailing" secondItem="vp7-cq-QSI" secondAttribute="trailing" id="mkT-vm-r6A"/>
+                                            <constraint firstItem="vp7-cq-QSI" firstAttribute="leading" secondItem="5sB-7J-vgE" secondAttribute="leading" id="tSE-Sw-ulk"/>
+                                        </constraints>
                                     </customView>
                                     <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="145" y="0.0" width="655" height="600"/>
