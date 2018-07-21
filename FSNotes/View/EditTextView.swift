@@ -416,7 +416,7 @@ class EditTextView: NSTextView {
         let range = NSRange(start..<end)
         
         NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
-        note.save(needImageUnLoad: true)
+        note.save()
         
         cacheNote(note: note)
         
@@ -546,7 +546,7 @@ class EditTextView: NSTextView {
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         processor.scanParagraph(textChanged: textChanged)
         cacheNote(note: note)
-        note.unLoadImages()
+        note.save()
     }
     
     private func isCodeBlock(paragraph: String) -> Bool {
@@ -754,7 +754,7 @@ class EditTextView: NSTextView {
     public func unLoadImages() {
         guard let note = getSelectedNote() else { return }
         note.content = NSMutableAttributedString(attributedString:  attributedString())
-        note.save(needImageUnLoad: true)
+        note.save()
     }
     
     func getSearchText() -> String {
@@ -905,7 +905,7 @@ class EditTextView: NSTextView {
                 
                 if let note = vc.notesTableView.getSelectedNote() {
                     note.content = NSMutableAttributedString(attributedString: self.attributedString())
-                    note.save(needImageUnLoad: true)
+                    note.save()
                 }
             }
         }

@@ -308,7 +308,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
         DispatchQueue.global().async {
-            note.save(needImageUnLoad: true)
+            note.save()
         }
         
         if var font = UserDefaultsManagement.noteFont {

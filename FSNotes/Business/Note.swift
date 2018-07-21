@@ -390,23 +390,27 @@ public class Note: NSObject {
         
         loadProject(url: url)
     }
-    
-    func save(needImageUnLoad: Bool = false, text: String? = nil) {
-        if needImageUnLoad {
-            unLoadImages()
-            return
+        
+    public func save() {
+        if type == .RichText {
+            self.save(attributedString: self.content)
         }
         
+        if self.isMarkdown() {
+            if UserDefaultsManagement.liveImagesPreview {
+                let plainText = ImagesProcessor.getPlainText(styleApplier: content)
+                self.save(attributedString: NSAttributedString(string: plainText))
+            } else {
+                self.save(attributedString: self.content)
+            }
+        }
+    }
+    
+    private func save(attributedString: NSAttributedString) {
         let attributes = getFileAttributes()
         
         do {
-            var fileWrapper: FileWrapper?
-            if let text = text {
-                fileWrapper = getFileWrapper(attributedString: NSAttributedString(string: text))
-            } else {
-                fileWrapper = getFileWrapper(attributedString: content)
-            }
-            
+            let fileWrapper = getFileWrapper(attributedString: attributedString)
             var url = self.url
             
             if type == .TextBundle {
@@ -444,14 +448,7 @@ public class Note: NSObject {
         """
         try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
     }
-    
-    public func unLoadImages() {
-        if isMarkdown() && UserDefaultsManagement.liveImagesPreview {
-            let plainText = ImagesProcessor.getPlainText(styleApplier: content)
-            save(needImageUnLoad: false, text: plainText)
-        }
-    }
-    
+        
     func getFileAttributes() -> [FileAttributeKey: Any] {
         var attributes: [FileAttributeKey: Any] = [:]
         

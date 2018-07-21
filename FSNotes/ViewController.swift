@@ -805,7 +805,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[index]
             
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save(needImageUnLoad: true)
+            note.save()
             storage.add(note)
             
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
