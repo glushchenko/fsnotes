@@ -82,9 +82,7 @@ public class TextFormatter {
         if note.isMarkdown() {
             let string = "**" + attributedString.string + "**"
             let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
-            
-            self.replaceWith(string: string)
-            setSelectedRange(NSMakeRange(location, 0))
+            self.insertText(string, selectRange: NSMakeRange(location, 0))
         }
         
         if type == .RichText {
@@ -121,9 +119,7 @@ public class TextFormatter {
         if note.isMarkdown() {
             let string = "_" + attributedString.string + "_"
             let location = string.count == 2 ? range.location + 1 : range.upperBound + 2
-            
-            self.replaceWith(string: string)
-            setSelectedRange(NSMakeRange(location, 0))
+            self.insertText(string, selectRange: NSMakeRange(location, 0))
         }
         
         if type == .RichText {
@@ -181,7 +177,6 @@ public class TextFormatter {
             if (attributedString.length > 0) {
                 attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: selectedRange)
             }
-            
             
             #if os(OSX)
                 if (textView.typingAttributes[.strikethroughStyle] == nil) {
@@ -300,7 +295,7 @@ public class TextFormatter {
         }
     }
     
-    func header(_ string: String) {
+    public func header(_ string: String) {
         #if os(OSX)
             let prefix = string + " "
             let length = string.count + 1
@@ -309,8 +304,8 @@ public class TextFormatter {
             let length = 1
         #endif
         
-        self.replaceWith(string: prefix, range: range)
-        setSelectedRange(NSMakeRange(range.location + length, 0))
+        let select = NSMakeRange(range.location + length, 0)
+        self.insertText(prefix, replacementRange: range, selectRange: select)
     }
     
     public func link() {
@@ -700,40 +695,34 @@ public class TextFormatter {
         return attributes
     }
     
-    private func insertText(_ string: Any, replacementRange: NSRange) {
+    private func insertText(_ string: Any, replacementRange: NSRange? = nil, selectRange: NSRange? = nil) {
+        let range = replacementRange ?? self.textView.selectedRange
         
-        
-        #if os(iOS)
-            guard let start = textView.position(from: self.textView.beginningOfDocument, offset: replacementRange.location),
-                let end = textView.position(from: start, offset: replacementRange.length),
-                let uiTextRange = textView.textRange(from: start, to: end) else { return }
-        #endif
-        
+    #if os(iOS)
+        guard
+            let start = textView.position(from: self.textView.beginningOfDocument, offset: range.location),
+            let end = textView.position(from: start, offset: range.length),
+            let selectedRange = textView.textRange(from: start, to: end)
+        else { return }
+    
+        var replaceString = String()
         if let attributedString = string as? NSAttributedString {
-            #if os(iOS)
-                self.textView.undoManager?.beginUndoGrouping()
-                self.textView.replace(uiTextRange, withText: attributedString.string)
-                self.textView.undoManager?.endUndoGrouping()
-                //self.storage.replaceCharacters(in: replacementRange, with: attributedString)
-                let range = NSRange(location: replacementRange.location + attributedString.length, length: 0)
-                //self.setSelectedRange(range)
-            #else
-                self.textView.insertText(attributedString, replacementRange: replacementRange)
-            #endif
-            return
+            replaceString = attributedString.string
         }
-        
+    
         if let plainString = string as? String {
-            #if os(iOS)
-                self.textView.undoManager?.beginUndoGrouping()
-                self.textView.replace(uiTextRange, withText: plainString)
-                self.textView.undoManager?.endUndoGrouping()
-                //self.storage.replaceCharacters(in: replacementRange, with: plainString)
-                let range = NSRange(location: replacementRange.location + plainString.count, length: 0)
-                //self.setSelectedRange(range)
-            #else
-                self.textView.insertText(plainString, replacementRange: replacementRange)
-            #endif
+            replaceString = plainString
+        }
+    
+        self.textView.undoManager?.beginUndoGrouping()
+        self.textView.replace(selectedRange, withText: replaceString)
+        self.textView.undoManager?.endUndoGrouping()
+    #else
+        self.textView.insertText(string, replacementRange: range)
+    #endif
+        
+        if let select = selectRange {
+            setSelectedRange(select)
         }
     }
     
@@ -749,16 +738,5 @@ public class TextFormatter {
         }
         
         return false
-    }
-}
-
-class UndoInfo: NSObject {
-    let text: String
-    let replacementRange: NSRange
-    var string: NSAttributedString? = nil
-    
-    init(text: String, replacementRange: NSRange) {
-        self.text = text
-        self.replacementRange = replacementRange
     }
 }

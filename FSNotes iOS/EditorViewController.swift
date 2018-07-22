@@ -15,6 +15,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private var isHighlighted: Bool = false
     private var downView: MarkdownView?
+    private var isUndo = false
     
     @IBOutlet weak var editArea: EditTextView!
     
@@ -220,7 +221,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.deleteKey()
             return false
         }
-        
+
         // New line
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
@@ -267,9 +268,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     private func deleteBackwardPressed(text: String) -> Bool {
-        if let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
+        if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
             return true
         }
+        
+        self.isUndo = false
         
         return false
     }
@@ -447,6 +450,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
         }
         
+        self.isUndo = true
         um.undo()
         ea.initUndoRedoButons()
     }

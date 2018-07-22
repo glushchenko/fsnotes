@@ -14,20 +14,10 @@ import FSNotesCore_macOS
 
 class EditTextView: NSTextView {
     public static var note: Note?
+    
     var isHighlighted: Bool = false
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
-    
-    class UndoInfo: NSObject {
-        let text: String
-        let replacementRange: NSRange
-        
-        init(text: String, replacementRange: NSRange) {
-            self.text = text
-            self.replacementRange = replacementRange
-        }
-    }
-    
     var downView: MarkdownView?
         
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
