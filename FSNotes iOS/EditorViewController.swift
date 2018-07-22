@@ -274,6 +274,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
     
+    var inProgress = false
+    var change = 0
+    
     func textViewDidChange(_ textView: UITextView) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -296,8 +299,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         let range = editArea.selectedRange
         let storage = editArea.textStorage
-        let width = editArea.frame.width
-        
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
         if note.type == .PlainText || note.type == .RichText {
@@ -307,8 +308,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
+        
         DispatchQueue.global().async {
-            note.save()
+            if !self.inProgress {
+                var lastChange = self.change
+                self.change += 1
+                
+                while lastChange != self.change {
+                    note.save()
+                    lastChange += 1
+                }
+                
+                self.inProgress = false
+            } else {
+                self.change += 1
+            }
         }
         
         if var font = UserDefaultsManagement.noteFont {

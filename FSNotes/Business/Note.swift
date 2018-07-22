@@ -15,7 +15,6 @@ public class Note: NSObject {
     var type: NoteType = .Markdown
     var url: URL!
     var content: NSMutableAttributedString = NSMutableAttributedString()
-    var syncDate: Date?
     var creationDate: Date? = Date()
     var isCached = false
     var sharedStorage = Storage.sharedInstance()
@@ -391,19 +390,12 @@ public class Note: NSObject {
         loadProject(url: url)
     }
         
-    public func save() {
-        if type == .RichText {
-            self.save(attributedString: self.content)
+    public func save() {        
+        if self.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
+            self.content = self.content.unLoadImages()
         }
         
-        if self.isMarkdown() {
-            if UserDefaultsManagement.liveImagesPreview {
-                let plainText = ImagesProcessor.getPlainText(styleApplier: content)
-                self.save(attributedString: NSAttributedString(string: plainText))
-            } else {
-                self.save(attributedString: self.content)
-            }
-        }
+        self.save(attributedString: self.content)
     }
     
     private func save(attributedString: NSAttributedString) {
