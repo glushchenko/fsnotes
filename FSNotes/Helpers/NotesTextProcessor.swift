@@ -616,9 +616,7 @@ public class NotesTextProcessor {
                 
                 if substring.starts(with: "/i/"), let project = note.project, let path = project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
-                }
-                
-                if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
+                } else if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 }
                 

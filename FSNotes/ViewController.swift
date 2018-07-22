@@ -314,7 +314,7 @@ class ViewController: NSViewController,
         
     public func keyDown(with event: NSEvent) -> Bool {
         
-        // return / cmd + return navigation
+        // Return / Cmd + Return navigation
         if event.keyCode == kVK_Return {
             if let fr = NSApp.mainWindow?.firstResponder {
                 if event.modifierFlags.contains(.command) {
@@ -555,10 +555,6 @@ class ViewController: NSViewController,
             note.url = url
             note.parseURL()
         }
-        
-        reloadView()
-        sender.stringValue = note.title
-        cleanSearchAndEditArea()
     }
     
     @IBAction func editorMenu(_ sender: Any) {

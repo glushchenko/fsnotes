@@ -125,31 +125,6 @@ public class ImagesProcessor {
         }
     }
     
-    public static func getPlainText(styleApplier: NSMutableAttributedString) -> String {
-        let content = styleApplier.mutableCopy() as! NSMutableAttributedString
-        var offset = 0
-        
-        styleApplier.enumerateAttribute(.attachment, in: NSRange(location: 0, length: styleApplier.length)) { (value, range, stop) in
-            
-            if value != nil {
-                let newRange = NSRange(location: range.location + offset, length: range.length)
-                let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-                let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
-                
-                guard
-                    let path = styleApplier.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
-                    let title = styleApplier.attribute(titleKey, at: range.location, effectiveRange: nil) as? String else { return }
-                
-                if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                    content.replaceCharacters(in: newRange, with: "![\(title)](\(pathEncoded))")
-                    offset += 4 + path.count + title.count
-                }
-            }
-        }
-        
-        return content.string
-    }
-    
     func computeMarkdownTitleLength(mdLink: String) -> Int {
         var mdTitleLength = 0
         if let match = mdLink.range(of: "\\[(.+)\\]", options: .regularExpression) {
@@ -169,17 +144,15 @@ public class ImagesProcessor {
     }
     
     func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
+        guard let noteStorage = self.note.project else { return nil }
+        
         var notePath: String
-        
-        guard let noteStorage = self.note.project else {
-            return nil
-        }
-        
         let storagePath = noteStorage.url.path
         
-        if note.type == .TextBundle {
-            if let name = path.removingPercentEncoding {
-                return "\(note.url.path)/\(name)"
+        if path.starts(with: "/i/") {
+            let path = getFilePath(innerRange: innerRange)
+            if let project = note.project {
+                return project.url.path + path
             }
         }
         
@@ -188,8 +161,15 @@ public class ImagesProcessor {
             return notePath
         }
         
+        if note.type == .TextBundle {
+            if let name = path.removingPercentEncoding {
+                return "\(note.url.path)/\(name)"
+            }
+        }
+
         let path = getFilePath(innerRange: innerRange)
         notePath = storagePath + "/" + path
+        
         return notePath
     }
     

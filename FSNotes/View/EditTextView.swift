@@ -404,6 +404,20 @@ class EditTextView: NSTextView {
         return newFont
     }
     
+    override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+        guard let storage = textStorage, let note = EditTextView.note else { return false }
+        
+        if note.isMarkdown() {
+            let range = selectedRange()
+            let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
+            let plainText = attributedString.unLoadImages().string
+            pboard.setString(plainText, forType: .string)
+            return true
+        }
+        
+        return super.writeSelection(to: pboard, type: type)
+    }
+    
     override func paste(_ sender: Any?) {
         super.paste(sender)
         
@@ -822,12 +836,6 @@ class EditTextView: NSTextView {
         return TextFormatter(textView: self, note: note)
     }
     
-    private func hasAttachmentAt(location: Int) -> Bool {
-        guard let length = textStorage?.length, length > location else { return false }
-
-        return (textStorage?.attribute(NSAttributedStringKey.attachment, at: location, effectiveRange: nil) != nil)
-    }
-    
     private func validateSubmenu(_ menu: NSMenu) {
         let sg = menu.item(withTitle: NSLocalizedString("Spelling and Grammar", comment: ""))?.submenu
         let s = menu.item(withTitle: NSLocalizedString("Substitutions", comment: ""))?.submenu
@@ -876,8 +884,13 @@ class EditTextView: NSTextView {
         if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
             if let url = URL(string: link as! String) {
                 NSWorkspace.shared.open(url)
+                return
             }
-            
+        }
+        
+        if !UserDefaultsManagement.liveImagesPreview {
+            let url = URL(fileURLWithPath: link as! String)
+            NSWorkspace.shared.open(url)
             return
         }
         
@@ -908,6 +921,13 @@ class EditTextView: NSTextView {
                     note.save()
                 }
             }
+            
+            if let alert = vc.alert {
+                NSApp.windows[0].endSheet(alert.window)
+                vc.alert = nil
+            }
+            
+            return
         }
         
         field.becomeFirstResponder()

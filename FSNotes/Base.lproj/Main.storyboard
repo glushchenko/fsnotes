@@ -1279,6 +1279,7 @@ CA
                                                             </connections>
                                                         </outlineView>
                                                     </subviews>
+                                                    <nil key="backgroundColor"/>
                                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                                                 </clipView>
                                                 <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="20" bottom="0.0"/>
