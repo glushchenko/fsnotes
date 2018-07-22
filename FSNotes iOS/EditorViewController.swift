@@ -165,7 +165,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let markdownString = note.getPrettifiedContent()
         
         do {
-            guard let imagesStorage = note.project?.url else { return }
+            guard var imagesStorage = note.project?.url else { return }
+            
+            if note.type == .TextBundle {
+                imagesStorage = note.url
+            }
             
             if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
                 downView.translatesAutoresizingMaskIntoConstraints = false

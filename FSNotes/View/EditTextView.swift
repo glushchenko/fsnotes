@@ -526,18 +526,7 @@ class EditTextView: NSTextView {
         // Init style for code block
         
         let paragraphRange = getParagraphRange()
-        let checkCodeBlock = (paragraphRange != nil && isCodeBlock(range: paragraphRange!))
-        let copyTypingAttributes = typingAttributes
-        
-        if checkCodeBlock {
-            typingAttributes = getCodeBlockAttributes()
-        }
-        
         super.keyDown(with: event)
-        
-        if checkCodeBlock {
-            typingAttributes = copyTypingAttributes
-        }
         
         saveCursorPosition()
         
