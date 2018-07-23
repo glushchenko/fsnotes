@@ -1467,8 +1467,8 @@ CA
                                                             <rect key="frame" x="-100" y="-100" width="380" height="16"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" doubleValue="1" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
-                                                            <rect key="frame" x="403" y="0.0" width="14" height="560"/>
+                                                        <scroller key="verticalScroller" hidden="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
+                                                            <rect key="frame" x="403" y="0.0" width="14" height="551"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
@@ -1503,7 +1503,7 @@ CA
                                                     <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="10" id="ZXL-jc-Tfr"/>
                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="8" id="aPg-OL-8Mj"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="11" id="eAG-eB-pQr"/>
-                                                    <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
+                                                    <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" constant="10" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
                                                     <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" id="kLx-Os-kkP"/>
                                                 </constraints>
