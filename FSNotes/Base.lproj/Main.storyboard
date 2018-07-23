@@ -681,18 +681,6 @@ CA
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rFl-C6-1X6">
-                                                    <rect key="frame" x="235" y="142" width="87" height="22"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="gth-SV-C1S">
-                                                        <font key="font" metaFont="system"/>
-                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                    </textFieldCell>
-                                                    <connections>
-                                                        <action selector="fileExtensionAction:" target="IAM-xZ-Bfs" id="EYh-Ei-cJ9"/>
-                                                    </connections>
-                                                </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0MX-CO-c4Y">
                                                     <rect key="frame" x="233" y="172" width="180" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -776,6 +764,24 @@ CA
                                                     <rect key="frame" x="17" y="88" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
+                                                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zvQ-Zg-j6S">
+                                                    <rect key="frame" x="235" y="139" width="99" height="26"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Ogq-tQ-dza">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <objectValues>
+                                                            <string>md</string>
+                                                            <string>textbundle</string>
+                                                            <string>rtf</string>
+                                                            <string>txt</string>
+                                                        </objectValues>
+                                                    </comboBoxCell>
+                                                    <connections>
+                                                        <action selector="fileExtensionAction:" target="IAM-xZ-Bfs" id="tH2-4X-NSL"/>
+                                                    </connections>
+                                                </comboBox>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1141,7 +1147,7 @@ CA
                         <outlet property="codeBlockHighlight" destination="xX0-9b-KDq" id="wGZ-cv-40x"/>
                         <outlet property="defaultStoragePath" destination="dkg-Hb-c1w" id="kgg-Hx-fER"/>
                         <outlet property="externalEditorApp" destination="7Hz-R4-h7D" id="WyY-iv-Aji"/>
-                        <outlet property="fileExtensionOutlet" destination="rFl-C6-1X6" id="sSs-3Y-vVc"/>
+                        <outlet property="fileExtensionOutlet" destination="zvQ-Zg-j6S" id="h5Y-S9-BPY"/>
                         <outlet property="fontPreview" destination="7Az-gx-yGL" id="J5P-4l-NRs"/>
                         <outlet property="hidePreview" destination="F6G-ua-MNX" id="7t4-Vv-NBf"/>
                         <outlet property="horizontalRadio" destination="lkd-Oe-1Xz" id="yjf-wT-fLZ"/>

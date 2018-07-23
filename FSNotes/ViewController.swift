@@ -694,8 +694,12 @@ class ViewController: NSViewController,
                     vc.storageOutlineView.removeTags(removed)
                     vc.storageOutlineView.deselectTags(deselected)
                     vc.storageOutlineView.addTags(tags)
-                    vc.alert = nil
                 }
+            }
+            
+            if let alert = vc.alert {
+                NSApp.windows[0].endSheet(alert.window)
+                vc.alert = nil
             }
         }
         
