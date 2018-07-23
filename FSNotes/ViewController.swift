@@ -697,6 +697,7 @@ class ViewController: NSViewController,
                 }
             }
             
+            NSApp.abortModal()
             if let alert = vc.alert {
                 NSApp.windows[0].endSheet(alert.window)
                 vc.alert = nil
@@ -861,8 +862,6 @@ class ViewController: NSViewController,
             terms.append("- [ ]")
             terms.append("- [x]")
         }
-        
-        print(terms)
         
         filteredNoteList =
             source.filter() { note in

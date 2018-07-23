@@ -899,6 +899,7 @@ class EditTextView: NSTextView {
                 }
             }
             
+            NSApp.abortModal()
             if let alert = vc.alert {
                 NSApp.windows[0].endSheet(alert.window)
                 vc.alert = nil
