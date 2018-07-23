@@ -232,7 +232,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.newLine()
             
             let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
-            processor.scanParagraph(textChanged: true)
+            processor.scanParagraph()
             return false
         }
         

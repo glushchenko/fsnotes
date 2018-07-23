@@ -445,10 +445,10 @@ public class TextFormatter {
         
         let prevString = nsString.substring(with: prevParagraphRange)
         let nsPrev = prevString as NSString
-        
-        guard let regex = try? NSRegularExpression(pattern: "^( |\t)*([-|–|—|*|•|\\+]{1} )"),
+    
+        guard let regex = try? NSRegularExpression(pattern: "^(( |\t)*\\- \\[[x| ]*\\] )|^( |\t)*([-|–|—|*|•|\\+]{1} )"),
             let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+\\. ") else {
-            return
+                return
         }
         
         if prevString.starts(with: "\t") {
@@ -509,17 +509,16 @@ public class TextFormatter {
         guard let paragraphRange = getParagraphRange() else { return }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
-        let firstChar = paragraph.string.first
         
-        if ["-", "+"].contains(firstChar) {
-            let toggleChar = firstChar == "-" ? "+" : "-"
-            let range = NSRange(location: paragraphRange.location, length: 1)
-            
-            textView.insertText(toggleChar, replacementRange: range)
+        if paragraph.string.hasPrefix("- [ ]") {
+            let range = NSRange(location: paragraphRange.location, length: 5)
+            textView.insertText("- [x]", replacementRange: range)
+        } else if paragraph.string.hasPrefix("- [x]") {
+            let range = NSRange(location: paragraphRange.location, length: 5)
+            textView.insertText("- [ ]", replacementRange: range)
         } else {
             let range = NSRange(location: paragraphRange.location, length: 0)
-            
-            textView.insertText("- ", replacementRange: range)
+            textView.insertText("- [ ] ", replacementRange: range)
         }
     }
     #endif

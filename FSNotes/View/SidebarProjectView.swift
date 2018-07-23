@@ -252,6 +252,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
+            
+            case .Todo:
+                cell.icon.image = NSImage(imageLiteralResourceName: "todo.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
             }
         }
         return cell

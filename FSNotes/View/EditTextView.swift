@@ -525,9 +525,7 @@ class EditTextView: NSTextView {
         
         // Init style for code block
         
-        let paragraphRange = getParagraphRange()
         super.keyDown(with: event)
-        
         saveCursorPosition()
         
         let range = selectedRanges[0] as! NSRange

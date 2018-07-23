@@ -167,6 +167,8 @@
 		D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BDFE6B201F6DC200897A58 /* EditTextView.swift */; };
 		D7BDFE6D201F6E8F00897A58 /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BDFE6F201F788D00897A58 /* NoteCellView.swift */; };
+		D7C01B4D210607FF000F91C3 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C01B4C210607FE000F91C3 /* todo.png */; };
+		D7C01B4E210607FF000F91C3 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C01B4C210607FE000F91C3 /* todo.png */; };
 		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
 		D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */; };
 		D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
@@ -514,6 +516,7 @@
 		D7BDFE69201F68B700897A58 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7BDFE6B201F6DC200897A58 /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D7BDFE6F201F788D00897A58 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		D7C01B4C210607FE000F91C3 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
@@ -1005,6 +1008,7 @@
 				D7DF402720A377F4000F8B13 /* home_white.png */,
 				D7DF402920A377FE000F8B13 /* pin_white.png */,
 				D77B9E9A20DE53E0003FAA27 /* archive.png */,
+				D7C01B4C210607FE000F91C3 /* todo.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1484,6 +1488,7 @@
 			files = (
 				D7E6D9CD207F9878003ECAFC /* trash.png in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
+				D7C01B4D210607FF000F91C3 /* todo.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
@@ -1532,6 +1537,7 @@
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
+				D7C01B4E210607FF000F91C3 /* todo.png in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
 				D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */,
 				D7E81C541F925B5F00416A91 /* icons.icns in Resources */,

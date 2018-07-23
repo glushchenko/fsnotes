@@ -854,25 +854,33 @@ class ViewController: NSViewController,
         let selectedProject = getSidebarProject()
         let type = getSidebarType()
 
-        let terms = filter.split(separator: " ")
+        var terms = filter.split(separator: " ")
         let source = storage.noteList
+        
+        if let type = type, type == .Todo {
+            terms.append("- [ ]")
+            terms.append("- [x]")
+        }
+        
+        print(terms)
         
         filteredNoteList =
             source.filter() { note in
                 return (
                     !note.name.isEmpty
-                        && (filter.isEmpty || note.contains(terms: terms))
-                        && (
-                            type == .All && note.project != nil && !note.project!.isArchive
-                                || type == .Tag && note.tagNames.contains(sidebarName)
-                                || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                                || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
-                                || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
-                                || type == .Trash
-                                || type == .Archive && note.project != nil && note.project!.isArchive
-                        ) && (
-                            type == .Trash && note.isTrash()
-                                || type != .Trash && !note.isTrash()
+                    && (filter.isEmpty && type != .Todo || note.contains(terms: terms))
+                    && (
+                        type == .All && note.project != nil && !note.project!.isArchive
+                            || type == .Tag && note.tagNames.contains(sidebarName)
+                            || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
+                            || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
+                            || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
+                            || type == .Trash
+                            || type == .Todo
+                            || type == .Archive && note.project != nil && note.project!.isArchive
+                    ) && (
+                        type == .Trash && note.isTrash()
+                        || type != .Trash && !note.isTrash()
                     )
                 )
         }
@@ -992,7 +1000,14 @@ class ViewController: NSViewController,
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
+        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        
         var sidebarProject = getSidebarProject()
+        var text = content
+        
+        if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
+            text = "- [ ] "
+        }
         
         if sidebarProject == nil {
             let projects = storage.getProjects()
@@ -1004,7 +1019,7 @@ class ViewController: NSViewController,
         }
                 
         disablePreview()
-        editArea.string = content
+        editArea.string = text
         
         let note = Note(name: name, project: project)
         
@@ -1015,7 +1030,7 @@ class ViewController: NSViewController,
         }
         
         note.initURL()
-        note.content = NSMutableAttributedString(string: content)
+        note.content = NSMutableAttributedString(string: text)
         note.isCached = true
         note.save()
         
