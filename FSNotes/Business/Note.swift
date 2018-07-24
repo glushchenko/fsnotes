@@ -666,4 +666,10 @@ public class Note: NSObject {
     public func getImageCacheUrl() -> URL? {
         return project?.url.appendingPathComponent("/.cache/")
     }
+
+    public override var debugDescription: String {
+        get {
+            return "\(isPinned ? "* " : "")<\(name)>"
+        }
+    }
 }
