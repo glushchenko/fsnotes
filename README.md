@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/glushchenko/fsnotes.svg?branch=master)](https://travis-ci.com/glushchenko/fsnotes)
+
 ## Notes manager for macOS/iOS
 
 File system notes is modern notational velocity (nvALT) on steroids. 
