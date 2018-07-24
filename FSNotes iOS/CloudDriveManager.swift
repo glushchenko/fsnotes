@@ -26,9 +26,7 @@ class CloudDriveManager {
         let metadataQuery = NSMetadataQuery()
         metadataQuery.operationQueue = workerQueue
         metadataQuery.searchScopes = [
-            NSMetadataQueryUbiquitousDocumentsScope,
-            NSMetadataQueryAccessibleUbiquitousExternalDocumentsScope,
-            NSMetadataQueryUbiquitousDataScope
+            NSMetadataQueryUbiquitousDocumentsScope
         ]
         
         metadataQuery.predicate = NSPredicate(value: true)
