@@ -430,7 +430,7 @@ public class NotesTextProcessor {
         return nil
     }
     
-    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note, textChanged: Bool = false) {
+    public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note) {
         let isFullScan = styleApplier.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         
         let textStorageNSString = styleApplier.string as NSString
@@ -492,7 +492,7 @@ public class NotesTextProcessor {
         
         #if os(OSX)
             if let font = UserDefaultsManagement.noteFont,
-                isFullScan || textChanged {
+                isFullScan {
                 styleApplier.addAttribute(.font, value: font, range: paragraphRange)
             }
         #endif
@@ -1313,12 +1313,12 @@ public class NotesTextProcessor {
         }
     }
     
-    public func scanParagraph(textChanged: Bool = false) {
+    public func scanParagraph() {
         guard let note = self.note, let storage = self.storage, let range = self.range else {
             return
         }
         
-        guard (storage.length >= range.location + range.length) || textChanged else { return }
+        guard (storage.length >= range.location + range.length) else { return }
      
         let string = storage.string as NSString
         var paragraphRange = string.paragraphRange(for: range)
@@ -1336,7 +1336,7 @@ public class NotesTextProcessor {
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
         } else {
-            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note, textChanged: true)
+            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             
             if UserDefaultsManagement.liveImagesPreview {
                 let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, note: note)

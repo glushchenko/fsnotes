@@ -394,8 +394,6 @@
 		507AC3FABAE4AA03A2ECBBE5 /* Pods-FSNotes (iCloud Documents).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).release.xcconfig"; sourceTree = "<group>"; };
 		5819B06A38119683938E2D1E /* Pods_FSNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E7A6CEB578A475FCE2C47F /* Pods-FSNotes (CloudKit).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (CloudKit).debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes (CloudKit)/Pods-FSNotes (CloudKit).debug.xcconfig"; sourceTree = "<group>"; };
-		6F24EE2220FD8761003B8A0F /* .travis.yml */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = .travis.yml; sourceTree = "<group>"; };
-		6F46BBE61F55320E000D7DB2 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F13BB0620FEDDF50005E120 /* FSNotesCore_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSNotesCore_macOS.h; sourceTree = "<group>"; };
 		6F13BB0720FEDDF50005E120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -415,6 +413,7 @@
 		6F13BB5420FEDE560005E120 /* FSNotesCore iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FSNotesCore iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F13BB5B20FEDE560005E120 /* FSNotesCore_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesCore_iOSTests.swift; sourceTree = "<group>"; };
 		6F13BB5D20FEDE560005E120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F24EE2220FD8761003B8A0F /* .travis.yml */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = .travis.yml; sourceTree = "<group>"; };
 		7DCCA2BB4FC24A2F76C219B9 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B1EC33343C49C1F21859483 /* Pods_FSNotes__iCloud_Documents_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__iCloud_Documents_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBB093D768873B26FFAABF6 /* Pods_FSNotes__CloudKit_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__CloudKit_.framework; sourceTree = BUILT_PRODUCTS_DIR; };

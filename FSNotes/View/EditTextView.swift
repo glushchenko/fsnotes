@@ -467,8 +467,7 @@ class EditTextView: NSTextView {
                 self.insertText(self.applyStyle(openingBracket), replacementRange: before)
                 let after = NSMakeRange(selectedRange().upperBound, 0)
                 self.insertText(self.applyStyle(closingBracket), replacementRange: after)
-            }
-            else {
+            } else {
                 super.keyDown(with: event)
                 self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
                 
@@ -527,19 +526,17 @@ class EditTextView: NSTextView {
             return
         }
         
-        // Init style for code block
-        
         super.keyDown(with: event)
         saveCursorPosition()
         
         let range = selectedRanges[0] as! NSRange
-        guard note.content.length >= range.location + range.length else {
-            return
-        }
         
-        let textChanged = event.keyCode == kVK_Return
+        guard
+            note.content.length >= range.location + range.length,
+            event.keyCode != kVK_Escape else { return }
+        
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
-        processor.scanParagraph(textChanged: textChanged)
+        processor.scanParagraph()
         cacheNote(note: note)
         note.save()
     }
