@@ -472,8 +472,12 @@ class EditTextView: NSTextView {
                 super.keyDown(with: event)
                 self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
                 
-                let attributes = getCodeBlockAttributes()
-                storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
+                let paragraphRange = (storage.string as NSString).paragraphRange(for: sRange)
+                if self.isCodeBlock(range: paragraphRange) {
+                    let attributes = getCodeBlockAttributes()
+                    storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
+                }
+                
                 self.moveBackward(self)
             }
             return
