@@ -1052,32 +1052,63 @@ class ViewController: NSViewController,
     }
     
     func pin(_ selectedRows: IndexSet) {
-        guard !selectedRows.isEmpty, let notes = filteredNoteList else { return }
+        guard !selectedRows.isEmpty, let notes = filteredNoteList, var state = filteredNoteList else { return }
 
-        var selectedNotes = [(Int, Note)]()
+        var updatedNotes = [(Int, Note)]()
         for row in selectedRows {
             guard let rowView = notesTableView.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView,
                 let cell = rowView.view(atColumn: 0) as? NoteCellView,
                 let note = cell.objectValue as? Note
                 else { continue }
 
-            selectedNotes.append((row, note))
+            updatedNotes.append((row, note))
             note.togglePin()
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
-        notesTableView.noteList = resorted
-        let newIndexes = IndexSet(selectedNotes.compactMap({ row, note in resorted.index(of: note) }))
 
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        let indexes = updatedNotes.compactMap({ _, note in resorted.index(of: note) })
+        let newIndexes = IndexSet(indexes)
+
+        print("")
+        print("\(updatedNotes)")
+        print("")
+        print("resorted \(resorted)")
+        print("prestate \(state)")
         notesTableView.beginUpdates()
-        for (row, note) in selectedNotes.reversed() {
+        let nowPinned = updatedNotes.filter { _, note in note.isPinned }
+        for (row, note) in nowPinned {
             guard let newRow = resorted.index(of: note) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
+            print("move \(row) to \(newRow)")
+            let toMove = state.remove(at: row)
+            state.insert(toMove, at: newRow)
         }
-        notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
+
+        print("state \(state)")
+        let nowUnpinned = updatedNotes
+            .filter({ (_, note) -> Bool in !note.isPinned })
+            .compactMap({ (_, note) -> (Int, Note)? in
+                guard let curRow = state.index(of: note) else { return nil }
+                return (curRow, note)
+            })
+        for (row, note) in nowUnpinned.reversed() {
+            guard let newRow = resorted.index(of: note) else { continue }
+            print("move \(row) to \(newRow)")
+            notesTableView.moveRow(at: row, to: newRow)
+            let toMove = state.remove(at: row)
+            state.insert(toMove, at: newRow)
+        }
+        print("poststate \(state)")
+
+        print("to reload: \(indexes)")
+        notesTableView.noteList = resorted
         notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
+        notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
         notesTableView.endUpdates()
+
+        filteredNoteList = resorted
     }
         
     func renameNote(selectedRow: Int) {
