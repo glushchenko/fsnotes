@@ -359,7 +359,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
                 return sortBy
             } else {
-                return SortBy(rawValue: SortBy.ModificationDate.rawValue)!
+                return SortBy(rawValue: SortBy.modificationDate.rawValue)!
             }
         }
         set {

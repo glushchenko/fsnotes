@@ -97,9 +97,9 @@ class CloudDriveManager {
                     note.parseURL()
                 }
                 
-                _ = note.reload()
-                
-                if url == EditTextView.note?.url {
+                if url == EditTextView.note?.url, let date = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date, Int(note.modifiedLocalAt.timeIntervalSince1970) < Int(date.timeIntervalSince1970) {
+                    
+                    _ = note.reload()
                     self.delegate.refreshTextStorage(note: note)
                 }
 
@@ -160,7 +160,6 @@ class CloudDriveManager {
     private func add(metaId: Int, url: URL) {
         let note = Note(url: url)
         note.metaId = metaId
-        note.parseURL()
         note.loadTags()
         _ = note.reload()
         

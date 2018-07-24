@@ -8,16 +8,15 @@
 
 import Cocoa
 
-extension NSView {
-    var viewBackgroundColor: NSColor? {
+public extension NSView {
+    public var viewBackgroundColor: NSColor? {
         get {
-            if let colorRef = self.layer?.backgroundColor {
-                return NSColor(cgColor: colorRef)
-            } else {
+            guard let colorRef = self.layer?.backgroundColor else {
                 return nil
             }
+            return NSColor(cgColor: colorRef)
         }
-        
+
         set {
             self.wantsLayer = true
             self.layer?.backgroundColor = newValue?.cgColor

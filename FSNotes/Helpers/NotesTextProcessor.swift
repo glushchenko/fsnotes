@@ -84,11 +84,10 @@ public class NotesTextProcessor {
     private var range: NSRange?
     private var width: CGFloat?
     
-    init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil, maxWidth: CGFloat? = nil) {
+    init(note: Note? = nil, storage: NSTextStorage? = nil, range: NSRange? = nil) {
         self.note = note
         self.storage = storage
         self.range = range
-        self.width = maxWidth
     }
     
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
@@ -99,7 +98,7 @@ public class NotesTextProcessor {
         return false
     }
     
-    public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: NSString) -> NSRange? {
+    public static func getFencedCodeBlockRange(paragraphRange: NSRange, string: String) -> NSRange? {
         let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeQuoteBlockPattern, options: [
             NSRegularExpression.Options.allowCommentsAndWhitespace,
             NSRegularExpression.Options.anchorsMatchLines
@@ -107,16 +106,22 @@ public class NotesTextProcessor {
         
         var foundRange: NSRange? = nil
         regex.enumerateMatches(
-            in: string as String,
+            in: string,
             options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<string.length),
+            range: NSRange(0..<string.count),
             using: { (result, matchingFlags, stop) -> Void in
                 guard let r = result else {
                     return
                 }
                 
                 if r.range.upperBound >= paragraphRange.location && r.range.lowerBound <= paragraphRange.location {
-                    foundRange = r.range
+                    
+                    if r.range.upperBound < string.count {
+                        foundRange = NSRange(location: r.range.location, length: r.range.length + 1)
+                    } else {
+                        foundRange = r.range
+                    }
+                    
                     stop.pointee = true
                 }
             }
@@ -250,7 +255,7 @@ public class NotesTextProcessor {
                 let string = (content.string as NSString)
                 let paragraphRange = string.paragraphRange(for: r.range)
                 
-                if let fencedCodeBlockRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string),
+                if let fencedCodeBlockRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: content.string),
                     fencedCodeBlockRange.upperBound <= content.length {
                     
                     NotesTextProcessor.highlightCode(range: fencedCodeBlockRange, storage: storage, string: string, note: note, async: async)
@@ -611,9 +616,7 @@ public class NotesTextProcessor {
                 
                 if substring.starts(with: "/i/"), let project = note.project, let path = project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
-                }
-                
-                if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
+                } else if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 }
                 
@@ -1311,7 +1314,7 @@ public class NotesTextProcessor {
     }
     
     public func scanParagraph(textChanged: Bool = false) {
-        guard let note = self.note, let storage = self.storage, let range = self.range, let maxWidth = self.width else {
+        guard let note = self.note, let storage = self.storage, let range = self.range else {
             return
         }
         
@@ -1328,7 +1331,7 @@ public class NotesTextProcessor {
             paragraphRange = NSRange(location: prev.lowerBound, length: paragraphRange.upperBound - prev.lowerBound)
         }
 
-        if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: string) {
+        if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: storage.string) {
                 NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note)
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
@@ -1336,7 +1339,7 @@ public class NotesTextProcessor {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note, textChanged: true)
             
             if UserDefaultsManagement.liveImagesPreview {
-                let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, maxWidth: maxWidth, note: note)
+                let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, note: note)
                 processor.load()
             }
         }

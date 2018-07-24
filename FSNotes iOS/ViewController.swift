@@ -170,8 +170,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
         
-        if !search, let list = storage.sortNotes(noteList: storage.noteList, filter: "") {
-            storage.noteList = list
+        if !search {
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: "")
         }
         
         let searchTermsArray = filter.split(separator: " ")
@@ -532,12 +532,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     public func refreshTextStorage(note: Note) {
         DispatchQueue.main.async {
-            if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                let evc = viewController.viewControllers[0] as? EditorViewController,
-                evc.editArea.attributedText.string != note.content.string {
-                evc.fill(note: note)
-            }
+                let evc = viewController.viewControllers[0] as? EditorViewController
+            else { return }
+            
+            evc.fill(note: note)
         }
     }
 }

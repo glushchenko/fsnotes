@@ -8,6 +8,7 @@
 
 import Carbon
 import Cocoa
+import FSNotesCore_macOS
 
 class NotesTableView: NSTableView, NSTableViewDataSource,
     NSTableViewDelegate {
@@ -29,7 +30,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)) || event.keyCode == kVK_Return, !UserDefaultsManagement.preview {
+        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)), !UserDefaultsManagement.preview {
             vc.focusEditArea()
         }
         
@@ -62,31 +63,41 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let viewController = self.window?.contentViewController as! ViewController
+        let vc = self.window?.contentViewController as! ViewController
+        
+        if UserDataService.instance.isNotesTableEscape {
+            if vc.storageOutlineView.selectedRow == -1 {
+                UserDataService.instance.isNotesTableEscape = false
+            }
+            
+            vc.storageOutlineView.deselectAll(nil)
+            vc.editArea.clear()
+            return
+        }
         
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
             
-            if let items = viewController.storageOutlineView.sidebarItems {
+            if let items = vc.storageOutlineView.sidebarItems {
                 for item in items {
                     if item.type == .Tag {
                         if note.tagNames.contains(item.name) {
-                            viewController.storageOutlineView.selectTag(item: item)
+                            vc.storageOutlineView.selectTag(item: item)
                         } else {
-                            viewController.storageOutlineView.deselectTag(item: item)
+                            vc.storageOutlineView.deselectTag(item: item)
                         }
                     }
                 }
             }
             
-            viewController.editArea.fill(note: noteList[selectedRow], highlight: true)
+            vc.editArea.fill(note: noteList[selectedRow], highlight: true)
             
             if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
-                viewController.focusEditArea(firstResponder: nil)
+                vc.focusEditArea(firstResponder: nil)
             }
         } else {
-            viewController.editArea.clear()
-            viewController.storageOutlineView.deselectAllTags()
+            vc.editArea.clear()
+            vc.storageOutlineView.deselectAllTags()
         }
     }
     
@@ -142,6 +153,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         
         return notes
+    }
+    
+    public func deselectNotes() {
+        self.deselectAll(nil)
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -240,6 +255,29 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 print(error)
             }
         }
+    }
+    
+    public func countVisiblePinned() -> Int {
+        var i = 0
+        for note in noteList {
+            if (note.isPinned) {
+                i += 1
+            }
+        }
+        return i
+    }
+    
+    public func insertNew(note: Note) {
+        guard let vc = self.window?.contentViewController as? ViewController else { return }
+        
+        let at = self.countVisiblePinned()
+        self.noteList.insert(note, at: at)
+        vc.filteredNoteList?.insert(note, at: at)
+        
+        self.beginUpdates()
+        self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
+        self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
+        self.endUpdates()
     }
     
 }

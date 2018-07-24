@@ -227,9 +227,7 @@ class Storage {
             loadLabel(project)
         }
         
-        if let list = sortNotes(noteList: noteList, filter: "") {
-            noteList = list
-        }
+        noteList = sortNotes(noteList: noteList, filter: "")
         
         guard !checkFirstRun() else {
             if tryCount == 0 {
@@ -282,17 +280,13 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note]?, filter: String) -> [Note]? {
+    func sortNotes(noteList: [Note], filter: String) -> [Note] {
         var searchQuery = ""
         if filter.count > 0 {
             searchQuery = filter.lowercased()
         }
-        
-        guard let list = noteList else {
-            return nil
-        }
-        
-        return list.sorted(by: {
+
+        return noteList.sorted(by: {
             if filter.count > 0 && $0.title.lowercased().starts(with: searchQuery) {
                 if $0.title.lowercased().starts(with: searchQuery) && $1.title.lowercased().starts(with: searchQuery) {
                     return sortQuery(note: $0, next: $1)
@@ -310,13 +304,13 @@ class Storage {
         
         if note.isPinned == next.isPinned {
             switch UserDefaultsManagement.sort {
-            case .CreationDate:
+            case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
                     return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
                 }
-            case .ModificationDate:
+            case .modificationDate:
                 return sortDirection && note.modifiedLocalAt > next.modifiedLocalAt || !sortDirection && note.modifiedLocalAt < next.modifiedLocalAt
-            case .Title:
+            case .title:
                 return sortDirection && note.title.lowercased() < next.title.lowercased() || !sortDirection && note.title.lowercased() > next.title.lowercased()
             }
         }
@@ -346,7 +340,6 @@ class Storage {
             #endif
             
             let note = Note(url: url)
-            note.parseURL()
             
             if item.isArchive {
                 note.loadTags()

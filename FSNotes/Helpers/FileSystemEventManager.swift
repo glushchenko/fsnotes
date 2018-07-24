@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FSNotesCore_macOS
 
 class FileSystemEventManager {
     private var storage: Storage
@@ -50,7 +51,7 @@ class FileSystemEventManager {
                 return
             }
             
-            // order is important, invoke only before change
+            // Order is important, invoke only before change
             if event.fileCreated {
                 self.importNote(self.handleTextBundle(url: url))
                 return
@@ -59,16 +60,7 @@ class FileSystemEventManager {
             if event.fileChange,
                 let note = self.storage.getBy(url: self.handleTextBundle(url: url))
             {
-                if note.isMarkdown() {
-                    if let content = try? String(contentsOf: url),
-                        content != note.content.string {
-                        note.reloadFileContent()
-                        note.markdownCache()
-                        self.delegate.refillEditArea()
-                    }
-                } else {
-                    self.delegate.refillEditArea()
-                }
+                self.reloadNote(note: note)
             }
         }
         
@@ -118,11 +110,9 @@ class FileSystemEventManager {
         }
         
         let note = Note(url: url)
-        note.parseURL()
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()
-        self.delegate.refillEditArea()
         
         print("FSWatcher import note: \"\(note.name)\"")
         self.storage.add(note)
@@ -155,6 +145,10 @@ class FileSystemEventManager {
                 self.delegate.notesTableView.setSelected(note: note)
                 UserDataService.instance.lastRenamed = nil
             }
+            
+        // On TextBundle import
+        } else {
+            self.reloadNote(note: note)
         }
     }
     
@@ -167,6 +161,42 @@ class FileSystemEventManager {
                     self.delegate.notesTableView.removeByNotes(notes: [note])
                 }
             }
+        }
+    }
+    
+    private func reloadNote(note: Note) {
+        if note.isMarkdown() {
+            var content = String()
+            if note.type == .Markdown {
+                do {
+                    content = try String(contentsOf: note.url)
+                } catch {
+                    print(error)
+                }
+            }
+            
+            if note.type == .TextBundle {
+                do {
+                    content = try String(contentsOf: note.url.appendingPathComponent("text.markdown"))
+                } catch {
+                    print(error)
+                }
+            }
+            
+            if content != note.content.string {
+                note.reloadFileContent()
+                note.markdownCache()
+                
+                self.reloadTextView(note: note)
+            }
+        } else {
+            self.reloadTextView(note: note)
+        }
+    }
+    
+    private func reloadTextView(note: Note) {
+        if note == EditTextView.note {
+            self.delegate.refillEditArea()
         }
     }
     

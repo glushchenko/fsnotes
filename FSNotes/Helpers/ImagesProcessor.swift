@@ -25,17 +25,15 @@ public class ImagesProcessor {
     var textStorageNSString: NSString
     var styleApplier: NSMutableAttributedString
     var range: NSRange?
-    var maxWidth: CGFloat
     var note: Note
     var paragraphRange: NSRange
     
     var offset = 0
     var newLineOffset = 0
     
-    init(styleApplier: NSMutableAttributedString, range: NSRange? = nil, maxWidth: CGFloat, note: Note) {
+    init(styleApplier: NSMutableAttributedString, range: NSRange? = nil, note: Note) {
         self.styleApplier = styleApplier
         self.range = range
-        self.maxWidth = maxWidth
         self.note = note
         self.textStorageNSString = styleApplier.string as NSString
         
@@ -55,7 +53,6 @@ public class ImagesProcessor {
             range = NSRange(location: range.location - offset, length: range.length)
             let mdLink = self.styleApplier.attributedSubstring(from: range).string
             let title = self.getTitle(link: mdLink)
-            offset += mdLink.count - 1
             
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
@@ -97,6 +94,7 @@ public class ImagesProcessor {
                 let cacheUrl = self.note.project?.url.appendingPathComponent("/.cache/")
                 let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl)
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
+                    offset += mdLink.count - 1
                     self.styleApplier.replaceCharacters(in: range, with: attributedStringWithImage)
                 }
             }
@@ -146,17 +144,15 @@ public class ImagesProcessor {
     }
     
     func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
+        guard let noteStorage = self.note.project else { return nil }
+        
         var notePath: String
-        
-        guard let noteStorage = self.note.project else {
-            return nil
-        }
-        
         let storagePath = noteStorage.url.path
         
-        if note.type == .TextBundle {
-            if let name = path.removingPercentEncoding {
-                return "\(note.url.path)/\(name)"
+        if path.starts(with: "/i/") {
+            let path = getFilePath(innerRange: innerRange)
+            if let project = note.project {
+                return project.url.path + path
             }
         }
         
@@ -165,8 +161,15 @@ public class ImagesProcessor {
             return notePath
         }
         
+        if note.type == .TextBundle {
+            if let name = path.removingPercentEncoding {
+                return "\(note.url.path)/\(name)"
+            }
+        }
+
         let path = getFilePath(innerRange: innerRange)
         notePath = storagePath + "/" + path
+        
         return notePath
     }
     
@@ -251,29 +254,6 @@ public class ImagesProcessor {
             return false
         }
     }
-  
-    func getImageAttributedString(image: Image) -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        
-        let attachment = NSTextAttachment()
-        
-        #if os(OSX)
-            let fileWrapper = FileWrapper.init()
-            fileWrapper.icon = image
-            attachment.fileWrapper = fileWrapper
-        #else
-            attachment.image = resizeImage(image: image, maxWidth: maxWidth)
-        #endif
-        
-        let attributedString = NSAttributedString(attachment: attachment)
-        let mutableString = NSMutableAttributedString(attributedString: attributedString)
-        
-        mutableString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<1))
-        
-        return mutableString
-    }
     
     func isContainAttachment(innerRange: NSRange, mdTitleLength: Int) -> Bool {
         let j = offset + newLineOffset - mdTitleLength
@@ -294,38 +274,4 @@ public class ImagesProcessor {
         
         return false
     }
-    
-    #if os(OSX)
-    func computeInEditorSize(image: Image) -> Size {
-        let realSize = image.representations[0]
-        var scale: CGFloat = 1
-    
-        if CGFloat(realSize.pixelsWide) > self.maxWidth {
-            scale = (self.maxWidth - 20) / CGFloat(realSize.pixelsWide)
-        }
-    
-        let width = CGFloat(realSize.pixelsWide) * scale
-        let height = CGFloat(realSize.pixelsHigh) * scale
-    
-        return Size(width: width, height: height)
-    }
-    #endif
-    
-    #if os(iOS)
-    func resizeImage(image: UIImage, maxWidth: CGFloat) -> UIImage? {
-        guard image.size.width > maxWidth else {
-            return image
-        }
-        
-        let scale = maxWidth / image.size.width
-        let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSize(width: maxWidth, height: newHeight))
-        image.draw(in: CGRect(x: 0, y: 0, width: maxWidth, height: newHeight))
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    #endif
 }

@@ -9,6 +9,7 @@
 import Cocoa
 import MASShortcut
 import CoreData
+import FSNotesCore_macOS
 
 class PrefsViewController: NSViewController {
 
@@ -134,7 +135,11 @@ class PrefsViewController: NSViewController {
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
         if UserDefaultsManagement.liveImagesPreview {
-            controller?.editArea.unLoadImages()
+            if let note = EditTextView.note, let storage = controller?.editArea.textStorage {
+                let processor = ImagesProcessor(styleApplier: storage, note: note)
+                processor.unLoad()
+                storage.setAttributedString(note.content)
+            }
         }
         
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)

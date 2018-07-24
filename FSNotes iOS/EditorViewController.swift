@@ -15,6 +15,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private var isHighlighted: Bool = false
     private var downView: MarkdownView?
+    private var isUndo = false
     
     @IBOutlet weak var editArea: EditTextView!
     
@@ -134,7 +135,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let range = NSRange(0..<storage.length)
         
         if UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: storage, range: range, maxWidth: width, note: note)
+            let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
         }
         
@@ -150,11 +151,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         switch note.type {
         case .PlainText:
             editArea.font = UserDefaultsManagement.noteFont
-        case .RichText:
-            break
-        case .Markdown:
+        default:
             return
         }
+        
+        editArea.applyLeftParagraphStyle()
     }
     
     func loadPreview(note: Note) {
@@ -164,7 +165,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let markdownString = note.getPrettifiedContent()
         
         do {
-            guard let imagesStorage = note.project?.url else { return }
+            guard var imagesStorage = note.project?.url else { return }
+            
+            if note.type == .TextBundle {
+                imagesStorage = note.url
+            }
             
             if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
                 downView.translatesAutoresizingMaskIntoConstraints = false
@@ -213,10 +218,28 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return false
         }
         
+        // Delete backward pressed
+        if self.deleteBackwardPressed(text: text) {
+            self.editArea.deleteBackward()
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.deleteKey()
+            return false
+        }
+
+        // New line
         if text == "\n" {
-            self.editArea.insertText("\n")
-            let formatter = TextFormatter(textView: self.editArea, note: note)
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            
+            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
+            processor.scanParagraph()
+            return false
+        }
+        
+        // Tab
+        if text == "\t" {
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
             return false
         }
         
@@ -248,6 +271,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return true
     }
     
+    private func deleteBackwardPressed(text: String) -> Bool {
+        if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
+            return true
+        }
+        
+        self.isUndo = false
+        
+        return false
+    }
+    
+    var inProgress = false
+    var change = 0
+    
     func textViewDidChange(_ textView: UITextView) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -270,9 +306,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         let range = editArea.selectedRange
         let storage = editArea.textStorage
-        let width = editArea.frame.width
-        
-        let processor = NotesTextProcessor(note: note, storage: storage, range: range, maxWidth: width)
+        let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
@@ -281,7 +315,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
-        note.save(needImageUnLoad: true)
+        
+        DispatchQueue.global().async {
+            if !self.inProgress {
+                var lastChange = self.change
+                self.change += 1
+                
+                while lastChange != self.change {
+                    note.save()
+                    lastChange += 1
+                }
+                
+                self.inProgress = false
+            } else {
+                self.change += 1
+            }
+        }
         
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
@@ -405,6 +454,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
         }
         
+        self.isUndo = true
         um.undo()
         ea.initUndoRedoButons()
     }

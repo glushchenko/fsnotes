@@ -10,6 +10,8 @@ import Cocoa
 import Foundation
 import Carbon.HIToolbox
 
+import FSNotesCore_macOS
+
 class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
     
     var sidebarItems: [SidebarItem]? = nil
@@ -137,7 +139,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             for url in urls {
                 let name = url.lastPathComponent
                 let note = Note(url: url)
-                note.parseURL()
                 note.reloadFileContent()
                 note.project = project
                 note.url = project.url.appendingPathComponent(name)
@@ -251,6 +252,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
+            
+            case .Todo:
+                cell.icon.image = NSImage(imageLiteralResourceName: "todo.png")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
             }
         }
         return cell
@@ -281,6 +287,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             return
         }
         
+        if UserDataService.instance.isNotesTableEscape {
+            UserDataService.instance.isNotesTableEscape = false
+        }
+        
         self.deselectAllTags()
         
         if let view = notification.object as? NSOutlineView {
@@ -292,16 +302,20 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             let i = view.selectedRow
             if sidebar.indices.contains(i) {
                 UserDefaultsManagement.lastProject = i
-                vd.updateTable() {
-                    if self.isFirstLaunch {
-                        if let url = UserDefaultsManagement.lastSelectedURL, let lastNote = vd.storage.getBy(url: url), let i = vd.notesTableView.getIndex(lastNote) {
-                            vd.notesTableView.selectRow(i)
-                            vd.notesTableView.scrollRowToVisible(i)
-                        } else if vd.notesTableView.noteList.count > 0 {
-                            vd.focusTable()
-                        }
-                        self.isFirstLaunch = false
+            }
+            
+            vd.updateTable() {
+                if self.isFirstLaunch {
+                    if let url = UserDefaultsManagement.lastSelectedURL,
+                        let lastNote = vd.storage.getBy(url: url),
+                        let i = vd.notesTableView.getIndex(lastNote)
+                    {
+                        vd.notesTableView.selectRow(i)
+                        vd.notesTableView.scrollRowToVisible(i)
+                    } else if vd.notesTableView.noteList.count > 0 {
+                        vd.focusTable()
                     }
+                    self.isFirstLaunch = false
                 }
             }
         }

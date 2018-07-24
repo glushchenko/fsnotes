@@ -7,7 +7,12 @@
 //
 
 import Foundation
-import Cocoa
+
+#if os(OSX)
+    import Cocoa
+#else
+    import UIKit
+#endif
 
 class ImageAttachment {
     private var title: String
@@ -55,7 +60,7 @@ class ImageAttachment {
             fileWrapper.icon = image
             attachment.fileWrapper = fileWrapper
         #else
-            attachment.image = image
+            attachment.image = resizeImage(image: image)
         #endif
         
         let attributedString = NSAttributedString(attachment: attachment)
@@ -77,5 +82,32 @@ class ImageAttachment {
         
         return mutableString
     }
+    
+    #if os(iOS)
+        private func resizeImage(image: UIImage) -> UIImage? {
+            guard
+                let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+                let evc = viewController.viewControllers[0] as? EditorViewController else {
+                    return nil
+            }
+            
+            let maxWidth = evc.view.frame.width
+            
+            guard image.size.width > maxWidth else {
+                return image
+            }
+            
+            let scale = maxWidth / image.size.width
+            let newHeight = image.size.height * scale
+            UIGraphicsBeginImageContext(CGSize(width: maxWidth, height: newHeight))
+            image.draw(in: CGRect(x: 0, y: 0, width: maxWidth, height: newHeight))
+            
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            return newImage
+        }
+    #endif
 
 }

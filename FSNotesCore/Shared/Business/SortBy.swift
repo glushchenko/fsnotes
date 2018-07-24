@@ -6,8 +6,10 @@
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Foundation
+
 enum SortBy: String {
-    case ModificationDate = "modificationDate"
-    case CreationDate = "creationDate"
-    case Title = "title"
+    case modificationDate = "modificationDate"
+    case creationDate = "creationDate"
+    case title = "title"
 }

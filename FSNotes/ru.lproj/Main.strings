@@ -61,7 +61,7 @@
 /* Class = "NSTextFieldCell"; title = "Code theme:"; ObjectID = "6F0-Cb-DVX"; */
 "6F0-Cb-DVX.title" = "Оформление кода:";
 
-/* Class = "NSTextFieldCell"; title = "Language:"; ObjectID = "6yz-uX-0Fr"; */
+/* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "6yz-uX-0Fr"; */
 "6yz-uX-0Fr.title" = "Язык (требуется перезапуск):";
 
 /* Class = "NSMenuItem"; title = "Open external"; ObjectID = "7MT-fy-lXN"; */
@@ -488,7 +488,7 @@
 "wpr-3q-Mcd.title" = "Помощь";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
-"x3v-GG-iWU.title" = "Copy";
+"x3v-GG-iWU.title" = "Копировать";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "XBB-Sr-T1D"; */
 "XBB-Sr-T1D.title" = "Переименовать";
@@ -538,4 +538,6 @@
 /* Class = "NSTextFieldCell"; title = "Open in external editor:"; ObjectID = "zcY-e5-gKs"; */
 "zcY-e5-gKs.title" = "Внешний редактор:";
 
+/* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "Выбирать заметку, если тело соответствует запросу";
+

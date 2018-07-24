@@ -167,8 +167,8 @@ class NoteCellView: NSTableCellView {
     }
     
     func renderPin() {
-        if let note = objectValue  {
-            pin.isHidden = !(note as! Note).isPinned
+        if let value = objectValue, let note = value as? Note  {
+            pin.isHidden = !note.isPinned
         }
     }
 }
