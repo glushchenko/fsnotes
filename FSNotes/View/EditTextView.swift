@@ -863,10 +863,8 @@ class EditTextView: NSTextView {
         
         let char = attributedSubstring(forProposedRange: range, actualRange: nil)
         if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
-            if let url = URL(string: link as! String) {
-                NSWorkspace.shared.open(url)
-                return
-            }
+            super.clicked(onLink: link, at: charIndex)
+            return
         }
         
         if !UserDefaultsManagement.liveImagesPreview {
