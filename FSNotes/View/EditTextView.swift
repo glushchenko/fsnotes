@@ -137,6 +137,10 @@ class EditTextView: NSTextView {
         }
         super.mouseDown(with: event)
         saveCursorPosition()
+        
+        if !UserDefaultsManagement.preview {
+            self.isEditable = true
+        }
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {

@@ -38,11 +38,11 @@ extension NSTextStorage {
         attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         attachmentParagraph.alignment = .center
 
-        addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraph, range: NSRange(0..<length))
+        addAttribute(.paragraphStyle, value: paragraph, range: NSRange(0..<length))
 
         enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if value as? NSTextAttachment != nil {
-                addAttribute(NSAttributedStringKey.paragraphStyle, value: attachmentParagraph, range: range)
+                addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
             }
         }
 
