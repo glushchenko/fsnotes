@@ -48,99 +48,24 @@ class ViewController: NSViewController,
     @IBOutlet weak var sortByOutlet: NSMenuItem!
 
     // MARK: - Overrides
-    override func viewDidAppear() {
-        self.view.window!.title = "FSNotes"
-        self.view.window!.titlebarAppearsTransparent = true
-        
-        if (sidebarSplitView.subviews.count > 1) {
-            sidebarSplitView.subviews[1].viewBackgroundColor = NSColor.white
-        }
-        
-        editArea.textContainerInset.height = 0
-        editArea.textContainerInset.width = 5
-        editArea.isEditable = false
-        editArea.backgroundColor = UserDefaultsManagement.bgColor
-        editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        editArea.defaultParagraphStyle = paragraphStyle
-        editArea.typingAttributes[.paragraphStyle] = paragraphStyle
-        
-        if (UserDefaultsManagement.horizontalOrientation) {
-            self.splitView.isVertical = false
-        }
-        
-        shareButton.sendAction(on: .leftMouseDown)
-        
-        setTableRowHeight()
-        
-        super.viewDidAppear()
-        
-        sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
-        splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
-    }
     
     override func viewDidLoad() {
-        titleLabel.stringValue = "FSNotes"
+        self.storage.loadDocuments()
         
-        checkSidebarConstraint()
-        
-        super.viewDidLoad()
-        
-        editArea.delegate = self
-        search.vcDelegate = self
-        
-        sidebarSplitView.delegate = self
-        storageOutlineView.viewDelegate = self
-        
-        if storage.noteList.count == 0 {
-            storage.loadDocuments()
-        }
-    
-        // Init sidebar items
-        let sidebar = Sidebar()
-        self.storageOutlineView.sidebarItems = sidebar.getList()
-        
-        updateTable() {
-            let lastSidebarItem = UserDefaultsManagement.lastProject
-            if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
-                self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
-            }
-        }
+        self.configureShortcuts()
+        self.configureDelegates()
+        self.configureLayout()
+        self.configureNotesList()
         
         self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
         self.fsManager?.start()
-        
-        let font = UserDefaultsManagement.noteFont
-        editArea.font = font
-        
-        // Global shortcuts monitoring
-        MASShortcutMonitor.shared().register(UserDefaultsManagement.newNoteShortcut, withAction: {
-            self.makeNoteShortcut()
-        })
-        
-        MASShortcutMonitor.shared().register(UserDefaultsManagement.searchNoteShortcut, withAction: {
-            self.searchShortcut()
-        })
-        
-        // Local shortcuts monitoring
-        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
-            return $0
-        }
-        
-        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
-            if self.keyDown(with: $0) {
-                return $0
-            }
-            return NSEvent()
-        }
-                
-        loadMoveMenu()
-        loadSortBySetting()
+
+        self.loadMoveMenu()
+        self.loadSortBySetting()
+        self.checkSidebarConstraint()
         
         #if CLOUDKIT
-            keyValueWatcher()
+            self.registerKeyValueObserver()
         #endif
     }
     
@@ -191,7 +116,80 @@ class ViewController: NSViewController,
         
         return true
     }
-
+    
+    // MARK: - Initial configuration
+    
+    private func configureLayout() {
+        self.titleLabel.stringValue = "FSNotes"
+        
+        self.editArea.textContainerInset.height = 0
+        self.editArea.textContainerInset.width = 5
+        self.editArea.isEditable = false
+        self.editArea.backgroundColor = UserDefaultsManagement.bgColor
+        self.editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        self.editArea.defaultParagraphStyle = paragraphStyle
+        self.editArea.typingAttributes[.paragraphStyle] = paragraphStyle
+        
+        self.editArea.font = UserDefaultsManagement.noteFont
+        
+        if (sidebarSplitView.subviews.count > 1) {
+            self.sidebarSplitView.subviews[1].viewBackgroundColor = NSColor.white
+        }
+        
+        if (UserDefaultsManagement.horizontalOrientation) {
+            self.splitView.isVertical = false
+        }
+        
+        self.shareButton.sendAction(on: .leftMouseDown)
+        self.setTableRowHeight()
+        self.storageOutlineView.sidebarItems = Sidebar().getList()
+        
+        self.sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
+        self.splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
+    }
+    
+    private func configureNotesList() {
+        self.updateTable() {
+            let lastSidebarItem = UserDefaultsManagement.lastProject
+            if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
+                self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+            }
+        }
+    }
+    
+    private func configureShortcuts() {
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.newNoteShortcut, withAction: {
+            self.makeNoteShortcut()
+        })
+        
+        MASShortcutMonitor.shared().register(UserDefaultsManagement.searchNoteShortcut, withAction: {
+            self.searchShortcut()
+        })
+        
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.flagsChanged) {
+            return $0
+        }
+        
+        NSEvent.addLocalMonitorForEvents(matching: NSEvent.EventTypeMask.keyDown) {
+            if self.keyDown(with: $0) {
+                return $0
+            }
+            return NSEvent()
+        }
+    }
+    
+    private func configureDelegates() {
+        self.editArea.delegate = self
+        self.search.vcDelegate = self
+        self.sidebarSplitView.delegate = self
+        self.storageOutlineView.viewDelegate = self
+    }
+    
+    // MARK: - Actions
+    
     @IBAction func searchAndCreate(_ sender: Any) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         
@@ -969,7 +967,13 @@ class ViewController: NSViewController,
     }
     
     func searchShortcut() {
-        if (NSApplication.shared.isActive && !NSApplication.shared.isHidden) {
+        guard let mainWindow = NSApplication.shared.windows.first else { return }
+
+        if (
+            NSApplication.shared.isActive
+            && !NSApplication.shared.isHidden
+            && !mainWindow.isMiniaturized
+        ) {
             NSApplication.shared.hide(nil)
             return
         }
@@ -977,14 +981,12 @@ class ViewController: NSViewController,
         UserDataService.instance.isShortcutCall = true
         
         NSApp.activate(ignoringOtherApps: true)
-        NSApp.mainWindow?.makeKeyAndOrderFront(self)
+        mainWindow.makeKeyAndOrderFront(self)
         
-        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        guard let controller = mainWindow.contentViewController as? ViewController
+            else { return }
         
-        if let search = controller?.search {
-            NSApp.mainWindow?.makeFirstResponder(search)
-            search.becomeFirstResponder()
-        }
+        mainWindow.makeFirstResponder(controller.search)
     }
     
     func moveNoteToTop(note index: Int) {
@@ -1231,14 +1233,10 @@ class ViewController: NSViewController,
         }
     }
     
-    func keyValueWatcher() {
+    func registerKeyValueObserver() {
         let keyStore = NSUbiquitousKeyValueStore()
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(
-                                                ViewController.ubiquitousKeyValueStoreDidChange),
-                                               name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-                                               object: keyStore)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyStore)
         
         keyStore.synchronize()
     }
