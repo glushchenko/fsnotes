@@ -477,7 +477,7 @@ class EditTextView: NSTextView {
                 self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
                 
                 let paragraphRange = (storage.string as NSString).paragraphRange(for: sRange)
-                if self.isCodeBlock(range: paragraphRange) {
+                if self.isCodeBlock(range: paragraphRange) && note.isMarkdown() {
                     let attributes = getCodeBlockAttributes()
                     storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
                 }
@@ -554,8 +554,8 @@ class EditTextView: NSTextView {
     
     public func applyStyle(_ text: String) -> NSMutableAttributedString {
         let attributedText = NSMutableAttributedString(string: text)
-        
-        guard attributedText.length > 0 else { return attributedText }
+
+        guard attributedText.length > 0, let note = EditTextView.note, note.isMarkdown() else { return attributedText }
         
         if let paragraphRange = getParagraphRange(), self.isCodeBlock(range: paragraphRange) {
             let range = NSRange(0..<text.count)
@@ -905,18 +905,11 @@ class EditTextView: NSTextView {
                 }
             }
             
-            NSApp.abortModal()
-            if let alert = vc.alert {
-                NSApp.windows[0].endSheet(alert.window)
-                vc.alert = nil
-            }
             
-            return
+            vc.alert = nil
         }
         
         field.becomeFirstResponder()
     }
-    
-    
     
 }

@@ -344,8 +344,9 @@ public class TextFormatter {
         
         guard sRange.location > 0,
             let pr = self.getParagraphRange(for: sRange.location),
-            let currentPR = getParagraphRange()
-            else { return }
+            let currentPR = getParagraphRange(),
+            self.note.isMarkdown()
+        else { return }
         
         // This is code block and not first position
         
@@ -371,7 +372,10 @@ public class TextFormatter {
         let sRange = self.textView.selectedRange
         
         // Middle
-        if (sRange.location != 0 || sRange.location != storage.length) && paragraph.count == 1 {
+        if (sRange.location != 0 || sRange.location != storage.length)
+            && paragraph.count == 1
+            && self.note.isMarkdown()
+        {
             self.insertText("\t", replacementRange: sRange)
             let attributes = self.getCodeBlockAttributes()
             let attributeRange = NSRange(location: sRange.location, length: 2)
@@ -380,7 +384,7 @@ public class TextFormatter {
         }
         
         // First & Last
-        if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 {
+        if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 && self.note.isMarkdown() {
             let codeStyle = self.addCodeBlockStyle("\t\n")
             self.insertText(codeStyle, replacementRange: sRange)
             
@@ -392,7 +396,7 @@ public class TextFormatter {
             return
         }
         
-        if self.isCodeBlock(range: currentPR) {
+        if self.isCodeBlock(range: currentPR), note.isMarkdown() {
             self.insertText("\t", replacementRange: sRange)
             
             let attributes = self.getCodeBlockAttributes()
@@ -430,7 +434,7 @@ public class TextFormatter {
         
         // Fenced code block style handler
         
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string) {
+        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
             let attributes = self.getCodeBlockAttributes()
             self.storage.addAttributes(attributes, range: fencedRange)
         }
@@ -670,7 +674,7 @@ public class TextFormatter {
     private func addCodeBlockStyle(_ text: String) -> NSMutableAttributedString {
         let attributedText = NSMutableAttributedString(string: text)
         
-        guard attributedText.length > 0 else { return attributedText }
+        guard attributedText.length > 0, self.note.isMarkdown() else { return attributedText }
         
         let range = NSRange(0..<text.count)
         attributedText.addAttributes(self.getCodeBlockAttributes(), range: range)

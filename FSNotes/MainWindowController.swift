@@ -23,11 +23,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     func windowDidResize(_ notification: Notification) {
         refreshEditArea()
     }
-    
-    func windowDidDeminiaturize(_ notification: Notification) {
-        refreshEditArea()
-    }
-    
+        
     func makeNew() {
         window?.makeKeyAndOrderFront(self)
         NSApp.activate(ignoringOtherApps: true)

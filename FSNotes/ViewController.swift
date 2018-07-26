@@ -311,10 +311,16 @@ class ViewController: NSViewController,
     }
         
     public func keyDown(with event: NSEvent) -> Bool {
+        guard self.alert == nil else {
+            if event.keyCode == kVK_Escape, let unwrapped = alert {
+                NSApp.windows[0].endSheet(unwrapped.window)
+            }
+            return true
+        }
         
         // Return / Cmd + Return navigation
         if event.keyCode == kVK_Return {
-            if let fr = NSApp.mainWindow?.firstResponder {
+            if let fr = NSApp.mainWindow?.firstResponder, self.alert == nil {
                 if event.modifierFlags.contains(.command) {
                     if fr.isKind(of: NotesTableView.self) {
                         NSApp.mainWindow?.makeFirstResponder(self.storageOutlineView)
@@ -357,11 +363,6 @@ class ViewController: NSViewController,
         
         // Focus search bar on ESC
         if (event.keyCode == kVK_Escape) {
-            if let a = alert {
-                NSApp.windows[0].endSheet(a.window)
-                return true
-            }
-            
             let hasSelectedNotes = notesTableView.selectedRow > -1
             let hasSelectedBarItem = storageOutlineView.selectedRow > -1
             
@@ -595,7 +596,7 @@ class ViewController: NSViewController,
         }
         
         if isTrash {
-            let alert = NSAlert.init()
+            let alert = NSAlert()
             alert.messageText = String(format: NSLocalizedString("Are you sure you want to irretrievably delete %d note(s)?", comment: ""), notes.count)
             
             alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
@@ -695,11 +696,7 @@ class ViewController: NSViewController,
                 }
             }
             
-            NSApp.abortModal()
-            if let alert = vc.alert {
-                NSApp.windows[0].endSheet(alert.window)
-                vc.alert = nil
-            }
+            vc.alert = nil
         }
         
         field.becomeFirstResponder()
