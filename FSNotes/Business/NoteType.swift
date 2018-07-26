@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NoteType: String {
+public enum NoteType: String {
     case Markdown = "md"
     case RichText = "rtf"
     case PlainText = "txt"

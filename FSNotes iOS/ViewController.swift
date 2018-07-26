@@ -249,7 +249,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         search.text = ""
         
         let note = Note(name: name, project: project)
-        note.initURL()
         note.save()
         
         updateList()
@@ -267,7 +266,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         guard let project = storage.getProjects().first else { return }
         
         let note = Note(name: "", project: project)
-        note.initURL()
         note.content = NSMutableAttributedString(string: content)
         note.save()
         updateList()
@@ -361,7 +359,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         let note = Note(name: "", project: currentProject)
-        note.initURL()
         
         if let tag = tag {
             note.tagNames.append(tag)

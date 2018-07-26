@@ -9,7 +9,7 @@
 
 import Foundation
 
-public class Note: NSObject {
+public class Note: CoreNote {
     @objc var title: String = ""
     var project: Project? = nil
     var type: NoteType = .Markdown
@@ -28,7 +28,6 @@ public class Note: NSObject {
     public var name: String = ""
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()
-    public var undoManager = UndoManager()
     
     init(url: URL) {
         self.url = url
@@ -37,15 +36,21 @@ public class Note: NSObject {
             self.project = project
         }
         
-        super.init()
-        
+        super.init(fileURL: url)
         self.parseURL()
     }
     
-    init(name: String, project: Project) {
+    init(name: String, project: Project, type: NoteType? = nil) {
         self.project = project
-        self.name = name
-        type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        self.name = name        
+        self.type = type ?? NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        
+        if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: self.type) {
+            url = uniqURL
+        }
+        
+        super.init(fileURL: self.url)
+        parseURL()
     }
     
     public func loadProject(url: URL) {
@@ -57,7 +62,9 @@ public class Note: NSObject {
     }
     
     func initURL() {
-        if let uniqURL = getUniqueFileName(name: name) {
+        guard let project = self.project else { return }
+        
+        if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: type) {
             url = uniqURL
         }
         
@@ -120,7 +127,7 @@ public class Note: NSObject {
         
         do {
             try FileManager.default.moveItem(at: url, to: to)
-            print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
+            NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
         } catch {}
     }
     
@@ -167,12 +174,12 @@ public class Note: NSObject {
                     return [reserveDst, url]
                 }
                 
-                print("Note moved to trash: \(name)")
+                NSLog("Note moved to trash: \(name)")
                 
                 return [dst, url]
             }
         } catch let error as NSError {
-            print("Remove went wrong: \(error)")
+            NSLog("Remove went wrong: \(error)")
             return nil
         }
         
@@ -232,7 +239,7 @@ public class Note: NSObject {
             guard let docUrl = url else { return nil }
             return try NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
         } catch {
-            print(error.localizedDescription)
+            NSLog(error.localizedDescription)
         }
         
         return nil
@@ -252,13 +259,13 @@ public class Note: NSObject {
             
             modifiedLocalAt = fileAttribute[FileAttributeKey.modificationDate] as? Date
         } catch {
-            print(error.localizedDescription)
+            NSLog(error.localizedDescription)
         }
         
         return modifiedLocalAt
     }
     
-    func getUniqueFileName(name: String, i: Int = 0, prefix: String = "") -> URL? {
+    public static func getUniqueFileName(name: String, i: Int = 0, prefix: String = "", project: Project, type: NoteType) -> URL? {
         let defaultName = "Untitled Note"
         
         var name = name
@@ -272,9 +279,7 @@ public class Note: NSObject {
             name = defaultName
         }
         
-        guard let p = project else { return nil }
-        
-        var fileUrl = p.url
+        var fileUrl = project.url
         fileUrl.appendPathComponent(name)
         fileUrl.appendPathExtension(type.rawValue)
         
@@ -282,7 +287,7 @@ public class Note: NSObject {
         if fileManager.fileExists(atPath: fileUrl.path) {
             let j = i + 1
             let newName = defaultName + " " + String(j)
-            return getUniqueFileName(name: newName, i: j, prefix: prefix)
+            return Note.getUniqueFileName(name: newName, i: j, prefix: prefix, project: project, type: type)
         }
         
         return fileUrl
@@ -416,17 +421,19 @@ public class Note: NSObject {
             
             guard let docUrl = url else { return }
             
-            try fileWrapper?.write(to: docUrl, options: FileWrapper.WritingOptions.atomic, originalContentsURL: nil)
-            
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
+            #if os(iOS)
+                try self.writeContents(fileWrapper, andAttributes: attributes, safelyTo: docUrl, for: .forOverwriting)
+            #else
+                try self.write(to: docUrl, ofType: self.type.rawValue)
+            #endif
         } catch {
-            print("Write error \(error)")
+            NSLog("Write error \(error)")
             return
         }
         
         sharedStorage.add(self)
     }
-    
+        
     private func writeTextBundleInfo(url: URL) {
         let url = url.appendingPathComponent("info.json")
         
@@ -576,7 +583,7 @@ public class Note: NSObject {
         try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
     }
     
-    public func duplicate() -> Note {
+    public func duplicateNote() -> Note {
         var url: URL = self.url
 
         let ext = url.pathExtension

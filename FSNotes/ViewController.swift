@@ -1020,15 +1020,7 @@ class ViewController: NSViewController,
         disablePreview()
         editArea.string = text
         
-        let note = Note(name: name, project: project)
-        
-        if let unwrappedType = type {
-            note.type = unwrappedType
-        } else {
-            note.type = NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
-        }
-        
-        note.initURL()
+        let note = Note(name: name, project: project, type: type)
         note.content = NSMutableAttributedString(string: text)
         note.isCached = true
         note.save()
@@ -1283,7 +1275,7 @@ class ViewController: NSViewController,
     
     @IBAction func duplicate(_ sender: Any) {
         if let note = notesTableView.getSelectedNote() {
-            let newNote = note.duplicate()
+            let newNote = note.duplicateNote()
             self.notesTableView.insertNew(note: newNote)
         }
     }

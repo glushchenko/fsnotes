@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Project: Equatable {
+public class Project: Equatable {
     var url: URL
     var label: String
     var isTrash: Bool
@@ -41,7 +41,7 @@ class Project: Equatable {
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
     
-    static func == (lhs: Project, rhs: Project) -> Bool {
+    public static func == (lhs: Project, rhs: Project) -> Bool {
         return lhs.url == rhs.url
     }
     

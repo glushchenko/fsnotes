@@ -179,8 +179,9 @@ class EditTextView: NSTextView {
         subviews.removeAll()
         
         if let appd = NSApplication.shared.delegate as? AppDelegate,
-            let md = appd.mainWindowController {
-            md.editorUndoManager = note.undoManager
+            let md = appd.mainWindowController,
+            let undo = note.undoManager {
+            md.editorUndoManager = undo
         }
         
         isEditable = !UserDefaultsManagement.preview
