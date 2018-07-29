@@ -26,7 +26,7 @@ public extension String {
     
     public func getPrefixMatchSequentially(char: String) -> String? {
         var result = String()
-        
+
         for current in self {
             if current.description == char {
                 result += char
@@ -34,16 +34,24 @@ public extension String {
             }
             break
         }
-        
+
         if result.count > 0 {
             return result
         }
-        
+
         return nil
     }
-    
+
     func localizedCaseInsensitiveContainsTerms(_ terms: [Substring]) -> Bool {
         // Use magic from https://stackoverflow.com/a/41902740/2778502
         return terms.first(where: { !self.localizedLowercase.contains($0) }) == nil
+    }
+
+    public func removeLastNewLine() -> String {
+        if self.last == "\n" {
+            return String(self.dropLast())
+        }
+        
+        return self
     }
 }

@@ -143,20 +143,6 @@ class EditTextView: NSTextView {
         }
     }
     
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        //return super.performKeyEquivalent(with: event)
-        /* Skip command-shift-b conflicted with cmd-b */
-        if
-            event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
-            && event.keyCode == kVK_ANSI_B {
-            
-            return super.performKeyEquivalent(with: event)
-        }
-        
-        return super.performKeyEquivalent(with: event)
-    }
-    
     func getSelectedNote() -> Note? {
         let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
@@ -546,6 +532,17 @@ class EditTextView: NSTextView {
         processor.scanParagraph()
         cacheNote(note: note)
         note.save()
+    }
+    
+    override func copy(_ sender: Any?) {
+        if self.selectedRange.length == 0, let paragraphRange = self.getParagraphRange(), let paragraph = attributedSubstring(forProposedRange: paragraphRange, actualRange: nil) {
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(paragraph.string.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
+            return
+        }
+        
+        super.copy(sender)
     }
     
     private func isCodeBlock(paragraph: String) -> Bool {
