@@ -860,9 +860,12 @@ class ViewController: NSViewController,
         
         filteredNoteList =
             source.filter() { note in
+                let searchContent = "\(note.name) \(note.content.string)"
                 return (
                     !note.name.isEmpty
-                    && (filter.isEmpty && type != .Todo || note.contains(terms: terms))
+                    && (
+                        filter.isEmpty && type != .Todo
+                        || !terms.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)})
                     && (
                         type == .All && note.project != nil && !note.project!.isArchive
                             || type == .Tag && note.tagNames.contains(sidebarName)
@@ -877,6 +880,7 @@ class ViewController: NSViewController,
                         || type != .Trash && !note.isTrash()
                     )
                 )
+            )
         }
         
         if let unwrappedList = filteredNoteList {
