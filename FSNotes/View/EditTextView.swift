@@ -271,6 +271,8 @@ class EditTextView: NSTextView {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = false
         viewController.titleLabel.stringValue = "FSNotes"
+        
+        EditTextView.note = nil
     }
     
     func formatShortcut(keyCode: UInt16, modifier: NSEvent.ModifierFlags) -> Bool {

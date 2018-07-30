@@ -859,28 +859,24 @@ class ViewController: NSViewController,
         }
         
         filteredNoteList =
-            source.filter() { note in
-                let searchContent = "\(note.name) \(note.content.string)"
+            source.filter() {
                 return (
-                    !note.name.isEmpty
-                    && (
-                        filter.isEmpty && type != .Todo
-                        || !terms.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)})
-                    && (
-                        type == .All && note.project != nil && !note.project!.isArchive
-                            || type == .Tag && note.tagNames.contains(sidebarName)
-                            || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                            || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
-                            || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
-                            || type == .Trash
-                            || type == .Todo
-                            || type == .Archive && note.project != nil && note.project!.isArchive
-                    ) && (
-                        type == .Trash && note.isTrash()
-                        || type != .Trash && !note.isTrash()
+                    !$0.name.isEmpty
+                        && (filter.isEmpty && type != .Todo || $0.contains(terms: terms))
+                        && (
+                            type == .All && $0.project != nil && !$0.project!.isArchive
+                                || type == .Tag && $0.tagNames.contains(sidebarName)
+                                || [.Category, .Label].contains(type) && selectedProject != nil && $0.project == selectedProject
+                                || type == nil && selectedProject == nil && $0.project != nil && !$0.project!.isArchive
+                                || selectedProject != nil && selectedProject!.isRoot && $0.project?.parent == selectedProject
+                                || type == .Trash
+                                || type == .Todo
+                                || type == .Archive && $0.project != nil && $0.project!.isArchive
+                        ) && (
+                            type == .Trash && $0.isTrash()
+                                || type != .Trash && !$0.isTrash()
                     )
                 )
-            )
         }
         
         if let unwrappedList = filteredNoteList {
