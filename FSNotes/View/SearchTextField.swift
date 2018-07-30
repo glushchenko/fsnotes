@@ -18,15 +18,9 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     private var filterQueue = OperationQueue.init()
     private var searchTimer = Timer()
     
-    public var allowAutocomplete = true
     public var searchQuery = ""
     public var selectedRange = NSRange()
-    
-    override func draw(_ dirtyRect: NSRect) {
-        delegate = self
-        super.draw(dirtyRect)
-    }
-    
+        
     override func controlTextDidEndEditing(_ obj: Notification) {
         focusRingType = .none
     }
@@ -57,7 +51,6 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
                 && event.modifierFlags.contains(.command)
             )
         ) {
-            allowAutocomplete = true
             searchQuery = ""
             return true
         }
@@ -65,28 +58,11 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         return super.performKeyEquivalent(with: event)
     }
     
-    public func suggestAutocomplete(_ note: Note) {
-        if note.title == stringValue {
-            return
-        }
-        
-        searchQuery = stringValue
-        
-        if allowAutocomplete && note.title.lowercased().starts(with: searchQuery.lowercased()) {
-            let text = searchQuery + note.title.suffix(note.title.count - searchQuery.count)
-            stringValue = text
-            currentEditor()?.selectedRange = NSRange(searchQuery.utf16.count..<note.title.utf16.count)
-            allowAutocomplete = false
-        }
-    }
-    
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
         switch commandSelector.description {
         case "cancelOperation:":
-            allowAutocomplete = true
             return true
         case "deleteBackward:":
-            allowAutocomplete = false
             textView.deleteBackward(self)
             return true
         case "insertNewline:":
@@ -115,7 +91,6 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         filterQueue.addOperation {
             DispatchQueue.main.async {
                 self.vcDelegate.updateTable(search: true) {
-                    self.allowAutocomplete = true
                     if UserDefaultsManagement.focusInEditorOnNoteSelect {
                         self.searchTimer.invalidate()
                         self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
@@ -130,5 +105,5 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     @objc func onEndSearch() {
         UserDataService.instance.searchTrigger = false
     }
-
+    
 }

@@ -184,6 +184,7 @@ class ViewController: NSViewController,
     private func configureDelegates() {
         self.editArea.delegate = self
         self.search.vcDelegate = self
+        self.search.delegate = self.search
         self.sidebarSplitView.delegate = self
         self.storageOutlineView.viewDelegate = self
     }
@@ -889,7 +890,6 @@ class ViewController: NSViewController,
             if search {
                 if (self.notesTableView.noteList.count > 0) {
                     let note = self.notesTableView.noteList[0]
-                    self.search.suggestAutocomplete(note)
                     
                     if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().starts(with: filter){
                         self.selectNullTableRow()
