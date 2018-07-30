@@ -11,21 +11,11 @@ import Foundation
 public class UserDataService {
     public static let instance = UserDataService()
 
-    fileprivate var _isShortcutCall = false
     fileprivate var _searchTrigger = false
     fileprivate var _lastRenamed: URL?
     fileprivate var _fsUpdates = false
     fileprivate var _skipListReload = false
     fileprivate var _isNotesTableEscape = false
-
-    public var isShortcutCall: Bool {
-        get {
-            return _isShortcutCall
-        }
-        set {
-            _isShortcutCall = newValue
-        }
-    }
 
     public var searchTrigger: Bool {
         get {

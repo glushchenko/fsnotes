@@ -22,16 +22,6 @@ class UserDataServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testIsShortcutCall() {
-        XCTAssertFalse(service.isShortcutCall)
-
-        service.isShortcutCall = true
-        XCTAssertTrue(service.isShortcutCall)
-
-        service.isShortcutCall = false
-        XCTAssertFalse(service.isShortcutCall)
-    }
-
     func testSearchTrigger() {
         XCTAssertFalse(service.searchTrigger)
 

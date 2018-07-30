@@ -87,18 +87,20 @@ public class TextFormatter {
         
         if type == .RichText {
             let newFont = toggleBoldFont(font: getTypingAttributes())
+            
+            #if os(iOS)
             guard attributedString.length > 0 else {
                 setTypingAttributes(font: newFont)
                 return
             }
+            #endif
             
             textView.undoManager?.beginUndoGrouping()
+            
             #if os(OSX)
-                if textView.selectedRange().length > 0 {
-                    let string = NSMutableAttributedString(attributedString: attributedString)
-                        string.addAttribute(.font, value: newFont, range: selectedRange)
-                    textView.insertText(string, replacementRange: textView.selectedRange())
-                }
+                let string = NSMutableAttributedString(attributedString: attributedString)
+                string.addAttribute(.font, value: newFont, range: selectedRange)
+                textView.insertText(string, replacementRange: textView.selectedRange())
                 setTypingAttributes(font: newFont)
             #else
                 let selectedRange = textView.selectedRange
@@ -111,6 +113,7 @@ public class TextFormatter {
                 textView.replace(selectedTextRange, withText: selectedText.string)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
             #endif
+            
             textView.undoManager?.endUndoGrouping()
         }
     }
@@ -125,18 +128,18 @@ public class TextFormatter {
         if type == .RichText {
             let newFont = toggleItalicFont(font: getTypingAttributes())
             
+            #if os(iOS)
             guard attributedString.length > 0 else {
                 setTypingAttributes(font: newFont)
                 return
             }
+            #endif
             
             textView.undoManager?.beginUndoGrouping()
             #if os(OSX)
-                if textView.selectedRange().length > 0 {
-                    let string = NSMutableAttributedString(attributedString: attributedString)
-                    string.addAttribute(.font, value: newFont, range: selectedRange)
-                    textView.insertText(string, replacementRange: textView.selectedRange())
-                }
+                let string = NSMutableAttributedString(attributedString: attributedString)
+                string.addAttribute(.font, value: newFont, range: selectedRange)
+                textView.insertText(string, replacementRange: textView.selectedRange())
                 setTypingAttributes(font: newFont)
             #else
                 let selectedRange = textView.selectedRange

@@ -146,12 +146,12 @@ class EditTextView: NSTextView {
     func getSelectedNote() -> Note? {
         let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
-        let note = viewController.notesTableView.getNoteFromSelectedRow()
+        let note = viewController.notesTableView.getSelectedNote()
         return note
     }
     
     var timer: Timer?
-    func fill(note: Note, highlight: Bool = false) {
+    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         guard let storage = textStorage else {
             return
         }
@@ -173,8 +173,10 @@ class EditTextView: NSTextView {
         isEditable = !UserDefaultsManagement.preview
         isRichText = note.isRTF()
         
-        typingAttributes.removeAll()
-        typingAttributes[.font] = UserDefaultsManagement.noteFont
+        if !saveTyping {
+            typingAttributes.removeAll()
+            typingAttributes[.font] = UserDefaultsManagement.noteFont
+        }
         
         if (UserDefaultsManagement.preview && !isRichText) {
             let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -202,7 +204,7 @@ class EditTextView: NSTextView {
         storage.setAttributedString(note.content)
         
         if !note.isMarkdown()  {
-            if note.type == .RichText {
+            if note.type == .RichText && !saveTyping {
                 storage.updateFont()
             }
             

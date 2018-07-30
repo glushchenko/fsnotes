@@ -287,7 +287,7 @@ class ViewController: NSViewController,
         notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
     }
     
-    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false) {
+    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
         guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
             return
         }
@@ -304,7 +304,7 @@ class ViewController: NSViewController,
             let selected = self.notesTableView.selectedRow
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
                 if let note = self.notesTableView.getSelectedNote() {
-                    self.editArea.fill(note: note)
+                    self.editArea.fill(note: note, saveTyping: saveTyping)
                     self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
                 }
             }
@@ -458,6 +458,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
+        print("new")
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
@@ -974,9 +975,7 @@ class ViewController: NSViewController,
             NSApplication.shared.hide(nil)
             return
         }
-        
-        UserDataService.instance.isShortcutCall = true
-        
+                
         NSApp.activate(ignoringOtherApps: true)
         mainWindow.makeKeyAndOrderFront(self)
         

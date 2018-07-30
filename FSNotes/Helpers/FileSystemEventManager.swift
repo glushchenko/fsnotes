@@ -187,16 +187,16 @@ class FileSystemEventManager {
                 note.reloadFileContent()
                 note.markdownCache()
                 
-                self.reloadTextView(note: note)
+                if note == EditTextView.note {
+                    self.delegate.refillEditArea()
+                }
             }
-        } else {
-            self.reloadTextView(note: note)
+            
+            return
         }
-    }
-    
-    private func reloadTextView(note: Note) {
+        
         if note == EditTextView.note {
-            self.delegate.refillEditArea()
+            self.delegate.refillEditArea(saveTyping: true)
         }
     }
     
