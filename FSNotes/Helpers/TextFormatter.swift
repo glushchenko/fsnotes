@@ -100,7 +100,7 @@ public class TextFormatter {
             #if os(OSX)
                 let string = NSMutableAttributedString(attributedString: attributedString)
                 string.addAttribute(.font, value: newFont, range: selectedRange)
-                textView.insertText(string, replacementRange: textView.selectedRange())
+                self.insertText(string, replacementRange: range, selectRange: range)
                 setTypingAttributes(font: newFont)
             #else
                 let selectedRange = textView.selectedRange
@@ -139,7 +139,7 @@ public class TextFormatter {
             #if os(OSX)
                 let string = NSMutableAttributedString(attributedString: attributedString)
                 string.addAttribute(.font, value: newFont, range: selectedRange)
-                textView.insertText(string, replacementRange: textView.selectedRange())
+                self.insertText(string, replacementRange: range, selectRange: range)
                 setTypingAttributes(font: newFont)
             #else
                 let selectedRange = textView.selectedRange

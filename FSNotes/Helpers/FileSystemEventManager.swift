@@ -165,38 +165,15 @@ class FileSystemEventManager {
     }
     
     private func reloadNote(note: Note) {
-        if note.isMarkdown() {
-            var content = String()
-            if note.type == .Markdown {
-                do {
-                    content = try String(contentsOf: note.url)
-                } catch {
-                    print(error)
-                }
-            }
-            
-            if note.type == .TextBundle {
-                do {
-                    content = try String(contentsOf: note.url.appendingPathComponent("text.markdown"))
-                } catch {
-                    print(error)
-                }
-            }
-            
-            if content != note.content.string {
-                note.reloadFileContent()
-                note.markdownCache()
-                
-                if note == EditTextView.note {
-                    self.delegate.refillEditArea()
-                }
-            }
-            
-            return
-        }
+        guard let fsContent = note.getContent() else { return }
+        let memoryContent = note.content.attributedSubstring(from: NSRange(0..<note.content.length))
         
-        if note == EditTextView.note {
-            self.delegate.refillEditArea(saveTyping: true)
+        if (note.isRTF() && fsContent != memoryContent)
+            || (!note.isRTF() && fsContent.string != memoryContent.string) {
+            note.content = NSMutableAttributedString(attributedString: fsContent)
+            note.markdownCache()
+            
+            self.delegate.refillEditArea()
         }
     }
     
