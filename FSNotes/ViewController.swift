@@ -458,7 +458,6 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
-        print("new")
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
@@ -862,9 +861,14 @@ class ViewController: NSViewController,
         
         filteredNoteList =
             source.filter() {
+                let searchContent = "\($0.name) \($0.content.string)"
+                
                 return (
                     !$0.name.isEmpty
-                        && (filter.isEmpty && type != .Todo || $0.contains(terms: terms))
+                        && (filter.isEmpty && type != .Todo
+                            || !terms.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
+                            })
+                        )
                         && (
                             type == .All && $0.project != nil && !$0.project!.isArchive
                                 || type == .Tag && $0.tagNames.contains(sidebarName)

@@ -318,7 +318,7 @@ class Storage {
         return note.isPinned && !next.isPinned
     }
     
-    func loadLabel(_ item: Project) {
+    func loadLabel(_ item: Project, shouldScanCache: Bool = false) {
         let keyStore = NSUbiquitousKeyValueStore()
         let documents = readDirectory(item.url)
 
@@ -374,6 +374,10 @@ class Storage {
             }
             
             noteList.append(note)
+            
+            if shouldScanCache {
+                note.markdownCache()
+            }
         }
     }
     
