@@ -25,6 +25,8 @@ class ViewController: NSViewController,
     var refilled: Bool = false
     var timer = Timer()
     var sidebarTimer = Timer()
+    let searchQueue = OperationQueue()
+    
 
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
@@ -67,6 +69,8 @@ class ViewController: NSViewController,
         #if CLOUDKIT
             self.registerKeyValueObserver()
         #endif
+        
+        searchQueue.maxConcurrentOperationCount = 1
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -844,70 +848,96 @@ class ViewController: NSViewController,
         return nil
     }
     
-    func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
-        let filter = self.search.stringValue.lowercased()
-        let sidebarName = getSidebarItem()?.name ?? ""
-        
-        let selectedProject = getSidebarProject()
-        let type = getSidebarType()
 
-        var terms = filter.split(separator: " ")
-        let source = storage.noteList
+    
+    func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
+        self.searchQueue.cancelAllOperations()
         
-        if let type = type, type == .Todo {
-            terms.append("- [ ]")
-            terms.append("- [x]")
-        }
+        let filter = self.search.stringValue.lowercased()
+        let sidebarName = self.getSidebarItem()?.name ?? ""
+        let selectedProject = self.getSidebarProject()
+        let type = self.getSidebarType()
         
-        filteredNoteList =
-            source.filter() {
-                let searchContent = "\($0.name) \($0.content.string)"
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+            
+            var terms = filter.split(separator: " ")
+            let source = self.storage.noteList
+            var notes = [Note]()
+            
+            if let type = type, type == .Todo {
+                terms.append("- [ ]")
+                terms.append("- [x]")
+            }
+            
+            for note in source {
+                if operation.isCancelled {
+                    break
+                }
                 
-                return (
-                    !$0.name.isEmpty
-                        && (filter.isEmpty && type != .Todo
-                            || !terms.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
-                            })
-                        )
+                if (!note.name.isEmpty
                         && (
-                            type == .All && $0.project != nil && !$0.project!.isArchive
-                                || type == .Tag && $0.tagNames.contains(sidebarName)
-                                || [.Category, .Label].contains(type) && selectedProject != nil && $0.project == selectedProject
-                                || type == nil && selectedProject == nil && $0.project != nil && !$0.project!.isArchive
-                                || selectedProject != nil && selectedProject!.isRoot && $0.project?.parent == selectedProject
+                            filter.isEmpty && type != .Todo
+                                || self.isMatched(note: note, terms: terms)
+                        ) && (
+                            type == .All && note.project != nil && !note.project!.isArchive
+                                || type == .Tag && note.tagNames.contains(sidebarName)
+                                || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
+                                || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
+                                || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
                                 || type == .Trash
                                 || type == .Todo
-                                || type == .Archive && $0.project != nil && $0.project!.isArchive
+                                || type == .Archive && note.project != nil && note.project!.isArchive
                         ) && (
-                            type == .Trash && $0.isTrash()
-                                || type != .Trash && !$0.isTrash()
+                            type == .Trash && note.isTrash()
+                                || type != .Trash && !note.isTrash()
                     )
-                )
-        }
-        
-        if let unwrappedList = filteredNoteList {
-            notesTableView.noteList = storage.sortNotes(noteList: unwrappedList, filter: self.search.stringValue)
-        }
-        
-        DispatchQueue.main.async {
-            self.notesTableView.reloadData()
+                ) {
+                    notes.append(note)
+                }
+            }
+
+            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, operation: operation)
             
-            if search {
-                if (self.notesTableView.noteList.count > 0) {
-                    let note = self.notesTableView.noteList[0]
-                    
-                    if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().starts(with: filter){
-                        self.selectNullTableRow()
+            if operation.isCancelled {
+                completion()
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.notesTableView.reloadData()
+                
+                if search {
+                    if (self.notesTableView.noteList.count > 0) {
+                        let note = self.notesTableView.noteList[0]
+                        
+                        if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().starts(with: filter){
+                            self.selectNullTableRow()
+                        } else {
+                            self.editArea.clear()
+                        }
                     } else {
                         self.editArea.clear()
                     }
-                } else {
-                    self.editArea.clear()
                 }
+                
+                completion()
+            }
+        }
+        
+        self.searchQueue.addOperation(operation)
+    }
+    
+    private func isMatched(note: Note, terms: [Substring]) -> Bool {
+        for term in terms {
+            if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {
+                continue
             }
             
-            completion()
+            return false
         }
+        
+        return true
     }
     
     @objc func selectNullTableRow() {
@@ -1036,12 +1066,14 @@ class ViewController: NSViewController,
         
         self.search.stringValue.removeAll()
         updateTable() {
-            if let index = self.notesTableView.getIndex(note) {
-                self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
-                self.notesTableView.scrollRowToVisible(index)
-            }
+            DispatchQueue.main.async {
+                if let index = self.notesTableView.getIndex(note) {
+                    self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
+                    self.notesTableView.scrollRowToVisible(index)
+                }
             
-            self.focusEditArea()
+                self.focusEditArea()
+            }
         }
     }
     
@@ -1060,16 +1092,10 @@ class ViewController: NSViewController,
             cell.renderPin()
         }
 
-
         let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
         let indexes = updatedNotes.compactMap({ _, note in resorted.index(of: note) })
         let newIndexes = IndexSet(indexes)
 
-        print("")
-        print("\(updatedNotes)")
-        print("")
-        print("resorted \(resorted)")
-        print("prestate \(state)")
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
         for (row, note) in nowPinned {
