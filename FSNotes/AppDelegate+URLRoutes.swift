@@ -61,16 +61,16 @@ extension AppDelegate {
         }
     }
     
-    /// Handles URLs with the path /find/title
+    /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
-        let name = url.lastPathComponent
-        if let note = storage.getBy(title: name),
-            let window = NSApplication.shared.windows.first,
-            let controller = window.contentViewController as? ViewController {
-            controller.updateTable() {
-                controller.notesTableView.setSelected(note: note)
+        guard let window = NSApplication.shared.windows.first,
+            let controller = window.contentViewController as? ViewController
+            else {
+                return
             }
-        }
+        
+        controller.search.stringValue = url.lastPathComponent
+        controller.updateTable(search: true)
     }
     
     /// Handles URLs with the following paths:
@@ -119,7 +119,7 @@ extension AppDelegate {
         }
     }
     
-    /// Handle URLs in the format nv://find/note%20title
+    /// Handle URLs in the format nv://find/searchstring1%20searchstring2
     ///
     /// Note: this route is identical to the corresponding FSNotes route.
     ///
