@@ -32,7 +32,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
             return
         }
         
-        if (event.keyCode == kVK_LeftArrow) {
+        if (event.keyCode == kVK_LeftArrow && stringValue.count == 0) {
             vcDelegate.storageOutlineView.window?.makeFirstResponder(vcDelegate.storageOutlineView)
             vcDelegate.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
             return
@@ -65,7 +65,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         case "deleteBackward:":
             textView.deleteBackward(self)
             return true
-        case "insertNewline:":
+        case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
             if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased().starts(with: searchQuery.lowercased()) {
                 vcDelegate.focusEditArea()
             } else {

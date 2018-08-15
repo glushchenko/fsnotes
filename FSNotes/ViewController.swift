@@ -381,12 +381,14 @@ class ViewController: NSViewController,
             
             cleanSearchAndEditArea()
             storageOutlineView.deselectAll(nil)
-            updateTable()
+            
+            return true
         }
         
         // Focus search field shortcut (cmd-L)
         if (event.keyCode == kVK_ANSI_L && event.modifierFlags.contains(.command)) {
             search.becomeFirstResponder()
+            return true
         }
         
         // Note edit mode and select file name (cmd-r)
@@ -396,6 +398,7 @@ class ViewController: NSViewController,
             && !event.modifierFlags.contains(.shift)
         ) {
             renameNote(selectedRow: notesTableView.selectedRow)
+            return true
         }
         
         // Make note shortcut (cmd-n)
@@ -405,6 +408,7 @@ class ViewController: NSViewController,
             && !event.modifierFlags.contains(.shift)
         ) {
             makeNote(SearchTextField())
+            return true
         }
         
         // Make note shortcut (cmd-n)
@@ -414,11 +418,13 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.shift)
         ) {
             fileMenuNewRTF(NSTextField())
+            return true
         }
         
         // Pin note shortcut (cmd-8)
         if (event.keyCode == kVK_ANSI_8 && event.modifierFlags.contains(.command)) {
             pin(notesTableView.selectedRowIndexes)
+            return true
         }
         
         // Next note (cmd-j)
@@ -428,11 +434,13 @@ class ViewController: NSViewController,
             && !event.modifierFlags.contains(.option)
         ) {
             notesTableView.selectNext()
+            return true
         }
         
         // Prev note (cmd-k)
         if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
             notesTableView.selectPrev()
+            return true
         }
                 
         // Open in external editor (cmd-control-e)
@@ -442,6 +450,7 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.control)
         ) {
             external(selectedRow: notesTableView.selectedRow)
+            return true
         }
         
         // Open in finder (cmd-shift-r)
@@ -451,11 +460,13 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.shift)
         ) {
             finder(selectedRow: notesTableView.selectedRow)
+            return true
         }
         
         // Toggle sidebar cmd+shift+control+b
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
+            return true
         }
         
         return true
@@ -867,7 +878,6 @@ class ViewController: NSViewController,
             
             if let type = type, type == .Todo {
                 terms.append("- [ ]")
-                terms.append("- [x]")
             }
             
             for note in source {
@@ -878,6 +888,10 @@ class ViewController: NSViewController,
                 if (!note.name.isEmpty
                         && (
                             filter.isEmpty && type != .Todo
+                                || type == .Todo && (
+                                    self.isMatched(note: note, terms: ["- [ ]"])
+                                    || self.isMatched(note: note, terms: ["- [x]"])
+                                )
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
                             type == .All && note.project != nil && !note.project!.isArchive
