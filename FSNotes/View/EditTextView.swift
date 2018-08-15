@@ -133,7 +133,7 @@ class EditTextView: NSTextView {
     override func mouseDown(with event: NSEvent) {
         let viewController = self.window?.contentViewController as! ViewController
         if (!viewController.emptyEditAreaImage.isHidden) {
-            viewController.makeNote(SearchTextField())
+            viewController.makeNote(viewController.search)
         }
         super.mouseDown(with: event)
         saveCursorPosition()

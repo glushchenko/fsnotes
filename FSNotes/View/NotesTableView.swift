@@ -133,8 +133,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func getSelectedNote() -> Note? {
         var note: Note? = nil
-        if (noteList.indices.contains(selectedRow)) {
-            note = noteList[selectedRow]
+        let row = selectedRow
+        if (noteList.indices.contains(row)) {
+            note = noteList[row]
         }
         return note
     }
