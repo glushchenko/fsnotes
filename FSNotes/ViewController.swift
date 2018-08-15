@@ -633,7 +633,7 @@ class ViewController: NSViewController,
             return
         }
         
-        let selectedRow = vc.notesTableView.selectedRow
+        let selectedRow = vc.notesTableView.selectedRow - notes.count + 1
         
         UserDataService.instance.searchTrigger = true
         vc.editArea.clear()
