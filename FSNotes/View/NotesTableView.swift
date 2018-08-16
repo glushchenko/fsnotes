@@ -50,6 +50,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return true
     }
+    
+    override func rightMouseDown(with event: NSEvent) {
+        let point = self.convert(event.locationInWindow, from: nil)
+        let i = row(at: point)
+        if self.noteList.indices.contains(i) {
+            self.selectRow(i)
+        }
+        super.rightMouseDown(with: event)
+    }
         
     // Custom note highlight style
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
