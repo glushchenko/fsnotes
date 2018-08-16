@@ -911,6 +911,7 @@ class ViewController: NSViewController,
                 }
             }
 
+            self.filteredNoteList = notes
             self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, operation: operation)
             
             if operation.isCancelled {
@@ -1120,7 +1121,6 @@ class ViewController: NSViewController,
             state.insert(toMove, at: newRow)
         }
 
-        print("state \(state)")
         let nowUnpinned = updatedNotes
             .filter({ (_, note) -> Bool in !note.isPinned })
             .compactMap({ (_, note) -> (Int, Note)? in
@@ -1134,9 +1134,7 @@ class ViewController: NSViewController,
             let toMove = state.remove(at: row)
             state.insert(toMove, at: newRow)
         }
-        print("poststate \(state)")
 
-        print("to reload: \(indexes)")
         notesTableView.noteList = resorted
         notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
         notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
