@@ -196,7 +196,7 @@ class CloudDriveManager {
                 let dateString: String = dateFormatter.string(from: date)
                 let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
                 
-                let documents = UserDefaultsManagement.documentDirectory
+                let documents = UserDefaultsManagement.storageUrl
                 
                 do {
                     if let to = documents?.appendingPathComponent(conflictName) {
