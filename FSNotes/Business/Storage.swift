@@ -146,15 +146,7 @@ class Storage {
         
         return nil
     }
-    
-    private func getLocalURL() -> URL? {
-        guard let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first else {
-            return nil
-        }
-        
-        return URL(fileURLWithPath: path)
-    }
-        
+            
     func projectExist(url: URL) -> Bool {
         return projects.contains(where: {$0.url == url})
     }
@@ -519,7 +511,7 @@ class Storage {
         
         return nil
 #else
-        return UserDefaultsManagement.documentDirectory
+        return UserDefaultsManagement.iCloudDocumentsContainer
 #endif
     }
             

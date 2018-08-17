@@ -167,10 +167,9 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var documentDirectory: URL? {
+    static var iCloudDocumentsContainer: URL? {
         get {
             if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
-                
                 if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                     do {
                         try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
@@ -183,11 +182,17 @@ public class UserDefaultsManagement {
                    return iCloudDocumentsURL
                 }
             }
-            
+
+            return nil
+        }
+    }
+    
+    static var localDocumentsContainer: URL? {
+        get {
             if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
                 return URL(fileURLWithPath: path)
             }
-    
+ 
             return nil
         }
     }
@@ -195,21 +200,29 @@ public class UserDefaultsManagement {
     static var storagePath: String? {
         get {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
-                
                 do {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
-                    
                     return storagePath as? String
                 } catch {
-                    print(error)
+                    self.storagePath = nil
+                    print("Storage path not accessible, settings resetted to default")
                 }
             }
-            
-            if let dd = documentDirectory {
-                return dd.path
+
+            if let iCloudDocumentsURL = self.iCloudDocumentsContainer {
+                self.storagePath = iCloudDocumentsURL.path
+                return iCloudDocumentsURL.path
             }
             
-            return nil
+            #if os(iOS)
+                return self.localDocumentsContainer?.path
+            #endif
+            
+            #if CLOUDKIT && os(macOS)
+                return nil
+            #else
+                return self.localDocumentsContainer?.path
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
@@ -609,20 +622,28 @@ public class UserDefaultsManagement {
             if
                 let path = UserDefaults.standard.object(forKey: Constants.ArchiveDirectoryKey) as? String,
                 let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                
-                return URL(string: "file://" + encodedPath + "/")
+                if let url = URL(string: "file://" + encodedPath + "/") {
+                    do {
+                        try FileManager.default.contentsOfDirectory(atPath: url.path)
+                        return URL(string: "file://" + encodedPath + "/")
+                    } catch {
+                        self.archiveDirectory = nil
+                        print("Archive path not accessible, settings resetted to default")
+                    }
+                }
             }
             
             if let archive = storageUrl?.appendingPathComponent("Archive") {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
-                        
+                        self.archiveDirectory = archive
                         return archive
                     } catch {
                         print(error)
                     }
                 } else {
+                    self.archiveDirectory = archive
                     return archive
                 }
             }

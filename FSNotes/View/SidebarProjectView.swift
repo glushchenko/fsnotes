@@ -96,7 +96,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         switch sidebarItem.type {
         case .Tag:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-                let vc = getViewController()
+                guard let vc = getViewController() else { return false }
                 
                 for row in rows {
                     let note = vc.notesTableView.noteList[row]
@@ -109,7 +109,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             break
         case .Label, .Category, .Trash, .Archive:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-                let vc = getViewController()
+                guard let vc = getViewController() else { return false }
                 
                 var notes = [Note]()
                 for row in rows {
@@ -378,8 +378,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @IBAction func renameMenu(_ sender: Any) {
-        let vc = getViewController()
-        guard let v = vc.storageOutlineView else { return }
+        guard let vc = getViewController(), let v = vc.storageOutlineView else { return }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems,
@@ -396,8 +395,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @IBAction func deleteMenu(_ sender: Any) {
-        let vc = getViewController()
-        guard let v = vc.storageOutlineView else { return }
+        guard let vc = getViewController(), let v = vc.storageOutlineView else { return }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems, si.indices.contains(selected) else { return }
@@ -431,8 +429,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @IBAction func addProject(_ sender: Any) {
-        let vc = getViewController()
-        guard let v = vc.storageOutlineView else { return }
+        guard let vc = getViewController(), let v = vc.storageOutlineView else { return }
         
         var unwrappedProject: Project?
         if let si = v.getSidebarItem(),
@@ -540,15 +537,12 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
 
     
-    private func getViewController() -> ViewController {
-        let vc = NSApp.windows.first?.contentViewController as? ViewController
-        
-        return vc!
+    private func getViewController() -> ViewController? {
+        return NSApp.windows.first?.contentViewController as? ViewController
     }
     
     private func getSidebarItem() -> SidebarItem? {
-        let vc = getViewController()
-        guard let v = vc.storageOutlineView else { return nil }
+        guard let vc = getViewController(), let v = vc.storageOutlineView else { return nil }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems,
@@ -559,7 +553,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     @objc public func reloadSidebar() {
-        let vc = getViewController()
+        guard let vc = getViewController() else { return }
         vc.fsManager?.restart()
         vc.loadMoveMenu()
         

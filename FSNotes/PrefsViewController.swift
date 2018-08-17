@@ -63,7 +63,7 @@ class PrefsViewController: NSViewController {
         }
     }
     
-    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+    let viewController = NSApplication.shared.windows.first?.contentViewController as? ViewController
     let storage = Storage.sharedInstance()
     
     override func viewDidLoad() {
@@ -110,7 +110,9 @@ class PrefsViewController: NSViewController {
         
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
         
-        archivePathControl.url = UserDefaultsManagement.archiveDirectory
+        if let archiveDirectory = UserDefaultsManagement.archiveDirectory {
+            archivePathControl.url = archiveDirectory
+        }
         
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
         
@@ -366,7 +368,7 @@ class PrefsViewController: NSViewController {
                 self.archivePathControl.url = url
                 
                 let storage = self.storage
-                let vc = self.viewController
+                guard let vc = self.viewController else { return }
                 
                 if let archive = storage.getArchive() {
                     archive.url = url
@@ -385,7 +387,7 @@ class PrefsViewController: NSViewController {
     @IBAction func lineSpacing(_ sender: NSSlider) {
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
         
-        self.viewController.editArea.applyLeftParagraphStyle()
+        self.viewController?.editArea.applyLeftParagraphStyle()
     }
     
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {

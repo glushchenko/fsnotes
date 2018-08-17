@@ -21,8 +21,7 @@ class SandboxBookmark {
         return sandbox
     }
     
-    func bookmarkPath() -> String
-    {
+    func bookmarkPath() -> String {
         var url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         url = url.appendingPathComponent("Bookmarks.dict")
         
@@ -99,5 +98,19 @@ class SandboxBookmark {
         let value = bookmarks[url]
         bookmarks[new] = value
         save()
+    }
+    
+    public func save(url: URL) {
+        let path = bookmarkPath()
+
+        if self.bookmarks.isEmpty,
+            FileManager.default.fileExists(atPath: path),
+            let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data]
+        {
+            self.bookmarks = bookmarks
+        }
+        
+        self.store(url: url)
+        self.save()
     }
 }

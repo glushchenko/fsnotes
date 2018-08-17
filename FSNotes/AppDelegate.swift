@@ -12,9 +12,7 @@ import FSNotesCore_macOS
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var mainWindowController: MainWindowController?
-    var storage = Storage.sharedInstance()
-    
+    var mainWindowController: MainWindowController?    
     var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
@@ -28,8 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         mainWindowController?.makeNew()
     }
     
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        
+    func applicationDidFinishLaunching(_ aNotification: Notification) {        
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
         NSFontManager.shared.fontPanel(false)?.orderOut(self)
@@ -58,10 +55,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
-    }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        if UserDefaultsManagement.storagePath == nil {
+            self.requestStorageDirectory()
+            return
+        }
+        
+        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+        
+        guard let mainWC = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainWindowController")) as? MainWindowController else {
+            fatalError("Error getting main window controller")
+        }
+        
+        self.mainWindowController = mainWC
+        mainWC.window?.makeKeyAndOrderFront(nil)
     }
         
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -72,5 +79,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
                 
         return true
+    }
+    
+    private func restartApp() {
+        guard let resourcePath = Bundle.main.resourcePath else { return }
+        
+        let url = URL(fileURLWithPath: resourcePath)
+        let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+        let task = Process()
+        
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [path]
+        task.launch()
+        
+        exit(0)
+    }
+    
+    private func requestStorageDirectory() {
+        var directoryURL: URL? = nil
+        if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+            directoryURL = URL(fileURLWithPath: path)
+        }
+        
+        let panel = NSOpenPanel()
+        panel.directoryURL = directoryURL
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.canCreateDirectories = true
+        panel.message = "Please select default storage directory"
+        panel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = panel.url else {
+                    return
+                }
+                
+                let bookmarks = SandboxBookmark.sharedInstance()
+                bookmarks.save(url: url)
+                
+                UserDefaultsManagement.storagePath = url.path
+                
+                self.restartApp()
+            } else {
+                exit(EXIT_SUCCESS)
+            }
+        }
     }
 }
