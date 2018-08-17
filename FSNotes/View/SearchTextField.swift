@@ -20,6 +20,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     
     public var searchQuery = ""
     public var selectedRange = NSRange()
+    public var skipAutocomplete = false
         
     override func controlTextDidEndEditing(_ obj: Notification) {
         focusRingType = .none
@@ -40,6 +41,10 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         
         if event.keyCode == kVK_Return {
             vcDelegate.focusEditArea()
+        }
+
+        if self.skipAutocomplete {
+           self.skipAutocomplete = false
         }
     }
  
@@ -63,6 +68,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
         case "cancelOperation:":
             return true
         case "deleteBackward:":
+            self.skipAutocomplete = true
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
@@ -104,6 +110,20 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     
     @objc func onEndSearch() {
         UserDataService.instance.searchTrigger = false
+    }
+    
+    public func suggestAutocomplete(_ note: Note) {
+        if note.title == self.stringValue {
+            return
+        }
+        
+        let searchQuery = self.stringValue
+        
+        if note.title.lowercased().starts(with: searchQuery.lowercased()) {
+            let text = searchQuery + note.title.suffix(note.title.count - searchQuery.count)
+            stringValue = text
+            currentEditor()?.selectedRange = NSRange(searchQuery.utf16.count..<note.title.utf16.count)
+        }
     }
     
 }

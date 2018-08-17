@@ -926,7 +926,11 @@ class ViewController: NSViewController,
                     if (self.notesTableView.noteList.count > 0) {
                         let note = self.notesTableView.noteList[0]
                         
-                        if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().starts(with: filter){
+                        if !self.search.skipAutocomplete {
+                            self.search.suggestAutocomplete(note)
+                        }
+                        
+                        if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased() {
                             self.selectNullTableRow()
                         } else {
                             self.editArea.clear()
