@@ -618,9 +618,12 @@ class Storage {
         while let url = fileEnumerator.nextObject() as? NSURL {
             i = i + 1
             do {
-                var resourceValue: AnyObject?
-                try url.getResourceValue(&resourceValue, forKey: URLResourceKey.isDirectoryKey)
-                if let isDirectory = resourceValue as? Bool, isDirectory == true {
+                var isDirectoryResourceValue: AnyObject?
+                try url.getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
+                var isPackageResourceValue: AnyObject?
+                try url.getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
+                if isDirectoryResourceValue as? Bool == true,
+                    isPackageResourceValue as? Bool == false {
                     subdirs.append(url)
                 }
             }
