@@ -204,13 +204,11 @@ public class UserDefaultsManagement {
                     try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
                     return storagePath as? String
                 } catch {
-                    self.storagePath = nil
                     print("Storage path not accessible, settings resetted to default")
                 }
             }
 
             if let iCloudDocumentsURL = self.iCloudDocumentsContainer {
-                self.storagePath = iCloudDocumentsURL.path
                 return iCloudDocumentsURL.path
             }
             

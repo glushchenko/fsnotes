@@ -442,16 +442,6 @@ class ViewController: NSViewController,
             notesTableView.selectPrev()
             return true
         }
-                
-        // Open in external editor (cmd-control-e)
-        if (
-            event.keyCode == kVK_ANSI_E
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.control)
-        ) {
-            external(selectedRow: notesTableView.selectedRow)
-            return true
-        }
         
         // Open in finder (cmd-shift-r)
         if (
