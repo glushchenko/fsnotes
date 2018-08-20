@@ -628,7 +628,9 @@ class ViewController: NSViewController,
         UserDataService.instance.searchTrigger = true
         vc.editArea.clear()
         vc.storage.removeNotes(notes: notes) { urls in
+            UserDataService.instance.skipListReload = true
             vc.storageOutlineView.reloadSidebar()
+            
             DispatchQueue.main.async {
                 vc.notesTableView.removeByNotes(notes: notes)
                 
