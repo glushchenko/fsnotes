@@ -153,6 +153,7 @@ CA
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="ZGt-g7-vcX"/>
                                         <menuItem title="Print" keyEquivalent="p" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
@@ -1623,6 +1624,13 @@ CA
                                 <action selector="copyURL:" target="rPt-NT-nkU" id="zCA-0T-c96"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Copy title" keyEquivalent="c" id="3kn-9C-fsB">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="fMM-tl-BQP"/>
                         <menuItem title="Print" keyEquivalent="p" id="nCW-CZ-qC7">
                             <connections>
                                 <action selector="printNotes:" target="rPt-NT-nkU" id="f6C-X6-WZP"/>
