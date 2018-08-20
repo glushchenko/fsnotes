@@ -147,6 +147,12 @@ CA
                                                 <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Copy title" keyEquivalent="c" identifier="fileMenu.copyTitle" id="5LV-Vi-n79">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Print" keyEquivalent="p" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
@@ -217,7 +223,7 @@ CA
                                         </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
                                             <connections>
-                                                <action selector="copy:" target="Ady-hI-5gd" id="G1f-GL-Joy"/>
+                                                <action selector="noteCopy:" target="Ady-hI-5gd" id="zTp-S5-AZJ"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">

@@ -1310,6 +1310,18 @@ class ViewController: NSViewController,
         }
     }
     
+    @IBAction func noteCopy(_ sender: Any) {
+        guard let fr = self.view.window?.firstResponder else { return }
+        
+        if fr.isKind(of: EditTextView.self) {
+            self.editArea.copy(sender)
+        }
+        
+        if fr.isKind(of: NotesTableView.self) {
+            self.saveTextAtClipboard()
+        }
+    }
+    
     @IBAction func copyURL(_ sender: Any) {
         if let note = notesTableView.getSelectedNote(), let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
 
@@ -1323,6 +1335,14 @@ class ViewController: NSViewController,
             notification.informativeText = NSLocalizedString("URL has been copied to clipboard", comment: "") 
             notification.soundName = NSUserNotificationDefaultSoundName
             NSUserNotificationCenter.default.deliver(notification)
+        }
+    }
+    
+    @IBAction func copyTitle(_ sender: Any) {
+        if let note = notesTableView.getSelectedNote() {
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
         }
     }
     
