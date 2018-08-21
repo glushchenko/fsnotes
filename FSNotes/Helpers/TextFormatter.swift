@@ -512,8 +512,12 @@ public class TextFormatter {
     }
     
     #if os(OSX)
-    public func toggleTodo() {
-        guard let paragraphRange = getParagraphRange() else { return }
+    public func toggleTodo(customRange: NSRange? = nil) {
+        guard var paragraphRange = getParagraphRange() else { return }
+        
+        if let customRange = customRange {
+            paragraphRange = customRange
+        }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
         

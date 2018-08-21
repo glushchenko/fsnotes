@@ -85,12 +85,71 @@ class EditTextView: NSTextView {
         }
     }
 
+    override func mouseDown(with event: NSEvent) {
+        let viewController = self.window?.contentViewController as! ViewController
+        if (!viewController.emptyEditAreaImage.isHidden) {
+            viewController.makeNote(viewController.search)
+        }
+        
+        let point = self.convert(event.locationInWindow, from: nil)
+        if let index = self.layoutManager?.characterIndex(for: point, in: textContainer!, fractionOfDistanceBetweenInsertionPoints: nil),
+            isTodo(index)
+        {
+            let range = selectedRange()
+            super.mouseDown(with: event)
+            
+            guard let f = self.getTextFormatter() else { return }
+            f.toggleTodo()
+            setSelectedRange(range)
+            
+            NSCursor.pointingHand.set()
+            return
+        }
+        
+        super.mouseDown(with: event)
+        saveCursorPosition()
+        
+        if !UserDefaultsManagement.preview {
+            self.isEditable = true
+        }
+    }
+    
     override func mouseMoved(with event: NSEvent) {
+        let point = self.convert(event.locationInWindow, from: nil)
+        guard let container = self.textContainer, let manager = self.layoutManager else { return }
+        let index = manager.characterIndex(for: point, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if self.isTodo(index) {
+            NSCursor.pointingHand.set()
+            return
+        }
+        
         if UserDefaultsManagement.preview {
             return
         }
         
         super.mouseMoved(with: event)
+    }
+    
+    private func isTodo(_ location: Int) -> Bool {
+        guard let storage = self.textStorage else { return false }
+        
+        let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
+        let string = storage.attributedSubstring(from: range).string as NSString
+        
+        var length = string.range(of: "- [ ]").length
+        if length == 0 {
+            length = string.range(of: "- [x]").length
+        }
+        
+        if length > 0 {
+            let upper = range.location + length
+            if location >= range.location && location <= upper {
+                return true
+            }
+        }
+
+        return false
     }
     
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
@@ -128,19 +187,6 @@ class EditTextView: NSTextView {
         let viewController = mainWindow?.contentViewController as! ViewController
         
         viewController.togglePreview()
-    }
-    
-    override func mouseDown(with event: NSEvent) {
-        let viewController = self.window?.contentViewController as! ViewController
-        if (!viewController.emptyEditAreaImage.isHidden) {
-            viewController.makeNote(viewController.search)
-        }
-        super.mouseDown(with: event)
-        saveCursorPosition()
-        
-        if !UserDefaultsManagement.preview {
-            self.isEditable = true
-        }
     }
     
     func getSelectedNote() -> Note? {
