@@ -512,25 +512,33 @@ public class TextFormatter {
     }
     
     #if os(OSX)
-    public func toggleTodo(customRange: NSRange? = nil) {
+    public func toggleTodo(_ location: Int? = nil) {
         guard var paragraphRange = getParagraphRange() else { return }
         
-        if let customRange = customRange {
-            paragraphRange = customRange
+        if let location = location{
+            let string = self.storage.string as NSString
+            paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
         
         if paragraph.string.hasPrefix("- [ ]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            textView.insertText("- [x]", replacementRange: range)
+            self.textView.insertText(self.getAttributedTodoString("- [x]"), replacementRange: range)
         } else if paragraph.string.hasPrefix("- [x]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            textView.insertText("- [ ]", replacementRange: range)
+            self.textView.insertText(self.getAttributedTodoString("- [ ]"), replacementRange: range)
         } else {
             let range = NSRange(location: paragraphRange.location, length: 0)
-            textView.insertText("- [ ] ", replacementRange: range)
+            self.textView.insertText(self.getAttributedTodoString("- [ ] "), replacementRange: range)
         }
+    }
+    
+    private func getAttributedTodoString(_ string: String) -> NSAttributedString {
+        let string = NSMutableAttributedString(string: string)
+        string.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: NSRange(0..<1))
+        string.addAttribute(.foregroundColor, value: NSColor.black, range: NSRange(1..<string.length))
+        return string
     }
     #endif
     

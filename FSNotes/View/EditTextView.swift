@@ -95,14 +95,12 @@ class EditTextView: NSTextView {
         if let index = self.layoutManager?.characterIndex(for: point, in: textContainer!, fractionOfDistanceBetweenInsertionPoints: nil),
             isTodo(index)
         {
-            let range = selectedRange()
-            super.mouseDown(with: event)
-            
             guard let f = self.getTextFormatter() else { return }
-            f.toggleTodo()
-            setSelectedRange(range)
+            f.toggleTodo(index)
             
-            NSCursor.pointingHand.set()
+            DispatchQueue.main.async {
+                NSCursor.pointingHand.set()
+            }
             return
         }
         
@@ -113,6 +111,8 @@ class EditTextView: NSTextView {
             self.isEditable = true
         }
     }
+    
+    
     
     override func mouseMoved(with event: NSEvent) {
         let point = self.convert(event.locationInWindow, from: nil)
