@@ -27,7 +27,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let n = note, n.isMarkdown() {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
-                
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
+        self.editArea.addGestureRecognizer(tap)
+        
         super.viewDidLoad()
         
         addToolBar(textField: editArea)
@@ -376,6 +379,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+        let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
         
@@ -383,7 +387,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
         
-        toolBar.setItems([boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+        toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
         
@@ -427,6 +431,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.header("#")
+        }
+    }
+    
+    @objc func todoPressed() {
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.toggleTodo()
         }
     }
     
@@ -517,6 +528,56 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
         }
+    }
+    
+    @objc private func tapHandler(_ sender: UITapGestureRecognizer) {
+        let myTextView = sender.view as! UITextView
+        let layoutManager = myTextView.layoutManager
+        
+        var location = sender.location(in: myTextView)
+        location.x -= myTextView.textContainerInset.left;
+        location.y -= myTextView.textContainerInset.top;
+        
+        var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if characterIndex < myTextView.textStorage.length, self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
+            let textFormatter = TextFormatter(textView: self.editArea!, note: note)
+            let range = myTextView.selectedRange
+            textFormatter.toggleTodo(characterIndex)
+            textFormatter.setSelectedRange(range)
+            
+            return
+        }
+        
+        DispatchQueue.main.async {
+            self.editArea.becomeFirstResponder()
+            
+            if myTextView.textStorage.length > 0 && characterIndex == myTextView.textStorage.length - 1 {
+                characterIndex += 1
+            }
+            
+            self.editArea.selectedRange = NSMakeRange(characterIndex, 0)
+        }
+    }
+    
+    private func isTodo(location: Int, textView: UITextView) -> Bool {
+        let storage = textView.textStorage
+        let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
+        let string = storage.attributedSubstring(from: range).string as NSString
+        
+        var length = string.range(of: "- [ ]").length
+        if length == 0 {
+            length = string.range(of: "- [x]").length
+        }
+        
+        if length > 0 {
+            let upper = range.location + length
+            if location >= range.location && location <= upper {
+                return true
+            }
+        }
+        
+        return false
     }
 
 }

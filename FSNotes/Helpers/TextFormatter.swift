@@ -13,10 +13,12 @@ import Foundation
     import Carbon.HIToolbox
     typealias Font = NSFont
     typealias TextView = EditTextView
+    typealias Color = NSColor
 #else
     import UIKit
     typealias Font = UIFont
     typealias TextView = EditTextView
+    typealias Color = UIColor
 #endif
 
 public class TextFormatter {
@@ -465,7 +467,7 @@ public class TextFormatter {
         }
         
         if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
-            let prefix = nsPrev.substring(with: match.range)
+            var prefix = nsPrev.substring(with: match.range)
             
             if prevString == prefix + "\n" {
                 self.setSelectedRange(prevParagraphRange)
@@ -475,6 +477,10 @@ public class TextFormatter {
                     textView.deleteBackward()
                 #endif
                 return
+            }
+            
+            if prefix == "- [x] " {
+                prefix = "- [ ] "
             }
             
             #if os(iOS)
@@ -511,36 +517,35 @@ public class TextFormatter {
         }
     }
     
-    #if os(OSX)
     public func toggleTodo(_ location: Int? = nil) {
         guard var paragraphRange = getParagraphRange() else { return }
         
         if let location = location{
             let string = self.storage.string as NSString
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
+        } else {
+            let range = NSRange(location: paragraphRange.location, length: 0)
+            self.insertText(self.getAttributedTodoString("- [ ] "), replacementRange: range)
+            return
         }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
         
         if paragraph.string.hasPrefix("- [ ]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.textView.insertText(self.getAttributedTodoString("- [x]"), replacementRange: range)
+            self.insertText(self.getAttributedTodoString("- [x]"), replacementRange: range)
         } else if paragraph.string.hasPrefix("- [x]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.textView.insertText(self.getAttributedTodoString("- [ ]"), replacementRange: range)
-        } else {
-            let range = NSRange(location: paragraphRange.location, length: 0)
-            self.textView.insertText(self.getAttributedTodoString("- [ ] "), replacementRange: range)
+            self.insertText(self.getAttributedTodoString("- [ ]"), replacementRange: range)
         }
     }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)
         string.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: NSRange(0..<1))
-        string.addAttribute(.foregroundColor, value: NSColor.black, range: NSRange(1..<string.length))
+        string.addAttribute(.foregroundColor, value: Color.black, range: NSRange(1..<string.length))
         return string
     }
-    #endif
     
     private func replaceWith(string: String, range: NSRange? = nil) {
         #if os(iOS)
@@ -668,7 +673,7 @@ public class TextFormatter {
         #endif
     }
     
-    private func setSelectedRange(_ range: NSRange) {
+    public func setSelectedRange(_ range: NSRange) {
         #if os(OSX)
             if range.upperBound <= storage.length {
                 textView.setSelectedRange(range)
