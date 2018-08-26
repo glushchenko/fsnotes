@@ -58,6 +58,7 @@ class ViewController: NSViewController,
         self.configureDelegates()
         self.configureLayout()
         self.configureNotesList()
+        self.configureEditor()
         
         self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
         self.fsManager?.start()
@@ -162,6 +163,18 @@ class ViewController: NSViewController,
                 self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
             }
         }
+    }
+    
+    private func configureEditor() {
+        self.editArea.isGrammarCheckingEnabled = UserDefaultsManagement.grammarChecking
+        self.editArea.isContinuousSpellCheckingEnabled = UserDefaultsManagement.continuousSpellChecking
+        self.editArea.smartInsertDeleteEnabled = UserDefaultsManagement.smartInsertDelete
+        self.editArea.isAutomaticSpellingCorrectionEnabled = UserDefaultsManagement.automaticSpellingCorrection
+        self.editArea.isAutomaticQuoteSubstitutionEnabled = UserDefaultsManagement.automaticQuoteSubstitution
+        self.editArea.isAutomaticDataDetectionEnabled = UserDefaultsManagement.automaticDataDetection
+        self.editArea.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
+        self.editArea.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
+        self.editArea.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
     }
     
     private func configureShortcuts() {

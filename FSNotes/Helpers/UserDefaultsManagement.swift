@@ -36,15 +36,23 @@ public class UserDefaultsManagement {
 
     private struct Constants {
         static let ArchiveDirectoryKey = "archiveDirectory"
+        static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
+        static let AutomaticQuoteSubstitution = "automaticQuoteSubstitution"
+        static let AutomaticDataDetection = "automaticDataDetection"
+        static let AutomaticLinkDetection = "automaticLinkDetection"
+        static let AutomaticTextReplacement = "automaticTextReplacement"
+        static let AutomaticDashSubstitution = "automaticDashSubstitution"
         static let BgColorKey = "bgColorKeyed"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
+        static let ContinuousSpellChecking = "continuousSpellChecking"
         static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
+        static let GrammarChecking = "grammarChecking"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HidePreviewKey = "hidePreview"
         static let LastSelectedPath = "lastSelectedPath"
@@ -62,6 +70,7 @@ public class UserDefaultsManagement {
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
         static let ShowDockIcon = "showDockIcon"
+        static let SmartInsertDelete = "smartInsertDelete"
         static let SortBy = "sortBy"
         static let StoragePathKey = "storageUrl"
         static let StorageExtensionKey = "fileExtension"
@@ -679,4 +688,114 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.TextMatchAutoSelection)
         }
     }
+    
+    static var continuousSpellChecking: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.ContinuousSpellChecking) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.ContinuousSpellChecking)
+        }
+    }
+    
+    static var grammarChecking: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.GrammarChecking) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.GrammarChecking)
+        }
+    }
+    
+    static var smartInsertDelete: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.SmartInsertDelete) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.SmartInsertDelete)
+        }
+    }
+    
+    static var automaticSpellingCorrection: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticSpellingCorrection) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticSpellingCorrection)
+        }
+    }
+    
+    static var automaticQuoteSubstitution: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticQuoteSubstitution) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticQuoteSubstitution)
+        }
+    }
+    
+    static var automaticDataDetection: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticDataDetection) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticDataDetection)
+        }
+    }
+    
+    static var automaticLinkDetection: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticLinkDetection) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticLinkDetection)
+        }
+    }
+        
+    static var automaticTextReplacement: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticTextReplacement) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticTextReplacement)
+        }
+    }
+    
+    static var automaticDashSubstitution: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AutomaticDashSubstitution) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.AutomaticDashSubstitution)
+        }
+    }
+    
+    
 }

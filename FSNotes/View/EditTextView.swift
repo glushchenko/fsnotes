@@ -84,6 +84,71 @@ class EditTextView: NSTextView {
             return !disable.contains(menuItem.title)
         }
     }
+    
+    // MARK: Overrides
+    
+    override func toggleContinuousSpellChecking(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.continuousSpellChecking = (menu.state == .off)
+        }
+        super.toggleContinuousSpellChecking(sender)
+    }
+    
+    override func toggleGrammarChecking(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.grammarChecking = (menu.state == .off)
+        }
+        super.toggleGrammarChecking(sender)
+    }
+    
+    override func toggleAutomaticSpellingCorrection(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticSpellingCorrection = (menu.state == .off)
+        }
+        super.toggleAutomaticSpellingCorrection(sender)
+    }
+    
+    override func toggleSmartInsertDelete(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.smartInsertDelete = (menu.state == .off)
+        }
+        super.toggleSmartInsertDelete(sender)
+    }
+    
+    override func toggleAutomaticQuoteSubstitution(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticQuoteSubstitution = (menu.state == .off)
+        }
+        super.toggleAutomaticQuoteSubstitution(sender)
+    }
+    
+    override func toggleAutomaticDataDetection(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticDataDetection = (menu.state == .off)
+        }
+        super.toggleAutomaticDataDetection(sender)
+    }
+    
+    override func toggleAutomaticLinkDetection(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticLinkDetection = (menu.state == .off)
+        }
+        super.toggleAutomaticLinkDetection(sender)
+    }
+    
+    override func toggleAutomaticTextReplacement(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticTextReplacement = (menu.state == .off)
+        }
+        super.toggleAutomaticTextReplacement(sender)
+    }
+    
+    override func toggleAutomaticDashSubstitution(_ sender: Any?) {
+        if let menu = sender as? NSMenuItem {
+            UserDefaultsManagement.automaticDashSubstitution = (menu.state == .off)
+        }
+        super.toggleAutomaticDashSubstitution(sender)
+    }
 
     override func mouseDown(with event: NSEvent) {
         let viewController = self.window?.contentViewController as! ViewController
@@ -111,8 +176,6 @@ class EditTextView: NSTextView {
             self.isEditable = true
         }
     }
-    
-    
     
     override func mouseMoved(with event: NSEvent) {
         let point = self.convert(event.locationInWindow, from: nil)
