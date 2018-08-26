@@ -44,9 +44,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UserDefaultsManagement.fontSize = 17
                 
         if storage.noteList.count == 0 {
-            storage.initiateCloudDriveSync()
-            storage.loadDocuments()
-            updateTable() {}
+            DispatchQueue.global().async {
+                self.storage.initiateCloudDriveSync()
+            }
+            
+            DispatchQueue.global().async {
+                self.storage.loadDocuments()
+                DispatchQueue.main.async {
+                    self.updateTable() {}
+                }
+            }
         }
         
         sidebarTableView.sidebar = Sidebar()

@@ -196,6 +196,7 @@
 		D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503C209D806F001FB60B /* SidebarTableView.swift */; };
 		D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */; };
 		D7D95042209D8B40001FB60B /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E6D9C9207F9876003ECAFC /* home.png */; };
@@ -1453,6 +1454,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */,
 				D7DF402B20A3780E000F8B13 /* home_white.png in Resources */,
 				D7DF402C20A3780E000F8B13 /* pin_white.png in Resources */,
 				D7DF402420A377BE000F8B13 /* repository_white.png in Resources */,
