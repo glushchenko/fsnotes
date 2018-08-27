@@ -541,8 +541,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         location.y -= myTextView.textContainerInset.top;
         
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-        
-        if characterIndex < myTextView.textStorage.length, self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
+        let char = Array(myTextView.textStorage.string)[characterIndex]
+
+        if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
             let range = myTextView.selectedRange
             textFormatter.toggleTodo(characterIndex)
