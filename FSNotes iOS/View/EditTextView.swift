@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 class EditTextView: UITextView, UITextViewDelegate {
     private var undoIcon = UIImage(named: "undo.png")
@@ -16,6 +17,22 @@ class EditTextView: UITextView, UITextViewDelegate {
     public var currentFont: UIFont?
     
     public static var note: Note?
+    
+    override func cut(_ sender: Any?) {
+        if self.textStorage.length > self.selectedRange.upperBound {
+            let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
+            var item = [kUTTypeUTF8PlainText as String : attributedString.string as Any]
+            
+            if let rtf = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes:
+                [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+                item[kUTTypeFlatRTFD as String] = rtf
+            }
+            
+            UIPasteboard.general.items = [item]
+        }
+
+        super.cut(sender)
+    }
     
     public func initUndoRedoButons() {
         guard

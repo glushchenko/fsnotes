@@ -214,6 +214,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return true
         }
         
+        /*
         // Paste in UITextView
         if note.isMarkdown() && text == UIPasteboard.general.string {
             self.editArea.insertText(text)
@@ -228,7 +229,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.deleteKey()
             return false
         }
-
+        */
+        
         // New line
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)

@@ -84,7 +84,7 @@ class SidebarTableView: UITableView,
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             
             if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
                 font = fontMetrics.scaledFont(for: font)
             }
             

@@ -19,6 +19,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var notesWidthConstraint: NSLayoutConstraint!
     
+    private let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    
     let storage = Storage.sharedInstance()
     public var cloudDriveManager: CloudDriveManager?
     
@@ -52,6 +54,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.storage.loadDocuments()
                 DispatchQueue.main.async {
                     self.updateTable() {}
+                    self.indicator.stopAnimating()
                 }
             }
         }
@@ -86,6 +89,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.addGestureRecognizer(swipe)
         
         super.viewDidLoad()
+        
+        self.indicator.color = UIColor.black
+        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        self.indicator.center = self.view.center
+        self.self.view.addSubview(indicator)
+        self.indicator.bringSubview(toFront: self.view)
+        self.indicator.startAnimating()
     }
     
     override func viewWillAppear(_ animated: Bool) {

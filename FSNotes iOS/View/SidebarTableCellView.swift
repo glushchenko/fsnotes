@@ -21,8 +21,16 @@ class SidebarTableCellView: UITableViewCell {
         if let image = sidebarItem.icon {
             icon.image = image
         }
-                
-        label.font = UIFont(name: "Helvetica", size: 14)
+        
+        var font = UIFont(name: "Helvetica", size: 14)
+        if #available(iOS 11.0, *) {
+            if font != nil {
+                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
+                font = fontMetrics.scaledFont(for: font!)
+            }
+        }
+        
+        label.font = font
         label.text = sidebarItem.name
         label.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
