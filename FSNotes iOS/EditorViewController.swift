@@ -9,6 +9,7 @@
 import UIKit
 import NightNight
 import Down
+import AudioToolbox
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -440,6 +441,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.toggleTodo()
+            
+            AudioServicesPlaySystemSound(1519)
         }
     }
     
@@ -549,6 +552,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             textFormatter.toggleTodo(characterIndex)
             textFormatter.setSelectedRange(range)
             
+            AudioServicesPlaySystemSound(1519)
             return
         }
         

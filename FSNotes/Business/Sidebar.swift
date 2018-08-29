@@ -44,7 +44,7 @@ class Sidebar {
         #endif
         
         list.append(
-            SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night).png"))
+            SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night)"))
         )
         
         let rootProjects = storage.getRootProjects()

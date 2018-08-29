@@ -55,12 +55,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 DispatchQueue.main.async {
                     self.updateTable() {}
                     self.indicator.stopAnimating()
+                    self.sidebarTableView.sidebar = Sidebar()
+                    self.sidebarTableView.reloadData()
                 }
             }
         }
         
-        sidebarTableView.sidebar = Sidebar()
-        sidebarTableView.reloadData()
+        self.sidebarTableView.sidebar = Sidebar()
+        self.sidebarTableView.reloadData()
         
         guard let pageController = self.parent as? PageViewController else {
             return
@@ -84,9 +86,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
-        swipe.minimumNumberOfTouches = 2
+        swipe.minimumNumberOfTouches = 1
         swipe.delegate = self
+        
         view.addGestureRecognizer(swipe)
+        //view.dele\
         
         super.viewDidLoad()
         
@@ -96,6 +100,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.self.view.addSubview(indicator)
         self.indicator.bringSubview(toFront: self.view)
         self.indicator.startAnimating()
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let recognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            if recognizer.translation(in: self.view).x > 0 || sidebarTableView.frame.width != 0 {
+                return true
+            }
+        }
+        return false
     }
     
     override func viewWillAppear(_ animated: Bool) {
