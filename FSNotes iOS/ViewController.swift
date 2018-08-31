@@ -292,15 +292,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
     }
     
-    func createNote(content: String) {
-        guard let project = storage.getProjects().first else { return }
-        
-        let note = Note(name: "", project: project)
-        note.content = NSMutableAttributedString(string: content)
-        note.save()
-        updateList()
-    }
-
     func updateList() {
         updateTable() {
             self.notesTable.reloadData()
@@ -399,7 +390,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         note.save()
-        updateList()
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return

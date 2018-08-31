@@ -20,14 +20,38 @@ extension NSMutableAttributedString {
                 let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
                 let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
 
-                guard
-                    let path = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
+                guard let path = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
                     let title = self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String else { return }
 
                 if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                     content?.replaceCharacters(in: newRange, with: "![\(title)](\(pathEncoded))")
                     offset += 4 + path.count + title.count
                 }
+            }
+        }
+
+        return content!
+    }
+
+    public func unLoadCheckboxes() -> NSMutableAttributedString {
+        var offset = 0
+        let content = self.mutableCopy() as? NSMutableAttributedString
+
+        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+            if value != nil {
+                let newRange = NSRange(location: range.location + offset, length: 1)
+                let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+
+                guard range.length == 1,
+                    let value = self.attribute(todoKey, at: range.location, effectiveRange: nil) as? Int
+                else { return }
+
+                var gfm = "- [ ]"
+                if value == 1 {
+                    gfm = "- [x]"
+                }
+                content?.replaceCharacters(in: newRange, with: gfm)
+                offset += 4
             }
         }
 

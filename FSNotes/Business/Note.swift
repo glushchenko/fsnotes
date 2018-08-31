@@ -396,8 +396,12 @@ public class Note: CoreNote {
     }
         
     public func save() {        
-        if self.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
-            self.content = self.content.unLoadImages()
+        if self.isMarkdown() {
+            self.content = self.content.unLoadCheckboxes()
+            
+            if UserDefaultsManagement.liveImagesPreview {
+                self.content = self.content.unLoadImages()
+            }
         }
         
         self.save(attributedString: self.content)

@@ -452,6 +452,29 @@ public class TextFormatter {
         let nsString = storage.string as NSString
         let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(selectedRange.lowerBound - 1, 0))
         
+        #if os(iOS)
+            // Autocomplete rendered todo
+
+            let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+            if self.textView.textStorage.attribute(todoKey, at: prevParagraphRange.location, effectiveRange: nil) != nil,
+                let unchecked = AttributedBox.getUnChecked() {
+                let newLineSuggestion = prevParagraphRange.location + 2
+                let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
+                
+                if storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
+                    self.setSelectedRange(prevParagraphRange)
+                    textView.deleteBackward()
+                    return
+                }
+                
+                self.insertText("  ")
+                let newRange = NSRange(location: selectedRange.location, length: 2)
+                self.textView.textStorage.replaceCharacters(in: newRange, with: unchecked)
+                return
+            }
+ 
+        #endif
+        
         let prevString = nsString.substring(with: prevParagraphRange)
         let nsPrev = prevString as NSString
     
@@ -518,6 +541,35 @@ public class TextFormatter {
     }
     
     public func toggleTodo(_ location: Int? = nil) {
+        
+        #if os(iOS)
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+        
+        if let location = location, let todoAttr = storage.attribute(todoKey, at: location, effectiveRange: nil) as? Int {
+            let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
+            
+            self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
+            
+            guard let paragraph = getParagraphRange(for: location) else { return }
+            
+            if todoAttr == 0 {
+                self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
+            } else {
+                self.storage.removeAttribute(.strikethroughStyle, range: paragraph)
+            }
+            
+            if paragraph.contains(location) {
+                if todoAttr == 0 {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
+                } else {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 0
+                }
+            }
+            
+            return
+        }
+        #endif
+        
         guard var paragraphRange = getParagraphRange() else { return }
         
         if let location = location{
@@ -525,7 +577,18 @@ public class TextFormatter {
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
             let range = NSRange(location: paragraphRange.location, length: 0)
-            self.insertText(self.getAttributedTodoString("- [ ] "), replacementRange: range)
+            
+            #if os(iOS)
+            if let attributedText = AttributedBox.getUnChecked() {
+                self.insertText("  ", replacementRange: range)
+                let newRange = NSRange(location: textView.selectedRange.location - 2, length: 2)
+                self.textView.textStorage.replaceCharacters(in: newRange, with: attributedText)
+            }
+            #else
+                let attributedText = self.getAttributedTodoString("- [ ] ")
+                self.insertText(attributedText, replacementRange: range)
+            #endif
+            
             return
         }
         
@@ -533,10 +596,24 @@ public class TextFormatter {
         
         if paragraph.string.hasPrefix("- [ ]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.insertText(self.getAttributedTodoString("- [x]"), replacementRange: range)
+            
+            #if os(iOS)
+                let attributedText = AttributedBox.getChecked()
+            #else
+                let attributedText = self.getAttributedTodoString("- [x]")
+            #endif
+            
+            self.insertText(attributedText, replacementRange: range)
         } else if paragraph.string.hasPrefix("- [x]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.insertText(self.getAttributedTodoString("- [ ]"), replacementRange: range)
+            
+            #if os(iOS)
+                let attributedText = AttributedBox.getUnChecked()
+            #else
+                let attributedText = self.getAttributedTodoString("- [ ]")
+            #endif
+            
+            self.insertText(attributedText, replacementRange: range)
         }
     }
     
@@ -671,6 +748,21 @@ public class TextFormatter {
             textView.typingFont = font
             textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         #endif
+    }
+    
+    public func resetTypingAttributes() {
+        textView.typingAttributes.removeAll()
+        
+        if var font = UserDefaultsManagement.noteFont {
+            #if os(iOS)
+                if #available(iOS 11.0, *) {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    font = fontMetrics.scaledFont(for: font)
+                }
+            
+                textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+            #endif
+        }
     }
     
     public func setSelectedRange(_ range: NSRange) {

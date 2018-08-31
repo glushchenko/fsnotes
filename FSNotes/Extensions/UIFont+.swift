@@ -54,4 +54,15 @@ extension UIFont {
         
         return UserDefaultsManagement.noteFont
     }
+    
+    public static func bodySize() -> UIFont {
+        if #available(iOS 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+            let font = fontMetrics.scaledFont(for: UserDefaultsManagement.noteFont)
+            
+            return font
+        }
+        
+        return UserDefaultsManagement.noteFont
+    }
 }

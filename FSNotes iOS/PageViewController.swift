@@ -103,8 +103,17 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
             disableSwipe()
+            
+            guard
+                let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                    return
+            }
+            
+            vc.updateTable() {}
         } else {
             enableSwipe()
         }

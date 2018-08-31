@@ -776,6 +776,19 @@ public class NotesTextProcessor {
                 }
             }
         }
+        
+        #if os(iOS)
+        // Todo
+        NotesTextProcessor.todoInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            let substring = textStorageNSString.substring(with: range)
+            
+            if substring.contains("- [x]") {
+                let strikeRange = textStorageNSString.paragraphRange(for: range)
+                styleApplier.addAttribute(.strikethroughStyle, value: 1, range: strikeRange)
+            }
+        }
+        #endif
     }
     
     /// Tabs are automatically converted to spaces as part of the transform
@@ -1046,6 +1059,10 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let imageInlineRegex = MarklightRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
+    
+    fileprivate static let todoInlinePattern = "(^(-\\ \\[(?:\\ |x)\\])\\ )"
+    
+    public static let todoInlineRegex = MarklightRegex(pattern: todoInlinePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     // MARK: Code
     

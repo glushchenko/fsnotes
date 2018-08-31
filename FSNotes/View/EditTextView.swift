@@ -194,7 +194,7 @@ class EditTextView: NSTextView {
         super.mouseMoved(with: event)
     }
     
-    private func isTodo(_ location: Int) -> Bool {
+    public func isTodo(_ location: Int) -> Bool {
         guard let storage = self.textStorage else { return false }
         
         let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))

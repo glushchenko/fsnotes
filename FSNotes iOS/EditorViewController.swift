@@ -17,10 +17,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private var isHighlighted: Bool = false
     private var downView: MarkdownView?
     private var isUndo = false
+    private let storageQueue = OperationQueue()
     
     @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
+        storageQueue.maxConcurrentOperationCount = 1
+        
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
@@ -29,7 +32,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
+        let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
         
         super.viewDidLoad()
@@ -121,6 +124,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.attributedText = note.content
         }
         
+        self.configureFont()
+        
         if note.isMarkdown() {
             editArea.textStorage.updateFont()
             
@@ -135,7 +140,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         let storage = editArea.textStorage
-        let width = editArea.frame.width
         let range = NSRange(0..<storage.length)
         
         if UserDefaultsManagement.liveImagesPreview {
@@ -143,6 +147,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.load()
         }
         
+        if let checkedBox = AttributedBox.getChecked(), let unCheckedBox = AttributedBox.getUnChecked() {
+            while (editArea.textStorage.mutableString.contains("- [ ] ")) {
+                let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
+                if editArea.textStorage.length >= range.upperBound {
+                    editArea.textStorage.replaceCharacters(in: range, with: unCheckedBox)
+                }
+            }
+        
+            while (editArea.textStorage.mutableString.contains("- [x] ")) {
+                let range = editArea.textStorage.mutableString.range(of: "- [x] ")
+                if editArea.textStorage.length >= range.upperBound {
+                    editArea.textStorage.replaceCharacters(in: range, with: checkedBox)
+                }
+            }
+        }
+
         let search = getSearchText()
         if search.count > 0 {
             let processor = NotesTextProcessor(storage: storage)
@@ -152,14 +172,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.selectedTextRange = cursor
         
-        switch note.type {
-        case .PlainText:
-            editArea.font = UserDefaultsManagement.noteFont
-        default:
+        if note.type != .RichText {
+            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
             return
         }
         
         editArea.applyLeftParagraphStyle()
+    }
+    
+    public func configureFont() {
+        if let note = self.note, note.type != .RichText {
+            self.editArea.textStorage.addAttribute(.font, value: UIFont.bodySize(), range: NSRange(0..<self.editArea.textStorage.length))
+        }
     }
     
     func loadPreview(note: Note) {
@@ -237,8 +261,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
             
+            #if os(iOS)
+                if note.isMarkdown() {
+                    formatter.resetTypingAttributes()
+                }
+            #endif
+            
             let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
             processor.scanParagraph()
+            
             return false
         }
         
@@ -320,23 +351,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.scanParagraph()
         }
         
-        note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
-        
-        DispatchQueue.global().async {
-            if !self.inProgress {
-                var lastChange = self.change
-                self.change += 1
-                
-                while lastChange != self.change {
-                    note.save()
-                    lastChange += 1
-                }
-                
-                self.inProgress = false
-            } else {
-                self.change += 1
+        self.storageQueue.cancelAllOperations()
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+            DispatchQueue.main.async {
+                note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
+                note.save()
             }
         }
+        self.storageQueue.addOperation(operation)
         
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
@@ -569,6 +592,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private func isTodo(location: Int, textView: UITextView) -> Bool {
         let storage = textView.textStorage
+        
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+        if storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+        
         let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
         let string = storage.attributedSubstring(from: range).string as NSString
         
