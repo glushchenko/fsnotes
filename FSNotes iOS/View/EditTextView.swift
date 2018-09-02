@@ -12,10 +12,8 @@ import MobileCoreServices
 class EditTextView: UITextView, UITextViewDelegate {
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
-    
+
     public var typingFont: UIFont?
-    public var currentFont: UIFont?
-    
     public static var note: Note?
     
     override func cut(_ sender: Any?) {

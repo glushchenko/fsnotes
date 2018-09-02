@@ -18,41 +18,31 @@ extension UIFont {
     }
     
     func italic() -> UIFont {
-        if let descriptor = fontDescriptor.withSymbolicTraits(.traitItalic) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
+        var symTraits = fontDescriptor.symbolicTraits
+        symTraits.insert(.traitItalic)
+
+        return self.buildFont(symTraits: symTraits)
     }
     
     func bold() -> UIFont {
-        if let descriptor = fontDescriptor.withSymbolicTraits(.traitBold) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
+        var symTraits = fontDescriptor.symbolicTraits
+        symTraits.insert(.traitBold)
+
+        return self.buildFont(symTraits: symTraits)
     }
     
     func unBold() -> UIFont {
         var symTraits = fontDescriptor.symbolicTraits
         symTraits.remove(.traitBold)
         
-        if let descriptor = fontDescriptor.withSymbolicTraits(symTraits) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
+        return self.buildFont(symTraits: symTraits)
     }
     
     func unItalic() -> UIFont {
         var symTraits = fontDescriptor.symbolicTraits
         symTraits.remove(.traitItalic)
-        
-        if let descriptor = fontDescriptor.withSymbolicTraits(symTraits) {
-            return UIFont(descriptor: descriptor, size: 0)
-        }
-        
-        return UserDefaultsManagement.noteFont
+
+        return self.buildFont(symTraits: symTraits)
     }
     
     public static func bodySize() -> UIFont {
@@ -64,5 +54,24 @@ extension UIFont {
         }
         
         return UserDefaultsManagement.noteFont
+    }
+
+    private func buildFont(symTraits: UIFontDescriptor.SymbolicTraits?) -> UIFont {
+        var font: UIFont
+
+        if let traits = symTraits, let descriptor = fontDescriptor.withSymbolicTraits(traits) {
+            font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
+        } else {
+            font = UserDefaultsManagement.noteFont!
+
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+
+            return font
+        }
+
+        return font
     }
 }

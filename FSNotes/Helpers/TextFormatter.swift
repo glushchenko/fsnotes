@@ -88,11 +88,11 @@ public class TextFormatter {
         }
         
         if type == .RichText {
-            let newFont = toggleBoldFont(font: getTypingAttributes())
+            let newFont = toggleBoldFont(font: self.getTypingAttributes())
             
             #if os(iOS)
-            guard attributedString.length > 0 else {
-                setTypingAttributes(font: newFont)
+            guard self.attributedString.length > 0 else {
+                self.setTypingAttributes(font: newFont)
                 return
             }
             #endif
@@ -114,6 +114,7 @@ public class TextFormatter {
             
                 textView.replace(selectedTextRange, withText: selectedText.string)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+                textView.selectedRange = selectedRange
             #endif
             
             textView.undoManager?.endUndoGrouping()
@@ -153,6 +154,7 @@ public class TextFormatter {
             
                 textView.replace(selectedTextRange, withText: selectedText.string)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+                textView.selectedRange = selectedRange
             #endif
             textView.undoManager?.endUndoGrouping()
         }
@@ -456,7 +458,7 @@ public class TextFormatter {
             // Autocomplete rendered todo
 
             let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-            if self.textView.textStorage.attribute(todoKey, at: prevParagraphRange.location, effectiveRange: nil) != nil,
+            if self.note.isMarkdown(), self.textView.textStorage.attribute(todoKey, at: prevParagraphRange.location, effectiveRange: nil) != nil,
                 let unchecked = AttributedBox.getUnChecked() {
                 let newLineSuggestion = prevParagraphRange.location + 2
                 let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
@@ -733,12 +735,34 @@ public class TextFormatter {
         #if os(OSX)
             return textView.typingAttributes[.font] as! Font
         #else
-            if let font = textView.currentFont {
-                return font
+            if let typingFont = textView.typingFont {
+                textView.typingFont = nil
+                return typingFont
             }
-        
-            return textView.typingAttributes[NSAttributedStringKey.font.rawValue] as! Font
+
+            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return self.getDefaultFont() }
+
+            let i = textView.selectedRange.location - 1
+            let upper = textView.selectedRange.upperBound
+            let substring = textView.attributedText.attributedSubstring(from: NSRange(i..<upper))
+
+            if let prevFont = substring.attribute(.font, at: 0, effectiveRange: nil) as? UIFont {
+                return prevFont
+            }
+
+            return self.getDefaultFont()
         #endif
+    }
+
+    private func getDefaultFont() -> UIFont {
+        var font = UserDefaultsManagement.noteFont!
+
+        if #available(iOS 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+            font = fontMetrics.scaledFont(for: font)
+        }
+
+        return font
     }
     
     func setTypingAttributes(font: Font) {
@@ -749,22 +773,7 @@ public class TextFormatter {
             textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         #endif
     }
-    
-    public func resetTypingAttributes() {
-        textView.typingAttributes.removeAll()
         
-        if var font = UserDefaultsManagement.noteFont {
-            #if os(iOS)
-                if #available(iOS 11.0, *) {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-            
-                textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
-            #endif
-        }
-    }
-    
     public func setSelectedRange(_ range: NSRange) {
         #if os(OSX)
             if range.upperBound <= storage.length {

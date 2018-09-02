@@ -46,7 +46,15 @@ public class NotesTextProcessor {
             }
         }
     }
-    open var highlightColor = UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
+    open var highlightColor: UIColor {
+        get {
+            if NightNight.theme == .night {
+                return UIColor(red:0.20, green:0.55, blue:0.07, alpha:1.0)
+            } else {
+                return UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
+            }
+        }
+    }
 #endif
     
     /**

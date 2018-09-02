@@ -24,6 +24,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     let storage = Storage.sharedInstance()
     public var cloudDriveManager: CloudDriveManager?
     
+    public var shouldReloadNotes = false
+    
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
                 
@@ -100,7 +102,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         super.viewDidLoad()
         
-        self.indicator.color = UIColor.black
+        self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
         self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
         self.indicator.center = self.view.center
         self.self.view.addSubview(indicator)
@@ -400,6 +402,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.note = note
         pageController.switchToEditor()
         evc.fill(note: note)
+        
+        self.shouldReloadNotes = true
     }
     
     @objc func openSettings() {

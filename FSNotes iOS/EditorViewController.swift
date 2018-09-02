@@ -126,9 +126,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         self.configureFont()
         
+        editArea.textStorage.updateFont()
+        
         if note.isMarkdown() {
-            editArea.textStorage.updateFont()
-            
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
         }
         
@@ -213,6 +213,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         initLinksColor()
         
         if let note = self.note {
+            let range = editArea.selectedRange
             let keyboardIsOpen = editArea.isFirstResponder
             
             if keyboardIsOpen {
@@ -222,12 +223,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if NightNight.theme == .night {
                 editArea.keyboardAppearance = .dark
             } else {
-                editArea.keyboardAppearance = .default
+                editArea.keyboardAppearance = .light
             }
             
             fill(note: note)
+            
+            editArea.selectedRange = range
+            editArea.becomeFirstResponder()
         }
     }
+    
     
     public func reloadPreview() {
         if UserDefaultsManagement.preview, let note = self.note {
@@ -237,9 +242,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
         guard let note = self.note else {
             return true
         }
+
+        self.restoreRTFTypingAttributes(note: note)
         
         /*
         // Paste in UITextView
@@ -262,16 +270,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
-            
-            #if os(iOS)
-                if note.isMarkdown() {
-                    formatter.resetTypingAttributes()
-                }
-            #endif
-            
-            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
-            processor.scanParagraph()
-            
+
+            if note.isMarkdown() {
+                let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
+                processor.scanParagraph()
+            }
+
             return false
         }
         
@@ -281,35 +285,33 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.tabKey()
             return false
         }
-        
-        guard note.isRTF() else { return true }
-        
-        var i = 0
-        let length = editArea.selectedRange.length
-        
-        if length > 0 {
-            i = editArea.selectedRange.location
-        } else if editArea.selectedRange.location != 0 {
-            i = editArea.selectedRange.location - 1
-        }
-        
-        guard i > 0 else { return true }
-    
-        let upper = editArea.selectedRange.upperBound
-        let substring = editArea.attributedText.attributedSubstring(from: NSRange(i..<upper))
-        var typingFont = substring.attribute(.font, at: 0, effectiveRange: nil)
-        
-        if let font = editArea.typingFont {
-            typingFont = font
-            editArea.typingFont = nil
-        }
 
-        editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = typingFont
-        editArea.currentFont = typingFont as? UIFont
+        if let font = self.editArea.typingFont {
+            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+        }
         
         return true
     }
-    
+
+    private func restoreRTFTypingAttributes(note: Note) {
+        guard note.isRTF() else { return }
+        
+        let formatter = TextFormatter(textView: editArea, note: note)
+
+        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = formatter.getTypingAttributes()
+    }
+
+    private func getDefaultFont() -> UIFont {
+        var font = UserDefaultsManagement.noteFont!
+
+        if #available(iOS 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+            font = fontMetrics.scaledFont(for: font)
+        }
+
+        return font
+    }
+
     private func deleteBackwardPressed(text: String) -> Bool {
         if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
             return true
@@ -374,6 +376,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.cloudDriveQuery.enableUpdates()
+        vc.shouldReloadNotes = true
     }
     
     func getSearchText() -> String {

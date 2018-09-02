@@ -113,7 +113,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
                     return
             }
             
-            vc.updateTable() {}
+            if vc.shouldReloadNotes {
+                vc.updateTable() {}
+                vc.shouldReloadNotes = false
+            }
+            
         } else {
             enableSwipe()
         }
