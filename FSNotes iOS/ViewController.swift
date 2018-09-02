@@ -43,6 +43,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         notesTable.viewDelegate = self
         
+        notesTable.dataSource = notesTable
+        notesTable.delegate = notesTable
+        
+        sidebarTableView.dataSource = sidebarTableView
+        sidebarTableView.delegate = sidebarTableView
+        
         UserDefaultsManagement.fontSize = 17
                 
         if storage.noteList.count == 0 {
@@ -182,12 +188,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
             
             DispatchQueue.main.async {
-                self.updateList()
+                self.updateTable() {}
             }
         }
     }
             
     private func getEVC() -> EditorViewController? {
+        print(" get evc")
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
             let evc = viewController.viewControllers[0] as? EditorViewController {
@@ -197,7 +204,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return nil
     }
         
-    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+    public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
         
         if !search {
@@ -281,7 +288,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let note = Note(name: name, project: project)
         note.save()
         
-        updateList()
+        self.updateTable() {}
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
@@ -292,15 +299,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
     }
     
-    func updateList() {
-        updateTable() {
-            self.notesTable.reloadData()
-        }
-    }
-    
     func reloadView(note: Note?) {
+        print("reload view")
         DispatchQueue.main.async {
-            self.updateList()
+            self.updateTable() {}
         }
     }
     

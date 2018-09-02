@@ -18,10 +18,7 @@ class SidebarTableView: UITableView,
     var sidebar: Sidebar?
     private var sections = ["FSNotes", "Folders", "Tags"]
     
-    override func draw(_ rect: CGRect) {
-        dataSource = self
-        delegate = self
-                
+    override func draw(_ rect: CGRect) {                
         if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageViewController.orderedViewControllers[0] as? ViewController {
             vc.sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
@@ -99,7 +96,7 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = getListController()
-        vc.updateList()
+        vc.updateTable() {}
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

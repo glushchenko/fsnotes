@@ -13,15 +13,19 @@ extension NSTextStorage {
         beginEditing()
         enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if let font = value as? UIFont {
-                let fontName = UserDefaultsManagement.noteFont.fontName
+                
+                let fontName = UserDefaultsManagement.noteFont.familyName
 
                 let descriptor = UIFontDescriptor(name: fontName, size: CGFloat(UserDefaultsManagement.fontSize))
+                
                 descriptor.withSymbolicTraits(font.fontDescriptor.symbolicTraits)
+                
                 var newFont = UIFont(descriptor: descriptor, size: CGFloat(UserDefaultsManagement.fontSize))
 
                 if #available(iOS 11.0, *) {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     newFont = fontMetrics.scaledFont(for: newFont)
+                    addAttribute(.font, value: newFont, range: range)
                 }
                 
                 removeAttribute(.font, range: range)

@@ -18,9 +18,6 @@ class NotesTableView: UITableView,
     var viewDelegate: ViewController? = nil
     
     override func draw(_ rect: CGRect) {
-        dataSource = self
-        delegate = self
-        
         if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageViewController.orderedViewControllers[0] as? ViewController {
             
@@ -143,7 +140,7 @@ class NotesTableView: UITableView,
             }
             
             DispatchQueue.main.async {
-                self.viewDelegate?.updateList()
+                self.viewDelegate?.updateTable() {}
             }
         })
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)

@@ -147,18 +147,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.load()
         }
         
-        if let checkedBox = AttributedBox.getChecked(), let unCheckedBox = AttributedBox.getUnChecked() {
-            while (editArea.textStorage.mutableString.contains("- [ ] ")) {
-                let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
-                if editArea.textStorage.length >= range.upperBound {
-                    editArea.textStorage.replaceCharacters(in: range, with: unCheckedBox)
+        if note.isMarkdown() {
+            if let checkedBox = AttributedBox.getChecked(), let unCheckedBox = AttributedBox.getUnChecked() {
+                while (editArea.textStorage.mutableString.contains("- [ ] ")) {
+                    let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
+                    if editArea.textStorage.length >= range.upperBound {
+                        editArea.textStorage.replaceCharacters(in: range, with: unCheckedBox)
+                    }
                 }
-            }
-        
-            while (editArea.textStorage.mutableString.contains("- [x] ")) {
-                let range = editArea.textStorage.mutableString.range(of: "- [x] ")
-                if editArea.textStorage.length >= range.upperBound {
-                    editArea.textStorage.replaceCharacters(in: range, with: checkedBox)
+            
+                while (editArea.textStorage.mutableString.contains("- [x] ")) {
+                    let range = editArea.textStorage.mutableString.range(of: "- [x] ")
+                    if editArea.textStorage.length >= range.upperBound {
+                        editArea.textStorage.replaceCharacters(in: range, with: checkedBox)
+                    }
                 }
             }
         }
