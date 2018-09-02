@@ -28,7 +28,7 @@ class SidebarTableView: UITableView,
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return self.hasTags() ? 3 : 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -109,6 +109,10 @@ class SidebarTableView: UITableView,
         let viewController = pageViewController?.orderedViewControllers[0] as? ViewController
         
         return viewController!
+    }
+    
+    private func hasTags() -> Bool {
+        return Storage.sharedInstance().hasTags()
     }
     
 }
