@@ -56,7 +56,7 @@ extension UIFont {
         return UserDefaultsManagement.noteFont
     }
 
-    private func buildFont(symTraits: UIFontDescriptor.SymbolicTraits?) -> UIFont {
+    private func buildFont(symTraits: UIFontDescriptorSymbolicTraits?) -> UIFont {
         var font: UIFont
 
         if let traits = symTraits, let descriptor = fontDescriptor.withSymbolicTraits(traits) {

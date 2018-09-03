@@ -163,7 +163,31 @@ public class TextFormatter {
     public func underline() {
         if note.type == .RichText {
             if (attributedString.length > 0) {
-                attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: selectedRange)
+                #if os(iOS)
+                    let selectedtTextRange = textView.selectedTextRange!
+                #endif
+
+                let selectedRange = textView.selectedRange
+                let range = NSRange(0..<attributedString.length)
+
+                if let underline = attributedString.attribute(.underlineStyle, at: 0, effectiveRange: nil) as? Int {
+                    if underline == 1 {
+                        print(1)
+                        attributedString.removeAttribute(.underlineStyle, range: range)
+                    } else {
+                        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                    }
+                } else {
+                    attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                }
+
+                #if os(iOS)
+                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
+                    self.textView.selectedRange = selectedRange
+                #endif
+
+                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                return
             }
             
             #if os(OSX)
@@ -173,8 +197,14 @@ public class TextFormatter {
                 } else {
                     textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
                 }
-            
+
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #else
+                if (textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] == nil) {
+                    textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] = 1
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.underlineStyle.rawValue)
+                }
             #endif
         }
     }
@@ -182,7 +212,30 @@ public class TextFormatter {
     public func strike() {
         if note.type == .RichText {
             if (attributedString.length > 0) {
-                attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: selectedRange)
+                #if os(iOS)
+                    let selectedtTextRange = textView.selectedTextRange!
+                #endif
+
+                let selectedRange = textView.selectedRange
+                let range = NSRange(0..<attributedString.length)
+
+                if let underline = attributedString.attribute(.strikethroughStyle, at: 0, effectiveRange: nil) as? Int {
+                    if underline == 2 {
+                        attributedString.removeAttribute(.strikethroughStyle, range: range)
+                    } else {
+                        attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
+                    }
+                } else {
+                    attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
+                }
+
+                #if os(iOS)
+                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
+                    self.textView.selectedRange = selectedRange
+                #endif
+
+                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                return
             }
             
             #if os(OSX)
@@ -194,6 +247,12 @@ public class TextFormatter {
                 }
             
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #else
+                if (textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] == nil) {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 2
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+                }
             #endif
         }
         
@@ -754,6 +813,7 @@ public class TextFormatter {
         #endif
     }
 
+    #if os(iOS)
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
@@ -764,6 +824,7 @@ public class TextFormatter {
 
         return font
     }
+    #endif
     
     func setTypingAttributes(font: Font) {
         #if os(OSX)

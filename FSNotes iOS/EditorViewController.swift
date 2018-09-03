@@ -18,6 +18,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private var downView: MarkdownView?
     private var isUndo = false
     private let storageQueue = OperationQueue()
+    private var toolbar: Toolbar = .markdown
     
     @IBOutlet weak var editArea: EditTextView!
     
@@ -73,7 +74,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             editArea.keyboardAppearance = .default
         }
-        
+
         initLinksColor()
     }
     
@@ -125,7 +126,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         self.configureFont()
-        
+        self.configureToolbar()
+
         editArea.textStorage.updateFont()
         
         if note.isMarkdown() {
@@ -173,19 +175,48 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.selectedTextRange = cursor
-        
+
         if note.type != .RichText {
+
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
             return
         }
-        
+
         editArea.applyLeftParagraphStyle()
+    }
+
+    private func configureToolbar() {
+        guard let note = self.note else { return }
+
+        if note.type == .PlainText {
+            if self.toolbar != .plain {
+                self.toolbar = .plain
+                editArea.inputAccessoryView = self.getPlainTextToolbar()
+            }
+            return
+        }
+
+        if note.type == .RichText {
+            if self.toolbar != .rich {
+                self.toolbar = .rich
+                editArea.inputAccessoryView = self.getRTFToolbar()
+            }
+            return
+        }
+
+        if self.toolbar != .markdown {
+            self.toolbar = .markdown
+            editArea.inputAccessoryView = getMarkdownToolbar()
+        }
     }
     
     public func configureFont() {
         if let note = self.note, note.type != .RichText {
             self.editArea.textStorage.addAttribute(.font, value: UIFont.bodySize(), range: NSRange(0..<self.editArea.textStorage.length))
         }
+
+        self.editArea.typingAttributes.removeAll()
+        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
     }
     
     func loadPreview(note: Note) {
@@ -295,7 +326,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     private func restoreRTFTypingAttributes(note: Note) {
         guard note.isRTF() else { return }
-        
+
         let formatter = TextFormatter(textView: editArea, note: note)
 
         self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = formatter.getTypingAttributes()
@@ -398,10 +429,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.view.frame.size.height = UIScreen.main.bounds.height
     }
     
-    func addToolBar(textField: UITextView){
+    func addToolBar(textField: UITextView) {
+        textField.delegate = self
+        textField.inputAccessoryView = self.getMarkdownToolbar()
+        
+        if let etv = textField as? EditTextView {
+            etv.initUndoRedoButons()
+        }
+    }
+
+    private func getMarkdownToolbar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-        
+
         toolBar.isTranslucent = true
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
@@ -413,21 +453,63 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
-        
-        
+
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
+
         toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
-        
-        textField.delegate = self
-        textField.inputAccessoryView = toolBar
-        
-        if let etv = textField as? EditTextView {
-            etv.initUndoRedoButons()
-        }
+
+        return toolBar
+    }
+
+    private func getRTFToolbar() -> UIToolbar {
+        let toolBar = UIToolbar()
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+
+        toolBar.isTranslucent = true
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+
+        let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        let strikeButton = UIBarButtonItem(image: UIImage(named: "strike.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.strikePressed))
+        let underlineButton = UIBarButtonItem(image: UIImage(named: "underline.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.underlinePressed))
+
+        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+
+        return toolBar
+    }
+
+    private func getPlainTextToolbar() -> UIToolbar {
+        let toolBar = UIToolbar()
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+
+        toolBar.isTranslucent = true
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+
+        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([spaceButton, undoButton, redoButton, doneButton], animated: false)
+
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+
+        return toolBar
     }
     
     @objc func boldPressed(){
@@ -443,7 +525,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.italic()
         }
     }
-    
+
+    @objc func strikePressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.strike()
+        }
+    }
+
+    @objc func underlinePressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.underline()
+        }
+    }
+
     @objc func indentPressed(){
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
@@ -553,10 +649,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func initLinksColor() {
-        let linkAttributes: [String : Any] = [
-            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0),
-            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
-            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleNone.rawValue]
+        guard let note = self.note else { return }
+
+        var linkAttributes: [String : Any] = [
+            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0)
+        ]
+
+        if !note.isRTF() {
+            linkAttributes[NSAttributedStringKey.underlineColor.rawValue] = UIColor.lightGray
+            linkAttributes[NSAttributedStringKey.underlineStyle.rawValue] = NSUnderlineStyle.styleNone.rawValue
+        }
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
