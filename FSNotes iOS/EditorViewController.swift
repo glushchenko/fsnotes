@@ -279,7 +279,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         self.restoreRTFTypingAttributes(note: note)
-        
+
+        if note.isMarkdown() {
+            self.applyStrikeTypingAttribute(range: range)
+        }
+
         /*
         // Paste in UITextView
         if note.isMarkdown() && text == UIPasteboard.general.string {
@@ -320,8 +324,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let font = self.editArea.typingFont {
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         }
-        
+
         return true
+    }
+
+    private func applyStrikeTypingAttribute(range: NSRange) {
+        let string = editArea.textStorage.string as NSString
+        let paragraphRange = string.paragraphRange(for: range)
+        let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
+
+        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
+            editArea.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
+        } else {
+            editArea.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+        }
     }
 
     private func restoreRTFTypingAttributes(note: Note) {

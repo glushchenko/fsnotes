@@ -790,7 +790,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.todoInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             let substring = textStorageNSString.substring(with: range)
-            
+
             if substring.contains("- [x]") {
                 let strikeRange = textStorageNSString.paragraphRange(for: range)
                 styleApplier.addAttribute(.strikethroughStyle, value: 1, range: strikeRange)
