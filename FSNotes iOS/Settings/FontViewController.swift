@@ -15,7 +15,7 @@ class FontViewController: UITableViewController {
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FontViewController.cancel))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FontViewController.cancel))
         
         self.title = "Font Family"
         

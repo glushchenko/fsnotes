@@ -17,10 +17,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private var isHighlighted: Bool = false
     private var downView: MarkdownView?
     private var isUndo = false
+    private let storageQueue = OperationQueue()
+    private var toolbar: Toolbar = .markdown
     
     @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
+        storageQueue.maxConcurrentOperationCount = 1
+        
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
@@ -29,7 +33,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
+        let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
         
         super.viewDidLoad()
@@ -70,7 +74,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             editArea.keyboardAppearance = .default
         }
-        
+
         initLinksColor()
     }
     
@@ -121,9 +125,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.attributedText = note.content
         }
         
+        self.configureFont()
+        self.configureToolbar()
+
+        editArea.textStorage.updateFont()
+        
         if note.isMarkdown() {
-            editArea.textStorage.updateFont()
-            
             NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
         }
         
@@ -135,7 +142,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
         let storage = editArea.textStorage
-        let width = editArea.frame.width
         let range = NSRange(0..<storage.length)
         
         if UserDefaultsManagement.liveImagesPreview {
@@ -143,6 +149,24 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.load()
         }
         
+        if note.isMarkdown() {
+            if let checkedBox = AttributedBox.getChecked(), let unCheckedBox = AttributedBox.getUnChecked() {
+                while (editArea.textStorage.mutableString.contains("- [ ] ")) {
+                    let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
+                    if editArea.textStorage.length >= range.upperBound {
+                        editArea.textStorage.replaceCharacters(in: range, with: unCheckedBox)
+                    }
+                }
+            
+                while (editArea.textStorage.mutableString.contains("- [x] ")) {
+                    let range = editArea.textStorage.mutableString.range(of: "- [x] ")
+                    if editArea.textStorage.length >= range.upperBound {
+                        editArea.textStorage.replaceCharacters(in: range, with: checkedBox)
+                    }
+                }
+            }
+        }
+
         let search = getSearchText()
         if search.count > 0 {
             let processor = NotesTextProcessor(storage: storage)
@@ -151,15 +175,48 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.selectedTextRange = cursor
-        
-        switch note.type {
-        case .PlainText:
-            editArea.font = UserDefaultsManagement.noteFont
-        default:
+
+        if note.type != .RichText {
+
+            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
             return
         }
-        
+
         editArea.applyLeftParagraphStyle()
+    }
+
+    private func configureToolbar() {
+        guard let note = self.note else { return }
+
+        if note.type == .PlainText {
+            if self.toolbar != .plain {
+                self.toolbar = .plain
+                editArea.inputAccessoryView = self.getPlainTextToolbar()
+            }
+            return
+        }
+
+        if note.type == .RichText {
+            if self.toolbar != .rich {
+                self.toolbar = .rich
+                editArea.inputAccessoryView = self.getRTFToolbar()
+            }
+            return
+        }
+
+        if self.toolbar != .markdown {
+            self.toolbar = .markdown
+            editArea.inputAccessoryView = getMarkdownToolbar()
+        }
+    }
+    
+    public func configureFont() {
+        if let note = self.note, note.type != .RichText {
+            self.editArea.textStorage.addAttribute(.font, value: UIFont.bodySize(), range: NSRange(0..<self.editArea.textStorage.length))
+        }
+
+        self.editArea.typingAttributes.removeAll()
+        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
     }
     
     func loadPreview(note: Note) {
@@ -187,6 +244,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         initLinksColor()
         
         if let note = self.note {
+            let range = editArea.selectedRange
             let keyboardIsOpen = editArea.isFirstResponder
             
             if keyboardIsOpen {
@@ -196,12 +254,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if NightNight.theme == .night {
                 editArea.keyboardAppearance = .dark
             } else {
-                editArea.keyboardAppearance = .default
+                editArea.keyboardAppearance = .light
             }
             
             fill(note: note)
+            
+            editArea.selectedRange = range
+            editArea.becomeFirstResponder()
         }
     }
+    
     
     public func reloadPreview() {
         if UserDefaultsManagement.preview, let note = self.note {
@@ -211,10 +273,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
         guard let note = self.note else {
             return true
         }
-        
+
+        self.restoreRTFTypingAttributes(note: note)
+
+        if note.isMarkdown() {
+            self.applyStrikeTypingAttribute(range: range)
+        }
+
         /*
         // Paste in UITextView
         if note.isMarkdown() && text == UIPasteboard.general.string {
@@ -236,9 +305,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
-            
-            let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
-            processor.scanParagraph()
+
+            if note.isMarkdown() {
+                let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
+                processor.scanParagraph()
+            }
+
             return false
         }
         
@@ -248,35 +320,45 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.tabKey()
             return false
         }
-        
-        guard note.isRTF() else { return true }
-        
-        var i = 0
-        let length = editArea.selectedRange.length
-        
-        if length > 0 {
-            i = editArea.selectedRange.location
-        } else if editArea.selectedRange.location != 0 {
-            i = editArea.selectedRange.location - 1
-        }
-        
-        guard i > 0 else { return true }
-    
-        let upper = editArea.selectedRange.upperBound
-        let substring = editArea.attributedText.attributedSubstring(from: NSRange(i..<upper))
-        var typingFont = substring.attribute(.font, at: 0, effectiveRange: nil)
-        
-        if let font = editArea.typingFont {
-            typingFont = font
-            editArea.typingFont = nil
+
+        if let font = self.editArea.typingFont {
+            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         }
 
-        editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = typingFont
-        editArea.currentFont = typingFont as? UIFont
-        
         return true
     }
-    
+
+    private func applyStrikeTypingAttribute(range: NSRange) {
+        let string = editArea.textStorage.string as NSString
+        let paragraphRange = string.paragraphRange(for: range)
+        let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
+
+        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
+            editArea.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
+        } else {
+            editArea.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+        }
+    }
+
+    private func restoreRTFTypingAttributes(note: Note) {
+        guard note.isRTF() else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+
+        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = formatter.getTypingAttributes()
+    }
+
+    private func getDefaultFont() -> UIFont {
+        var font = UserDefaultsManagement.noteFont!
+
+        if #available(iOS 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+            font = fontMetrics.scaledFont(for: font)
+        }
+
+        return font
+    }
+
     private func deleteBackwardPressed(text: String) -> Bool {
         if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
             return true
@@ -320,23 +402,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.scanParagraph()
         }
         
-        note.content = NSMutableAttributedString(attributedString: editArea.attributedText)
-        
-        DispatchQueue.global().async {
-            if !self.inProgress {
-                var lastChange = self.change
-                self.change += 1
-                
-                while lastChange != self.change {
-                    note.save()
-                    lastChange += 1
-                }
-                
-                self.inProgress = false
-            } else {
-                self.change += 1
+        self.storageQueue.cancelAllOperations()
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+            DispatchQueue.main.async {
+                note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
+                note.save()
             }
         }
+        self.storageQueue.addOperation(operation)
         
         if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
@@ -349,6 +423,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.cloudDriveQuery.enableUpdates()
+        vc.shouldReloadNotes = true
     }
     
     func getSearchText() -> String {
@@ -370,10 +445,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.view.frame.size.height = UIScreen.main.bounds.height
     }
     
-    func addToolBar(textField: UITextView){
+    func addToolBar(textField: UITextView) {
+        textField.delegate = self
+        textField.inputAccessoryView = self.getMarkdownToolbar()
+        
+        if let etv = textField as? EditTextView {
+            etv.initUndoRedoButons()
+        }
+    }
+
+    private func getMarkdownToolbar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-        
+
         toolBar.isTranslucent = true
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
@@ -385,21 +469,63 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
-        
-        
+
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        
+
         toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
-        
-        textField.delegate = self
-        textField.inputAccessoryView = toolBar
-        
-        if let etv = textField as? EditTextView {
-            etv.initUndoRedoButons()
-        }
+
+        return toolBar
+    }
+
+    private func getRTFToolbar() -> UIToolbar {
+        let toolBar = UIToolbar()
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+
+        toolBar.isTranslucent = true
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+
+        let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        let strikeButton = UIBarButtonItem(image: UIImage(named: "strike.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.strikePressed))
+        let underlineButton = UIBarButtonItem(image: UIImage(named: "underline.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.underlinePressed))
+
+        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+
+        return toolBar
+    }
+
+    private func getPlainTextToolbar() -> UIToolbar {
+        let toolBar = UIToolbar()
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+
+        toolBar.isTranslucent = true
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+
+        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([spaceButton, undoButton, redoButton, doneButton], animated: false)
+
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+
+        return toolBar
     }
     
     @objc func boldPressed(){
@@ -415,7 +541,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             formatter.italic()
         }
     }
-    
+
+    @objc func strikePressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.strike()
+        }
+    }
+
+    @objc func underlinePressed(){
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note)
+            formatter.underline()
+        }
+    }
+
     @objc func indentPressed(){
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
@@ -525,10 +665,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func initLinksColor() {
-        let linkAttributes: [String : Any] = [
-            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0),
-            NSAttributedStringKey.underlineColor.rawValue: UIColor.lightGray,
-            NSAttributedStringKey.underlineStyle.rawValue: NSUnderlineStyle.styleNone.rawValue]
+        guard let note = self.note else { return }
+
+        var linkAttributes: [String : Any] = [
+            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0)
+        ]
+
+        if !note.isRTF() {
+            linkAttributes[NSAttributedStringKey.underlineColor.rawValue] = UIColor.lightGray
+            linkAttributes[NSAttributedStringKey.underlineStyle.rawValue] = NSUnderlineStyle.styleNone.rawValue
+        }
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
@@ -569,6 +715,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private func isTodo(location: Int, textView: UITextView) -> Bool {
         let storage = textView.textStorage
+        
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+        if storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+        
         let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
         let string = storage.attributedSubstring(from: range).string as NSString
         

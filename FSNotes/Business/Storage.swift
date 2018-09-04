@@ -647,6 +647,10 @@ class Storage {
         return tagNames
     }
     
+    public func hasTags() -> Bool {
+        return !self.tagNames.isEmpty
+    }
+    
     public func addTag(_ string: String) {
         if !tagNames.contains(string) {
             tagNames.append(string)

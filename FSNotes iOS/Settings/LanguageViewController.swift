@@ -19,7 +19,7 @@ class LanguageViewController: UITableViewController {
         
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(LanguageViewController.cancel))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(LanguageViewController.cancel))
         
         for im in UITextInputMode.activeInputModes {
             if let lang = im.primaryLanguage {

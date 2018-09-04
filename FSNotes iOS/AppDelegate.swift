@@ -176,25 +176,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        pageViewController.switchToList()
-        
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
             viewController.createNote()
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
-            let pasteboardString: String? = UIPasteboard.general.string
+            guard let navigationViewController = pageViewController.orderedViewControllers[1] as? UINavigationController, let evc = navigationViewController.viewControllers[0] as? EditorViewController
+            else { return false }
+                    
+            var pasteboardString: String? = UIPasteboard.general.string
             if let content = pasteboardString {
-                viewController.createNote(content: content.trim())
+                pasteboardString = content.trim()
             }
+            
+            viewController.createNote(content: pasteboardString)
+            evc.editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            viewController.search.becomeFirstResponder()
+            pageViewController.switchToList()
+            viewController.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
             handled = true
             break
         default:
+            
             break
         }
 

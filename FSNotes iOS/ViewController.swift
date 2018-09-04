@@ -24,6 +24,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     let storage = Storage.sharedInstance()
     public var cloudDriveManager: CloudDriveManager?
     
+    public var shouldReloadNotes = false
+    
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
                 
@@ -42,6 +44,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         search.autocapitalizationType = .none
         
         notesTable.viewDelegate = self
+        
+        notesTable.dataSource = notesTable
+        notesTable.delegate = notesTable
+        
+        sidebarTableView.dataSource = sidebarTableView
+        sidebarTableView.delegate = sidebarTableView
         
         UserDefaultsManagement.fontSize = 17
                 
@@ -94,7 +102,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         super.viewDidLoad()
         
-        self.indicator.color = UIColor.black
+        self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
         self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
         self.indicator.center = self.view.center
         self.self.view.addSubview(indicator)
@@ -182,12 +190,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
             
             DispatchQueue.main.async {
-                self.updateList()
+                self.updateTable() {}
             }
         }
     }
             
     private func getEVC() -> EditorViewController? {
+        print(" get evc")
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
             let evc = viewController.viewControllers[0] as? EditorViewController {
@@ -197,7 +206,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return nil
     }
         
-    func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+    public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
         
         if !search {
@@ -281,7 +290,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let note = Note(name: name, project: project)
         note.save()
         
-        updateList()
+        self.updateTable() {}
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
@@ -292,24 +301,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
     }
     
-    func createNote(content: String) {
-        guard let project = storage.getProjects().first else { return }
-        
-        let note = Note(name: "", project: project)
-        note.content = NSMutableAttributedString(string: content)
-        note.save()
-        updateList()
-    }
-
-    func updateList() {
-        updateTable() {
-            self.notesTable.reloadData()
-        }
-    }
-    
     func reloadView(note: Note?) {
+        print("reload view")
         DispatchQueue.main.async {
-            self.updateList()
+            self.updateTable() {}
         }
     }
     
@@ -399,7 +394,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         note.save()
-        updateList()
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
@@ -408,6 +402,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.note = note
         pageController.switchToEditor()
         evc.fill(note: note)
+        
+        self.shouldReloadNotes = true
     }
     
     @objc func openSettings() {

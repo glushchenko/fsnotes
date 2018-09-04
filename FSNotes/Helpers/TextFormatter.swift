@@ -88,11 +88,11 @@ public class TextFormatter {
         }
         
         if type == .RichText {
-            let newFont = toggleBoldFont(font: getTypingAttributes())
+            let newFont = toggleBoldFont(font: self.getTypingAttributes())
             
             #if os(iOS)
-            guard attributedString.length > 0 else {
-                setTypingAttributes(font: newFont)
+            guard self.attributedString.length > 0 else {
+                self.setTypingAttributes(font: newFont)
                 return
             }
             #endif
@@ -114,6 +114,7 @@ public class TextFormatter {
             
                 textView.replace(selectedTextRange, withText: selectedText.string)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+                textView.selectedRange = selectedRange
             #endif
             
             textView.undoManager?.endUndoGrouping()
@@ -153,6 +154,7 @@ public class TextFormatter {
             
                 textView.replace(selectedTextRange, withText: selectedText.string)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
+                textView.selectedRange = selectedRange
             #endif
             textView.undoManager?.endUndoGrouping()
         }
@@ -161,7 +163,31 @@ public class TextFormatter {
     public func underline() {
         if note.type == .RichText {
             if (attributedString.length > 0) {
-                attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSUnderline"), range: selectedRange)
+                #if os(iOS)
+                    let selectedtTextRange = textView.selectedTextRange!
+                #endif
+
+                let selectedRange = textView.selectedRange
+                let range = NSRange(0..<attributedString.length)
+
+                if let underline = attributedString.attribute(.underlineStyle, at: 0, effectiveRange: nil) as? Int {
+                    if underline == 1 {
+                        print(1)
+                        attributedString.removeAttribute(.underlineStyle, range: range)
+                    } else {
+                        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                    }
+                } else {
+                    attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                }
+
+                #if os(iOS)
+                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
+                    self.textView.selectedRange = selectedRange
+                #endif
+
+                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                return
             }
             
             #if os(OSX)
@@ -171,8 +197,14 @@ public class TextFormatter {
                 } else {
                     textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
                 }
-            
+
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #else
+                if (textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] == nil) {
+                    textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] = 1
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.underlineStyle.rawValue)
+                }
             #endif
         }
     }
@@ -180,7 +212,30 @@ public class TextFormatter {
     public func strike() {
         if note.type == .RichText {
             if (attributedString.length > 0) {
-                attributedString.removeAttribute(NSAttributedStringKey(rawValue: "NSStrikethrough"), range: selectedRange)
+                #if os(iOS)
+                    let selectedtTextRange = textView.selectedTextRange!
+                #endif
+
+                let selectedRange = textView.selectedRange
+                let range = NSRange(0..<attributedString.length)
+
+                if let underline = attributedString.attribute(.strikethroughStyle, at: 0, effectiveRange: nil) as? Int {
+                    if underline == 2 {
+                        attributedString.removeAttribute(.strikethroughStyle, range: range)
+                    } else {
+                        attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
+                    }
+                } else {
+                    attributedString.addAttribute(.strikethroughStyle, value: 2, range: range)
+                }
+
+                #if os(iOS)
+                    self.textView.replace(selectedtTextRange, withText: attributedString.string)
+                    self.textView.selectedRange = selectedRange
+                #endif
+
+                self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                return
             }
             
             #if os(OSX)
@@ -192,6 +247,12 @@ public class TextFormatter {
                 }
             
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
+            #else
+                if (textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] == nil) {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 2
+                } else {
+                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+                }
             #endif
         }
         
@@ -452,6 +513,29 @@ public class TextFormatter {
         let nsString = storage.string as NSString
         let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(selectedRange.lowerBound - 1, 0))
         
+        #if os(iOS)
+            // Autocomplete rendered todo
+
+            let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+            if self.note.isMarkdown(), self.textView.textStorage.attribute(todoKey, at: prevParagraphRange.location, effectiveRange: nil) != nil,
+                let unchecked = AttributedBox.getUnChecked() {
+                let newLineSuggestion = prevParagraphRange.location + 2
+                let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
+                
+                if storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
+                    self.setSelectedRange(prevParagraphRange)
+                    textView.deleteBackward()
+                    return
+                }
+                
+                self.insertText("  ")
+                let newRange = NSRange(location: selectedRange.location, length: 2)
+                self.textView.textStorage.replaceCharacters(in: newRange, with: unchecked)
+                return
+            }
+ 
+        #endif
+        
         let prevString = nsString.substring(with: prevParagraphRange)
         let nsPrev = prevString as NSString
     
@@ -518,6 +602,35 @@ public class TextFormatter {
     }
     
     public func toggleTodo(_ location: Int? = nil) {
+        
+        #if os(iOS)
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+        
+        if let location = location, let todoAttr = storage.attribute(todoKey, at: location, effectiveRange: nil) as? Int {
+            let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
+            
+            self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
+            
+            guard let paragraph = getParagraphRange(for: location) else { return }
+            
+            if todoAttr == 0 {
+                self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
+            } else {
+                self.storage.removeAttribute(.strikethroughStyle, range: paragraph)
+            }
+            
+            if paragraph.contains(location) {
+                if todoAttr == 0 {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
+                } else {
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 0
+                }
+            }
+            
+            return
+        }
+        #endif
+        
         guard var paragraphRange = getParagraphRange() else { return }
         
         if let location = location{
@@ -525,7 +638,18 @@ public class TextFormatter {
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
             let range = NSRange(location: paragraphRange.location, length: 0)
-            self.insertText(self.getAttributedTodoString("- [ ] "), replacementRange: range)
+            
+            #if os(iOS)
+            if let attributedText = AttributedBox.getUnChecked() {
+                self.insertText("  ", replacementRange: range)
+                let newRange = NSRange(location: textView.selectedRange.location - 2, length: 2)
+                self.textView.textStorage.replaceCharacters(in: newRange, with: attributedText)
+            }
+            #else
+                let attributedText = self.getAttributedTodoString("- [ ] ")
+                self.insertText(attributedText, replacementRange: range)
+            #endif
+            
             return
         }
         
@@ -533,10 +657,24 @@ public class TextFormatter {
         
         if paragraph.string.hasPrefix("- [ ]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.insertText(self.getAttributedTodoString("- [x]"), replacementRange: range)
+            
+            #if os(iOS)
+                let attributedText = AttributedBox.getChecked()
+            #else
+                let attributedText = self.getAttributedTodoString("- [x]")
+            #endif
+            
+            self.insertText(attributedText, replacementRange: range)
         } else if paragraph.string.hasPrefix("- [x]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
-            self.insertText(self.getAttributedTodoString("- [ ]"), replacementRange: range)
+            
+            #if os(iOS)
+                let attributedText = AttributedBox.getUnChecked()
+            #else
+                let attributedText = self.getAttributedTodoString("- [ ]")
+            #endif
+            
+            self.insertText(attributedText, replacementRange: range)
         }
     }
     
@@ -656,13 +794,37 @@ public class TextFormatter {
         #if os(OSX)
             return textView.typingAttributes[.font] as! Font
         #else
-            if let font = textView.currentFont {
-                return font
+            if let typingFont = textView.typingFont {
+                textView.typingFont = nil
+                return typingFont
             }
-        
-            return textView.typingAttributes[NSAttributedStringKey.font.rawValue] as! Font
+
+            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return self.getDefaultFont() }
+
+            let i = textView.selectedRange.location - 1
+            let upper = textView.selectedRange.upperBound
+            let substring = textView.attributedText.attributedSubstring(from: NSRange(i..<upper))
+
+            if let prevFont = substring.attribute(.font, at: 0, effectiveRange: nil) as? UIFont {
+                return prevFont
+            }
+
+            return self.getDefaultFont()
         #endif
     }
+
+    #if os(iOS)
+    private func getDefaultFont() -> UIFont {
+        var font = UserDefaultsManagement.noteFont!
+
+        if #available(iOS 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .body)
+            font = fontMetrics.scaledFont(for: font)
+        }
+
+        return font
+    }
+    #endif
     
     func setTypingAttributes(font: Font) {
         #if os(OSX)
@@ -672,7 +834,7 @@ public class TextFormatter {
             textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         #endif
     }
-    
+        
     public func setSelectedRange(_ range: NSRange) {
         #if os(OSX)
             if range.upperBound <= storage.length {

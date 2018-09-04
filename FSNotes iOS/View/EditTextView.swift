@@ -12,10 +12,8 @@ import MobileCoreServices
 class EditTextView: UITextView, UITextViewDelegate {
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
-    
+
     public var typingFont: UIFont?
-    public var currentFont: UIFont?
-    
     public static var note: Note?
     
     override func cut(_ sender: Any?) {
@@ -59,5 +57,31 @@ class EditTextView: UITextView, UITextViewDelegate {
                 }
             }
         }
+    }
+    
+    public func isTodo(at location: Int) -> Bool {
+        let storage = self.textStorage
+        
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
+        if storage.length > location, storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+        
+        let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
+        let string = storage.attributedSubstring(from: range).string as NSString
+        
+        var length = string.range(of: "- [ ]").length
+        if length == 0 {
+            length = string.range(of: "- [x]").length
+        }
+        
+        if length > 0 {
+            let upper = range.location + length
+            if location >= range.location && location <= upper {
+                return true
+            }
+        }
+        
+        return false
     }
 }
