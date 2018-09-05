@@ -118,15 +118,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         return false
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
         notesWidthConstraint.constant = view.frame.width - UserDefaultsManagement.sidebarSize
-        
+
         var sRect: CGRect = sidebarTableView.frame
         sRect.size.width = UserDefaultsManagement.sidebarSize
         sidebarTableView.draw(sRect)
     }
+
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -486,7 +487,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     var sidebarWidth: CGFloat = 0
     var width: CGFloat = 0
-    
+    var start: CFTimeInterval = 0
+
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
         guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
@@ -495,11 +497,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let translation = swipe.translation(in: vc.notesTable)
         
         if swipe.state == .began {
+            self.start = CACurrentMediaTime()
+
             self.width = vc.notesTable.frame.size.width
             self.sidebarWidth = vc.sidebarTableView.frame.size.width
             return
         }
-        
+
         let sidebarWidth = self.sidebarWidth + translation.x
         var finSidebarWidth: CGFloat = sidebarWidth
         
@@ -524,7 +528,35 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         if swipe.state == .ended {
-            UserDefaultsManagement.sidebarSize = finSidebarWidth
+
+            let end = CACurrentMediaTime()
+            guard end - self.start < 0.5 else {
+                print(finSidebarWidth)
+                UserDefaultsManagement.sidebarSize = finSidebarWidth
+                return
+            }
+
+            UIView.animate(withDuration: 0.1, animations: {
+                if translation.x > 0 {
+                    var sidebarWidth = windowWidth / 2
+
+                    if UserDefaultsManagement.sidebarSize > 0 && sidebarWidth > UserDefaultsManagement.sidebarSize {
+                        sidebarWidth = UserDefaultsManagement.sidebarSize
+                    }
+
+                    vc.sidebarTableView.frame.size.width = sidebarWidth
+                    vc.notesTable.frame.size.width = windowWidth - sidebarWidth
+                    vc.notesTable.frame.origin.x = sidebarWidth
+                    finSidebarWidth = sidebarWidth
+                }
+
+                if translation.x < 0 {
+                    vc.sidebarTableView.frame.size.width = 0
+                    vc.notesTable.frame.origin.x = 0
+                    vc.notesTable.frame.size.width = windowWidth
+                    finSidebarWidth = 0
+                }
+            })
         }
     }
     

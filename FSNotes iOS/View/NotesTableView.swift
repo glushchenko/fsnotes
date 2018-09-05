@@ -16,16 +16,6 @@ class NotesTableView: UITableView,
     var notes = [Note]()
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
-    
-    override func draw(_ rect: CGRect) {
-        if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageViewController.orderedViewControllers[0] as? ViewController {
-            
-            vc.notesWidthConstraint.constant = vc.view.frame.width - UserDefaultsManagement.sidebarSize
-        }
-        
-        super.draw(rect)
-    }
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -195,6 +185,7 @@ class NotesTableView: UITableView,
     public func updateLabel(note: Note) {
         if let i = self.notes.index(of: note) {
             let indexPath = IndexPath(row: i, section: 0)
+
             reloadRows(at: [indexPath], with: .automatic)
         }
     }

@@ -20,17 +20,37 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                     self.state = .recognized
                     return
                 }
+
+                if view.isImage(at: characterIndex) {
+                    self.state = .possible
+                    return
+                }
             }
-            
+
             self.state = .failed
         }
+
+        print(self.state)
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        self.state = .failed
+        self.state = .possible
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        self.state = .failed
+        if self.state == .possible {
+            for touch in touches {
+                guard let view = self.view as? EditTextView else { continue }
+
+                let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+                if view.isImage(at: characterIndex) {
+                    self.state = .recognized
+                    return
+                }
+            }
+
+            self.state = .failed
+        }
     }
 }

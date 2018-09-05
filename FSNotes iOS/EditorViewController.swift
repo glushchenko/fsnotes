@@ -10,6 +10,10 @@ import UIKit
 import NightNight
 import Down
 import AudioToolbox
+import DKImagePickerController
+import MobileCoreServices
+import Photos
+import GSImageViewerController
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -38,7 +42,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         super.viewDidLoad()
         
-        addToolBar(textField: editArea)
+        self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
         
         guard let pageController = self.parent as? PageViewController else {
             return
@@ -77,7 +81,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         initLinksColor()
     }
-    
+
     override var textInputMode: UITextInputMode? {
         let defaultLang = UserDefaultsManagement.defaultLanguage
         
@@ -87,7 +91,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         return super.textInputMode
     }
-    
+
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
         EditTextView.note = note
@@ -191,7 +195,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .PlainText {
             if self.toolbar != .plain {
                 self.toolbar = .plain
-                editArea.inputAccessoryView = self.getPlainTextToolbar()
+                self.addToolBar(textField: editArea, toolbar: self.getPlainTextToolbar())
             }
             return
         }
@@ -199,14 +203,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .RichText {
             if self.toolbar != .rich {
                 self.toolbar = .rich
-                editArea.inputAccessoryView = self.getRTFToolbar()
+                self.addToolBar(textField: editArea, toolbar: self.getRTFToolbar())
             }
             return
         }
 
         if self.toolbar != .markdown {
             self.toolbar = .markdown
-            editArea.inputAccessoryView = getMarkdownToolbar()
+            self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
         }
     }
     
@@ -445,10 +449,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.view.frame.size.height = UIScreen.main.bounds.height
     }
     
-    func addToolBar(textField: UITextView) {
+    func addToolBar(textField: UITextView, toolbar: UIToolbar) {
+        let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
+        scroll.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        scroll.showsHorizontalScrollIndicator = false
+        scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
+        scroll.addSubview(toolbar)
+
         textField.delegate = self
-        textField.inputAccessoryView = self.getMarkdownToolbar()
-        
+        textField.inputAccessoryView = scroll
+
         if let etv = textField as? EditTextView {
             etv.initUndoRedoButons()
         }
@@ -457,10 +467,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func getMarkdownToolbar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-
-        toolBar.isTranslucent = true
+        toolBar.barStyle = .blackTranslucent
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
+        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
         let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
@@ -473,10 +483,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
 
-        toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+        toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
 
         toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
+        toolBar.frame = CGRect.init(x: 0, y: 0, width: 420, height: 44)
 
         return toolBar
     }
@@ -585,6 +595,67 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             AudioServicesPlaySystemSound(1519)
         }
     }
+
+    @objc func imagePressed() {
+        if let note = self.note {
+            let pickerController = DKImagePickerController()
+            pickerController.assetType = .allPhotos
+
+            pickerController.didSelectAssets = { (assets: [DKAsset]) in
+                var processed = 0
+                var markup = ""
+
+                for asset in assets {
+                    asset.fetchOriginalImage(true, completeBlock: { image, info in
+                        processed += 1
+
+                        guard var url = info?["PHImageFileURLKey"] as? URL else { return }
+                        let data: Data?
+                        let isHeic = url.pathExtension.lowercased() == "heic"
+
+                        if isHeic, let imageUnwrapped = image {
+                            data = UIImageJPEGRepresentation(imageUnwrapped, 0.7);
+                            url.deletePathExtension()
+                            url.appendPathExtension("jpg")
+                        } else {
+                            do {
+                                data = try Data(contentsOf: url)
+                            } catch {
+                                return
+                            }
+                        }
+
+                        guard let imageData = data else { return }
+
+                        let processor = ImagesProcessor(styleApplier: self.editArea.textStorage, note: note)
+                        guard let fileName = processor.writeImage(data: imageData, url: url) else { return }
+
+                        if note.type == .TextBundle {
+                            markup += "![](assets/\(fileName))"
+                        } else {
+                            markup += "![](/i/\(fileName))"
+                        }
+
+                        markup += "\n\n"
+
+                        guard processed == assets.count else { return }
+
+                        DispatchQueue.main.async {
+                            self.editArea.insertText(markup)
+
+                            note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
+                            note.save()
+
+                            self.editArea.undoManager?.removeAllActions()
+                            self.refill()
+                        }
+                    })
+                }
+            }
+
+            present(pickerController, animated: true) {}
+        }
+    }
     
     @objc func donePressed(){
         view.endEditing(true)
@@ -690,8 +761,27 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         location.y -= myTextView.textContainerInset.top;
         
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        // Image preview on click
+        if self.editArea.isImage(at: characterIndex) {
+            let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+
+            guard let path = myTextView.textStorage.attribute(todoKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
+
+            if let someImage = UIImage(contentsOfFile: url.path) {
+
+                let imageInfo   = GSImageInfo(image: someImage, imageMode: .aspectFit)
+                let transitiionInfo = GSTransitionInfo(fromRect: CGRect.init())
+                let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitiionInfo)
+                present(imageViewer, animated: true, completion: nil)
+            }
+
+            return
+        }
+
         let char = Array(myTextView.textStorage.string)[characterIndex]
 
+        // Toggle todo on click
         if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
             let range = myTextView.selectedRange

@@ -44,8 +44,8 @@ class EditTextView: UITextView, UITextViewDelegate {
         
         let img = um.canUndo ? undoIcon : undoIcon?.alpha(0.5)
         let redoImg = um.canRedo ? redoIcon : redoIcon?.alpha(0.5)
-        
-        if let toolBar = self.inputAccessoryView as? UIToolbar, let items = toolBar.items {
+
+        if let scroll = self.inputAccessoryView as? UIScrollView, let toolBar = scroll.subviews.first as? UIToolbar, let items = toolBar.items {
             for item in items {
                 
                 if item.action == #selector(EditorViewController.undoPressed) {
@@ -82,6 +82,17 @@ class EditTextView: UITextView, UITextViewDelegate {
             }
         }
         
+        return false
+    }
+
+    public func isImage(at location: Int) -> Bool {
+        let storage = self.textStorage
+
+        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+        if storage.length > location, storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+
         return false
     }
 }

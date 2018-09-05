@@ -17,15 +17,6 @@ class SidebarTableView: UITableView,
     
     var sidebar: Sidebar?
     private var sections = ["FSNotes", "Folders", "Tags"]
-    
-    override func draw(_ rect: CGRect) {                
-        if let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageViewController.orderedViewControllers[0] as? ViewController {
-            vc.sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
-        }
-        
-        super.draw(rect)
-    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.hasTags() ? 3 : 2

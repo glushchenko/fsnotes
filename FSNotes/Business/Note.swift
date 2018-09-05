@@ -112,9 +112,13 @@ public class Note: CoreNote {
         modifiedLocalAt = modifiedAt
     }
     
-    func getFileModifiedDate() -> Date? {
+    public func getFileModifiedDate() -> Date? {
         do {
-            let attr = try FileManager.default.attributesOfItem(atPath: url.path)
+            var path = url.path
+            if self.type == .TextBundle {
+                path = url.appendingPathComponent("text.markdown").path
+            }
+            let attr = try FileManager.default.attributesOfItem(atPath: path)
             return attr[FileAttributeKey.modificationDate] as? Date
         } catch {
             NSLog("Note modification date load error: \(error.localizedDescription)")

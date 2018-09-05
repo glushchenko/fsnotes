@@ -48,4 +48,6 @@ target 'FSNotes iOS' do
     common_pods
     pod 'Solar', '~> 2.0'
     pod 'NightNight', '~> 0.5.0'
+    pod 'DKImagePickerController'
+    pod 'GSImageViewerController'
 end

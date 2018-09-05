@@ -94,19 +94,20 @@ class CloudDriveManager {
                     note.url = url
                     note.parseURL()
                 }
-                
-                if url == EditTextView.note?.url, let date = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date, Int(note.modifiedLocalAt.timeIntervalSince1970) < Int(date.timeIntervalSince1970) {
-                    
-                    _ = note.reload()
-                    self.delegate.refreshTextStorage(note: note)
+
+                var currentDate: Int? = nil
+                if let date = note.getFileModifiedDate() {
+                    currentDate = Int(date.timeIntervalSince1970)
                 }
 
-                DispatchQueue.main.async {
-                    self.delegate.notesTable.updateLabel(note: note)
+                if url == EditTextView.note?.url, let curDate = currentDate, curDate > Int(note.modifiedLocalAt.timeIntervalSince1970) {
+                    _ = note.reload()
+                    self.delegate.refreshTextStorage(note: note)
+                } else {
+                    _ = note.reload()
                 }
-                
+
                 self.resolveConflict(url: url)
-                
             } else if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
                 
                 self.add(metaId: i, url: url)
@@ -162,14 +163,20 @@ class CloudDriveManager {
         _ = note.reload()
         
         let i = self.delegate.getInsertPosition()
-        self.storage.noteList.insert(note, at: i)
-        
+
+        guard self.storage.getBy(url: url) == nil else { return }
+
         DispatchQueue.main.async {
-            if self.delegate.isFitInSidebar(note: note) {
+            if self.delegate.isFitInSidebar(note: note), !self.delegate.notesTable.notes.contains(note) {
+
                 self.delegate.notesTable.notes.insert(note, at: i)
                 self.delegate.notesTable.beginUpdates()
                 self.delegate.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                 self.delegate.notesTable.endUpdates()
+
+            } else if !self.storage.noteList.contains(note) {
+                self.storage.noteList.insert(note, at: i)
             }
         }
     }
