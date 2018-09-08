@@ -35,11 +35,13 @@ class NotesTableView: UITableView,
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
-        
+
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        deselectRow(at: indexPath, animated: false)
+
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
@@ -211,17 +213,17 @@ class NotesTableView: UITableView,
             let dst = note.getNewURL(name: name)
 
             note.removePin()
-            note.move(to: dst)
-
-            note.url = dst
-            note.parseURL()
+            if note.move(to: dst) {
+                note.url = dst
+                note.parseURL()
+            }
 
             if isPinned {
                 note.addPin()
             }
 
             DispatchQueue.main.async {
-                if let i = self.notes.firstIndex(of: note) {
+                if let i = self.notes.index(of: note) {
                     self.beginUpdates()
                     self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                     self.endUpdates()

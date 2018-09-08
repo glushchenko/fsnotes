@@ -275,6 +275,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return false
     }
 
+    public func insertRow(note: Note) {
+        let i = self.getInsertPosition()
+
+        DispatchQueue.main.async {
+            if self.isFitInSidebar(note: note), !self.notesTable.notes.contains(note) {
+
+                self.notesTable.notes.insert(note, at: i)
+                self.notesTable.beginUpdates()
+                self.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                self.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                self.notesTable.endUpdates()
+            }
+        }
+    }
+
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
         for term in terms {
             if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {

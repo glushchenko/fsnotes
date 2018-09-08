@@ -126,13 +126,16 @@ public class Note: CoreNote {
         }
     }
     
-    func move(to: URL) {        
+    func move(to: URL) -> Bool {
         do {
             try FileManager.default.moveItem(at: url, to: to)
             NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
+            return false
         }
+
+        return true
     }
     
     func getNewURL(name: String) -> URL {
@@ -617,7 +620,14 @@ public class Note: CoreNote {
         tagNames = newTagsClean
 
         #if os(OSX)
-        try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
+            try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
+        #else
+            let data = NSKeyedArchiver.archivedData(withRootObject: newTagsClean)
+            do {
+                try self.url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
+            } catch {
+                print(error)
+            }
         #endif
         
         return (removedFromStorage, removed)

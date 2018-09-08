@@ -95,7 +95,7 @@ class CloudDriveManager {
                 }
 
                 DispatchQueue.main.async {
-                    if let i = self.delegate.notesTable.notes.firstIndex(of: note) {
+                    if let i = self.delegate.notesTable.notes.index(of: note) {
                         self.delegate.notesTable.beginUpdates()
                         self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                         self.delegate.notesTable.endUpdates()
@@ -125,7 +125,7 @@ class CloudDriveManager {
                         prevNote.loadTags()
                         prevNote.parseURL()
 
-                        self.insertRow(note: prevNote)
+                        self.delegate.insertRow(note: prevNote)
                     }
 
                     continue
@@ -150,6 +150,9 @@ class CloudDriveManager {
 
                 if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
                     let index = cloudDriveQuery.index(ofResult: item)
+
+                    print("dl")
+                    print(url)
                     self.add(url: url, metaId: index)
                 }
             }
@@ -194,22 +197,7 @@ class CloudDriveManager {
         _ = note.reload()
 
         self.storage.noteList.append(note)
-        self.insertRow(note: note)
-    }
-
-    private func insertRow(note: Note) {
-        let i = self.delegate.getInsertPosition()
-
-        DispatchQueue.main.async {
-            if self.delegate.isFitInSidebar(note: note), !self.delegate.notesTable.notes.contains(note) {
-
-                self.delegate.notesTable.notes.insert(note, at: i)
-                self.delegate.notesTable.beginUpdates()
-                self.delegate.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.delegate.notesTable.endUpdates()
-            }
-        }
+        self.delegate.insertRow(note: note)
     }
     
     private func resolveConflict(url: URL) {

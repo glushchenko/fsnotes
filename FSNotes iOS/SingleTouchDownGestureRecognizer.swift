@@ -29,8 +29,6 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
 
             self.state = .failed
         }
-
-        print(self.state)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {

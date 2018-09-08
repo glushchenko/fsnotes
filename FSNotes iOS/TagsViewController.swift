@@ -46,10 +46,15 @@ class TagsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let tags = self.tags {
             let tag = tags[indexPath.row]
-            self.selectedNote.addTag(tag)
 
             if let cell = tableView.cellForRow(at: indexPath) {
-                cell.accessoryType = cell.accessoryType == .checkmark ? .none : .checkmark
+                if cell.accessoryType == .none {
+                    self.selectedNote.addTag(tag)
+                    cell.accessoryType = .checkmark
+                } else {
+                    self.selectedNote.removeTag(tag)
+                    cell.accessoryType = .none
+                }
             }
         }
     }
@@ -110,6 +115,8 @@ class TagsViewController: UITableViewController {
 
             Storage.sharedInstance().addTag(name)
             self.tags?.insert(name, at: 0)
+
+            self.notesTableView.viewDelegate?.sidebarTableView.sidebar = Sidebar()
             self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
 
             self.tableView.reloadData()

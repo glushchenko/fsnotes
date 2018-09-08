@@ -48,8 +48,13 @@ class MoveViewController: UITableViewController {
             let project = projects[indexPath.row]
             let dstURL = project.url.appendingPathComponent(self.selectedNote.name)
 
-            self.selectedNote.move(to: dstURL)
-            self.notesTableView.removeByNotes(notes: [selectedNote])
+            if self.selectedNote.project != project, self.selectedNote.move(to: dstURL) {
+                self.selectedNote.url = dstURL
+                self.selectedNote.parseURL()
+                self.selectedNote.project = project
+                self.notesTableView.removeByNotes(notes: [selectedNote])
+                self.notesTableView.viewDelegate?.insertRow(note: self.selectedNote)
+            }
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -114,18 +119,20 @@ class MoveViewController: UITableViewController {
 
             do {
                 try FileManager.default.createDirectory(at: newDir, withIntermediateDirectories: false, attributes: nil)
-
-                let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: allProjects[0], isDefault: false, isArchive: false)
-
-                Storage.sharedInstance().add(project: project)
-
-                self.projects?.insert(project, at: 0)
-                self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
             } catch {
                 print(error)
+                return
             }
 
+            let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: allProjects[0], isDefault: false, isArchive: false)
+
+            self.projects?.append(project)
             self.tableView.reloadData()
+
+            Storage.sharedInstance().add(project: project)
+
+            self.notesTableView.viewDelegate?.sidebarTableView.sidebar = Sidebar()
+            self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
