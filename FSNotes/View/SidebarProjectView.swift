@@ -139,7 +139,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             for url in urls {
                 let name = url.lastPathComponent
                 let note = Note(url: url)
-                note.reloadFileContent()
+                note.loadContent()
                 note.project = project
                 note.url = project.url.appendingPathComponent(name)
                 note.save()
@@ -254,7 +254,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 cell.label.frame.origin.x = 25
             
             case .Todo:
-                cell.icon.image = NSImage(imageLiteralResourceName: "todo.png")
+                cell.icon.image = NSImage(imageLiteralResourceName: "todo_sidebar.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
             }

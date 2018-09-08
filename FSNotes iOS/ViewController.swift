@@ -208,17 +208,28 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
-        let searchTermsArray = filter.split(separator: " ")
+
+        var type: SidebarItemType? = nil
+        var terms = filter.split(separator: " ")
+
+        if let sidebarItem = getSidebarItem() {
+            type = sidebarItem.type
+        }
+
+        if let type = type, type == .Todo {
+            terms.append("- [ ]")
+        }
 
         let filteredNoteList =
             storage.noteList.filter() {
-                let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
                     && (
-                        filter.isEmpty
-                        || !searchTermsArray.contains(where: { !searchContent.localizedCaseInsensitiveContains($0)
-                        })
+                        filter.isEmpty && type != .Todo || type == .Todo && (
+                            self.isMatched(note: $0, terms: ["- [ ]"])
+                                || self.isMatched(note: $0, terms: ["- [x]"])
+                            )
+                            || self.isMatched(note: $0, terms: terms)
                     ) && (
                         isFitInSidebar(note: $0)
                     )
@@ -250,16 +261,30 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         if type == .Trash && note.isTrash()
-            || type == .All && !note.isTrash()
+            || type == .All && !note.isTrash() && !note.project!.isArchive
             || type == .Tag && note.tagNames.contains(sidebarName)
             || [.Category, .Label].contains(type) && project != nil && note.project == project
             || type == nil && project == nil && !note.isTrash()
-            || project != nil && project!.isRoot && note.project?.parent == project {
+            || project != nil && project!.isRoot && note.project?.parent == project
+            || type == .Archive && note.project != nil && note.project!.isArchive
+            || type == .Todo {
             
             return true
         }
         
         return false
+    }
+
+    private func isMatched(note: Note, terms: [Substring]) -> Bool {
+        for term in terms {
+            if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {
+                continue
+            }
+
+            return false
+        }
+
+        return true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

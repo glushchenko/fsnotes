@@ -8,6 +8,7 @@
 
 import UIKit
 import NightNight
+import MobileCoreServices
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
@@ -17,8 +18,6 @@ class NotesTableView: UITableView,
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
 
-    public var lastRenamed: [URL: URL] = [:]
-        
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
@@ -74,7 +73,7 @@ class NotesTableView: UITableView,
                 }
             } else {
                 _ = note.removeFile()
-                
+
                 if note.isPinned {
                     note.removePin()
                 }
@@ -85,62 +84,7 @@ class NotesTableView: UITableView,
             }
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
-        
-        let rename = UITableViewRowAction(style: .default, title: "Rename", handler: { (action , indexPath) -> Void in
-            
-            let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
-            
-            alertController.addTextField { (textField) in
-                let note = self.notes[indexPath.row]
-                textField.placeholder = "Enter note name"
-                textField.attributedText = NSAttributedString(string: note.title)
-            }
-            
-            let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
-                guard let name = alertController.textFields?[0].text, name.count > 0 else {
-                    return
-                }
 
-                let note = self.notes[indexPath.row]
-                guard let project = note.project, !project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-                    let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.viewDelegate?.present(alert, animated: true, completion: nil)
-                    return
-                }
-
-                let isPinned = note.isPinned
-                let dst = note.getNewURL(name: name)
-
-                note.removePin()
-                note.rename(to: dst)
-
-                note.url = dst
-                note.parseURL()
-
-                if isPinned {
-                    note.addPin()
-                }
-
-                DispatchQueue.main.async {
-                    if let i = self.notes.firstIndex(of: note) {
-                        self.beginUpdates()
-                        self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                        self.endUpdates()
-                    }
-                }
-            }
-
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
-            
-            alertController.addAction(confirmAction)
-            alertController.addAction(cancelAction)
-            
-            self.viewDelegate?.present(alertController, animated: true, completion: nil)
-            
-        })
-        rename.backgroundColor = UIColor.gray
-        
         let note = self.notes[indexPath.row]
         let pin = UITableViewRowAction(style: .default, title: note.isPinned ? "UnPin" : "Pin", handler: { (action , indexPath) -> Void in
             
@@ -155,8 +99,40 @@ class NotesTableView: UITableView,
             }
         })
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
-        
-        return [rename, pin, deleteAction]
+
+        let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
+
+            let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
+
+            let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
+                self.renameAction(note: note)
+            })
+            actionSheet.addAction(rename)
+
+            let move = UIAlertAction(title: "Move", style: .default, handler: { _ in
+                self.moveAction(note: note)
+            })
+            actionSheet.addAction(move)
+
+            let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
+                self.tagsAction(note: note)
+            })
+            actionSheet.addAction(tags)
+
+            let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
+                self.copyAction(note: note)
+            })
+            actionSheet.addAction(copy)
+
+            let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
+            actionSheet.addAction(dismiss)
+
+            self.viewDelegate?.present(actionSheet, animated: true, completion: nil)
+        })
+        more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
+
+
+        return [more, pin, deleteAction]
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -211,4 +187,71 @@ class NotesTableView: UITableView,
         }
     }
 
+    private func renameAction(note: Note) {
+        let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
+
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Enter note name"
+            textField.attributedText = NSAttributedString(string: note.title)
+        }
+
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            guard let name = alertController.textFields?[0].text, name.count > 0 else {
+                return
+            }
+
+            guard let project = note.project, !project.fileExist(fileName: name, ext: note.url.pathExtension) else {
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.viewDelegate?.present(alert, animated: true, completion: nil)
+                return
+            }
+
+            let isPinned = note.isPinned
+            let dst = note.getNewURL(name: name)
+
+            note.removePin()
+            note.move(to: dst)
+
+            note.url = dst
+            note.parseURL()
+
+            if isPinned {
+                note.addPin()
+            }
+
+            DispatchQueue.main.async {
+                if let i = self.notes.firstIndex(of: note) {
+                    self.beginUpdates()
+                    self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                    self.endUpdates()
+                }
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+
+        self.viewDelegate?.present(alertController, animated: true, completion: nil)
+    }
+
+    private func moveAction(note: Note) {
+        let moveController = MoveViewController(note: note, notesTableView: self)
+        let controller = UINavigationController(rootViewController:moveController)
+        self.viewDelegate?.present(controller, animated: true, completion: nil)
+    }
+
+    private func tagsAction(note: Note) {
+        let tagsController = TagsViewController(note: note, notesTableView: self)
+        let controller = UINavigationController(rootViewController: tagsController)
+        self.viewDelegate?.present(controller, animated: true, completion: nil)
+    }
+
+    private func copyAction(note: Note) {
+        let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
+
+        UIPasteboard.general.items = [item]
+    }
 }

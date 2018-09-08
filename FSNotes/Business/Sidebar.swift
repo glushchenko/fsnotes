@@ -31,9 +31,8 @@ class Sidebar {
             SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
         )
         
-        #if os(OSX)
         list.append(
-            SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo.png"))
+            SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
         )
         
         if let archiveProject = storage.getArchive() {
@@ -41,8 +40,7 @@ class Sidebar {
                 SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
             )
         }
-        #endif
-        
+
         list.append(
             SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night)"))
         )

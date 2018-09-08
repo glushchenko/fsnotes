@@ -321,8 +321,6 @@ class Storage {
         let isFirst = true
         for document in documents {
             let url = document.0 as URL
-
-            print(url)
             
             #if os(iOS)
                 if

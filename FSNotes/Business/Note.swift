@@ -126,11 +126,13 @@ public class Note: CoreNote {
         }
     }
     
-    func rename(to: URL) {        
+    func move(to: URL) {        
         do {
             try FileManager.default.moveItem(at: url, to: to)
             NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
-        } catch {}
+        } catch {
+            Swift.print(error)
+        }
     }
     
     func getNewURL(name: String) -> URL {
@@ -443,6 +445,7 @@ public class Note: CoreNote {
         sharedStorage.add(self)
     }
 
+    #if os(iOS)
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
     }
 
@@ -471,6 +474,7 @@ public class Note: CoreNote {
             return textWrapper
         }
     }
+    #endif
         
     private func writeTextBundleInfo(url: URL) {
         let url = url.appendingPathComponent("info.json")
@@ -583,8 +587,7 @@ public class Note: CoreNote {
     public func getCommaSeparatedTags() -> String {
         return tagNames.map { String($0) }.joined(separator: ", ")
     }
-    
-    #if os(OSX)
+
     public func saveTags(_ string: [String]) -> ([String], [String]) {
         let newTagsClean = string
         var new = [String]()
@@ -612,8 +615,10 @@ public class Note: CoreNote {
         }
         
         tagNames = newTagsClean
-        
+
+        #if os(OSX)
         try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
+        #endif
         
         return (removedFromStorage, removed)
     }
@@ -628,32 +633,19 @@ public class Note: CoreNote {
         guard !tagNames.contains(name) else { return }
         
         tagNames.append(name)
-        try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
+
+        #if os(OSX)
+            try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
+        #else
+            let data = NSKeyedArchiver.archivedData(withRootObject: self.tagNames)
+            do {
+                try url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
+            } catch {
+                print(error)
+            }
+        #endif
     }
-    
-    public func duplicateNote() -> Note {
-        var url: URL = self.url
 
-        let ext = url.pathExtension
-        url.deletePathExtension()
-
-        let name = url.lastPathComponent
-        url.deleteLastPathComponent()
-        
-        let now = dateFormatter.formatForDuplicate(Date())
-        url.appendPathComponent(name + " " + now)
-        url.appendPathExtension(ext)
-        
-        let note = Note(url: url)
-        note.content = content
-        note.save()
-
-        UserDataService.instance.lastRenamed = url
-        UserDataService.instance.skipListReload = true
-        
-        return note
-    }
-    
     public func removeTag(_ name: String) {
         guard tagNames.contains(name) else { return }
         
@@ -669,8 +661,6 @@ public class Note: CoreNote {
         
         _ = saveTags(tagNames)
     }
-    
-    #endif
     
     public func loadTags() {
         #if os(OSX)
@@ -689,10 +679,11 @@ public class Note: CoreNote {
         #else
             if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
                 let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
+                self.tagNames.removeAll()
                 for tag in tags {
                     if let tagName = tag as? String {
                         self.tagNames.append(tagName)
-                        
+
                         if let project = project, !project.isTrash {
                             sharedStorage.addTag(tagName)
                         }
@@ -727,4 +718,29 @@ public class Note: CoreNote {
             return "\(isPinned ? "* " : "")<\(name)>"
         }
     }
+
+    #if os(OSX)
+    public func duplicateNote() -> Note {
+        var url: URL = self.url
+
+        let ext = url.pathExtension
+        url.deletePathExtension()
+
+        let name = url.lastPathComponent
+        url.deleteLastPathComponent()
+
+        let now = dateFormatter.formatForDuplicate(Date())
+        url.appendPathComponent(name + " " + now)
+        url.appendPathExtension(ext)
+
+        let note = Note(url: url)
+        note.content = content
+        note.save()
+
+        UserDataService.instance.lastRenamed = url
+        UserDataService.instance.skipListReload = true
+
+        return note
+    }
+    #endif
 }

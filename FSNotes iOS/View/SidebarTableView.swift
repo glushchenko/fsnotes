@@ -27,7 +27,7 @@ class SidebarTableView: UITableView,
         
         switch section {
         case 0:
-            return 2
+            return 4
         case 1:
             return sidebar.getProjects().count
         case 2:

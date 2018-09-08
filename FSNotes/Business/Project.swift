@@ -72,6 +72,14 @@ public class Project: Equatable {
         if isRoot {
             return label
         }
+
+        if isTrash {
+            return "Trash"
+        }
+
+        if isArchive {
+            return label
+        }
         
         return "\(getParent().getFullLabel()) › \(label)"
     }

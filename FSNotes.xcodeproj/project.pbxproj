@@ -64,6 +64,14 @@
 		D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
 		D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
 		D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
+		D71AA01A2143948A004AFD2A /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
+		D71AA01E21439A8C004AFD2A /* archive_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01B21439A8B004AFD2A /* archive_white.png */; };
+		D71AA01F21439A8C004AFD2A /* todo_sidebar_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */; };
+		D71AA02021439A8C004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
+		D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71AA0212143A4A8004AFD2A /* MoveViewController.swift */; };
+		D71AA0262143BD50004AFD2A /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71AA0252143BD4F004AFD2A /* TagsViewController.swift */; };
+		D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
+		D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
 		D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
 		D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71FD2242101CFD0008BEFA1 /* UITextView+.swift */; };
@@ -168,7 +176,6 @@
 		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE8A21F77D04A00113CFD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		D7A216F92131A52C00AAFE11 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
-		D7A216FA2131A53A00AAFE11 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C01B4C210607FE000F91C3 /* todo.png */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
@@ -477,6 +484,11 @@
 		D714496120C72D3400D7AD46 /* UIImage+Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Alpha.swift"; sourceTree = "<group>"; };
 		D7169A5C2077BA140025D2C9 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemEventManager.swift; sourceTree = "<group>"; };
+		D71AA01B21439A8B004AFD2A /* archive_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archive_white.png; sourceTree = "<group>"; };
+		D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo_sidebar_white.png; sourceTree = "<group>"; };
+		D71AA01D21439A8B004AFD2A /* todo_sidebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo_sidebar.png; sourceTree = "<group>"; };
+		D71AA0212143A4A8004AFD2A /* MoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveViewController.swift; sourceTree = "<group>"; };
+		D71AA0252143BD4F004AFD2A /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
 		D71FD2242101CFD0008BEFA1 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		D72189332102096000FE3AF2 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSTextStorage+.swift"; path = "FSNotesCore/Core iOS/Extensions/NSTextStorage+.swift"; sourceTree = SOURCE_ROOT; };
@@ -580,7 +592,6 @@
 		D7BDFE69201F68B700897A58 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7BDFE6B201F6DC200897A58 /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D7BDFE6F201F788D00897A58 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
-		D7C01B4C210607FE000F91C3 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
@@ -625,7 +636,6 @@
 		D7EA59EC213EAD8700582BD9 /* image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image@3x.png"; sourceTree = "<group>"; };
 		D7EA59ED213EAD8700582BD9 /* image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image@2x.png"; sourceTree = "<group>"; };
 		D7EA59EE213EAD8700582BD9 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
-		D7EA59F2213F061C00582BD9 /* DKImageAssetExporterConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKImageAssetExporterConfiguration.swift; sourceTree = "<group>"; };
 		D7ED6891200F87BD00FF975A /* Initial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Initial; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F6CFF32056F1BC008C584A /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
@@ -990,13 +1000,14 @@
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7DB5ED92025BD7900E7E1B6 /* PageViewController.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
+				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
+				D71AA0252143BD4F004AFD2A /* TagsViewController.swift */,
 				D767938C201F21F5000F7BBF /* Main.storyboard */,
 				D7679394201F21F5000F7BBF /* LaunchScreen.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
 				D70FE12E20FE198200813F9E /* InfoPlist.strings */,
 				D70FE12B20FE198200813F9E /* Localizable.strings */,
 				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
-				D7EA59F2213F061C00582BD9 /* DKImageAssetExporterConfiguration.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -1115,11 +1126,13 @@
 				D7DF402720A377F4000F8B13 /* home_white.png */,
 				D7DF402920A377FE000F8B13 /* pin_white.png */,
 				D77B9E9A20DE53E0003FAA27 /* archive.png */,
-				D7C01B4C210607FE000F91C3 /* todo.png */,
 				D76C873C2136AA7100F82952 /* trash_white.png */,
 				D76C873B2136AA7100F82952 /* trash.png */,
 				D798027D2137C3D5008D6200 /* uncheckedbox.png */,
 				D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */,
+				D71AA01B21439A8B004AFD2A /* archive_white.png */,
+				D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */,
+				D71AA01D21439A8B004AFD2A /* todo_sidebar.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1541,6 +1554,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D71AA01A2143948A004AFD2A /* archive.png in Resources */,
 				D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */,
 				D7DF402B20A3780E000F8B13 /* home_white.png in Resources */,
 				D739EC312138305000E1C021 /* checkbox@3x.png in Resources */,
@@ -1552,12 +1566,14 @@
 				D739EC352138305000E1C021 /* checkbox_white@3x.png in Resources */,
 				D7D95044209D8B40001FB60B /* repository.png in Resources */,
 				D7D95045209D8B40001FB60B /* tag.png in Resources */,
+				D71AA01F21439A8C004AFD2A /* todo_sidebar_white.png in Resources */,
 				D739EC342138305000E1C021 /* checkbox_white@2x.png in Resources */,
 				D75F1DF1206D660D00F70B28 /* DownView.bundle in Resources */,
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D75DF64221319994003C3059 /* todo.png in Resources */,
 				D739EC3E2138313400E1C021 /* checkbox_empty_white@3x.png in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
+				D71AA01E21439A8C004AFD2A /* archive_white.png in Resources */,
 				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
 				D70FE12D20FE198200813F9E /* Localizable.strings in Resources */,
 				D75DF64321319994003C3059 /* todo@3x.png in Resources */,
@@ -1572,6 +1588,7 @@
 				D70BA87720599D1300875E9C /* header.png in Resources */,
 				D70BA87920599D1300875E9C /* header@2x.png in Resources */,
 				D76C874B2136C16300F82952 /* trash.png in Resources */,
+				D71AA02021439A8C004AFD2A /* todo_sidebar.png in Resources */,
 				D71354012042AECD00E3776F /* settings@2x.png in Resources */,
 				D7735B10213D06C500FACB12 /* strike.png in Resources */,
 				D739EC302138305000E1C021 /* checkbox@2x.png in Resources */,
@@ -1624,6 +1641,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */,
 				D7A216F92131A52C00AAFE11 /* todo.png in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
@@ -1657,7 +1675,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7A216FA2131A53A00AAFE11 /* todo.png in Resources */,
+				D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */,
 				D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */,
 				D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
@@ -1948,6 +1966,7 @@
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
+				D71AA0262143BD50004AFD2A /* TagsViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
@@ -1961,6 +1980,7 @@
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
+				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
