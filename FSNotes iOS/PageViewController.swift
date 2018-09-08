@@ -125,7 +125,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     func switchToList() {
         self.dismiss(animated: true, completion: nil)
-        setViewControllers([orderedViewControllers[0]], direction: .forward, animated: true)
+        setViewControllers([orderedViewControllers[0]], direction: .reverse, animated: true)
     }
     
     func switchToEditor() {

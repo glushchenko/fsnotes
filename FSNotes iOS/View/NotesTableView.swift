@@ -38,13 +38,13 @@ class NotesTableView: UITableView,
 
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        deselectRow(at: indexPath, animated: false)
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
+
+                self.deselectRow(at: indexPath, animated: true)
             return
         }
         
@@ -53,10 +53,12 @@ class NotesTableView: UITableView,
             if let editArea = evc.editArea, let u = editArea.undoManager {
                 u.removeAllActions()
             }
-            
+
             evc.fill(note: note)
             pageController.switchToEditor()
         }
+
+        self.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

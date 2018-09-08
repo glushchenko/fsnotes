@@ -16,8 +16,6 @@ class NoteCellView: UITableViewCell {
     @IBOutlet weak var pin: UIImageView!
     
     func configure(note: Note) {
-        self.selectionStyle = .default
-
         title.attributedText = NSAttributedString(string: note.title)
         preview.attributedText = NSAttributedString(string: note.getPreviewForLabel())
         date.attributedText = NSAttributedString(string: note.getDateForLabel())

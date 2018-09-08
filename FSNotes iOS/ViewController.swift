@@ -128,35 +128,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.draw(sRect)
     }
 
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         // load keyboard color
         if NightNight.theme == .night {
             search.keyboardAppearance = .dark
         } else {
             search.keyboardAppearance = .default
         }
-        
-        // disable swipes
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
-            return
-        }
-        
-        pageController.disableSwipe()
-        
-        // reload last row preview
-        if let vc = pageController.orderedViewControllers[1] as? UINavigationController, let evc = vc.viewControllers[0] as? EditorViewController, let note  = evc.note {
-            
-            guard let i = notesTable.notes.index(of: note) else {
-                return
-            }
-            
-            notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-        }
     }
-    
+
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
     }
