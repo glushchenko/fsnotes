@@ -29,7 +29,7 @@ class CloudDriveManager {
             NSMetadataQueryUbiquitousDocumentsScope
         ]
         
-        metadataQuery.predicate = NSPredicate(value: true)
+        metadataQuery.predicate = NSPredicate(format: "%K LIKE '*'", NSMetadataItemFSNameKey)
         metadataQuery.enableUpdates()
         metadataQuery.start()
         
@@ -45,7 +45,7 @@ class CloudDriveManager {
     @objc func queryDidFinishGathering(notification: NSNotification) {
         cloudDriveQuery.disableUpdates()
         cloudDriveQuery.stop()
-        
+
         if let items = cloudDriveQuery.results as? [NSMetadataItem] {
             for item in items {
                 if  let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
@@ -75,26 +75,11 @@ class CloudDriveManager {
         guard let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] else { return }
         
         for item in changedMetadataItems {
-            guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
+            guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL, self.storage.allowedExtensions.contains(url.pathExtension) else {
                 continue
             }
-            
-            let i = cloudDriveQuery.index(ofResult: item)
-            if let note = storage.getBy(url: url) {
-                note.metaId = i
-            }
-            
-            if let note = storage.getBy(metaId: i) {
-                if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
-                    self.moveToTrash(note: note, url: url)
-                    continue
-                }
-                
-                if note.url != url {
-                    note.url = url
-                    note.parseURL()
-                }
 
+            if let note = storage.getBy(url: url) {
                 var currentDate: Int? = nil
                 if let date = note.getFileModifiedDate() {
                     currentDate = Int(date.timeIntervalSince1970)
@@ -107,10 +92,47 @@ class CloudDriveManager {
                     _ = note.reload()
                 }
 
+                DispatchQueue.main.async {
+                    if let i = self.delegate.notesTable.notes.firstIndex(of: note) {
+                        self.delegate.notesTable.beginUpdates()
+                        self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                        self.delegate.notesTable.endUpdates()
+                    }
+                }
+
                 self.resolveConflict(url: url)
-            } else if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-                
-                self.add(metaId: i, url: url)
+                continue
+            }
+
+            let index = cloudDriveQuery.index(ofResult: item)
+
+            if let prevNote = self.storage.getBy(metaId: index) {
+                if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
+                    self.moveToTrash(note: prevNote, url: url)
+                    continue
+                }
+
+                if prevNote.url != url {
+
+                    DispatchQueue.main.async {
+                        if self.delegate.notesTable.notes.contains(prevNote) {
+                            self.delegate.notesTable.removeByNotes(notes: [prevNote])
+                        }
+
+                        prevNote.url = url
+                        prevNote.loadTags()
+                        prevNote.parseURL()
+
+                        self.insertRow(note: prevNote)
+                    }
+
+                    continue
+                }
+            }
+
+            if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
+                self.add(url: url, metaId: index)
+                continue
             }
         }
     }
@@ -119,9 +141,14 @@ class CloudDriveManager {
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
             for item in addedMetadataItems {
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else { continue }
-                
+
                 if FileManager.default.isUbiquitousItem(at: url) {
                     try? FileManager.default.startDownloadingUbiquitousItem(at: url)
+                }
+
+                if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
+                    let index = cloudDriveQuery.index(ofResult: item)
+                    self.add(url: url, metaId: index)
                 }
             }
         }
@@ -132,7 +159,7 @@ class CloudDriveManager {
             
             for item in removedMetadataItems {
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL, let note = storage.getBy(url: url) else { continue }
-                
+
                 self.storage.removeNotes(notes: [note]) {_ in
                     DispatchQueue.main.async {
                         self.delegate.notesTable.removeByNotes(notes: [note])
@@ -156,15 +183,20 @@ class CloudDriveManager {
         return false
     }
     
-    private func add(metaId: Int, url: URL) {
+    private func add(url: URL, metaId: Int) {
+        guard self.storage.getBy(url: url) == nil else { return }
+
         let note = Note(url: url)
         note.metaId = metaId
         note.loadTags()
         _ = note.reload()
-        
-        let i = self.delegate.getInsertPosition()
 
-        guard self.storage.getBy(url: url) == nil else { return }
+        self.storage.noteList.append(note)
+        self.insertRow(note: note)
+    }
+
+    private func insertRow(note: Note) {
+        let i = self.delegate.getInsertPosition()
 
         DispatchQueue.main.async {
             if self.delegate.isFitInSidebar(note: note), !self.delegate.notesTable.notes.contains(note) {
@@ -174,9 +206,6 @@ class CloudDriveManager {
                 self.delegate.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                 self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                 self.delegate.notesTable.endUpdates()
-
-            } else if !self.storage.noteList.contains(note) {
-                self.storage.noteList.insert(note, at: i)
             }
         }
     }
@@ -187,11 +216,11 @@ class CloudDriveManager {
                 guard let localizedName = conflict.localizedName else {
                     continue
                 }
-                
-                let url = URL(fileURLWithPath: localizedName)
+
+                let localizedUrl = URL(fileURLWithPath: localizedName)
                 let ext = url.pathExtension
-                let name = url.deletingPathExtension().lastPathComponent
-                
+                let name = localizedUrl.deletingPathExtension().lastPathComponent
+
                 let date = Date.init()
                 let dateFormatter = ISO8601DateFormatter()
                 dateFormatter.formatOptions = [
@@ -203,15 +232,13 @@ class CloudDriveManager {
                 let dateString: String = dateFormatter.string(from: date)
                 let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
                 
-                let documents = UserDefaultsManagement.storageUrl
-                
-                do {
-                    if let to = documents?.appendingPathComponent(conflictName) {
-                        try FileManager.default.copyItem(at: conflict.url, to: to)
-                    }
-                } catch {
-                    print(error)
-                }
+                let to = url.deletingLastPathComponent().appendingPathComponent(conflictName)
+                let note = Note(url: conflict.url)
+                note.loadContent()
+
+                let conflictNote = Note(url: to)
+                conflictNote.content = note.content
+                conflictNote.save(to: to, for: .forCreating, completionHandler: nil)
                 
                 conflict.isResolved = true
             }

@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string></string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Needs for attach photo in notes</string>
 	<key>NSPhotoLibraryUsageDescription</key>

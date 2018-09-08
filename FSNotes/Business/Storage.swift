@@ -313,7 +313,7 @@ class Storage {
         
         return note.isPinned && !next.isPinned
     }
-    
+
     func loadLabel(_ item: Project, shouldScanCache: Bool = false) {
         let keyStore = NSUbiquitousKeyValueStore()
         let documents = readDirectory(item.url)
@@ -321,6 +321,8 @@ class Storage {
         let isFirst = true
         for document in documents {
             let url = document.0 as URL
+
+            print(url)
             
             #if os(iOS)
                 if
@@ -382,6 +384,21 @@ class Storage {
         for note in notes {
             if let i = noteList.index(of: note) {
                 noteList.remove(at: i)
+            }
+        }
+    }
+
+    public func reLoadTrash() {
+        let notes = noteList.filter({ $0.isTrash() })
+        for note in notes {
+            if let i = noteList.index(of: note) {
+                noteList.remove(at: i)
+            }
+        }
+
+        for project in projects {
+            if project.isTrash {
+                self.loadLabel(project)
             }
         }
     }
@@ -448,6 +465,10 @@ class Storage {
     }
     
     func getBy(url: URL) -> Note? {
+        if noteList.isEmpty {
+            return nil
+        }
+
         return
             noteList.first(where: {
                 return (

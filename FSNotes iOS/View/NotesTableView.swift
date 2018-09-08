@@ -16,6 +16,8 @@ class NotesTableView: UITableView,
     var notes = [Note]()
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
+
+    public var lastRenamed: [URL: URL] = [:]
         
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -64,7 +66,7 @@ class NotesTableView: UITableView,
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
-            
+
             if !note.isTrash() {
                 if let trashURLs = note.removeFile() {
                     note.url = trashURLs[0]
@@ -72,8 +74,12 @@ class NotesTableView: UITableView,
                 }
             } else {
                 _ = note.removeFile()
+                
+                if note.isPinned {
+                    note.removePin()
+                }
             }
-            
+
             DispatchQueue.main.async {
                 self.removeByNotes(notes: [note])
             }
@@ -102,14 +108,29 @@ class NotesTableView: UITableView,
                     self.viewDelegate?.present(alert, animated: true, completion: nil)
                     return
                 }
-                
-                note.rename(newName: name)
-                
-                self.storage.removeBy(note: note)
+
+                let isPinned = note.isPinned
+                let dst = note.getNewURL(name: name)
+
+                note.removePin()
+                note.rename(to: dst)
+
+                note.url = dst
+                note.parseURL()
+
+                if isPinned {
+                    note.addPin()
+                }
+
                 DispatchQueue.main.async {
-                    self.removeByNotes(notes: [note])
+                    if let i = self.notes.firstIndex(of: note) {
+                        self.beginUpdates()
+                        self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                        self.endUpdates()
+                    }
                 }
             }
+
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
             
             alertController.addAction(confirmAction)

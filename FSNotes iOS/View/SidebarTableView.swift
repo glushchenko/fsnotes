@@ -87,6 +87,12 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = getListController()
+
+        if let sidebar = self.sidebar, let sidebarItem = sidebar.getByIndexPath(path: indexPath), sidebarItem.isTrash() {
+
+            let storage = Storage.sharedInstance()
+            storage.reLoadTrash()
+        }
         vc.updateTable() {}
     }
     

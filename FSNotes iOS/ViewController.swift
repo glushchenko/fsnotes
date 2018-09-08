@@ -65,6 +65,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     self.indicator.stopAnimating()
                     self.sidebarTableView.sidebar = Sidebar()
                     self.sidebarTableView.reloadData()
+                    self.cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
                 }
             }
         }
@@ -77,8 +78,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
         
         pageController.disableSwipe()
-        
-        self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
+
         keyValueWatcher()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
@@ -120,8 +120,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        sidebarWidthConstraint.constant = UserDefaultsManagement.sidebarSize
-        notesWidthConstraint.constant = view.frame.width - UserDefaultsManagement.sidebarSize
+        sidebarWidthConstraint.constant = self.finSidebarWidth
+        notesWidthConstraint.constant = view.frame.width - self.finSidebarWidth
 
         var sRect: CGRect = sidebarTableView.frame
         sRect.size.width = UserDefaultsManagement.sidebarSize
@@ -168,7 +168,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     var filterQueue = OperationQueue.init()
     var filteredNoteList: [Note]?
-    var prevQuery: String?
     
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
@@ -209,22 +208,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         let filter = self.search.text!
-        
-        if !search {
-            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: "")
-        }
-        
         let searchTermsArray = filter.split(separator: " ")
-        var source = storage.noteList
-        
-        if let query = prevQuery, filter.range(of: query) != nil, let unwrappedList = filteredNoteList {
-            source = unwrappedList
-        } else {
-            prevQuery = nil
-        }
-        
-        filteredNoteList =
-            source.filter() {
+
+        let filteredNoteList =
+            storage.noteList.filter() {
                 let searchContent = "\($0.name) \($0.content.string)"
                 return (
                     !$0.name.isEmpty
@@ -238,8 +225,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 )
         }
         
-        if let unwrappedList = filteredNoteList {
-            notesTable.notes = unwrappedList
+        if !filteredNoteList.isEmpty {
+            notesTable.notes = storage.sortNotes(noteList: filteredNoteList, filter: "")
+        } else {
+            notesTable.notes.removeAll()
         }
         
         DispatchQueue.main.async {
@@ -247,8 +236,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
             completion()
         }
-        
-        prevQuery = filter
     }
     
     public func isFitInSidebar(note: Note) -> Bool {
@@ -337,8 +324,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         button.setImage(image, for: UIControlState.normal)
         button.tag = 1
         button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
-        self.view.addSubview(button)
         button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
+        self.view.addSubview(button)
+
+        print("multi add")
     }
     
     private func getButton() -> UIButton? {
@@ -393,8 +382,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let content = content {
             note.content = NSMutableAttributedString(string: content)
         }
-        
-        note.save()
+
+        note.save(to: note.url, for: .forCreating, completionHandler: nil)
         
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
@@ -488,6 +477,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var sidebarWidth: CGFloat = 0
     var width: CGFloat = 0
     var start: CFTimeInterval = 0
+    var finSidebarWidth: CGFloat = 0
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
         guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -505,13 +495,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         let sidebarWidth = self.sidebarWidth + translation.x
-        var finSidebarWidth: CGFloat = sidebarWidth
+        vc.finSidebarWidth = sidebarWidth
         
         if sidebarWidth < 0 {
             vc.sidebarTableView.frame.size.width = 0
             vc.notesTable.frame.origin.x = 0
             vc.notesTable.frame.size.width = windowWidth
-            finSidebarWidth = 0
+            vc.finSidebarWidth = 0
         }
         
         if sidebarWidth > windowWidth / 2 {
@@ -547,14 +537,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     vc.sidebarTableView.frame.size.width = sidebarWidth
                     vc.notesTable.frame.size.width = windowWidth - sidebarWidth
                     vc.notesTable.frame.origin.x = sidebarWidth
-                    finSidebarWidth = sidebarWidth
+                    vc.finSidebarWidth = sidebarWidth
                 }
 
                 if translation.x < 0 {
                     vc.sidebarTableView.frame.size.width = 0
                     vc.notesTable.frame.origin.x = 0
                     vc.notesTable.frame.size.width = windowWidth
-                    finSidebarWidth = 0
+                    vc.finSidebarWidth = 0
                 }
             })
         }

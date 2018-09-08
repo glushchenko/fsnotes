@@ -250,6 +250,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = self.note {
             let range = editArea.selectedRange
             let keyboardIsOpen = editArea.isFirstResponder
+            print(keyboardIsOpen)
             
             if keyboardIsOpen {
                 editArea.endEditing(true)
@@ -264,7 +265,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             fill(note: note)
             
             editArea.selectedRange = range
-            editArea.becomeFirstResponder()
+
+            if keyboardIsOpen {
+                editArea.becomeFirstResponder()
+            }
         }
     }
     
