@@ -52,9 +52,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +84,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         initLinksColor()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        self.registerForKeyboardNotifications()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        self.deregisterFromKeyboardNotifications()
+    }
+
     override var textInputMode: UITextInputMode? {
         let defaultLang = UserDefaultsManagement.defaultLanguage
         
@@ -94,6 +100,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         return super.textInputMode
+    }
+
+    private func registerForKeyboardNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+
+    private func deregisterFromKeyboardNotifications(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
     public func fill(note: Note, preview: Bool = false) {
@@ -248,7 +266,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = self.note {
             let range = editArea.selectedRange
             let keyboardIsOpen = editArea.isFirstResponder
-            print(keyboardIsOpen)
             
             if keyboardIsOpen {
                 editArea.endEditing(true)

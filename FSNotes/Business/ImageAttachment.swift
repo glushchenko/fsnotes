@@ -68,9 +68,8 @@ class ImageAttachment {
                 DispatchQueue.global().async {
                     attachment.image = self.resize(image: image, size: size)
 
-                    if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
-
-                        DispatchQueue.main.async {
+                    DispatchQueue.main.async {
+                        if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
                             view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
                         }
                     }

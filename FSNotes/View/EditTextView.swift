@@ -798,7 +798,7 @@ class EditTextView: NSTextView {
             guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
             let cacheUrl = note.getImageCacheUrl()
             
-            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl)
+            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
             guard let attachmentText = attachment.getAttributedString() else { return false }
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1

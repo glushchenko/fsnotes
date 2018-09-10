@@ -151,8 +151,6 @@ class CloudDriveManager {
                 if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
                     let index = cloudDriveQuery.index(ofResult: item)
 
-                    print("dl")
-                    print(url)
                     self.add(url: url, metaId: index)
                 }
             }

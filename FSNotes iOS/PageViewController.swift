@@ -9,8 +9,11 @@
 import UIKit
 import NightNight
 
-class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    
+class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIScrollViewDelegate {
+
+    private var startOffset = CGFloat(0)
+    private var swipeEnded = false
+
     override func viewDidLoad() {
         self.dataSource = self
         self.delegate = self
@@ -21,6 +24,10 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
                                direction: .forward,
                                animated: false,
                                completion: nil)
+        }
+
+        if let subView = self.view.subviews.first as? UIScrollView {
+            subView.delegate = self
         }
     }
     
@@ -45,7 +52,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
         }
-                
+
         let previousIndex = viewControllerIndex - 1
         
         // User is on the first view controller and swiped left to loop to
@@ -103,7 +110,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
+
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
             self.disableSwipe()
             
@@ -130,5 +137,45 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     func switchToEditor() {
         setViewControllers([orderedViewControllers[1]], direction: .forward, animated: true)
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        var direction = 0
+
+        if startOffset < scrollView.contentOffset.x {
+            direction = 1
+        }else if startOffset > scrollView.contentOffset.x {
+            direction = -1
+        }
+
+        let positionFromStartOfCurrentPage = abs(startOffset - scrollView.contentOffset.x)
+        let percent = positionFromStartOfCurrentPage /  self.view.frame.width
+
+        if let view = self.viewControllers?.first, view.isKind(of: UINavigationController.self) && direction == -1, !self.swipeEnded {
+            self.orderedViewControllers[0].view.alpha = percent + 0.3
+        }
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.swipeEnded = false
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.startOffset = scrollView.contentOffset.x
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.swipeEnded = true
+        self.fadeOutController()
+    }
+
+    private func fadeOutController() {
+        DispatchQueue.main.async {
+            UIView.beginAnimations("pager", context: nil)
+            UIView.setAnimationDuration(0.3)
+            UIView.setAnimationBeginsFromCurrentState(true)
+            self.orderedViewControllers[0].view.alpha = 1
+            UIView.commitAnimations()
+        }
     }
 }

@@ -177,7 +177,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
             
     private func getEVC() -> EditorViewController? {
-        print(" get evc")
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
             let evc = viewController.viewControllers[0] as? EditorViewController {
@@ -311,7 +310,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
     
     func reloadView(note: Note?) {
-        print("reload view")
         DispatchQueue.main.async {
             self.updateTable() {}
         }
@@ -347,8 +345,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
         button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
         self.view.addSubview(button)
-
-        print("multi add")
     }
     
     private func getButton() -> UIButton? {
@@ -543,7 +539,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             let end = CACurrentMediaTime()
             guard end - self.start < 0.5 else {
-                print(finSidebarWidth)
                 UserDefaultsManagement.sidebarSize = finSidebarWidth
                 return
             }
