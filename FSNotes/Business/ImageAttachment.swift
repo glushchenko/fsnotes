@@ -19,12 +19,14 @@ class ImageAttachment {
     private var path: String
     private var url: URL
     private var cache: URL?
+    private var invalidateRange: NSRange?
     
-    init(title: String, path: String, url: URL, cache: URL?) {
+    init(title: String, path: String, url: URL, cache: URL?, invalidateRange: NSRange? = nil) {
         self.title = title
         self.url = url
         self.path = path
         self.cache = cache
+        self.invalidateRange = invalidateRange
     }
     
     public func getAttributedString() -> NSMutableAttributedString?  {
@@ -60,7 +62,20 @@ class ImageAttachment {
             fileWrapper.icon = image
             attachment.fileWrapper = fileWrapper
         #else
-            attachment.image = resizeImage(image: image)
+            if let size = self.getImageSize(image: image) {
+                attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
+                DispatchQueue.global().async {
+                    attachment.image = self.resize(image: image, size: size)
+
+                    if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
+
+                        DispatchQueue.main.async {
+                            view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
+                        }
+                    }
+                }
+            }
         #endif
         
         let attributedString = NSAttributedString(attachment: attachment)
@@ -84,30 +99,41 @@ class ImageAttachment {
     }
     
     #if os(iOS)
-        private func resizeImage(image: UIImage) -> UIImage? {
-            guard
-                let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                let evc = viewController.viewControllers[0] as? EditorViewController else {
-                    return nil
-            }
-            
-            let maxWidth = evc.view.frame.width
-            
-            guard image.size.width > maxWidth else {
-                return image
-            }
-            
-            let scale = maxWidth / image.size.width
-            let newHeight = image.size.height * scale
-            UIGraphicsBeginImageContext(CGSize(width: maxWidth, height: newHeight))
-            image.draw(in: CGRect(x: 0, y: 0, width: maxWidth, height: newHeight))
-            
-            let newImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            return newImage
+    private func getImageSize(image: UIImage) -> CGSize? {
+        guard let view = self.getEditorView() else { return nil }
+
+        let maxWidth = view.frame.width
+
+        guard image.size.width > maxWidth else {
+            return image.size
         }
+
+        let scale = maxWidth / image.size.width
+        let newHeight = image.size.height * scale
+
+        return CGSize(width: maxWidth, height: newHeight)
+    }
+
+    private func resize(image: UIImage, size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContext(size)
+        image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage
+    }
+
+    private func getEditorView() -> EditTextView? {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = viewController.viewControllers[0] as? EditorViewController else {
+                return nil
+        }
+
+        return evc.editArea
+    }
     #endif
 
 }

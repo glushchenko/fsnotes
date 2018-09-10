@@ -20,12 +20,12 @@ class AttributedBox {
         } else {
             editorFont = UserDefaultsManagement.noteFont
         }
-        
+
         var night = ""
         if NightNight.theme == .night {
             night = "_white"
         }
-        
+
         guard var image = UIImage(named: "checkbox\(night).png"),
             let font = editorFont,
             let height = editorFont?.lineHeight else { return nil }
@@ -66,7 +66,7 @@ class AttributedBox {
         if NightNight.theme == .night {
             night = "_white"
         }
-        
+
         guard var image = UIImage(named: "checkbox_empty\(night).png"),
             let font = editorFont,
             let height = editorFont?.lineHeight else { return nil }

@@ -28,7 +28,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
-                
+
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
@@ -98,8 +98,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         swipe.delegate = self
         
         view.addGestureRecognizer(swipe)
-        //view.dele\
-        
         super.viewDidLoad()
         
         self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
@@ -415,6 +413,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.note = note
         pageController.switchToEditor()
         evc.fill(note: note)
+        evc.editArea.becomeFirstResponder()
         
         self.shouldReloadNotes = true
     }

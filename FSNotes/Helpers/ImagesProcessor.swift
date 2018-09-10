@@ -90,9 +90,11 @@ public class ImagesProcessor {
                 }
                 
                 guard let imageUrl = url else { return }
-                
+
+                let invalidateRange = NSRange(location: range.location, length: 1)
                 let cacheUrl = self.note.project?.url.appendingPathComponent("/.cache/")
-                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl)
+                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange)
+
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
                     offset += mdLink.count - 1
                     self.styleApplier.replaceCharacters(in: range, with: attributedStringWithImage)

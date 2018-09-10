@@ -23,7 +23,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private var isUndo = false
     private let storageQueue = OperationQueue()
     private var toolbar: Toolbar = .markdown
-    
+
     @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
@@ -51,8 +51,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
         
@@ -61,17 +65,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         super.viewDidAppear(animated)
-        
+
         if editArea.textStorage.length == 0 {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
-        
+
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
             return
         }
-        
+
         pageController.enableSwipe()
-        
+
         // keyboard color
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
@@ -141,32 +145,26 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.delegate = self
         
         let cursor = editArea.selectedTextRange
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
         let storage = editArea.textStorage
         let range = NSRange(0..<storage.length)
-        
+
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
         }
-        
+
         if note.isMarkdown() {
-            if let checkedBox = AttributedBox.getChecked(), let unCheckedBox = AttributedBox.getUnChecked() {
-                while (editArea.textStorage.mutableString.contains("- [ ] ")) {
-                    let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
-                    if editArea.textStorage.length >= range.upperBound {
-                        editArea.textStorage.replaceCharacters(in: range, with: unCheckedBox)
-                    }
+            while (editArea.textStorage.mutableString.contains("- [ ] ")) {
+                let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
+                if editArea.textStorage.length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
+                    editArea.textStorage.replaceCharacters(in: range, with: unChecked)
                 }
-            
-                while (editArea.textStorage.mutableString.contains("- [x] ")) {
-                    let range = editArea.textStorage.mutableString.range(of: "- [x] ")
-                    if editArea.textStorage.length >= range.upperBound {
-                        editArea.textStorage.replaceCharacters(in: range, with: checkedBox)
-                    }
+            }
+
+            while (editArea.textStorage.mutableString.contains("- [x] ")) {
+                let range = editArea.textStorage.mutableString.range(of: "- [x] ")
+                if editArea.textStorage.length >= range.upperBound, let checked = AttributedBox.getChecked() {
+                    editArea.textStorage.replaceCharacters(in: range, with: checked)
                 }
             }
         }

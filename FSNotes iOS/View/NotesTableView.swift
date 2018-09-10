@@ -54,11 +54,10 @@ class NotesTableView: UITableView,
                 u.removeAllActions()
             }
 
+            self.deselectRow(at: indexPath, animated: true)
             evc.fill(note: note)
             pageController.switchToEditor()
         }
-
-        self.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

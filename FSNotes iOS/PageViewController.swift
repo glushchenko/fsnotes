@@ -14,7 +14,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     override func viewDidLoad() {
         self.dataSource = self
         self.delegate = self
-        
+
         // This sets up the first view that will show up on our page control
         if let firstViewController = orderedViewControllers.first {
             setViewControllers([firstViewController],
@@ -85,7 +85,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         
         return orderedViewControllers[nextIndex]
     }
-        
+
     func disableSwipe() {
         for view in self.view.subviews {
             if let subView = view as? UIScrollView {
@@ -105,21 +105,21 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
-            disableSwipe()
+            self.disableSwipe()
             
             guard
                 let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let vc = pageController.orderedViewControllers[0] as? ViewController else {
                     return
             }
-            
+
             if vc.shouldReloadNotes {
                 vc.updateTable() {}
                 vc.shouldReloadNotes = false
             }
             
         } else {
-            enableSwipe()
+            self.enableSwipe()
         }
     }
     
