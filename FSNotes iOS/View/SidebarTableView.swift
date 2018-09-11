@@ -10,13 +10,15 @@ import Foundation
 
 import UIKit
 import NightNight
+import AudioToolbox
 
 class SidebarTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource  {
     
     var sidebar: Sidebar?
-    private var sections = ["FSNotes", "Folders", "Tags"]
+    private var sections = ["", "", ""]
+    public var viewController: ViewController?
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.hasTags() ? 3 : 2
@@ -40,34 +42,30 @@ class SidebarTableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "sidebarCell", for: indexPath) as! SidebarTableCellView
+
         
         guard let sidebar = sidebar else { return cell }
         if let sidebarItem = sidebar.getByIndexPath(path: indexPath) {
             cell.configure(sidebarItem: sidebarItem)
+            cell.contentView.setNeedsLayout()
+            cell.contentView.layoutIfNeeded()
         }
-        
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xccdbcd, night: 0x686372)
-        cell.selectedBackgroundView = view
-        
+
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        }
-        
-        return 45
+        return 20
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x596263)
+            //view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x596263)
+            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
             
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             
@@ -77,37 +75,55 @@ class SidebarTableView: UITableView,
             }
             
             view.textLabel?.font = font.bold()
-            view.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = getListController()
-
-        if let sidebar = self.sidebar, let sidebarItem = sidebar.getByIndexPath(path: indexPath), sidebarItem.isTrash() {
-
-            let storage = Storage.sharedInstance()
-            storage.reLoadTrash()
+        if indexPath.section != 0 {
+            return 35
         }
-        vc.updateTable() {}
+
+        return 40
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let view = self.viewController, let sidebar = self.sidebar, let sidebarItem = sidebar.getByIndexPath(path: indexPath) else { return }
+
+        AudioServicesPlaySystemSound(1519)
+        view.currentFolder.text = sidebarItem.name
+
+        if sidebarItem.isTrash() {
+            let storage = Storage.sharedInstance()
+            DispatchQueue.global().async {
+                storage.reLoadTrash()
+
+                DispatchQueue.main.async {
+                    view.updateTable() {}
+                }
+            }
+            return
+        }
+
+        view.updateTable() {}
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x313636)
-        cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+        cell.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
+        cell.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+
+        if let sidebarCell = cell as? SidebarTableCellView {
+            if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag || sidebarItem.type == .Category {
+                sidebarCell.label.frame.origin.x = 6
+                let constraint = sidebarCell.icon.constraints[1]
+                constraint.constant = 0
+
+                sidebarCell.contentView.setNeedsLayout()
+                sidebarCell.contentView.layoutIfNeeded()
+            }
+        }
     }
-    
-    func getListController() -> ViewController {
-        let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController
-        let viewController = pageViewController?.orderedViewControllers[0] as? ViewController
-        
-        return viewController!
-    }
-    
+
     private func hasTags() -> Bool {
         return Storage.sharedInstance().hasTags()
     }

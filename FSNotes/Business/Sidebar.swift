@@ -22,15 +22,16 @@ class Sidebar {
     init() {
         var night = ""
         #if os(iOS)
+        night = "_white"
         if NightNight.theme == .night {
                 night = "_white"
         }
         #endif
-        
+
         list.append(
             SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
         )
-        
+
         list.append(
             SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
         )
@@ -69,9 +70,10 @@ class Sidebar {
         
         let tags = storage.getTags()
         if tags.count > 0 {
-            let icon = getImage(named: "tag\(night).png")
-            
+            var icon: Image? = nil
+
             #if os(OSX)
+                icon = getImage(named: "tag\(night).png")
                 let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
                 list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
             #endif

@@ -20,10 +20,12 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
 
         // This sets up the first view that will show up on our page control
         if let firstViewController = orderedViewControllers.first {
-            setViewControllers([firstViewController],
+            //DispatchQueue.main.async {
+                self.setViewControllers([firstViewController],
                                direction: .forward,
                                animated: false,
                                completion: nil)
+            //}
         }
 
         if let subView = self.view.subviews.first as? UIScrollView {
@@ -58,9 +60,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         // User is on the first view controller and swiped left to loop to
         // the last view controller.
         guard previousIndex >= 0 else {
-            return orderedViewControllers.last
+            //return orderedViewControllers.last
             // Uncommment the line below, remove the line above if you don't want the page control to loop.
-            // return nil
+            return nil
         }
         
         guard orderedViewControllers.count > previousIndex else {
@@ -81,9 +83,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         // User is on the last view controller and swiped right to loop to
         // the first view controller.
         guard orderedViewControllersCount != nextIndex else {
-            return orderedViewControllers.first
+            //return orderedViewControllers.first
             // Uncommment the line below, remove the line above if you don't want the page control to loop.
-            // return nil
+            return nil
         }
         
         guard orderedViewControllersCount > nextIndex else {
@@ -112,31 +114,44 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
-            self.disableSwipe()
-            
-            guard
-                let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                    return
+            DispatchQueue.main.async {
+                self.disableSwipe()
             }
 
-            if vc.shouldReloadNotes {
-                vc.updateTable() {}
-                vc.shouldReloadNotes = false
+
+            DispatchQueue.main.async {
+                guard
+                    let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                    let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                        return
+                }
+
+                print(vc.shouldReloadNotes)
+                if vc.shouldReloadNotes {
+                    vc.updateTable() {}
+                    vc.shouldReloadNotes = false
+                }
             }
             
         } else {
-            self.enableSwipe()
+            DispatchQueue.main.async {
+                self.enableSwipe()
+            }
         }
     }
     
     func switchToList() {
-        self.dismiss(animated: true, completion: nil)
-        setViewControllers([orderedViewControllers[0]], direction: .reverse, animated: true)
+
+        //DispatchQueue.main.async {
+            //self.dismiss(animated: true, completion: nil)
+            self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true)
+        //}
     }
     
     func switchToEditor() {
-        setViewControllers([orderedViewControllers[1]], direction: .forward, animated: true)
+        //DispatchQueue.main.async {
+            self.setViewControllers([self.orderedViewControllers[1]], direction: .forward, animated: true)
+        //}
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

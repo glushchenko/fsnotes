@@ -450,10 +450,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func getSearchText() -> String {
+        /*
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[0] as? ViewController, let search = viewController.search.text {
             return search
         }
-        
+        */
         return ""
     }
     

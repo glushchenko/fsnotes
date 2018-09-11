@@ -12,8 +12,11 @@ import Solar
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var currentFolder: UILabel!
+    @IBOutlet weak var folderCapacity: UILabel!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
+    @IBOutlet weak var searchWidth: NSLayoutConstraint!
     @IBOutlet var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
@@ -25,6 +28,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var cloudDriveManager: CloudDriveManager?
     
     public var shouldReloadNotes = false
+    private var maxSidebarWidth = CGFloat(0)
     
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
@@ -32,16 +36,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
-        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0xf7f5f3, night: 0x313636)
+        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
         
-        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
+//        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
+  //      searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
         
         loadPlusButton()
         initSettingsButton()
         
-        search.delegate = self
-        search.autocapitalizationType = .none
+       // search.delegate = self
+       // search.autocapitalizationType = .none
+       // search.sizeToFit()
         
         notesTable.viewDelegate = self
         
@@ -50,6 +55,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         
         sidebarTableView.dataSource = sidebarTableView
         sidebarTableView.delegate = sidebarTableView
+        sidebarTableView.viewController = self
         
         UserDefaultsManagement.fontSize = 17
                 
@@ -64,15 +70,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     self.updateTable() {}
                     self.indicator.stopAnimating()
                     self.sidebarTableView.sidebar = Sidebar()
+                    self.maxSidebarWidth = self.calculateLabelMaxWidth()
                     self.sidebarTableView.reloadData()
                     self.cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
+
+                    if let note = Storage.sharedInstance().noteList.first {
+                        let evc = self.getEVC()
+                        evc?.fill(note: note)
+                    }
                 }
             }
         }
         
         self.sidebarTableView.sidebar = Sidebar()
         self.sidebarTableView.reloadData()
-        
+
         guard let pageController = self.parent as? PageViewController else {
             return
         }
@@ -118,24 +130,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        sidebarWidthConstraint.constant = self.finSidebarWidth
-        notesWidthConstraint.constant = view.frame.width - self.finSidebarWidth
-
-        var sRect: CGRect = sidebarTableView.frame
-        sRect.size.width = UserDefaultsManagement.sidebarSize
-        sidebarTableView.draw(sRect)
-    }
-
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // load keyboard color
-        if NightNight.theme == .night {
-            search.keyboardAppearance = .dark
-        } else {
-            search.keyboardAppearance = .default
-        }
+        let width = UserDefaultsManagement.sidebarSize
+        sidebarWidthConstraint.constant = width
+        notesWidthConstraint.constant = view.frame.width - width
     }
 
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -187,7 +184,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
         
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
-        let filter = self.search.text!
+        let filter = ""//self.search.text!
 
         var type: SidebarItemType? = nil
         var terms = filter.split(separator: " ")
@@ -214,6 +211,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         isFitInSidebar(note: $0)
                     )
                 )
+        }
+
+        DispatchQueue.main.async {
+            self.folderCapacity.text = String(filteredNoteList.count)
         }
         
         if !filteredNoteList.isEmpty {
@@ -360,9 +361,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     func initSettingsButton() {
         let settingsIcon = UIImage(named: "settings.png")
-        let tintedSettings = settingsIcon?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
-        settingsButton.setImage(tintedSettings, for: UIControlState.normal)
-        settingsButton.tintColor = UIColor.gray
+        settingsButton.setImage(settingsIcon, for: UIControlState.normal)
+        settingsButton.tintColor = UIColor.black
         settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
     }
     
@@ -494,8 +494,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     
     var sidebarWidth: CGFloat = 0
     var width: CGFloat = 0
-    var start: CFTimeInterval = 0
-    var finSidebarWidth: CGFloat = 0
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
         guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -505,65 +503,49 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let translation = swipe.translation(in: vc.notesTable)
         
         if swipe.state == .began {
-            self.start = CACurrentMediaTime()
-
             self.width = vc.notesTable.frame.size.width
             self.sidebarWidth = vc.sidebarTableView.frame.size.width
             return
         }
 
         let sidebarWidth = self.sidebarWidth + translation.x
-        vc.finSidebarWidth = sidebarWidth
-        
-        if sidebarWidth < 0 {
-            vc.sidebarTableView.frame.size.width = 0
-            vc.notesTable.frame.origin.x = 0
-            vc.notesTable.frame.size.width = windowWidth
-            vc.finSidebarWidth = 0
-        }
-        
-        if sidebarWidth > windowWidth / 2 {
-            vc.sidebarTableView.frame.size.width = windowWidth / 2
-            vc.notesTable.frame.size.width = windowWidth / 2
-            vc.notesTable.frame.origin.x = windowWidth / 2
-            finSidebarWidth = windowWidth / 2
-        }
         
         if swipe.state == .changed {
-            vc.sidebarTableView.frame.size.width = finSidebarWidth
-            vc.notesTable.frame.size.width = windowWidth - finSidebarWidth
-            vc.notesTable.frame.origin.x = finSidebarWidth
+            if sidebarWidth > self.maxSidebarWidth {
+                vc.sidebarTableView.frame.size.width = self.maxSidebarWidth
+                vc.notesTable.frame.size.width = windowWidth - self.maxSidebarWidth
+                vc.notesTable.frame.origin.x = self.maxSidebarWidth
+            } else if sidebarWidth < 0 {
+                vc.sidebarTableView.frame.size.width = 0
+                vc.notesTable.frame.origin.x = 0
+                vc.notesTable.frame.size.width = windowWidth
+            } else {
+                vc.sidebarTableView.frame.size.width = sidebarWidth
+                vc.notesTable.frame.size.width = windowWidth - sidebarWidth
+                vc.notesTable.frame.origin.x = sidebarWidth
+            }
         }
         
         if swipe.state == .ended {
-
-            let end = CACurrentMediaTime()
-            guard end - self.start < 0.5 else {
-                UserDefaultsManagement.sidebarSize = finSidebarWidth
-                return
-            }
-
             UIView.animate(withDuration: 0.1, animations: {
                 if translation.x > 0 {
-                    var sidebarWidth = windowWidth / 2
+                    vc.sidebarTableView.frame.size.width = self.maxSidebarWidth
+                    vc.notesTable.frame.size.width = windowWidth - self.maxSidebarWidth
+                    vc.notesTable.frame.origin.x = self.maxSidebarWidth
 
-                    if UserDefaultsManagement.sidebarSize > 0 && sidebarWidth > UserDefaultsManagement.sidebarSize {
-                        sidebarWidth = UserDefaultsManagement.sidebarSize
-                    }
-
-                    vc.sidebarTableView.frame.size.width = sidebarWidth
-                    vc.notesTable.frame.size.width = windowWidth - sidebarWidth
-                    vc.notesTable.frame.origin.x = sidebarWidth
-                    vc.finSidebarWidth = sidebarWidth
+                    UserDefaultsManagement.sidebarSize = self.maxSidebarWidth
+                    self.viewWillAppear(false)
                 }
 
                 if translation.x < 0 {
                     vc.sidebarTableView.frame.size.width = 0
                     vc.notesTable.frame.origin.x = 0
                     vc.notesTable.frame.size.width = windowWidth
-                    vc.finSidebarWidth = 0
+                    UserDefaultsManagement.sidebarSize = 0
+
                 }
             })
+
         }
     }
     
@@ -601,6 +583,30 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             
             evc.fill(note: note)
         }
+    }
+
+    private func calculateLabelMaxWidth() -> CGFloat {
+        var width = CGFloat(0)
+
+        for i in 0...4 {
+            var j = 0
+
+            while let cell = sidebarTableView.cellForRow(at: IndexPath(row: j, section: i)) as? SidebarTableCellView {
+
+                if let font = cell.label.font, let text = cell.label.text {
+                    let labelWidth = (text as NSString).size(withAttributes: [.font: font]).width
+
+                    if labelWidth > width {
+                        width = labelWidth
+                    }
+                }
+
+                j += 1
+            }
+
+        }
+
+        return width + 40
     }
 }
 
