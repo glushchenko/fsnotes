@@ -9,7 +9,7 @@
 
 import Foundation
 
-public class Note: CoreNote {
+public class Note: NSObject  {
     @objc var title: String = ""
     var project: Project? = nil
     var type: NoteType = .Markdown
@@ -20,6 +20,7 @@ public class Note: CoreNote {
     var sharedStorage = Storage.sharedInstance()
     var tagNames = [String]()
     let dateFormatter = DateFormatter()
+    let undoManager = UndoManager()
     
     #if os(iOS)
         var metaId: Int?
@@ -35,8 +36,8 @@ public class Note: CoreNote {
         if let project = sharedStorage.getProjectBy(url: url) {
             self.project = project
         }
-        
-        super.init(fileURL: url)
+
+        super.init()
         self.parseURL()
     }
     
@@ -48,9 +49,9 @@ public class Note: CoreNote {
         if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: self.type) {
             url = uniqURL
         }
-        
-        super.init(fileURL: self.url)
-        parseURL()
+
+        super.init()
+        self.parseURL()
     }
     
     public func loadProject(url: URL) {
@@ -423,23 +424,18 @@ public class Note: CoreNote {
             var url = self.url
 
             if type == .TextBundle {
-                #if os(OSX)
-                    if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
-                        try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
-                        self.writeTextBundleInfo(url: uurl)
-                    }
-                #endif
-                
+                if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
+                    try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
+                    self.writeTextBundleInfo(url: uurl)
+                }
+
                 url?.appendPathComponent("text.markdown")
             }
             
             guard let docUrl = url else { return }
-            
-            #if os(iOS)
-                try self.writeContents(fileWrapper, andAttributes: attributes, safelyTo: docUrl, for: .forOverwriting)
-            #else
-                try self.write(to: docUrl, ofType: self.type.rawValue)
-            #endif
+
+            try fileWrapper.write(to: docUrl, options: .atomic, originalContentsURL: nil)
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
         } catch {
             NSLog("Write error \(error)")
             return
@@ -448,16 +444,12 @@ public class Note: CoreNote {
         sharedStorage.add(self)
     }
 
-    #if os(iOS)
-    public override func load(fromContents contents: Any, ofType typeName: String?) throws {
-    }
+    public func getFileWrapper() -> FileWrapper {
+        let fileWrapper = getFileWrapper(attributedString: content)
 
-    public override func contents(forType typeName: String) throws -> Any {
-        let textWrapper = self.getFileWrapper(attributedString: self.content)
+        if type == .TextBundle {
 
-        switch typeName {
-        case "org.textbundle.package":
-
+            let fileWrapper = getFileWrapper(attributedString: content)
             let info = """
             {
                 "transient" : true,
@@ -466,18 +458,19 @@ public class Note: CoreNote {
                 "version" : 2
             }
             """
-
             let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info))
-            let main = FileWrapper(directoryWithFileWrappers: ["info.json": infoWrapper, "text.markdown": textWrapper])
-            main.filename = self.name
-            return main
+            let textBundle = FileWrapper.init(directoryWithFileWrappers: [
+                    "text.markdown": fileWrapper,
+                    "info.json": infoWrapper
+                ])
 
-        default:
-            textWrapper.filename = self.name
-            return textWrapper
+            return textBundle
         }
+
+        fileWrapper.filename = name
+
+        return fileWrapper
     }
-    #endif
         
     private func writeTextBundleInfo(url: URL) {
         let url = url.appendingPathComponent("info.json")
@@ -491,16 +484,7 @@ public class Note: CoreNote {
         }
         """
 
-        #if os(iOS)
-            let fileWrapper = getFileWrapper(attributedString: NSAttributedString(string: info))
-            do {
-                try self.writeContents(fileWrapper, andAttributes: nil, safelyTo: url, for: .forCreating)
-            } catch {
-                print(error)
-            }
-        #else
-            try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
-        #endif
+        try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
     }
         
     func getFileAttributes() -> [FileAttributeKey: Any] {
@@ -556,6 +540,7 @@ public class Note: CoreNote {
         if (type == .RichText) {
             options = [
                 .documentType : NSAttributedString.DocumentType.rtf
+
             ]
         } else {
             options = [
@@ -721,12 +706,6 @@ public class Note: CoreNote {
     
     public func getImageCacheUrl() -> URL? {
         return project?.url.appendingPathComponent("/.cache/")
-    }
-
-    public override var debugDescription: String {
-        get {
-            return "\(isPinned ? "* " : "")<\(name)>"
-        }
     }
 
     #if os(OSX)

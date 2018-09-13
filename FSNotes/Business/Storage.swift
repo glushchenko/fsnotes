@@ -41,8 +41,10 @@ class Storage {
     private var bookmarks = [URL]()
     
     init() {
-        let bookmark = SandboxBookmark.sharedInstance()
-        bookmarks = bookmark.load()
+        #if os(OSX)
+            let bookmark = SandboxBookmark.sharedInstance()
+            bookmarks = bookmark.load()
+        #endif
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
         
@@ -53,7 +55,8 @@ class Storage {
         
         let project = Project(url: url, label: name, isRoot: true, isDefault: true)
         _ = add(project: project)
-        
+
+        #if os(OSX)
         for url in bookmarks {
             guard !projectExist(url: url) else {
                 continue
@@ -66,6 +69,7 @@ class Storage {
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
             _ = add(project: project)
         }
+        #endif
         
         let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
         
@@ -156,7 +160,7 @@ class Storage {
             project })
         
         for note in list {
-            if let i = noteList.index(of: note) {
+            if let i = noteList.index(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
@@ -212,18 +216,34 @@ class Storage {
         return storage
     }
     
-    func loadDocuments(tryCount: Int = 0) {
+    func loadDocuments(tryCount: Int = 0, completion: @escaping () -> Void) {
         noteList.removeAll()
         
         for project in projects {
             loadLabel(project)
         }
-        
-        noteList = sortNotes(noteList: noteList, filter: "")
-        
+
+        let count = self.noteList.count
+        var i = 0
+
+        #if os(iOS)
+        DispatchQueue.global().async {
+            for note in self.noteList {
+                note.load(note.url)
+                i += 1
+                if i == count {
+                    print("Loaded notes: \(count)")
+                    completion()
+                }
+            }
+        }
+        #endif
+
+        self.noteList = self.sortNotes(noteList: self.noteList, filter: "")
+
         guard !checkFirstRun() else {
             if tryCount == 0 {
-                loadDocuments(tryCount: 1)
+                loadDocuments(tryCount: 1) {}
                 return
             }
             
@@ -318,20 +338,13 @@ class Storage {
         let keyStore = NSUbiquitousKeyValueStore()
         let documents = readDirectory(item.url)
 
-        let isFirst = true
         for document in documents {
             let url = document.0 as URL
-            
+
             #if os(iOS)
-                if
-                    isFirst,
-                    let currentNoteURL = EditTextView.note?.url,
+                if let currentNoteURL = EditTextView.note?.url,
                     currentNoteURL == url {
                     continue
-                }
-            
-                if FileManager.default.isUbiquitousItem(at: url) {
-                    try? FileManager.default.startDownloadingUbiquitousItem(at: url)
                 }
             #endif
             
@@ -363,14 +376,17 @@ class Storage {
                     note.isPinned = pin
                 }
             #endif
-            
-            note.load(url)
+
+            #if os(OSX)
+                note.load(url)
+            #endif
+
             if note.isPinned {
                 pinned += 1
             }
             
             noteList.append(note)
-            
+
             if shouldScanCache {
                 note.markdownCache()
             }
@@ -380,7 +396,7 @@ class Storage {
     public func unload(project: Project) {
         let notes = noteList.filter({ $0.project != nil && $0.project!.isArchive })
         for note in notes {
-            if let i = noteList.index(of: note) {
+            if let i = noteList.index(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
@@ -389,7 +405,7 @@ class Storage {
     public func reLoadTrash() {
         let notes = noteList.filter({ $0.isTrash() })
         for note in notes {
-            if let i = noteList.index(of: note) {
+            if let i = noteList.index(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
@@ -587,7 +603,7 @@ class Storage {
                     print("Caching data obsolete, restart caching initiated.")
                     self.terminateBusyQueue = false
                     self.isActiveCaching = false
-                    self.loadDocuments()
+                    self.loadDocuments() {}
                     break
                 }
             }
@@ -630,17 +646,26 @@ class Storage {
         
     func getSubFolders(url: URL) -> [NSURL]? {
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
-        
+
+        var extensions = self.allowedExtensions
+        for ext in ["jpg", "png", "gif"] {
+            extensions.append(ext)
+        }
+
+        let urls = fileEnumerator.allObjects.filter { !extensions.contains(($0 as? NSURL)!.pathExtension! ) } as! [NSURL]
         var subdirs = [NSURL]()
-        
         var i = 0
-        while let url = fileEnumerator.nextObject() as? NSURL {
+
+        for url in urls {
             i = i + 1
+
             do {
                 var isDirectoryResourceValue: AnyObject?
                 try url.getResourceValue(&isDirectoryResourceValue, forKey: URLResourceKey.isDirectoryKey)
+
                 var isPackageResourceValue: AnyObject?
                 try url.getResourceValue(&isPackageResourceValue, forKey: URLResourceKey.isPackageKey)
+
                 if isDirectoryResourceValue as? Bool == true,
                     isPackageResourceValue as? Bool == false {
                     subdirs.append(url)

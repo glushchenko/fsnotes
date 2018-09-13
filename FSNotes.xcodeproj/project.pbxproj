@@ -230,6 +230,7 @@
 		D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D7D88192214AACF40054586C /* UINote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D88191214AACF40054586C /* UINote.swift */; };
 		D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503C209D806F001FB60B /* SidebarTableView.swift */; };
 		D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */; };
@@ -612,6 +613,7 @@
 		D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarProjectView.swift; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
+		D7D88191214AACF40054586C /* UINote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINote.swift; sourceTree = "<group>"; };
 		D7D9503C209D806F001FB60B /* SidebarTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableView.swift; sourceTree = "<group>"; };
 		D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableCellView.swift; sourceTree = "<group>"; };
 		D7DA9E1D21031901001CF0BE /* OutlineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineHeaderView.swift; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				6F13BB4E20FEDE560005E120 /* FSNotesCore_iOS.h */,
 				6F13BB4F20FEDE560005E120 /* Info.plist */,
 				D7DCFECC2108C7850059B37B /* CoreNote.swift */,
+				D7D88191214AACF40054586C /* UINote.swift */,
 			);
 			path = "Core iOS";
 			sourceTree = "<group>";
@@ -2002,6 +2005,7 @@
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
+				D7D88192214AACF40054586C /* UINote.swift in Sources */,
 				D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */,
 				D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */,
 				D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */,

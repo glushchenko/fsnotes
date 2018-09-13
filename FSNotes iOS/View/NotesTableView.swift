@@ -28,6 +28,9 @@ class NotesTableView: UITableView,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
+
+        let note = notes[indexPath.row]
+        note.load(note.url)
         
         cell.configure(note: notes[indexPath.row])
         cell.selectionStyle = .gray
@@ -145,7 +148,7 @@ class NotesTableView: UITableView,
     
     func removeByNotes(notes: [Note]) {
         for note in notes {
-            if let i = self.notes.index(of: note) {
+            if let i = self.notes.index(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
                 self.notes.remove(at: i)
                 deleteRows(at: [indexPath], with: .fade)
@@ -183,7 +186,7 @@ class NotesTableView: UITableView,
     }
     
     public func updateLabel(note: Note) {
-        if let i = self.notes.index(of: note) {
+        if let i = self.notes.index(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
             reloadRows(at: [indexPath], with: .automatic)
@@ -224,7 +227,7 @@ class NotesTableView: UITableView,
             }
 
             DispatchQueue.main.async {
-                if let i = self.notes.index(of: note) {
+                if let i = self.notes.index(where: {$0 === note}) {
                     self.beginUpdates()
                     self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                     self.endUpdates()

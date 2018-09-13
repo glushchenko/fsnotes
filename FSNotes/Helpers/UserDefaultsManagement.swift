@@ -626,20 +626,20 @@ public class UserDefaultsManagement {
     
     static var archiveDirectory: URL? {
         get {
-            if
-                let path = UserDefaults.standard.object(forKey: Constants.ArchiveDirectoryKey) as? String,
-                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                if let url = URL(string: "file://" + encodedPath + "/") {
-                    do {
-                        try FileManager.default.contentsOfDirectory(atPath: url.path)
-                        return URL(string: "file://" + encodedPath + "/")
-                    } catch {
-                        self.archiveDirectory = nil
-                        print("Archive path not accessible, settings resetted to default")
-                    }
+            if let path = UserDefaults.standard.object(forKey: Constants.ArchiveDirectoryKey) as? String,
+                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+                let archiveURL = URL(string: "file://" + encodedPath + "/") {
+                var isDirectory = ObjCBool(true)
+                let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
+
+                if (exists && isDirectory.boolValue) {
+                    return archiveURL
+                } else {
+                    self.archiveDirectory = nil
+                    print("Archive path not accessible, settings resetted to default")
                 }
             }
-            
+
             if let archive = storageUrl?.appendingPathComponent("Archive") {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {

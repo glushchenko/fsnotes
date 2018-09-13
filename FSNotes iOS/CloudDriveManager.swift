@@ -46,15 +46,19 @@ class CloudDriveManager {
         cloudDriveQuery.disableUpdates()
         cloudDriveQuery.stop()
 
-        if let items = cloudDriveQuery.results as? [NSMetadataItem] {
+        if let items = self.cloudDriveQuery.results as? [NSMetadataItem] {
             for item in items {
-                if  let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
-                    let note = self.storage.getBy(url: url) {
-                    note.metaId = self.cloudDriveQuery.index(ofResult: item)
+                autoreleasepool {
+                    if  let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
+                        let note = self.storage.getBy(url: url) {
+                        let i = self.cloudDriveQuery.index(ofResult: item)
+                        print(i)
+                        note.metaId = i
+                    }
                 }
             }
         }
-        
+
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cloudDriveQuery)
         
         cloudDriveQuery.start()
@@ -95,7 +99,7 @@ class CloudDriveManager {
                 }
 
                 DispatchQueue.main.async {
-                    if let i = self.delegate.notesTable.notes.index(of: note) {
+                    if let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
                         self.delegate.notesTable.beginUpdates()
                         self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
                         self.delegate.notesTable.endUpdates()
@@ -117,7 +121,7 @@ class CloudDriveManager {
                 if prevNote.url != url {
 
                     DispatchQueue.main.async {
-                        if self.delegate.notesTable.notes.contains(prevNote) {
+                        if self.delegate.notesTable.notes.contains(where: {$0 === prevNote}) {
                             self.delegate.notesTable.removeByNotes(notes: [prevNote])
                         }
 
@@ -226,8 +230,11 @@ class CloudDriveManager {
 
                 let conflictNote = Note(url: to)
                 conflictNote.content = note.content
-                conflictNote.save(to: to, for: .forCreating, completionHandler: nil)
-                
+
+                let document = UINote(fileURL: to, textWrapper: note.getFileWrapper())
+                document.save()
+                self.storage.add(conflictNote)
+
                 conflict.isResolved = true
             }
         }
@@ -244,7 +251,7 @@ class CloudDriveManager {
             
             if !isTrash,
                 self.delegate.isFitInSidebar(note: note),
-                let i = self.delegate.notesTable.notes.index(of: note) {
+                let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
                 
                 self.delegate.notesTable.notes.remove(at: i)
                 self.delegate.notesTable.beginUpdates()

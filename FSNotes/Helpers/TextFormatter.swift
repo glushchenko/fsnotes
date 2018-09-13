@@ -172,7 +172,6 @@ public class TextFormatter {
 
                 if let underline = attributedString.attribute(.underlineStyle, at: 0, effectiveRange: nil) as? Int {
                     if underline == 1 {
-                        print(1)
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
                         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)

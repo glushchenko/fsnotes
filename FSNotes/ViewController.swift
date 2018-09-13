@@ -52,7 +52,7 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        self.storage.loadDocuments()
+        self.storage.loadDocuments() {}
         
         self.configureShortcuts()
         self.configureDelegates()
@@ -1117,13 +1117,13 @@ class ViewController: NSViewController,
         }
 
         let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
-        let indexes = updatedNotes.compactMap({ _, note in resorted.index(of: note) })
+        let indexes = updatedNotes.compactMap({ _, note in resorted.index(where: { $0 === note }) })
         let newIndexes = IndexSet(indexes)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
         for (row, note) in nowPinned {
-            guard let newRow = resorted.index(of: note) else { continue }
+            guard let newRow = resorted.index(where: { $0 === note }) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
             print("move \(row) to \(newRow)")
             let toMove = state.remove(at: row)
@@ -1133,11 +1133,11 @@ class ViewController: NSViewController,
         let nowUnpinned = updatedNotes
             .filter({ (_, note) -> Bool in !note.isPinned })
             .compactMap({ (_, note) -> (Int, Note)? in
-                guard let curRow = state.index(of: note) else { return nil }
+                guard let curRow = state.index(where: { $0 === note }) else { return nil }
                 return (curRow, note)
             })
         for (row, note) in nowUnpinned.reversed() {
-            guard let newRow = resorted.index(of: note) else { continue }
+            guard let newRow = resorted.index(where: { $0 === note }) else { continue }
             print("move \(row) to \(newRow)")
             notesTableView.moveRow(at: row, to: newRow)
             let toMove = state.remove(at: row)

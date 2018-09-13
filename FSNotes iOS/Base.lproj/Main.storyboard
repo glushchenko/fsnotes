@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PiG-Rt-hrN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PiG-Rt-hrN">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.9"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -102,14 +102,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BML-lv-XMi">
-                                                    <rect key="frame" x="5" y="16" width="21" height="21"/>
+                                                    <rect key="frame" x="15" y="16" width="21" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="8Mj-2V-WOH"/>
                                                         <constraint firstAttribute="width" constant="21" id="wTd-8W-0ei"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZDf-m9-quL">
-                                                    <rect key="frame" x="37" y="16" width="42" height="21"/>
+                                                    <rect key="frame" x="47" y="16" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -117,7 +117,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="ZDf-m9-quL" firstAttribute="centerY" secondItem="tDd-4m-f4y" secondAttribute="centerY" id="2jK-Iv-hSY"/>
-                                                <constraint firstItem="BML-lv-XMi" firstAttribute="leading" secondItem="tDd-4m-f4y" secondAttribute="leading" constant="5" id="3wN-gR-43e"/>
+                                                <constraint firstItem="BML-lv-XMi" firstAttribute="leading" secondItem="tDd-4m-f4y" secondAttribute="leading" constant="15" id="3wN-gR-43e"/>
                                                 <constraint firstItem="ZDf-m9-quL" firstAttribute="leading" secondItem="BML-lv-XMi" secondAttribute="trailing" constant="11" id="WoX-Z4-8rD"/>
                                                 <constraint firstItem="BML-lv-XMi" firstAttribute="centerY" secondItem="tDd-4m-f4y" secondAttribute="centerY" id="df2-um-WMI"/>
                                                 <constraint firstItem="BML-lv-XMi" firstAttribute="top" secondItem="ZDf-m9-quL" secondAttribute="top" id="eS6-4w-fRe"/>
@@ -126,6 +126,7 @@
                                         <connections>
                                             <outlet property="icon" destination="BML-lv-XMi" id="OEo-b9-tQT"/>
                                             <outlet property="label" destination="ZDf-m9-quL" id="NZJ-lZ-DhC"/>
+                                            <outlet property="labelConstraint" destination="WoX-Z4-8rD" id="3y4-5j-nzf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

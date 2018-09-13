@@ -59,7 +59,27 @@ class SidebarTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        if let view = view as? UITableViewHeaderFooterView {
+            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
+
+            var font: UIFont = UIFont.systemFont(ofSize: 15)
+
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .caption1)
+                font = fontMetrics.scaledFont(for: font)
+            }
+
+            view.textLabel?.font = font.bold()
+            view.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -80,11 +100,7 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section != 0 {
-            return 35
-        }
-
-        return 40
+        return 37
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -114,10 +130,8 @@ class SidebarTableView: UITableView,
 
         if let sidebarCell = cell as? SidebarTableCellView {
             if let sidebarItem = (cell as! SidebarTableCellView).sidebarItem, sidebarItem.type == .Tag || sidebarItem.type == .Category {
-                sidebarCell.label.frame.origin.x = 6
-                let constraint = sidebarCell.icon.constraints[1]
-                constraint.constant = 0
-
+                sidebarCell.icon.constraints[1].constant = 0
+                sidebarCell.labelConstraint.constant = 0
                 sidebarCell.contentView.setNeedsLayout()
                 sidebarCell.contentView.layoutIfNeeded()
             }

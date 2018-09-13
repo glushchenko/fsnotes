@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 UIApplication.shared.statusBarStyle = .default
                 NightNight.theme = .normal
             }
-            
+
             guard
                 let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let vc = pageController.orderedViewControllers[0] as? ViewController else {
                     return
             }
-            
+
             evc.refill()
             vc.sidebarTableView.sidebar = Sidebar()
             vc.sidebarTableView.reloadData()
@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+
         if let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") {
             defaults.synchronize()
             if let notes = defaults.array(forKey: "import") as? [String] {
@@ -117,18 +117,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
-        
+
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
-            
-            if let files = try? FileManager.default.contentsOfDirectory(atPath: iCloudDocumentsURL.path) {
-                for file in files {
-                    if file.hasSuffix(".icloud") {
-                        let url = iCloudDocumentsURL.appendingPathComponent(file)
-                        try? FileManager.default.startDownloadingUbiquitousItem(at: url)
-                    }
-                }
-            }
-            
+
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                 do {
                     try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)

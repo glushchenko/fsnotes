@@ -116,17 +116,13 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
             DispatchQueue.main.async {
                 self.disableSwipe()
-            }
 
-
-            DispatchQueue.main.async {
                 guard
                     let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                     let vc = pageController.orderedViewControllers[0] as? ViewController else {
                         return
                 }
 
-                print(vc.shouldReloadNotes)
                 if vc.shouldReloadNotes {
                     vc.updateTable() {}
                     vc.shouldReloadNotes = false
@@ -141,17 +137,11 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func switchToList() {
-
-        //DispatchQueue.main.async {
-            //self.dismiss(animated: true, completion: nil)
-            self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true)
-        //}
+        self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true)
     }
     
     func switchToEditor() {
-        //DispatchQueue.main.async {
-            self.setViewControllers([self.orderedViewControllers[1]], direction: .forward, animated: true)
-        //}
+        self.setViewControllers([self.orderedViewControllers[1]], direction: .forward, animated: true)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

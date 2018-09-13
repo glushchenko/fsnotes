@@ -274,9 +274,8 @@ class EditTextView: NSTextView {
         subviews.removeAll()
         
         if let appd = NSApplication.shared.delegate as? AppDelegate,
-            let md = appd.mainWindowController,
-            let undo = note.undoManager {
-            md.editorUndoManager = undo
+            let md = appd.mainWindowController {
+            md.editorUndoManager = note.undoManager
         }
         
         isEditable = !UserDefaultsManagement.preview
@@ -797,11 +796,11 @@ class EditTextView: NSTextView {
             
             guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
             let cacheUrl = note.getImageCacheUrl()
-            
-            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
-            guard let attachmentText = attachment.getAttributedString() else { return false }
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
+            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
+            
+            guard let attachmentText = attachment.getAttributedString() else { return false }
             guard locationDiff < storage.length else { return false }
             
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))

@@ -9,10 +9,5 @@
 import Foundation
 
 extension Note {
-    public override func data(ofType typeName: String) throws -> Data {
-        let range = NSRange(0..<self.content.length)
-        let data = try self.content.data(from: range, documentAttributes: self.getDocAttributes())
 
-        return data
-    }
 }
