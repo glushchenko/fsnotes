@@ -22,10 +22,6 @@ public class Note: NSObject  {
     let dateFormatter = DateFormatter()
     let undoManager = UndoManager()
     
-    #if os(iOS)
-        var metaId: Int?
-    #endif
-    
     public var name: String = ""
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()

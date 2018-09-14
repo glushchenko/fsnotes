@@ -490,18 +490,7 @@ class Storage {
                 )
             })
     }
-    
-    #if os(iOS)
-    public func getBy(metaId: Int) -> Note? {
-        return
-            noteList.first(where: {
-                return (
-                    $0.metaId == metaId
-                )
-            })
-    }
-    #endif
-    
+        
     func getBy(name: String) -> Note? {
         return
             noteList.first(where: {

@@ -11,6 +11,7 @@ import Foundation
 class CloudDriveManager {
 
     public var cloudDriveQuery: NSMetadataQuery
+    private var cloudDriveResults: [URL]?
     
     private var delegate: ViewController
     private var storage: Storage
@@ -41,27 +42,14 @@ class CloudDriveManager {
         
         NotificationCenter.default.addObserver(self, selector: #selector(queryDidFinishGathering), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: metadataQuery)
     }
-    
+
     @objc func queryDidFinishGathering(notification: NSNotification) {
         cloudDriveQuery.disableUpdates()
-        cloudDriveQuery.stop()
 
-        if let items = self.cloudDriveQuery.results as? [NSMetadataItem] {
-            for item in items {
-                autoreleasepool {
-                    if  let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL,
-                        let note = self.storage.getBy(url: url) {
-                        let i = self.cloudDriveQuery.index(ofResult: item)
-                        print(i)
-                        note.metaId = i
-                    }
-                }
-            }
-        }
+        self.saveCloudDriveResultsCache()
 
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cloudDriveQuery)
         
-        cloudDriveQuery.start()
         cloudDriveQuery.enableUpdates()
     }
     
@@ -71,10 +59,16 @@ class CloudDriveManager {
         self.change(notification: notification)
         self.download(notification: notification)
         self.remove(notification: notification)
-        
+
+        self.saveCloudDriveResultsCache()
+
         cloudDriveQuery.enableUpdates()
     }
-    
+
+    private func saveCloudDriveResultsCache() {
+        self.cloudDriveResults = self.cloudDriveQuery.results.map { ($0 as! NSMetadataItem).value(forAttribute: NSMetadataItemURLKey) as? URL } as? [URL]
+    }
+
     private func change(notification: NSNotification) {
         guard let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] else { return }
         
@@ -108,9 +102,7 @@ class CloudDriveManager {
                 continue
             }
 
-            let index = cloudDriveQuery.index(ofResult: item)
-
-            if let prevNote = self.storage.getBy(metaId: index) {
+            if let prevNote = getOldNote(item: item) {
                 if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
                     self.moveToTrash(note: prevNote, url: url)
                     continue
@@ -135,10 +127,23 @@ class CloudDriveManager {
             }
 
             if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-                self.add(url: url, metaId: index)
+                self.add(url: url)
                 continue
             }
         }
+    }
+
+    private func getOldNote(item: NSMetadataItem) -> Note? {
+        let index = self.cloudDriveQuery.index(ofResult: item)
+
+        if let results = self.cloudDriveResults, results.indices.contains(index) {
+            let prevURL = results[index] as URL
+            if let note = self.storage.getBy(url: prevURL) {
+                return note
+            }
+        }
+
+        return nil
     }
     
     private func download(notification: NSNotification) {
@@ -153,7 +158,7 @@ class CloudDriveManager {
                 if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
                     let index = cloudDriveQuery.index(ofResult: item)
 
-                    self.add(url: url, metaId: index)
+                    self.add(url: url)
                 }
             }
         }
@@ -188,11 +193,10 @@ class CloudDriveManager {
         return false
     }
     
-    private func add(url: URL, metaId: Int) {
+    private func add(url: URL) {
         guard self.storage.getBy(url: url) == nil else { return }
 
         let note = Note(url: url)
-        note.metaId = metaId
         note.loadTags()
         _ = note.reload()
 
