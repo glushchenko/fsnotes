@@ -100,9 +100,7 @@ class CloudDriveManager {
 
                 DispatchQueue.main.async {
                     if let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
-                        self.delegate.notesTable.beginUpdates()
                         self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                        self.delegate.notesTable.endUpdates()
                     }
                 }
 
@@ -129,7 +127,7 @@ class CloudDriveManager {
                         prevNote.loadTags()
                         prevNote.parseURL()
 
-                        self.delegate.insertRow(note: prevNote)
+                        self.delegate.notesTable.insertRow(note: prevNote)
                     }
 
                     continue
@@ -199,7 +197,7 @@ class CloudDriveManager {
         _ = note.reload()
 
         self.storage.noteList.append(note)
-        self.delegate.insertRow(note: note)
+        self.delegate.notesTable.insertRow(note: note)
     }
     
     private func resolveConflict(url: URL) {
@@ -254,16 +252,12 @@ class CloudDriveManager {
                 let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
                 
                 self.delegate.notesTable.notes.remove(at: i)
-                self.delegate.notesTable.beginUpdates()
                 self.delegate.notesTable.deleteRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.delegate.notesTable.endUpdates()
             }
             
             if isTrash {
                 self.delegate.notesTable.notes.insert(note, at: 0)
-                self.delegate.notesTable.beginUpdates()
                 self.delegate.notesTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-                self.delegate.notesTable.endUpdates()
             }
             
             note.parseURL()

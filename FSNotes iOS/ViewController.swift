@@ -27,8 +27,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var storage: Storage?
 
     public var cloudDriveManager: CloudDriveManager?
-
-    public var shouldReloadNotes = false
     private var maxSidebarWidth = CGFloat(0)
 
     
@@ -274,21 +272,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return false
     }
 
-    public func insertRow(note: Note) {
-        let i = self.getInsertPosition()
-
-        DispatchQueue.main.async {
-            if self.isFitInSidebar(note: note), !self.notesTable.notes.contains(where: {$0 === note}) {
-
-                self.notesTable.notes.insert(note, at: i)
-                self.notesTable.beginUpdates()
-                self.notesTable.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.notesTable.endUpdates()
-            }
-        }
-    }
-
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
         for term in terms {
             if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {
@@ -326,12 +309,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.note = note
         pageController.switchToEditor()
         evc.fill(note: note)
-    }
-
-    func reloadView(note: Note?) {
-        DispatchQueue.main.async {
-            self.updateTable() {}
-        }
     }
 
     func refillEditArea(cursor: Int?, previewOnly: Bool) {
@@ -432,7 +409,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
         evc.editArea.becomeFirstResponder()
 
-        self.shouldReloadNotes = true
+        self.notesTable.insertRow(note: note)
     }
 
     @objc func openSettings() {
@@ -581,18 +558,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.size.height = UIScreen.main.bounds.height
         loadPlusButton()
-    }
-
-    public func getInsertPosition() -> Int {
-        var i = 0
-
-        for note in notesTable.notes {
-            if note.isPinned {
-                i += 1
-            }
-        }
-
-        return i
     }
 
     public func refreshTextStorage(note: Note) {

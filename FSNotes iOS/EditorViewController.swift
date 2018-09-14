@@ -446,7 +446,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.cloudDriveQuery.enableUpdates()
-        vc.shouldReloadNotes = true
+        vc.notesTable.moveRowUp(note: note)
     }
     
     func getSearchText() -> String {

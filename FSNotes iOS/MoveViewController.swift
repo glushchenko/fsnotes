@@ -53,7 +53,7 @@ class MoveViewController: UITableViewController {
                 self.selectedNote.parseURL()
                 self.selectedNote.project = project
                 self.notesTableView.removeByNotes(notes: [selectedNote])
-                self.notesTableView.viewDelegate?.insertRow(note: self.selectedNote)
+                self.notesTableView.viewDelegate?.notesTable.insertRow(note: self.selectedNote)
             }
         }
         self.dismiss(animated: true, completion: nil)

@@ -228,9 +228,7 @@ class NotesTableView: UITableView,
 
             DispatchQueue.main.async {
                 if let i = self.notes.index(where: {$0 === note}) {
-                    self.beginUpdates()
                     self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                    self.endUpdates()
                 }
             }
         }
@@ -259,5 +257,47 @@ class NotesTableView: UITableView,
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
         UIPasteboard.general.items = [item]
+    }
+
+    public func moveRowUp(note: Note) {
+        if let i = self.notes.index(where: {$0 === note}) {
+            let position = note.isPinned ? 0 : self.getInsertPosition()
+
+            if i == position {
+                return
+            }
+
+            guard let mainController = self.viewDelegate, mainController.isFitInSidebar(note: note) else { return }
+
+            self.notes.remove(at: i)
+            self.notes.insert(note, at: position)
+
+            moveRow(at: IndexPath(item: i, section: 0), to: IndexPath(item: position, section: 0))
+        }
+    }
+
+    public func insertRow(note: Note) {
+        let i = self.getInsertPosition()
+
+        DispatchQueue.main.async {
+            guard let mainController = self.viewDelegate, mainController.isFitInSidebar(note: note) else { return }
+
+            if !self.notes.contains(where: {$0 === note}) {
+                self.notes.insert(note, at: i)
+                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+            }
+        }
+    }
+
+    private func getInsertPosition() -> Int {
+        var i = 0
+
+        for note in self.notes {
+            if note.isPinned {
+                i += 1
+            }
+        }
+
+        return i
     }
 }

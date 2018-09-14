@@ -116,19 +116,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
             DispatchQueue.main.async {
                 self.disableSwipe()
-
-                guard
-                    let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                    let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                        return
-                }
-
-                if vc.shouldReloadNotes {
-                    vc.updateTable() {}
-                    vc.shouldReloadNotes = false
-                }
             }
-            
         } else {
             DispatchQueue.main.async {
                 self.enableSwipe()
