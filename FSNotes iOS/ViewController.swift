@@ -16,7 +16,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var folderCapacity: UILabel!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
-    @IBOutlet weak var searchWidth: NSLayoutConstraint!
+
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var searchView: UIView!
+
     @IBOutlet var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
@@ -27,38 +30,52 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var storage: Storage?
 
     public var cloudDriveManager: CloudDriveManager?
+
+    private let searchQueue = OperationQueue()
+    private var filteredNoteList: [Note]?
     private var maxSidebarWidth = CGFloat(0)
+
+    public var headerColor = MixedColor(normal: 0xa6c1d3, night: 0x47444e)
 
     
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
+
+        self.headerView.mixedBackgroundColor = self.headerColor
+        self.searchView.mixedBackgroundColor = self.headerColor
+
+        self.search.mixedBackgroundColor = self.headerColor
+        self.search.mixedBarTintColor = self.headerColor
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
 
-        //        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
-        //      searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
+        let searchBarTextField = search.value(forKey: "searchField") as? UITextField
+        searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
 
         loadPlusButton()
         initSettingsButton()
 
-        // search.delegate = self
-        // search.autocapitalizationType = .none
-        // search.sizeToFit()
+        search.delegate = self
+        search.autocapitalizationType = .none
 
         notesTable.viewDelegate = self
-
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
+        notesTable.layer.zPosition = 100
+
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(togglseSearch), for: .valueChanged)
+
+        notesTable.refreshControl = refreshControl
 
         sidebarTableView.dataSource = sidebarTableView
         sidebarTableView.delegate = sidebarTableView
         sidebarTableView.viewController = self
 
         UserDefaultsManagement.fontSize = 17
-
         self.storage = Storage.sharedInstance()
 
         guard let storage = self.storage else { return }
@@ -74,6 +91,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
+            self.configureIndicator()
             DispatchQueue.main.async {
                 self.updateTable() {
                     self.indicator.stopAnimating()
@@ -117,13 +135,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         view.addGestureRecognizer(swipe)
         super.viewDidLoad()
-
-        self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
-        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
-        self.indicator.center = self.view.center
-        self.self.view.addSubview(indicator)
-        self.indicator.bringSubview(toFront: self.view)
-        self.indicator.startAnimating()
     }
 
     private func reloadSidebar() {
@@ -151,13 +162,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction func openSearchView(_ sender: Any) {
+        self.toggleSearchView()
     }
 
-    var filterQueue = OperationQueue.init()
-    var filteredNoteList: [Note]?
+    @IBAction func hideSearchView(_ sender: Any) {
+        self.toggleSearchView()
+    }
 
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
@@ -185,6 +196,23 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
+    @objc func togglseSearch(refreshControl: UIRefreshControl) {
+        self.toggleSearchView()
+        refreshControl.endRefreshing()
+    }
+
+    private func toggleSearchView() {
+        if self.searchView.isHidden {
+            self.searchView.isHidden = false
+            self.search.becomeFirstResponder()
+        } else {
+            self.searchView.isHidden = true
+            self.search.endEditing(true)
+            self.search.text = nil
+            self.updateTable {}
+        }
+    }
+
     private func getEVC() -> EditorViewController? {
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
@@ -195,55 +223,90 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return nil
     }
 
+    private func configureIndicator() {
+        self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
+        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        self.indicator.center = self.view.center
+        self.view.addSubview(self.indicator)
+        self.indicator.bringSubview(toFront: self.view)
+        self.indicator.startAnimating()
+        self.indicator.layer.zPosition = 101
+    }
+
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+        self.searchQueue.cancelAllOperations()
+
         guard let storage = self.storage else { return }
 
-        let filter = ""//self.search.text!
+        let filter = self.search.text!
 
         var type: SidebarItemType? = nil
         var terms = filter.split(separator: " ")
 
-        if let sidebarItem = getSidebarItem() {
-            type = sidebarItem.type
+        let sidebarItem = getSidebarItem()
+
+        if let si = sidebarItem {
+            type = si.type
         }
 
         if let type = type, type == .Todo {
             terms.append("- [ ]")
         }
 
-        let filteredNoteList =
-            storage.noteList.filter() {
-                return (
-                    !$0.name.isEmpty
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+
+            let source = storage.noteList
+            var notes = [Note]()
+
+            for note in source {
+                if operation.isCancelled {
+                    break
+                }
+
+                if (
+                    !note.name.isEmpty
                         && (
                             filter.isEmpty && type != .Todo || type == .Todo && (
-                                self.isMatched(note: $0, terms: ["- [ ]"])
-                                    || self.isMatched(note: $0, terms: ["- [x]"])
+                                self.isMatched(note: note, terms: ["- [ ]"])
+                                    || self.isMatched(note: note, terms: ["- [x]"])
                                 )
-                                || self.isMatched(note: $0, terms: terms)
+                                || self.isMatched(note: note, terms: terms)
                         ) && (
-                            isFitInSidebar(note: $0)
+                            self.isFit(note: note, sidebarItem: sidebarItem)
                     )
-                )
+                ) {
+                    notes.append(note)
+                }
+            }
+
+            DispatchQueue.main.async {
+                self.folderCapacity.text = String(notes.count)
+            }
+
+            if !notes.isEmpty {
+                if search {
+                    self.notesTable.notes = notes
+                } else {
+                    self.notesTable.notes = storage.sortNotes(noteList: notes, filter: "")
+                }
+            } else {
+                self.notesTable.notes.removeAll()
+            }
+
+            if operation.isCancelled {
+                completion()
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.notesTable.reloadData()
+
+                completion()
+            }
         }
 
-        print("filter done")
-
-        DispatchQueue.main.async {
-            self.folderCapacity.text = String(filteredNoteList.count)
-        }
-
-        if !filteredNoteList.isEmpty {
-            notesTable.notes = storage.sortNotes(noteList: filteredNoteList, filter: "")
-        } else {
-            notesTable.notes.removeAll()
-        }
-
-        DispatchQueue.main.async {
-            self.notesTable.reloadData()
-
-            completion()
-        }
+        self.searchQueue.addOperation(operation)
     }
 
     public func isFitInSidebar(note: Note) -> Bool {
@@ -252,6 +315,32 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var sidebarName = ""
 
         if let sidebarItem = getSidebarItem() {
+            sidebarName = sidebarItem.name
+            type = sidebarItem.type
+            project = sidebarItem.project
+        }
+
+        if type == .Trash && note.isTrash()
+            || type == .All && !note.isTrash() && !note.project!.isArchive
+            || type == .Tag && note.tagNames.contains(sidebarName)
+            || [.Category, .Label].contains(type) && project != nil && note.project == project
+            || type == nil && project == nil && !note.isTrash()
+            || project != nil && project!.isRoot && note.project?.parent == project
+            || type == .Archive && note.project != nil && note.project!.isArchive
+            || type == .Todo {
+
+            return true
+        }
+
+        return false
+    }
+
+    private func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
+        var type: SidebarItemType? = nil
+        var project: Project? = nil
+        var sidebarName = ""
+
+        if let sidebarItem = sidebarItem {
             sidebarName = sidebarItem.name
             type = sidebarItem.type
             project = sidebarItem.project
@@ -285,7 +374,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        updateTable(completion: {})
+        updateTable(search: true, completion: {})
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -494,15 +583,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var width: CGFloat = 0
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
-        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageViewController.orderedViewControllers[0] as? ViewController else { return }
-
         let windowWidth = self.view.frame.width
-        let translation = swipe.translation(in: vc.notesTable)
+        let translation = swipe.translation(in: notesTable)
 
         if swipe.state == .began {
-            self.width = vc.notesTable.frame.size.width
-            self.sidebarWidth = vc.sidebarTableView.frame.size.width
+            self.sidebarTableView.isUserInteractionEnabled = true
+            self.width = notesTable.frame.size.width
+
+            if self.width == windowWidth {
+                self.sidebarWidth = 0
+            } else {
+                self.sidebarWidth = sidebarTableView.frame.size.width
+            }
             return
         }
 
@@ -510,40 +602,36 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if swipe.state == .changed {
             if sidebarWidth > self.maxSidebarWidth {
-                vc.sidebarTableView.frame.size.width = self.maxSidebarWidth
-                vc.notesTable.frame.size.width = windowWidth - self.maxSidebarWidth
-                vc.notesTable.frame.origin.x = self.maxSidebarWidth
+                notesTable.frame = CGRect(x: self.maxSidebarWidth, y: notesTable.frame.origin.y, width: windowWidth - self.maxSidebarWidth, height: notesTable.frame.size.height)
             } else if sidebarWidth < 0 {
-                vc.sidebarTableView.frame.size.width = 0
-                vc.notesTable.frame.origin.x = 0
-                vc.notesTable.frame.size.width = windowWidth
+                notesTable.frame = CGRect(x: 0, y: notesTable.frame.origin.y, width: windowWidth, height: notesTable.frame.size.height)
             } else {
-                vc.sidebarTableView.frame.size.width = sidebarWidth
-                vc.notesTable.frame.size.width = windowWidth - sidebarWidth
-                vc.notesTable.frame.origin.x = sidebarWidth
+                notesTable.frame = CGRect(x: sidebarWidth, y: notesTable.frame.origin.y, width: windowWidth - sidebarWidth, height: notesTable.frame.size.height)
             }
         }
 
         if swipe.state == .ended {
-            UIView.animate(withDuration: 0.1, animations: {
+            UIView.animate(withDuration: 0.15, animations: {
                 if translation.x > 0 {
-                    vc.sidebarTableView.frame.size.width = self.maxSidebarWidth
-                    vc.notesTable.frame.size.width = windowWidth - self.maxSidebarWidth
-                    vc.notesTable.frame.origin.x = self.maxSidebarWidth
+                    self.notesTable.frame = CGRect(x: self.maxSidebarWidth, y: self.notesTable.frame.origin.y, width: windowWidth - self.maxSidebarWidth, height: self.notesTable.frame.size.height)
 
-                    UserDefaultsManagement.sidebarSize = self.maxSidebarWidth
-                    self.viewWillAppear(false)
                 }
 
                 if translation.x < 0 {
-                    vc.sidebarTableView.frame.size.width = 0
-                    vc.notesTable.frame.origin.x = 0
-                    vc.notesTable.frame.size.width = windowWidth
-                    UserDefaultsManagement.sidebarSize = 0
-
+                    self.notesTable.frame = CGRect(x: 0, y: self.notesTable.frame.origin.y, width: windowWidth, height: self.notesTable.frame.size.height)
                 }
             })
 
+            if translation.x > 0 {
+                UserDefaultsManagement.sidebarSize = self.maxSidebarWidth
+                self.viewWillAppear(false)
+
+            }
+
+            if translation.x < 0 {
+                UserDefaultsManagement.sidebarSize = 0
+                self.sidebarTableView.isUserInteractionEnabled = false
+            }
         }
     }
 

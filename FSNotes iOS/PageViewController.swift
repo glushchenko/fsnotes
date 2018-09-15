@@ -112,14 +112,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard completed, let current = self.viewControllers?.first else { return }
 
-        if previousViewControllers[0].isKind(of: UINavigationController.self) && completed {
+        if current.isKind(of: UINavigationController.self) {
             DispatchQueue.main.async {
-                self.disableSwipe()
+                self.enableSwipe()
             }
         } else {
             DispatchQueue.main.async {
-                self.enableSwipe()
+                self.disableSwipe()
             }
         }
     }

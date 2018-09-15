@@ -54,6 +54,7 @@ public class UserDefaultsManagement {
         static let FontColorKey = "fontColorKeyed"
         static let GrammarChecking = "grammarChecking"
         static let HideOnDeactivate = "hideOnDeactivate"
+        static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
@@ -796,6 +797,20 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.AutomaticDashSubstitution)
         }
     }
+
+    static var isHiddenSidebar: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.HideSidebar) {
+                return result as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HideSidebar)
+        }
+    }
+
+
     
     
 }

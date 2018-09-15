@@ -197,7 +197,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let note = noteList[row]
         if (note.isPinned) {
             pinnedCell = makeCell()
-            pinnedCell.pin.frame.size.width = 20
+            pinnedCell.pin.frame.size.width = 23
             return pinnedCell
         }
         
