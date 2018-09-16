@@ -19,17 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUC-hL-bgg" customClass="NotesTableView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="99" y="65" width="276" height="602"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="276" id="byF-EV-XVF"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="89" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="276" height="89"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="89"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uv7-Im-hed" id="De0-QG-drV">
-                                            <rect key="frame" x="0.0" y="0.0" width="276" height="88.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="88.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
@@ -137,6 +134,22 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="startLocation">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="endLocation">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="horizontalMode" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="diagonalMode" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                        <color key="value" red="0.26237374695426474" green="0.51481102530647083" blue="0.63467639593908631" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                        <color key="value" red="0.30977162963466554" green="0.48825662134271103" blue="0.67302506345177648" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="alp-5Z-1d9">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
@@ -161,6 +174,9 @@
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                         <state key="normal" image="settings.png"/>
+                                        <connections>
+                                            <action selector="openSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OHc-6e-Ap0"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuS-7s-7qj">
                                         <rect key="frame" x="11" y="26" width="35" height="35"/>
@@ -222,9 +238,10 @@
                             <constraint firstItem="alp-5Z-1d9" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="FC3-5g-ecO"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sUC-hL-bgg" secondAttribute="trailing" id="HYW-rc-hAF"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="aW1-0p-gl8"/>
-                            <constraint firstItem="sUC-hL-bgg" firstAttribute="leading" secondItem="Mge-lh-GR9" secondAttribute="trailing" id="euh-sR-E0l"/>
+                            <constraint firstItem="sUC-hL-bgg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="euh-sR-E0l"/>
                             <constraint firstItem="alp-5Z-1d9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="hm7-bB-XCW"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="p9L-C6-XUW"/>
+                            <constraint firstItem="sUC-hL-bgg" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="uQ4-vN-WWW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sUC-hL-bgg" secondAttribute="bottom" id="v1Q-kG-odu"/>
                             <constraint firstItem="alp-5Z-1d9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xNm-iI-BiD"/>
                             <constraint firstItem="Mge-lh-GR9" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="bottom" id="xWk-t6-j85"/>
@@ -235,11 +252,13 @@
                         <outlet property="currentFolder" destination="8VE-HM-shO" id="5rb-vR-OgA"/>
                         <outlet property="folderCapacity" destination="m6a-dd-9sW" id="Mdo-la-wuE"/>
                         <outlet property="headerView" destination="alp-5Z-1d9" id="cXW-wJ-XFm"/>
+                        <outlet property="noteTableViewLeadingConstraint" destination="euh-sR-E0l" id="Nnk-TZ-PGL"/>
                         <outlet property="notesTable" destination="sUC-hL-bgg" id="Iqp-8V-0Ly"/>
-                        <outlet property="notesWidthConstraint" destination="byF-EV-XVF" id="A2B-rK-cpg"/>
                         <outlet property="search" destination="Ywj-qM-UNi" id="FFN-oi-ibv"/>
+                        <outlet property="searchButton" destination="yuS-7s-7qj" id="PUs-Xi-SMU"/>
+                        <outlet property="searchCancel" destination="1gp-bn-Xq5" id="k7J-hm-b5c"/>
                         <outlet property="searchView" destination="MB3-6y-v2m" id="C6r-2P-Y6W"/>
-                        <outlet property="settingsButton" destination="UUp-E6-rvb" id="HN7-2s-jtN"/>
+                        <outlet property="settingsButton" destination="UUp-E6-rvb" id="wUB-8I-7YG"/>
                         <outlet property="sidebarTableView" destination="Mge-lh-GR9" id="PMJ-cU-cu8"/>
                         <outlet property="sidebarWidthConstraint" destination="Huw-14-GSA" id="Rje-QT-Z5R"/>
                     </connections>

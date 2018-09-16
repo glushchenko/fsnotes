@@ -15,48 +15,57 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var currentFolder: UILabel!
     @IBOutlet weak var folderCapacity: UILabel!
     @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
-
+    @IBOutlet weak var searchCancel: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var searchView: UIView!
-
     @IBOutlet var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var notesWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var noteTableViewLeadingConstraint: NSLayoutConstraint!
 
-    private let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    public let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
-    var storage: Storage?
-
+    public var storage: Storage?
     public var cloudDriveManager: CloudDriveManager?
 
     private let searchQueue = OperationQueue()
+    private var delayedInsert: Note?
+
     private var filteredNoteList: [Note]?
     private var maxSidebarWidth = CGFloat(0)
 
-    public var headerColor = MixedColor(normal: 0xa6c1d3, night: 0x47444e)
+    public var is3DTouchShortcut = false
+    private var isActiveTableUpdating = false
 
-    
     override func viewDidLoad() {
         UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
 
-        self.headerView.mixedBackgroundColor = self.headerColor
-        self.searchView.mixedBackgroundColor = self.headerColor
+        self.searchButton.setMixedImage(MixedImage(normal: UIImage(named: "search")!, night: UIImage(named: "search_white")!), forState: .normal)
 
-        self.search.mixedBackgroundColor = self.headerColor
-        self.search.mixedBarTintColor = self.headerColor
+        self.settingsButton.setMixedImage(MixedImage(normal: UIImage(named: "settings")!, night: UIImage(named: "settings_white")!), forState: .normal)
+
+        self.headerView.mixedBackgroundColor = Colors.Header
+        self.searchView.mixedBackgroundColor = Colors.Header
+
+        self.search.mixedBackgroundColor = Colors.Header
+        self.search.mixedBarTintColor = Colors.Header
+
+        self.folderCapacity.mixedTextColor = Colors.titleText
+        self.currentFolder.mixedTextColor = Colors.titleText
+
+        self.searchCancel.mixedTintColor = Colors.buttonText
+        self.search.mixedKeyboardAppearance = MixedKeyboardAppearance.init(normal: .light, night: .dark)
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
-        sidebarTableView.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
 
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
 
         loadPlusButton()
-        initSettingsButton()
 
         search.delegate = self
         search.autocapitalizationType = .none
@@ -93,16 +102,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             self.configureIndicator()
             DispatchQueue.main.async {
-                self.updateTable() {
-                    self.indicator.stopAnimating()
-                    self.reloadSidebar()
-                    self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
-
-                    if let note = Storage.sharedInstance().noteList.first {
-                        let evc = self.getEVC()
-                        evc?.fill(note: note)
-                    }
-                }
+                self.initTableData()
             }
         }
 
@@ -152,12 +152,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return false
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        let width = UserDefaultsManagement.sidebarSize
-        sidebarWidthConstraint.constant = width
-        notesWidthConstraint.constant = view.frame.width - width
-    }
-
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
     }
@@ -169,6 +163,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBAction func hideSearchView(_ sender: Any) {
         self.toggleSearchView()
     }
+
+    @IBAction func openSettings(_ sender: Any) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+        let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
+
+        self.present(navigationController, animated: true, completion: nil)
+    }
+
 
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
@@ -205,6 +208,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if self.searchView.isHidden {
             self.searchView.isHidden = false
             self.search.becomeFirstResponder()
+            self.viewWillAppear(false)
         } else {
             self.searchView.isHidden = true
             self.search.endEditing(true)
@@ -233,7 +237,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.indicator.layer.zPosition = 101
     }
 
+    public func initTableData() {
+        guard let storage = self.storage else { return }
+
+        self.updateTable() {
+            self.indicator.stopAnimating()
+            self.indicator.layer.zPosition = -1
+            self.reloadSidebar()
+            self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
+
+            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first {
+                let evc = self.getEVC()
+                evc?.fill(note: note)
+            }
+        }
+    }
+
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+        self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
 
         guard let storage = self.storage else { return }
@@ -302,6 +323,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             DispatchQueue.main.async {
                 self.notesTable.reloadData()
 
+                if let note = self.delayedInsert {
+                    self.notesTable.insertRow(note: note)
+                    self.delayedInsert = nil
+                }
+
+                self.isActiveTableUpdating = false
                 completion()
             }
         }
@@ -429,6 +456,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         button.tag = 1
         button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
         button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
+        button.layer.zPosition = 101
         self.view.addSubview(button)
     }
 
@@ -441,13 +469,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         return nil
-    }
-
-    func initSettingsButton() {
-        let settingsIcon = UIImage(named: "settings.png")
-        settingsButton.setImage(settingsIcon, for: UIControlState.normal)
-        settingsButton.tintColor = UIColor.black
-        settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
     }
 
     @objc func newButtonAction() {
@@ -486,8 +507,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let document = UINote(fileURL: note.url, textWrapper: note.getFileWrapper())
         document.save()
-        self.storage?.add(note)
-        
+
+        let storage = Storage.sharedInstance()
+        storage.add(note)
+
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
             return
         }
@@ -498,15 +521,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
         evc.editArea.becomeFirstResponder()
 
-        self.notesTable.insertRow(note: note)
-    }
-
-    @objc func openSettings() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
-        let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
-
-        self.present(navigationController, animated: true, completion: nil)
+        if self.isActiveTableUpdating {
+            self.delayedInsert = note
+        } else {
+            self.notesTable.insertRow(note: note)
+        }
     }
 
     @objc func preferredContentSizeChanged() {
@@ -566,6 +585,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             vc.sidebarTableView.sidebar = Sidebar()
             vc.sidebarTableView.reloadData()
+
+            vc.sidebarTableView.backgroundColor = UIColor(red:0.19, green:0.21, blue:0.21, alpha:1.0)
+            vc.sidebarTableView.updateColors()
+            vc.sidebarTableView.layoutSubviews()
             vc.notesTable.reloadData()
         }
     }
@@ -588,13 +611,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if swipe.state == .began {
             self.sidebarTableView.isUserInteractionEnabled = true
-            self.width = notesTable.frame.size.width
+            self.width = self.notesTable.frame.size.width
 
             if self.width == windowWidth {
                 self.sidebarWidth = 0
             } else {
-                self.sidebarWidth = sidebarTableView.frame.size.width
+                self.sidebarWidth = sidebarWidthConstraint.constant
             }
+
+            self.sidebarWidthConstraint.constant = self.maxSidebarWidth
             return
         }
 
@@ -602,35 +627,45 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if swipe.state == .changed {
             if sidebarWidth > self.maxSidebarWidth {
-                notesTable.frame = CGRect(x: self.maxSidebarWidth, y: notesTable.frame.origin.y, width: windowWidth - self.maxSidebarWidth, height: notesTable.frame.size.height)
+                return
             } else if sidebarWidth < 0 {
-                notesTable.frame = CGRect(x: 0, y: notesTable.frame.origin.y, width: windowWidth, height: notesTable.frame.size.height)
+                return
             } else {
-                notesTable.frame = CGRect(x: sidebarWidth, y: notesTable.frame.origin.y, width: windowWidth - sidebarWidth, height: notesTable.frame.size.height)
+                self.noteTableViewLeadingConstraint.constant = sidebarWidth
             }
         }
 
         if swipe.state == .ended {
-            UIView.animate(withDuration: 0.15, animations: {
-                if translation.x > 0 {
-                    self.notesTable.frame = CGRect(x: self.maxSidebarWidth, y: self.notesTable.frame.origin.y, width: windowWidth - self.maxSidebarWidth, height: self.notesTable.frame.size.height)
-
-                }
-
-                if translation.x < 0 {
-                    self.notesTable.frame = CGRect(x: 0, y: self.notesTable.frame.origin.y, width: windowWidth, height: self.notesTable.frame.size.height)
-                }
-            })
-
             if translation.x > 0 {
-                UserDefaultsManagement.sidebarSize = self.maxSidebarWidth
-                self.viewWillAppear(false)
-
+                self.noteTableViewLeadingConstraint.constant = self.maxSidebarWidth
             }
 
             if translation.x < 0 {
-                UserDefaultsManagement.sidebarSize = 0
-                self.sidebarTableView.isUserInteractionEnabled = false
+                self.noteTableViewLeadingConstraint.constant = 0
+            }
+
+            UIView.animate(withDuration: 0.15, animations: {
+                if translation.x > 0 {
+                    self.view.layoutIfNeeded()
+                }
+
+                if translation.x < 0 {
+                    self.view.layoutIfNeeded()
+                }
+            }) { _ in
+                if translation.x > 0 {
+                    UserDefaultsManagement.sidebarSize = self.maxSidebarWidth
+                    self.noteTableViewLeadingConstraint.constant = self.maxSidebarWidth
+                    self.sidebarWidthConstraint.constant = self.maxSidebarWidth
+                    self.sidebarTableView.isUserInteractionEnabled = true
+                }
+
+                if translation.x < 0 {
+                    UserDefaultsManagement.sidebarSize = 0
+                    self.noteTableViewLeadingConstraint.constant = 0
+                    self.sidebarTableView.isUserInteractionEnabled = false
+                    self.sidebarWidthConstraint.constant = 0
+                }
             }
         }
     }
@@ -683,4 +718,3 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return width + 40
     }
 }
-

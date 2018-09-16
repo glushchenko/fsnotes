@@ -29,9 +29,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
+        navigationController?.navigationBar.mixedTintColor = Colors.buttonText
+        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         
         if let n = note, n.isMarkdown() {
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))

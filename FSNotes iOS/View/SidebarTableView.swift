@@ -12,13 +12,32 @@ import UIKit
 import NightNight
 import AudioToolbox
 
+@IBDesignable
 class SidebarTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource  {
-    
+
+    @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
+    @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
+    @IBInspectable var startLocation: Double =   0.05 { didSet { updateLocations() }}
+    @IBInspectable var endLocation:   Double =   0.95 { didSet { updateLocations() }}
+    @IBInspectable var horizontalMode:  Bool =  false { didSet { updatePoints() }}
+    @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
+
+    var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     var sidebar: Sidebar?
+
     private var sections = ["", "", ""]
     public var viewController: ViewController?
+
+    override class var layerClass: AnyClass { return CAGradientLayer.self }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updatePoints()
+        updateLocations()
+        updateColors()
+    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return self.hasTags() ? 3 : 2
@@ -68,7 +87,7 @@ class SidebarTableView: UITableView,
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
+            view.backgroundView?.backgroundColor = UIColor.clear
 
             var font: UIFont = UIFont.systemFont(ofSize: 15)
 
@@ -84,8 +103,7 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            //view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x596263)
-            view.backgroundView?.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
+            view.backgroundView?.backgroundColor = UIColor.clear
             
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             
@@ -125,7 +143,7 @@ class SidebarTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0x5291ca, night: 0x313636)
+        cell.backgroundColor = UIColor.clear
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0xffffff, night: 0xffffff)
 
         if let sidebarCell = cell as? SidebarTableCellView {
@@ -140,6 +158,32 @@ class SidebarTableView: UITableView,
 
     private func hasTags() -> Bool {
         return Storage.sharedInstance().hasTags()
+    }
+
+    // MARK: Gradient settings
+    func updatePoints() {
+        if horizontalMode {
+            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 1, y: 0) : CGPoint(x: 0, y: 0.5)
+            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0.5)
+        } else {
+            gradientLayer.startPoint = diagonalMode ? CGPoint(x: 0, y: 0) : CGPoint(x: 0.5, y: 0)
+            gradientLayer.endPoint   = diagonalMode ? CGPoint(x: 1, y: 1) : CGPoint(x: 0.5, y: 1)
+        }
+    }
+
+    func updateLocations() {
+        gradientLayer.locations = [startLocation as NSNumber, endLocation as NSNumber]
+    }
+
+    func updateColors() {
+        if NightNight.theme == .night{
+            let startNightTheme = UIColor(red:0.14, green:0.14, blue:0.14, alpha:1.0)
+            let endNightTheme = UIColor(red:0.12, green:0.11, blue:0.12, alpha:1.0)
+
+            gradientLayer.colors    = [startNightTheme.cgColor, endNightTheme.cgColor]
+        } else {
+            gradientLayer.colors    = [startColor.cgColor, endColor.cgColor]
+        }
     }
     
 }

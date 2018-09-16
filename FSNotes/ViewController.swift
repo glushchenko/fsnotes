@@ -864,8 +864,6 @@ class ViewController: NSViewController,
         return nil
     }
     
-
-    
     func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
         self.searchQueue.cancelAllOperations()
         

@@ -136,26 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let handledShortCutItem = handleShortCutItem(shortcutItem)
         completionHandler(handledShortCutItem)
     }
-    
-    enum ShortcutIdentifier: String {
-        case makeNew
-        case search
-        case clipboard
-        
-        // MARK: - Initializers
-        
-        init?(fullType: String) {
-            guard let last = fullType.components(separatedBy: ".").last else { return nil }
-            self.init(rawValue: last)
-        }
-        
-        // MARK: - Properties
-        
-        var type: String {
-            return Bundle.main.bundleIdentifier! + ".\(self.rawValue)"
-        }
-    }
-    
+
     // MARK: Static Properties
     static let applicationShortcutUserInfoIconKey = "applicationShortcutUserInfoIconKey"
     
@@ -169,6 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
+            viewController.is3DTouchShortcut = true
             viewController.createNote()
             handled = true
             break
@@ -180,9 +162,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let content = pasteboardString {
                 pasteboardString = content.trim()
             }
-            
+
+            viewController.is3DTouchShortcut = true
             viewController.createNote(content: pasteboardString)
-            evc.editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
+            evc.editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.1)
+
             handled = true
             break
         case ShortcutIdentifier.search.type:

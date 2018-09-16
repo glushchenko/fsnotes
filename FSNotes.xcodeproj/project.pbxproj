@@ -212,6 +212,12 @@
 		D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
 		D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
 		D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
+		D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBAFF3214D42E5002ECD5A /* Colors.swift */; };
+		D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF5214D495A002ECD5A /* search_white.png */; };
+		D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF7214D4A07002ECD5A /* settings_white@3x.png */; };
+		D7CBAFFB214D4A08002ECD5A /* settings_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF8214D4A07002ECD5A /* settings_white.png */; };
+		D7CBAFFC214D4A08002ECD5A /* settings_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CBAFF9214D4A08002ECD5A /* settings_white@2x.png */; };
+		D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */; };
 		D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
 		D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
 		D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
@@ -598,6 +604,12 @@
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
 		D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableRowView.swift; sourceTree = "<group>"; };
+		D7CBAFF3214D42E5002ECD5A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		D7CBAFF5214D495A002ECD5A /* search_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_white.png; sourceTree = "<group>"; };
+		D7CBAFF7214D4A07002ECD5A /* settings_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_white@3x.png"; sourceTree = "<group>"; };
+		D7CBAFF8214D4A07002ECD5A /* settings_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_white.png; sourceTree = "<group>"; };
+		D7CBAFF9214D4A08002ECD5A /* settings_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_white@2x.png"; sourceTree = "<group>"; };
+		D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutIdentifier.swift; sourceTree = "<group>"; };
 		D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-BoldIt.ttf"; sourceTree = "<group>"; };
 		D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
@@ -940,6 +952,8 @@
 			children = (
 				D712FED1206F67C500370BA4 /* NightMode.swift */,
 				D7735B08213D01E000FACB12 /* Toolbar.swift */,
+				D7CBAFF3214D42E5002ECD5A /* Colors.swift */,
+				D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1139,6 +1153,10 @@
 				D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */,
 				D71AA01D21439A8B004AFD2A /* todo_sidebar.png */,
 				D7E378802147A05C00D6D7DD /* search.png */,
+				D7CBAFF5214D495A002ECD5A /* search_white.png */,
+				D7CBAFF8214D4A07002ECD5A /* settings_white.png */,
+				D7CBAFF9214D4A08002ECD5A /* settings_white@2x.png */,
+				D7CBAFF7214D4A07002ECD5A /* settings_white@3x.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1585,6 +1603,7 @@
 				D75DF64321319994003C3059 /* todo@3x.png in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
+				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
 				D71353FE2042AE5F00E3776F /* settings.png in Resources */,
@@ -1609,6 +1628,7 @@
 				D73995602051D1AB009017EE /* italic.png in Resources */,
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
 				D7679396201F21F5000F7BBF /* LaunchScreen.storyboard in Resources */,
+				D7CBAFFB214D4A08002ECD5A /* settings_white.png in Resources */,
 				D76025C0204F078A000B9F59 /* bold@2x.png in Resources */,
 				D739EC402138313400E1C021 /* checkbox_empty@3x.png in Resources */,
 				D739955F2051D1AB009017EE /* italic@2x.png in Resources */,
@@ -1623,8 +1643,10 @@
 				D79802802137C3D6008D6200 /* uncheckedbox@2x.png in Resources */,
 				D7F6CFF82056F1BF008C584A /* plus.png in Resources */,
 				D739EC322138305000E1C021 /* checkbox_white.png in Resources */,
+				D7CBAFFC214D4A08002ECD5A /* settings_white@2x.png in Resources */,
 				D7271FAC2052803500033D0C /* indent@2x.png in Resources */,
 				D75DF64121319994003C3059 /* todo@2x.png in Resources */,
+				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
 				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
@@ -1969,6 +1991,7 @@
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D7B03AFC2085D4E5008FC097 /* SandboxBookmark.swift in Sources */,
+				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
@@ -1977,6 +2000,7 @@
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
+				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
