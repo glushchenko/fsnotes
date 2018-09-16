@@ -51,8 +51,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
-
-
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -74,7 +72,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         pageController.enableSwipe()
 
-        // keyboard color
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
         } else {

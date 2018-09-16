@@ -15,7 +15,7 @@ class LanguageViewController: UITableViewController {
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         

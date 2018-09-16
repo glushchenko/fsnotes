@@ -12,6 +12,7 @@ import Solar
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var preHeaderView: UIView!
     @IBOutlet weak var currentFolder: UILabel!
     @IBOutlet weak var folderCapacity: UILabel!
     @IBOutlet weak var settingsButton: UIButton!
@@ -46,6 +47,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.settingsButton.setMixedImage(MixedImage(normal: UIImage(named: "settings")!, night: UIImage(named: "settings_white")!), forState: .normal)
 
+        self.preHeaderView.mixedBackgroundColor = Colors.Header
         self.headerView.mixedBackgroundColor = Colors.Header
         self.searchView.mixedBackgroundColor = Colors.Header
 
@@ -56,7 +58,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.currentFolder.mixedTextColor = Colors.titleText
 
         self.searchCancel.mixedTintColor = Colors.buttonText
-        self.search.mixedKeyboardAppearance = MixedKeyboardAppearance.init(normal: .light, night: .dark)
+        search.keyboardAppearance = NightNight.theme == .night ? .dark : .default
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
 
@@ -568,9 +570,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             NotesTextProcessor.hl = nil
             evc.refill()
 
+            evc.editArea.keyboardAppearance = .default
+            vc.search.keyboardAppearance = .default
+
             vc.sidebarTableView.sidebar = Sidebar()
             vc.sidebarTableView.reloadData()
             vc.notesTable.reloadData()
+
+            if vc.search.isFirstResponder {
+                vc.search.endEditing(true)
+                vc.search.becomeFirstResponder()
+            }
 
             return
         }
@@ -583,6 +593,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             NotesTextProcessor.hl = nil
             evc.refill()
 
+            evc.editArea.keyboardAppearance = .dark
+            vc.search.keyboardAppearance = .dark
+
             vc.sidebarTableView.sidebar = Sidebar()
             vc.sidebarTableView.reloadData()
 
@@ -590,6 +603,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             vc.sidebarTableView.updateColors()
             vc.sidebarTableView.layoutSubviews()
             vc.notesTable.reloadData()
+
+            if vc.search.isFirstResponder {
+                vc.search.endEditing(true)
+                vc.search.becomeFirstResponder()
+            }
         }
     }
 
@@ -626,13 +644,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let sidebarWidth = self.sidebarWidth + translation.x
 
         if swipe.state == .changed {
-            if sidebarWidth > self.maxSidebarWidth {
-                return
-            } else if sidebarWidth < 0 {
+            if sidebarWidth > self.maxSidebarWidth || sidebarWidth < 0 {
                 return
             } else {
                 self.noteTableViewLeadingConstraint.constant = sidebarWidth
+                self.view.layoutIfNeeded()
             }
+            return
         }
 
         if swipe.state == .ended {
@@ -645,11 +663,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
 
             UIView.animate(withDuration: 0.15, animations: {
-                if translation.x > 0 {
-                    self.view.layoutIfNeeded()
-                }
-
-                if translation.x < 0 {
+                if translation.x > 0 || translation.x < 0 {
                     self.view.layoutIfNeeded()
                 }
             }) { _ in
