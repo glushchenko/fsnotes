@@ -92,12 +92,7 @@ class CloudDriveManager {
                     _ = note.reload()
                 }
 
-                DispatchQueue.main.async {
-                    if let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
-                        self.delegate.notesTable.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                    }
-                }
-
+                self.delegate.notesTable.updateLabel(note: note)
                 self.resolveConflict(url: url)
                 continue
             }

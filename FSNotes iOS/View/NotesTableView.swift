@@ -189,7 +189,12 @@ class NotesTableView: UITableView,
         if let i = self.notes.index(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
-            reloadRows(at: [indexPath], with: .automatic)
+            DispatchQueue.main.async {
+                let cell = self.cellForRow(at: indexPath) as? NoteCellView
+                cell?.preview.text = note.getPreviewForLabel()
+                cell?.date.text = note.getDateForLabel()
+                cell?.layoutIfNeeded()
+            }
         }
     }
 
@@ -226,11 +231,7 @@ class NotesTableView: UITableView,
                 note.addPin()
             }
 
-            DispatchQueue.main.async {
-                if let i = self.notes.index(where: {$0 === note}) {
-                    self.reloadRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                }
-            }
+            self.updateLabel(note: note)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }

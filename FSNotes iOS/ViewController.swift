@@ -648,7 +648,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 return
             } else {
                 self.noteTableViewLeadingConstraint.constant = sidebarWidth
-                self.view.layoutIfNeeded()
+
+                UIView.animate(withDuration: 0.15) { [weak self] in
+                    self?.view.layoutIfNeeded()
+                }
             }
             return
         }
@@ -662,7 +665,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.noteTableViewLeadingConstraint.constant = 0
             }
 
-            UIView.animate(withDuration: 0.15, animations: {
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: .beginFromCurrentState, animations: {
                 if translation.x > 0 || translation.x < 0 {
                     self.view.layoutIfNeeded()
                 }
