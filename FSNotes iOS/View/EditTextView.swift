@@ -10,11 +10,20 @@ import UIKit
 import MobileCoreServices
 
 class EditTextView: UITextView, UITextViewDelegate {
+
+    public var isAllowedScrollRect = true
+
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
 
     public var typingFont: UIFont?
     public static var note: Note?
+
+    override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
+        if self.isAllowedScrollRect {
+            super.scrollRectToVisible(rect, animated: animated)
+        }
+    }
     
     override func cut(_ sender: Any?) {
         if self.textStorage.length > self.selectedRange.upperBound {

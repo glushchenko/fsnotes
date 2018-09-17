@@ -798,11 +798,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Toggle todo on click
         if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
+            self.editArea.isAllowedScrollRect = false
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
-            let range = myTextView.selectedRange
             textFormatter.toggleTodo(characterIndex)
-            textFormatter.setSelectedRange(range)
-            
+
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
+                self.editArea.isAllowedScrollRect = true
+            }
+
             AudioServicesPlaySystemSound(1519)
             return
         }

@@ -599,15 +599,15 @@ public class TextFormatter {
             }
         }
     }
-    
+
     public func toggleTodo(_ location: Int? = nil) {
-        
+
         #if os(iOS)
         let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
         
         if let location = location, let todoAttr = storage.attribute(todoKey, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
-            
+
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
             
             guard let paragraph = getParagraphRange(for: location) else { return }
@@ -629,7 +629,7 @@ public class TextFormatter {
             return
         }
         #endif
-        
+
         guard var paragraphRange = getParagraphRange() else { return }
         
         if let location = location{
