@@ -86,6 +86,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.delegate = sidebarTableView
         sidebarTableView.viewController = self
 
+        self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
+
         UserDefaultsManagement.fontSize = 17
         self.storage = Storage.sharedInstance()
 

@@ -268,13 +268,13 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
         
         guard range.length > 0 else {
+            let text = storage.attributedSubstring(from: pRange).string
             #if os(OSX)
                 let location = textView.selectedRange().location
-                let text = storage.attributedSubstring(from: pRange).string
                 textView.insertText("\t" + text, replacementRange: pRange)
                 self.setSelectedRange(NSMakeRange(location + 1, 0))
             #else
-                replaceWith(string: "\t", range: range)
+                replaceWith(string: "\t" + text, range: pRange)
                 setSelectedRange(NSMakeRange(range.upperBound + 1, 0))
             #endif
             
@@ -315,13 +315,13 @@ public class TextFormatter {
         guard range.length > 0 else {
             var text = storage.attributedSubstring(from: pRange).string
             guard text.count > 0, [" ", "\t"].contains(text.removeFirst()) else { return }
-            
+
             #if os(OSX)
                 textView.insertText(text, replacementRange: pRange)
-            self.setSelectedRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
+                self.setSelectedRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
             #else
-                // TODO: implement me!
-                // replaceWith(string: text)
+                self.insertText(text, replacementRange: pRange)
+                self.setSelectedRange(NSRange(location: range.location - 1, length: 0))
             #endif
         
             if note.isMarkdown() {

@@ -38,9 +38,9 @@ open class MarkdownView: WKWebView {
         }
         
         let userContentController = WKUserContentController()
-        
+        userContentController.add(HandlerCopyCode(), name: "notification")
+
         #if os(OSX)
-            userContentController.add(HandlerCopyCode(), name: "notification")
             userContentController.add(HandlerMouseOver(), name: "mouseover")
             userContentController.add(HandlerMouseOut(), name: "mouseout")
         #endif
@@ -214,6 +214,20 @@ class HandlerMouseOut: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
         NSCursor.arrow.set()
+    }
+}
+#endif
+
+#if os(iOS)
+import MobileCoreServices
+
+class HandlerCopyCode: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+        let pasteboard = UIPasteboard.general
+        let item = [kUTTypeUTF8PlainText as String : message as Any]
+        pasteboard.items = [item]
     }
 }
 #endif
