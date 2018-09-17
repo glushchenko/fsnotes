@@ -133,6 +133,11 @@ class NotesTableView: UITableView,
             let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
             actionSheet.addAction(dismiss)
 
+            if let view = self.superview {
+                actionSheet.popoverPresentationController?.sourceView = view
+                actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
+            }
+
             self.viewDelegate?.present(actionSheet, animated: true, completion: nil)
         })
         more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
