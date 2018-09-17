@@ -641,9 +641,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         }
 
                         guard let imageData = data else { return }
-
-                        let processor = ImagesProcessor(styleApplier: self.editArea.textStorage, note: note)
-                        guard let fileName = processor.writeImage(data: imageData, url: url) else { return }
+                        guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note) else { return }
 
                         if note.type == .TextBundle {
                             markup += "![](assets/\(fileName))"

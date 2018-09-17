@@ -184,19 +184,24 @@ public class ImagesProcessor {
         return ""
     }
     
-    func getFileName(from: URL, to: URL) -> String? {
+    public static func getFileName(from: URL? = nil, to: URL) -> String? {
+        let path = from?.absoluteString ?? to.absoluteString
         var name: String?
-        let path = from.absoluteString
-        
+
         if path.starts(with: "http://") || path.starts(with: "https://"), let webName = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
             name = webName
         }
         
         if path.starts(with: "file://") {
             var i = 0
-            var pathComponent = from.lastPathComponent
-            let ext = from.pathExtension
-            
+            var pathComponent = "1.jpg"
+            var ext = "jpg"
+
+            if let from = from {
+                pathComponent = from.lastPathComponent
+                ext = from.pathExtension
+            }
+
             while name == nil {
                 let destination = to.appendingPathComponent(pathComponent)
                 if FileManager.default.fileExists(atPath: destination.path) {
@@ -212,16 +217,16 @@ public class ImagesProcessor {
         return name
     }
     
-    func writeImage(data: Data, url: URL) -> String? {
-        if self.note.type == .TextBundle {
-            let assetsUrl = self.note.url.appendingPathComponent("assets")
+    public static func writeImage(data: Data, url: URL? = nil, note: Note) -> String? {
+        if note.type == .TextBundle {
+            let assetsUrl = note.url.appendingPathComponent("assets")
             
             if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {
                 try? FileManager.default.createDirectory(at: assetsUrl, withIntermediateDirectories: false, attributes: nil)
             }
             
             let destination = URL(fileURLWithPath: assetsUrl.path)
-            guard let fileName = getFileName(from: url, to: destination) else {
+            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
                 return nil
             }
             
@@ -231,11 +236,15 @@ public class ImagesProcessor {
             return fileName
         }
         
-        if let project = self.note.project {
+        if let project = note.project {
             let destination = URL(fileURLWithPath: project.url.path + "/i/")
-            _ = makeInitialDirectory(cacheURL: destination)
+
+            do {
+                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: false, attributes: nil)
+            } catch {
+            }
             
-            guard let fileName = getFileName(from: url, to: destination) else {
+            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
                 return nil
             }
             
@@ -247,16 +256,7 @@ public class ImagesProcessor {
         
         return nil
     }
-    
-    func makeInitialDirectory(cacheURL: URL) -> Bool {
-        do {
-            try FileManager.default.createDirectory(at: cacheURL, withIntermediateDirectories: false, attributes: nil)
-            return true
-        } catch {
-            return false
-        }
-    }
-    
+
     func isContainAttachment(innerRange: NSRange, mdTitleLength: Int) -> Bool {
         let j = offset + newLineOffset - mdTitleLength
         

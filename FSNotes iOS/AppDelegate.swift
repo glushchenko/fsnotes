@@ -158,13 +158,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let navigationViewController = pageViewController.orderedViewControllers[1] as? UINavigationController, let evc = navigationViewController.viewControllers[0] as? EditorViewController
             else { return false }
                     
-            var pasteboardString: String? = UIPasteboard.general.string
-            if let content = pasteboardString {
-                pasteboardString = content.trim()
-            }
-
             viewController.is3DTouchShortcut = true
-            viewController.createNote(content: pasteboardString)
+            viewController.createNote(pasteboard: true)
             evc.editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.1)
 
             handled = true

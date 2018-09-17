@@ -479,7 +479,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         createNote(content: nil)
     }
 
-    func createNote(content: String? = nil) {
+    func createNote(content: String? = nil, pasteboard: Bool? = nil) {
         var currentProject: Project
         var tag: String?
 
@@ -512,6 +512,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let document = UINote(fileURL: note.url, textWrapper: note.getFileWrapper())
         document.save()
 
+        if pasteboard != nil {
+            savePasteboard(note: note)
+        }
+
         let storage = Storage.sharedInstance()
         storage.add(note)
 
@@ -530,6 +534,25 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             self.notesTable.insertRow(note: note)
         }
+    }
+
+    public func savePasteboard(note: Note) {
+        let pboard = UIPasteboard.general
+        let pasteboardString: String? = pboard.string
+
+        if let content = pasteboardString {
+            note.content = NSMutableAttributedString(string: content)
+        }
+
+        if let image = pboard.image {
+            if let data = UIImageJPEGRepresentation(image, 0.8) {
+                guard let fileName = ImagesProcessor.writeImage(data: data, note: note) else { return }
+                let imagePath = note.type == .TextBundle ? "assets" : "/i"
+                note.content = NSMutableAttributedString(string: "![](\(imagePath)/\(fileName))\n\n")
+            }
+        }
+
+        note.save()
     }
 
     @objc func preferredContentSizeChanged() {

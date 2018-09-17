@@ -48,7 +48,14 @@ class MoveViewController: UITableViewController {
             let project = projects[indexPath.row]
             let dstURL = project.url.appendingPathComponent(self.selectedNote.name)
 
-            if self.selectedNote.project != project, self.selectedNote.move(to: dstURL) {
+            if self.selectedNote.project != project {
+                guard self.selectedNote.move(to: dstURL) else {
+                    let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+
                 self.selectedNote.url = dstURL
                 self.selectedNote.parseURL()
                 self.selectedNote.project = project

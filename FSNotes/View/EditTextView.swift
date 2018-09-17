@@ -828,9 +828,7 @@ class EditTextView: NSTextView {
                     return false
                 }
                 
-                let processor = ImagesProcessor(styleApplier: storage, note: note)
-                
-                guard let fileName = processor.writeImage(data: data, url: url),
+                guard let fileName = ImagesProcessor.writeImage(data: data, url: url, note: note),
                       let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else
                 {
                     return false
