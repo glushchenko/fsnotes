@@ -14,8 +14,17 @@ class NoteCellView: UITableViewCell {
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var preview: UILabel!
     @IBOutlet weak var pin: UIImageView!
-    
+
+    @IBOutlet weak var imagePreview: UIImageView!
+    @IBOutlet weak var imagePreviewSecond: UIImageView!
+    @IBOutlet weak var imagePreviewThird: UIImageView!
+
+    private var note: Note?
+    private var contentLength: Int = 0
+
     func configure(note: Note) {
+        self.note = note
+
         title.attributedText = NSAttributedString(string: note.title)
         preview.attributedText = NSAttributedString(string: note.getPreviewForLabel())
         date.attributedText = NSAttributedString(string: note.getDateForLabel())
@@ -40,5 +49,63 @@ class NoteCellView: UITableViewCell {
                 date.font = scaledFont
             }
         }
+    }
+
+    public func loadImagesPreview() {
+        guard let note = self.note else { return }
+        guard note.content.length != self.contentLength else { return }
+        guard let tableView = self.superview as? NotesTableView else { return }
+
+        self.contentLength = note.content.length
+        self.note?.invalidateCache()
+
+        self.imagePreview.image = nil
+        self.imagePreview.isHidden = true
+        self.imagePreviewSecond.image = nil
+        self.imagePreviewSecond.isHidden = true
+        self.imagePreviewThird.image = nil
+        self.imagePreviewThird.isHidden = true
+
+        DispatchQueue.global(qos: .userInteractive).async {
+            if let images = self.note?.getImagePreviewUrl() {
+                var resizedImages: [UIImage] = []
+
+                for imageUrl in images {
+                    if let image = ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)?.resize(height: 70) {
+                        let resized = image.croppedInRect(rect: CGRect(x: 0, y: 0, width: 70, height: 70))
+                        resizedImages.append(resized)
+                    }
+                }
+
+                DispatchQueue.main.async {
+                    for resized in resizedImages {
+                        if self.imagePreview.image == nil {
+                            self.imagePreview.image = resized
+
+                            self.styleImageView(imageView: self.imagePreview)
+                        } else if self.imagePreviewSecond.image == nil {
+                            self.imagePreviewSecond.image = resized
+
+                            self.styleImageView(imageView: self.imagePreviewSecond)
+                        } else if self.imagePreviewThird.image == nil {
+                            self.imagePreviewThird.image = resized
+
+                            self.styleImageView(imageView: self.imagePreviewThird)
+                        }
+                    }
+                }
+            }
+        }
+
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+
+    private func styleImageView(imageView: UIImageView) {
+        imageView.isHidden = false
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.darkGray.cgColor
+        imageView.layer.cornerRadius = 4
+        imageView.clipsToBounds = true
     }
 }

@@ -570,6 +570,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let evc = viewController.viewControllers[0] as? EditorViewController else { return }
 
         evc.reloadPreview()
+        evc.refillToolbar()
     }
 
     @objc func didChangeScreenBrightness() {

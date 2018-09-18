@@ -23,21 +23,28 @@ class NotesTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let note = notes[indexPath.row]
+
+        if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+            return 160
+        }
+
         return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
-        let note = notes[indexPath.row]
+        let note = self.notes[indexPath.row]
         note.load(note.url)
-        
-        cell.configure(note: notes[indexPath.row])
+
+        cell.configure(note: self.notes[indexPath.row])
         cell.selectionStyle = .gray
-        
+
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
+        cell.loadImagesPreview()
 
         return cell
     }
@@ -198,6 +205,8 @@ class NotesTableView: UITableView,
                 let cell = self.cellForRow(at: indexPath) as? NoteCellView
                 cell?.preview.text = note.getPreviewForLabel()
                 cell?.date.text = note.getDateForLabel()
+                cell?.title.text = note.getTitleWithoutLabel()
+                cell?.loadImagesPreview()
                 cell?.layoutIfNeeded()
             }
         }

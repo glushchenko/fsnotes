@@ -96,12 +96,56 @@ class ImageAttachment {
         
         return mutableString
     }
+
+    #if os(iOS)
+    public static func getImageAndCacheData(url: URL, note: Note) -> UIImage? {
+        var data: Data?
+
+        guard let cacheDirectoryUrl = note.project?.url.appendingPathComponent("/.cache/") else { return nil }
+
+        if url.isRemote() || url.pathExtension.lowercased() == "png", let cacheName = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            let imageCacheUrl = cacheDirectoryUrl.appendingPathComponent(cacheName)
+
+            if !FileManager.default.fileExists(atPath: imageCacheUrl.path) {
+                var isDirectory = ObjCBool(true)
+                if !FileManager.default.fileExists(atPath: cacheDirectoryUrl.path, isDirectory: &isDirectory) || isDirectory.boolValue == false {
+                    do {
+                        try FileManager.default.createDirectory(at: imageCacheUrl.deletingLastPathComponent(), withIntermediateDirectories: false, attributes: nil)
+                    } catch {
+                        print(error)
+                    }
+                }
+
+                do {
+                    data = try Data(contentsOf: url)
+                } catch {
+                    print(error)
+                }
+
+                if let imageData = data, let image = UIImage(data: imageData), let jpegImageData = UIImageJPEGRepresentation(image, 1.0) {
+                    try? jpegImageData.write(to: imageCacheUrl, options: .atomic)
+                    data = jpegImageData
+                }
+
+            } else {
+                data = try? Data(contentsOf: imageCacheUrl)
+            }
+        } else {
+            data = try? Data(contentsOf: url)
+        }
+
+        guard let imageData = data else { return nil }
+
+        return UIImage(data: imageData)
+    }
+    #endif
     
     #if os(iOS)
     private func getImageSize(image: UIImage) -> CGSize? {
         guard let view = self.getEditorView() else { return nil }
 
-        let maxWidth = view.frame.width
+        let maxWidth = view.frame.width - 10
 
         guard image.size.width > maxWidth else {
             return image.size

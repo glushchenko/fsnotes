@@ -111,6 +111,24 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
+    public func getToolbar(for note: Note) -> UIToolbar {
+        if note.isMarkdown() {
+            return self.getMarkdownToolbar()
+        }
+
+        if note.type == .RichText {
+            return self.getRTFToolbar()
+        }
+
+        return self.getPlainTextToolbar()
+    }
+
+    public func refillToolbar() {
+        guard let note = self.note else { return }
+
+        self.addToolBar(textField: self.editArea, toolbar: self.getToolbar(for: note))
+    }
+
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
         EditTextView.note = note
@@ -293,6 +311,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        textView.textAlignment = .left
 
         guard let note = self.note else {
             return true
@@ -466,13 +485,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
-        scroll.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+
+        scroll.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x535059)
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
 
-        textField.delegate = self
+        let isFirst = textField.isFirstResponder
+        if isFirst {
+            textField.endEditing(true)
+        }
+
         textField.inputAccessoryView = scroll
+
+        if isFirst {
+            textField.becomeFirstResponder()
+        }
 
         if let etv = textField as? EditTextView {
             etv.initUndoRedoButons()
@@ -480,9 +508,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func getMarkdownToolbar() -> UIToolbar {
-        let toolBar = UIToolbar()
+        let width = self.editArea.superview!.frame.width
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
+
         toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-        toolBar.barStyle = .blackTranslucent
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
@@ -501,16 +530,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
 
         toolBar.isUserInteractionEnabled = true
-        toolBar.frame = CGRect.init(x: 0, y: 0, width: 420, height: 44)
 
         return toolBar
     }
 
     private func getRTFToolbar() -> UIToolbar {
-        let toolBar = UIToolbar()
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        let width = self.editArea.superview!.frame.width
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.isTranslucent = true
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
@@ -533,10 +561,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func getPlainTextToolbar() -> UIToolbar {
-        let toolBar = UIToolbar()
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        let width = self.editArea.superview!.frame.width
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.isTranslucent = true
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
@@ -781,8 +809,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
             guard let path = myTextView.textStorage.attribute(todoKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
 
-            if let someImage = UIImage(contentsOfFile: url.path) {
 
+            if let data = try? Data(contentsOf: url), let someImage = UIImage(data: data) {
                 let imageInfo   = GSImageInfo(image: someImage, imageMode: .aspectFit)
                 let transitiionInfo = GSTransitionInfo(fromRect: CGRect.init())
                 let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitiionInfo)

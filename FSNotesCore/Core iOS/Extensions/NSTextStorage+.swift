@@ -32,6 +32,7 @@ extension NSTextStorage {
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        paragraphStyle.alignment = .left
 
         let attachmentParagraph = NSMutableParagraphStyle()
         attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)

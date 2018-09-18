@@ -25,6 +25,9 @@ public class Note: NSObject  {
     public var name: String = ""
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()
+
+    public var imageUrl: [URL]?
+    public var isParsed = false
     
     init(url: URL) {
         self.url = url
@@ -728,4 +731,48 @@ public class Note: NSObject  {
         return note
     }
     #endif
+
+    public func getImagePreviewUrl() -> [URL]? {
+        if self.isParsed {
+            return self.imageUrl
+        }
+
+        var i = 0
+        var urls: [URL] = []
+
+        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
+        {(result, flags, stop) -> Void in
+
+            if i == 3 {
+                stop.pointee = true
+                return
+            }
+
+            guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
+
+            let imagePath = self.content.attributedSubstring(from: range).string
+
+            if let url = self.getImageUrl(imageName: imagePath) {
+                if url.isRemote() {
+                    urls.append(url)
+                    i += 1
+                } else {
+                    if FileManager.default.fileExists(atPath: url.path) {
+                        urls.append(url)
+                        i += 1
+                    }
+                }
+            }
+        })
+
+        self.imageUrl = urls
+        self.isParsed = true
+
+        return urls
+    }
+
+    public func invalidateCache() {
+        self.imageUrl = nil
+        self.isParsed = false
+    }
 }

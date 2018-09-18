@@ -18,15 +18,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="89" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUC-hL-bgg" customClass="NotesTableView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="154" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sUC-hL-bgg" customClass="NotesTableView" customModule="FSNotes_iOS" customModuleProvider="target">
+                                <rect key="frame" x="107" y="65" width="268" height="602"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="89" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="89"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="154" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="268" height="154"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uv7-Im-hed" id="De0-QG-drV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="88.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="268" height="153.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
@@ -37,10 +37,10 @@
                                                     </constraints>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JoG-Rg-K2q">
-                                                    <rect key="frame" x="23" y="17" width="337" height="20.5"/>
+                                                    <rect key="frame" x="23" y="17" width="230" height="20.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn1-Y0-0eh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="267" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="160" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="LZK-76-jrF"/>
                                                             </constraints>
@@ -49,7 +49,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
-                                                            <rect key="frame" x="267" y="0.0" width="70" height="20.5"/>
+                                                            <rect key="frame" x="160" y="0.0" width="70" height="20.5"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="gXo-Uf-3ol"/>
                                                             </constraints>
@@ -64,26 +64,56 @@
                                                     </constraints>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Rz-QFy">
-                                                    <rect key="frame" x="22" y="45" width="339" height="18"/>
+                                                    <rect key="frame" x="22" y="45" width="232" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rsi-Av-qh2">
+                                                    <rect key="frame" x="20" y="75" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="0iB-an-r6e"/>
+                                                        <constraint firstAttribute="height" constant="70" id="3EZ-N8-htb"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t6a-FH-UHM">
+                                                    <rect key="frame" x="98" y="75" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="dd7-Po-Gye"/>
+                                                        <constraint firstAttribute="height" constant="70" id="eUw-LF-zQI"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L4T-lK-1pA">
+                                                    <rect key="frame" x="176" y="75" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="Qry-XG-kOl"/>
+                                                        <constraint firstAttribute="width" constant="70" id="mUL-BK-kWo"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="JoG-Rg-K2q" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="Bxr-MM-vgh"/>
                                                 <constraint firstAttribute="trailing" secondItem="JoG-Rg-K2q" secondAttribute="trailing" constant="15" id="EHa-Zz-WZG"/>
+                                                <constraint firstItem="L4T-lK-1pA" firstAttribute="leading" secondItem="t6a-FH-UHM" secondAttribute="trailing" constant="8" id="K3H-Qz-btY"/>
                                                 <constraint firstAttribute="trailing" secondItem="LAf-Rz-QFy" secondAttribute="trailing" constant="14" id="LJ9-2z-vAD"/>
+                                                <constraint firstItem="rsi-Av-qh2" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leadingMargin" constant="5" id="MB0-DS-pMG"/>
+                                                <constraint firstItem="L4T-lK-1pA" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="XPp-HF-VEk"/>
                                                 <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="YY9-pB-9Qe"/>
+                                                <constraint firstItem="t6a-FH-UHM" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="Yvb-AC-CP7"/>
                                                 <constraint firstItem="JoG-Rg-K2q" firstAttribute="leading" secondItem="Ng0-bb-ENq" secondAttribute="trailing" id="cGK-8i-2kH"/>
                                                 <constraint firstItem="LAf-Rz-QFy" firstAttribute="top" secondItem="Ng0-bb-ENq" secondAttribute="bottom" constant="5" id="d2V-lD-g3R"/>
                                                 <constraint firstItem="Ng0-bb-ENq" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leading" id="fM2-85-PwK"/>
                                                 <constraint firstItem="LAf-Rz-QFy" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leading" constant="22" id="lRD-NL-mfR"/>
+                                                <constraint firstItem="rsi-Av-qh2" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="uw7-pW-b3V"/>
+                                                <constraint firstItem="t6a-FH-UHM" firstAttribute="leading" secondItem="rsi-Av-qh2" secondAttribute="trailing" constant="8" id="zr3-db-Dgc"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <inset key="separatorInset" minX="15" minY="0.0" maxX="18" maxY="0.0"/>
                                         <connections>
                                             <outlet property="date" destination="AbV-ot-mEE" id="bLC-CN-Urn"/>
+                                            <outlet property="imagePreview" destination="rsi-Av-qh2" id="7ax-Ce-vfL"/>
+                                            <outlet property="imagePreviewSecond" destination="t6a-FH-UHM" id="My4-em-TVZ"/>
+                                            <outlet property="imagePreviewThird" destination="L4T-lK-1pA" id="dxa-93-KoO"/>
                                             <outlet property="pin" destination="Ng0-bb-ENq" id="vgv-uX-Hak"/>
                                             <outlet property="preview" destination="LAf-Rz-QFy" id="OTM-Tt-F3b"/>
                                             <outlet property="title" destination="Cn1-Y0-0eh" id="giJ-Tv-pg9"/>
@@ -298,7 +328,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="8" y="26" width="359" height="621"/>
+                                <rect key="frame" x="0.0" y="26" width="375" height="621"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
@@ -307,10 +337,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="top" secondItem="QrF-sP-UlZ" secondAttribute="top" constant="5" id="N5x-s4-zby"/>
-                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="trailing" secondItem="ecm-ZU-dhM" secondAttribute="trailing" constant="8" id="RB6-wy-4rq"/>
-                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" constant="5" id="TH4-jD-Xnb"/>
-                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="leading" secondItem="QrF-sP-UlZ" secondAttribute="leading" constant="8" id="V6w-av-pPX"/>
+                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="top" secondItem="QrF-sP-UlZ" secondAttribute="top" constant="3" id="N5x-s4-zby"/>
+                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="trailing" secondItem="ecm-ZU-dhM" secondAttribute="trailing" id="RB6-wy-4rq"/>
+                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" constant="3" id="TH4-jD-Xnb"/>
+                            <constraint firstItem="ecm-ZU-dhM" firstAttribute="leading" secondItem="QrF-sP-UlZ" secondAttribute="leading" id="V6w-av-pPX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="QrF-sP-UlZ"/>
                     </view>

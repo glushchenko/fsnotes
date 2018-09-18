@@ -13,7 +13,7 @@ extension UITextView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         paragraphStyle.alignment = .left
-        
+
         self.typingAttributes[NSAttributedStringKey.paragraphStyle.rawValue] = paragraphStyle
         self.textStorage.updateParagraphStyle()
     }

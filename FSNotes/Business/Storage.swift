@@ -458,6 +458,7 @@ class Storage {
     
     func checkFirstRun() -> Bool {
         guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else { return false }
+
         guard let destination = getDemoSubdirURL() else { return false }
         
         let initialPath = resourceURL.appendingPathComponent("Initial").path
