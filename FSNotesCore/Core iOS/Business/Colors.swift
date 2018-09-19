@@ -9,9 +9,9 @@
 import NightNight
 
 class Colors {
-    public static let Header = MixedColor(normal: 0xa6c1d3, night: 0x47444e)
+    public static let Header = MixedColor(normal: 0x25486C, night: 0x47444e)
 
-    public static let titleText = MixedColor(normal: 0x000000, night: 0xfafafa)
+    public static let titleText = MixedColor(normal: 0xfafafa, night: 0x000000)
 
     public static let buttonText = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 

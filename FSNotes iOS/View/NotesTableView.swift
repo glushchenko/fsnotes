@@ -18,6 +18,7 @@ class NotesTableView: UITableView,
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
     var cellHeights = [IndexPath:CGFloat]()
+    public var selectedIndexPaths: [IndexPath]?
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
@@ -54,7 +55,15 @@ class NotesTableView: UITableView,
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.selectedIndexPaths = self.indexPathsForSelectedRows
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedIndexPaths = self.indexPathsForSelectedRows
+
+        guard !self.isEditing else { return }
+
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
@@ -62,7 +71,7 @@ class NotesTableView: UITableView,
                 self.deselectRow(at: indexPath, animated: true)
             return
         }
-        
+
         let note = notes[indexPath.row]
         if let evc = viewController.viewControllers[0] as? EditorViewController {
             if let editArea = evc.editArea, let u = editArea.undoManager {
@@ -119,51 +128,74 @@ class NotesTableView: UITableView,
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
 
         let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
-
-            let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
-
-            let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
-                self.renameAction(note: note)
-            })
-            actionSheet.addAction(rename)
-
-            let move = UIAlertAction(title: "Move", style: .default, handler: { _ in
-                self.moveAction(note: note)
-            })
-            actionSheet.addAction(move)
-
-            let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
-                self.tagsAction(note: note)
-            })
-            actionSheet.addAction(tags)
-
-            let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
-                self.copyAction(note: note)
-            })
-            actionSheet.addAction(copy)
-
-            let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: nil)
-            actionSheet.addAction(dismiss)
-
-            if let view = self.superview {
-                actionSheet.popoverPresentationController?.sourceView = view
-                actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
-            }
-
-            self.viewDelegate?.present(actionSheet, animated: true, completion: nil)
+            self.actionsSheet(notes: [note])
         })
         more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
 
 
         return [more, pin, deleteAction]
     }
-    
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
         let frame = tableView.rectForRow(at: indexPath)
         self.cellHeights[indexPath] = frame.size.height
+    }
+
+    public func actionsSheet(notes: [Note]) {
+        let note = notes.first!
+        let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
+
+        if !self.isEditing {
+            let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
+                self.renameAction(note: note)
+            })
+            actionSheet.addAction(rename)
+        }
+
+        let move = UIAlertAction(title: "Move", style: .default, handler: { _ in
+            if self.isEditing {
+                self.allowsMultipleSelectionDuringEditing = false
+                self.setEditing(false, animated: true)
+            }
+
+            self.moveAction(notes: notes)
+        })
+        actionSheet.addAction(move)
+
+        let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
+            if self.isEditing {
+                self.allowsMultipleSelectionDuringEditing = false
+                self.setEditing(false, animated: true)
+            }
+            
+            self.tagsAction(notes: notes)
+        })
+        actionSheet.addAction(tags)
+
+        if !self.isEditing {
+            let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
+                self.copyAction(note: note)
+            })
+            actionSheet.addAction(copy)
+        }
+
+        let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
+
+            if self.isEditing {
+                self.setEditing(false, animated: true)
+            }
+        })
+        actionSheet.addAction(dismiss)
+
+        if let view = self.superview {
+            actionSheet.popoverPresentationController?.sourceView = view
+            actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
+        }
+
+        self.viewDelegate?.present(actionSheet, animated: true, completion: nil)
     }
     
     func removeByNotes(notes: [Note]) {
@@ -264,14 +296,14 @@ class NotesTableView: UITableView,
         self.viewDelegate?.present(alertController, animated: true, completion: nil)
     }
 
-    private func moveAction(note: Note) {
-        let moveController = MoveViewController(note: note, notesTableView: self)
+    private func moveAction(notes: [Note]) {
+        let moveController = MoveViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController:moveController)
         self.viewDelegate?.present(controller, animated: true, completion: nil)
     }
 
-    private func tagsAction(note: Note) {
-        let tagsController = TagsViewController(note: note, notesTableView: self)
+    private func tagsAction(notes: [Note]) {
+        let tagsController = TagsViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController: tagsController)
         self.viewDelegate?.present(controller, animated: true, completion: nil)
     }

@@ -185,8 +185,8 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="45"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FSNotes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8VE-HM-shO">
-                                        <rect key="frame" x="154" y="8" width="67" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                        <rect key="frame" x="153" y="8" width="69" height="21"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -203,9 +203,9 @@
                                             <constraint firstAttribute="width" constant="38" id="XB0-Gh-Rhh"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                        <state key="normal" image="settings.png"/>
+                                        <state key="normal" image="more_white.png"/>
                                         <connections>
-                                            <action selector="openSettings:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OHc-6e-Ap0"/>
+                                            <action selector="bulkEditing:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OHc-6e-Ap0"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yuS-7s-7qj">
@@ -269,7 +269,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zcg-gZ-ayJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                                <color key="backgroundColor" red="0.6515621542930603" green="0.75597316026687622" blue="0.82700401544570923" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.14509803921568626" green="0.28235294117647058" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <constraints>
@@ -514,8 +514,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="more_white.png" width="100" height="100"/>
         <image name="pin_white.png" width="128" height="128"/>
         <image name="search.png" width="52" height="52"/>
-        <image name="settings.png" width="25" height="25"/>
     </resources>
 </document>

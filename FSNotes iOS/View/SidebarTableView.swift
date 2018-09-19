@@ -27,7 +27,7 @@ class SidebarTableView: UITableView,
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     var sidebar: Sidebar?
 
-    private var sections = ["", "", ""]
+    private var sections = ["", "", "", ""]
     public var viewController: ViewController?
 
     override class var layerClass: AnyClass { return CAGradientLayer.self }
@@ -40,7 +40,7 @@ class SidebarTableView: UITableView,
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.hasTags() ? 3 : 2
+        return self.hasTags() ? 4 : 3
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,6 +53,8 @@ class SidebarTableView: UITableView,
             return sidebar.getProjects().count
         case 2:
             return sidebar.getTags().count
+        case 3:
+            return 1
         default:
             return 0
         }
@@ -125,6 +127,12 @@ class SidebarTableView: UITableView,
         guard let view = self.viewController, let sidebar = self.sidebar, let sidebarItem = sidebar.getByIndexPath(path: indexPath) else { return }
 
         AudioServicesPlaySystemSound(1519)
+
+        if sidebarItem.name == "Settings" {
+            view.openSettings()
+            return
+        }
+        
         view.currentFolder.text = sidebarItem.name
 
         if sidebarItem.isTrash() {

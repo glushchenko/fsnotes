@@ -12,11 +12,11 @@ import NightNight
 class TagsViewController: UITableViewController {
     private var tags: [String]?
 
-    private var selectedNote: Note
+    private var selectedNotes: [Note]
     private var notesTableView: NotesTableView
 
-    init(note: Note, notesTableView: NotesTableView) {
-        self.selectedNote = note
+    init(notes: [Note], notesTableView: NotesTableView) {
+        self.selectedNotes = notes
         self.notesTableView = notesTableView
 
         super.init(style: .plain)
@@ -49,10 +49,14 @@ class TagsViewController: UITableViewController {
 
             if let cell = tableView.cellForRow(at: indexPath) {
                 if cell.accessoryType == .none {
-                    self.selectedNote.addTag(tag)
+                    for note in selectedNotes {
+                        note.addTag(tag)
+                    }
                     cell.accessoryType = .checkmark
                 } else {
-                    self.selectedNote.removeTag(tag)
+                    for note in selectedNotes {
+                        note.removeTag(tag)
+                    }
                     cell.accessoryType = .none
                 }
             }
@@ -86,9 +90,11 @@ class TagsViewController: UITableViewController {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
-        if let tags = self.tags {
-            if self.selectedNote.tagNames.contains(tags[indexPath.row]) {
-                cell.accessoryType = .checkmark
+        for note in selectedNotes {
+            if let tags = self.tags {
+                if note.tagNames.contains(tags[indexPath.row]) {
+                    cell.accessoryType = .checkmark
+                }
             }
         }
     }
@@ -126,7 +132,7 @@ class TagsViewController: UITableViewController {
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-
+        
         self.present(alertController, animated: true, completion: nil)
 
     }

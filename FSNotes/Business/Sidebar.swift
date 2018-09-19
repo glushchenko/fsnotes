@@ -82,6 +82,11 @@ class Sidebar {
                 list.append(SidebarItem(name: tag, type: .Tag, icon: icon))
             }
         }
+
+        #if os(iOS)
+            let icon = getImage(named: "settings\(night).png")
+            list.append(SidebarItem(name: "Settings", type: .Label, icon: icon))
+        #endif
     }
     
     public func getList() -> [SidebarItem] {
@@ -110,6 +115,8 @@ class Sidebar {
             return getProjects()[i]
         case 2:
             return getTags()[i]
+        case 3:
+            return list.last
         default:
             return nil
         }

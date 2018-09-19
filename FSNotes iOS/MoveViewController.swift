@@ -12,11 +12,11 @@ import NightNight
 class MoveViewController: UITableViewController {
     private var projects: [Project]?
 
-    private var selectedNote: Note
+    private var selectedNotes: [Note]
     private var notesTableView: NotesTableView
 
-    init(note: Note, notesTableView: NotesTableView) {
-        self.selectedNote = note
+    init(notes: [Note], notesTableView: NotesTableView) {
+        self.selectedNotes = notes
         self.notesTableView = notesTableView
 
         super.init(style: .plain)
@@ -46,23 +46,27 @@ class MoveViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let projects = self.projects {
             let project = projects[indexPath.row]
-            let dstURL = project.url.appendingPathComponent(self.selectedNote.name)
 
-            if self.selectedNote.project != project {
-                guard self.selectedNote.move(to: dstURL) else {
-                    let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    return
+            for note in selectedNotes {
+                let dstURL = project.url.appendingPathComponent(note.name)
+
+                if note.project != project {
+                    guard note.move(to: dstURL) else {
+                        let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+
+                    note.url = dstURL
+                    note.parseURL()
+                    note.project = project
+                    self.notesTableView.removeByNotes(notes: [note])
+                    self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
                 }
-
-                self.selectedNote.url = dstURL
-                self.selectedNote.parseURL()
-                self.selectedNote.project = project
-                self.notesTableView.removeByNotes(notes: [selectedNote])
-                self.notesTableView.viewDelegate?.notesTable.insertRow(note: self.selectedNote)
             }
         }
+
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -95,9 +99,12 @@ class MoveViewController: UITableViewController {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
-        if let projects = self.projects {
-            if projects[indexPath.row] == self.selectedNote.project {
-                cell.accessoryType = .checkmark
+        if selectedNotes.count == 1 {
+            let note = selectedNotes.first!
+            if let projects = self.projects {
+                if projects[indexPath.row] == note.project {
+                    cell.accessoryType = .checkmark
+                }
             }
         }
     }

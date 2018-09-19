@@ -166,6 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         case ShortcutIdentifier.search.type:
             pageViewController.switchToList()
+            viewController.searchView.isHidden = false
             viewController.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
             handled = true
             break

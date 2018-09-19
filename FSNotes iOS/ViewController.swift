@@ -41,11 +41,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var isActiveTableUpdating = false
 
     override func viewDidLoad() {
-        UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
+        UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .lightContent, night: .lightContent).normalResource
 
-        self.searchButton.setMixedImage(MixedImage(normal: UIImage(named: "search")!, night: UIImage(named: "search_white")!), forState: .normal)
-
-        self.settingsButton.setMixedImage(MixedImage(normal: UIImage(named: "settings")!, night: UIImage(named: "settings_white")!), forState: .normal)
+        self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
+        self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
 
         self.preHeaderView.mixedBackgroundColor = Colors.Header
         self.headerView.mixedBackgroundColor = Colors.Header
@@ -170,7 +169,31 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.toggleSearchView()
     }
 
-    @IBAction func openSettings(_ sender: Any) {
+    @IBAction func bulkEditing(_ sender: Any) {
+        if notesTable.isEditing {
+            self.settingsButton.setImage(UIImage(named: "more_white.png"), for: .normal)
+
+            if let selectedRows = notesTable.selectedIndexPaths {
+                var notes = [Note]()
+                for indexPath in selectedRows {
+                    let note = notesTable.notes[indexPath.row]
+                    notes.append(note)
+                }
+
+                self.notesTable.selectedIndexPaths = nil
+                self.notesTable.actionsSheet(notes: notes)
+            } else {
+                self.notesTable.allowsMultipleSelectionDuringEditing = false
+                self.notesTable.setEditing(false, animated: true)
+            }
+        } else {
+            notesTable.allowsMultipleSelectionDuringEditing = true
+            notesTable.setEditing(true, animated: true)
+            self.settingsButton.setImage(UIImage(named: "done_white.png"), for: .normal)
+        }
+    }
+
+    public func openSettings() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
@@ -529,7 +552,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         evc.note = note
         evc.fill(note: note)
-        evc.editArea.becomeFirstResponder()
 
         if self.isActiveTableUpdating {
             self.delayedInsert = note

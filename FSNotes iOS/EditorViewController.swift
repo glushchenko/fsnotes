@@ -319,7 +319,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
+
         guard let note = self.note else {
             return true
         }
@@ -493,7 +493,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
 
-        scroll.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x535059)
+        scroll.mixedBackgroundColor = MixedColor(normal: 0xe9e9e9, night: 0x535059)
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
@@ -518,7 +518,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xe9e9e9, night: 0x47444e)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
@@ -545,7 +545,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xe9e9e9, night: 0x47444e)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
