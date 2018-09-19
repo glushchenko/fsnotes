@@ -15,14 +15,17 @@ class SidebarTableCellView: UITableViewCell {
     @IBOutlet weak var labelConstraint: NSLayoutConstraint!
 
     public var sidebarItem: SidebarItem?
-    
+
     func configure(sidebarItem: SidebarItem) {
         self.sidebarItem = sidebarItem
         
         if sidebarItem.type == .Category || sidebarItem.type == .Tag {
             self.icon.constraints[1].constant = 0
             self.labelConstraint.constant = 0
+            icon.image = nil
         } else {
+            self.icon.constraints[1].constant = 21
+            self.labelConstraint.constant = 11
             icon.image = sidebarItem.icon
         }
 

@@ -76,6 +76,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
         notesTable.layer.zPosition = 100
+        notesTable.rowHeight = UITableViewAutomaticDimension
+        notesTable.estimatedRowHeight = 160
 
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(togglseSearch), for: .valueChanged)

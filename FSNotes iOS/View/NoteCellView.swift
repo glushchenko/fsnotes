@@ -22,6 +22,21 @@ class NoteCellView: UITableViewCell {
     private var note: Note?
     private var contentLength: Int = 0
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imagePreview.image = nil
+        imagePreviewSecond.image = nil
+        imagePreviewThird.image = nil
+
+        imagePreview.isHidden = true
+        imagePreviewSecond.isHidden = true
+        imagePreviewThird.isHidden = true
+        
+        contentLength = 0
+        note = nil
+    }
+
     func configure(note: Note) {
         self.note = note
 
