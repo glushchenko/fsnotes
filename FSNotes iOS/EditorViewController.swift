@@ -41,7 +41,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.editArea.addGestureRecognizer(tap)
         
         super.viewDidLoad()
-        
+
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
         
         guard let pageController = self.parent as? PageViewController else {
@@ -51,6 +51,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate(alongsideTransition: { (ctx) in
+            self.refillToolbar()
+        })
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -311,8 +319,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        textView.textAlignment = .left
-
+        
         guard let note = self.note else {
             return true
         }
@@ -482,7 +489,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame.size.height = UIScreen.main.bounds.height
     }
-    
+
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
 

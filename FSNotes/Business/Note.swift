@@ -606,7 +606,7 @@ public class Note: NSObject  {
         #if os(OSX)
             try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
         #else
-            let data = NSKeyedArchiver.archivedData(withRootObject: newTagsClean)
+            let data = NSKeyedArchiver.archivedData(withRootObject: NSMutableArray(array: newTagsClean))
             do {
                 try self.url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
             } catch {
@@ -631,7 +631,7 @@ public class Note: NSObject  {
         #if os(OSX)
             try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
         #else
-            let data = NSKeyedArchiver.archivedData(withRootObject: self.tagNames)
+        let data = NSKeyedArchiver.archivedData(withRootObject: NSMutableArray(array: self.tagNames))
             do {
                 try url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
             } catch {
