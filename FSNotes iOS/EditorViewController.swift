@@ -32,10 +32,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedTintColor = Colors.buttonText
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        
+        navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
+
         if let n = note, n.isMarkdown() {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Preview", style: .done, target: self, action: #selector(preview))
+            self.navigationItem.rightBarButtonItem = self.getPreviewButton()
         }
+
+        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
@@ -878,6 +881,29 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         return false
+    }
+
+    private func getPreviewButton() -> UIBarButtonItem {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        menuBtn.setImage(UIImage(named: "preview"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(preview), for: UIControlEvents.touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+
+        return menuBarItem
+    }
+
+    @objc public func cancel() {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
+            return
+        }
+
+        pageController.switchToList()
     }
 
 }

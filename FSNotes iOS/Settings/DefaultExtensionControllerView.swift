@@ -13,7 +13,7 @@ class DefaultExtensionViewController: UITableViewController {
     private var extensions = ["md", "txt", "rtf", "markdown", "fountain", "textbundle"]
     
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         
@@ -22,7 +22,8 @@ class DefaultExtensionViewController: UITableViewController {
         super.viewDidLoad()
         
         self.navigationItem.leftItemsSupplementBackButton = true
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DefaultExtensionViewController.cancel))
+        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
+
         self.title = "Default Extension"
     }
     

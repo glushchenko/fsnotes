@@ -25,10 +25,11 @@ class NotesTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let note = notes[indexPath.row]
-
-        if let urls = note.getImagePreviewUrl(), urls.count > 0 {
-            return 160
+        if notes.indices.contains(indexPath.row) {
+            let note = notes[indexPath.row]
+            if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+                return 160
+            }
         }
 
         return 75
@@ -60,7 +61,9 @@ class NotesTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.selectedIndexPaths = self.indexPathsForSelectedRows
+        if isEditing {
+            self.selectedIndexPaths = self.indexPathsForSelectedRows
+        }
 
         guard !self.isEditing else { return }
 
@@ -92,19 +95,7 @@ class NotesTableView: UITableView,
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
-
-            if !note.isTrash() {
-                if let trashURLs = note.removeFile() {
-                    note.url = trashURLs[0]
-                    note.parseURL()
-                }
-            } else {
-                _ = note.removeFile()
-
-                if note.isPinned {
-                    note.removePin()
-                }
-            }
+            note.remove()
 
             DispatchQueue.main.async {
                 self.removeByNotes(notes: [note])
@@ -128,7 +119,7 @@ class NotesTableView: UITableView,
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
 
         let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
-            self.actionsSheet(notes: [note])
+            self.actionsSheet(notes: [note], showAll: true)
         })
         more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
 
@@ -144,15 +135,20 @@ class NotesTableView: UITableView,
         self.cellHeights[indexPath] = frame.size.height
     }
 
-    public func actionsSheet(notes: [Note]) {
+    public func actionsSheet(notes: [Note], showAll: Bool = false) {
         let note = notes.first!
         let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
 
-        if !self.isEditing {
+        if showAll {
             let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
                 self.renameAction(note: note)
             })
             actionSheet.addAction(rename)
+        } else {
+            let remove = UIAlertAction(title: "Delete", style: .default, handler: { _ in
+                self.removeAction(notes: notes)
+            })
+            actionSheet.addAction(remove)
         }
 
         let move = UIAlertAction(title: "Move", style: .default, handler: { _ in
@@ -175,7 +171,7 @@ class NotesTableView: UITableView,
         })
         actionSheet.addAction(tags)
 
-        if !self.isEditing {
+        if showAll {
             let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
                 self.copyAction(note: note)
             })
@@ -296,6 +292,17 @@ class NotesTableView: UITableView,
         self.viewDelegate?.present(alertController, animated: true, completion: nil)
     }
 
+    private func removeAction(notes: [Note]) {
+        for note in notes {
+            note.remove()
+        }
+
+        self.removeByNotes(notes: notes)
+
+        self.allowsMultipleSelectionDuringEditing = false
+        self.setEditing(false, animated: true)
+    }
+
     private func moveAction(notes: [Note]) {
         let moveController = MoveViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController:moveController)
@@ -354,5 +361,25 @@ class NotesTableView: UITableView,
         }
 
         return i
+    }
+
+    @objc public func toggleSelectAll() {
+        guard self.isEditing else { return }
+
+        if let selected = self.indexPathsForSelectedRows, (selected.count - 1) == self.notes.count {
+            for indexPath in selected {
+                self.deselectRow(at: indexPath, animated: false)
+            }
+
+            self.selectedIndexPaths = nil
+        } else {
+            for i in 0...notes.count {
+
+                self.selectRow(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: .none)
+
+            }
+
+            self.selectedIndexPaths = indexPathsForSelectedRows
+        }
     }
 }

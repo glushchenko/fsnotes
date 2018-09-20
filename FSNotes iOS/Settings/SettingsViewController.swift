@@ -17,14 +17,14 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
         super.viewDidLoad()
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(SettingsViewController.done))
         self.title = "Settings"
+
+        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -147,6 +147,7 @@ class SettingsViewController: UITableViewController {
     }
     
     @objc func done() {
+        print("done")
         self.dismiss(animated: true, completion: nil)
     }
 }

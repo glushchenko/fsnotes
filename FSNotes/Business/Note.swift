@@ -147,7 +147,22 @@ public class Note: NSObject  {
         newUrl.appendPathComponent(escapedName + "." + url.pathExtension)
         return newUrl
     }
-    
+
+    public func remove() {
+        if !isTrash() {
+            if let trashURLs = removeFile() {
+                self.url = trashURLs[0]
+                parseURL()
+            }
+        } else {
+            _ = removeFile()
+
+            if self.isPinned {
+                removePin()
+            }
+        }
+    }
+
     // Return URL moved in
     func removeFile() -> Array<URL>? {
         do {

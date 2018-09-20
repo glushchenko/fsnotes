@@ -72,14 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if UserDefaultsManagement.nightModeAuto,
             let location = locationManager.location,
             let solar = Solar.init(coordinate: location.coordinate) {
-            
-            if solar.isNighttime {
-                UIApplication.shared.statusBarStyle = .lightContent
-                NightNight.theme = .night
-            } else {
-                UIApplication.shared.statusBarStyle = .default
-                NightNight.theme = .normal
-            }
+
+            NightNight.theme = solar.isNighttime ? .night : .normal
 
             guard
                 let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -118,6 +112,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
 
+        UIApplication.shared.statusBarStyle = .lightContent
+        
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
 
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {

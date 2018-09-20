@@ -26,11 +26,11 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
     
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: MixedColor(normal: 0x000000, night: 0xfafafa)]
+        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancel))
+        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         self.title = "Night Mode"
         
         initNightMode()
@@ -111,12 +111,10 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
             }
             
             if nightMode == .disabled {
-                UIApplication.shared.statusBarStyle = .default
                 NightNight.theme = .normal
             }
             
             if nightMode == .enabled {
-                UIApplication.shared.statusBarStyle = .lightContent
                 NightNight.theme = .night
             }
             
@@ -143,10 +141,8 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
     
     @objc func nightModeDidChange(sender: UISwitch) {
         if sender.isOn {
-            UIApplication.shared.statusBarStyle = .lightContent
             NightNight.theme = .night
         } else {
-            UIApplication.shared.statusBarStyle = .default
             NightNight.theme = .normal
         }
     }

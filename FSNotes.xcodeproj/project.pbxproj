@@ -169,6 +169,10 @@
 		D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
 		D77B9E9B20DE53E0003FAA27 /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
 		D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
+		D78115602153AE89004FA1CA /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155E2153AE85004FA1CA /* back.png */; };
+		D78115612153AE89004FA1CA /* preview.png in Resources */ = {isa = PBXBuildFile; fileRef = D781155F2153AE86004FA1CA /* preview.png */; };
+		D78115632153B36C004FA1CA /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78115622153B36C004FA1CA /* Buttons.swift */; };
+		D78115652153C035004FA1CA /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = D78115642153C034004FA1CA /* add.png */; };
 		D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
 		D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
@@ -588,6 +592,10 @@
 		D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FSNotes.entitlements; sourceTree = "<group>"; };
 		D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsWindowController.swift; sourceTree = "<group>"; };
 		D77B9E9A20DE53E0003FAA27 /* archive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archive.png; sourceTree = "<group>"; };
+		D781155E2153AE85004FA1CA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		D781155F2153AE86004FA1CA /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
+		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		D78115642153C034004FA1CA /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		D783B504208A1BFD00328A41 /* EditorSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSplitView.swift; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
@@ -962,6 +970,7 @@
 				D7735B08213D01E000FACB12 /* Toolbar.swift */,
 				D7CBAFF3214D42E5002ECD5A /* Colors.swift */,
 				D7CBAFFD214D5A1C002ECD5A /* ShortcutIdentifier.swift */,
+				D78115622153B36C004FA1CA /* Buttons.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1169,6 +1178,9 @@
 				D76F0B412152C73A008E5F2F /* more_white.png */,
 				D76F0B442152C9A1008E5F2F /* done_white.png */,
 				D76F0B432152C9A1008E5F2F /* done.png */,
+				D781155E2153AE85004FA1CA /* back.png */,
+				D781155F2153AE86004FA1CA /* preview.png */,
+				D78115642153C034004FA1CA /* add.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1617,6 +1629,7 @@
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
+				D78115652153C035004FA1CA /* add.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
 				D71353FE2042AE5F00E3776F /* settings.png in Resources */,
@@ -1646,6 +1659,7 @@
 				D739EC402138313400E1C021 /* checkbox_empty@3x.png in Resources */,
 				D739955F2051D1AB009017EE /* italic@2x.png in Resources */,
 				D739EC332138305000E1C021 /* checkbox.png in Resources */,
+				D78115602153AE89004FA1CA /* back.png in Resources */,
 				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
 				D739EC412138313400E1C021 /* checkbox_empty_white@2x.png in Resources */,
 				D7E378812147A05D00D6D7DD /* search.png in Resources */,
@@ -1665,6 +1679,7 @@
 				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */,
+				D78115612153AE89004FA1CA /* preview.png in Resources */,
 				D767938E201F21F5000F7BBF /* Main.storyboard in Resources */,
 				D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7D03BC8205C6ED200D96A6D /* undo@3x.png in Resources */,
@@ -2041,6 +2056,7 @@
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
+				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,

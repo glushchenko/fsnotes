@@ -41,8 +41,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var isActiveTableUpdating = false
 
     override func viewDidLoad() {
-        UIApplication.shared.statusBarStyle = MixedStatusBarStyle(normal: .lightContent, night: .lightContent).normalResource
-
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
 
@@ -55,12 +53,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.folderCapacity.mixedTextColor = Colors.titleText
         self.currentFolder.mixedTextColor = Colors.titleText
+        self.currentFolder.isUserInteractionEnabled = true
+        self.currentFolder.addGestureRecognizer(UITapGestureRecognizer(target: self.notesTable, action: #selector(self.notesTable.toggleSelectAll)))
 
         self.searchCancel.mixedTintColor = Colors.buttonText
         search.keyboardAppearance = NightNight.theme == .night ? .dark : .default
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
 
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
@@ -157,10 +156,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return false
     }
 
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return MixedStatusBarStyle(normal: .default, night: .lightContent).unfold()
-    }
-
     @IBAction func openSearchView(_ sender: Any) {
         self.toggleSearchView()
     }
@@ -176,8 +171,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if let selectedRows = notesTable.selectedIndexPaths {
                 var notes = [Note]()
                 for indexPath in selectedRows {
-                    let note = notesTable.notes[indexPath.row]
-                    notes.append(note)
+                    if notesTable.notes.indices.contains(indexPath.row) {
+                        let note = notesTable.notes[indexPath.row]
+                        notes.append(note)
+                    }
                 }
 
                 self.notesTable.selectedIndexPaths = nil
@@ -613,7 +610,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
             NightNight.theme = .normal
-            UIApplication.shared.statusBarStyle = .default
 
             UserDefaultsManagement.codeTheme = "atom-one-light"
             NotesTextProcessor.hl = nil
@@ -636,7 +632,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
             NightNight.theme = .night
-            UIApplication.shared.statusBarStyle = .lightContent
 
             UserDefaultsManagement.codeTheme = "monokai-sublime"
             NotesTextProcessor.hl = nil

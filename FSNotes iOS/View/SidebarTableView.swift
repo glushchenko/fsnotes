@@ -124,7 +124,10 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let view = self.viewController, let sidebar = self.sidebar, let sidebarItem = sidebar.getByIndexPath(path: indexPath) else { return }
+        guard let view = self.viewController,
+            let sidebar = self.sidebar,
+            let sidebarItem = sidebar.getByIndexPath(path: indexPath)
+        else { return }
 
         AudioServicesPlaySystemSound(1519)
 
