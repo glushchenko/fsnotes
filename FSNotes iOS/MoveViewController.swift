@@ -59,7 +59,7 @@ class MoveViewController: UITableViewController {
 
                     note.url = dstURL
                     note.parseURL()
-                    note.project = project
+
                     self.notesTableView.removeByNotes(notes: [note])
                     self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
                 }

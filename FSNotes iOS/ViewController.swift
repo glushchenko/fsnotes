@@ -316,7 +316,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                                 )
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
-                            self.isFit(note: note, type: type, sidebarItem: sidebarItem)
+                            self.isFit(note: note, sidebarItem: sidebarItem)
                     )
                 ) {
                     notes.append(note)
@@ -358,33 +358,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchQueue.addOperation(operation)
     }
 
-    public func isFitInSidebar(note: Note) -> Bool {
-        var type: SidebarItemType? = nil
-        var project: Project? = nil
-        var sidebarName = ""
-
-        if let sidebarItem = self.sidebarTableView.getSidebarItem() {
-            sidebarName = sidebarItem.name
-            type = sidebarItem.type
-            project = sidebarItem.project
-        }
-
-        if type == .Trash && note.isTrash()
-            || type == .All && !note.isTrash() && !note.project!.isArchive
-            || type == .Tag && note.tagNames.contains(sidebarName)
-            || [.Category, .Label].contains(type) && project != nil && note.project == project
-            || type == nil && project == nil && !note.isTrash()
-            || project != nil && project!.isRoot && note.project?.parent == project
-            || type == .Archive && note.project != nil && note.project!.isArchive
-            || type == .Todo {
-
-            return true
-        }
-
-        return false
-    }
-
-    private func isFit(note: Note, type: SidebarItemType, sidebarItem: SidebarItem? = nil) -> Bool {
+    public func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
+        let type: SidebarItemType = sidebarItem?.type ?? .All
         var project: Project? = nil
         var sidebarName = ""
 

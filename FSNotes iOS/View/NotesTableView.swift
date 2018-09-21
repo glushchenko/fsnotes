@@ -331,7 +331,9 @@ class NotesTableView: UITableView,
                 return
             }
 
-            guard let mainController = self.viewDelegate, mainController.isFitInSidebar(note: note) else { return }
+            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
+
+            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
 
             self.notes.remove(at: i)
             self.notes.insert(note, at: position)
@@ -344,7 +346,9 @@ class NotesTableView: UITableView,
         let i = self.getInsertPosition()
 
         DispatchQueue.main.async {
-            guard let mainController = self.viewDelegate, mainController.isFitInSidebar(note: note) else { return }
+            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
+
+            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
 
             if !self.notes.contains(where: {$0 === note}) {
                 self.notes.insert(note, at: i)

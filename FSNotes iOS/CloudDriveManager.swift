@@ -242,12 +242,14 @@ class CloudDriveManager {
         
         DispatchQueue.main.async {
             var isTrash = false
-            if let sidebarItem = self.delegate.sidebarTableView.getSidebarItem(), sidebarItem.isTrash() {
+            let sidebarItem = self.delegate.sidebarTableView.getSidebarItem()
+
+            if let sidebarItem = sidebarItem, sidebarItem.isTrash() {
                 isTrash = true
             }
             
             if !isTrash,
-                self.delegate.isFitInSidebar(note: note),
+                self.delegate.isFit(note: note, sidebarItem: sidebarItem),
                 let i = self.delegate.notesTable.notes.index(where: {$0 === note}) {
                 
                 self.delegate.notesTable.notes.remove(at: i)
