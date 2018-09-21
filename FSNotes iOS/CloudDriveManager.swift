@@ -242,7 +242,7 @@ class CloudDriveManager {
         
         DispatchQueue.main.async {
             var isTrash = false
-            if let sidebarItem = self.delegate.getSidebarItem(), sidebarItem.isTrash() {
+            if let sidebarItem = self.delegate.sidebarTableView.getSidebarItem(), sidebarItem.isTrash() {
                 isTrash = true
             }
             

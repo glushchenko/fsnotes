@@ -210,10 +210,9 @@ public class UserDefaultsManagement {
     static var storagePath: String? {
         get {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
-                do {
-                    try FileManager.default.contentsOfDirectory(atPath: storagePath as! String)
+                if FileManager.default.isWritableFile(atPath: storagePath as! String) {
                     return storagePath as? String
-                } catch {
+                } else {
                     print("Storage path not accessible, settings resetted to default")
                 }
             }

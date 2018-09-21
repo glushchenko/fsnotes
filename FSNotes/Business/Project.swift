@@ -17,6 +17,10 @@ public class Project: Equatable {
     var parent: Project?
     var isDefault: Bool
     var isArchive: Bool
+
+    public var sortBy: SortBy = UserDefaultsManagement.sort
+    public var showInCommon: Bool
+    public var showInSidebar: Bool = true
     
     init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false) {
         self.url = url
@@ -25,7 +29,15 @@ public class Project: Equatable {
         self.parent = parent
         self.isDefault = isDefault
         self.isArchive = isArchive
-        
+
+        showInCommon = (isTrash || isArchive) ? false : true
+
+        #if os(iOS)
+        if isRoot {
+            showInSidebar = false
+        }
+        #endif
+
         if let l = label {
             self.label = l
         } else {
@@ -33,6 +45,7 @@ public class Project: Equatable {
         }
         
         isCloudDrive = isCloudDriveFolder(url: url)
+        loadSettings()
     }
     
     func fileExist(fileName: String, ext: String) -> Bool {        
@@ -82,5 +95,40 @@ public class Project: Equatable {
         }
         
         return "\(getParent().getFullLabel()) › \(label)"
+    }
+
+    public func saveSettings() {
+        if let relativePath = getRelativePath() {
+            let keyStore = NSUbiquitousKeyValueStore()
+            keyStore.set(["sortBy": showInCommon, "showInCommon": showInCommon, "showInSidebar": showInCommon], forKey: relativePath)
+            keyStore.synchronize()
+        }
+    }
+
+    public func loadSettings() {
+        if let relativePath = getRelativePath() {
+            let keyStore = NSUbiquitousKeyValueStore()
+            if let settings = keyStore.dictionary(forKey: relativePath) {
+                if let common = settings["showInCommon"] as? Bool {
+                    self.showInCommon = common
+                }
+
+                if let sidebar = settings["showInSidebar"] as? Bool {
+                    self.showInSidebar = sidebar
+                }
+
+                if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
+                    self.sortBy = sort
+                }
+            }
+        }
+    }
+
+    public func getRelativePath() -> String? {
+        if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil) {
+            return url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
+        }
+
+        return nil
     }
 }

@@ -292,7 +292,7 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note], filter: String, operation: BlockOperation? = nil) -> [Note] {
+    func sortNotes(noteList: [Note], filter: String, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
         var searchQuery = ""
         if filter.count > 0 {
             searchQuery = filter.lowercased()
@@ -305,21 +305,23 @@ class Storage {
             
             if filter.count > 0 && $0.title.lowercased().starts(with: searchQuery) {
                 if $0.title.lowercased().starts(with: searchQuery) && $1.title.lowercased().starts(with: searchQuery) {
-                    return sortQuery(note: $0, next: $1)
+                    return sortQuery(note: $0, next: $1, project: project)
                 }
                 
                 return true
             }
             
-            return sortQuery(note: $0, next: $1)
+            return sortQuery(note: $0, next: $1, project: project)
         })
     }
     
-    private func sortQuery(note: Note, next: Note) -> Bool {
+    private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
         let sortDirection = UserDefaultsManagement.sortDirection
         
         if note.isPinned == next.isPinned {
-            switch UserDefaultsManagement.sort {
+            let sort = project?.sortBy ?? UserDefaultsManagement.sort
+
+            switch sort {
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
                     return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate

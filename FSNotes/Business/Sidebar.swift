@@ -18,6 +18,7 @@
 class Sidebar {
     var list = [SidebarItem]()
     let storage = Storage.sharedInstance()
+    public var items = [[SidebarItem]]()
     
     init() {
         var night = ""
@@ -28,25 +29,30 @@ class Sidebar {
         }
         #endif
 
-        list.append(
-            SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
-        )
+        var system = [SidebarItem]()
 
-        list.append(
-            SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
-        )
-        
+        let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
+        system.append(notes)
+
+        let todo = SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
+        system.append(todo)
+
         if let archiveProject = storage.getArchive() {
-            list.append(
-                SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
-            )
+            let archive = SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
+            system.append(archive)
         }
 
-        list.append(
-            SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night)"))
-        )
-        
+        let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night)"))
+        system.append(trash)
+
+        #if os(iOS)
+            items.append(system)
+        #else
+            list = system
+        #endif
+
         let rootProjects = storage.getRootProjects()
+
         for project in rootProjects {
             let icon = getImage(named: "repository\(night).png")
             
@@ -67,25 +73,42 @@ class Sidebar {
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category, icon: icon))
             }
         }
+
+        #if os(iOS)
+            let projects = getProjects()
+            if projects.count > 0 {
+                items.append(projects)
+            }
+        #endif
         
         let tags = storage.getTags()
         if tags.count > 0 {
             var icon: Image? = nil
 
-            #if os(OSX)
+            #if os(iOS)
+                var tagsSidebarItems = [SidebarItem]()
+
+                for tag in tags {
+                    tagsSidebarItems.append(SidebarItem(name: tag, type: .Tag, icon: icon))
+                }
+
+                if tagsSidebarItems.count > 0 {
+                    items.append(tagsSidebarItems)
+                }
+            #else
                 icon = getImage(named: "tag\(night).png")
                 let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
                 list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
+
+                for tag in tags {
+                    list.append(SidebarItem(name: tag, type: .Tag, icon: icon))
+                }
             #endif
-            
-            for tag in tags {
-                list.append(SidebarItem(name: tag, type: .Tag, icon: icon))
-            }
         }
 
         #if os(iOS)
             let icon = getImage(named: "settings\(night).png")
-            list.append(SidebarItem(name: "Settings", type: .Label, icon: icon))
+            items.append([SidebarItem(name: "Settings", type: .Label, icon: icon)])
         #endif
     }
     
@@ -98,7 +121,7 @@ class Sidebar {
     }
     
     public func getProjects() -> [SidebarItem] {
-        return list.filter({ $0.type == .Category && $0.type != .Archive })
+        return list.filter({ $0.type == .Category && $0.type != .Archive && $0.project != nil && $0.project!.showInSidebar })
     }
     
     public func getByIndexPath(path: IndexPath) -> SidebarItem? {

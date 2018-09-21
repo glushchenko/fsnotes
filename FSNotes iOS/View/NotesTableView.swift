@@ -42,6 +42,8 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
+        guard self.notes.indices.contains(indexPath.row) else { return cell }
+        
         let note = self.notes[indexPath.row]
         note.load(note.url)
 
@@ -374,9 +376,7 @@ class NotesTableView: UITableView,
             self.selectedIndexPaths = nil
         } else {
             for i in 0...notes.count {
-
                 self.selectRow(at: IndexPath(item: i, section: 0), animated: false, scrollPosition: .none)
-
             }
 
             self.selectedIndexPaths = indexPathsForSelectedRows

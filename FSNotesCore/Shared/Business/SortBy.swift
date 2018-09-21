@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SortBy: String {
+public enum SortBy: String {
     case modificationDate = "modificationDate"
     case creationDate = "creationDate"
     case title = "title"

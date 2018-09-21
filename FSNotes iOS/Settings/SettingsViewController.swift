@@ -11,8 +11,8 @@ import NightNight
 
 class SettingsViewController: UITableViewController {
     
-    var sections = ["General", "Editor", "UI"]
-    var rowsInSection = [2, 2, 2]
+    var sections = ["General", "Editor", "UI", "View"]
+    var rowsInSection = [2, 2, 2, 1]
         
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
@@ -28,7 +28,7 @@ class SettingsViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,6 +93,16 @@ class SettingsViewController: UITableViewController {
                 return cell
             }
         }
+
+        if indexPath.section == 0x03 {
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Projects"
+                cell.accessoryType = .disclosureIndicator
+            default:
+                return cell
+            }
+        }
         
         return cell
     }
@@ -138,16 +148,24 @@ class SettingsViewController: UITableViewController {
                 
             }
         }
+
+        if indexPath.section == 0x03 {
+            switch indexPath.row {
+            case 0:
+                lvc = ProjectsViewController()
+            default: break
+
+            }
+        }
         
         if let controller = lvc {
             let navigationController = UINavigationController(rootViewController: controller)
-            
+
             self.present(navigationController, animated: true, completion: nil)
         }
     }
     
     @objc func done() {
-        print("done")
         self.dismiss(animated: true, completion: nil)
     }
 }

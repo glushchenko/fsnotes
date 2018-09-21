@@ -27,7 +27,6 @@ class SidebarTableView: UITableView,
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     var sidebar: Sidebar?
 
-    private var sections = ["", "", "", ""]
     public var viewController: ViewController?
 
     override class var layerClass: AnyClass { return CAGradientLayer.self }
@@ -40,24 +39,11 @@ class SidebarTableView: UITableView,
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.hasTags() ? 4 : 3
+        return sidebar!.items.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sidebar = sidebar else { return 1 }
-        
-        switch section {
-        case 0:
-            return 4
-        case 1:
-            return sidebar.getProjects().count
-        case 2:
-            return sidebar.getTags().count
-        case 3:
-            return 1
-        default:
-            return 0
-        }
+        return sidebar!.items[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -66,17 +52,17 @@ class SidebarTableView: UITableView,
 
         
         guard let sidebar = sidebar else { return cell }
-        if let sidebarItem = sidebar.getByIndexPath(path: indexPath) {
-            cell.configure(sidebarItem: sidebarItem)
-            cell.contentView.setNeedsLayout()
-            cell.contentView.layoutIfNeeded()
-        }
+
+        let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+        cell.configure(sidebarItem: sidebarItem)
+        cell.contentView.setNeedsLayout()
+        cell.contentView.layoutIfNeeded()
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section]
+        return ""
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -124,11 +110,9 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let view = self.viewController,
-            let sidebar = self.sidebar,
-            let sidebarItem = sidebar.getByIndexPath(path: indexPath)
-        else { return }
+        guard let view = self.viewController, let sidebar = self.sidebar else { return }
 
+        let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
         AudioServicesPlaySystemSound(1519)
 
         if sidebarItem.name == "Settings" {
@@ -171,6 +155,14 @@ class SidebarTableView: UITableView,
         return Storage.sharedInstance().hasTags()
     }
 
+    private func hasProjects() -> Bool {
+        if let projects = self.sidebar?.getProjects(), projects.count > 0 {
+            return true
+        }
+
+        return false
+    }
+
     // MARK: Gradient settings
     func updatePoints() {
         if horizontalMode {
@@ -195,6 +187,14 @@ class SidebarTableView: UITableView,
         } else {
             gradientLayer.colors    = [startColor.cgColor, endColor.cgColor]
         }
+    }
+
+    public func getSidebarItem() -> SidebarItem? {
+        guard let indexPath = self.indexPathForSelectedRow, let sidebar = self.sidebar else { return nil }
+
+        let item = sidebar.items[indexPath.section][indexPath.row]
+
+        return item
     }
     
 }

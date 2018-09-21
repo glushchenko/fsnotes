@@ -141,10 +141,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         super.viewDidLoad()
     }
 
-    private func reloadSidebar() {
-        self.sidebarTableView.sidebar = Sidebar()
-        self.maxSidebarWidth = self.calculateLabelMaxWidth()
-        self.sidebarTableView.reloadData()
+    public func reloadSidebar() {
+        DispatchQueue.main.async {
+            self.sidebarTableView.sidebar = Sidebar()
+            self.maxSidebarWidth = self.calculateLabelMaxWidth()
+            self.sidebarTableView.reloadData()
+        }
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -286,17 +288,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         guard let storage = self.storage else { return }
 
         let filter = self.search.text!
-
-        var type: SidebarItemType? = nil
         var terms = filter.split(separator: " ")
+        let sidebarItem = self.sidebarTableView.getSidebarItem()
+        let type: SidebarItemType = sidebarItem?.type ?? .All
 
-        let sidebarItem = getSidebarItem()
-
-        if let si = sidebarItem {
-            type = si.type
-        }
-
-        if let type = type, type == .Todo {
+        if type == .Todo {
             terms.append("- [ ]")
         }
 
@@ -320,7 +316,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                                 )
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
-                            self.isFit(note: note, sidebarItem: sidebarItem)
+                            self.isFit(note: note, type: type, sidebarItem: sidebarItem)
                     )
                 ) {
                     notes.append(note)
@@ -335,7 +331,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if search {
                     self.notesTable.notes = notes
                 } else {
-                    self.notesTable.notes = storage.sortNotes(noteList: notes, filter: "")
+                    self.notesTable.notes = storage.sortNotes(noteList: notes, filter: "", project: sidebarItem?.project)
                 }
             } else {
                 self.notesTable.notes.removeAll()
@@ -367,7 +363,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var project: Project? = nil
         var sidebarName = ""
 
-        if let sidebarItem = getSidebarItem() {
+        if let sidebarItem = self.sidebarTableView.getSidebarItem() {
             sidebarName = sidebarItem.name
             type = sidebarItem.type
             project = sidebarItem.project
@@ -388,25 +384,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return false
     }
 
-    private func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
-        var type: SidebarItemType? = nil
+    private func isFit(note: Note, type: SidebarItemType, sidebarItem: SidebarItem? = nil) -> Bool {
         var project: Project? = nil
         var sidebarName = ""
 
         if let sidebarItem = sidebarItem {
             sidebarName = sidebarItem.name
-            type = sidebarItem.type
             project = sidebarItem.project
         }
 
         if type == .Trash && note.isTrash()
-            || type == .All && !note.isTrash() && !note.project!.isArchive
+            || type == .All && note.project!.showInCommon
             || type == .Tag && note.tagNames.contains(sidebarName)
             || [.Category, .Label].contains(type) && project != nil && note.project == project
-            || type == nil && project == nil && !note.isTrash()
             || project != nil && project!.isRoot && note.project?.parent == project
             || type == .Archive && note.project != nil && note.project!.isArchive
-            || type == .Todo {
+            || type == .Todo && note.project != nil && !note.project!.isArchive {
 
             return true
         }
@@ -511,7 +504,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             return
         }
 
-        if let item = getSidebarItem() {
+        if let item = self.sidebarTableView.getSidebarItem() {
             if item.type == .Tag {
                 tag = item.name
             }
@@ -655,15 +648,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func getSidebarItem() -> SidebarItem? {
-        guard
-            let indexPath = sidebarTableView.indexPathForSelectedRow,
-            let sidebar = sidebarTableView.sidebar,
-            let item = sidebar.getByIndexPath(path: indexPath) else { return nil }
-
-        return item
-    }
-
     var sidebarWidth: CGFloat = 0
     var width: CGFloat = 0
 
@@ -756,7 +740,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func calculateLabelMaxWidth() -> CGFloat {
-        var width = CGFloat(0)
+        var width = CGFloat(75)
 
         for i in 0...4 {
             var j = 0
