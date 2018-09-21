@@ -249,6 +249,18 @@ public class Note: NSObject  {
             return dateFormatter.formatDateForDisplay(modifiedLocalAt)
         }
     }
+
+    @objc func getCreationDateForLabel() -> String? {
+        guard let creationDate = self.creationDate else { return nil }
+
+        let calendar = NSCalendar.current
+        if calendar.isDateInToday(creationDate) {
+            return dateFormatter.formatTimeForDisplay(creationDate)
+        }
+        else {
+            return dateFormatter.formatDateForDisplay(creationDate)
+        }
+    }
     
     func getContent() -> NSAttributedString? {
         do {

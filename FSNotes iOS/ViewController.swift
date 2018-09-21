@@ -63,7 +63,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
 
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
-        searchBarTextField?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xfafafa)
+        searchBarTextField?.mixedTextColor = MixedColor(normal: 0xfafafa, night: 0xfafafa)
 
         loadPlusButton()
 

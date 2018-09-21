@@ -53,6 +53,9 @@ class SidebarTableView: UITableView,
         
         guard let sidebar = sidebar else { return cell }
 
+        guard sidebar.items.indices.contains(indexPath.section), sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return cell }
+
+
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
         cell.configure(sidebarItem: sidebarItem)
         cell.contentView.setNeedsLayout()
@@ -113,13 +116,18 @@ class SidebarTableView: UITableView,
         guard let view = self.viewController, let sidebar = self.sidebar else { return }
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
-        AudioServicesPlaySystemSound(1519)
+
 
         if sidebarItem.name == "Settings" {
-            view.openSettings()
+            Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
+                view.openSettings()
+            }
+
+            AudioServicesPlaySystemSound(1519)
             return
         }
-        
+
+        AudioServicesPlaySystemSound(1519)
         view.currentFolder.text = sidebarItem.name
 
         if sidebarItem.isTrash() {

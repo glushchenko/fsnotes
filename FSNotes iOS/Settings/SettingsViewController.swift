@@ -13,6 +13,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     
     var sections = ["General", "Editor", "UI", "View"]
     var rowsInSection = [2, 2, 2, 1]
+    private var prevCount = 0
         
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
@@ -20,6 +21,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+
 
         super.viewDidLoad()
         
@@ -164,8 +166,19 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
     }
 
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let nc = navigationController?.viewControllers {
+            self.prevCount = nc.count
+            if nc.count == 1 {
+                self.dismiss(animated: true)
+            }
+        }
+
+        if gestureRecognizer.isEqual(navigationController?.interactivePopGestureRecognizer) {
+            navigationController?.popViewController(animated: true)
+        }
+
+        return false
     }
 
     @objc func done() {

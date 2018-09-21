@@ -242,9 +242,9 @@ class NotesTableView: UITableView,
             DispatchQueue.main.async {
                 let cell = self.cellForRow(at: indexPath) as? NoteCellView
                 cell?.preview.text = note.getPreviewForLabel()
-                cell?.date.text = note.getDateForLabel()
                 cell?.title.text = note.getTitleWithoutLabel()
                 cell?.loadImagesPreview()
+                cell?.reloadDate()
                 cell?.layoutIfNeeded()
             }
         }

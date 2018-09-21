@@ -139,7 +139,7 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Show notes in main \"Notes\" list"
+                cell.textLabel?.text = "Show notes in \"Notes\" and \"Todo\" lists"
                 cell.accessoryType = project.showInCommon ? .checkmark : .none
             case 1:
                 cell.textLabel?.text = "Show folder in sidebar"

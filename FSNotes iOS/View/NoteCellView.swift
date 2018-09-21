@@ -42,7 +42,7 @@ class NoteCellView: UITableViewCell {
 
         title.attributedText = NSAttributedString(string: note.title)
         preview.attributedText = NSAttributedString(string: note.getPreviewForLabel())
-        date.attributedText = NSAttributedString(string: note.getDateForLabel())
+        date.attributedText = NSAttributedString(string: getDate())
         
         title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
@@ -122,5 +122,25 @@ class NoteCellView: UITableViewCell {
         imageView.layer.borderColor = UIColor.darkGray.cgColor
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
+    }
+
+    public func getDate() -> String {
+        if let sidebarItem = UIApplication.getVC().sidebarTableView.getSidebarItem(),
+            let sort = sidebarItem.project?.sortBy,
+            sort == .creationDate,
+            let date = note?.getCreationDateForLabel()
+        {
+            return date
+        }
+
+        if let date = note?.getDateForLabel() {
+            return date
+        }
+
+        return String()
+    }
+
+    public func reloadDate() {
+        date.text = getDate()
     }
 }
