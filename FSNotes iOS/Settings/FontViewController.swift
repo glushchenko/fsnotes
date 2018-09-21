@@ -33,7 +33,7 @@ class FontViewController: UITableViewController {
     }
     
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -53,7 +53,7 @@ class FontViewController: UITableViewController {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let fontFamily = label.text {
             UserDefaultsManagement.noteFont = UIFont(name: fontFamily, size: CGFloat(UserDefaultsManagement.fontSize))
             
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     

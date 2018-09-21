@@ -42,9 +42,8 @@ class ProjectsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let project = self.projects[indexPath.row]
         let controller = ProjectSettingsViewController(project: project)
-        let navigationController = UINavigationController(rootViewController: controller)
 
-        self.present(navigationController, animated: true)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,7 +74,7 @@ class ProjectsViewController: UITableViewController {
     }
 
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 
     @objc func newAlert() {

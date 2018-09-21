@@ -40,7 +40,7 @@ class NightModeViewController: UITableViewController, CLLocationManagerDelegate 
     }
     
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {

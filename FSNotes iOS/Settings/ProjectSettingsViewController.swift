@@ -153,7 +153,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

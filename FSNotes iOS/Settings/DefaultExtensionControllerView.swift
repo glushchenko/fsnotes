@@ -21,21 +21,20 @@ class DefaultExtensionViewController: UITableViewController {
         
         super.viewDidLoad()
         
-        self.navigationItem.leftItemsSupplementBackButton = true
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         self.title = "Default Extension"
     }
     
     @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel {
             UserDefaultsManagement.storageExtension = label.text!
             
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     

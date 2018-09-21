@@ -9,7 +9,7 @@
 import UIKit
 import NightNight
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate {
     
     var sections = ["General", "Editor", "UI", "View"]
     var rowsInSection = [2, 2, 2, 1]
@@ -19,6 +19,7 @@ class SettingsViewController: UITableViewController {
         
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
 
         super.viewDidLoad()
         
@@ -26,7 +27,7 @@ class SettingsViewController: UITableViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
     }
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
@@ -159,12 +160,14 @@ class SettingsViewController: UITableViewController {
         }
         
         if let controller = lvc {
-            let navigationController = UINavigationController(rootViewController: controller)
-
-            self.present(navigationController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
-    
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
     }
