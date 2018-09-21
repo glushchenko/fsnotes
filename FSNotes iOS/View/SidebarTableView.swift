@@ -117,10 +117,10 @@ class SidebarTableView: UITableView,
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
-
         if sidebarItem.name == "Settings" {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
                 view.openSettings()
+                self.deselectRow(at: indexPath, animated: false)
             }
 
             AudioServicesPlaySystemSound(1519)

@@ -30,3 +30,6 @@ Default storage directory:
 Of course you can change directory (i.e. Dropbox or iCloud for synchronization)
 
 ![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png)
+
+- [ ] and
+- [x] todo 🤗

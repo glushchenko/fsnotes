@@ -538,7 +538,11 @@ class Storage {
         
         return nil
 #else
-        return UserDefaultsManagement.iCloudDocumentsContainer
+        if let icloud = UserDefaultsManagement.iCloudDocumentsContainer {
+            return icloud
+        }
+
+        return UserDefaultsManagement.storageUrl
 #endif
     }
             
