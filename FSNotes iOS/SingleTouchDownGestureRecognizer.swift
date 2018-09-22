@@ -15,14 +15,24 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 guard let view = self.view as? EditTextView else { continue }
                 
                 let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-                
+
                 if view.isTodo(at: characterIndex) {
                     self.state = .recognized
                     return
                 }
 
-                if view.isImage(at: characterIndex) {
+                guard characterIndex > 0 && characterIndex < (view.textStorage.length - 1) else {
+                    self.state = .failed
+                    return
+                }
+
+                if view.isImage(at: characterIndex), !view.isFirstResponder {
                     self.state = .possible
+                    return
+                }
+
+                if view.isLink(at: characterIndex) && !view.isFirstResponder {
+                    self.state = .recognized
                     return
                 }
             }

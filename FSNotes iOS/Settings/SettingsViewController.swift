@@ -11,8 +11,16 @@ import NightNight
 
 class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate {
     
-    var sections = ["General", "Editor", "UI", "View"]
-    var rowsInSection = [2, 2, 2, 1]
+    var sections = ["General", "Editor", "UI", "View", "FSNotes"]
+    var rows = [
+        ["Default Extension", "Default Keyboard In Editor"],
+        ["Code block live highlighting", "Live images preview"],
+        ["Font", "Night Mode"],
+        ["Projects"],
+        ["Support", "Homepage", "Twitter"]
+    ]
+
+    var rowsInSection = [2, 2, 2, 1, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -31,7 +39,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,14 +65,13 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
+        cell.textLabel?.text = rows[indexPath.section][indexPath.row]
         
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Default Extension"
                 cell.accessoryType = .disclosureIndicator
             case 1:
-                cell.textLabel?.text = "Default Keyboard In Editor"
                 cell.accessoryType = .disclosureIndicator
             default:
                 return cell
@@ -74,10 +81,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Code block live highlighting"
                 cell.accessoryType = UserDefaultsManagement.codeBlockHighlight ? .checkmark : .none
             case 1:
-                cell.textLabel?.text = "Live images preview"
                 cell.accessoryType = UserDefaultsManagement.liveImagesPreview ? .checkmark : .none
             default:
                 return cell
@@ -87,10 +92,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         if indexPath.section == 0x02 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Font"
                 cell.accessoryType = .disclosureIndicator
             case 1:
-                cell.textLabel?.text = "Night Mode"
                 cell.accessoryType = .disclosureIndicator
             default:
                 return cell
@@ -100,13 +103,12 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         if indexPath.section == 0x03 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Projects"
                 cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }
         }
-        
+
         return cell
     }
     
@@ -160,10 +162,60 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
             }
         }
+
+        if indexPath.section == 0x04 {
+            var url: URL?
+
+            switch indexPath.row {
+            case 0x00:
+                url = URL(string: "https://github.com/glushchenko/fsnotes/issues")
+                break
+            case 0x01:
+                url = URL(string: "https://fsnot.es")
+                break
+            case 0x02:
+                url = URL(string: "https://twitter.com/fsnotesapp")
+                break
+            default: break
+            }
+
+            if let url = url {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
         
         if let controller = lvc {
             self.navigationController?.pushViewController(controller, animated: true)
         }
+    }
+
+
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 4 {
+            return 65
+        }
+
+        return 0
+    }
+
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard self.sections[section] == "FSNotes" else { return nil }
+
+        let tableViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        let version = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 30))
+        version.font = version.font.withSize(17)
+
+        if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+            version.text = "Version \(versionString) build \(build)"
+        }
+
+        version.textColor = UIColor.lightGray
+        version.textAlignment = .center;
+        tableViewFooter.addSubview(version)
+        return tableViewFooter
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

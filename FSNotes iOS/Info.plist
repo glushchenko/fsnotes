@@ -22,8 +22,47 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>2.0.5</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>makeNote</string>
+			<key>CFBundleURLName</key>
+			<string>co.fluder.mobile.FSNotes-iOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fsnotes</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>makeNote</string>
+			<key>CFBundleURLName</key>
+			<string>co.fluder.mobile.FSNotes-iOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nv</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string>makeNote</string>
+			<key>CFBundleURLName</key>
+			<string>co.fluder.mobile.FSNotes-iOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nvalt</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>71</string>
+	<string>72</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSRequiresIPhoneOS</key>

@@ -830,6 +830,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
 
+        // Links
+        if self.editArea.isLink(at: characterIndex), !self.editArea.isFirstResponder {
+            guard let path = self.editArea.textStorage.attribute(.link, at: characterIndex, effectiveRange: nil) as? String else { return }
+
+            if path.starts(with: "fsnotes://find/") {
+                let fileName = path.replacingOccurrences(of: "fsnotes://find/", with: "")
+                if let note = Storage.instance?.getBy(title: fileName) {
+                    fill(note: note)
+                }
+            } else if let url = URL(string: path) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+            return
+        }
+
         let char = Array(myTextView.textStorage.string)[characterIndex]
 
         // Toggle todo on click
@@ -845,7 +860,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             AudioServicesPlaySystemSound(1519)
             return
         }
-        
+
         DispatchQueue.main.async {
             self.editArea.becomeFirstResponder()
             
@@ -899,7 +914,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc public func cancel() {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
             return
         }
 

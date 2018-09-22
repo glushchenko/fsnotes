@@ -125,8 +125,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
-
         NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -139,6 +137,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         view.addGestureRecognizer(swipe)
         super.viewDidLoad()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
     }
 
     public func reloadSidebar() {
@@ -256,13 +256,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func configureIndicator() {
-        self.indicator.color = NightNight.theme == .night ? UIColor.white : UIColor.black
-        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
         self.indicator.center = self.view.center
+        self.indicator.layer.cornerRadius = 5
+        self.indicator.layer.borderWidth = 1
+        self.indicator.layer.borderColor = UIColor.lightGray.cgColor
+        self.indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
         self.view.addSubview(self.indicator)
         self.indicator.bringSubview(toFront: self.view)
-        self.indicator.startAnimating()
-        self.indicator.layer.zPosition = 101
+        self.startAnimation()
     }
 
     public func initTableData() {
@@ -281,11 +283,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
+    public func startAnimation() {
+        self.indicator.startAnimating()
+        self.indicator.layer.zPosition = 101
+    }
+
+    public func stopAnimation() {
+        self.indicator.stopAnimating()
+        self.indicator.layer.zPosition = -1
+    }
+
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
 
         guard let storage = self.storage else { return }
+        self.startAnimation()
 
         let filter = self.search.text!
         var terms = filter.split(separator: " ")
@@ -352,6 +365,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                 self.isActiveTableUpdating = false
                 completion()
+                self.stopAnimation()
             }
         }
 

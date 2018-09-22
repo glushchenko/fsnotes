@@ -104,4 +104,14 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         return false
     }
+
+    public func isLink(at location: Int) -> Bool {
+        let storage = self.textStorage
+
+        if storage.length > location, storage.attribute(.link, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+
+        return false
+    }
 }
