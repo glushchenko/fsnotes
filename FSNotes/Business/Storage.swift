@@ -507,7 +507,7 @@ class Storage {
         return
             noteList.first(where: {
                 return (
-                    $0.title == title
+                    $0.title.lowercased() == title.lowercased()
                 )
             })
     }

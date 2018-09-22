@@ -14,4 +14,12 @@ extension UIApplication {
 
         return pageVC.orderedViewControllers[0] as! ViewController
     }
+
+    static func getEVC() -> EditorViewController {
+        let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController
+        let viewController = pageController!.orderedViewControllers[1] as? UINavigationController
+        let evc = viewController!.viewControllers[0] as! EditorViewController
+
+        return evc
+    }
 }

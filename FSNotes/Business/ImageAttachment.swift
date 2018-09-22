@@ -91,9 +91,8 @@ class ImageAttachment {
                 .attachment: attachment,
                 .paragraphStyle: ps
             ] as [NSAttributedStringKey : Any]
-        
+
         mutableString.addAttributes(attributes, range: NSRange(0..<1))
-        
         return mutableString
     }
 

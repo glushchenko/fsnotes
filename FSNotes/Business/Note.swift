@@ -802,4 +802,12 @@ public class Note: NSObject  {
         self.imageUrl = nil
         self.isParsed = false
     }
+
+    public func getMdImagePath(name: String) -> String {
+        if type == .TextBundle {
+            return "assets/\(name)"
+        }
+
+        return "/i/\(name)"
+    }
 }

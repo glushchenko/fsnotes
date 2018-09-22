@@ -40,6 +40,63 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         super.cut(sender)
     }
+
+    override func paste(_ sender: Any?) {
+        guard let note = EditTextView.note else {
+            super.paste(sender)
+            return
+        }
+
+        for item in UIPasteboard.general.items {
+            if let image = item["public.jpeg"] as? UIImage, let data = UIImageJPEGRepresentation(image, 1) {
+                if let string = ImagesProcessor.writeImage(data: data, note: note) {
+                    let path = note.getMdImagePath(name: string)
+                    if let imageUrl = note.getImageUrl(imageName: path) {
+                        let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil)
+
+                        if let attributedString = attachment.getAttributedString() {
+                            self.textStorage.insert(attributedString, at: selectedRange.location)
+
+                            UIApplication.getEVC().textViewDidChange(self)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+
+        super.paste(sender)
+    }
+
+    override func copy(_ sender: Any?) {
+        guard let note = EditTextView.note else {
+            super.copy(sender)
+            return
+        }
+
+        let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
+
+        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+        if let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
+            let imageUrl = note.getImageUrl(imageName: path),
+            let data = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: data),
+            let jpgData = UIImageJPEGRepresentation(image, 1) {
+
+            UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
+            return
+        }
+
+        super.copy(sender)
+    }
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
+            return true
+        }
+
+        return super.canPerformAction(action, withSender: sender)
+    }
     
     public func initUndoRedoButons() {
         guard

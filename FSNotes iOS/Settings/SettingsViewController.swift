@@ -9,18 +9,18 @@
 import UIKit
 import NightNight
 
-class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate {
+class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
     
-    var sections = ["General", "Editor", "UI", "View", "FSNotes"]
+    var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
     var rows = [
         ["Default Extension", "Default Keyboard In Editor"],
         ["Code block live highlighting", "Live images preview"],
         ["Font", "Night Mode"],
-        ["Projects"],
+        ["Projects", "Import notes"],
         ["Support", "Homepage", "Twitter"]
     ]
 
-    var rowsInSection = [2, 2, 2, 1, 3]
+    var rowsInSection = [2, 2, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -158,6 +158,15 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             switch indexPath.row {
             case 0:
                 lvc = ProjectsViewController()
+                break
+            case 1:
+                let picker = UIDocumentPickerViewController(documentTypes: ["public.text", "public.item"], in: .import)
+                if #available(iOS 11.0, *) {
+                    picker.allowsMultipleSelection = true
+                }
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+                break
             default: break
 
             }
@@ -231,6 +240,15 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
 
         return false
+    }
+
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
+
+        for url in urls {
+            try? FileManager.default.copyItem(at: url, to: storageUrl.appendingPathComponent(url.lastPathComponent))
+        }
     }
 
     @objc func done() {
