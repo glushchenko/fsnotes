@@ -100,7 +100,7 @@ public class Project: Equatable {
     public func saveSettings() {
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set(["sortBy": showInCommon, "showInCommon": showInCommon, "showInSidebar": showInCommon], forKey: relativePath)
+            keyStore.set(["sortBy": showInCommon, "showInCommon": showInCommon, "showInSidebar": showInSidebar], forKey: relativePath)
             keyStore.synchronize()
         }
     }

@@ -18,6 +18,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public var typingFont: UIFont?
     public static var note: Note?
+    public var lasTouchPoint: CGPoint?
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
@@ -55,7 +56,9 @@ class EditTextView: UITextView, UITextViewDelegate {
                         let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil)
 
                         if let attributedString = attachment.getAttributedString() {
+                            let location = selectedRange.location
                             self.textStorage.insert(attributedString, at: selectedRange.location)
+                            self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
 
                             UIApplication.getEVC().textViewDidChange(self)
                             return

@@ -597,7 +597,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             NotesTextProcessor.hl = nil
             evc.refill()
 
-            evc.editArea.keyboardAppearance = .default
+            if evc.editArea != nil {
+                evc.editArea.keyboardAppearance = .default
+            }
+            
             vc.search.keyboardAppearance = .default
 
             vc.sidebarTableView.sidebar = Sidebar()
@@ -619,7 +622,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             NotesTextProcessor.hl = nil
             evc.refill()
 
-            evc.editArea.keyboardAppearance = .dark
+            if evc.editArea != nil {
+                evc.editArea.keyboardAppearance = .dark
+            }
+            
             vc.search.keyboardAppearance = .dark
 
             vc.sidebarTableView.sidebar = Sidebar()

@@ -24,6 +24,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private let storageQueue = OperationQueue()
     private var toolbar: Toolbar = .markdown
 
+    var inProgress = false
+    var change = 0
+
     @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
@@ -418,9 +421,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
     
-    var inProgress = false
-    var change = 0
-    
     func textViewDidChange(_ textView: UITextView) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -802,7 +802,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.linkTextAttributes = linkAttributes
         }
     }
-    
+
     @objc private func tapHandler(_ sender: UITapGestureRecognizer) {
         let myTextView = sender.view as! UITextView
         let layoutManager = myTextView.layoutManager
@@ -813,8 +813,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
-        // Image preview on click
+        // Image preview/selection on click
         if self.editArea.isImage(at: characterIndex) {
+
+            // Select and show menu
+            guard !self.editArea.isFirstResponder else {
+                self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
+
+                guard let lasTouchPoint = self.editArea.lasTouchPoint else { return }
+                let rect = CGRect(x: self.editArea.frame.width / 2, y: lasTouchPoint.y, width: 0, height: 0)
+
+                UIMenuController.shared.setTargetRect(rect, in: self.view)
+                UIMenuController.shared.setMenuVisible(true, animated: true)
+                return
+            }
+
             let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
 
             guard let path = myTextView.textStorage.attribute(todoKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
@@ -914,11 +927,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc public func cancel() {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
-            return
+        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController {
+            pageController.switchToList()
         }
-
-        pageController.switchToList()
     }
 
 }

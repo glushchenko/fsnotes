@@ -13,25 +13,33 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
         if self.state == .possible {
             for touch in touches {
                 guard let view = self.view as? EditTextView else { continue }
-                
-                let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
-                if view.isTodo(at: characterIndex) {
+                if UIMenuController.shared.isMenuVisible {
+                    UIMenuController.shared.setMenuVisible(false, animated: false)
+                }
+
+                let point = touch.location(in: view)
+                let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
+
+                if view.isTodo(at: glyphIndex) {
                     self.state = .recognized
                     return
                 }
 
-                guard characterIndex > 0 && characterIndex < (view.textStorage.length - 1) else {
-                    self.state = .failed
-                    return
-                }
+                let location = touch.location(in: view)
+                let maxX = Int(view.frame.width - 13)
+                let minX = Int(13)
 
-                if view.isImage(at: characterIndex), !view.isFirstResponder {
+                let isImage = view.isImage(at: glyphIndex)
+                let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
+
+                if Int(location.x) > minX && Int(location.x) < maxX, isImage, glyphIndex < view.textStorage.length, glyphRect.contains(point) {
+                    view.lasTouchPoint = touch.location(in: view.superview)
                     self.state = .possible
                     return
                 }
 
-                if view.isLink(at: characterIndex) && !view.isFirstResponder {
+                if !isImage && view.isLink(at: glyphIndex) && !view.isFirstResponder {
                     self.state = .recognized
                     return
                 }
