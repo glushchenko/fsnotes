@@ -7,7 +7,12 @@
 //
 
 import Foundation
+
+#if os(iOS)
 import UIKit
+#else
+import Cocoa
+#endif
 
 extension NSMutableAttributedString {
     public func unLoadImages(note: Note? = nil) -> NSMutableAttributedString {
@@ -45,7 +50,8 @@ extension NSMutableAttributedString {
                         path = note.getMdImagePath(name: fileName)
                     }
 
-                } else if let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+                } else if
+                    let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
 
                     path = filePath
                     title = self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String

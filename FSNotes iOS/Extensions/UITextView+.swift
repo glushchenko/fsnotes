@@ -17,4 +17,14 @@ extension UITextView {
         self.typingAttributes[NSAttributedStringKey.paragraphStyle.rawValue] = paragraphStyle
         self.textStorage.updateParagraphStyle()
     }
+
+    public func getTextRange() -> UITextRange? {
+        if let start = position(from: self.beginningOfDocument, offset: self.selectedRange.location),
+        let end = position(from: start, offset: self.selectedRange.length),
+        let selectedRange = textRange(from: start, to: end) {
+            return selectedRange
+        }
+
+        return nil
+    }
 }

@@ -42,7 +42,11 @@ class EditTextView: UITextView, UITextViewDelegate {
             let jpgData = UIImageJPEGRepresentation(image, 1) {
 
             let location = selectedRange.location
-            self.textStorage.replaceCharacters(in: self.selectedRange, with: "")
+
+            if let textRange = getTextRange() {
+                self.replace(textRange, withText: "")
+            }
+
             self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
             self.selectedRange = NSRange(location: location, length: 0)
 
@@ -80,8 +84,9 @@ class EditTextView: UITextView, UITextViewDelegate {
                     self.textStorage.insert(attributedString, at: selectedRange.location)
                     self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
 
-                    UIApplication.getEVC().textViewDidChange(self)
-                    return
+                    note.content = NSMutableAttributedString(attributedString: self.attributedText)
+                    note.save()
+                    UIApplication.getEVC().refill()
                 }
             }
 
@@ -114,13 +119,18 @@ class EditTextView: UITextView, UITextViewDelegate {
         let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
 
         let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
-            let imageUrl = note.getImageUrl(imageName: path),
-            let data = try? Data(contentsOf: imageUrl),
-            let image = UIImage(data: data),
-            let jpgData = UIImageJPEGRepresentation(image, 1) {
+        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String {
 
-            UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
+            DispatchQueue.global().async {
+                if let imageUrl = note.getImageUrl(imageName: path),
+                    let data = try? Data(contentsOf: imageUrl),
+                    let image = UIImage(data: data),
+                    let jpgData = UIImageJPEGRepresentation(image, 1) {
+
+                    UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
+                }
+            }
+
             return
         }
 

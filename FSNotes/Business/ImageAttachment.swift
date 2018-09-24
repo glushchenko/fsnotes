@@ -82,7 +82,6 @@ class ImageAttachment {
                         DispatchQueue.main.async {
                             if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
 
-                                print("loaded")
                                 view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
                             }
                         }
