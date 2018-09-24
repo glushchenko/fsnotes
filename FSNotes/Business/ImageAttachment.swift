@@ -66,11 +66,25 @@ class ImageAttachment {
                 attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
                 DispatchQueue.global().async {
-                    attachment.image = self.resize(image: image, size: size)
+                    if let resizedImage = self.resize(image: image, size: size), let imageData = UIImageJPEGRepresentation(resizedImage, 1) {
 
-                    DispatchQueue.main.async {
-                        if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
-                            view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
+                        let mainURL: URL?
+                        if let imageCacheUrl = saveCache {
+                            mainURL = imageCacheUrl
+                        } else {
+                            mainURL = self.url
+                        }
+
+                        let fileWrapper = FileWrapper(regularFileWithContents: imageData)
+                        fileWrapper.preferredFilename = "\(self.title)@::\(mainURL!.path)"
+                        attachment.fileWrapper = fileWrapper
+
+                        DispatchQueue.main.async {
+                            if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
+
+                                print("loaded")
+                                view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
+                            }
                         }
                     }
                 }

@@ -435,7 +435,7 @@ public class Note: NSObject  {
             self.content = self.content.unLoadCheckboxes()
             
             if UserDefaultsManagement.liveImagesPreview {
-                self.content = self.content.unLoadImages()
+                self.content = self.content.unLoadImages(note: self)
             }
         }
         
@@ -809,5 +809,11 @@ public class Note: NSObject  {
         }
 
         return "/i/\(name)"
+    }
+
+    public func getMdImageURL(name: String) -> URL? {
+        let appendingPath = getMdImagePath(name: name)
+
+        return getImageUrl(imageName: appendingPath)
     }
 }

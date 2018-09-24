@@ -27,15 +27,39 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     override func cut(_ sender: Any?) {
+        guard let note = EditTextView.note else {
+            super.cut(sender)
+            return
+        }
+
+        let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
+
+        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
+            let imageUrl = note.getImageUrl(imageName: path),
+            let data = try? Data(contentsOf: imageUrl),
+            let image = UIImage(data: data),
+            let jpgData = UIImageJPEGRepresentation(image, 1) {
+
+            let location = selectedRange.location
+            self.textStorage.replaceCharacters(in: self.selectedRange, with: "")
+            self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
+            self.selectedRange = NSRange(location: location, length: 0)
+
+            UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
+            return
+        }
+
         if self.textStorage.length > self.selectedRange.upperBound {
-            let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
-            var item = [kUTTypeUTF8PlainText as String : attributedString.string as Any]
-            
-            if let rtf = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes:
-                [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
-                item[kUTTypeFlatRTFD as String] = rtf
+            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+
+                let item = [kUTTypeFlatRTFD as String : rtfd]
+                UIPasteboard.general.addItems([item])
+
+                return
             }
-            
+
+            let item = [kUTTypeUTF8PlainText as String : attributedString.string as Any]
             UIPasteboard.general.items = [item]
         }
 
@@ -49,18 +73,28 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         for item in UIPasteboard.general.items {
+            if let rtfd = item["com.apple.flat-rtfd"] as? Data {
+                if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
+
+                    let location = selectedRange.location
+                    self.textStorage.insert(attributedString, at: selectedRange.location)
+                    self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
+
+                    UIApplication.getEVC().textViewDidChange(self)
+                    return
+                }
+            }
+
             if let image = item["public.jpeg"] as? UIImage, let data = UIImageJPEGRepresentation(image, 1) {
                 if let string = ImagesProcessor.writeImage(data: data, note: note) {
                     let path = note.getMdImagePath(name: string)
                     if let imageUrl = note.getImageUrl(imageName: path) {
-                        let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil)
+                        let range = NSRange(location: selectedRange.location, length: 1)
+                        let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range)
 
                         if let attributedString = attachment.getAttributedString() {
-                            let location = selectedRange.location
-                            self.textStorage.insert(attributedString, at: selectedRange.location)
-                            self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
-
-                            UIApplication.getEVC().textViewDidChange(self)
+                            self.insertText(" ")
+                            self.textStorage.replaceCharacters(in: range, with: attributedString)
                             return
                         }
                     }
@@ -80,7 +114,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
 
         let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-        if let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
+        if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
             let imageUrl = note.getImageUrl(imageName: path),
             let data = try? Data(contentsOf: imageUrl),
             let image = UIImage(data: data),
@@ -88,6 +122,15 @@ class EditTextView: UITextView, UITextViewDelegate {
 
             UIPasteboard.general.setData(jpgData, forPasteboardType: "public.jpeg")
             return
+        }
+
+        if self.textStorage.length >= self.selectedRange.upperBound {
+            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+
+                UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
+
+                return
+            }
         }
 
         super.copy(sender)
