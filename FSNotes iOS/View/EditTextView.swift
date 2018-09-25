@@ -87,6 +87,8 @@ class EditTextView: UITextView, UITextViewDelegate {
                     note.content = NSMutableAttributedString(attributedString: self.attributedText)
                     note.save()
                     UIApplication.getEVC().refill()
+
+                    return
                 }
             }
 
@@ -138,8 +140,6 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
-
-                return
             }
         }
 

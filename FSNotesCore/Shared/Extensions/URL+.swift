@@ -104,4 +104,17 @@ public extension URL {
     public var fileSize: UInt64 {
         return attributes?[.size] as? UInt64 ?? UInt64(0)
     }
+
+    public func removingFragment() -> URL {
+        var string = self.absoluteString
+        if let query = query {
+            string = string.replacingOccurrences(of: "?\(query)", with: "")
+        }
+
+        if let fragment = fragment {
+            string = string.replacingOccurrences(of: "#\(fragment)", with: "")
+        }
+
+        return URL(string: string) ?? self
+    }
 }

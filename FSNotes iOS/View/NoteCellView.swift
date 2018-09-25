@@ -21,6 +21,7 @@ class NoteCellView: UITableViewCell {
 
     private var note: Note?
     private var contentLength: Int = 0
+    private var timestamp: Int64?
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -82,10 +83,17 @@ class NoteCellView: UITableViewCell {
         self.imagePreviewThird.isHidden = true
 
         DispatchQueue.global(qos: .userInteractive).async {
+            let current = Date().toMillis()
+            self.timestamp = current
+
             if let images = self.note?.getImagePreviewUrl() {
                 var resizedImages: [UIImage] = []
 
                 for imageUrl in images {
+                    if current != self.timestamp {
+                        return
+                    }
+                    
                     if let image = ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)?.resize(height: 70) {
                         let resized = image.croppedInRect(rect: CGRect(x: 0, y: 0, width: 70, height: 70))
                         resizedImages.append(resized)
@@ -93,6 +101,10 @@ class NoteCellView: UITableViewCell {
                 }
 
                 DispatchQueue.main.async {
+                    if current != self.timestamp {
+                        return
+                    }
+
                     for resized in resizedImages {
                         if self.imagePreview.image == nil {
                             self.imagePreview.image = resized

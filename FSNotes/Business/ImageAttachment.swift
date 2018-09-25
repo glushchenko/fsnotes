@@ -12,6 +12,7 @@ import Foundation
     import Cocoa
 #else
     import UIKit
+    import MobileCoreServices
 #endif
 
 class ImageAttachment {
@@ -35,28 +36,44 @@ class ImageAttachment {
         
         let attachment = NSTextAttachment()
         var saveCache: URL?
-        
+        let mainURL: URL
+
+        // Get cache url
         if self.url.isRemote(),
-            let cacheName = self.url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+            let cacheName = self.url.removingFragment().absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
             let imageCacheUrl = self.cache?.appendingPathComponent(cacheName) {
-            
+
             if FileManager.default.fileExists(atPath: imageCacheUrl.path) {
                 self.url = imageCacheUrl
             } else {
                 saveCache = imageCacheUrl
             }
         }
-        
-        guard let imageData = try? Data(contentsOf: self.url),
-            let image = Image(data: imageData) else {
-            return nil
-        }
-        
+
+        mainURL = saveCache ?? self.url
+
+        // Save cache and load
+        var imageData: Data?
         if let imageCacheUrl = saveCache {
-            try? FileManager.default.createDirectory(at: imageCacheUrl.deletingLastPathComponent(), withIntermediateDirectories: false, attributes: nil)
-            try? imageData.write(to: imageCacheUrl, options: .atomic)
+            do {
+                imageData = try Data(contentsOf: self.url)
+
+                var isDirectory = ObjCBool(true)
+                if let cacheDir = cache, !FileManager.default.fileExists(atPath: cacheDir.path, isDirectory: &isDirectory) || !isDirectory.boolValue {
+                    try FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: false, attributes: nil)
+                }
+
+                try imageData?.write(to: imageCacheUrl, options: .atomic)
+            } catch {
+                print(error)
+            }
+        } else {
+            imageData = try? Data(contentsOf: mainURL)
         }
-        
+
+        // Make image
+        guard let data = imageData, let image = UIImage(data: data) else { return nil }
+
         #if os(OSX)
             let fileWrapper = FileWrapper.init()
             fileWrapper.icon = image
@@ -68,20 +85,13 @@ class ImageAttachment {
                 DispatchQueue.global().async {
                     if let resizedImage = self.resize(image: image, size: size), let imageData = UIImageJPEGRepresentation(resizedImage, 1) {
 
-                        let mainURL: URL?
-                        if let imageCacheUrl = saveCache {
-                            mainURL = imageCacheUrl
-                        } else {
-                            mainURL = self.url
-                        }
-
                         let fileWrapper = FileWrapper(regularFileWithContents: imageData)
-                        fileWrapper.preferredFilename = "\(self.title)@::\(mainURL!.path)"
+                        fileWrapper.preferredFilename = "\(self.title)@::\(mainURL.path)"
+                        attachment.fileType = kUTTypeJPEG as String
                         attachment.fileWrapper = fileWrapper
 
                         DispatchQueue.main.async {
                             if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
-
                                 view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
                             }
                         }
@@ -89,7 +99,8 @@ class ImageAttachment {
                 }
             }
         #endif
-        
+
+        // Make attributed string
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableString = NSMutableAttributedString(attributedString: attributedString)
         

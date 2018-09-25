@@ -276,9 +276,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.reloadSidebar()
             self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
 
-            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first {
-                let evc = self.getEVC()
-                evc?.fill(note: note)
+            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first, let evc = self.getEVC(), evc.note == nil {
+
+                evc.fill(note: note)
             }
         }
     }
@@ -296,6 +296,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
+        
+        self.notesTable.notes.removeAll()
+        self.notesTable.reloadData()
 
         guard let storage = self.storage else { return }
         self.startAnimation()

@@ -151,6 +151,7 @@
 		D76C87422136AA7100F82952 /* trash_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873C2136AA7100F82952 /* trash_white.png */; };
 		D76C874B2136C16300F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
 		D76C874C2136C17100F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
+		D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D76F0B402152C6CB008E5F2F /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B3F2152C6CA008E5F2F /* more.png */; };
 		D76F0B422152C73A008E5F2F /* more_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B412152C73A008E5F2F /* more_white.png */; };
 		D76F0B452152C9A2008E5F2F /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B432152C9A1008E5F2F /* done.png */; };
@@ -573,6 +574,7 @@
 		D7679397201F21F5000F7BBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D76C873B2136AA7100F82952 /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		D76C873C2136AA7100F82952 /* trash_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash_white.png; sourceTree = "<group>"; };
+		D76E10C0215A55CE0017F4A3 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		D76F0B3F2152C6CA008E5F2F /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
 		D76F0B412152C73A008E5F2F /* more_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more_white.png; sourceTree = "<group>"; };
 		D76F0B432152C9A1008E5F2F /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
@@ -784,6 +786,7 @@
 				6F13BB2920FEDE230005E120 /* String+.swift */,
 				6F13BB2A20FEDE230005E120 /* URL+.swift */,
 				D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */,
+				D76E10C0215A55CE0017F4A3 /* Date+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2065,6 +2068,7 @@
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
+				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
