@@ -213,7 +213,7 @@ public class Note: NSObject  {
         return nil
     }
         
-    @objc public func getPreviewForLabel(with text: String? = nil) -> String {
+    public func getPreviewLabel(with text: String? = nil) -> String {
         var preview: String = ""
         let content = text ?? self.content.string
 
@@ -234,6 +234,10 @@ public class Note: NSObject  {
         }
         
         return preview.condenseWhitespace()
+    }
+
+    @objc public func getPreviewForLabel() -> String {
+        return getPreviewLabel(with: nil)
     }
     
     @objc func getDateForLabel() -> String {        
@@ -810,7 +814,7 @@ public class Note: NSObject  {
 
         if let first = components.first {
             self.firstLineTitle = first.trim()
-            self.preview = getPreviewForLabel(with: components.dropFirst().joined(separator: " "))
+            self.preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
         }
 
         self.imageUrl = urls

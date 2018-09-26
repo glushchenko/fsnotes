@@ -1296,11 +1296,11 @@ CA
                                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                                                 </clipView>
                                                 <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="20" bottom="0.0"/>
-                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="hZT-KZ-qyF">
+                                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hZT-KZ-qyF">
                                                     <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="su1-Ap-Xqc">
+                                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="su1-Ap-Xqc">
                                                     <rect key="frame" x="-16" y="10" width="16" height="0.0"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -1427,13 +1427,14 @@ CA
                                                                     </connections>
                                                                 </tableView>
                                                             </subviews>
+                                                            <nil key="backgroundColor"/>
                                                         </clipView>
                                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="ePX-Un-u4d">
+                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="ePX-Un-u4d">
                                                             <rect key="frame" x="-100" y="-100" width="190" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" horizontal="NO" id="TQp-cU-heo">
+                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" horizontal="NO" id="TQp-cU-heo">
                                                             <rect key="frame" x="-100" y="-100" width="16" height="567"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
@@ -1476,11 +1477,11 @@ CA
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="417" id="1Ss-OK-0sm"/>
                                                         </constraints>
                                                         <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                                                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0fC-ae-uwb">
+                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="0fC-ae-uwb">
                                                             <rect key="frame" x="-100" y="-100" width="380" height="16"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
+                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
                                                             <rect key="frame" x="403" y="0.0" width="14" height="552"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>

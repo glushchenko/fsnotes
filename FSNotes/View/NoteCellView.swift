@@ -160,9 +160,11 @@ class NoteCellView: NSTableCellView {
         if ( self.backgroundStyle == NSView.BackgroundStyle.dark ) {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
+            name.textColor = NSColor.white
         } else {
             applyPreviewStyle(labelColor)
             date.textColor = labelColor
+            name.textColor = NSColor.black
         }
     }
     
