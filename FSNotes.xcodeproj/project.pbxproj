@@ -152,6 +152,7 @@
 		D76C874B2136C16300F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
 		D76C874C2136C17100F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
 		D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
+		D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C2215A96080017F4A3 /* DayOneImportHelper.swift */; };
 		D76F0B402152C6CB008E5F2F /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B3F2152C6CA008E5F2F /* more.png */; };
 		D76F0B422152C73A008E5F2F /* more_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B412152C73A008E5F2F /* more_white.png */; };
 		D76F0B452152C9A2008E5F2F /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B432152C9A1008E5F2F /* done.png */; };
@@ -575,6 +576,7 @@
 		D76C873B2136AA7100F82952 /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		D76C873C2136AA7100F82952 /* trash_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash_white.png; sourceTree = "<group>"; };
 		D76E10C0215A55CE0017F4A3 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		D76E10C2215A96080017F4A3 /* DayOneImportHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOneImportHelper.swift; sourceTree = "<group>"; };
 		D76F0B3F2152C6CA008E5F2F /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
 		D76F0B412152C73A008E5F2F /* more_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more_white.png; sourceTree = "<group>"; };
 		D76F0B432152C9A1008E5F2F /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 				D70FE12E20FE198200813F9E /* InfoPlist.strings */,
 				D70FE12B20FE198200813F9E /* Localizable.strings */,
 				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
+				D76E10C2215A96080017F4A3 /* DayOneImportHelper.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -1832,6 +1835,7 @@
 				"${BUILT_PRODUCTS_DIR}/Highlightr-iOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/GSImageViewerController/GSImageViewerController.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1841,6 +1845,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSImageViewerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2048,6 +2053,7 @@
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
+				D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */,
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+Alpha.swift in Sources */,
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,

@@ -621,8 +621,8 @@ public class NotesTextProcessor {
                 
                 var substring = textStorageNSString.substring(with: _range)
                 guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
-                
-                if substring.starts(with: "/i/"), let project = note.project, let path = project.url.appendingPathComponent(substring).path.removingPercentEncoding {
+
+                if substring.starts(with: "/i/"), let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 } else if note.type == .TextBundle && substring.starts(with: "assets/"), let path = note.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path

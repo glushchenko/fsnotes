@@ -26,7 +26,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var sidebarWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var noteTableViewLeadingConstraint: NSLayoutConstraint!
 
-    public let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    public var indicator: UIActivityIndicatorView?
 
     public var storage: Storage?
     public var cloudDriveManager: CloudDriveManager?
@@ -95,6 +95,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if storage.noteList.count == 0 {
             DispatchQueue.global().async {
+                print("CloudDrive sync started")
                 storage.initiateCloudDriveSync()
             }
 
@@ -104,7 +105,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
-            self.configureIndicator()
+            self.indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            self.configureIndicator(indicator: self.indicator!, view: self.view)
+
             DispatchQueue.main.async {
                 self.initTableData()
             }
@@ -112,6 +115,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.sidebarTableView.sidebar = Sidebar()
         self.sidebarTableView.reloadData()
+        self.maxSidebarWidth = self.calculateLabelMaxWidth()
 
         guard let pageController = self.parent as? PageViewController else {
             return
@@ -141,11 +145,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
     }
 
-    public func reloadSidebar() {
+    public func reloadSidebar(select project: Project? = nil) {
         DispatchQueue.main.async {
             self.sidebarTableView.sidebar = Sidebar()
             self.maxSidebarWidth = self.calculateLabelMaxWidth()
             self.sidebarTableView.reloadData()
+
+            guard let items = self.sidebarTableView.sidebar?.items[1], let selected = project, let i = items.lastIndex(where: { $0.project == selected }) else { return }
+
+            let indexPath = IndexPath(row: i, section: 1)
+            self.sidebarTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: indexPath)
         }
     }
 
@@ -255,25 +265,33 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return nil
     }
 
-    private func configureIndicator() {
-        self.indicator.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
-        self.indicator.center = self.view.center
-        self.indicator.layer.cornerRadius = 5
-        self.indicator.layer.borderWidth = 1
-        self.indicator.layer.borderColor = UIColor.lightGray.cgColor
-        self.indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
-        self.view.addSubview(self.indicator)
-        self.indicator.bringSubview(toFront: self.view)
-        self.startAnimation()
+    public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
+        indicator.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 50.0)
+        indicator.center = view.center
+        indicator.layer.cornerRadius = 5
+        indicator.layer.borderWidth = 1
+        indicator.layer.borderColor = UIColor.lightGray.cgColor
+        indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
+        view.addSubview(indicator)
+        indicator.bringSubview(toFront: view)
+        startAnimation(indicator: indicator)
+    }
+
+    public func startAnimation(indicator: UIActivityIndicatorView?) {
+        indicator?.startAnimating()
+        indicator?.layer.zPosition = 101
+    }
+
+    public func stopAnimation(indicator: UIActivityIndicatorView?) {
+        indicator?.stopAnimating()
+        indicator?.layer.zPosition = -1
     }
 
     public func initTableData() {
         guard let storage = self.storage else { return }
 
         self.updateTable() {
-            self.indicator.stopAnimating()
-            self.indicator.layer.zPosition = -1
-            self.reloadSidebar()
+            self.stopAnimation(indicator: self.indicator)
             self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
 
             if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first, let evc = self.getEVC(), evc.note == nil {
@@ -283,25 +301,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func startAnimation() {
-        self.indicator.startAnimating()
-        self.indicator.layer.zPosition = 101
-    }
-
-    public func stopAnimation() {
-        self.indicator.stopAnimating()
-        self.indicator.layer.zPosition = -1
-    }
-
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
-        
+
         self.notesTable.notes.removeAll()
         self.notesTable.reloadData()
 
         guard let storage = self.storage else { return }
-        self.startAnimation()
+        self.startAnimation(indicator: self.indicator)
 
         let filter = self.search.text!
         var terms = filter.split(separator: " ")
@@ -368,7 +376,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                 self.isActiveTableUpdating = false
                 completion()
-                self.stopAnimation()
+                self.stopAnimation(indicator: self.indicator)
             }
         }
 
@@ -386,12 +394,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         if type == .Trash && note.isTrash()
-            || type == .All && note.project!.showInCommon
+            || type == .All && note.project.showInCommon
             || type == .Tag && note.tagNames.contains(sidebarName)
             || [.Category, .Label].contains(type) && project != nil && note.project == project
-            || project != nil && project!.isRoot && note.project?.parent == project
-            || type == .Archive && note.project != nil && note.project!.isArchive
-            || type == .Todo && note.project != nil && !note.project!.isArchive {
+            || project != nil && project!.isRoot && note.project.parent == project
+            || type == .Archive && note.project.isArchive
+            || type == .Todo && !note.project.isArchive {
 
             return true
         }
@@ -516,8 +524,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             note.content = NSMutableAttributedString(string: content)
         }
 
-        let document = UINote(fileURL: note.url, textWrapper: note.getFileWrapper())
-        document.save()
+        note.create()
 
         if pasteboard != nil {
             savePasteboard(note: note)

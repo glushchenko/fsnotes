@@ -92,7 +92,7 @@ class CloudDriveManager {
                     _ = note.reload()
                 }
 
-                self.delegate.notesTable.updateLabel(note: note)
+                self.delegate.notesTable.updateRowView(note: note)
                 self.resolveConflict(url: url)
                 continue
             }
@@ -189,9 +189,8 @@ class CloudDriveManager {
     }
     
     private func add(url: URL) {
-        guard self.storage.getBy(url: url) == nil else { return }
+        guard self.storage.getBy(url: url) == nil, let note = self.storage.initNote(url: url) else { return }
 
-        let note = Note(url: url)
         note.loadTags()
         _ = note.reload()
 
@@ -222,14 +221,16 @@ class CloudDriveManager {
                 let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
                 
                 let to = url.deletingLastPathComponent().appendingPathComponent(conflictName)
-                let note = Note(url: conflict.url)
+
+                guard
+                    let note = Storage.sharedInstance().initNote(url: conflict.url),
+                    let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
+
                 note.loadContent()
 
-                let conflictNote = Note(url: to)
                 conflictNote.content = note.content
+                conflictNote.create()
 
-                let document = UINote(fileURL: to, textWrapper: note.getFileWrapper())
-                document.save()
                 self.storage.add(conflictNote)
 
                 conflict.isResolved = true

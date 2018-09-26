@@ -23,8 +23,4 @@ class UINote: UIDocument {
 
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
     }
-
-    public func save() {
-        self.save(to: self.fileURL, for: UIDocumentSaveOperation.forCreating, completionHandler: nil)
-    }
 }

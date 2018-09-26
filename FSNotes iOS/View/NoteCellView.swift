@@ -41,10 +41,8 @@ class NoteCellView: UITableViewCell {
     func configure(note: Note) {
         self.note = note
 
-        title.attributedText = NSAttributedString(string: note.title)
-        preview.attributedText = NSAttributedString(string: note.getPreviewForLabel())
         date.attributedText = NSAttributedString(string: getDate())
-        
+
         title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
         
@@ -69,6 +67,16 @@ class NoteCellView: UITableViewCell {
 
     public func loadImagesPreview() {
         guard let note = self.note else { return }
+
+        let imageURLs = note.getImagePreviewUrl()
+        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
+            self.title.text = firstLine
+            self.preview.text = note.preview
+        } else {
+            self.preview.text = note.getPreviewForLabel()
+            self.title.text = note.getTitleWithoutLabel()
+        }
+
         guard note.content.length != self.contentLength else { return }
         guard let tableView = self.superview as? NotesTableView else { return }
 
@@ -86,7 +94,7 @@ class NoteCellView: UITableViewCell {
             let current = Date().toMillis()
             self.timestamp = current
 
-            if let images = self.note?.getImagePreviewUrl() {
+            if let images = imageURLs {
                 var resizedImages: [UIImage] = []
 
                 for imageUrl in images {
@@ -154,5 +162,11 @@ class NoteCellView: UITableViewCell {
 
     public func reloadDate() {
         date.text = getDate()
+    }
+
+    public func updateView() {
+        loadImagesPreview()
+        reloadDate()
+        layoutIfNeeded()
     }
 }

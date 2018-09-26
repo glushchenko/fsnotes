@@ -124,7 +124,7 @@ class ImageAttachment {
     public static func getImageAndCacheData(url: URL, note: Note) -> UIImage? {
         var data: Data?
 
-        guard let cacheDirectoryUrl = note.project?.url.appendingPathComponent("/.cache/") else { return nil }
+        let cacheDirectoryUrl = note.project.url.appendingPathComponent("/.cache/")
 
         if url.isRemote() || url.pathExtension.lowercased() == "png", let cacheName = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
 

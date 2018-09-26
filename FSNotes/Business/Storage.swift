@@ -18,8 +18,7 @@ class Storage {
     public var tagNames = [String]()
     
     var notesDict: [String: Note] = [:]
-    var generalUrl: URL?
-    
+
     var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension, "textbundle"]
     
     var pinned: Int = 0
@@ -81,6 +80,10 @@ class Storage {
     
     public func getChildProjects(project: Project) -> [Project] {
         return projects.filter({ $0.parent == project }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+    }
+
+    public func getRootProject() -> Project? {
+        return projects.first(where: { $0.isRoot })
     }
     
     public func getRootProjects() -> [Project] {
@@ -349,8 +352,8 @@ class Storage {
                     continue
                 }
             #endif
-            
-            let note = Note(url: url)
+
+            let note = Note(url: url, with: item)
             
             if item.isArchive {
                 note.loadTags()
@@ -396,7 +399,7 @@ class Storage {
     }
     
     public func unload(project: Project) {
-        let notes = noteList.filter({ $0.project != nil && $0.project!.isArchive })
+        let notes = noteList.filter({ $0.project.isArchive })
         for note in notes {
             if let i = noteList.index(where: {$0 === note}) {
                 noteList.remove(at: i)
@@ -644,11 +647,12 @@ class Storage {
         guard let fileEnumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions()) else { return nil }
 
         var extensions = self.allowedExtensions
-        for ext in ["jpg", "png", "gif"] {
+        for ext in ["jpg", "png", "gif", "jpeg", "json", "JPG", "PNG", ".icloud"] {
             extensions.append(ext)
         }
+        let lastPatch = ["assets", ".cache", "i", ".Trash"]
 
-        let urls = fileEnumerator.allObjects.filter { !extensions.contains(($0 as? NSURL)!.pathExtension! ) } as! [NSURL]
+        let urls = fileEnumerator.allObjects.filter { !extensions.contains(($0 as? NSURL)!.pathExtension!) && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!) } as! [NSURL]
         var subdirs = [NSURL]()
         var i = 0
 
@@ -751,5 +755,29 @@ class Storage {
         } catch {
             print("Project not found, url: \(url)")
         }
+    }
+
+    public func createProject(name: String) -> Project {
+        let storageURL = UserDefaultsManagement.storageUrl!
+
+        var url = storageURL.appendingPathComponent(name)
+
+        if FileManager.default.fileExists(atPath: url.path, isDirectory: nil) {
+            url = storageURL.appendingPathComponent("\(name) \(String(Date().toMillis()))")
+        }
+
+        let project = Project(url: url)
+        project.createDirectory()
+
+        _ = add(project: project)
+        return project
+    }
+
+    public func initNote(url: URL) -> Note? {
+        guard let project = self.getProjectBy(url: url) else { return nil }
+
+        let note = Note(url: url, with: project)
+
+        return note
     }
 }

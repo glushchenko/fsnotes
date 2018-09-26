@@ -235,17 +235,14 @@ class NotesTableView: UITableView,
         }
     }
     
-    public func updateLabel(note: Note) {
+    public func updateRowView(note: Note) {
         if let i = self.notes.index(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
             DispatchQueue.main.async {
-                let cell = self.cellForRow(at: indexPath) as? NoteCellView
-                cell?.preview.text = note.getPreviewForLabel()
-                cell?.title.text = note.getTitleWithoutLabel()
-                cell?.loadImagesPreview()
-                cell?.reloadDate()
-                cell?.layoutIfNeeded()
+                if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
+                    cell.updateView()
+                }
             }
         }
     }
@@ -263,7 +260,7 @@ class NotesTableView: UITableView,
                 return
             }
 
-            guard let project = note.project, !project.fileExist(fileName: name, ext: note.url.pathExtension) else {
+            guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
                 let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.viewDelegate?.present(alert, animated: true, completion: nil)
@@ -283,7 +280,7 @@ class NotesTableView: UITableView,
                 note.addPin()
             }
 
-            self.updateLabel(note: note)
+            self.updateRowView(note: note)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }

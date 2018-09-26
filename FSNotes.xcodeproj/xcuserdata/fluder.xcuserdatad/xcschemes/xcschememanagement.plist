@@ -37,12 +37,12 @@
 		<key>FSNotesCore iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>22</integer>
 		</dict>
 		<key>FSNotesCore iOSTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>23</integer>
 		</dict>
 		<key>FSNotesCore macOS.xcscheme</key>
 		<dict>
@@ -52,7 +52,7 @@
 		<key>FSNotesCore macOSTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>21</integer>
 		</dict>
 		<key>Keeper.xcscheme</key>
 		<dict>

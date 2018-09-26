@@ -11,7 +11,7 @@ import Foundation
 
 public class Note: NSObject  {
     @objc var title: String = ""
-    var project: Project? = nil
+    var project: Project
     var type: NoteType = .Markdown
     var url: URL!
     var content: NSMutableAttributedString = NSMutableAttributedString()
@@ -23,21 +23,21 @@ public class Note: NSObject  {
     let undoManager = UndoManager()
     
     public var name: String = ""
+    public var preview: String = ""
+    public var firstLineTitle: String?
+
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()
 
     public var imageUrl: [URL]?
     public var isParsed = false
     
-    init(url: URL) {
+    init(url: URL, with project: Project) {
         self.url = url
-        
-        if let project = sharedStorage.getProjectBy(url: url) {
-            self.project = project
-        }
-
+        self.project = project
         super.init()
-        self.parseURL()
+
+        self.parseURL(loadProject: false)
     }
     
     init(name: String, project: Project, type: NoteType? = nil) {
@@ -62,8 +62,6 @@ public class Note: NSObject  {
     }
     
     func initURL() {
-        guard let project = self.project else { return }
-        
         if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: type) {
             url = uniqURL
         }
@@ -80,10 +78,8 @@ public class Note: NSObject  {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
         
-        if !isTrash() {
-            if project == nil || (project != nil && !project!.isArchive) {
-                loadTags()
-            }
+        if !isTrash() && !project.isArchive {
+            loadTags()
         }
     }
         
@@ -217,10 +213,10 @@ public class Note: NSObject  {
         return nil
     }
         
-    @objc func getPreviewForLabel() -> String {
+    @objc public func getPreviewForLabel(with text: String? = nil) -> String {
         var preview: String = ""
-        let content = self.content.string
-        
+        let content = text ?? self.content.string
+
         if content.count > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
             let endIndex = content.index((content.startIndex), offsetBy: 250)
@@ -420,14 +416,16 @@ public class Note: NSObject  {
         return cleanMetaData(content: content)
     }
     
-    func parseURL() {
+    func parseURL(loadProject: Bool = true) {
         if (url.pathComponents.count > 0) {
             name = url.pathComponents.last!
             type = .withExt(rawValue: url.pathExtension)
             title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
         }
-        
-        loadProject(url: url)
+
+        if loadProject {
+            self.loadProject(url: url)
+        }
     }
         
     public func save() {
@@ -447,21 +445,17 @@ public class Note: NSObject  {
         
         do {
             let fileWrapper = getFileWrapper(attributedString: attributedString)
-            var url = self.url
 
             if type == .TextBundle {
-                if let uurl = url, !FileManager.default.fileExists(atPath: uurl.path) {
+                if let uurl = self.url, !FileManager.default.fileExists(atPath: uurl.path) {
                     try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
                     self.writeTextBundleInfo(url: uurl)
                 }
-
-                url?.appendPathComponent("text.markdown")
             }
-            
-            guard let docUrl = url else { return }
 
-            try fileWrapper.write(to: docUrl, options: .atomic, originalContentsURL: nil)
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: docUrl.path)
+            let url = getContentFileURL()
+            try fileWrapper.write(to: url, options: .atomic, originalContentsURL: nil)
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
         } catch {
             NSLog("Write error \(error)")
             return
@@ -470,7 +464,15 @@ public class Note: NSObject  {
         sharedStorage.add(self)
     }
 
-    public func getFileWrapper() -> FileWrapper {
+    private func getContentFileURL() -> URL {
+        if type == .TextBundle {
+            return url.appendingPathComponent("text.markdown")
+        }
+
+        return url
+    }
+
+    public func getFileWrapper(with imagesWrapper: FileWrapper? = nil) -> FileWrapper {
         let fileWrapper = getFileWrapper(attributedString: content)
 
         if type == .TextBundle {
@@ -489,6 +491,10 @@ public class Note: NSObject  {
                     "text.markdown": fileWrapper,
                     "info.json": infoWrapper
                 ])
+
+            if let iWrapper = imagesWrapper {
+                textBundle.addFileWrapper(iWrapper)
+            }
 
             return textBundle
         }
@@ -579,19 +585,15 @@ public class Note: NSObject  {
     }
     
     func isTrash() -> Bool {
-        guard let p = project else {
-            return false
-        }
-        
-        return p.isTrash
+        return project.isTrash
     }
     
     public func isInArchive() -> Bool {
-        guard let p = project, UserDefaultsManagement.archiveDirectory != nil else {
+        guard UserDefaultsManagement.archiveDirectory != nil else {
             return false
         }
         
-        return p.isArchive
+        return project.isArchive
     }
 
     public func contains<S: StringProtocol>(terms: [S]) -> Bool {
@@ -705,7 +707,7 @@ public class Note: NSObject  {
                     if let tagName = tag as? String {
                         self.tagNames.append(tagName)
 
-                        if let project = project, !project.isTrash {
+                        if !project.isTrash {
                             sharedStorage.addTag(tagName)
                         }
                     }
@@ -724,14 +726,14 @@ public class Note: NSObject  {
         }
         
         if type == .Markdown {
-            return project?.url.appendingPathComponent(imageName)
+            return project.url.appendingPathComponent(imageName)
         }
         
         return nil
     }
     
     public func getImageCacheUrl() -> URL? {
-        return project?.url.appendingPathComponent("/.cache/")
+        return project.url.appendingPathComponent("/.cache/")
     }
 
     #if os(OSX)
@@ -766,13 +768,13 @@ public class Note: NSObject  {
 
         var i = 0
         var urls: [URL] = []
+        var mdImages: [String] = []
 
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
         {(result, flags, stop) -> Void in
 
-            if i == 3 {
-                stop.pointee = true
-                return
+            if let range = result?.range(at: 0) {
+                mdImages.append(self.content.attributedSubstring(from: range).string)
             }
 
             guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
@@ -791,6 +793,24 @@ public class Note: NSObject  {
                 }
             }
         })
+
+        var cleanText = content.string
+        for image in mdImages {
+            cleanText = cleanText.replacingOccurrences(of: image, with: "")
+        }
+
+        cleanText =
+            cleanText
+                .replacingOccurrences(of: "#", with: "")
+                .replacingOccurrences(of: "- [ ]", with: "")
+                .replacingOccurrences(of: "- [x]", with: "")
+
+        let components = cleanText.trim().components(separatedBy: "\n").filter({ $0 != "" })
+
+        if let first = components.first {
+            self.firstLineTitle = first.trim()
+            self.preview = getPreviewForLabel(with: components.dropFirst().joined(separator: " "))
+        }
 
         self.imageUrl = urls
         self.isParsed = true
@@ -815,5 +835,17 @@ public class Note: NSObject  {
         let appendingPath = getMdImagePath(name: name)
 
         return getImageUrl(imageName: appendingPath)
+    }
+
+    public func create(with date: Date? = nil, from filesWrapper: FileWrapper? = nil) {
+        let document = UINote(fileURL: url, textWrapper: getFileWrapper())
+        let wrapper = filesWrapper ?? getFileWrapper()
+
+        var attributes: [AnyHashable : Any]?
+        if let creationDate = date {
+            attributes = [FileAttributeKey.creationDate: creationDate]
+        }
+
+        try? document.writeContents(wrapper, andAttributes: attributes, safelyTo: url, for: .forCreating)
     }
 }

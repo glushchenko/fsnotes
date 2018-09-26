@@ -92,7 +92,7 @@ public class ImagesProcessor {
                 guard let imageUrl = url else { return }
 
                 let invalidateRange = NSRange(location: range.location, length: 1)
-                let cacheUrl = self.note.project?.url.appendingPathComponent("/.cache/")
+                let cacheUrl = self.note.project.url.appendingPathComponent("/.cache/")
                 let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange)
 
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
@@ -146,16 +146,13 @@ public class ImagesProcessor {
     }
     
     func getLocalNotePath(path: String, innerRange: NSRange) -> String? {
-        guard let noteStorage = self.note.project else { return nil }
-        
+        let noteStorage = self.note.project
         var notePath: String
         let storagePath = noteStorage.url.path
         
         if path.starts(with: "/i/") {
             let path = getFilePath(innerRange: innerRange)
-            if let project = note.project {
-                return project.url.path + path
-            }
+            return note.project.url.path + path
         }
         
         if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
@@ -236,25 +233,22 @@ public class ImagesProcessor {
             return fileName
         }
         
-        if let project = note.project {
-            let destination = URL(fileURLWithPath: project.url.path + "/i/")
+        let project = note.project
+        let destination = URL(fileURLWithPath: project.url.path + "/i/")
 
-            do {
-                try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: false, attributes: nil)
-            } catch {
-            }
-            
-            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
-                return nil
-            }
-            
-            let to = destination.appendingPathComponent(fileName)
-            try? data.write(to: to, options: .atomic)
-            
-            return fileName
+        do {
+            try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: false, attributes: nil)
+        } catch {
         }
-        
-        return nil
+
+        guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
+            return nil
+        }
+
+        let to = destination.appendingPathComponent(fileName)
+        try? data.write(to: to, options: .atomic)
+
+        return fileName
     }
 
     func isContainAttachment(innerRange: NSRange, mdTitleLength: Int) -> Bool {

@@ -275,7 +275,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let markdownString = note.getPrettifiedContent()
         
         do {
-            guard var imagesStorage = note.project?.url else { return }
+            var imagesStorage = note.project.url
             
             if note.type == .TextBundle {
                 imagesStorage = note.url

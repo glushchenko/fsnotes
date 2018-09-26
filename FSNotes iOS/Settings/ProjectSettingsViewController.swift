@@ -11,8 +11,8 @@ import NightNight
 
 class ProjectSettingsViewController: UITableViewController {
     private var project: Project
-    private var sections = ["Sort by", "Visibility"]
-    private var rowsInSections = [3, 2]
+    private var sections = ["Sort by", "Visibility", "Notes list"]
+    private var rowsInSections = [3, 2, 1]
 
     init(project: Project) {
         self.project = project
@@ -38,23 +38,22 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0x00 {
-            for row in 0...rowsInSections[indexPath.section] {
-                let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section))
-                cell?.accessoryType = .none
-            }
-        }
 
         if let cell = tableView.cellForRow(at: indexPath) {
             let vc = UIApplication.getVC()
 
             if indexPath.section == 0x00 {
+                for row in 0...rowsInSections[indexPath.section] {
+                    let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section))
+                    cell?.accessoryType = .none
+                }
+
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
                     self.project.sortBy = sort
                     
                     vc.updateTable {}
                 }
-            } else {
+            } else if indexPath.section == 0x01 {
                 if indexPath.row == 0x00 {
                     self.project.showInCommon = cell.accessoryType == .none
 
@@ -65,6 +64,8 @@ class ProjectSettingsViewController: UITableViewController {
                     vc.sidebarTableView.reloadData()
                     vc.reloadSidebar()
                 }
+            } else {
+                self.project.firstLineAsTitle = cell.accessoryType == .none
             }
 
             if cell.accessoryType == .none {
@@ -82,7 +83,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -147,6 +148,11 @@ class ProjectSettingsViewController: UITableViewController {
             default:
                 return cell
             }
+        }
+
+        if indexPath.section == 0x02 {
+            cell.textLabel?.text = "Use first line as title"
+            cell.accessoryType = project.firstLineAsTitle ? .checkmark : .none
         }
 
         return cell

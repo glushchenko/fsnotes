@@ -160,7 +160,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 lvc = ProjectsViewController()
                 break
             case 1:
-                let picker = UIDocumentPickerViewController(documentTypes: ["public.text", "public.item"], in: .import)
+                let picker = UIDocumentPickerViewController(documentTypes: ["public.item"], in: .import)
                 if #available(iOS 11.0, *) {
                     picker.allowsMultipleSelection = true
                 }
@@ -202,7 +202,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 4 {
+        if section == 4 || section == 3 {
             return 65
         }
 
@@ -210,21 +210,36 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard self.sections[section] == "FSNotes" else { return nil }
+        guard self.sections[section] == "FSNotes" || self.sections[section] == "Storage" else { return nil }
 
         let tableViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
-        let version = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 30))
-        version.font = version.font.withSize(17)
 
-        if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-            version.text = "Version \(versionString) build \(build)"
+        if self.sections[section] == "FSNotes" {
+            let version = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 30))
+            version.font = version.font.withSize(17).bold()
+
+            if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+                let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+                version.text = "Version \(versionString) build \(build)"
+            }
+
+            version.textColor = UIColor.lightGray
+            version.textAlignment = .center
+            tableViewFooter.addSubview(version)
+            return tableViewFooter
         }
 
-        version.textColor = UIColor.lightGray
-        version.textAlignment = .center;
-        tableViewFooter.addSubview(version)
-        return tableViewFooter
+        if self.sections[section] == "Storage" {
+            let label = UILabel(frame: CGRect(x: 20, y: 0, width: tableView.frame.width, height: 60))
+            label.font = label.font.withSize(17)
+            label.text = "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf etc."
+            label.textColor = UIColor.lightGray
+            label.numberOfLines = 2
+            tableViewFooter.addSubview(label)
+            return tableViewFooter
+        }
+
+        return nil
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -246,6 +261,32 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
 
+        if let url = urls.first, url.pathExtension == "zip" {
+            let storage = Storage.sharedInstance()
+            let viewController = UIApplication.getVC()
+
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            viewController.configureIndicator(indicator: indicator, view: self.tableView)
+
+            self.view.isUserInteractionEnabled = false
+
+            DispatchQueue.global().async {
+                let helper = DayOneImportHelper(url: url, storage: storage)
+                let project = helper.check()
+
+                DispatchQueue.main.async {
+                    self.view.isUserInteractionEnabled = true
+
+                    viewController.reloadSidebar(select: project)
+                    viewController.stopAnimation(indicator: indicator)
+
+                    self.done()
+                }
+            }
+
+            return
+        }
+
         for url in urls {
             try? FileManager.default.copyItem(at: url, to: storageUrl.appendingPathComponent(url.lastPathComponent))
         }
@@ -255,4 +296,3 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         self.dismiss(animated: true, completion: nil)
     }
 }
-

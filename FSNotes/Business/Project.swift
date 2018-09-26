@@ -21,6 +21,7 @@ public class Project: Equatable {
     public var sortBy: SortBy = UserDefaultsManagement.sort
     public var showInCommon: Bool
     public var showInSidebar: Bool = true
+    public var firstLineAsTitle: Bool = false
     
     init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false) {
         self.url = url
@@ -100,7 +101,12 @@ public class Project: Equatable {
     public func saveSettings() {
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set(["sortBy": showInCommon, "showInCommon": showInCommon, "showInSidebar": showInSidebar], forKey: relativePath)
+            keyStore.set([
+                "sortBy": sortBy.rawValue,
+                "showInCommon": showInCommon,
+                "showInSidebar": showInSidebar,
+                "firstLineAsTitle": firstLineAsTitle
+            ], forKey: relativePath)
             keyStore.synchronize()
         }
     }
@@ -120,6 +126,10 @@ public class Project: Equatable {
                 if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
                     self.sortBy = sort
                 }
+
+                if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+                    self.firstLineAsTitle = firstLineAsTitle
+                }
             }
         }
     }
@@ -130,5 +140,13 @@ public class Project: Equatable {
         }
 
         return nil
+    }
+
+    public func createDirectory() {
+        do {
+            try FileManager.default.createDirectory(at: url.appendingPathComponent("i"), withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print(error)
+        }
     }
 }

@@ -1123,7 +1123,6 @@ class ViewController: NSViewController,
         for (row, note) in nowPinned {
             guard let newRow = resorted.index(where: { $0 === note }) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
-            print("move \(row) to \(newRow)")
             let toMove = state.remove(at: row)
             state.insert(toMove, at: newRow)
         }
@@ -1136,7 +1135,6 @@ class ViewController: NSViewController,
             })
         for (row, note) in nowUnpinned.reversed() {
             guard let newRow = resorted.index(where: { $0 === note }) else { continue }
-            print("move \(row) to \(newRow)")
             notesTableView.moveRow(at: row, to: newRow)
             let toMove = state.remove(at: row)
             state.insert(toMove, at: newRow)

@@ -50,4 +50,5 @@ target 'FSNotes iOS' do
     pod 'NightNight', '~> 0.5.0'
     pod 'DKImagePickerController'
     pod 'GSImageViewerController'
+    pod 'SSZipArchive'
 end
