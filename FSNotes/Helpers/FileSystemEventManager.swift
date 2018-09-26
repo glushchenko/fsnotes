@@ -37,7 +37,7 @@ class FileSystemEventManager {
             }
             
             if event.fileRemoved || event.dirRemoved {
-                guard let note = self.storage.getBy(url: url), let project = note.project, project.isTrash else { return }
+                guard let note = self.storage.getBy(url: url), note.project.isTrash else { return }
                 
                 self.removeNote(note: note)
             }
@@ -109,7 +109,7 @@ class FileSystemEventManager {
             return
         }
         
-        let note = Note(url: url)
+        guard let note = storage.initNote(url: url) else { return }
         note.load(url)
         note.loadModifiedLocalAt()
         note.markdownCache()

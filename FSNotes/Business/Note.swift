@@ -694,7 +694,7 @@ public class Note: NSObject  {
                         self.tagNames.append(tag)
                     }
                     
-                    if let project = project, !project.isTrash {
+                    if !project.isTrash {
                         sharedStorage.addTag(tag)
                     }
                 }
@@ -750,7 +750,8 @@ public class Note: NSObject  {
         url.appendPathComponent(name + " " + now)
         url.appendPathExtension(ext)
 
-        let note = Note(url: url)
+
+        let note = sharedStorage.initNote(url: url)!
         note.content = content
         note.save()
 
@@ -837,6 +838,7 @@ public class Note: NSObject  {
         return getImageUrl(imageName: appendingPath)
     }
 
+    #if os(iOS)
     public func create(with date: Date? = nil, from filesWrapper: FileWrapper? = nil) {
         let document = UINote(fileURL: url, textWrapper: getFileWrapper())
         let wrapper = filesWrapper ?? getFileWrapper()
@@ -848,4 +850,5 @@ public class Note: NSObject  {
 
         try? document.writeContents(wrapper, andAttributes: attributes, safelyTo: url, for: .forCreating)
     }
+    #endif
 }

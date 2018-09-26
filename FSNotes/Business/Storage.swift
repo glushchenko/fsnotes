@@ -757,6 +757,7 @@ class Storage {
         }
     }
 
+    #if os(iOS)
     public func createProject(name: String) -> Project {
         let storageURL = UserDefaultsManagement.storageUrl!
 
@@ -772,6 +773,7 @@ class Storage {
         _ = add(project: project)
         return project
     }
+    #endif
 
     public func initNote(url: URL) -> Note? {
         guard let project = self.getProjectBy(url: url) else { return nil }

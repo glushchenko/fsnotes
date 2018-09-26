@@ -71,9 +71,9 @@ class ImageAttachment {
             imageData = try? Data(contentsOf: mainURL)
         }
 
-        // Make image
-        guard let data = imageData, let image = UIImage(data: data) else { return nil }
+        guard let data = imageData, let image = Image(data: data) else { return nil }
 
+        // Make image
         #if os(OSX)
             let fileWrapper = FileWrapper.init()
             fileWrapper.icon = image

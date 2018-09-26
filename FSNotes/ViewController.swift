@@ -538,7 +538,7 @@ class ViewController: NSViewController,
         let newName = sender.stringValue + "." + note.url.pathExtension
         let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
         
-        if let itemStorage = note.project, itemStorage.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
+        if note.project.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
             let alert = NSAlert()
             alert.messageText = "Hmm, something goes wrong 🙈"
             alert.informativeText = "Note with name \"\(value)\" already exists in selected storage."
@@ -897,14 +897,14 @@ class ViewController: NSViewController,
                                 )
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
-                            type == .All && note.project != nil && !note.project!.isArchive
+                            type == .All && !note.project.isArchive
                                 || type == .Tag && note.tagNames.contains(sidebarName)
                                 || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                                || type == nil && selectedProject == nil && note.project != nil && !note.project!.isArchive
-                                || selectedProject != nil && selectedProject!.isRoot && note.project?.parent == selectedProject
+                                || type == nil && selectedProject == nil && !note.project.isArchive
+                                || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject
                                 || type == .Trash
                                 || type == .Todo
-                                || type == .Archive && note.project != nil && note.project!.isArchive
+                                || type == .Archive && note.project.isArchive
                         ) && (
                             type == .Trash && note.isTrash()
                                 || type != .Trash && !note.isTrash()
@@ -1208,8 +1208,7 @@ class ViewController: NSViewController,
     func loadMoveMenu() {
         guard
             let vc = NSApp.windows[0].contentViewController as? ViewController,
-            let note = vc.notesTableView.getSelectedNote(),
-            let project = note.project else { return }
+            let note = vc.notesTableView.getSelectedNote() else { return }
         
         let moveTitle = NSLocalizedString("Move", comment: "Menu")
         if let prevMenu = noteMenu.item(withTitle: moveTitle) {
@@ -1240,7 +1239,7 @@ class ViewController: NSViewController,
                 
         let projects = storage.getProjects()
         for item in projects {
-            if project == item || item.isTrash || item.isArchive {
+            if note.project == item || item.isTrash || item.isArchive {
                 continue
             }
             
