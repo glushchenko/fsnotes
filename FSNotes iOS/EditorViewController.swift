@@ -662,7 +662,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     let options = PHImageRequestOptions.init()
                     options.deliveryMode = .highQualityFormat
 
-                    asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
+                    asset.fetchOriginalImage(false, completeBlock: { image, info in
                         processed += 1
 
                         guard var url = info?["PHImageFileURLKey"] as? URL else { return }
