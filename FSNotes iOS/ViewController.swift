@@ -745,7 +745,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func calculateLabelMaxWidth() -> CGFloat {
-        var width = CGFloat(75)
+        var width = CGFloat(85)
 
         for i in 0...4 {
             var j = 0

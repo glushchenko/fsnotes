@@ -54,6 +54,8 @@ class DayOneImportHelper {
             for entry in entries.entries {
                 let note = Note(name: String(Date().toMillis()), project: project)
 
+                guard let content = entry.text, content.trim().count > 0 else { continue }
+
                 let imagesWrapper = getImagesWrapper(entry: entry, note: note, photosSrcURL: photosURL)
 
                 let wrapper = note.getFileWrapper(with: imagesWrapper)
@@ -75,7 +77,7 @@ class DayOneImportHelper {
         let iWrapper = FileWrapper.init(directoryWithFileWrappers: [:])
         iWrapper.preferredFilename = "assets"
 
-        guard var content = entry.text else { return nil }
+        guard var content = entry.text?.replacingOccurrences(of: "\\/", with: "/") else { return nil }
 
         if let photos = entry.photos {
             for photo in photos {

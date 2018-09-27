@@ -35,6 +35,8 @@ class NoteCellView: UITableViewCell {
         imagePreviewThird.isHidden = true
         
         contentLength = 0
+        timestamp = nil
+
         note = nil
     }
 

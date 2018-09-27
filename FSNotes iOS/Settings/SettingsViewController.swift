@@ -230,9 +230,9 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
 
         if self.sections[section] == "Storage" {
-            let label = UILabel(frame: CGRect(x: 20, y: 0, width: tableView.frame.width, height: 60))
-            label.font = label.font.withSize(17)
-            label.text = "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf etc."
+            let label = UILabel(frame: CGRect(x: 20, y: 0, width: tableView.frame.width - 20, height: 60))
+            label.font = label.font.withSize(15)
+            label.text = "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
             label.textColor = UIColor.lightGray
             label.numberOfLines = 2
             tableViewFooter.addSubview(label)

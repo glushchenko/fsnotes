@@ -51,6 +51,8 @@ class Storage {
         if let iCloudURL = getCloudDrive(), iCloudURL == url {
             name = "iCloud Drive"
         }
+
+        cleanTrash()
         
         let project = Project(url: url, label: name, isRoot: true, isDefault: true)
         _ = add(project: project)
@@ -781,5 +783,19 @@ class Storage {
         let note = Note(url: url, with: project)
 
         return note
+    }
+
+    private func cleanTrash() {
+        if #available(iOS 11.0, *) {
+            guard let trash = try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: UserDefaultsManagement.storageUrl, create: false) else { return }
+
+            do {
+                let fileURLs = try FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil, options: [])
+
+                for fileURL in fileURLs {
+                    try FileManager.default.removeItem(at: fileURL)
+                }
+            } catch  { print(error) }
+        }
     }
 }

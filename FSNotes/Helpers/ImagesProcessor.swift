@@ -219,16 +219,20 @@ public class ImagesProcessor {
             let assetsUrl = note.url.appendingPathComponent("assets")
             
             if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {
-                try? FileManager.default.createDirectory(at: assetsUrl, withIntermediateDirectories: false, attributes: nil)
+                try? FileManager.default.createDirectory(at: assetsUrl, withIntermediateDirectories: true, attributes: nil)
             }
-            
+
             let destination = URL(fileURLWithPath: assetsUrl.path)
             guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
                 return nil
             }
             
             let to = destination.appendingPathComponent(fileName)
-            try? data.write(to: to, options: .atomic)
+            do {
+                try data.write(to: to, options: .atomic)
+            } catch {
+                print(error)
+            }
             
             return fileName
         }

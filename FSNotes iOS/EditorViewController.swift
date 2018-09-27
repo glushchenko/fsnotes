@@ -659,7 +659,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 var markup = ""
 
                 for asset in assets {
-                    asset.fetchOriginalImage(true, completeBlock: { image, info in
+                    let options = PHImageRequestOptions.init()
+                    options.deliveryMode = .highQualityFormat
+
+                    asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
                         processed += 1
 
                         guard var url = info?["PHImageFileURLKey"] as? URL else { return }
@@ -696,6 +699,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                             note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
                             note.save()
+                            note.isParsed = false
 
                             self.editArea.undoManager?.removeAllActions()
                             self.refill()
