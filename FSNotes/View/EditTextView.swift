@@ -25,7 +25,7 @@ class EditTextView: NSTextView {
     }
     
     //MARK: caret width
-    
+
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = NSRect(origin: rect.origin, size: rect.size)
         newRect.size.width = self.caretWidth
@@ -40,6 +40,10 @@ class EditTextView: NSTextView {
         
         let clr = NSColor(red:0.47, green:0.53, blue:0.69, alpha:1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
+    }
+
+    override func updateInsertionPointStateAndRestartTimer(_ restartFlag: Bool) {
+        super.updateInsertionPointStateAndRestartTimer(true)
     }
     
     override func setNeedsDisplay(_ invalidRect: NSRect) {
