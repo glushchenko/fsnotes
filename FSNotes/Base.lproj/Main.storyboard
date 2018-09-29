@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -663,7 +664,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
+                                        <view key="view" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -749,7 +750,7 @@ CA
                                                     <pathCell key="cell" selectable="YES" editable="YES" alignment="left" id="3NY-lU-xWa">
                                                         <font key="font" metaFont="system"/>
                                                         <url key="url" string="file://localhost/Applications/"/>
-                                                        <color key="backgroundColor" red="0.89803921568627454" green="0.92549019607843142" blue="0.97254901960784312" alpha="1" colorSpace="deviceRGB"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </pathCell>
                                                 </pathControl>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BWu-lt-Hmt">
@@ -793,7 +794,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" id="bSU-4V-L48">
+                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1208,7 +1209,7 @@ CA
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm">
+                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <subviews>
                                     <customView id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
@@ -1331,7 +1332,7 @@ CA
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" placeholderString="Search and create" bezelStyle="round" id="o2l-IY-X2S">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="mainBackground"/>
                                                         </textFieldCell>
                                                         <connections>
                                                             <action selector="makeNote:" target="XfG-lQ-9wD" id="ohl-fC-JZ5"/>
@@ -1372,8 +1373,8 @@ CA
                                                                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" name="controlDarkShadowColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="textColor" name="mainText"/>
+                                                                                                <color key="backgroundColor" name="mainBackground"/>
                                                                                                 <connections>
                                                                                                     <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.title" id="Ug5-GR-NmC"/>
                                                                                                 </connections>
@@ -1451,27 +1452,27 @@ CA
                                                     <constraint firstItem="gaD-Xx-kYm" firstAttribute="leading" secondItem="8ej-mX-KM6" secondAttribute="leading" constant="9" id="lWl-Ul-pBf"/>
                                                 </constraints>
                                             </customView>
-                                            <customView appearanceType="aqua" id="at7-wA-VAS">
+                                            <customView id="at7-wA-VAS" customClass="EditorView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="238" y="0.0" width="417" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="561"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="552"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="417" height="561"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="417" height="552"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" allowsImageEditing="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" textReplacement="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="417" height="561"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="417" height="532"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="417" height="561"/>
+                                                                    <size key="minSize" width="417" height="532"/>
                                                                     <size key="maxSize" width="636" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
                                                             </subviews>
-                                                            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                                                            <edgeInsets key="contentInsets" left="0.0" right="0.0" top="10" bottom="10"/>
                                                         </clipView>
                                                         <constraints>
                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="417" id="1Ss-OK-0sm"/>
@@ -1482,21 +1483,22 @@ CA
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
-                                                            <rect key="frame" x="403" y="0.0" width="14" height="552"/>
+                                                            <rect key="frame" x="403" y="5" width="14" height="547"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="163" y="228" width="91" height="121"/>
+                                                        <rect key="frame" x="163" y="228" width="80" height="121"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNote" id="WpA-pT-SDs"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNoteAsset" id="WpA-pT-SDs"/>
+                                                        <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </imageView>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
                                                         <rect key="frame" x="0.0" y="563" width="417" height="20"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="mainBackground"/>
                                                         </textFieldCell>
                                                     </textField>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
@@ -1517,7 +1519,7 @@ CA
                                                     <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="10" id="ZXL-jc-Tfr"/>
                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="8" id="aPg-OL-8Mj"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="11" id="eAG-eB-pQr"/>
-                                                    <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" constant="10" id="hij-XA-hAd"/>
+                                                    <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
                                                     <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" id="kLx-Os-kkP"/>
                                                 </constraints>
@@ -1551,7 +1553,6 @@ CA
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
                         <outlet property="search" destination="gaD-Xx-kYm" id="jiw-n1-Ydc"/>
                         <outlet property="searchTopConstraint" destination="jla-xW-fW2" id="Y44-aN-8Rm"/>
-                        <outlet property="searchWrapper" destination="gaD-Xx-kYm" id="1k0-hP-rbp"/>
                         <outlet property="shareButton" destination="oDB-Y6-20P" id="8bV-gW-UaW"/>
                         <outlet property="sidebarSplitView" destination="dO0-pK-Ktm" id="2FH-Og-FOV"/>
                         <outlet property="splitView" destination="yWu-3F-P62" id="IYq-T3-4b1"/>
@@ -1677,8 +1678,14 @@ CA
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSShareTemplate" width="11" height="16"/>
-        <image name="makeNote" width="122.87999725341797" height="122.87999725341797"/>
+        <image name="makeNoteAsset" width="122.87999725341797" height="122.87999725341797"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
+        <namedColor name="mainBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="mainText">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

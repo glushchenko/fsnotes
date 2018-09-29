@@ -1,23 +1,14 @@
 //
-//  EditorSplitView.swift
+//  SidebarSplitView.swift
 //  FSNotes
 //
-//  Created by Oleksandr Glushchenko on 4/20/18.
+//  Created by Oleksandr Glushchenko on 9/29/18.
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
 import Cocoa
 
-class EditorSplitView: NSSplitView, NSSplitViewDelegate {
-    override func draw(_ dirtyRect: NSRect) {
-        self.delegate = self
-        super.draw(dirtyRect)
-    }
-    
-    override func maxPossiblePositionOfDivider(at dividerIndex: Int) -> CGFloat {
-        return 250
-    }
-    
+class SidebarSplitView: NSSplitView, NSSplitViewDelegate {
     override var dividerColor: NSColor {
         if NSAppearance.current.isDark, #available(OSX 10.13, *) {
             return NSColor.init(named: NSColor.Name(rawValue: "divider"))!
@@ -26,3 +17,4 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
         }
     }
 }
+

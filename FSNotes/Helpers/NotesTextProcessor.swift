@@ -21,6 +21,16 @@ public class NotesTextProcessor {
     typealias Color = NSColor
     typealias Image = NSImage
     typealias Font = NSFont
+
+    public static var fontColor: NSColor {
+        get {
+            if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+                return NSColor(named: NSColor.Name(rawValue: "mainText"))!
+            } else {
+                return UserDefaultsManagement.fontColor
+            }
+        }
+    }
 #else
     typealias Color = UIColor
     typealias Image = UIImage
@@ -512,7 +522,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
             }
         #else
-            styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
+            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: paragraphRange)
         #endif
 
         // We detect and process inline links not formatted

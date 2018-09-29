@@ -19,7 +19,7 @@ class EditTextView: NSTextView {
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
     var downView: MarkdownView?
-        
+
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
@@ -268,6 +268,12 @@ class EditTextView: NSTextView {
         guard let storage = textStorage else {
             return
         }
+
+        if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+            textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+        } else {
+            textColor = UserDefaultsManagement.fontColor
+        }
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
@@ -323,8 +329,12 @@ class EditTextView: NSTextView {
             if note.type == .PlainText {
                 font = UserDefaultsManagement.noteFont
             }
-            
-            textColor = UserDefaultsManagement.fontColor
+
+            if NSAppearance.current.isDark {
+                textColor = NSColor.white
+            } else {
+                textColor = UserDefaultsManagement.fontColor
+            }
             
             let range = NSRange(0..<storage.length)
             let processor = NotesTextProcessor(storage: storage, range: range)

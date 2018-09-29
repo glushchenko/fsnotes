@@ -164,7 +164,12 @@ class NoteCellView: NSTableCellView {
         } else {
             applyPreviewStyle(labelColor)
             date.textColor = labelColor
-            name.textColor = NSColor.black
+
+            if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+                name.textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+            } else {
+                name.textColor = NSColor.black
+            }
         }
     }
     

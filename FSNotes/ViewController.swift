@@ -35,7 +35,6 @@ class ViewController: NSViewController,
     // MARK: - IBOutlets
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
-    @IBOutlet weak var searchWrapper: NSTextField!
     @IBOutlet var editArea: EditTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
     @IBOutlet weak var search: SearchTextField!
@@ -130,7 +129,11 @@ class ViewController: NSViewController,
         self.editArea.textContainerInset.height = 0
         self.editArea.textContainerInset.width = 5
         self.editArea.isEditable = false
-        self.editArea.backgroundColor = UserDefaultsManagement.bgColor
+
+        if #available(OSX 10.13, *) {} else {
+            self.editArea.backgroundColor = UserDefaultsManagement.bgColor
+        }
+
         self.editArea.layoutManager?.defaultAttachmentScaling = .scaleProportionallyDown
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -139,11 +142,7 @@ class ViewController: NSViewController,
         self.editArea.typingAttributes[.paragraphStyle] = paragraphStyle
         
         self.editArea.font = UserDefaultsManagement.noteFont
-        
-        if (sidebarSplitView.subviews.count > 1) {
-            self.sidebarSplitView.subviews[1].viewBackgroundColor = NSColor.white
-        }
-        
+                
         if (UserDefaultsManagement.horizontalOrientation) {
             self.splitView.isVertical = false
         }
@@ -160,7 +159,9 @@ class ViewController: NSViewController,
         self.updateTable() {
             let lastSidebarItem = UserDefaultsManagement.lastProject
             if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
-                self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+                DispatchQueue.main.async {
+                    self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+                }
             }
         }
     }
@@ -175,6 +176,12 @@ class ViewController: NSViewController,
         self.editArea.isAutomaticLinkDetectionEnabled = UserDefaultsManagement.automaticLinkDetection
         self.editArea.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
         self.editArea.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
+
+        if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+            self.editArea?.linkTextAttributes = [
+                .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))
+            ]
+        }
     }
     
     private func configureShortcuts() {
@@ -942,7 +949,7 @@ class ViewController: NSViewController,
                         self.editArea.clear()
                     }
                 }
-                
+
                 completion()
             }
         }
@@ -1160,6 +1167,12 @@ class ViewController: NSViewController,
         cell.name.isEditable = true
         cell.name.becomeFirstResponder()
         cell.name.stringValue = note.getTitleWithoutLabel()
+
+        if !NSAppearance.current.isDark {
+            if #available(OSX 10.13, *) {
+                cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
+            }
+        }
         
         let fileName = cell.name.currentEditor()!.string as NSString
         let fileNameLength = fileName.length
