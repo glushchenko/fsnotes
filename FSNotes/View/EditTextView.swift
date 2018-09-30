@@ -159,11 +159,15 @@ class EditTextView: NSTextView {
         if (!viewController.emptyEditAreaImage.isHidden) {
             viewController.makeNote(viewController.search)
         }
-        
+
+        guard let container = self.textContainer, let manager = self.layoutManager else { return }
+
         let point = self.convert(event.locationInWindow, from: nil)
-        if let index = self.layoutManager?.characterIndex(for: point, in: textContainer!, fractionOfDistanceBetweenInsertionPoints: nil),
-            isTodo(index)
-        {
+        let index = manager.characterIndex(for: point, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
+
+        if glyphRect.contains(point), isTodo(index) {
             guard let f = self.getTextFormatter() else { return }
             f.toggleTodo(index)
             
@@ -182,11 +186,25 @@ class EditTextView: NSTextView {
     }
     
     override func mouseMoved(with event: NSEvent) {
+        let viewController = self.window?.contentViewController as! ViewController
+        if (!viewController.emptyEditAreaImage.isHidden) {
+            NSCursor.pointingHand.set()
+            return
+        }
+
         let point = self.convert(event.locationInWindow, from: nil)
         guard let container = self.textContainer, let manager = self.layoutManager else { return }
+
         let index = manager.characterIndex(for: point, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
         
-        if self.isTodo(index) {
+        if glyphRect.contains(point), self.isTodo(index) {
+            NSCursor.pointingHand.set()
+            return
+        }
+
+        if glyphRect.contains(point), ((textStorage?.attribute(.link, at: index, effectiveRange: nil)) != nil) {
             NSCursor.pointingHand.set()
             return
         }
