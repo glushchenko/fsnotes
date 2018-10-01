@@ -108,15 +108,21 @@ class NotesTableView: UITableView,
         let note = self.notes[indexPath.row]
         let pin = UITableViewRowAction(style: .default, title: note.isPinned ? "UnPin" : "Pin", handler: { (action , indexPath) -> Void in
             
-            if note.isPinned {
-                note.removePin()
-            } else {
-                note.addPin()
-            }
-            
-            DispatchQueue.main.async {
-                self.viewDelegate?.updateTable() {}
-            }
+            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
+
+            note.togglePin()
+            cell.configure(note: note)
+
+            let filter = self.viewDelegate?.search.text ?? ""
+            let resorted = self.storage.sortNotes(noteList: self.notes, filter: filter)
+            guard let newIndex = resorted.firstIndex(of: note) else { return }
+
+            let newIndexPath = IndexPath(row: newIndex, section: 0)
+            self.moveRow(at: indexPath, to: newIndexPath)
+            self.notes = resorted
+
+            self.reloadRows(at: [newIndexPath], with: .automatic)
+            self.reloadRows(at: [indexPath], with: .automatic)
         })
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
 

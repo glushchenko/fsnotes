@@ -243,6 +243,11 @@
 		D7CDE9D7215FEC6B00DC5978 /* copy_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D5215FEC6A00DC5978 /* copy_white.png */; };
 		D7CDE9D92160C1D500DC5978 /* makeNote_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D82160C1D500DC5978 /* makeNote_white.png */; };
 		D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D82160C1D500DC5978 /* makeNote_white.png */; };
+		D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
+		D7CDE9DD2161767B00DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
+		D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
+		D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
+		D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
@@ -652,6 +657,7 @@
 		D7CD5F6B1F51185F006AA35D /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7CDE9D5215FEC6A00DC5978 /* copy_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy_white.png; sourceTree = "<group>"; };
 		D7CDE9D82160C1D500DC5978 /* makeNote_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote_white.png; sourceTree = "<group>"; };
+		D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceType.swift; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
@@ -1143,6 +1149,7 @@
 				D7B3391420DE0FB100B36460 /* TagList.swift */,
 				D7A65C5820F11C38003E5ADC /* LanguageType.swift */,
 				D7038E2520FB24E000A54E69 /* ImageAttachment.swift */,
+				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -2105,6 +2112,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */,
 				D7DCFED12108D6910059B37B /* CoreNote.swift in Sources */,
 				D7218945210211D800FE3AF2 /* SortBy.swift in Sources */,
 				D721894121020DDF00FE3AF2 /* UserDefaultsManagement.swift in Sources */,
@@ -2130,6 +2138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */,
 				D75FC5C621021CC000C516A7 /* NightMode.swift in Sources */,
 				D721894721021BB700FE3AF2 /* SortBy.swift in Sources */,
 				D721894621021B2400FE3AF2 /* UserDefaultsManagement.swift in Sources */,
@@ -2191,6 +2200,7 @@
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
 				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
+				D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
@@ -2255,6 +2265,7 @@
 				D76025B2204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D7038E2620FB24E000A54E69 /* ImageAttachment.swift in Sources */,
 				D74112281FABA21B00AB619A /* MainWindow.swift in Sources */,
+				D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
 				D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */,
@@ -2313,6 +2324,7 @@
 				D7E81C331F925B5F00416A91 /* UserDefaultsManagement.swift in Sources */,
 				D7E81C341F925B5F00416A91 /* EditTextView.swift in Sources */,
 				D7E81C361F925B5F00416A91 /* AppDelegate.swift in Sources */,
+				D7CDE9DD2161767B00DC5978 /* AppearanceType.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
 				D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,

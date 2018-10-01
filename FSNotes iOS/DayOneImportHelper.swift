@@ -79,6 +79,11 @@ class DayOneImportHelper {
 
         guard var content = entry.text?.replacingOccurrences(of: "\\/", with: "/") else { return nil }
 
+        if let tags = entry.tags {
+            let hashTags = tags.map({ return ("@" + $0) })
+            content += "\n\n\(hashTags.joined(separator: ", "))"
+        }
+
         if let photos = entry.photos {
             for photo in photos {
                 let mdPath = note.getMdImagePath(name: "\(photo.md5).jpeg")
@@ -125,4 +130,5 @@ struct Entry: Decodable {
     let text: String?
     let photos: [Photo]?
     let creationDate: Date
+    let tags: [String]?
 }

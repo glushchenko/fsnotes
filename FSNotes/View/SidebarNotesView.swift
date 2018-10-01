@@ -12,7 +12,7 @@ class SidebarNotesView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
-        if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
             NSColor(named: NSColor.Name(rawValue: "mainBackground"))!.setFill()
             __NSRectFill(dirtyRect)
         } else {

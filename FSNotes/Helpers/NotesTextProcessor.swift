@@ -24,7 +24,7 @@ public class NotesTextProcessor {
 
     public static var fontColor: NSColor {
         get {
-            if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
                 return NSColor(named: NSColor.Name(rawValue: "mainText"))!
             } else {
                 return UserDefaultsManagement.fontColor
@@ -44,8 +44,25 @@ public class NotesTextProcessor {
     open static var syntaxColor = Color.lightGray
     
 #if os(OSX)
-    open static var codeBackground = NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
-    open var highlightColor = NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
+    open static var codeBackground: NSColor {
+        get {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                return NSColor(named: NSColor.Name(rawValue: "code"))!
+            } else {
+                return NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+            }
+        }
+    }
+
+    open var highlightColor: NSColor {
+        get {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                return NSColor(named: NSColor.Name(rawValue: "highlight"))!
+            } else {
+                return NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
+            }
+        }
+    }
 #else
     open static var codeBackground: UIColor {
         get {
@@ -208,15 +225,28 @@ public class NotesTextProcessor {
         if let instance = self.hl {
             return instance
         }
-        
+
         guard let highlightr = Highlightr() else {
             return nil
         }
-        
-        highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
+
+        #if os(OSX)
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
+            var theme = "atom-one-light"
+            if UserDataService.instance.isDark {
+                theme = "monokai-sublime"
+            }
+            highlightr.setTheme(to: theme)
+        } else {
+            highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
+        }
+        #else
+            highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
+        #endif
+
         self.hl = highlightr
         
-        return self.hl
+        return highlightr
     }
     
     public static func fullScan(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil, async: Bool = false) {
@@ -230,52 +260,65 @@ public class NotesTextProcessor {
             return
         }
         
-        let content = storage != nil ? storage! : note.content
-        let range = NSMakeRange(0, content.length)
-        
+        NotesTextProcessor.scanCode(note: note, storage: storage, async: async)
+    }
+
+    public static func scanCode(note: Note, storage: NSTextStorage?, async: Bool = false, operation: BlockOperation? = nil) {
+        let content = storage ?? note.content
+        let string = content.string
+        let range = NSMakeRange(0, string.count)
+
         let regex = try! NSRegularExpression(pattern: self._codeBlockPattern, options: [
             .allowCommentsAndWhitespace,
             .anchorsMatchLines
         ])
-        
+
         regex.enumerateMatches(
-            in: content.string,
+            in: string,
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else {
+                if let blockOperation = operation, blockOperation.isCancelled {
+                    stop.pointee = true
                     return
                 }
-                let string = (content.string as NSString)
+
+                guard let r = result else { return }
+
+                let string = (string as NSString)
                 let paragraphRange = string.paragraphRange(for: r.range)
-                
+
                 if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
                     codeBlockRange.upperBound <= content.length {
-                    
+
                     NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
                 }
             }
         )
-    
+
         let regexFencedCodeBlock = try! NSRegularExpression(pattern: self._codeQuoteBlockPattern, options: [
             .allowCommentsAndWhitespace,
             .anchorsMatchLines
             ])
-    
+
         regexFencedCodeBlock.enumerateMatches(
-            in: content.string,
+            in: string,
             options: NSRegularExpression.MatchingOptions(),
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else {
+                if let blockOperation = operation, blockOperation.isCancelled {
+                    stop.pointee = true
                     return
                 }
-                let string = (content.string as NSString)
+
+                guard let r = result else { return }
+
+                let string = (string as NSString)
                 let paragraphRange = string.paragraphRange(for: r.range)
-                
+
                 if let fencedCodeBlockRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: content.string),
                     fencedCodeBlockRange.upperBound <= content.length {
-                    
+
                     NotesTextProcessor.highlightCode(range: fencedCodeBlockRange, storage: storage, string: string, note: note, async: async)
                 }
             }
@@ -434,9 +477,7 @@ public class NotesTextProcessor {
                     let end = code.index(code.startIndex, offsetBy: newLineOffset)
                     let range = start..<end
                     
-                    if self.languages == nil {
-                        self.languages = self.getHighlighter()?.supportedLanguages()
-                    }
+                    self.languages = self.getHighlighter()?.supportedLanguages()
                     
                     if let lang = self.languages, lang.contains(String(code[range])) {
                         return String(code[range])

@@ -16,6 +16,7 @@ public class UserDataService {
     fileprivate var _fsUpdates = false
     fileprivate var _skipListReload = false
     fileprivate var _isNotesTableEscape = false
+    fileprivate var _isDark = false
 
     public var searchTrigger: Bool {
         get {
@@ -59,6 +60,15 @@ public class UserDataService {
         }
         set {
             _isNotesTableEscape = newValue
+        }
+    }
+
+    public var isDark: Bool {
+        get {
+            return _isDark
+        }
+        set {
+            _isDark = newValue
         }
     }
 }

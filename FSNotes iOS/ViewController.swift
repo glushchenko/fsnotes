@@ -278,13 +278,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func startAnimation(indicator: UIActivityIndicatorView?) {
-        indicator?.startAnimating()
-        indicator?.layer.zPosition = 101
+        DispatchQueue.main.async {
+            indicator?.startAnimating()
+            indicator?.layer.zPosition = 101
+        }
     }
 
     public func stopAnimation(indicator: UIActivityIndicatorView?) {
-        indicator?.stopAnimating()
-        indicator?.layer.zPosition = -1
+        DispatchQueue.main.async {
+            indicator?.stopAnimating()
+            indicator?.layer.zPosition = -1
+        }
     }
 
     public func initTableData() {
@@ -294,9 +298,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.stopAnimation(indicator: self.indicator)
             self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
 
-            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first, let evc = self.getEVC(), evc.note == nil {
+            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first {
 
-                evc.fill(note: note)
+                DispatchQueue.main.async {
+                    let evc = UIApplication.getEVC()
+                    if evc.note == nil {
+                        evc.fill(note: note)
+                    }
+                }
             }
         }
     }

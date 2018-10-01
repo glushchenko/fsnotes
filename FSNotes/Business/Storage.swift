@@ -789,9 +789,12 @@ class Storage {
         if #available(iOS 11.0, *) {
             guard let trash = try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: UserDefaultsManagement.storageUrl, create: false) else { return }
 
+            print("Trash: \(trash)")
+
             do {
                 let fileURLs = try FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil, options: [])
 
+                print(fileURLs)
                 for fileURL in fileURLs {
                     try FileManager.default.removeItem(at: fileURL)
                 }

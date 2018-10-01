@@ -20,6 +20,8 @@ class EditTextView: NSTextView {
     let caretWidth: CGFloat = 2
     var downView: MarkdownView?
 
+    public var scannerQueue = OperationQueue.init()
+
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
@@ -287,7 +289,7 @@ class EditTextView: NSTextView {
             return
         }
 
-        if NSAppearance.current.isDark, #available(OSX 10.13, *) {
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
             textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
         } else {
             textColor = UserDefaultsManagement.fontColor
@@ -336,8 +338,17 @@ class EditTextView: NSTextView {
             }
             return
         }
-        
+
         storage.setAttributedString(note.content)
+
+        self.scannerQueue.cancelAllOperations()
+
+        let operation = BlockOperation()
+        operation.addExecutionBlock {
+            NotesTextProcessor.scanCode(note: note, storage: storage, async: true, operation: operation)
+        }
+
+        scannerQueue.addOperation(operation)
         
         if !note.isMarkdown()  {
             if note.type == .RichText && !saveTyping {
@@ -348,8 +359,8 @@ class EditTextView: NSTextView {
                 font = UserDefaultsManagement.noteFont
             }
 
-            if NSAppearance.current.isDark {
-                textColor = NSColor.white
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
             } else {
                 textColor = UserDefaultsManagement.fontColor
             }
@@ -366,7 +377,7 @@ class EditTextView: NSTextView {
             isHighlighted = true
         }
         
-        if note.isMarkdown() && note.isCached && UserDefaultsManagement.liveImagesPreview {
+        if note.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
         }
@@ -375,6 +386,10 @@ class EditTextView: NSTextView {
         restoreCursorPosition()
         
         applyLeftParagraphStyle()
+
+        if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
+            backgroundColor = UserDefaultsManagement.bgColor
+        }
     }
     
     @objc func loadImages() {
@@ -1049,6 +1064,18 @@ class EditTextView: NSTextView {
         }
         
         field.becomeFirstResponder()
+    }
+
+    override func viewDidChangeEffectiveAppearance() {
+        for note in storage.noteList {
+            note.isCached = false
+        }
+
+        guard let note = EditTextView.note else { return }
+        UserDataService.instance.isDark = effectiveAppearance.isDark
+
+        NotesTextProcessor.hl = nil
+        NotesTextProcessor.scanCode(note: note, storage: textStorage)
     }
     
 }

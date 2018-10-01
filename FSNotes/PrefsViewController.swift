@@ -37,6 +37,18 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var lineSpacing: NSSlider!
     @IBOutlet weak var languagePopUp: NSPopUpButton!
     @IBOutlet weak var textMatchAutoSelection: NSButton!
+
+    @IBOutlet weak var appearance: NSPopUpButton!
+    @IBOutlet weak var appearanceLabel: NSTextField!
+
+
+    @IBAction func appearanceClick(_ sender: NSPopUpButton) {
+        if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
+            UserDefaultsManagement.appearanceType = type
+        }
+
+        restart()
+    }
     
     @IBAction func changeDefaultStorage(_ sender: Any) {
         let openPanel = NSOpenPanel()
@@ -133,6 +145,13 @@ class PrefsViewController: NSViewController {
         }
         
         textMatchAutoSelection.state = UserDefaultsManagement.textMatchAutoSelection ? .on : .off
+
+        if #available(OSX 10.14, *) {
+            appearance.selectItem(at: UserDefaultsManagement.appearanceType.rawValue)
+        } else {
+            appearanceLabel.isHidden = true
+            appearance.isHidden = true
+        }
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {

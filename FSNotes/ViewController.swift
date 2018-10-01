@@ -51,6 +51,24 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
+        if #available(OSX 10.14, *) {
+            if UserDefaultsManagement.appearanceType != .Custom {
+                if UserDefaultsManagement.appearanceType == .Dark {
+                    NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.darkAqua)
+                    UserDataService.instance.isDark = true
+                }
+
+                if UserDefaultsManagement.appearanceType == .Light {
+                    NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
+                    UserDataService.instance.isDark = false
+                }
+
+                if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
+                    UserDataService.instance.isDark = true
+                }
+            }
+        }
+
         self.storage.loadDocuments() {}
         
         self.configureShortcuts()
@@ -177,11 +195,15 @@ class ViewController: NSViewController,
         self.editArea.isAutomaticTextReplacementEnabled = UserDefaultsManagement.automaticTextReplacement
         self.editArea.isAutomaticDashSubstitutionEnabled = UserDefaultsManagement.automaticDashSubstitution
 
-        if NSAppearance.current.isDark, #available(OSX 10.13, *) {
-            self.editArea?.linkTextAttributes = [
-                .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))
-            ]
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
+            if #available(OSX 10.13, *) {
+                self.editArea?.linkTextAttributes = [
+                    .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))
+                ]
+            }
         }
+
+        self.editArea.scannerQueue.maxConcurrentOperationCount = 1
     }
     
     private func configureShortcuts() {
@@ -1168,10 +1190,8 @@ class ViewController: NSViewController,
         cell.name.becomeFirstResponder()
         cell.name.stringValue = note.getTitleWithoutLabel()
 
-        if !NSAppearance.current.isDark {
-            if #available(OSX 10.13, *) {
-                cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
-            }
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !NSAppearance.current.isDark, #available(OSX 10.13, *) {
+            cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
         }
         
         let fileName = cell.name.currentEditor()!.string as NSString

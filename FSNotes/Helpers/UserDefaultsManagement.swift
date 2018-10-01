@@ -35,6 +35,7 @@ public class UserDefaultsManagement {
     static var DefaultBgColor = Color.white
 
     private struct Constants {
+        static let AppearanceTypeKey = "appearanceType"
         static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
         static let AutomaticQuoteSubstitution = "automaticQuoteSubstitution"
@@ -470,7 +471,7 @@ public class UserDefaultsManagement {
             if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
                 return theme as! String
             }
-            
+
             #if os(OSX)
                 return "atom-one-light"
             #else
@@ -809,7 +810,21 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var appearanceType: AppearanceType {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.AppearanceTypeKey) as? Int {
+                return AppearanceType(rawValue: result)!
+            }
 
-    
-    
+            if #available(OSX 10.14, *) {
+                return AppearanceType.System
+            } else {
+                return AppearanceType.Custom
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.AppearanceTypeKey)
+        }
+    }
+
 }

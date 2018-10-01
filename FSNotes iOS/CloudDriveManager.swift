@@ -97,28 +97,20 @@ class CloudDriveManager {
                 continue
             }
 
-            if let prevNote = getOldNote(item: item) {
-                if url.deletingLastPathComponent().lastPathComponent == ".Trash" {
-                    self.moveToTrash(note: prevNote, url: url)
-                    continue
-                }
-
-                if prevNote.url != url {
-
-                    DispatchQueue.main.async {
-                        if self.delegate.notesTable.notes.contains(where: {$0 === prevNote}) {
-                            self.delegate.notesTable.removeByNotes(notes: [prevNote])
-                        }
-
-                        prevNote.url = url
-                        prevNote.loadTags()
-                        prevNote.parseURL()
-
-                        self.delegate.notesTable.insertRow(note: prevNote)
+            if let prevNote = getOldNote(item: item), prevNote.url != url {
+                DispatchQueue.main.async {
+                    if self.delegate.notesTable.notes.contains(where: {$0 === prevNote}) {
+                        self.delegate.notesTable.removeByNotes(notes: [prevNote])
                     }
 
-                    continue
+                    prevNote.url = url
+                    prevNote.loadTags()
+                    prevNote.parseURL()
+
+                    self.delegate.notesTable.insertRow(note: prevNote)
                 }
+
+                continue
             }
 
             if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
@@ -151,8 +143,6 @@ class CloudDriveManager {
                 }
 
                 if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-                    let index = cloudDriveQuery.index(ofResult: item)
-
                     self.add(url: url)
                 }
             }
