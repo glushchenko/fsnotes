@@ -89,6 +89,8 @@ class ViewController: NSViewController,
         #endif
         
         searchQueue.maxConcurrentOperationCount = 1
+        notesTableView.loadingQueue.maxConcurrentOperationCount = 1
+        notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -234,7 +236,7 @@ class ViewController: NSViewController,
         self.sidebarSplitView.delegate = self
         self.storageOutlineView.viewDelegate = self
     }
-    
+
     // MARK: - Actions
     
     @IBAction func searchAndCreate(_ sender: Any) {
@@ -420,10 +422,10 @@ class ViewController: NSViewController,
                 NSApp.mainWindow?.makeFirstResponder(search)
                 return false
             }
-            
-            cleanSearchAndEditArea()
+
             storageOutlineView.deselectAll(nil)
-            
+            cleanSearchAndEditArea()
+
             return true
         }
         
@@ -892,15 +894,27 @@ class ViewController: NSViewController,
         
         return nil
     }
-    
-    func updateTable(search: Bool = false, completion: @escaping () -> Void = {}) {
+
+    private var selectRowTimer = Timer()
+
+    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, completion: @escaping () -> Void = {}) {
+        let timestamp = Date().toMillis()
+
+        self.search.timestamp = timestamp
         self.searchQueue.cancelAllOperations()
-        
-        let filter = self.search.stringValue.lowercased()
-        let sidebarName = self.getSidebarItem()?.name ?? ""
-        let selectedProject = self.getSidebarProject()
-        let type = self.getSidebarType()
-        
+
+        var sidebarItem = sidebarItem
+        if searchText == nil {
+            sidebarItem = self.getSidebarItem()
+        }
+
+        let sidebarName = sidebarItem?.name ?? ""
+        let selectedProject = sidebarItem?.project
+        let type = sidebarItem?.type
+
+        var filter = searchText ?? self.search.stringValue
+        filter = filter.lowercased()
+
         let operation = BlockOperation()
         operation.addExecutionBlock {
             
@@ -945,25 +959,34 @@ class ViewController: NSViewController,
 
             self.filteredNoteList = notes
             self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, operation: operation)
-            
+
             if operation.isCancelled {
                 completion()
                 return
             }
             
+            guard self.notesTableView.noteList.count > 0 else {
+                DispatchQueue.main.async {
+                    self.editArea.clear()
+                    self.notesTableView.reloadData()
+                    completion()
+                }
+                return
+            }
+
+            let note = self.notesTableView.noteList[0]
+
             DispatchQueue.main.async {
                 self.notesTableView.reloadData()
-                
+
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
-                        let note = self.notesTableView.noteList[0]
-                        
-                        if !self.search.skipAutocomplete {
-                            self.search.suggestAutocomplete(note)
+                        if !self.search.skipAutocomplete && self.search.timestamp == timestamp {
+                            self.search.suggestAutocomplete(note, filter: filter)
                         }
-                        
-                        if UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased() {
-                            self.selectNullTableRow()
+
+                        if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
+                            self.selectNullTableRow(timer: true)
                         } else {
                             self.editArea.clear()
                         }
@@ -978,7 +1001,7 @@ class ViewController: NSViewController,
         
         self.searchQueue.addOperation(operation)
     }
-    
+
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
         for term in terms {
             if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {
@@ -991,7 +1014,17 @@ class ViewController: NSViewController,
         return true
     }
     
-    @objc func selectNullTableRow() {
+    @objc func selectNullTableRow(timer: Bool = false) {
+        if timer {
+            self.selectRowTimer.invalidate()
+            self.selectRowTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.selectRowInstant), userInfo: nil, repeats: false)
+            return
+        }
+
+        selectRowInstant()
+    }
+
+    @objc private func selectRowInstant() {
         notesTableView.selectRowIndexes([0], byExtendingSelection: false)
         notesTableView.scrollRowToVisible(0)
     }
@@ -1029,11 +1062,13 @@ class ViewController: NSViewController,
     }
     
     func cleanSearchAndEditArea() {
-        search.becomeFirstResponder()
-        notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         search.stringValue = ""
+        search.becomeFirstResponder()
+
+        notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editArea.clear()
-        updateTable()
+
+        self.updateTable(searchText: "")
     }
     
     func makeNoteShortcut() {
@@ -1415,6 +1450,6 @@ class ViewController: NSViewController,
             pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
         }
     }
-    
+
 }
 

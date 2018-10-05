@@ -31,6 +31,7 @@ public class Note: NSObject  {
 
     public var imageUrl: [URL]?
     public var isParsed = false
+    private var caching = false
     
     init(url: URL, with project: Project) {
         self.url = url
@@ -551,12 +552,19 @@ public class Note: NSObject  {
     }
     
     func markdownCache() {
-        guard isMarkdown() else {
-            return
-        }
-        
+        guard isMarkdown() && !self.caching && !self.isCached else { return }
+
+        self.caching = true
         NotesTextProcessor.fullScan(note: self, async: false)
-        isCached = true
+
+        self.caching = false
+        self.isCached = true
+    }
+
+    public func reCache() {
+        self.isCached = false
+
+        markdownCache()
     }
     
     func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {

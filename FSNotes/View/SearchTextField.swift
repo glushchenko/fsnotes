@@ -21,11 +21,10 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     public var searchQuery = ""
     public var selectedRange = NSRange()
     public var skipAutocomplete = false
-        
-    override func controlTextDidEndEditing(_ obj: Notification) {
-        focusRingType = .none
-    }
-    
+
+    public var timestamp: Int64?
+    private var lastQueryLength: Int = 0
+
     override func keyUp(with event: NSEvent) {
         if (event.keyCode == kVK_DownArrow) {
             vcDelegate.focusTable()
@@ -43,11 +42,12 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
             vcDelegate.focusEditArea()
         }
 
-        if self.skipAutocomplete {
-           self.skipAutocomplete = false
+        if event.keyCode == kVK_Delete || event.keyCode == kVK_ForwardDelete {
+            self.skipAutocomplete = true
+            return
         }
     }
- 
+
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if (
             event.keyCode == kVK_Escape
@@ -56,15 +56,21 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
                 && event.modifierFlags.contains(.command)
             )
         ) {
-            searchQuery = ""
+            self.searchQuery.removeAll()
             return true
         }
-        
+
         return super.performKeyEquivalent(with: event)
     }
-    
+
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
         switch commandSelector.description {
+        case "moveDown:":
+            if let editor = currentEditor() {
+                let query = editor.string.prefix(editor.selectedRange.location)
+                self.stringValue = String(query)
+            }
+            return true
         case "cancelOperation:":
             return true
         case "deleteBackward:":
@@ -89,40 +95,43 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
             return false
         }
     }
-    
+
     override func controlTextDidChange(_ obj: Notification) {
         UserDataService.instance.searchTrigger = true
-        
-        filterQueue.cancelAllOperations()
-        filterQueue.addOperation {
-            DispatchQueue.main.async {
-                self.vcDelegate.updateTable(search: true) {
-                    if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                        self.searchTimer.invalidate()
-                        self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
-                    } else {
-                        UserDataService.instance.searchTrigger = false
-                    }
+
+        let searchText = self.stringValue
+        let currentTextLength = searchText.count
+        let sidebarItem = self.vcDelegate.getSidebarItem()
+
+        if currentTextLength > self.lastQueryLength {
+            self.skipAutocomplete = false
+        }
+
+        self.lastQueryLength = searchText.count
+
+        self.filterQueue.cancelAllOperations()
+        self.filterQueue.addOperation {
+            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem) {
+                if UserDefaultsManagement.focusInEditorOnNoteSelect {
+                    self.searchTimer.invalidate()
+                    self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
+                } else {
+                    UserDataService.instance.searchTrigger = false
                 }
             }
         }
     }
-    
+
     @objc func onEndSearch() {
         UserDataService.instance.searchTrigger = false
     }
     
-    public func suggestAutocomplete(_ note: Note) {
-        if note.title == self.stringValue {
-            return
-        }
-        
-        let searchQuery = self.stringValue
-        
-        if note.title.lowercased().starts(with: searchQuery.lowercased()) {
-            let text = searchQuery + note.title.suffix(note.title.count - searchQuery.count)
-            stringValue = text
-            currentEditor()?.selectedRange = NSRange(searchQuery.utf16.count..<note.title.utf16.count)
+    public func suggestAutocomplete(_ note: Note, filter: String) {
+        guard note.title != filter.lowercased(), let editor = currentEditor() else { return }
+
+        if note.title.lowercased().starts(with: filter.lowercased()) {
+            stringValue = filter + note.title.suffix(note.title.count - filter.count)
+            editor.selectedRange = NSRange(filter.utf16.count..<note.title.utf16.count)
         }
     }
     

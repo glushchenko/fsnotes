@@ -285,7 +285,7 @@ class EditTextView: NSTextView {
     
     var timer: Timer?
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
-        guard let storage = textStorage else {
+        guard let storage = textStorage, EditTextView.note != note else {
             return
         }
 
@@ -341,15 +341,6 @@ class EditTextView: NSTextView {
 
         storage.setAttributedString(note.content)
 
-        self.scannerQueue.cancelAllOperations()
-
-        let operation = BlockOperation()
-        operation.addExecutionBlock {
-            NotesTextProcessor.scanCode(note: note, storage: storage, async: true, operation: operation)
-        }
-
-        scannerQueue.addOperation(operation)
-        
         if !note.isMarkdown()  {
             if note.type == .RichText && !saveTyping {
                 storage.updateFont()
@@ -391,14 +382,14 @@ class EditTextView: NSTextView {
             backgroundColor = UserDefaultsManagement.bgColor
         }
     }
-    
+
     @objc func loadImages() {
         if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: textStorage!, note: note)
             processor.load()
         }
     }
-    
+
     func removeHighlight() {
         guard isHighlighted else {
             return
@@ -1067,12 +1058,12 @@ class EditTextView: NSTextView {
     }
 
     override func viewDidChangeEffectiveAppearance() {
-        for note in storage.noteList {
-            note.isCached = false
-        }
+        self.storage.fullCacheReset()
 
         guard let note = EditTextView.note else { return }
+        
         UserDataService.instance.isDark = effectiveAppearance.isDark
+        UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         NotesTextProcessor.hl = nil
         NotesTextProcessor.scanCode(note: note, storage: textStorage)

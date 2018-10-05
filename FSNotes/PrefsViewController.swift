@@ -236,7 +236,8 @@ class PrefsViewController: NSViewController {
         controller?.editArea.setEditorTextColor(sender.color)
         
         if let note = EditTextView.note {
-            note.markdownCache()
+            self.storage.fullCacheReset()
+            note.reCache()
             controller?.refillEditArea()
         }
     }
@@ -268,7 +269,8 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.noteFont = newFont
         
         if let note = EditTextView.note {
-            note.markdownCache()
+            self.storage.fullCacheReset()
+            note.reCache()
             controller?.refillEditArea()
         }
         
@@ -337,7 +339,8 @@ class PrefsViewController: NSViewController {
         
         if let note = EditTextView.note {
             NotesTextProcessor.hl = nil
-            note.markdownCache()
+            self.storage.fullCacheReset()
+            note.reCache()
             controller?.refillEditArea()
         }
     }

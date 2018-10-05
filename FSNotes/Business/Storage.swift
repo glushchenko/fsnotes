@@ -801,4 +801,10 @@ class Storage {
             } catch  { print(error) }
         }
     }
+
+    public func fullCacheReset() {
+        for note in noteList {
+            note.isCached = false
+        }
+    }
 }

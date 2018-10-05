@@ -17,6 +17,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     var defaultCell = NoteCellView()
     var pinnedCell = NoteCellView()
     var storage = Storage.sharedInstance()
+
+    public var loadingQueue = OperationQueue.init()
+    public var fillTimestamp: Int64?
     
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
@@ -72,6 +75,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
+        let timestamp = Date().toMillis()
+        self.fillTimestamp = timestamp
+
         let vc = self.window?.contentViewController as! ViewController
         
         if UserDataService.instance.isNotesTableEscape {
@@ -98,12 +104,23 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     }
                 }
             }
-            
-            vc.editArea.fill(note: noteList[selectedRow], highlight: true)
-            
-            if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
-                vc.focusEditArea(firstResponder: nil)
+
+            self.loadingQueue.cancelAllOperations()
+            let operation = BlockOperation()
+            operation.addExecutionBlock {
+                note.markdownCache()
+        
+                DispatchQueue.main.async {
+                    guard !operation.isCancelled, self.fillTimestamp == timestamp else { return }
+
+                    vc.editArea.fill(note: note, highlight: true)
+                    if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
+                        vc.focusEditArea(firstResponder: nil)
+                    }
+                }
             }
+            self.loadingQueue.addOperation(operation)
+
         } else {
             vc.editArea.clear()
             vc.storageOutlineView.deselectAllTags()

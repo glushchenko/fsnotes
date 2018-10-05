@@ -264,6 +264,8 @@ public class NotesTextProcessor {
     }
 
     public static func scanCode(note: Note, storage: NSTextStorage?, async: Bool = false, operation: BlockOperation? = nil) {
+        guard UserDefaultsManagement.codeBlockHighlight, note.isMarkdown() else { return }
+
         let content = storage ?? note.content
         let string = content.string
         let range = NSMakeRange(0, string.count)
@@ -373,7 +375,7 @@ public class NotesTextProcessor {
             return
         }
         
-        if (code.string != content.attributedSubstring(from: range).string) {
+        if content.length >= range.upperBound && (code.string != content.attributedSubstring(from: range).string) {
             return
         }
         
@@ -402,8 +404,7 @@ public class NotesTextProcessor {
                     storage?.setAttributes(attrs, range: fixedRange)
                 }
                 
-                if note.content.length >= fixedRange.location + fixedRange.length {
-                    note.content.setAttributes(attrs, range: fixedRange)
+                if note.content.length >= fixedRange.location + fixedRange.length {                    note.content.setAttributes(attrs, range: fixedRange)
                 }
             }
         )

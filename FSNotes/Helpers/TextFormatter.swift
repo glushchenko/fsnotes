@@ -868,9 +868,12 @@ public class TextFormatter {
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         
         var attributes: [NSAttributedStringKey : Any] = [
-            .backgroundColor: NotesTextProcessor.codeBackground,
             .paragraphStyle: paragraphStyle
         ]
+
+        if UserDefaultsManagement.codeBlockHighlight {
+            attributes[.backgroundColor] = NotesTextProcessor.codeBackground
+        }
         
         if let font = NotesTextProcessor.codeFont {
             attributes[.font] = font
