@@ -26,7 +26,6 @@ class ViewController: NSViewController,
     var timer = Timer()
     var sidebarTimer = Timer()
     let searchQueue = OperationQueue()
-    
 
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
@@ -36,7 +35,7 @@ class ViewController: NSViewController,
     @IBOutlet var emptyEditAreaImage: NSImageView!
     @IBOutlet weak var splitView: NSSplitView!
     @IBOutlet var editArea: EditTextView!
-    @IBOutlet weak var editAreaScroll: NSScrollView!
+    @IBOutlet weak var editAreaScroll: EditorScrollView!
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     @IBOutlet var noteMenu: NSMenu!
@@ -207,6 +206,10 @@ class ViewController: NSViewController,
 
         self.editArea.scannerQueue.maxConcurrentOperationCount = 1
         self.editArea.usesFindBar = true
+
+        self.editAreaScroll.textFinder = NSTextFinder.init()
+        self.editAreaScroll.textFinder?.client = self.editArea
+        self.editAreaScroll.textFinder?.findBarContainer =  self.editArea.enclosingScrollView
     }
     
     private func configureShortcuts() {
@@ -418,6 +421,7 @@ class ViewController: NSViewController,
         ) {
             if self.editAreaScroll.isFindBarVisible {
                 self.editAreaScroll.isFindBarVisible = false
+                NSApp.mainWindow?.makeFirstResponder(self.editArea)
                 return true
             }
 

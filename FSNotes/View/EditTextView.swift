@@ -12,7 +12,7 @@ import Highlightr
 import Carbon.HIToolbox
 import FSNotesCore_macOS
 
-class EditTextView: NSTextView {
+class EditTextView: NSTextView, NSTextFinderClient {
     public static var note: Note?
     
     var isHighlighted: Bool = false
@@ -1065,5 +1065,5 @@ class EditTextView: NSTextView {
         NotesTextProcessor.hl = nil
         NotesTextProcessor.scanCode(note: note, storage: textStorage)
     }
-    
+
 }

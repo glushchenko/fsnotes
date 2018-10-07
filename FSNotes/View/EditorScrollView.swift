@@ -9,6 +9,9 @@
 import Cocoa
 
 class EditorScrollView: NSScrollView {
+
+    public var textFinder: NSTextFinder?
+
     override var isFindBarVisible: Bool {
         set {
             if let clip = self.subviews.first as? NSClipView {
@@ -16,6 +19,8 @@ class EditorScrollView: NSScrollView {
 
                 if newValue, let documentView = self.documentView {
                     documentView.scroll(NSPoint(x: 0, y: -50))
+
+                    self.textFinder?.performAction(NSTextFinder.Action.setSearchString)
                 }
             }
 

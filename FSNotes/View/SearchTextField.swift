@@ -120,6 +120,10 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
                 }
             }
         }
+
+        let pb = NSPasteboard(name: .findPboard)
+        pb.declareTypes([.textFinderOptions, .string], owner: nil)
+        pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
     }
 
     @objc func onEndSearch() {
