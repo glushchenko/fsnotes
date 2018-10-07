@@ -19,6 +19,7 @@ class EditTextView: NSTextView {
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
     var downView: MarkdownView?
+    var timer: Timer?
 
     public var scannerQueue = OperationQueue.init()
 
@@ -282,13 +283,8 @@ class EditTextView: NSTextView {
         let note = viewController.notesTableView.getSelectedNote()
         return note
     }
-    
-    var timer: Timer?
-    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
-        guard let storage = textStorage, EditTextView.note != note else {
-            return
-        }
 
+    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
             textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
         } else {
@@ -339,6 +335,7 @@ class EditTextView: NSTextView {
             return
         }
 
+        guard let storage = textStorage else { return }
         storage.setAttributedString(note.content)
 
         if !note.isMarkdown()  {
