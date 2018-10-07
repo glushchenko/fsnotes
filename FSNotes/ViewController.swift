@@ -206,6 +206,7 @@ class ViewController: NSViewController,
         }
 
         self.editArea.scannerQueue.maxConcurrentOperationCount = 1
+        self.editArea.usesFindBar = true
     }
     
     private func configureShortcuts() {
@@ -415,6 +416,11 @@ class ViewController: NSViewController,
             event.keyCode == kVK_Escape
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
         ) {
+            if self.editAreaScroll.isFindBarVisible {
+                self.editAreaScroll.isFindBarVisible = false
+                return true
+            }
+
             let hasSelectedNotes = notesTableView.selectedRow > -1
             let hasSelectedBarItem = storageOutlineView.selectedRow > -1
             
