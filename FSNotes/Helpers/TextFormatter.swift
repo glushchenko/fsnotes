@@ -569,7 +569,9 @@ public class TextFormatter {
             #if os(iOS)
                 textView.insertText(prefix)
             #else
-                textView.insertText(prefix, replacementRange: textView.selectedRange())
+                let attributedString = NSMutableAttributedString(string: prefix)
+                attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
+                textView.insertText(attributedString, replacementRange: textView.selectedRange())
             #endif
             return
         }
@@ -631,8 +633,8 @@ public class TextFormatter {
         #endif
 
         guard var paragraphRange = getParagraphRange() else { return }
-        
-        if let location = location{
+
+        if let location = location {
             let string = self.storage.string as NSString
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
@@ -644,12 +646,8 @@ public class TextFormatter {
                 let newRange = NSRange(location: textView.selectedRange.location - 2, length: 2)
                 self.textView.textStorage.replaceCharacters(in: newRange, with: attributedText)
             }
-            #else
-                let attributedText = self.getAttributedTodoString("- [ ] ")
-                self.insertText(attributedText, replacementRange: range)
-            #endif
-            
             return
+            #endif
         }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
@@ -664,6 +662,8 @@ public class TextFormatter {
             #endif
             
             self.insertText(attributedText, replacementRange: range)
+
+            return
         } else if paragraph.string.hasPrefix("- [x]") {
             let range = NSRange(location: paragraphRange.location, length: 5)
             
@@ -674,13 +674,27 @@ public class TextFormatter {
             #endif
             
             self.insertText(attributedText, replacementRange: range)
+            
+            return
         }
+
+        #if os(OSX)
+            let attributedText = self.getAttributedTodoString("- [ ] ")
+
+            self.insertText(attributedText, replacementRange: range)
+        #endif
     }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)
         string.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: NSRange(0..<1))
-        string.addAttribute(.foregroundColor, value: Color.black, range: NSRange(1..<string.length))
+
+        var color = Color.black
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+            color = NSColor(named: NSColor.Name(rawValue: "mainText"))!
+        }
+
+        string.addAttribute(.foregroundColor, value: color, range: NSRange(1..<string.length))
         return string
     }
     
@@ -822,6 +836,16 @@ public class TextFormatter {
         }
 
         return font
+    }
+    #endif
+
+    #if os(OSX)
+    private func getDefaultColor() -> NSColor {
+        var color = Color.black
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+            color = NSColor(named: NSColor.Name(rawValue: "mainText"))!
+        }
+        return color
     }
     #endif
     
