@@ -411,7 +411,10 @@ class ViewController: NSViewController,
         }
         
         // Focus search bar on ESC
-        if (event.keyCode == kVK_Escape) {
+        if (
+            event.keyCode == kVK_Escape
+            && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
+        ) {
             let hasSelectedNotes = notesTableView.selectedRow > -1
             let hasSelectedBarItem = storageOutlineView.selectedRow > -1
             
