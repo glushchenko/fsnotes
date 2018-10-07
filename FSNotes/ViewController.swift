@@ -441,7 +441,15 @@ class ViewController: NSViewController,
 
             return true
         }
-        
+
+        // Search cmd-f
+        if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command)) {
+            if self.notesTableView.getSelectedNote() != nil {
+                self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.showFindInterface)
+                return true
+            }
+        }
+
         // Focus search field shortcut (cmd-L)
         if (event.keyCode == kVK_ANSI_L && event.modifierFlags.contains(.command)) {
             search.becomeFirstResponder()

@@ -1065,5 +1065,4 @@ class EditTextView: NSTextView, NSTextFinderClient {
         NotesTextProcessor.hl = nil
         NotesTextProcessor.scanCode(note: note, storage: textStorage)
     }
-
 }
