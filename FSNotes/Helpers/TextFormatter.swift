@@ -690,9 +690,11 @@ public class TextFormatter {
         string.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: NSRange(0..<1))
 
         var color = Color.black
+        #if os(OSX)
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
             color = NSColor(named: NSColor.Name(rawValue: "mainText"))!
         }
+        #endif
 
         string.addAttribute(.foregroundColor, value: color, range: NSRange(1..<string.length))
         return string
