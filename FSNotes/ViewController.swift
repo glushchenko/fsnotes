@@ -933,7 +933,8 @@ class ViewController: NSViewController,
         let type = sidebarItem?.type
 
         var filter = searchText ?? self.search.stringValue
-        filter = filter.lowercased()
+        let originalFilter = searchText ?? self.search.stringValue
+        filter = originalFilter.lowercased()
 
         let operation = BlockOperation()
         operation.addExecutionBlock {
@@ -1002,7 +1003,7 @@ class ViewController: NSViewController,
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
                         if !self.search.skipAutocomplete && self.search.timestamp == timestamp {
-                            self.search.suggestAutocomplete(note, filter: filter)
+                            self.search.suggestAutocomplete(note, filter: originalFilter)
                         }
 
                         if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
