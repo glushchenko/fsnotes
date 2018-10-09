@@ -284,8 +284,8 @@ class ViewController: NSViewController,
             let prevProject = note.project
             let destination = project.url.appendingPathComponent(note.name)
             do {
-                note.project = project
                 try FileManager.default.moveItem(at: note.url, to: destination)
+                note.project = project
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = NSLocalizedString("Hmm, something goes wrong 🙈", comment: "")
@@ -598,6 +598,7 @@ class ViewController: NSViewController,
             alert.runModal()
             
             note.parseURL()
+            print(note.name)
             sender.stringValue = note.getTitleWithoutLabel()
             return
         }
@@ -623,6 +624,7 @@ class ViewController: NSViewController,
             try FileManager.default.moveItem(at: url, to: newUrl)
             print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
         } catch {
+            print("catch")
             note.url = url
             note.parseURL()
         }

@@ -790,7 +790,6 @@ class Storage {
             do {
                 let fileURLs = try FileManager.default.contentsOfDirectory(at: trash, includingPropertiesForKeys: nil, options: [])
 
-                print(fileURLs)
                 for fileURL in fileURLs {
                     try FileManager.default.removeItem(at: fileURL)
                 }

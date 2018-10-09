@@ -144,10 +144,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func getNoteFromSelectedRow() -> Note? {
         var note: Note? = nil
-        var selected = self.selectedRow
-        
+        let selected = self.selectedRow
+
         if (selected < 0) {
-            selected = 0
+            return nil
         }
         
         if (noteList.indices.contains(selected)) {
