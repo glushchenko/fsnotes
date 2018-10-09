@@ -41,10 +41,16 @@ public class NotesTextProcessor {
     /**
      Color used to highlight markdown syntax. Default value is light grey.
      */
-    open static var syntaxColor = Color.lightGray
+    public static var syntaxColor = Color.lightGray
     
 #if os(OSX)
-    open static var codeBackground: NSColor {
+    public static var font: NSFont {
+        get {
+            return UserDefaultsManagement.noteFont
+        }
+    }
+
+    public static var codeBackground: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
                 return NSColor(named: NSColor.Name(rawValue: "code"))!
@@ -64,6 +70,19 @@ public class NotesTextProcessor {
         }
     }
 #else
+    public static var font: UIFont {
+        get {
+            let font = UserDefaultsManagement.noteFont!
+
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                return fontMetrics.scaledFont(for: font)
+            }
+
+            return font
+        }
+    }
+
     open static var codeBackground: UIColor {
         get {
             if NightNight.theme == .night {
@@ -73,6 +92,7 @@ public class NotesTextProcessor {
             }
         }
     }
+    
     open var highlightColor: UIColor {
         get {
             if NightNight.theme == .night {
@@ -112,7 +132,7 @@ public class NotesTextProcessor {
     /**
      If the markdown syntax should be hidden or visible
      */
-    open static var hideSyntax = false
+    public static var hideSyntax = false
     
     private var note: Note?
     private var storage: NSTextStorage?
@@ -127,6 +147,12 @@ public class NotesTextProcessor {
     
     public static func isCodeBlockParagraph(_ paragraph: String) -> Bool {
         if (paragraph.starts(with: "\t") || paragraph.starts(with: "    ")) {
+            let clean = paragraph.trim()
+
+            guard TextFormatter.getAutocompleteCharsMatch(string: clean) == nil && TextFormatter.getAutocompleteDigitsMatch(string: clean) == nil else {
+                return false
+            }
+
             return true
         }
         
@@ -619,11 +645,19 @@ public class NotesTextProcessor {
         }
         
         // We detect and process lists
-        NotesTextProcessor.listRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+        if isFullScan {
+            NotesTextProcessor.listRegex.matches(string, range: paragraphRange) { (result) -> Void in
+                guard let range = result?.range else { return }
+                NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+            }
+        } else {
+            NotesTextProcessor.listSingleLineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                styleApplier.addAttribute(.font, value: NotesTextProcessor.font, range: innerRange)
             }
         }
         
@@ -970,12 +1004,15 @@ public class NotesTextProcessor {
         "  )",
         ")"
         ].joined(separator: "\n")
-    
+
     fileprivate static let listPattern = "(?:(?<=\\n\\n)|\\A\\n?)" + _wholeList
+
+    private static let listSingleLinePattern = "\\A(?:\\p{Z}|\\t)*((?:[*+-]|\\d+[.]))\\p{Z}+"
     
     public static let listRegex = MarklightRegex(pattern: listPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     public static let listOpeningRegex = MarklightRegex(pattern: _listMarker, options: [.allowCommentsAndWhitespace])
-    
+    public static let listSingleLineRegex = MarklightRegex(pattern: listSingleLinePattern, options: [.allowCommentsAndWhitespace])
+
     // MARK: Anchors
     
     /*

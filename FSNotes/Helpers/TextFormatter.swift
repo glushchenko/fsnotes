@@ -474,27 +474,115 @@ public class TextFormatter {
         
         self.insertText("\t", replacementRange: self.textView.selectedRange)
     }
-    
+
+    public static func getAutocompleteCharsMatch(string: String) -> NSTextCheckingResult? {
+        guard let regex = try? NSRegularExpression(pattern: "^(( |\t)*\\- \\[[x| ]*\\] )|^( |\t)*([-|–|—|*|•|\\+]{1} )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
+
+        return result
+    }
+
+    public static func getAutocompleteDigitsMatch(string: String) -> NSTextCheckingResult? {
+        guard let regex = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+\\. "), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
+
+        return result
+    }
+
+    private func matchChars(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
+        let nsPrev = string as NSString
+        var prefix = nsPrev.substring(with: match.range)
+
+        if (string == prefix + "\n") || (string == prefix && isLast) {
+            self.setSelectedRange(prevParagraphRange)
+            #if os(OSX)
+                textView.delete(nil)
+            #else
+                textView.deleteBackward()
+            #endif
+            return
+        }
+
+        if prefix == "- [x] " {
+            prefix = "- [ ] "
+        }
+
+        #if os(iOS)
+            textView.insertText(prefix)
+        #else
+            let attributedString = NSMutableAttributedString(string: prefix)
+            attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
+            textView.insertText(attributedString, replacementRange: textView.selectedRange())
+        #endif
+    }
+
+    private func matchDigits(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
+        let nsPrev = string as NSString
+        let prefix = nsPrev.substring(with: match.range)
+
+        if (string == prefix + "\n") || (string == prefix && isLast) {
+            #if os(OSX)
+                textView.setSelectedRange(prevParagraphRange)
+                textView.delete(nil)
+            #else
+                textView.selectedRange = prevParagraphRange
+                textView.deleteBackward()
+            #endif
+            return
+        }
+
+        if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
+
+            let newDigit = prefix.replacingOccurrences(of: String(position), with: String(position + 1))
+
+            #if os(iOS)
+                textView.insertText(newDigit)
+            #else
+                let attributedString = NSMutableAttributedString(string: newDigit)
+                attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
+
+                textView.insertText(attributedString, replacementRange: textView.selectedRange())
+            #endif
+        }
+    }
+
     public func newLine() {
-        
+
         // Before new line inserted. CodeBlock margin autocomplete and style
         
         guard let currentParagraphRange = self.getParagraphRange() else { return }
-        
+
+        let isLast = self.textView.selectedRange.location == self.storage.length
         let currentParagraph = storage.attributedSubstring(from: currentParagraphRange)
         var selectedRange = self.textView.selectedRange
-        var result = "\n"
-        
+        let result = "\n"
+
+        let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string)
+        let digitsMatch = TextFormatter.getAutocompleteDigitsMatch(string: currentParagraph.string)
+
+        // Insert code block new line
+
         if currentParagraphRange.lowerBound != textView.selectedRange.location,
-           let newLinePadding = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
-            result.append(newLinePadding)
-            let styledCode = self.addCodeBlockStyle(result)
-            self.insertText(styledCode, replacementRange: selectedRange)
+           currentParagraph.string.getPrefixMatchSequentially(char: "\t") != nil {
+
+            if let charsMatch = charsMatch {
+                self.insertText("\n", replacementRange: selectedRange)
+                self.matchChars(string: currentParagraph.string, match: charsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
+            }
+
+            if let digitsMatch = digitsMatch {
+                self.insertText("\n", replacementRange: selectedRange)
+                self.matchDigits(string: currentParagraph.string, match: digitsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
+            }
+
+            if charsMatch == nil && digitsMatch == nil {
+                let styledCode = self.addCodeBlockStyle(result)
+                self.insertText(styledCode, replacementRange: selectedRange)
+            }
+
             return
         }
         
         // New Line insertion
-        
+
         self.insertText("\n", replacementRange: selectedRange)
         
         // Fenced code block style handler
@@ -513,6 +601,7 @@ public class TextFormatter {
         let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(selectedRange.lowerBound - 1, 0))
         
         #if os(iOS)
+
             // Autocomplete rendered todo
 
             let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
@@ -534,71 +623,16 @@ public class TextFormatter {
             }
  
         #endif
-        
-        let prevString = nsString.substring(with: prevParagraphRange)
-        let nsPrev = prevString as NSString
-    
-        guard let regex = try? NSRegularExpression(pattern: "^(( |\t)*\\- \\[[x| ]*\\] )|^( |\t)*([-|–|—|*|•|\\+]{1} )"),
-            let regexDigits = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+\\. ") else {
-                return
+
+        guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
+        let currentP = storage.attributedSubstring(from: currentPR)
+
+        if let charsMatch = charsMatch {
+            self.matchChars(string: currentP.string, match: charsMatch, prevParagraphRange: currentPR, isLast: isLast)
         }
-        
-        if prevString.starts(with: "\t") {
-            if let newLinePadding = prevString.getPrefixMatchSequentially(char: "\t") {
-                self.insertText(newLinePadding, replacementRange: selectedRange)
-            }
-        }
-        
-        if let match = regex.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
-            var prefix = nsPrev.substring(with: match.range)
-            
-            if prevString == prefix + "\n" {
-                self.setSelectedRange(prevParagraphRange)
-                #if os(OSX)
-                    textView.delete(nil)
-                #else
-                    textView.deleteBackward()
-                #endif
-                return
-            }
-            
-            if prefix == "- [x] " {
-                prefix = "- [ ] "
-            }
-            
-            #if os(iOS)
-                textView.insertText(prefix)
-            #else
-                let attributedString = NSMutableAttributedString(string: prefix)
-                attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
-                textView.insertText(attributedString, replacementRange: textView.selectedRange())
-            #endif
-            return
-        }
-        
-        // Autocomplete ordered lists
-        
-        if let matchDigits = regexDigits.firstMatch(in: prevString, range: NSRange(0..<nsPrev.length)) {
-            let prefix = nsPrev.substring(with: matchDigits.range)
-            if prevString == prefix + "\n" {
-                #if os(OSX)
-                    textView.setSelectedRange(prevParagraphRange)
-                    textView.delete(nil)
-                #else
-                    textView.selectedRange = prevParagraphRange
-                    textView.deleteBackward()
-                #endif
-                return
-            }
-            
-            if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
-                #if os(iOS)
-                    textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)))
-                #else
-                    textView.insertText(prefix.replacingOccurrences(of: String(position), with: String(position + 1)), replacementRange: textView.selectedRange())
-                #endif
-                
-            }
+
+        if let digitsMatch = digitsMatch {
+            self.matchDigits(string: currentP.string, match: digitsMatch, prevParagraphRange: currentPR, isLast: isLast)
         }
     }
 
@@ -652,9 +686,10 @@ public class TextFormatter {
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
         
-        if paragraph.string.hasPrefix("- [ ]") {
-            let range = NSRange(location: paragraphRange.location, length: 5)
-            
+        if let index = paragraph.string.range(of: "- [ ]") {
+            let local = paragraph.string.nsRange(from: index).location
+            let range = NSMakeRange(paragraphRange.location + local, 5)
+
             #if os(iOS)
                 let attributedText = AttributedBox.getChecked()
             #else
@@ -664,9 +699,11 @@ public class TextFormatter {
             self.insertText(attributedText, replacementRange: range)
 
             return
-        } else if paragraph.string.hasPrefix("- [x]") {
-            let range = NSRange(location: paragraphRange.location, length: 5)
-            
+
+        } else if let index = paragraph.string.range(of: "- [x]") {
+            let local = paragraph.string.nsRange(from: index).location
+            let range = NSMakeRange(paragraphRange.location + local, 5)
+
             #if os(iOS)
                 let attributedText = AttributedBox.getUnChecked()
             #else
@@ -943,6 +980,10 @@ public class TextFormatter {
         let string = self.storage.attributedSubstring(from: range).string
         
         if string.starts(with: "\t") || string.starts(with: "    ") {
+            guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
+                return false
+            }
+
             return true
         }
         

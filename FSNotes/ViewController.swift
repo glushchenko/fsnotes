@@ -204,7 +204,6 @@ class ViewController: NSViewController,
             }
         }
 
-        self.editArea.scannerQueue.maxConcurrentOperationCount = 1
         self.editArea.usesFindBar = true
 
         self.editAreaScroll.textFinder = NSTextFinder.init()

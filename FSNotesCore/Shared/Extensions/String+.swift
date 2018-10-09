@@ -55,3 +55,9 @@ public extension String {
         return self
     }
 }
+
+extension StringProtocol where Index == String.Index {
+    public func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
+    }
+}

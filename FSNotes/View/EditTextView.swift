@@ -693,7 +693,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     private func isCodeBlock(paragraph: String) -> Bool {
-        return paragraph.starts(with: "\t") || paragraph.starts(with: "    ")
+        if paragraph.starts(with: "\t") || paragraph.starts(with: "    ") {
+            guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
+                return false
+            }
+
+            return true
+        }
+
+        return false
     }
     
     public func applyStyle(_ text: String) -> NSMutableAttributedString {
