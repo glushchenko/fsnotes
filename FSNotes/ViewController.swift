@@ -420,7 +420,9 @@ class ViewController: NSViewController,
         ) {
             if self.editAreaScroll.isFindBarVisible {
                 self.editAreaScroll.isFindBarVisible = false
-                NSApp.mainWindow?.makeFirstResponder(self.editArea)
+                if !UserDefaultsManagement.preview {
+                    NSApp.mainWindow?.makeFirstResponder(self.editArea)
+                }
                 return true
             }
 
@@ -1051,6 +1053,8 @@ class ViewController: NSViewController,
     }
     
     func focusEditArea(firstResponder: NSResponder? = nil) {
+        guard !UserDefaultsManagement.preview else { return }
+
         var resp: NSResponder = self.editArea
         if let responder = firstResponder {
             resp = responder
