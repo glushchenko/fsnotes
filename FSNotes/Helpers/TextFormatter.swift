@@ -230,10 +230,10 @@ public class TextFormatter {
 
                 #if os(iOS)
                     self.textView.replace(selectedtTextRange, withText: attributedString.string)
-                    self.textView.selectedRange = selectedRange
                 #endif
 
                 self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                self.textView.selectedRange = selectedRange
                 return
             }
             
@@ -428,6 +428,10 @@ public class TextFormatter {
             if currentPR.lowerBound == self.textView.selectedRange.location && currentPR.length == 1  {
                 storage.removeAttribute(.backgroundColor, range: currentPR)
             }
+
+            self.storage.addAttribute(.font, value: NotesTextProcessor.font, range: currentPR)
+
+            NotesTextProcessor.scanBasicSyntax(note: self.note, storage: self.storage, range: currentPR)
         }
     }
     
