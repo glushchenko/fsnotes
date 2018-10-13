@@ -578,7 +578,6 @@ public class NotesTextProcessor {
         }
 
         styleApplier.addAttribute(.font, value: font, range: paragraphRange)
-        styleApplier.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
 
         #if os(iOS)
             if NightNight.theme == .night {
@@ -587,6 +586,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
             }
         #else
+            styleApplier.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
             styleApplier.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
 
                 if (value as? NSColor) != nil {

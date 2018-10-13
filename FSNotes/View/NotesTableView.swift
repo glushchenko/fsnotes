@@ -269,7 +269,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             if let i = noteList.index(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
-                removeRows(at: indexSet, withAnimation: .effectFade)
+                removeRows(at: indexSet, withAnimation: .slideDown)
             }
         }
     }

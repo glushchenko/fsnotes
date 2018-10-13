@@ -65,6 +65,8 @@ class ViewController: NSViewController,
                 if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
                     UserDataService.instance.isDark = true
                 }
+            } else {
+                NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
             }
         }
 
@@ -199,7 +201,7 @@ class ViewController: NSViewController,
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
             if #available(OSX 10.13, *) {
                 self.editArea?.linkTextAttributes = [
-                    .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))
+                    .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))!
                 ]
             }
         }

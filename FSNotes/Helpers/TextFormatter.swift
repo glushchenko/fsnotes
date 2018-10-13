@@ -186,6 +186,7 @@ public class TextFormatter {
                 #endif
 
                 self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                self.textView.selectedRange = selectedRange
                 return
             }
             

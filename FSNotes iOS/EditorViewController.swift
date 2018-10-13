@@ -263,6 +263,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     public func configureFont() {
         if let note = self.note, note.type != .RichText {
             self.editArea.textStorage.addAttribute(.font, value: UIFont.bodySize(), range: NSRange(0..<self.editArea.textStorage.length))
+
+            if note.isRTF() {
+                self.editArea.textStorage.addAttribute(.foregroundColor, value: UIColor.black, range: NSRange(0..<self.editArea.textStorage.length))
+            }
+
         }
 
         self.editArea.typingAttributes.removeAll()
