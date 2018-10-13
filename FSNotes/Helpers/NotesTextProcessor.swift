@@ -413,11 +413,7 @@ public class NotesTextProcessor {
                 isActiveStorage = (n === note)
             }
         #endif
-        
-        if isActiveStorage {
-            storage?.beginEditing()
-        }
-        
+
         code.enumerateAttributes(
             in: NSMakeRange(0, code.length),
             options: [],
@@ -428,9 +424,7 @@ public class NotesTextProcessor {
                 
                 if isActiveStorage {
                     storage?.setAttributes(attrs, range: fixedRange)
-                }
-                
-                if note.content.length >= fixedRange.location + fixedRange.length {                    note.content.setAttributes(attrs, range: fixedRange)
+                } else if note.content.length >= fixedRange.location + fixedRange.length {                    note.content.setAttributes(attrs, range: fixedRange)
                 }
             }
         )
@@ -438,22 +432,20 @@ public class NotesTextProcessor {
         if let font = NotesTextProcessor.codeFont {
             if isActiveStorage {
                 storage?.addAttributes([.font: font], range: range)
+            } else {
+                note.content.addAttributes([.font: font], range: range)
             }
-            
-            note.content.addAttributes([.font: font], range: range)
         }
         
         if isActiveStorage {
-            storage?.endEditing()
-            storage?.edited(NSTextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
             storage?.addAttributes([
                 .backgroundColor: NotesTextProcessor.codeBackground
                 ], range: range)
+        } else {
+            note.content.addAttributes([
+                .backgroundColor: NotesTextProcessor.codeBackground
+            ], range: range)
         }
-
-        note.content.addAttributes([
-            .backgroundColor: NotesTextProcessor.codeBackground
-        ], range: range)
     }
     
     public static func highlightCode(range: NSRange, storage: NSTextStorage?, string: NSString, note: Note, async: Bool = true) {
@@ -572,17 +564,21 @@ public class NotesTextProcessor {
             
             styleApplier.addAttributes(hiddenAttributes, range: range())
         }
-        
-        styleApplier.removeAttribute(.link, range: paragraphRange)
-        styleApplier.removeAttribute(.backgroundColor, range: paragraphRange)
-        
-        #if os(OSX)
-            if let font = UserDefaultsManagement.noteFont,
-                isFullScan {
-                styleApplier.addAttribute(.font, value: font, range: paragraphRange)
+
+        styleApplier.enumerateAttribute(.link, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if value != nil {
+                styleApplier.removeAttribute(.link, range: range)
             }
-        #endif
-        
+        }
+
+        styleApplier.enumerateAttribute(.backgroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if value != nil {
+                styleApplier.removeAttribute(.backgroundColor, range: range)
+            }
+        }
+
+        styleApplier.addAttribute(.font, value: font, range: paragraphRange)
+
         #if os(iOS)
             if NightNight.theme == .night {
                 styleApplier.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
@@ -590,7 +586,12 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
             }
         #else
-            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: paragraphRange)
+            styleApplier.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+
+                if (value as? NSColor) != nil {
+                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: paragraphRange)
+                }
+            }
         #endif
 
         // We detect and process inline links not formatted
@@ -1427,7 +1428,7 @@ public class NotesTextProcessor {
         }
     }
     
-    public func scanParagraph() {
+    public func scanParagraph(loadImages: Bool = true, async: Bool = true) {
         guard let note = self.note, let storage = self.storage, let range = self.range else {
             return
         }
@@ -1446,13 +1447,13 @@ public class NotesTextProcessor {
         }
 
         if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: storage.string) {
-                NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note)
+            NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note, async: async)
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
-                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note)
+                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
         } else {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             
-            if UserDefaultsManagement.liveImagesPreview {
+            if UserDefaultsManagement.liveImagesPreview && loadImages {
                 let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, note: note)
                 processor.load()
             }

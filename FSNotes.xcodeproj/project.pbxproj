@@ -118,6 +118,9 @@
 		D74112281FABA21B00AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D74112291FABA29100AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D7465F28207F2CD600E46A52 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
+		D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
+		D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
+		D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
 		D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
@@ -565,6 +568,7 @@
 		D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D7465F27207F2CD600E46A52 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D7470D062170E890006B2A92 /* CustomTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextStorage.swift; sourceTree = "<group>"; };
 		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74B7B642137D3A1007F5331 /* AttributedBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedBox.swift; sourceTree = "<group>"; };
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -804,6 +808,7 @@
 			children = (
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
+				D7470D062170E890006B2A92 /* CustomTextStorage.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2204,6 +2209,7 @@
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+Alpha.swift in Sources */,
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
+				D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
@@ -2280,6 +2286,7 @@
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
+				D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
 				D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */,
@@ -2342,6 +2349,7 @@
 				D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
 				D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */,
+				D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
 				D7E81C381F925B5F00416A91 /* Storage.swift in Sources */,
 				D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */,

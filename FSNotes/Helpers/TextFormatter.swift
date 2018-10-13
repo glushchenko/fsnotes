@@ -417,21 +417,9 @@ public class TextFormatter {
         
         if isCodeBlock(range: pr) {
             if pr.lowerBound != sRange.location {
-                let attributes = getCodeBlockAttributes()
+                let attributes = TextFormatter.getCodeBlockAttributes()
                 storage.addAttributes(attributes, range: currentPR)
             }
-        } else {
-            // Remove background if:
-            // 1) Cursor on paragraph first char
-            // 2) Paragraph contain new line
-            
-            if currentPR.lowerBound == self.textView.selectedRange.location && currentPR.length == 1  {
-                storage.removeAttribute(.backgroundColor, range: currentPR)
-            }
-
-            self.storage.addAttribute(.font, value: NotesTextProcessor.font, range: currentPR)
-
-            NotesTextProcessor.scanBasicSyntax(note: self.note, storage: self.storage, range: currentPR)
         }
     }
     
@@ -446,7 +434,7 @@ public class TextFormatter {
             && self.note.isMarkdown()
         {
             self.insertText("\t", replacementRange: sRange)
-            let attributes = self.getCodeBlockAttributes()
+            let attributes = TextFormatter.getCodeBlockAttributes()
             let attributeRange = NSRange(location: sRange.location, length: 2)
             self.storage.addAttributes(attributes, range: attributeRange)
             return
@@ -457,7 +445,7 @@ public class TextFormatter {
             let codeStyle = self.addCodeBlockStyle("\t\n")
             self.insertText(codeStyle, replacementRange: sRange)
             
-            let attributes = self.getCodeBlockAttributes()
+            let attributes = TextFormatter.getCodeBlockAttributes()
             let attributeRange = NSRange(location: sRange.location, length: 2)
             self.storage.addAttributes(attributes, range: attributeRange)
             
@@ -468,7 +456,7 @@ public class TextFormatter {
         if self.isCodeBlock(range: currentPR), note.isMarkdown() {
             self.insertText("\t", replacementRange: sRange)
             
-            let attributes = self.getCodeBlockAttributes()
+            let attributes = TextFormatter.getCodeBlockAttributes()
             let attributeRange = NSRange(location: sRange.location, length: 1)
             self.storage.addAttributes(attributes, range: attributeRange)
             
@@ -565,7 +553,7 @@ public class TextFormatter {
         // Insert code block new line
 
         if currentParagraphRange.lowerBound != textView.selectedRange.location,
-           currentParagraph.string.getPrefixMatchSequentially(char: "\t") != nil {
+           let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
 
             if let charsMatch = charsMatch {
                 self.insertText("\n", replacementRange: selectedRange)
@@ -578,7 +566,7 @@ public class TextFormatter {
             }
 
             if charsMatch == nil && digitsMatch == nil {
-                let styledCode = self.addCodeBlockStyle(result)
+                let styledCode = self.addCodeBlockStyle(result + prefix)
                 self.insertText(styledCode, replacementRange: selectedRange)
             }
 
@@ -592,7 +580,7 @@ public class TextFormatter {
         // Fenced code block style handler
         
         if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
-            let attributes = self.getCodeBlockAttributes()
+            let attributes = TextFormatter.getCodeBlockAttributes()
             self.storage.addAttributes(attributes, range: fencedRange)
         }
         
@@ -925,12 +913,12 @@ public class TextFormatter {
         guard attributedText.length > 0, self.note.isMarkdown() else { return attributedText }
         
         let range = NSRange(0..<text.count)
-        attributedText.addAttributes(self.getCodeBlockAttributes(), range: range)
+        attributedText.addAttributes(TextFormatter.getCodeBlockAttributes(), range: range)
         
         return attributedText
     }
     
-    private func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
+    public static func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         

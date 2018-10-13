@@ -209,6 +209,8 @@ class ViewController: NSViewController,
         self.editAreaScroll.textFinder = NSTextFinder.init()
         self.editAreaScroll.textFinder?.client = self.editArea
         self.editAreaScroll.textFinder?.findBarContainer =  self.editArea.enclosingScrollView
+
+        self.editArea.textStorage?.delegate = self.editArea.textStorage
     }
     
     private func configureShortcuts() {
@@ -872,6 +874,7 @@ class ViewController: NSViewController,
             notesTableView.noteList.indices.contains(index)
             && index > -1
             && !UserDefaultsManagement.preview
+            && self.editArea.isEditable
         ) {
             editArea.removeHighlight()
             let note = notesTableView.noteList[index]
@@ -884,6 +887,9 @@ class ViewController: NSViewController,
                 moveNoteToTop(note: index)
             }
         }
+
+        // Fixes glitch wgen make/delete code block paragraph
+        self.editArea.setSelectedRange(self.editArea.selectedRange())
     }
     
     @objc func enableFSUpdates() {

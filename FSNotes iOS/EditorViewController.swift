@@ -45,6 +45,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
+        self.editArea.textStorage.delegate = self.editArea.textStorage
         
         super.viewDidLoad()
 
@@ -357,12 +358,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
-
-            if note.isMarkdown() {
-                let processor = NotesTextProcessor(note: note, storage: editArea.textStorage, range: range)
-                processor.scanParagraph()
-            }
-
             return false
         }
         
@@ -447,8 +442,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
-        } else {
-            processor.scanParagraph()
         }
         
         self.storageQueue.cancelAllOperations()

@@ -619,21 +619,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
             return
         }
-        
-        if event.keyCode == kVK_Delete
-            && !event.modifierFlags.contains(.command)
-            && !event.modifierFlags.contains(.option) {
-            deleteBackward(nil)
-            
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.deleteKey()
-            return
-        }
-        
+
         if event.keyCode == kVK_Return {
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
-            
             return
         }
         
@@ -668,17 +657,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         super.keyDown(with: event)
         saveCursorPosition()
-        
-        let range = selectedRanges[0] as! NSRange
-        
-        guard
-            note.content.length >= range.location + range.length,
-            event.keyCode != kVK_Escape else { return }
-        
-        let processor = NotesTextProcessor(note: note, storage: storage, range: range)
-        processor.scanParagraph()
-        cacheNote(note: note)
-        note.save()
     }
     
     override func copy(_ sender: Any?) {
@@ -692,7 +670,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.copy(sender)
     }
     
-    private func isCodeBlock(paragraph: String) -> Bool {
+    public func isCodeBlock(paragraph: String) -> Bool {
         if paragraph.starts(with: "\t") || paragraph.starts(with: "    ") {
             guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
                 return false
