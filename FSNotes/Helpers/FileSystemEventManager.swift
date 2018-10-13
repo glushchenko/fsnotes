@@ -130,7 +130,10 @@ class FileSystemEventManager {
                     self.delegate.reloadSideBar()
                 }
             } else {
-                self.delegate.notesTableView.insertNew(note: note)
+                if !note.isTrash() {
+                    self.delegate.notesTableView.insertNew(note: note)
+                }
+
                 UserDataService.instance.skipListReload = true
                 self.delegate.reloadSideBar()
             }
