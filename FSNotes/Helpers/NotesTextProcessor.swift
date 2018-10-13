@@ -566,7 +566,8 @@ public class NotesTextProcessor {
         }
 
         styleApplier.enumerateAttribute(.link, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
-            if value != nil {
+
+            if value != nil && styleApplier.attribute(.attachment, at: paragraphRange.location, effectiveRange: nil) == nil {
                 styleApplier.removeAttribute(.link, range: range)
             }
         }

@@ -435,6 +435,8 @@ class ViewController: NSViewController,
                 return true
             }
 
+            notesTableView.scroll(.zero)
+            
             let hasSelectedNotes = notesTableView.selectedRow > -1
             let hasSelectedBarItem = storageOutlineView.selectedRow > -1
             

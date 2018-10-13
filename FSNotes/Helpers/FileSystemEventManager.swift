@@ -35,6 +35,10 @@ class FileSystemEventManager {
             guard let url = URL(string: "file://" + path) else {
                 return
             }
+
+            if !self.storage.allowedExtensions.contains(url.pathExtension) {
+                return
+            }
             
             if event.fileRemoved || event.dirRemoved {
                 guard let note = self.storage.getBy(url: url), note.project.isTrash else { return }
@@ -123,9 +127,12 @@ class FileSystemEventManager {
                 self.delegate.updateTable() {
                     self.delegate.notesTableView.setSelected(note: note)
                     UserDataService.instance.lastRenamed = nil
+                    self.delegate.reloadSideBar()
                 }
             } else {
-                self.delegate.reloadView(note: note)
+                self.delegate.notesTableView.insertNew(note: note)
+                UserDataService.instance.skipListReload = true
+                self.delegate.reloadSideBar()
             }
         }
         
@@ -133,10 +140,10 @@ class FileSystemEventManager {
             self.delegate.updateTable() {
                 self.delegate.notesTableView.selectRow(0)
                 note.addPin()
+
+                self.delegate.reloadSideBar()
             }
         }
-        
-        self.delegate.reloadSideBar()
     }
     
     private func renameNote(note: Note) {
@@ -172,8 +179,10 @@ class FileSystemEventManager {
             || (!note.isRTF() && fsContent.string != memoryContent.string) {
             note.content = NSMutableAttributedString(attributedString: fsContent)
             note.reCache()
-            
-            self.delegate.refillEditArea()
+
+            if EditTextView.note == note {
+                self.delegate.refillEditArea()
+            }
         }
     }
     
