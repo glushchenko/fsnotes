@@ -25,6 +25,12 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     public var timestamp: Int64?
     private var lastQueryLength: Int = 0
 
+    override func textDidEndEditing(_ notification: Notification) {
+        if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
+            editor.replaceCharacters(in: editor.selectedRange, with: "")
+        }
+    }
+
     override func keyUp(with event: NSEvent) {
         if (event.keyCode == kVK_DownArrow) {
             vcDelegate.focusTable()

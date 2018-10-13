@@ -1461,16 +1461,10 @@ public class NotesTextProcessor {
     }
     
     func highlightKeyword(search: String = "", remove: Bool = false) {
-        guard let storage = self.storage else {
-            return
-        }
-        
-        guard search.count > 0 else {
-            return
-        }
-        
+        guard let storage = self.storage, search.count > 0 else { return }
+
         let searchTerm = NSRegularExpression.escapedPattern(for: search)
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(attributedString: storage)
+        let attributedString = NSMutableAttributedString(attributedString: storage)
         let pattern = "(\(searchTerm))"
         let range: NSRange = NSMakeRange(0, storage.string.count)
                 
@@ -1486,13 +1480,14 @@ public class NotesTextProcessor {
                     guard let subRange = textCheckingResult?.range else {
                         return
                     }
-                    
+
                     if remove {
                         if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
-                            attributedString.removeAttribute(NoteAttribute.highlight, range: subRange)
-                            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
+                            storage.removeAttribute(NoteAttribute.highlight, range: subRange)
+                            storage.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
+                            return
                         } else {
-                            attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
+                            storage.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
                         }
                     } else {
                         if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedStringKey.backgroundColor) {
@@ -1500,11 +1495,15 @@ public class NotesTextProcessor {
                         }
                         attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange)
                     }
-            }
+                }
             )
-            
-            storage.setAttributedString(attributedString)
-        } catch {}
+
+            if !remove {
+                storage.setAttributedString(attributedString)
+            }
+        } catch {
+            print(error)
+        }
     }
 
 }

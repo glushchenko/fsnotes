@@ -888,6 +888,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let mainWindow = NSApplication.shared.windows.first
         let viewController = mainWindow?.contentViewController as! ViewController
         let search = viewController.search.stringValue
+
+        if let editor = viewController.search.currentEditor(), editor.selectedRange.length > 0 {
+            return (search as NSString).substring(with: NSRange(0..<editor.selectedRange.location))
+        }
         
         return search
     }

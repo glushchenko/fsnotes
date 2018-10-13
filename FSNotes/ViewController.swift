@@ -420,6 +420,11 @@ class ViewController: NSViewController,
             event.keyCode == kVK_Escape
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
         ) {
+            if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {
+                NSApp.mainWindow?.makeFirstResponder( self.notesTableView)
+                return false
+            }
+
             if self.editAreaScroll.isFindBarVisible {
                 self.editAreaScroll.isFindBarVisible = false
                 if !UserDefaultsManagement.preview {
@@ -600,7 +605,6 @@ class ViewController: NSViewController,
             alert.runModal()
             
             note.parseURL()
-            print(note.name)
             sender.stringValue = note.getTitleWithoutLabel()
             return
         }
