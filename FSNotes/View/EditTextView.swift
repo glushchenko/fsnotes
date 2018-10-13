@@ -285,12 +285,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
-        } else {
-            textColor = UserDefaultsManagement.fontColor
-        }
-        
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
         
@@ -347,11 +341,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 font = UserDefaultsManagement.noteFont
             }
 
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
-            } else {
-                textColor = UserDefaultsManagement.fontColor
-            }
+            setTextColor()
             
             let range = NSRange(0..<storage.length)
             let processor = NotesTextProcessor(storage: storage, range: range)
@@ -377,6 +367,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
+        }
+    }
+
+    private func setTextColor() {
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+            textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+        } else {
+            textColor = UserDefaultsManagement.fontColor
         }
     }
 
