@@ -1179,16 +1179,13 @@ class ViewController: NSViewController,
         
         let note = Note(name: name, project: project, type: type)
         note.content = NSMutableAttributedString(string: text)
-        note.isCached = true
+        note.isCached = false
         note.save()
         
         if let si = getSidebarItem(), si.type == .Tag {
             note.addTag(si.name)
         }
-        
-        note.markdownCache()
-        refillEditArea()
-        
+                
         self.search.stringValue.removeAll()
         updateTable() {
             DispatchQueue.main.async {
@@ -1396,11 +1393,13 @@ class ViewController: NSViewController,
             for key in keys {
                 if let isPinned = keyStore.object(forKey: key) as? Bool, let note = storage.getBy(name: key) {
                     note.isPinned = isPinned
+
+                    if let i = self.notesTableView.noteList.firstIndex(of: note) {
+                        DispatchQueue.main.async {
+                            self.moveNoteToTop(note: i)
+                        }
+                    }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.reloadView()
             }
         }
     }

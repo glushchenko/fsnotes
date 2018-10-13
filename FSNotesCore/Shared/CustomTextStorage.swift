@@ -20,7 +20,11 @@ extension NSTextStorage: NSTextStorageDelegate {
         range editedRange: NSRange,
         changeInLength delta: Int) {
 
-        guard let note = EditTextView.note, note.isMarkdown(), editedRange.length != note.content.length else { return }
+        guard let note = EditTextView.note, note.isMarkdown(),
+            (editedRange.length != note.content.length)
+                || !note.isCached else { return }
+
+        note.isCached = true
 
         if self.isInserting(delta: delta) {
             let paragraphRange = (self.string as NSString).paragraphRange(for: editedRange)

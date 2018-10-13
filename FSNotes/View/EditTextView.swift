@@ -21,8 +21,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var downView: MarkdownView?
     var timer: Timer?
 
-    public var scannerQueue = OperationQueue.init()
-
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
@@ -554,12 +552,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let end = (selectedRanges[0] as! NSRange).location
         let start = end - clipboard.count
         let range = NSRange(start..<end)
-        
+
         NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
         note.save()
-        
+
         cacheNote(note: note)
-        
+
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
