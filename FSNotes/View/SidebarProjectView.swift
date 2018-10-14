@@ -137,13 +137,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], let vd = viewDelegate, let project = sidebarItem.project else { return false }
             
             for url in urls {
-                let name = url.lastPathComponent
-                let note = Note(url: url, with: project)
-                note.loadContent()
-                note.url = project.url.appendingPathComponent(name)
-                note.save()
-                note.markdownCache()
-                vd.reloadView()
+                do {
+                    try FileManager.default.copyItem(at: url, to: project.url.appendingPathComponent(url.lastPathComponent))
+                } catch {
+                    print(error)
+                }
             }
             
             return true
@@ -533,9 +531,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             }
         }
     }
-    
 
-    
     private func getViewController() -> ViewController? {
         return NSApp.windows.first?.contentViewController as? ViewController
     }

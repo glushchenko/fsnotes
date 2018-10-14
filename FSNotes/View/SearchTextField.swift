@@ -28,6 +28,7 @@ class SearchTextField: NSTextField, NSTextFieldDelegate {
     override func textDidEndEditing(_ notification: Notification) {
         if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
             editor.replaceCharacters(in: editor.selectedRange, with: "")
+            window?.makeFirstResponder(nil)
         }
     }
 

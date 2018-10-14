@@ -1423,8 +1423,7 @@ class ViewController: NSViewController,
     
     @IBAction func duplicate(_ sender: Any) {
         if let note = notesTableView.getSelectedNote() {
-            let newNote = note.duplicateNote()
-            self.notesTableView.insertNew(note: newNote)
+            note.duplicate()
         }
     }
     

@@ -749,7 +749,7 @@ public class Note: NSObject  {
     }
 
     #if os(OSX)
-    public func duplicateNote() -> Note {
+    public func duplicate() {
         var url: URL = self.url
 
         let ext = url.pathExtension
@@ -762,15 +762,7 @@ public class Note: NSObject  {
         url.appendPathComponent(name + " " + now)
         url.appendPathExtension(ext)
 
-
-        let note = sharedStorage.initNote(url: url)!
-        note.content = content
-        note.save()
-
-        UserDataService.instance.lastRenamed = url
-        UserDataService.instance.skipListReload = true
-
-        return note
+        try? FileManager.default.copyItem(at: self.url, to: url)
     }
     #endif
 
