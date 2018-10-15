@@ -184,8 +184,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     public func isTodo(at location: Int) -> Bool {
         let storage = self.textStorage
         
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-        if storage.length > location, storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+        if storage.length > location, storage.attribute(.todo, at: location, effectiveRange: nil) != nil {
             return true
         }
         
@@ -210,8 +209,9 @@ class EditTextView: UITextView, UITextViewDelegate {
     public func isImage(at location: Int) -> Bool {
         let storage = self.textStorage
 
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-        if storage.length > location, storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+
+        if storage.length > location, storage.attribute(pathKey, at: location, effectiveRange: nil) != nil {
             return true
         }
 

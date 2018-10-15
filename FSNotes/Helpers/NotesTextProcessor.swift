@@ -191,7 +191,9 @@ public class NotesTextProcessor {
         return foundRange
     }
     
-    public static func getCodeBlockRange(paragraphRange: NSRange, string: NSString) -> NSRange? {
+    public static func getCodeBlockRange(paragraphRange: NSRange, content: NSAttributedString) -> NSRange? {
+
+        let string = content.string as NSString
         let paragraph = string.substring(with: paragraphRange)
         guard isCodeBlockParagraph(paragraph) else {
             return nil
@@ -202,8 +204,22 @@ public class NotesTextProcessor {
         
         NotesTextProcessor.i = 0
         NotesTextProcessor.j = 0
-        
-        return NSRange(start..<end)
+
+        let resultRange = NSRange(start..<end)
+        var hasTodoBlock = false
+
+        content.enumerateAttribute(.todo, in: resultRange, options: []) { (value, range, stop) -> Void in
+            guard value != nil else { return }
+
+            hasTodoBlock = true
+            stop.pointee = true
+        }
+
+        if hasTodoBlock {
+            return nil
+        }
+
+        return resultRange
     }
     
     public static var j = 0
@@ -316,7 +332,7 @@ public class NotesTextProcessor {
                 let string = (string as NSString)
                 let paragraphRange = string.paragraphRange(for: r.range)
 
-                if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
+                if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: content),
                     codeBlockRange.upperBound <= content.length {
 
                     NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
@@ -575,6 +591,12 @@ public class NotesTextProcessor {
         styleApplier.enumerateAttribute(.backgroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
             if value != nil {
                 styleApplier.removeAttribute(.backgroundColor, range: range)
+            }
+        }
+
+        styleApplier.enumerateAttribute(.strikethroughStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if value != nil {
+                styleApplier.removeAttribute(.strikethroughStyle, range: range)
             }
         }
 
@@ -873,8 +895,7 @@ public class NotesTextProcessor {
                 }
             }
         }
-        
-        #if os(iOS)
+
         // Todo
         NotesTextProcessor.todoInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -885,7 +906,14 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.strikethroughStyle, value: 1, range: strikeRange)
             }
         }
-        #endif
+
+        styleApplier.enumerateAttribute(.attachment, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if value != nil, let todo = styleApplier.attribute(.todo, at: range.location, effectiveRange: nil) {
+
+                let strikeRange = textStorageNSString.paragraphRange(for: range)
+                styleApplier.addAttribute(.strikethroughStyle, value: todo, range: strikeRange)
+            }
+        }
     }
     
     /// Tabs are automatically converted to spaces as part of the transform
@@ -1450,7 +1478,7 @@ public class NotesTextProcessor {
 
         if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: storage.string) {
             NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note, async: async)
-        } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string) {
+        } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: storage) {
                 NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
         } else {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)

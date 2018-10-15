@@ -222,7 +222,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         let range = (storage.string as NSString).paragraphRange(for: NSRange(location: location, length: 0))
         let string = storage.attributedSubstring(from: range).string as NSString
-        
+
+        if storage.attribute(.todo, at: location, effectiveRange: nil) != nil {
+            return true
+        }
+
         var length = string.range(of: "- [ ]").length
         if length == 0 {
             length = string.range(of: "- [x]").length
@@ -353,9 +357,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
             isHighlighted = true
         }
         
-        if note.isMarkdown() && UserDefaultsManagement.liveImagesPreview {
-            self.timer?.invalidate()
-            self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
+        if note.isMarkdown() {
+            textStorage?.replaceCheckboxes()
+
+            if UserDefaultsManagement.liveImagesPreview {
+                self.timer?.invalidate()
+                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
+            }
         }
         
         viewController.titleLabel.stringValue = note.title

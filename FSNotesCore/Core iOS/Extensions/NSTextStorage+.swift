@@ -38,9 +38,11 @@ extension NSTextStorage {
         attachmentParagraph.alignment = .center
 
         addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<length))
-
+        
         enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-            if value as? NSTextAttachment != nil {
+            if value as? NSTextAttachment != nil,
+                self.attribute(.todo, at: range.location,
+                effectiveRange: nil) == nil {
                 addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
             }
         }

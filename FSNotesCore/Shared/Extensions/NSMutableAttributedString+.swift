@@ -21,7 +21,7 @@ extension NSMutableAttributedString {
 
         self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
 
-            if let textAttachment = value as? NSTextAttachment {
+            if let textAttachment = value as? NSTextAttachment, self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 var path: String?
                 var title: String?
 
@@ -84,10 +84,9 @@ extension NSMutableAttributedString {
         self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if value != nil {
                 let newRange = NSRange(location: range.location + offset, length: 1)
-                let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
 
                 guard range.length == 1,
-                    let value = self.attribute(todoKey, at: range.location, effectiveRange: nil) as? Int
+                    let value = self.attribute(.todo, at: range.location, effectiveRange: nil) as? Int
                 else { return }
 
                 var gfm = "- [ ]"

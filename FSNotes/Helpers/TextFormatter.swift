@@ -398,7 +398,7 @@ public class TextFormatter {
     
     func highlight() {
         let string = storage.string as NSString
-        if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, string: string),
+        if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: storage),
             codeBlockRange.upperBound <= storage.length,
             UserDefaultsManagement.codeBlockHighlight {
             NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
@@ -592,30 +592,29 @@ public class TextFormatter {
         
         let nsString = storage.string as NSString
         let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(selectedRange.lowerBound - 1, 0))
-        
-        #if os(iOS)
 
-            // Autocomplete rendered todo
+        // Autocomplete rendered todo
 
-            let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-            if self.note.isMarkdown(), self.textView.textStorage.attribute(todoKey, at: prevParagraphRange.location, effectiveRange: nil) != nil,
-                let unchecked = AttributedBox.getUnChecked() {
-                let newLineSuggestion = prevParagraphRange.location + 2
-                let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
-                
-                if storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
-                    self.setSelectedRange(prevParagraphRange)
-                    textView.deleteBackward()
-                    return
-                }
-                
-                self.insertText("  ")
-                let newRange = NSRange(location: selectedRange.location, length: 2)
-                self.textView.textStorage.replaceCharacters(in: newRange, with: unchecked)
+        if self.note.isMarkdown(), self.storage.attribute(.todo, at: prevParagraphRange.location, effectiveRange: nil) != nil,
+            let unchecked = AttributedBox.getUnChecked() {
+            let newLineSuggestion = prevParagraphRange.location + 2
+            let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
+
+            if storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
+                self.setSelectedRange(prevParagraphRange)
+                #if os(OSX)
+                textView.deleteBackward(nil)
+                #else
+                textView.deleteBackward()
+                #endif
                 return
             }
- 
-        #endif
+
+            self.insertText("  ")
+            let newRange = NSRange(location: selectedRange.location, length: 2)
+            self.storage.replaceCharacters(in: newRange, with: unchecked)
+            return
+        }
 
         guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
         let currentP = storage.attributedSubstring(from: currentPR)
@@ -630,11 +629,7 @@ public class TextFormatter {
     }
 
     public func toggleTodo(_ location: Int? = nil) {
-
-        #if os(iOS)
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-        
-        if let location = location, let todoAttr = storage.attribute(todoKey, at: location, effectiveRange: nil) as? Int {
+        if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
 
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
@@ -648,16 +643,16 @@ public class TextFormatter {
             }
             
             if paragraph.contains(location) {
-                if todoAttr == 0 {
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
-                } else {
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 0
-                }
+                let strike = (todoAttr == 0) ? 1 : 0
+                #if os(OSX)
+                    textView.typingAttributes[.strikethroughStyle] = strike
+                #else
+                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = strike
+                #endif
             }
             
             return
         }
-        #endif
 
         guard var paragraphRange = getParagraphRange() else { return }
 
@@ -665,16 +660,14 @@ public class TextFormatter {
             let string = self.storage.string as NSString
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
-            let range = NSRange(location: paragraphRange.location, length: 0)
-            
-            #if os(iOS)
             if let attributedText = AttributedBox.getUnChecked() {
-                self.insertText("  ", replacementRange: range)
-                let newRange = NSRange(location: textView.selectedRange.location - 2, length: 2)
-                self.textView.textStorage.replaceCharacters(in: newRange, with: attributedText)
+                let loc = textView.selectedRange.location
+                self.insertText("  ")
+
+                let newRange = NSRange(location: loc, length: 2)
+                self.storage.replaceCharacters(in: newRange, with: attributedText)
             }
             return
-            #endif
         }
         
         let paragraph = self.storage.attributedSubstring(from: paragraphRange)
@@ -682,12 +675,7 @@ public class TextFormatter {
         if let index = paragraph.string.range(of: "- [ ]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-
-            #if os(iOS)
-                let attributedText = AttributedBox.getChecked()
-            #else
-                let attributedText = self.getAttributedTodoString("- [x]")
-            #endif
+            let attributedText = AttributedBox.getChecked()
             
             self.insertText(attributedText, replacementRange: range)
 
@@ -696,23 +684,12 @@ public class TextFormatter {
         } else if let index = paragraph.string.range(of: "- [x]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-
-            #if os(iOS)
-                let attributedText = AttributedBox.getUnChecked()
-            #else
-                let attributedText = self.getAttributedTodoString("- [ ]")
-            #endif
+            let attributedText = AttributedBox.getUnChecked()
             
             self.insertText(attributedText, replacementRange: range)
             
             return
         }
-
-        #if os(OSX)
-            let attributedText = self.getAttributedTodoString("- [ ] ")
-
-            self.insertText(attributedText, replacementRange: range)
-        #endif
     }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {

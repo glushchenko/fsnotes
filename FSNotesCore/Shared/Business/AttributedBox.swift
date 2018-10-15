@@ -6,89 +6,75 @@
 //  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
 //
 
-import UIKit
-import NightNight
+#if os(iOS)
+    import UIKit
+    import NightNight
+#else
+    import Cocoa
+#endif
 
 class AttributedBox {
     public static func getChecked() -> NSMutableAttributedString? {
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-
-        var editorFont: UIFont?
-        if #available(iOS 11.0, *) {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            editorFont = fontMetrics.scaledFont(for: UserDefaultsManagement.noteFont)
-        } else {
-            editorFont = UserDefaultsManagement.noteFont
-        }
-
-        var night = ""
-        if NightNight.theme == .night {
-            night = "_white"
-        }
-
-        guard var image = UIImage(named: "checkbox\(night).png"),
-            let font = editorFont,
-            let height = editorFont?.lineHeight else { return nil }
-
-        if let resized = image.resize(maxWidthHeight: Double(height) + 10) {
-            image = resized
-        }
+        let font = NotesTextProcessor.font
+        let height = font.lineHeight + 5
+        let image = getImage(name: "checkbox")
 
         let attachment = NSTextAttachment()
         attachment.image = image
         let mid = font.descender + font.capHeight
         attachment.bounds = CGRect(
             x: 0,
-            y: font.descender - image.size.height / 2 + mid + 2,
-            width: image.size.width,
-            height: image.size.height
-        ).integral
+            y: font.descender - height / 2 + mid + 2,
+            width: height,
+            height: height
+            ).integral
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
-        checkboxText.addAttribute(todoKey, value: 1, range: NSRange(0..<1))
+
+        checkboxText.addAttribute(.todo, value: 1, range: NSRange(0..<1))
         checkboxText.append(NSAttributedString(string: " "))
 
         return checkboxText
     }
 
     public static func getUnChecked() -> NSMutableAttributedString? {
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-
-        var editorFont: UIFont?
-        if #available(iOS 11.0, *) {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            editorFont = fontMetrics.scaledFont(for: UserDefaultsManagement.noteFont)
-        } else {
-            editorFont = UserDefaultsManagement.noteFont
-        }
-
-        var night = ""
-        if NightNight.theme == .night {
-            night = "_white"
-        }
-
-        guard var image = UIImage(named: "checkbox_empty\(night).png"),
-            let font = editorFont,
-            let height = editorFont?.lineHeight else { return nil }
-
-        if let resized = image.resize(maxWidthHeight: Double(height) + 10) {
-            image = resized
-        }
+        let font = NotesTextProcessor.font
+        let height = font.lineHeight + 5
+        let image = getImage(name: "checkbox_empty")
 
         let attachment = NSTextAttachment()
         attachment.image = image
         let mid = font.descender + font.capHeight
         attachment.bounds = CGRect(
             x: 0,
-            y: font.descender - image.size.height / 2 + mid + 2,
-            width: image.size.width,
-            height: image.size.height
+            y: font.descender - height / 2 + mid + 2,
+            width: height,
+            height: height
             ).integral
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
-        checkboxText.addAttribute(todoKey, value: 0, range: NSRange(0..<1))
+        checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
         checkboxText.append(NSAttributedString(string: " "))
 
         return checkboxText
+    }
+
+    public static func getImage(name: String) -> Image {
+        var name = name
+
+        #if os(OSX)
+            if name == "checkbox" {
+                name = "checkbox_flipped"
+            }
+            return NSImage(named: NSImage.Name(rawValue: name))!
+        #else
+            var night = String()
+
+            if NightNight.theme == .night {
+                night = "_white"
+            }
+
+            return UIImage(named: "\(name)\(night).png")!
+        #endif
     }
 }

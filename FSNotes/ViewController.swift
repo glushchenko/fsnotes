@@ -634,7 +634,6 @@ class ViewController: NSViewController,
             try FileManager.default.moveItem(at: url, to: newUrl)
             print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
         } catch {
-            print("catch")
             note.url = url
             note.parseURL()
         }

@@ -202,19 +202,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         if note.isMarkdown() {
-            while (editArea.textStorage.mutableString.contains("- [ ] ")) {
-                let range = editArea.textStorage.mutableString.range(of: "- [ ] ")
-                if editArea.textStorage.length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
-                    editArea.textStorage.replaceCharacters(in: range, with: unChecked)
-                }
-            }
-
-            while (editArea.textStorage.mutableString.contains("- [x] ")) {
-                let range = editArea.textStorage.mutableString.range(of: "- [x] ")
-                if editArea.textStorage.length >= range.upperBound, let checked = AttributedBox.getChecked() {
-                    editArea.textStorage.replaceCharacters(in: range, with: checked)
-                }
-            }
+            editArea.textStorage.replaceCheckboxes()
         }
 
         let search = getSearchText()
@@ -816,8 +804,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
         // Image preview/selection on click
-        if self.editArea.isImage(at: characterIndex) {
-
+        if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
             // Select and show menu
             guard !self.editArea.isFirstResponder else {
                 self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
@@ -830,10 +817,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
             }
 
-            let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+            let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
 
-            guard let path = myTextView.textStorage.attribute(todoKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
-
+            guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
 
             if let data = try? Data(contentsOf: url), let someImage = UIImage(data: data) {
                 let imageInfo   = GSImageInfo(image: someImage, imageMode: .aspectFit)
@@ -889,9 +875,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     
     private func isTodo(location: Int, textView: UITextView) -> Bool {
         let storage = textView.textStorage
-        
-        let todoKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo")
-        if storage.attribute(todoKey, at: location, effectiveRange: nil) != nil {
+
+        if storage.attribute(.todo, at: location, effectiveRange: nil) != nil {
             return true
         }
         

@@ -107,10 +107,10 @@ public class ImagesProcessor {
         note.content = NSMutableAttributedString(attributedString: styleApplier.attributedSubstring(from: NSRange(0..<styleApplier.length)))
         
         var offset = 0
-        
+
         self.styleApplier.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.styleApplier.length)) { (value, range, stop) in
-            
-            if value != nil {
+
+            if value != nil, self.styleApplier.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 let newRange = NSRange(location: range.location + offset, length: range.length)
                 let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
                 let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")

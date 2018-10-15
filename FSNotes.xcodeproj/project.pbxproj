@@ -121,6 +121,62 @@
 		D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
+		D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
+		D7487F9021734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
+		D7487F9121734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
+		D7487F922173503C00D09383 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
+		D7487F932173503C00D09383 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
+		D7487F952173535200D09383 /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F942173535200D09383 /* NSFont+.swift */; };
+		D7487FAE2173565A00D09383 /* checkbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2C2138305000E1C021 /* checkbox_white.png */; };
+		D7487FAF2173565A00D09383 /* checkbox_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2E2138305000E1C021 /* checkbox_white@2x.png */; };
+		D7487FB02173565A00D09383 /* checkbox_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2F2138305000E1C021 /* checkbox_white@3x.png */; };
+		D7487FB12173565A00D09383 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2D2138305000E1C021 /* checkbox.png */; };
+		D7487FB22173565A00D09383 /* checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2A2138305000E1C021 /* checkbox@2x.png */; };
+		D7487FB32173565A00D09383 /* checkbox@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2B2138305000E1C021 /* checkbox@3x.png */; };
+		D7487FB42173565A00D09383 /* checkbox_empty_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC372138313400E1C021 /* checkbox_empty_white.png */; };
+		D7487FB52173565A00D09383 /* checkbox_empty_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */; };
+		D7487FB62173565A00D09383 /* checkbox_empty_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC382138313400E1C021 /* checkbox_empty_white@3x.png */; };
+		D7487FB72173565A00D09383 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC362138313300E1C021 /* checkbox_empty.png */; };
+		D7487FB82173565A00D09383 /* checkbox_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC392138313400E1C021 /* checkbox_empty@2x.png */; };
+		D7487FB92173565A00D09383 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */; };
+		D7487FBA2173566600D09383 /* checkbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2C2138305000E1C021 /* checkbox_white.png */; };
+		D7487FBB2173566600D09383 /* checkbox_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2E2138305000E1C021 /* checkbox_white@2x.png */; };
+		D7487FBC2173566600D09383 /* checkbox_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2F2138305000E1C021 /* checkbox_white@3x.png */; };
+		D7487FBD2173566600D09383 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2D2138305000E1C021 /* checkbox.png */; };
+		D7487FBE2173566600D09383 /* checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2A2138305000E1C021 /* checkbox@2x.png */; };
+		D7487FBF2173566600D09383 /* checkbox@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2B2138305000E1C021 /* checkbox@3x.png */; };
+		D7487FC02173566600D09383 /* checkbox_empty_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC372138313400E1C021 /* checkbox_empty_white.png */; };
+		D7487FC12173566600D09383 /* checkbox_empty_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */; };
+		D7487FC22173566600D09383 /* checkbox_empty_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC382138313400E1C021 /* checkbox_empty_white@3x.png */; };
+		D7487FC32173566600D09383 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC362138313300E1C021 /* checkbox_empty.png */; };
+		D7487FC42173566600D09383 /* checkbox_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC392138313400E1C021 /* checkbox_empty@2x.png */; };
+		D7487FC52173566600D09383 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */; };
+		D7487FC62173566700D09383 /* checkbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2C2138305000E1C021 /* checkbox_white.png */; };
+		D7487FC72173566700D09383 /* checkbox_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2E2138305000E1C021 /* checkbox_white@2x.png */; };
+		D7487FC82173566700D09383 /* checkbox_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2F2138305000E1C021 /* checkbox_white@3x.png */; };
+		D7487FC92173566700D09383 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2D2138305000E1C021 /* checkbox.png */; };
+		D7487FCA2173566700D09383 /* checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2A2138305000E1C021 /* checkbox@2x.png */; };
+		D7487FCB2173566700D09383 /* checkbox@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2B2138305000E1C021 /* checkbox@3x.png */; };
+		D7487FCC2173566700D09383 /* checkbox_empty_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC372138313400E1C021 /* checkbox_empty_white.png */; };
+		D7487FCD2173566700D09383 /* checkbox_empty_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */; };
+		D7487FCE2173566700D09383 /* checkbox_empty_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC382138313400E1C021 /* checkbox_empty_white@3x.png */; };
+		D7487FCF2173566700D09383 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC362138313300E1C021 /* checkbox_empty.png */; };
+		D7487FD02173566700D09383 /* checkbox_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC392138313400E1C021 /* checkbox_empty@2x.png */; };
+		D7487FD12173566700D09383 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */; };
+		D7487FD6217389F800D09383 /* NSImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FD5217389F800D09383 /* NSImage+.swift */; };
+		D7487FD721738A1800D09383 /* NSImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FD5217389F800D09383 /* NSImage+.swift */; };
+		D7487FD821738A1900D09383 /* NSImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FD5217389F800D09383 /* NSImage+.swift */; };
+		D7487FDF2173EDEC00D09383 /* checkbox_flipped_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FD92173EDEB00D09383 /* checkbox_flipped_white@2x.png */; };
+		D7487FE02173EDEC00D09383 /* checkbox_flipped.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FDA2173EDEB00D09383 /* checkbox_flipped.png */; };
+		D7487FE12173EDEC00D09383 /* checkbox_flipped@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FDB2173EDEB00D09383 /* checkbox_flipped@3x.png */; };
+		D7487FE22173EDEC00D09383 /* checkbox_flipped_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FDC2173EDEB00D09383 /* checkbox_flipped_white@3x.png */; };
+		D7487FE32173EDEC00D09383 /* checkbox_flipped_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FDD2173EDEC00D09383 /* checkbox_flipped_white.png */; };
+		D7487FE42173EDEC00D09383 /* checkbox_flipped@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7487FDE2173EDEC00D09383 /* checkbox_flipped@2x.png */; };
+		D7487FE92174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D7487FEA2174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D7487FEC2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
 		D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
@@ -569,6 +625,16 @@
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D7465F27207F2CD600E46A52 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D7470D062170E890006B2A92 /* CustomTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextStorage.swift; sourceTree = "<group>"; };
+		D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
+		D7487F942173535200D09383 /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
+		D7487FD5217389F800D09383 /* NSImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+.swift"; sourceTree = "<group>"; };
+		D7487FD92173EDEB00D09383 /* checkbox_flipped_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_flipped_white@2x.png"; sourceTree = "<group>"; };
+		D7487FDA2173EDEB00D09383 /* checkbox_flipped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_flipped.png; sourceTree = "<group>"; };
+		D7487FDB2173EDEB00D09383 /* checkbox_flipped@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_flipped@3x.png"; sourceTree = "<group>"; };
+		D7487FDC2173EDEB00D09383 /* checkbox_flipped_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_flipped_white@3x.png"; sourceTree = "<group>"; };
+		D7487FDD2173EDEC00D09383 /* checkbox_flipped_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_flipped_white.png; sourceTree = "<group>"; };
+		D7487FDE2173EDEC00D09383 /* checkbox_flipped@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_flipped@2x.png"; sourceTree = "<group>"; };
+		D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedStringKey+.swift"; sourceTree = "<group>"; };
 		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D74B7B642137D3A1007F5331 /* AttributedBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedBox.swift; sourceTree = "<group>"; };
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -809,6 +875,7 @@
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
 				D7470D062170E890006B2A92 /* CustomTextStorage.swift */,
+				D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -821,6 +888,7 @@
 				6F13BB2A20FEDE230005E120 /* URL+.swift */,
 				D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */,
 				D76E10C0215A55CE0017F4A3 /* Date+.swift */,
+				D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -855,6 +923,8 @@
 			isa = PBXGroup;
 			children = (
 				D72189352102099B00FE3AF2 /* NSTextStorage+.swift */,
+				D7487F942173535200D09383 /* NSFont+.swift */,
+				D7487FD5217389F800D09383 /* NSImage+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -989,6 +1059,12 @@
 				D739EC362138313300E1C021 /* checkbox_empty.png */,
 				D739EC392138313400E1C021 /* checkbox_empty@2x.png */,
 				D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */,
+				D7487FDD2173EDEC00D09383 /* checkbox_flipped_white.png */,
+				D7487FD92173EDEB00D09383 /* checkbox_flipped_white@2x.png */,
+				D7487FDC2173EDEB00D09383 /* checkbox_flipped_white@3x.png */,
+				D7487FDA2173EDEB00D09383 /* checkbox_flipped.png */,
+				D7487FDE2173EDEC00D09383 /* checkbox_flipped@2x.png */,
+				D7487FDB2173EDEB00D09383 /* checkbox_flipped@3x.png */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1624,6 +1700,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7487FB92173565A00D09383 /* checkbox_empty@3x.png in Resources */,
+				D7487FB02173565A00D09383 /* checkbox_white@3x.png in Resources */,
+				D7487FB62173565A00D09383 /* checkbox_empty_white@3x.png in Resources */,
+				D7487FAE2173565A00D09383 /* checkbox_white.png in Resources */,
+				D7487FB32173565A00D09383 /* checkbox@3x.png in Resources */,
+				D7487FE22173EDEC00D09383 /* checkbox_flipped_white@3x.png in Resources */,
+				D7487FB22173565A00D09383 /* checkbox@2x.png in Resources */,
+				D7487FDF2173EDEC00D09383 /* checkbox_flipped_white@2x.png in Resources */,
+				D7487FE32173EDEC00D09383 /* checkbox_flipped_white.png in Resources */,
+				D7487FE02173EDEC00D09383 /* checkbox_flipped.png in Resources */,
+				D7487FE12173EDEC00D09383 /* checkbox_flipped@3x.png in Resources */,
+				D7487FB12173565A00D09383 /* checkbox.png in Resources */,
+				D7487FE42173EDEC00D09383 /* checkbox_flipped@2x.png in Resources */,
+				D7487FB52173565A00D09383 /* checkbox_empty_white@2x.png in Resources */,
+				D7487FB42173565A00D09383 /* checkbox_empty_white.png in Resources */,
+				D7487FB72173565A00D09383 /* checkbox_empty.png in Resources */,
+				D7487FAF2173565A00D09383 /* checkbox_white@2x.png in Resources */,
+				D7487FB82173565A00D09383 /* checkbox_empty@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1765,9 +1859,13 @@
 				D7A216F92131A52C00AAFE11 /* todo.png in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
+				D7487FCB2173566700D09383 /* checkbox@3x.png in Resources */,
+				D7487FD12173566700D09383 /* checkbox_empty@3x.png in Resources */,
 				D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */,
+				D7487FD02173566700D09383 /* checkbox_empty@2x.png in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
+				D7487FC62173566700D09383 /* checkbox_white.png in Resources */,
 				D7E6D9CB207F9878003ECAFC /* home.png in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
 				D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */,
@@ -1782,11 +1880,19 @@
 				D7FBBC2520F151F80014EC5B /* Localizable.strings in Resources */,
 				D7DF401F20A37717000F8B13 /* tag_white.png in Resources */,
 				D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */,
+				D7487FCC2173566700D09383 /* checkbox_empty_white.png in Resources */,
+				D7487FCD2173566700D09383 /* checkbox_empty_white@2x.png in Resources */,
+				D7487FCF2173566700D09383 /* checkbox_empty.png in Resources */,
 				D77B9E9B20DE53E0003FAA27 /* archive.png in Resources */,
 				D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */,
+				D7487FCE2173566700D09383 /* checkbox_empty_white@3x.png in Resources */,
+				D7487FC72173566700D09383 /* checkbox_white@2x.png in Resources */,
+				D7487FC92173566700D09383 /* checkbox.png in Resources */,
+				D7487FC82173566700D09383 /* checkbox_white@3x.png in Resources */,
 				D7D3D51A1F4483F500D152FE /* pin.png in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
+				D7487FCA2173566700D09383 /* checkbox@2x.png in Resources */,
 				D7DF402820A377F4000F8B13 /* home_white.png in Resources */,
 				D7166F531F32F751001A883F /* icons.icns in Resources */,
 			);
@@ -1798,8 +1904,10 @@
 			files = (
 				D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */,
 				D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */,
+				D7487FBC2173566600D09383 /* checkbox_white@3x.png in Resources */,
 				D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
+				D7487FC12173566600D09383 /* checkbox_empty_white@2x.png in Resources */,
 				D7E81C4B1F925B5F00416A91 /* DownView.bundle in Resources */,
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
 				D7038E2120FA957400A54E69 /* copy.png in Resources */,
@@ -1808,6 +1916,8 @@
 				D7BBCA7D208C7523002CE3C3 /* tag.png in Resources */,
 				D7CDE9D7215FEC6B00DC5978 /* copy_white.png in Resources */,
 				D7E81C4E1F925B5F00416A91 /* SourceCodePro-Regular.ttf in Resources */,
+				D7487FC22173566600D09383 /* checkbox_empty_white@3x.png in Resources */,
+				D7487FC42173566600D09383 /* checkbox_empty@2x.png in Resources */,
 				D76C873E2136AA7100F82952 /* trash.png in Resources */,
 				D7E81C4F1F925B5F00416A91 /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6893200F87BD00FF975A /* Initial in Resources */,
@@ -1815,10 +1925,18 @@
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
+				D7487FBD2173566600D09383 /* checkbox.png in Resources */,
+				D7487FBF2173566600D09383 /* checkbox@3x.png in Resources */,
+				D7487FBB2173566600D09383 /* checkbox_white@2x.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
+				D7487FC52173566600D09383 /* checkbox_empty@3x.png in Resources */,
+				D7487FC02173566600D09383 /* checkbox_empty_white.png in Resources */,
+				D7487FBA2173566600D09383 /* checkbox_white.png in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
 				D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */,
 				D7E81C541F925B5F00416A91 /* icons.icns in Resources */,
+				D7487FBE2173566600D09383 /* checkbox@2x.png in Resources */,
+				D7487FC32173566600D09383 /* checkbox_empty.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2128,10 +2246,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */,
+				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
 				D7DCFED12108D6910059B37B /* CoreNote.swift in Sources */,
 				D7218945210211D800FE3AF2 /* SortBy.swift in Sources */,
 				D721894121020DDF00FE3AF2 /* UserDefaultsManagement.swift in Sources */,
 				6F13BB6C20FEE04A0005E120 /* String+.swift in Sources */,
+				D7487F952173535200D09383 /* NSFont+.swift in Sources */,
+				D7487FE92174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				6F13BB7120FEE0DD0005E120 /* UserDataService.swift in Sources */,
 				6F13BB6E20FEE04F0005E120 /* URL+.swift in Sources */,
 				D72189362102099B00FE3AF2 /* NSTextStorage+.swift in Sources */,
@@ -2157,6 +2278,7 @@
 				D75FC5C621021CC000C516A7 /* NightMode.swift in Sources */,
 				D721894721021BB700FE3AF2 /* SortBy.swift in Sources */,
 				D721894621021B2400FE3AF2 /* UserDefaultsManagement.swift in Sources */,
+				D7487FEA2174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				6F13BB6D20FEE04B0005E120 /* String+.swift in Sources */,
 				D72189342102096000FE3AF2 /* NSTextStorage+.swift in Sources */,
 				6F13BB6F20FEE04F0005E120 /* URL+.swift in Sources */,
@@ -2199,6 +2321,7 @@
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
 				D71AA0262143BD50004AFD2A /* TagsViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
+				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
@@ -2231,6 +2354,7 @@
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
+				D7487F9121734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
@@ -2263,12 +2387,14 @@
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
+				D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				D75EE7FD2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
+				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
 				D75EE7F72078B22D0055F159 /* SidebarItem.swift in Sources */,
 				D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
 				D75EE8002078E0C60055F159 /* SidebarItemType.swift in Sources */,
@@ -2289,6 +2415,7 @@
 				D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7DD5A8A1F88D50000CE947E /* FileWatcherEvent.swift in Sources */,
+				D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */,
 				D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */,
 				D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */,
@@ -2296,6 +2423,7 @@
 				D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */,
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
+				D7487F932173503C00D09383 /* AttributedBox.swift in Sources */,
 				D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
 				275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */,
@@ -2326,12 +2454,14 @@
 				D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */,
 				D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
+				D7487F9021734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D75EE7F82078B22D0055F159 /* SidebarItem.swift in Sources */,
 				D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D75EE8012078E0C60055F159 /* SidebarItemType.swift in Sources */,
 				D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */,
 				D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
+				D7487FD721738A1800D09383 /* NSImage+.swift in Sources */,
 				D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */,
 				D75EE7FB2078B3C00055F159 /* Sidebar.swift in Sources */,
 				D7169A5E2077BA140025D2C9 /* StorageView.swift in Sources */,
@@ -2352,6 +2482,7 @@
 				D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
 				D7E81C381F925B5F00416A91 /* Storage.swift in Sources */,
+				D7487FEC2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */,
 				D7E81C391F925B5F00416A91 /* FileWatcherEvent.swift in Sources */,
 				D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */,
@@ -2359,6 +2490,7 @@
 				D7E81C3A1F925B5F00416A91 /* NotesTableView.swift in Sources */,
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
+				D7487F922173503C00D09383 /* AttributedBox.swift in Sources */,
 				D7E81C3F1F925B5F00416A91 /* NSFont+.swift in Sources */,
 				D7E81C411F925B5F00416A91 /* SearchTextField.swift in Sources */,
 				D7E81C421F925B5F00416A91 /* MainWindowController.swift in Sources */,

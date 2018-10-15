@@ -21,8 +21,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         changeInLength delta: Int) {
 
         guard let note = EditTextView.note, note.isMarkdown(),
-            (editedRange.length != note.content.length)
-                || !note.isCached else { return }
+            (editedRange.length != textStorage.length) || !note.isCached else { return }
 
         note.isCached = true
 
