@@ -660,13 +660,32 @@ public class TextFormatter {
             let string = self.storage.string as NSString
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
-            if let attributedText = AttributedBox.getUnChecked() {
-                let loc = textView.selectedRange.location
-                self.insertText("  ")
+            guard let attributedText = AttributedBox.getUnChecked() else { return }
 
-                let newRange = NSRange(location: loc, length: 2)
-                self.storage.replaceCharacters(in: newRange, with: attributedText)
+
+            // Toggle render if exist in current paragraph
+            var rangeFound = false
+            let attributedParagraph = self.storage.attributedSubstring(from: paragraphRange)
+            attributedParagraph.enumerateAttribute(.todo, in: NSRange(0..<attributedParagraph.length), options: []) { value, range, stop in
+
+                if let value = value as? Int {
+                    let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
+                    let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
+                    self.storage.replaceCharacters(in: existsRange, with: attributedText)
+
+                    stop.pointee = true
+                    rangeFound = true
+                }
             }
+
+            guard !rangeFound else { return }
+
+            let loc = textView.selectedRange.location
+            self.insertText("  ")
+
+            let newRange = NSRange(location: loc, length: 2)
+            self.storage.replaceCharacters(in: newRange, with: attributedText)
+
             return
         }
         

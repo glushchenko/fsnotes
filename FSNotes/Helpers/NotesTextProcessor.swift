@@ -1458,7 +1458,7 @@ public class NotesTextProcessor {
         }
     }
     
-    public func scanParagraph(loadImages: Bool = true, async: Bool = true) {
+    public func scanParagraph(loadImages: Bool = true) {
         guard let note = self.note, let storage = self.storage, let range = self.range else {
             return
         }
@@ -1477,9 +1477,9 @@ public class NotesTextProcessor {
         }
 
         if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: storage.string) {
-            NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note, async: async)
+            NotesTextProcessor.highlightCode(range: fencedRange, storage: storage, string: string, note: note, async: false)
         } else if UserDefaultsManagement.codeBlockHighlight, let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: storage) {
-                NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
+            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: false)
         } else {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
             

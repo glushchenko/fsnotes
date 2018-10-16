@@ -20,6 +20,8 @@ extension NSTextStorage: NSTextStorageDelegate {
         range editedRange: NSRange,
         changeInLength delta: Int) {
 
+        guard editedMask != .editedAttributes else { return }
+
         guard let note = EditTextView.note, note.isMarkdown(),
             (editedRange.length != textStorage.length) || !note.isCached else { return }
 
@@ -45,7 +47,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
 
         let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)
-        processor.scanParagraph(loadImages: false, async: false)
+        processor.scanParagraph(loadImages: false)
     }
 
     public func isCodeBlock(paragraph: String) -> Bool {

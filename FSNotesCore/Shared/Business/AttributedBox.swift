@@ -15,6 +15,42 @@
 
 class AttributedBox {
     public static func getChecked() -> NSMutableAttributedString? {
+        let checkboxText = getCleanChecked()
+        checkboxText.append(NSAttributedString(string: " "))
+
+        return checkboxText
+    }
+
+    public static func getUnChecked() -> NSMutableAttributedString? {
+        let checkboxText = getCleanUnchecked()
+        checkboxText.append(NSAttributedString(string: " "))
+
+        return checkboxText
+    }
+
+    public static func getCleanUnchecked() -> NSMutableAttributedString {
+        let font = NotesTextProcessor.font
+        let height = font.lineHeight + 5
+        let image = getImage(name: "checkbox_empty")
+
+        let attachment = NSTextAttachment()
+        attachment.image = image
+        let mid = font.descender + font.capHeight
+        attachment.bounds = CGRect(
+            x: 0,
+            y: font.descender - height / 2 + mid + 2,
+            width: height,
+            height: height
+            ).integral
+
+        let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
+
+        checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
+
+        return checkboxText
+    }
+
+    public static func getCleanChecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
         let height = font.lineHeight + 5
         let image = getImage(name: "checkbox")
@@ -32,29 +68,6 @@ class AttributedBox {
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
         checkboxText.addAttribute(.todo, value: 1, range: NSRange(0..<1))
-        checkboxText.append(NSAttributedString(string: " "))
-
-        return checkboxText
-    }
-
-    public static func getUnChecked() -> NSMutableAttributedString? {
-        let font = NotesTextProcessor.font
-        let height = font.lineHeight + 5
-        let image = getImage(name: "checkbox_empty")
-
-        let attachment = NSTextAttachment()
-        attachment.image = image
-        let mid = font.descender + font.capHeight
-        attachment.bounds = CGRect(
-            x: 0,
-            y: font.descender - height / 2 + mid + 2,
-            width: height,
-            height: height
-            ).integral
-
-        let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
-        checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
-        checkboxText.append(NSAttributedString(string: " "))
 
         return checkboxText
     }
