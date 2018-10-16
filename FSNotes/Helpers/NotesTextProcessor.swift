@@ -317,6 +317,8 @@ public class NotesTextProcessor {
             .anchorsMatchLines
         ])
 
+        let nsString = (string as NSString)
+
         regex.enumerateMatches(
             in: string,
             options: NSRegularExpression.MatchingOptions(),
@@ -329,13 +331,12 @@ public class NotesTextProcessor {
 
                 guard let r = result else { return }
 
-                let string = (string as NSString)
-                let paragraphRange = string.paragraphRange(for: r.range)
+                let paragraphRange = nsString.paragraphRange(for: r.range)
 
                 if let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: content),
                     codeBlockRange.upperBound <= content.length {
 
-                    NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: async)
+                    NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: nsString, note: note, async: async)
                 }
             }
         )
@@ -357,13 +358,12 @@ public class NotesTextProcessor {
 
                 guard let r = result else { return }
 
-                let string = (string as NSString)
-                let paragraphRange = string.paragraphRange(for: r.range)
+                let paragraphRange = nsString.paragraphRange(for: r.range)
 
                 if let fencedCodeBlockRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: content.string),
                     fencedCodeBlockRange.upperBound <= content.length {
 
-                    NotesTextProcessor.highlightCode(range: fencedCodeBlockRange, storage: storage, string: string, note: note, async: async)
+                    NotesTextProcessor.highlightCode(range: fencedCodeBlockRange, storage: storage, string: nsString, note: note, async: async)
                 }
             }
         )
@@ -1206,7 +1206,8 @@ public class NotesTextProcessor {
         "(",
         "   (?:",
         "       (?:\\p{Z}{4}|\\t+)              # Lines must start with a tab-width of spaces",
-        "       .+(?:\\n+)",
+        "       ((?!\\-\\ \\[(?:\\ |x)\\]).)*   # exclude todo lists - [ ] and - [x]",
+        "       (?:\\n+)",
         "   )+",
         ")",
         "(?=^\\p{Z}{0,4}|\\t[^ \\t\\n])|(?=\\Z) # Lookahead for non-space at line-start, or end of doc"
