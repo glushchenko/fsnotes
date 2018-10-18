@@ -25,8 +25,16 @@ class ViewController: NSViewController,
     @IBOutlet weak var searchWrapper: NSTextField!
     @IBOutlet var editArea: EditTextView!
     @IBOutlet weak var editAreaScroll: NSScrollView!
-    @IBOutlet weak var search: SearchTextField!
-    @IBOutlet weak var notesTableView: NotesTableView!
+    @IBOutlet weak var search: SearchTextField! {
+        didSet {
+            search.appearance = NSAppearance.init(named: .aqua)
+        }
+    }
+    @IBOutlet weak var notesTableView: NotesTableView! {
+        didSet {
+            notesTableView.appearance = NSAppearance.init(named: .aqua)
+        }
+    }
     @IBOutlet var noteMenu: NSMenu!
     @IBOutlet weak var storageOutlineView: SidebarProjectView!
     @IBOutlet weak var sidebarSplitView: NSSplitView!
