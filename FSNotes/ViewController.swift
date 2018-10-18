@@ -1174,15 +1174,16 @@ class ViewController: NSViewController,
         guard let project = sidebarProject else {
             return
         }
-                
+
         disablePreview()
+        notesTableView.deselectNotes()
         editArea.string = text
         
         let note = Note(name: name, project: project, type: type)
         note.content = NSMutableAttributedString(string: text)
         note.isCached = false
         note.save()
-        
+
         if let si = getSidebarItem(), si.type == .Tag {
             note.addTag(si.name)
         }
@@ -1299,7 +1300,13 @@ class ViewController: NSViewController,
     func disablePreview() {
         self.view.window!.title = NSLocalizedString("FSNotes [edit]", comment: "")
         UserDefaultsManagement.preview = false
-        refillEditArea()
+
+        guard let editor = editArea else { return }
+        for (i, view) in editor.subviews.enumerated() {
+            if view.isKind(of: MarkdownView.self) {
+                editArea.subviews.remove(at: i)
+            }
+        }
     }
     
     func togglePreview() {

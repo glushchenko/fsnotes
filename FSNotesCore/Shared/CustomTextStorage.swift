@@ -25,8 +25,6 @@ extension NSTextStorage: NSTextStorageDelegate {
         guard let note = EditTextView.note, note.isMarkdown(),
             (editedRange.length != textStorage.length) || !note.isCached else { return }
 
-
-
         if self.isInserting(delta: delta) {
             let paragraphRange = (self.string as NSString).paragraphRange(for: editedRange)
             let paragraph = self.attributedSubstring(from: paragraphRange).string

@@ -289,7 +289,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func paste(_ sender: Any?) {
-        guard let note = EditTextView.note, note.isMarkdown(), let storage = textStorage else { return }
+        guard let note = EditTextView.note, let storage = textStorage else { return }
+
+        guard note.isMarkdown() else {
+            super.paste(sender)
+
+            fillPlainAndRTFStyle(note: note, saveTyping: false)
+            return
+        }
 
         if let clipboard = NSPasteboard.general.data(forType: .rtfd) {
             let currentRange = selectedRange()
@@ -409,19 +416,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         storage.setAttributedString(note.content)
 
         if !note.isMarkdown()  {
-            if note.type == .RichText && !saveTyping {
-                storage.updateFont()
-            }
-            
-            if note.type == .PlainText {
-                font = UserDefaultsManagement.noteFont
-            }
-
-            setTextColor()
-            
-            let range = NSRange(0..<storage.length)
-            let processor = NotesTextProcessor(storage: storage, range: range)
-            processor.higlightLinks()
+            fillPlainAndRTFStyle(note: note, saveTyping: saveTyping)
         }
         
         if highlight {
@@ -448,6 +443,24 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
         }
+    }
+
+    private func fillPlainAndRTFStyle(note: Note, saveTyping: Bool) {
+        guard let storage = textStorage else { return }
+
+        if note.type == .RichText && !saveTyping {
+            storage.updateFont()
+        }
+
+        if note.type == .PlainText {
+            font = UserDefaultsManagement.noteFont
+        }
+
+        setTextColor()
+
+        let range = NSRange(0..<storage.length)
+        let processor = NotesTextProcessor(storage: storage, range: range)
+        processor.higlightLinks()
     }
 
     private func setTextColor() {
