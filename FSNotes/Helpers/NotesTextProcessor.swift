@@ -273,12 +273,8 @@ public class NotesTextProcessor {
         }
 
         #if os(OSX)
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
-            var theme = "atom-one-light"
-            if UserDataService.instance.isDark {
-                theme = "monokai-sublime"
-            }
-            highlightr.setTheme(to: theme)
+        if UserDefaultsManagement.appearanceType == AppearanceType.System && UserDataService.instance.isDark {
+            highlightr.setTheme(to: "monokai-sublime")
         } else {
             highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
         }

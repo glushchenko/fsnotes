@@ -187,7 +187,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.textStorage.updateFont()
         
         if note.isMarkdown() {
-            NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
+            note.isCached = false
+            editArea.textStorage.replaceCheckboxes()
         }
         
         editArea.delegate = self
@@ -199,10 +200,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
-        }
-
-        if note.isMarkdown() {
-            editArea.textStorage.replaceCheckboxes()
         }
 
         let search = getSearchText()

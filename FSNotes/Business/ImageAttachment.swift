@@ -75,9 +75,12 @@ class ImageAttachment {
 
         // Make image
         #if os(OSX)
-            let fileWrapper = FileWrapper.init()
-            fileWrapper.icon = image
+        DispatchQueue.global().async {
+            let fileWrapper = FileWrapper.init(regularFileWithContents: data)
+            fileWrapper.preferredFilename = "\(self.title)@::\(mainURL.path)"
+            attachment.fileType = kUTTypeJPEG as String
             attachment.fileWrapper = fileWrapper
+        }
         #else
             if let size = self.getImageSize(image: image) {
                 attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)

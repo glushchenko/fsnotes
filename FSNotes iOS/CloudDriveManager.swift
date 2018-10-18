@@ -85,7 +85,7 @@ class CloudDriveManager {
 
                 note.loadTags()
 
-                if url == EditTextView.note?.url, let curDate = currentDate, curDate > Int(note.modifiedLocalAt.timeIntervalSince1970) {
+                if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), let curDate = currentDate, curDate > Int(note.modifiedLocalAt.timeIntervalSince1970) {
                     _ = note.reload()
                     self.delegate.refreshTextStorage(note: note)
                 } else {

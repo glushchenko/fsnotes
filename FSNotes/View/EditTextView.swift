@@ -252,7 +252,81 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         return nil
     }
-    
+
+    override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+        guard let storage = textStorage, let note = EditTextView.note else { return false }
+
+        guard note.isMarkdown() else {
+            return super.writeSelection(to: pboard, type: type)
+        }
+
+        let range = selectedRange()
+        let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
+
+        // Save plain text
+        let plainText = attributedString.unLoadImages().unLoadCheckboxes().string
+        pboard.setString(plainText, forType: .string)
+
+        // Save rich text
+        let richString = attributedString.unLoadCheckboxes()
+        if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
+            pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
+        }
+
+        return true
+    }
+
+    // Copy empty string
+    override func copy(_ sender: Any?) {
+        if self.selectedRange.length == 0, let paragraphRange = self.getParagraphRange(), let paragraph = attributedSubstring(forProposedRange: paragraphRange, actualRange: nil) {
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(paragraph.string.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
+            return
+        }
+
+        super.copy(sender)
+    }
+
+    override func paste(_ sender: Any?) {
+        guard let note = EditTextView.note, note.isMarkdown(), let storage = textStorage else { return }
+
+        if let clipboard = NSPasteboard.general.data(forType: .rtfd) {
+            let currentRange = selectedRange()
+
+            self.replaceCharacters(in: currentRange, withRTFD: clipboard)
+            storage.replaceCheckboxes()
+
+            let range = NSRange(currentRange.location..<storage.length)
+                NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
+
+            saveTextStorageContent(to: note)
+            note.save()
+
+            return
+        }
+
+        if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
+            super.paste(sender)
+
+            let end = (selectedRanges[0] as! NSRange).location
+            let start = end - clipboard.count
+            let range = NSRange(start..<end)
+
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
+            note.save()
+
+            saveTextStorageContent(to: note)
+
+            if UserDefaultsManagement.liveImagesPreview {
+                let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
+                processor.load()
+            }
+
+            return
+        }
+    }
+
     @IBAction func editorMenuItem(_ sender: NSMenuItem) {
         if sender.title == NSLocalizedString("Image", comment: "") {
             sender.keyEquivalentModifierMask = [.shift, .command]
@@ -535,43 +609,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return newFont
     }
-    
-    override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
-        guard let storage = textStorage, let note = EditTextView.note else { return false }
-        
-        if note.isMarkdown() {
-            let range = selectedRange()
-            let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
-            let plainText = attributedString.unLoadImages().string
-            pboard.setString(plainText, forType: .string)
-            return true
-        }
-        
-        return super.writeSelection(to: pboard, type: type)
-    }
-    
-    override func paste(_ sender: Any?) {
-        super.paste(sender)
-        
-        guard let note = EditTextView.note, note.isMarkdown(), let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string), let storage = textStorage else {
-            return
-        }
-        
-        let end = (selectedRanges[0] as! NSRange).location
-        let start = end - clipboard.count
-        let range = NSRange(start..<end)
 
-        NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
-        note.save()
-
-        cacheNote(note: note)
-
-        if UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
-            processor.load()
-        }
-    }
-    
     override func keyDown(with event: NSEvent) {
         guard let storage = self.textStorage else { return }
         
@@ -653,7 +691,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             processor.higlightLinks()
             
             if note.type == .RichText {
-                cacheNote(note: note)
+                saveTextStorageContent(to: note)
             }
             
             return
@@ -662,18 +700,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.keyDown(with: event)
         saveCursorPosition()
     }
-    
-    override func copy(_ sender: Any?) {
-        if self.selectedRange.length == 0, let paragraphRange = self.getParagraphRange(), let paragraph = attributedSubstring(forProposedRange: paragraphRange, actualRange: nil) {
-            let pasteboard = NSPasteboard.general
-            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-            pasteboard.setString(paragraph.string.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
-            return
-        }
-        
-        super.copy(sender)
-    }
-    
+
     public func isCodeBlock(paragraph: String) -> Bool {
         if paragraph.starts(with: "\t") || paragraph.starts(with: "    ") {
             guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
@@ -766,7 +793,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         scrollToCursor()
     }
     
-    func cacheNote(note: Note) {
+    func saveTextStorageContent(to note: Note) {
         guard let storage = self.textStorage else {
             return
         }
@@ -871,7 +898,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
        
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
-                cacheNote(note: note)
+                saveTextStorageContent(to: note)
             }
             
             loadImages()

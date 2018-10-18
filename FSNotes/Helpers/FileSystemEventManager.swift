@@ -181,7 +181,7 @@ class FileSystemEventManager {
         if (note.isRTF() && fsContent != memoryContent)
             || (!note.isRTF() && fsContent.string != memoryContent.string) {
             note.content = NSMutableAttributedString(attributedString: fsContent)
-            note.reCache()
+            note.isCached = false
 
             if EditTextView.note == note {
                 self.delegate.refillEditArea()

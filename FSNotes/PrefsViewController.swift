@@ -336,13 +336,10 @@ class PrefsViewController: NSViewController {
         }
         
         UserDefaultsManagement.codeTheme = item.title
-        
-        if let note = EditTextView.note {
-            NotesTextProcessor.hl = nil
-            self.storage.fullCacheReset()
-            note.reCache()
-            controller?.refillEditArea()
-        }
+
+        NotesTextProcessor.hl = nil
+        self.storage.fullCacheReset()
+        controller?.refillEditArea()
     }
     
     @IBAction func inEditorFocus(_ sender: NSButton) {

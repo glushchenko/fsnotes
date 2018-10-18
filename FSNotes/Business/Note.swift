@@ -855,4 +855,8 @@ public class Note: NSObject  {
         try? document.writeContents(wrapper, andAttributes: attributes, safelyTo: url, for: .forCreating)
     }
     #endif
+
+    public func isEqualURL(url: URL) -> Bool {
+        return url.path == self.url.path
+    }
 }

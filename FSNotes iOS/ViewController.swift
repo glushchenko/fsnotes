@@ -455,18 +455,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         evc.fill(note: note)
     }
 
-    func refillEditArea(cursor: Int?, previewOnly: Bool) {
-        DispatchQueue.main.async {
-            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
-                return
-            }
-
-            if let note = evc.note {
-                evc.fill(note: note)
-            }
-        }
-    }
-
     private var addButton: UIButton?
 
     func loadPlusButton() {
@@ -749,6 +737,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 let evc = viewController.viewControllers[0] as? EditorViewController
                 else { return }
 
+            note.isCached = false
             evc.fill(note: note)
         }
     }

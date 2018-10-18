@@ -21,7 +21,8 @@ extension NSMutableAttributedString {
 
         self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
 
-            if let textAttachment = value as? NSTextAttachment, self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            if let textAttachment = value as? NSTextAttachment,
+                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 var path: String?
                 var title: String?
 
