@@ -68,9 +68,17 @@ extension AppDelegate {
             else {
                 return
             }
+
+        let lastPath = url.lastPathComponent
         
-        controller.search.stringValue = url.lastPathComponent
-        controller.updateTable(search: true)
+        controller.search.stringValue = lastPath
+        controller.updateTable(search: true) {
+            if let note = controller.notesTableView.noteList.first {
+                DispatchQueue.main.async {
+                    controller.search.suggestAutocomplete(note, filter: lastPath)
+                }
+            }
+        }
     }
     
     /// Handles URLs with the following paths:
