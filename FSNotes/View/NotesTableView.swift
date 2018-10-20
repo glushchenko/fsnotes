@@ -296,7 +296,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     public func insertNew(note: Note) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
-        
+
+        guard vc.isFit(note: note, shouldLoadMain: true) else { return }
+
         let at = self.countVisiblePinned()
         self.noteList.insert(note, at: at)
         vc.filteredNoteList?.insert(note, at: at)

@@ -945,8 +945,6 @@ class ViewController: NSViewController,
             sidebarItem = self.getSidebarItem()
         }
 
-        let sidebarName = sidebarItem?.name ?? ""
-        let selectedProject = sidebarItem?.project
         let type = sidebarItem?.type
 
         var filter = searchText ?? self.search.stringValue
@@ -968,29 +966,8 @@ class ViewController: NSViewController,
                 if operation.isCancelled {
                     break
                 }
-                
-                if (!note.name.isEmpty
-                        && (
-                            filter.isEmpty && type != .Todo
-                                || type == .Todo && (
-                                    self.isMatched(note: note, terms: ["- [ ]"])
-                                    || self.isMatched(note: note, terms: ["- [x]"])
-                                )
-                                || self.isMatched(note: note, terms: terms)
-                        ) && (
-                            type == .All && !note.project.isArchive
-                                || type == .Tag && note.tagNames.contains(sidebarName)
-                                || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                                || type == nil && selectedProject == nil && !note.project.isArchive
-                                || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject
-                                || type == .Trash
-                                || type == .Todo
-                                || type == .Archive && note.project.isArchive
-                        ) && (
-                            type == .Trash && note.isTrash()
-                                || type != .Trash && !note.isTrash()
-                    )
-                ) {
+
+                if (self.isFit(note: note, sidebarItem: sidebarItem, filter: filter, terms: terms)) {
                     notes.append(note)
                 }
             }
@@ -1050,6 +1027,52 @@ class ViewController: NSViewController,
         }
         
         return true
+    }
+
+    public func isFit(note: Note, sidebarItem: SidebarItem? = nil, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false) -> Bool {
+        var filter = filter
+        var sidebarItem = sidebarItem
+        var terms = terms
+
+        var sidebarName = sidebarItem?.name ?? ""
+        var selectedProject = sidebarItem?.project
+        var type = sidebarItem?.type
+
+        if shouldLoadMain {
+            filter = search.stringValue
+            sidebarItem = getSidebarItem()
+            terms = search.stringValue.split(separator: " ")
+
+            sidebarName = sidebarItem?.name ?? ""
+            selectedProject = sidebarItem?.project
+            type = sidebarItem?.type
+
+            if let type = type, type == .Todo {
+                terms!.append("- [ ]")
+            }
+        }
+
+        return !note.name.isEmpty
+            && (
+                filter.isEmpty && type != .Todo
+                    || type == .Todo && (
+                        self.isMatched(note: note, terms: ["- [ ]"])
+                            || self.isMatched(note: note, terms: ["- [x]"])
+                    )
+                    || self.isMatched(note: note, terms: terms!)
+            ) && (
+                type == .All && !note.project.isArchive
+                    || type == .Tag && note.tagNames.contains(sidebarName)
+                    || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
+                    || type == nil && selectedProject == nil && !note.project.isArchive
+                    || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject
+                    || type == .Trash
+                    || type == .Todo
+                    || type == .Archive && note.project.isArchive
+            ) && (
+                type == .Trash && note.isTrash()
+                    || type != .Trash && !note.isTrash()
+        )
     }
     
     @objc func selectNullTableRow(timer: Bool = false) {
