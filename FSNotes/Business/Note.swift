@@ -264,18 +264,24 @@ public class Note: NSObject  {
     }
     
     func getContent() -> NSAttributedString? {
+        let options = getDocOptions()
+        var url = self.url
+
+        if type == .TextBundle {
+            url?.appendPathComponent("text.markdown")
+        }
+
+        guard let docUrl = url else { return nil }
+
         do {
-            let options = getDocOptions()
-            var url = self.url
-            
-            if type == .TextBundle {
-                url?.appendPathComponent("text.markdown")
-            }
-            
-            guard let docUrl = url else { return nil }
             return try NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
         } catch {
-            NSLog(error.localizedDescription)
+            if let data = try? Data(contentsOf: docUrl) {
+            let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
+
+                let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
+                return try? NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
+            }
         }
         
         return nil
@@ -567,14 +573,14 @@ public class Note: NSObject  {
         markdownCache()
     }
     
-    func getDocOptions() -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
+    func getDocOptions(with encoding: String.Encoding = .utf8) -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
         if type == .RichText {
             return [.documentType : NSAttributedString.DocumentType.rtf]
         }
         
         return [
             .documentType : NSAttributedString.DocumentType.plain,
-            .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+            .characterEncoding : NSNumber(value: encoding.rawValue)
         ]
     }
     
