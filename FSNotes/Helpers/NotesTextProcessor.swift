@@ -715,19 +715,11 @@ public class NotesTextProcessor {
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 
-                var mdTitleLength = 0
-                let mdLink = textStorageNSString.substring(with: innerRange)
-                
-                if let match = mdLink.range(of: "\\[(.+)\\]", options: .regularExpression) {
-                    mdTitleLength = mdLink[match].count - 2
-                }
-                
-                var _range = innerRange
-                _range.location = range.location + 3 + mdTitleLength
-                _range.length = range.length - 4 - mdTitleLength
-                
-                var substring = textStorageNSString.substring(with: _range)
-                guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+                guard let linkRange = result?.range(at: 3), linkRange.length > 0 else { return }
+
+                var substring = textStorageNSString.substring(with: linkRange)
+
+                guard substring.count > 0 else { return }
 
                 if substring.starts(with: "/i/"), let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
@@ -736,7 +728,7 @@ public class NotesTextProcessor {
                 }
                 
                 destinationLink = substring
-                styleApplier.addAttribute(.link, value: substring, range: _range)
+                styleApplier.addAttribute(.link, value: substring, range: linkRange)
                 
                 hideSyntaxIfNecessary(range: innerRange)
             }
