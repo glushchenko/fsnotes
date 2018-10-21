@@ -468,8 +468,8 @@ public class UserDefaultsManagement {
     
     static var codeTheme: String {
         get {
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) {
-                return theme as! String
+            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
+                return theme
             }
 
             #if os(OSX)

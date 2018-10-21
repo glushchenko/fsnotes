@@ -1330,6 +1330,8 @@ class ViewController: NSViewController,
                 editArea.subviews.remove(at: i)
             }
         }
+
+        self.refillEditArea()
     }
     
     func togglePreview() {

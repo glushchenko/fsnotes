@@ -381,7 +381,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             md.editorUndoManager = note.undoManager
         }
         
-        isEditable = !UserDefaultsManagement.preview
+        isEditable = !(UserDefaultsManagement.preview && note.isMarkdown())
         isRichText = note.isRTF()
         
         if !saveTyping {
@@ -389,24 +389,27 @@ class EditTextView: NSTextView, NSTextFinderClient {
             typingAttributes[.font] = UserDefaultsManagement.noteFont
         }
         
-        if (UserDefaultsManagement.preview && !isRichText) {
+        if (UserDefaultsManagement.preview && note.isMarkdown()) {
+            // Removes scroll for long notes
+            textStorage?.setAttributedString(NSAttributedString())
+
             let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
             let url = NSURL.fileURL(withPath: path!)
             let bundle = Bundle(url: url)
-            
+
             let markdownString = note.getPrettifiedContent()
             let css = getPreviewStyle()
-            
+
             do {
                 var imagesStorage = note.project.url
-                
+
                 if note.type == .TextBundle {
                     imagesStorage = note.url
                 }
-                
+
                 downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
                 }
-                
+
                 addSubview(downView!)
             }
             return
