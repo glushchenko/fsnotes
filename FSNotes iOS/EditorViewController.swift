@@ -180,8 +180,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             editArea.attributedText = note.content
         }
-        
-        self.configureFont()
+
         self.configureToolbar()
 
         editArea.textStorage.updateFont()
@@ -244,21 +243,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
         }
     }
-    
-    public func configureFont() {
-        if let note = self.note, note.type != .RichText {
-            self.editArea.textStorage.addAttribute(.font, value: UIFont.bodySize(), range: NSRange(0..<self.editArea.textStorage.length))
 
-            if note.isRTF() {
-                self.editArea.textStorage.addAttribute(.foregroundColor, value: UIColor.black, range: NSRange(0..<self.editArea.textStorage.length))
-            }
-
-        }
-
-        self.editArea.typingAttributes.removeAll()
-        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
-    }
-    
     func loadPreview(note: Note) {
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
