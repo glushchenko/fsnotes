@@ -285,22 +285,21 @@ class ViewController: NSViewController,
     
     public func move(notes: [Note], project: Project) {
         for note in notes {
-            let prevProject = note.project
             let destination = project.url.appendingPathComponent(note.name)
             do {
                 try FileManager.default.moveItem(at: note.url, to: destination)
-                note.project = project
+
+                storage.removeBy(note: note)
+                notesTableView.removeByNotes(notes: [note])
             } catch {
                 let alert = NSAlert.init()
                 alert.messageText = NSLocalizedString("Hmm, something goes wrong 🙈", comment: "")
                 alert.informativeText = String(format: NSLocalizedString("Note with name \"%@\" already exists in selected storage.", comment: ""), note.name)
                 alert.runModal()
-                note.project = prevProject
             }
         }
         
         editArea.clear()
-        updateTable()
     }
         
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {        
@@ -1422,14 +1421,23 @@ class ViewController: NSViewController,
     
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
-            let keyStore = NSUbiquitousKeyValueStore()
             for key in keys {
-                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = storage.getBy(name: key) {
-                    note.isPinned = isPinned
+                if key == "co.fluder.fsnotes.pins.shared" {
+                    let changedNotes = storage.restoreCloudPins()
 
-                    if let i = self.notesTableView.noteList.firstIndex(of: note) {
-                        DispatchQueue.main.async {
-                            self.moveNoteToTop(note: i)
+                    if let notes = changedNotes.added {
+                        for note in notes {
+                            if let i = notesTableView.getIndex(note) {
+                                self.moveNoteToTop(note: i)
+                            }
+                        }
+                    }
+
+                    if let notes = changedNotes.removed {
+                        for note in notes {
+                            if let i = notesTableView.getIndex(note) {
+                                notesTableView.reloadData(forRowIndexes: [i], columnIndexes: [0])
+                            }
                         }
                     }
                 }

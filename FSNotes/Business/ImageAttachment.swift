@@ -33,8 +33,7 @@ class ImageAttachment {
     public func getAttributedString() -> NSMutableAttributedString?  {
         let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
         let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
-        
-        let attachment = NSTextAttachment()
+
         var saveCache: URL?
         let mainURL: URL
 
@@ -71,17 +70,34 @@ class ImageAttachment {
             imageData = try? Data(contentsOf: mainURL)
         }
 
-        guard let data = imageData, let image = Image(data: data) else { return nil }
+        guard let data = imageData, var image = Image(data: data) else { return nil }
 
         // Make image
         #if os(OSX)
-        DispatchQueue.global().async {
-            let fileWrapper = FileWrapper.init(regularFileWithContents: data)
-            fileWrapper.preferredFilename = "\(self.title)@::\(mainURL.path)"
-            attachment.fileType = kUTTypeJPEG as String
-            attachment.fileWrapper = fileWrapper
+
+        let fileWrapper = FileWrapper.init(regularFileWithContents: data)
+        fileWrapper.preferredFilename = "\(self.title)@::\(mainURL.path)"
+        let attachment = NSTextAttachment(fileWrapper: fileWrapper)
+
+        if let rep = image.representations.first {
+            let size = NSSize(width: rep.pixelsWide, height: rep.pixelsHigh)
+            let cell = NSTextAttachmentCell(imageCell: NSImage(size: size))
+            attachment.attachmentCell = cell
+
+            DispatchQueue.global().async {
+                image = image.resize(to: CGSize(width: rep.pixelsWide, height: rep.pixelsHigh))!
+
+                if let cvc = NSApplication.shared.windows.first?.contentViewController as? ViewController, let view = cvc.editArea, let invalidateRange =  self.invalidateRange {
+                    DispatchQueue.main.async {
+                        cell.image = image
+                        view.layoutManager?.invalidateDisplay(forCharacterRange: invalidateRange)
+                    }
+                }
+            }
         }
         #else
+            let attachment = NSTextAttachment()
+
             if let size = self.getImageSize(image: image) {
                 attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 

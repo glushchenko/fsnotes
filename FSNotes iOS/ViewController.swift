@@ -213,21 +213,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     func keyValueWatcher() {
         let keyStore = NSUbiquitousKeyValueStore()
+        keyStore.synchronize()
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(ubiquitousKeyValueStoreDidChange),
                                                name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
                                                object: keyStore)
-
-        keyStore.synchronize()
     }
 
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
-            let keyStore = NSUbiquitousKeyValueStore()
             for key in keys {
-                if let isPinned = keyStore.object(forKey: key) as? Bool, let note = self.storage?.getBy(name: key) {
-                    note.isPinned = isPinned
+                if key == "co.fluder.fsnotes.pins.shared" {
+                    _ = storage?.restoreCloudPins()
                 }
             }
 

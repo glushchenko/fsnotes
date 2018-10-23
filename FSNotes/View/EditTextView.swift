@@ -307,6 +307,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let range = NSRange(currentRange.location..<storage.length)
                 NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
 
+            // Set image size and .link after storage full scan (cleaned)
+            storage.sizeAttachmentImages()
+
             saveTextStorageContent(to: note)
             note.save()
 

@@ -50,4 +50,25 @@ extension NSTextStorage {
 
         endEditing()
     }
+
+    public func sizeAttachmentImages() {
+        enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+            if let attachment = value as? NSTextAttachment,
+                attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+
+                if let imageData = attachment.fileWrapper?.regularFileContents, var image = NSImage(data: imageData) {
+                    if let rep = image.representations.first {
+                        image = image.resize(to: CGSize(width: rep.pixelsWide, height: rep.pixelsHigh))!
+
+                        let size = NSSize(width: rep.pixelsWide, height: rep.pixelsHigh)
+                        let cell = NSTextAttachmentCell(imageCell: NSImage(size: size))
+                        cell.image = image
+                        attachment.attachmentCell = cell
+
+                        addAttribute(.link, value: String(), range: range)
+                    }
+                }
+            }
+        }
+    }
 }

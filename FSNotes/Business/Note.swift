@@ -343,15 +343,15 @@ public class Note: NSObject  {
         return (type == .Markdown) || (type == .TextBundle)
     }
     
-    func addPin() {
+    func addPin(cloudSave: Bool = true) {
         sharedStorage.pinned += 1
         isPinned = true
         
         #if CLOUDKIT || os(iOS)
-            let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set(true, forKey: name)
-            keyStore.synchronize()
-            return
+        if cloudSave {
+            sharedStorage.saveCloudPins()
+        }
+        return
         #endif
         
         #if os(OSX)
@@ -361,16 +361,16 @@ public class Note: NSObject  {
         #endif
     }
     
-    func removePin() {
+    func removePin(cloudSave: Bool = true) {
         if isPinned {
             sharedStorage.pinned -= 1
             isPinned = false
             
             #if CLOUDKIT || os(iOS)
-                let keyStore = NSUbiquitousKeyValueStore()
-                keyStore.set(false, forKey: name)
-                keyStore.synchronize()
-                return
+            if cloudSave {
+                sharedStorage.saveCloudPins()
+            }
+            return
             #endif
             
             #if os(OSX)

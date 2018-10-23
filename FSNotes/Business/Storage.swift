@@ -226,6 +226,8 @@ class Storage {
             loadLabel(project)
         }
 
+        _ = restoreCloudPins()
+
         let count = self.noteList.count
         var i = 0
 
@@ -340,7 +342,6 @@ class Storage {
     }
 
     func loadLabel(_ item: Project, shouldScanCache: Bool = false) {
-        let keyStore = NSUbiquitousKeyValueStore()
         let documents = readDirectory(item.url)
 
         for document in documents {
@@ -358,9 +359,7 @@ class Storage {
             if item.isArchive {
                 note.loadTags()
             }
-            
-            let name = url.pathComponents.last!
-            
+
             if (url.pathComponents.count == 0) {
                 continue
             }
@@ -370,7 +369,6 @@ class Storage {
             note.project = item
             
             #if CLOUDKIT
-                note.isPinned = keyStore.bool(forKey: name)
             #else
                 let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.pin")
                 let isPinned = data?.withUnsafeBytes { (ptr: UnsafePointer<Bool>) -> Bool in
@@ -801,5 +799,57 @@ class Storage {
         for note in noteList {
             note.isCached = false
         }
+    }
+
+    public func saveCloudPins() {
+        #if CLOUDKIT || os(iOS)
+        if let pinned = getPinned() {
+            var names = [String]()
+            for note in pinned {
+                names.append(note.name)
+            }
+
+            let keyStore = NSUbiquitousKeyValueStore()
+            keyStore.set(names, forKey: "co.fluder.fsnotes.pins.shared")
+            keyStore.synchronize()
+
+            print("Pins successfully saved: \(names)")
+        }
+        #endif
+    }
+
+    public func restoreCloudPins() -> (removed: [Note]?, added: [Note]?) {
+        var added = [Note]()
+        var removed = [Note]()
+
+        #if CLOUDKIT || os(iOS)
+        let keyStore = NSUbiquitousKeyValueStore()
+        keyStore.synchronize()
+        
+        if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
+            if let pinned = getPinned() {
+                for note in pinned {
+                    if !names.contains(note.name) {
+                        note.removePin(cloudSave: false)
+                        removed.append(note)
+                    }
+                }
+            }
+
+            for name in names {
+                print("for \(name)")
+                if let note = getBy(name: name) {
+                    note.addPin(cloudSave: false)
+                    added.append(note)
+                }
+            }
+        }
+        #endif
+
+        return (removed, added)
+    }
+
+    public func getPinned() -> [Note]? {
+        return noteList.filter({ $0.isPinned })
     }
 }
