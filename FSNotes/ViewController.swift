@@ -427,10 +427,7 @@ class ViewController: NSViewController,
             }
 
             if self.editAreaScroll.isFindBarVisible {
-                self.editAreaScroll.isFindBarVisible = false
-                if !UserDefaultsManagement.preview {
-                    NSApp.mainWindow?.makeFirstResponder(self.editArea)
-                }
+                cancelTextSearch()
                 return true
             }
 
@@ -456,6 +453,10 @@ class ViewController: NSViewController,
         // Search cmd-f
         if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command)) {
             if self.notesTableView.getSelectedNote() != nil {
+                
+                //Turn off preview mode as text search works only in text editor
+                disablePreview()
+                
                 self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.showFindInterface)
                 return true
             }
@@ -536,6 +537,13 @@ class ViewController: NSViewController,
         }
         
         return true
+    }
+    
+    func cancelTextSearch() {
+        self.editAreaScroll.isFindBarVisible = false
+        if !UserDefaultsManagement.preview {
+            NSApp.mainWindow?.makeFirstResponder(self.editArea)
+        }
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
@@ -1308,6 +1316,9 @@ class ViewController: NSViewController,
     }
         
     func enablePreview() {
+        //Preview mode doesn't support text search
+        cancelTextSearch()
+        
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         vc.editArea.window?.makeFirstResponder(vc.notesTableView)
         
