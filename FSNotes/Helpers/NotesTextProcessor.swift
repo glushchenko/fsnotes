@@ -366,16 +366,9 @@ public class NotesTextProcessor {
     }
     
     public static func scanBasicSyntax(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil) {
-        var affectedRange: NSRange
-        
-        if let r = range {
-            affectedRange = r
-        } else {
-            affectedRange = NSRange(0..<note.content.length)
-        }
-        
         let target = storage != nil ? storage! : note.content
-        
+        let affectedRange = range ?? NSRange(0..<target.length)
+
         self.scanMarkdownSyntax(target, paragraphRange: affectedRange, note: note)
     }
     

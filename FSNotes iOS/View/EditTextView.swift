@@ -76,6 +76,8 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
+        note.invalidateCache()
+
         for item in UIPasteboard.general.items {
             if let rtfd = item["com.apple.flat-rtfd"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {

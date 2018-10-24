@@ -109,6 +109,7 @@ class ImageAttachment {
                         attachment.fileType = kUTTypeJPEG as String
                         attachment.fileWrapper = fileWrapper
 
+                        print(attachment)
                         DispatchQueue.main.async {
                             if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange {
                                 view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
