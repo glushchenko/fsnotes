@@ -1273,13 +1273,10 @@ class ViewController: NSViewController,
     }
         
     func renameNote(selectedRow: Int) {
-        if (!notesTableView.noteList.indices.contains(selectedRow)) {
-            return
-        }
-        
-        let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: false) as! NoteRowView
-        let cell = row.view(atColumn: 0) as! NoteCellView
-        let note = cell.objectValue as! Note
+        guard notesTableView.noteList.indices.contains(selectedRow) else { return }
+        guard let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: true) as? NoteRowView else { return }
+        guard let cell = row.view(atColumn: 0) as? NoteCellView else { return }
+        guard let note = cell.objectValue as? Note else { return }
         
         cell.name.isEditable = true
         cell.name.becomeFirstResponder()
