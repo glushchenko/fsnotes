@@ -434,6 +434,13 @@ class ViewController: NSViewController,
                 return true
             }
 
+            // Renaming is in progress
+            if titleLabel.isEditable == true {
+                titleLabel.isEditable = false
+                titleLabel.window?.makeFirstResponder(nil)
+                return true
+            }
+            
             notesTableView.scroll(.zero)
             
             let hasSelectedNotes = notesTableView.selectedRow > -1
@@ -473,7 +480,8 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains(.command)
             && !event.modifierFlags.contains(.shift)
         ) {
-            renameNote(selectedRow: notesTableView.selectedRow)
+            titleLabel.isEditable = true
+            titleLabel.becomeFirstResponder()
             return true
         }
         
@@ -866,6 +874,20 @@ class ViewController: NSViewController,
         operation.printPanel.options.insert(NSPrintPanel.Options.showsPaperSize)
         operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
         operation.run()
+    }
+    
+    
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
+        
+        if titleLabel.isEditable == true {
+            titleLabel.isEditable = false
+            fileName(titleLabel)
+        }
+        else {
+            let currentNote = notesTableView.getSelectedNote()
+            titleLabel.stringValue = currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note")
+        }
     }
     
     // Changed main edit view
