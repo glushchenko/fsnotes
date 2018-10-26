@@ -32,7 +32,7 @@
         $extensionItem.attachments,
         $attachment,
         ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;public.image&quot;
-    ).@count == 1
+    ).@count &gt; 0
 ).@count == 1
 OR
 SUBQUERY (

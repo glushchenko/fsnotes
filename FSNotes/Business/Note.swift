@@ -862,6 +862,9 @@ public class Note: NSObject  {
     }
 
     public func getMdImagePath(name: String) -> String {
+        let encoded = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+        let name = encoded ?? name
+
         if type == .TextBundle {
             return "assets/\(name)"
         }
@@ -881,11 +884,10 @@ public class Note: NSObject  {
 
     public func append(string: NSMutableAttributedString) {
         content.append(string)
-        write()
     }
 
-    public func append(image data: Data) {
-        guard let fileName = ImagesProcessor.writeImage(data: data, note: self) else { return }
+    public func append(image data: Data, url: URL? = nil) {
+        guard let fileName = ImagesProcessor.writeImage(data: data, url: url, note: self) else { return }
 
         let path = getMdImagePath(name: fileName)
         var prefix = "\n\n"

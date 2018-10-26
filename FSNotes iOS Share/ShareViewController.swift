@@ -15,6 +15,7 @@ import NightNight
 
 class ShareViewController: SLComposeServiceViewController {
     private var notes: [Note]?
+    private var imagesFound = false
 
     override func viewDidLoad() {
         preferredContentSize = CGSize(width: 300, height: 300)
@@ -45,7 +46,9 @@ class ShareViewController: SLComposeServiceViewController {
             for row in input {
                 if let attach = row.attachments as? [NSItemProvider] {
                     for attachRow in attach {
-                        if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                        print(attachRow.registeredTypeIdentifiers)
+                        if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) || attachRow.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String){
+                            imagesFound = true
                             return super.loadPreviewView()
                         }
 
@@ -99,7 +102,6 @@ class ShareViewController: SLComposeServiceViewController {
 
         guard let select = SLComposeSheetConfigurationItem() else { return [] }
         select.title = "Choose for append"
-        select.value = "."
         select.tapHandler = {
             if let notes = self.notes {
                 let controller = NotesListController()
@@ -117,31 +119,40 @@ class ShareViewController: SLComposeServiceViewController {
             let input = context.inputItems as? [NSExtensionItem] else { return }
 
         let note = note ?? Note()
+        var started = 0
+        var finished = 0
 
         for item in input {
             if let a = item.attachments as? [NSItemProvider] {
                 for provider in a {
                     if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
+                        started = started + 1
                         provider.loadItem(forTypeIdentifier: kUTTypeImage as String, options: nil, completionHandler: { (data, error) in
 
                             var imageData = data as? Data
+
                             if let image = data as? UIImage {
                                 imageData = UIImageJPEGRepresentation(image, 1)
+                            } else if let url = data as? URL {
+                                imageData = try? Data.init(contentsOf: url)
                             }
 
+                            let url = data as? URL
                             if let data = imageData {
-                                note.append(image: data)
+                                note.append(image: data, url: url)
+                            }
+
+                            finished = finished + 1
+                            if started == finished {
+                                note.write()
                             }
                         })
-
-                        close()
-                        return
-
                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) || provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
-                        if let contentText = self.contentText {
+                        if !imagesFound, let contentText = self.contentText {
                             let prefix = self.getPrefix(for: note)
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
                             note.append(string: string)
+                            note.write()
                         }
                     }
                 }
