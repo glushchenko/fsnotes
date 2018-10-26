@@ -253,7 +253,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func selectRow(_ i: Int) {
         if (noteList.indices.contains(i)) {
-            selectRowIndexes([i], byExtendingSelection: false)
+            DispatchQueue.main.async {
+                self.selectRowIndexes([i], byExtendingSelection: false)
+            }
         }
     }
     

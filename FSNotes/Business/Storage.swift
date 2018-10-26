@@ -7,7 +7,12 @@
 //
 
 import Foundation
-import Highlightr
+
+#if os(OSX)
+import Cocoa
+#else
+import UIKit
+#endif
 
 class Storage {
     static var instance: Storage? = nil
@@ -218,14 +223,18 @@ class Storage {
         }
         return storage
     }
-    
-    func loadDocuments(tryCount: Int = 0, completion: @escaping () -> Void) {
+
+    public func loadProjects() {
         noteList.removeAll()
-        
+
         for project in projects {
             loadLabel(project)
         }
+    }
 
+    func loadDocuments(tryCount: Int = 0, completion: @escaping () -> Void) {
+        loadProjects()
+        
         _ = restoreCloudPins()
 
         let count = self.noteList.count
@@ -261,6 +270,10 @@ class Storage {
         #if os(OSX)
             cacheMarkdown()
         #endif
+    }
+
+    public func getMainProject() -> Project {
+        return projects.first!
     }
     
     public func getProjects() -> [Project] {
@@ -347,7 +360,7 @@ class Storage {
         for document in documents {
             let url = document.0 as URL
 
-            #if os(iOS)
+            #if NOT_EXTENSION || os(OSX)
                 if let currentNoteURL = EditTextView.note?.url,
                     currentNoteURL == url {
                     continue
@@ -570,14 +583,15 @@ class Storage {
                     $0.isMarkdown()
                 }
             }
-            
+
+            #if NOT_EXTENSION || os(OSX)
             for note in markdownDocuments {
                 note.markdownCache()
-                
+
                 guard let currentNote = EditTextView.note else {
                     continue
                 }
-                
+
                 if note.url == currentNote.url {
                 #if os(OSX)
                     let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
@@ -604,6 +618,7 @@ class Storage {
                     break
                 }
             }
+            #endif
             
             self.isActiveCaching = false
         }

@@ -41,7 +41,10 @@ public class Note: NSObject  {
         self.parseURL(loadProject: false)
     }
     
-    init(name: String, project: Project, type: NoteType? = nil) {
+    init(name: String? = nil, project: Project? = nil, type: NoteType? = nil) {
+        let project = project ?? Storage.sharedInstance().getMainProject()
+        let name = name ?? String()
+
         self.project = project
         self.name = name        
         self.type = type ?? NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
@@ -498,14 +501,14 @@ public class Note: NSObject  {
             }
             """
             let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info))
+
             let textBundle = FileWrapper.init(directoryWithFileWrappers: [
                     "text.markdown": fileWrapper,
                     "info.json": infoWrapper
                 ])
 
-            if let iWrapper = imagesWrapper {
-                textBundle.addFileWrapper(iWrapper)
-            }
+            let assetsWrapper = imagesWrapper ?? getAssetsFileWrapper()
+            textBundle.addFileWrapper(assetsWrapper)
 
             return textBundle
         }
@@ -513,6 +516,25 @@ public class Note: NSObject  {
         fileWrapper.filename = name
 
         return fileWrapper
+    }
+
+    private func getAssetsFileWrapper() -> FileWrapper {
+        let wrapper = FileWrapper.init(directoryWithFileWrappers: [:])
+        wrapper.preferredFilename = "assets"
+
+        let assets = url.appendingPathComponent("assets")
+
+        do {
+            let files = try FileManager.default.contentsOfDirectory(atPath: assets.path)
+            for file in files {
+                let fileData = try Data(contentsOf: assets.appendingPathComponent(file))
+                wrapper.addRegularFile(withContents: fileData, preferredFilename: file)
+            }
+        } catch {
+            print(error)
+        }
+
+        return wrapper
     }
         
     private func writeTextBundleInfo(url: URL) {
@@ -561,7 +583,10 @@ public class Note: NSObject  {
         guard isMarkdown() && !self.caching && !self.isCached else { return }
 
         self.caching = true
+
+        #if NOT_EXTENSION || os(OSX)
         NotesTextProcessor.fullScan(note: self, async: false)
+        #endif
 
         self.caching = false
         self.isCached = true
@@ -781,6 +806,7 @@ public class Note: NSObject  {
         var urls: [URL] = []
         var mdImages: [String] = []
 
+        #if NOT_EXTENSION || os(OSX)
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
         {(result, flags, stop) -> Void in
 
@@ -804,6 +830,7 @@ public class Note: NSObject  {
                 }
             }
         })
+        #endif
 
         var cleanText = content.string
         for image in mdImages {
@@ -848,21 +875,25 @@ public class Note: NSObject  {
         return getImageUrl(imageName: appendingPath)
     }
 
-    #if os(iOS)
-    public func create(with date: Date? = nil, from filesWrapper: FileWrapper? = nil) {
-        let document = UINote(fileURL: url, textWrapper: getFileWrapper())
-        let wrapper = filesWrapper ?? getFileWrapper()
-
-        var attributes: [AnyHashable : Any]?
-        if let creationDate = date {
-            attributes = [FileAttributeKey.creationDate: creationDate]
-        }
-
-        try? document.writeContents(wrapper, andAttributes: attributes, safelyTo: url, for: .forCreating)
-    }
-    #endif
-
     public func isEqualURL(url: URL) -> Bool {
         return url.path == self.url.path
+    }
+
+    public func append(string: NSMutableAttributedString) {
+        content.append(string)
+        write()
+    }
+
+    public func append(image data: Data) {
+        guard let fileName = ImagesProcessor.writeImage(data: data, note: self) else { return }
+
+        let path = getMdImagePath(name: fileName)
+        var prefix = "\n\n"
+        if content.length == 0 {
+            prefix = String()
+        }
+
+        let markdown = NSMutableAttributedString(string: "\(prefix)![](\(path))")
+        append(string: markdown)
     }
 }

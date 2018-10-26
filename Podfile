@@ -7,6 +7,14 @@ def mac_pods
     pod 'MASShortcut', '~> 2.0'
 end
 
+def ios_pods
+    pod 'Solar', '~> 2.0'
+    pod 'NightNight', '~> 0.5.0'
+    pod 'DKImagePickerController', '3.8.1'
+    pod 'GSImageViewerController'
+    pod 'SSZipArchive'
+end
+
 def common_pods
     pod 'Highlightr', '~> 2.0'
     pod 'Down', '~> 0.5.2'
@@ -46,9 +54,12 @@ target 'FSNotes iOS' do
     platform :ios, IOS_TARGET_VERSION
 
     common_pods
-    pod 'Solar', '~> 2.0'
+    ios_pods
+end
+
+target 'FSNotes iOS Share Extension' do
+    platform :ios, IOS_TARGET_VERSION
+
+    pod 'Highlightr', '~> 2.0'
     pod 'NightNight', '~> 0.5.0'
-    pod 'DKImagePickerController', '3.8.1'
-    pod 'GSImageViewerController'
-    pod 'SSZipArchive'
 end
