@@ -482,18 +482,7 @@ class ViewController: NSViewController,
             search.becomeFirstResponder()
             return true
         }
-        
-        // Note edit mode and select file name (cmd-r)
-        if (
-            event.keyCode == kVK_ANSI_R
-            && event.modifierFlags.contains(.command)
-            && !event.modifierFlags.contains(.shift)
-        ) {
-            titleLabel.isEditable = true
-            titleLabel.becomeFirstResponder()
-            return true
-        }
-        
+
         // Make note shortcut (cmd-n)
         if (
             event.keyCode == kVK_ANSI_N
@@ -687,7 +676,11 @@ class ViewController: NSViewController,
     
     @IBAction func renameMenu(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-        vc.renameNote(selectedRow: vc.notesTableView.clickedRow)
+
+        if vc.notesTableView.selectedRow > -1 {
+            vc.titleLabel.isEditable = true
+            vc.titleLabel.becomeFirstResponder()
+        }
     }
         
     @IBAction func deleteNote(_ sender: Any) {
@@ -899,6 +892,7 @@ class ViewController: NSViewController,
         if titleLabel.isEditable == true {
             titleLabel.isEditable = false
             fileName(titleLabel)
+            view.window?.makeFirstResponder(notesTableView)
         }
         else {
             let currentNote = notesTableView.getSelectedNote()
