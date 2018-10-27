@@ -267,8 +267,12 @@ class ViewController: NSViewController,
             
             let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
+            // Sort all notes
             storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue)
-            viewController.notesTableView.noteList = storage.noteList
+            
+            // Sort notes in the current project
+            viewController.notesTableView.noteList = storage.sortNotes(noteList: viewController.filteredNoteList ?? storage.noteList, filter: viewController.search.stringValue)
+            
             viewController.notesTableView.reloadData()
         }
     }
