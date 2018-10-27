@@ -59,6 +59,10 @@ class EditTextView: UITextView, UITextViewDelegate {
 
                 let item = [kUTTypeFlatRTFD as String : rtfd]
                 UIPasteboard.general.addItems([item])
+                
+                if let textRange = getTextRange() {
+                    self.replace(textRange, withText: "")
+                }
 
                 return
             }

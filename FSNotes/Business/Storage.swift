@@ -224,10 +224,14 @@ class Storage {
         return storage
     }
 
-    public func loadProjects() {
+    public func loadProjects(withTrash: Bool = true) {
         noteList.removeAll()
 
         for project in projects {
+            if project.isTrash && !withTrash {
+                continue
+            }
+
             loadLabel(project)
         }
     }

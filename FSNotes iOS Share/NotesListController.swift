@@ -18,7 +18,6 @@ class NotesListController: UITableViewController {
 
     public func setNotes(notes: [Note]) {
         self.notes = notes
-        print(notes)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

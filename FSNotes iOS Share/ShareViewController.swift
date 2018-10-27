@@ -16,6 +16,7 @@ import NightNight
 class ShareViewController: SLComposeServiceViewController {
     private var notes: [Note]?
     private var imagesFound = false
+    private var urlPreview: String?
 
     override func viewDidLoad() {
         preferredContentSize = CGSize(width: 300, height: 300)
@@ -41,6 +42,8 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func loadPreviewView() -> UIView! {
+        urlPreview = self.textView.text
+
         if let context = self.extensionContext,
             let input = context.inputItems as? [NSExtensionItem] {
             for row in input {
@@ -56,7 +59,8 @@ class ShareViewController: SLComposeServiceViewController {
                             attachRow.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
                                 if let data = url as? NSURL, let textLink = data.absoluteString {
                                     DispatchQueue.main.async {
-                                        self.textView.text = textLink
+                                        let preview = self.urlPreview ?? String()
+                                        self.textView.text = "\(preview)\n\n\(textLink)"
                                     }
                                 }
                             })
@@ -85,7 +89,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         DispatchQueue.global().async {
             let storage = Storage.sharedInstance()
-            storage.loadProjects()
+            storage.loadProjects(withTrash: false)
 
             self.notes = storage.sortNotes(noteList: storage.noteList, filter: "")
             if let note = self.notes?.first {
@@ -153,6 +157,8 @@ class ShareViewController: SLComposeServiceViewController {
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
                             note.append(string: string)
                             note.write()
+                            self.close()
+                            return
                         }
                     }
                 }
