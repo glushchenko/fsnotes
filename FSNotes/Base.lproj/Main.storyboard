@@ -1331,7 +1331,7 @@ CA
                                                     <nil key="backgroundColor"/>
                                                     <edgeInsets key="contentInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                                                 </clipView>
-                                                <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="20" bottom="0.0"/>
+                                                <edgeInsets key="scrollerInsets" left="0.0" right="0.0" top="38" bottom="0.0"/>
                                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="hZT-KZ-qyF">
                                                     <rect key="frame" x="0.0" y="-16" width="0.0" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
