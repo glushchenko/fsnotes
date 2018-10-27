@@ -21,23 +21,3 @@ class NameTextField: NSTextField {
         return status
     }
 }
-
-class TitleBarView: NSView {
-    
-    var onMouseEnteredClosure: (()->())?
-    var onMouseExitedClosure: (()->())?
-    
-    override func awakeFromNib() {
-        
-        addTrackingArea(NSTrackingArea(rect: bounds, options: [.activeAlways, .mouseEnteredAndExited], owner: self, userInfo: nil))
-    }
-    
-    override func mouseEntered(with event: NSEvent) {
-        onMouseEnteredClosure?()
-    }
-    
-    override func mouseExited(with event: NSEvent) {
-        onMouseExitedClosure?()
-    }
-    
-}
