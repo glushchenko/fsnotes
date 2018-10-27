@@ -10,10 +10,8 @@ import Foundation
 
 #if os(OSX)
     import Cocoa
-    import MASShortcut
 #else
     import UIKit
-    import NightNight
 #endif
 
 public class UserDefaultsManagement {
@@ -61,21 +59,16 @@ public class UserDefaultsManagement {
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LiveImagesPreview = "liveImagesPreview"
-        static let NewNoteKeyCode = "newNoteKeyCode"
-        static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
         static let PinListKey = "pinList"
         static let Preview = "preview"
         static let RestoreCursorPosition = "restoreCursorPosition"
-        static let SearchNoteKeyCode = "searchNoteKeyCode"
-        static let SearchNoteKeyModifier = "searchNoteKeyModifier"
         static let ShowDockIcon = "showDockIcon"
         static let SmartInsertDelete = "smartInsertDelete"
         static let SortBy = "sortBy"
         static let StoragePathKey = "storageUrl"
-        static let StorageExtensionKey = "fileExtension"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let AutocloseBrackets = "autocloseBrackets"
@@ -248,56 +241,7 @@ public class UserDefaultsManagement {
             return nil
         }
     }
-    
-    static var storageExtension: String {
-        get {
-            if let storageExtension = UserDefaults.standard.object(forKey: Constants.StorageExtensionKey) {
-                return storageExtension as! String
-            } else {
-                return "md"
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
-        }
-    }
-    
-#if os(OSX)
-    static var newNoteShortcut: MASShortcut {
-        get {
-            let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
-            let modifier = UserDefaults.standard.object(forKey: Constants.NewNoteKeyModifier)
             
-            if (code != nil && modifier != nil) {
-                return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
-            } else {
-                return MASShortcut(keyCode: 45, modifierFlags: 917504)
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.NewNoteKeyCode)
-            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.NewNoteKeyModifier)
-        }
-    }
-    
-    static var searchNoteShortcut: MASShortcut {
-        get {
-            let code = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyCode)
-            let modifier = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyModifier)
-            
-            if (code != nil && modifier != nil) {
-                return MASShortcut(keyCode: code as! UInt, modifierFlags: modifier as! UInt)
-            } else {
-                return MASShortcut(keyCode: 37, modifierFlags: 917504)
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.SearchNoteKeyCode)
-            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
-        }
-    }
-#endif
-        
     static var preview: Bool {
         get {
             if let preview = UserDefaults.standard.object(forKey: Constants.Preview) {
@@ -465,28 +409,7 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
         }
     }
-    
-    static var codeTheme: String {
-        get {
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
-                return theme
-            }
 
-            #if os(OSX)
-                return "atom-one-light"
-            #else
-                if NightNight.theme == .night {
-                    return "monokai-sublime"
-                } else {
-                    return "atom-one-light"
-                }
-            #endif
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
-        }
-    }
-    
     static var lastSelectedURL: URL? {
         get {
             if let path = UserDefaults.standard.object(forKey: Constants.LastSelectedPath) as? String, let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
@@ -809,22 +732,4 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.HideSidebar)
         }
     }
-
-    static var appearanceType: AppearanceType {
-        get {
-            if let result = UserDefaults.standard.object(forKey: Constants.AppearanceTypeKey) as? Int {
-                return AppearanceType(rawValue: result)!
-            }
-
-            if #available(OSX 10.14, *) {
-                return AppearanceType.System
-            } else {
-                return AppearanceType.Custom
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.AppearanceTypeKey)
-        }
-    }
-
 }

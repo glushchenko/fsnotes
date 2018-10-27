@@ -92,6 +92,7 @@ class CloudDriveManager {
                     _ = note.reload()
                 }
 
+                note.invalidateCache()
                 self.delegate.notesTable.updateRowView(note: note)
                 self.resolveConflict(url: url)
                 continue
@@ -219,7 +220,7 @@ class CloudDriveManager {
                 note.loadContent()
 
                 conflictNote.content = note.content
-                conflictNote.create()
+                conflictNote.write()
 
                 self.storage.add(conflictNote)
 

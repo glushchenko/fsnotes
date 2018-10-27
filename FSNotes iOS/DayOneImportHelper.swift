@@ -59,7 +59,7 @@ class DayOneImportHelper {
                 let imagesWrapper = getImagesWrapper(entry: entry, note: note, photosSrcURL: photosURL)
 
                 let wrapper = note.getFileWrapper(with: imagesWrapper)
-                note.create(with: entry.creationDate, from: wrapper)
+                note.write(with: entry.creationDate, from: wrapper)
 
                 storage.add(note)
             }

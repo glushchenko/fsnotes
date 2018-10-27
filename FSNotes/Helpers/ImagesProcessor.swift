@@ -46,7 +46,8 @@ public class ImagesProcessor {
     
     public func load() {
         var offset = 0
-        
+
+        #if NOT_EXTENSION || os(OSX)
         NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range else { return }
             
@@ -101,6 +102,7 @@ public class ImagesProcessor {
                 }
             }
         }
+        #endif
     }
     
     public func unLoad() {
