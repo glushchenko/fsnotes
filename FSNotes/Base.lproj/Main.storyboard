@@ -1522,13 +1522,16 @@ CA
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
-                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
-                                                        <rect key="frame" x="0.0" y="563" width="417" height="20"/>
+                                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
+                                                        <rect key="frame" x="191" y="573" width="35" height="17"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="mainBackground"/>
                                                         </textFieldCell>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="XfG-lQ-9wD" id="ikK-Ty-iHC"/>
+                                                        </connections>
                                                     </textField>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
                                                         <rect key="frame" x="368" y="564" width="47" height="32"/>
@@ -1548,15 +1551,16 @@ CA
                                                     </imageView>
                                                 </subviews>
                                                 <constraints>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="70" id="3VI-a3-aJP"/>
                                                     <constraint firstAttribute="trailing" secondItem="oDB-Y6-20P" secondAttribute="trailing" constant="8" id="4Tt-fb-GfO"/>
                                                     <constraint firstAttribute="trailing" secondItem="qJO-7f-vkL" secondAttribute="trailing" id="GZ2-jz-8Ue"/>
-                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="QX8-11-49c"/>
                                                     <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="10" id="ZXL-jc-Tfr"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="at7-wA-VAS" secondAttribute="leading" constant="70" id="aDP-f9-ims"/>
                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="8" id="aPg-OL-8Mj"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="11" id="eAG-eB-pQr"/>
                                                     <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
-                                                    <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" id="kLx-Os-kkP"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerX" secondItem="at7-wA-VAS" secondAttribute="centerX" id="r1w-sy-Ky6"/>
                                                 </constraints>
                                             </customView>
                                         </subviews>
