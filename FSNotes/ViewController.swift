@@ -265,15 +265,19 @@ class ViewController: NSViewController,
             
             sender.state = NSControl.StateValue.on
             
-            let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+            let controller = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
             // Sort all notes
-            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue)
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: controller.search.stringValue)
             
             // Sort notes in the current project
-            viewController.notesTableView.noteList = storage.sortNotes(noteList: viewController.filteredNoteList ?? storage.noteList, filter: viewController.search.stringValue)
+            if let filtered = controller.filteredNoteList {
+                controller.notesTableView.noteList = storage.sortNotes(noteList: filtered, filter: controller.search.stringValue)
+            } else {
+                controller.notesTableView.noteList = storage.noteList
+            }
             
-            viewController.notesTableView.reloadData()
+            controller.notesTableView.reloadData()
         }
     }
     
