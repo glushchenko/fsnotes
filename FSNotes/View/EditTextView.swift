@@ -442,6 +442,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         
         viewController.titleLabel.stringValue = note.title
+        viewController.projectLabel.stringValue = "\(note.project.label)"
         restoreCursorPosition()
         
         applyLeftParagraphStyle()

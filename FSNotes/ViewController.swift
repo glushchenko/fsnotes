@@ -46,7 +46,30 @@ class ViewController: NSViewController,
     @IBOutlet weak var titleLabel: NSTextField!
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
-
+    @IBOutlet weak var projectLabel: NSTextField!
+    @IBOutlet weak var projectLabelView: NSView!
+    @IBOutlet weak var titleBarAdditionalView: NSView!
+    @IBOutlet weak var titleBarView: TitleBarView! {
+        didSet {
+            titleBarView.onMouseExitedClosure = { [weak self] in
+                DispatchQueue.main.async {
+                    NSAnimationContext.runAnimationGroup({ context in
+                        context.duration = 0.25
+                        self?.titleBarAdditionalView.isHidden = true
+                    }, completionHandler: nil)
+                }
+            }
+            titleBarView.onMouseEnteredClosure = { [weak self] in
+                DispatchQueue.main.async {
+                    NSAnimationContext.runAnimationGroup({ context in
+                        context.duration = 0.25
+                        self?.titleBarAdditionalView.isHidden = false
+                    }, completionHandler: nil)
+                }
+            }
+        }
+    }
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
