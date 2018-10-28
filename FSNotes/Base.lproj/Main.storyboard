@@ -1492,17 +1492,17 @@ CA
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes">
-                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="562"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="417" height="577"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="417" height="562"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="417" height="577"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textView verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" allowsImageEditing="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" textReplacement="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="417" height="542"/>
+                                                                <textView drawsBackground="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsUndo="YES" allowsImageEditing="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" textReplacement="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="417" height="557"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="417" height="542"/>
+                                                                    <size key="minSize" width="417" height="557"/>
                                                                     <size key="maxSize" width="636" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
@@ -1523,7 +1523,7 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
-                                                        <rect key="frame" x="191" y="573" width="35" height="17"/>
+                                                        <rect key="frame" x="191" y="580" width="35" height="17"/>
                                                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1537,13 +1537,13 @@ CA
                                                         <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </imageView>
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="562" width="417" height="38"/>
+                                                        <rect key="frame" x="0.0" y="577" width="417" height="23"/>
                                                         <subviews>
                                                             <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="0.0" y="0.0" width="417" height="38"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="417" height="23"/>
                                                                 <subviews>
                                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="seD-uZ-ELt">
-                                                                        <rect key="frame" x="140" y="12" width="45" height="16"/>
+                                                                        <rect key="frame" x="140" y="4" width="45" height="16"/>
                                                                         <subviews>
                                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OWo-qf-3g7">
                                                                                 <rect key="frame" x="-2" y="0.0" width="35" height="16"/>
@@ -1573,8 +1573,8 @@ CA
                                                                         </constraints>
                                                                     </customView>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
-                                                                        <rect key="frame" x="368" y="2" width="47" height="32"/>
-                                                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="NSShareTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
+                                                                        <rect key="frame" x="398" y="4" width="11" height="16"/>
+                                                                        <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
@@ -1582,9 +1582,25 @@ CA
                                                                             <action selector="shareSheet:" target="rPt-NT-nkU" id="Kfd-pJ-Bqc"/>
                                                                         </connections>
                                                                     </button>
+                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
+                                                                        <rect key="frame" x="366" y="4" width="22" height="16"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="22" id="cL1-PF-gSQ"/>
+                                                                            <constraint firstAttribute="height" constant="16" id="mhf-Ok-C0D"/>
+                                                                        </constraints>
+                                                                        <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Yk7-v6-QmI">
+                                                                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="togglePreview:" target="XfG-lQ-9wD" id="Mf0-5U-8VP"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="Ua8-RE-q01" secondAttribute="top" constant="8" id="P6Y-Qq-rf1"/>
+                                                                    <constraint firstItem="Bn7-FD-jzc" firstAttribute="centerY" secondItem="oDB-Y6-20P" secondAttribute="centerY" id="5ca-la-z4K"/>
+                                                                    <constraint firstItem="oDB-Y6-20P" firstAttribute="leading" secondItem="Bn7-FD-jzc" secondAttribute="trailing" constant="10" id="Gen-sI-BLY"/>
+                                                                    <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="Ua8-RE-q01" secondAttribute="top" constant="3" id="P6Y-Qq-rf1"/>
                                                                     <constraint firstAttribute="trailing" secondItem="oDB-Y6-20P" secondAttribute="trailing" constant="8" id="Vjg-yM-FoF"/>
                                                                     <constraint firstItem="seD-uZ-ELt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ua8-RE-q01" secondAttribute="leading" id="WFz-Rj-tRn"/>
                                                                 </constraints>
@@ -1606,8 +1622,8 @@ CA
                                                     <constraint firstAttribute="trailing" secondItem="qJO-7f-vkL" secondAttribute="trailing" id="GZ2-jz-8Ue"/>
                                                     <constraint firstItem="xSU-Mk-2F1" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" id="Nm9-X5-Q67"/>
                                                     <constraint firstAttribute="trailing" secondItem="xSU-Mk-2F1" secondAttribute="trailing" id="Te8-se-icR"/>
-                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="10" id="ZXL-jc-Tfr"/>
-                                                    <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="11" id="eAG-eB-pQr"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" constant="3" id="ZXL-jc-Tfr"/>
+                                                    <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="rZx-hk-GcJ" secondAttribute="bottom" constant="3" id="eAG-eB-pQr"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="xSU-Mk-2F1" secondAttribute="bottom" id="eTn-PH-7w7"/>
                                                     <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
@@ -1641,6 +1657,7 @@ CA
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
+                        <outlet property="previewButton" destination="Bn7-FD-jzc" id="RxQ-Au-NBr"/>
                         <outlet property="projectLabel" destination="OWo-qf-3g7" id="wfG-oT-EIj"/>
                         <outlet property="projectLabelView" destination="seD-uZ-ELt" id="inH-kz-aM3"/>
                         <outlet property="search" destination="gaD-Xx-kYm" id="jiw-n1-Ydc"/>
@@ -1772,6 +1789,7 @@ CA
     <resources>
         <image name="ChevronRight" width="11" height="20"/>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
         <image name="makeNoteAsset" width="122.87999725341797" height="122.87999725341797"/>
         <image name="pin" width="128" height="128"/>

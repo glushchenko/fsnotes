@@ -49,6 +49,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var projectLabel: NSTextField!
     @IBOutlet weak var projectLabelView: NSView!
     @IBOutlet weak var titleBarAdditionalView: NSView!
+    @IBOutlet weak var previewButton: NSButton!
     @IBOutlet weak var titleBarView: TitleBarView! {
         didSet {
             titleBarView.onMouseExitedClosure = { [weak self] in
@@ -365,6 +366,8 @@ class ViewController: NSViewController,
     }
     
     func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
+        previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        
         guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
             return
         }
@@ -1523,6 +1526,10 @@ class ViewController: NSViewController,
     }
     
     //MARK: Share Service
+    
+    @IBAction func togglePreview(_ sender: NSButton) {
+        togglePreview()
+    }
     
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = notesTableView.getSelectedNote() {
