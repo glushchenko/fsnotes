@@ -443,7 +443,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
         }
         
-        viewController.projectLabel.stringValue = "\(note.project.label)"
         restoreCursorPosition()
         
         applyLeftParagraphStyle()
