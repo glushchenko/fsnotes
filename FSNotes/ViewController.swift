@@ -374,7 +374,9 @@ class ViewController: NSViewController,
     }
     
     func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
-        previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        DispatchQueue.main.async { [weak self] in
+            self?.previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        }
         
         guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
             return
