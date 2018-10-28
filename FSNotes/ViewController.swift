@@ -46,7 +46,6 @@ class ViewController: NSViewController,
     @IBOutlet weak var titleLabel: NSTextField!
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
-    @IBOutlet weak var projectLabelView: NSView!
     @IBOutlet weak var titleBarAdditionalView: NSView!
     @IBOutlet weak var previewButton: NSButton!
     @IBOutlet weak var titleBarView: TitleBarView! {
