@@ -1524,7 +1524,7 @@ CA
                                                     </scrollView>
                                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
                                                         <rect key="frame" x="191" y="580" width="35" height="17"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="mainBackground"/>
@@ -1542,6 +1542,12 @@ CA
                                                             <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
                                                                 <rect key="frame" x="0.0" y="0.0" width="417" height="23"/>
                                                                 <subviews>
+                                                                    <box hidden="YES" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-nk-gch">
+                                                                        <rect key="frame" x="0.0" y="-2" width="417" height="5"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="0.5" id="Cgx-T0-tZD"/>
+                                                                        </constraints>
+                                                                    </box>
                                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="seD-uZ-ELt">
                                                                         <rect key="frame" x="140" y="4" width="45" height="16"/>
                                                                         <subviews>
@@ -1554,19 +1560,18 @@ CA
                                                                                 </textFieldCell>
                                                                             </textField>
                                                                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="l4v-e6-itn">
-                                                                                <rect key="frame" x="39" y="3" width="5" height="10"/>
+                                                                                <rect key="frame" x="39" y="1" width="5" height="12"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="5" id="067-8H-zfe"/>
-                                                                                    <constraint firstAttribute="height" constant="10" id="fKr-PH-EiL"/>
                                                                                 </constraints>
-                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="ChevronRight" id="598-ig-wK2"/>
+                                                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSRightFacingTriangleTemplate" id="598-ig-wK2"/>
                                                                                 <color key="contentTintColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                                                             </imageView>
                                                                         </subviews>
                                                                         <constraints>
                                                                             <constraint firstItem="l4v-e6-itn" firstAttribute="leading" secondItem="OWo-qf-3g7" secondAttribute="trailing" constant="8" id="IOI-ch-BdE"/>
                                                                             <constraint firstAttribute="trailing" secondItem="l4v-e6-itn" secondAttribute="trailing" constant="1" id="IOL-29-8q3"/>
-                                                                            <constraint firstItem="l4v-e6-itn" firstAttribute="centerY" secondItem="seD-uZ-ELt" secondAttribute="centerY" id="MTe-NY-E5h"/>
+                                                                            <constraint firstItem="l4v-e6-itn" firstAttribute="centerY" secondItem="seD-uZ-ELt" secondAttribute="centerY" constant="1" id="MTe-NY-E5h"/>
                                                                             <constraint firstItem="OWo-qf-3g7" firstAttribute="top" secondItem="seD-uZ-ELt" secondAttribute="top" id="T8B-K3-6r6"/>
                                                                             <constraint firstItem="OWo-qf-3g7" firstAttribute="leading" secondItem="seD-uZ-ELt" secondAttribute="leading" id="Tox-8m-D5T"/>
                                                                             <constraint firstAttribute="bottom" secondItem="OWo-qf-3g7" secondAttribute="bottom" id="fwA-X8-5wE"/>
@@ -1599,7 +1604,10 @@ CA
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="Bn7-FD-jzc" firstAttribute="centerY" secondItem="oDB-Y6-20P" secondAttribute="centerY" id="5ca-la-z4K"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="sIv-nk-gch" secondAttribute="bottom" id="8zI-PO-LGd"/>
+                                                                    <constraint firstItem="sIv-nk-gch" firstAttribute="leading" secondItem="Ua8-RE-q01" secondAttribute="leading" id="FzU-YG-fYc"/>
                                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="leading" secondItem="Bn7-FD-jzc" secondAttribute="trailing" constant="10" id="Gen-sI-BLY"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="sIv-nk-gch" secondAttribute="trailing" id="LlO-H5-hxQ"/>
                                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="top" secondItem="Ua8-RE-q01" secondAttribute="top" constant="3" id="P6Y-Qq-rf1"/>
                                                                     <constraint firstAttribute="trailing" secondItem="oDB-Y6-20P" secondAttribute="trailing" constant="8" id="Vjg-yM-FoF"/>
                                                                     <constraint firstItem="seD-uZ-ELt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ua8-RE-q01" secondAttribute="leading" id="WFz-Rj-tRn"/>
@@ -1787,9 +1795,9 @@ CA
         </scene>
     </scenes>
     <resources>
-        <image name="ChevronRight" width="11" height="20"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
+        <image name="NSRightFacingTriangleTemplate" width="9" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
         <image name="makeNoteAsset" width="122.87999725341797" height="122.87999725341797"/>
         <image name="pin" width="128" height="128"/>
