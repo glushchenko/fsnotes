@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
+		2799407C218484C900727B20 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		56F7023FC82F0C99E90774DD /* Pods_FSNotesCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCFDE6EAB222372597B007F3 /* Pods_FSNotesCore_iOS.framework */; };
 		6F13BB0D20FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; };
 		6F13BB1620FEDDF50005E120 /* FSNotesCore_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F13BB0620FEDDF50005E120 /* FSNotesCore_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -529,6 +530,7 @@
 /* Begin PBXFileReference section */
 		1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		2799407B218484C900727B20 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
 		2F06741487033D206BD611B4 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
 		37B79424582BB5A99620600F /* Pods-FSNotes iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.release.xcconfig"; sourceTree = "<group>"; };
 		3C7BFBD90A7240A17E2BFDAB /* Pods-FSNotesCore iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1330,6 +1332,7 @@
 				D7315ECE215ECF3000AB49D4 /* EditorView.swift */,
 				D77CC040216A608500582B97 /* EditorScrollView.swift */,
 				D7D1DE67216D05A800AC1845 /* NameTextField.swift */,
+				2799407B218484C900727B20 /* TitleBarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2389,6 +2392,7 @@
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
+				2799407C218484C900727B20 /* TitleBarView.swift in Sources */,
 				D75EE7FD2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */,

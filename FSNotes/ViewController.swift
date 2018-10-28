@@ -46,7 +46,29 @@ class ViewController: NSViewController,
     @IBOutlet weak var titleLabel: NSTextField!
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
-
+    @IBOutlet weak var titleBarAdditionalView: NSView!
+    @IBOutlet weak var previewButton: NSButton!
+    @IBOutlet weak var titleBarView: TitleBarView! {
+        didSet {
+            titleBarView.onMouseExitedClosure = { [weak self] in
+                DispatchQueue.main.async {
+                    NSAnimationContext.runAnimationGroup({ context in
+                        context.duration = 0.25
+                        self?.titleBarAdditionalView.isHidden = true
+                    }, completionHandler: nil)
+                }
+            }
+            titleBarView.onMouseEnteredClosure = { [weak self] in
+                DispatchQueue.main.async {
+                    NSAnimationContext.runAnimationGroup({ context in
+                        context.duration = 0.25
+                        self?.titleBarAdditionalView.isHidden = false
+                    }, completionHandler: nil)
+                }
+            }
+        }
+    }
+    
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -350,6 +372,10 @@ class ViewController: NSViewController,
     }
     
     func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
+        DispatchQueue.main.async { [weak self] in
+            self?.previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        }
+        
         guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
             return
         }
@@ -1535,6 +1561,10 @@ class ViewController: NSViewController,
     }
     
     //MARK: Share Service
+    
+    @IBAction func togglePreview(_ sender: NSButton) {
+        togglePreview()
+    }
     
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = notesTableView.getSelectedNote() {
