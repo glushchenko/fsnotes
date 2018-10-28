@@ -378,7 +378,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
         UserDefaultsManagement.lastSelectedURL = note.url
         
         subviews.removeAll()
-        
+
+        viewController.titleLabel.stringValue = note.title
+
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {
             md.editorUndoManager = note.undoManager
@@ -441,7 +443,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
         }
         
-        viewController.titleLabel.stringValue = note.title
         viewController.projectLabel.stringValue = "\(note.project.label)"
         restoreCursorPosition()
         

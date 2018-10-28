@@ -289,11 +289,19 @@ class ViewController: NSViewController,
             
             sender.state = NSControl.StateValue.on
             
-            let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
+            let controller = NSApplication.shared.windows.first!.contentViewController as! ViewController
             
-            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: viewController.search.stringValue)
-            viewController.notesTableView.noteList = storage.noteList
-            viewController.notesTableView.reloadData()
+            // Sort all notes
+            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: controller.search.stringValue)
+            
+            // Sort notes in the current project
+            if let filtered = controller.filteredNoteList {
+                controller.notesTableView.noteList = storage.sortNotes(noteList: filtered, filter: controller.search.stringValue)
+            } else {
+                controller.notesTableView.noteList = storage.noteList
+            }
+            
+            controller.notesTableView.reloadData()
         }
     }
     
@@ -453,13 +461,17 @@ class ViewController: NSViewController,
             }
 
             if self.editAreaScroll.isFindBarVisible {
-                self.editAreaScroll.isFindBarVisible = false
-                if !UserDefaultsManagement.preview {
-                    NSApp.mainWindow?.makeFirstResponder(self.editArea)
-                }
+                cancelTextSearch()
                 return true
             }
 
+            // Renaming is in progress
+            if titleLabel.isEditable == true {
+                titleLabel.isEditable = false
+                titleLabel.window?.makeFirstResponder(nil)
+                return true
+            }
+            
             notesTableView.scroll(.zero)
             
             let hasSelectedNotes = notesTableView.selectedRow > -1
@@ -482,6 +494,10 @@ class ViewController: NSViewController,
         // Search cmd-f
         if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command)) {
             if self.notesTableView.getSelectedNote() != nil {
+                
+                //Turn off preview mode as text search works only in text editor
+                disablePreview()
+                
                 self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.showFindInterface)
                 return true
             }
@@ -492,17 +508,7 @@ class ViewController: NSViewController,
             search.becomeFirstResponder()
             return true
         }
-        
-        // Note edit mode and select file name (cmd-r)
-        if (
-            event.keyCode == kVK_ANSI_R
-            && event.modifierFlags.contains(.command)
-            && !event.modifierFlags.contains(.shift)
-        ) {
-            renameNote(selectedRow: notesTableView.selectedRow)
-            return true
-        }
-        
+
         // Make note shortcut (cmd-n)
         if (
             event.keyCode == kVK_ANSI_N
@@ -562,6 +568,13 @@ class ViewController: NSViewController,
         }
         
         return true
+    }
+    
+    func cancelTextSearch() {
+        self.editAreaScroll.isFindBarVisible = false
+        if !UserDefaultsManagement.preview {
+            NSApp.mainWindow?.makeFirstResponder(self.editArea)
+        }
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
@@ -689,7 +702,11 @@ class ViewController: NSViewController,
     
     @IBAction func renameMenu(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-        vc.renameNote(selectedRow: vc.notesTableView.clickedRow)
+
+        if vc.notesTableView.selectedRow > -1 {
+            vc.titleLabel.isEditable = true
+            vc.titleLabel.becomeFirstResponder()
+        }
     }
         
     @IBAction func deleteNote(_ sender: Any) {
@@ -892,6 +909,21 @@ class ViewController: NSViewController,
         operation.printPanel.options.insert(NSPrintPanel.Options.showsPaperSize)
         operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
         operation.run()
+    }
+    
+    
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
+        
+        if titleLabel.isEditable == true {
+            titleLabel.isEditable = false
+            fileName(titleLabel)
+            view.window?.makeFirstResponder(notesTableView)
+        }
+        else {
+            let currentNote = notesTableView.getSelectedNote()
+            titleLabel.stringValue = currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note")
+        }
     }
     
     // Changed main edit view
@@ -1334,6 +1366,9 @@ class ViewController: NSViewController,
     }
         
     func enablePreview() {
+        //Preview mode doesn't support text search
+        cancelTextSearch()
+        
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         vc.editArea.window?.makeFirstResponder(vc.notesTableView)
         
