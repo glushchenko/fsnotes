@@ -377,7 +377,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
         
-        subviews.removeAll()
+        downView?.removeFromSuperview()
 
         viewController.titleLabel.stringValue = note.title
 
@@ -411,11 +411,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 if note.type == .TextBundle {
                     imagesStorage = note.url
                 }
-
-                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (self.superview?.bounds)!, markdownString: markdownString, css: css, templateBundle: bundle) {
+                
+                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle) {
                 }
 
-                addSubview(downView!)
+                viewController.editAreaScroll.addSubview(downView!)
             }
             return
         }
@@ -505,7 +505,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     func clear() {
         textStorage?.setAttributedString(NSAttributedString())
-        subviews.removeAll()
+        downView?.removeFromSuperview()
         isEditable = false
         
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
