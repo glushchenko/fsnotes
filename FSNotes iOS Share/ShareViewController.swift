@@ -39,6 +39,12 @@ class ShareViewController: SLComposeServiceViewController {
         super.viewDidAppear(animated)
 
         textView.setContentOffset(.zero, animated: true)
+
+        if let table = textView.superview?.superview?.superview as? UITableView {
+            let length = table.numberOfRows(inSection: 0)
+            table.scrollToRow(at: IndexPath(row: length - 1, section: 0), at: .bottom, animated: true)
+        }
+
     }
 
     override func loadPreviewView() -> UIView! {
