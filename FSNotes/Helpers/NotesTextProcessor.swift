@@ -513,6 +513,35 @@ public class NotesTextProcessor {
         return nil
     }
     
+    
+    /**
+     Coverts App links:`[[Link Title]]` to Markdown: `[Link](fsnotes://find/link%20title)`
+     
+     - parameter content:      A string containing CommonMark Markdown
+     
+     - returns: Content string with converted links
+     */
+
+    public static func convertAppLinks(in content: String) -> String {
+        var resultString = content
+        NotesTextProcessor.appUrlRegex.matches(content, range: NSRange(location: 0, length: (content as NSString).length), completion: { (result) -> (Void) in
+            guard let innerRange = result?.range else { return }
+            var _range = innerRange
+            _range.location = _range.location + 2
+            _range.length = _range.length - 4
+            
+            let lintTitle = (content as NSString).substring(with: _range)
+            
+            let allowedCharacters = CharacterSet(bitmapRepresentation: CharacterSet.urlPathAllowed.bitmapRepresentation)
+            let escapedString = lintTitle.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!
+            
+            let newLink = "[\(lintTitle)](fsnotes://find/\(escapedString))"
+            resultString = resultString.replacingOccurrences(of: "[[\(lintTitle)]]", with: newLink)
+        })
+        
+        return resultString
+    }
+    
     public static func scanMarkdownSyntax(_ styleApplier: NSMutableAttributedString, paragraphRange: NSRange, note: Note) {
         let isFullScan = styleApplier.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         
