@@ -526,7 +526,39 @@ public class NotesTextProcessor {
         let boldFont = NSFont.boldFont()
         let italicFont = NSFont.italicFont()
         let hiddenFont = NSFont.systemFont(ofSize: 0.1)
+        
+        // Taken from GitHub
+        let headerFontSizes = [32, 24, 20, 16, 15, 12]
+        
+        func headerFont(h: Int) -> NSFont {
+            let size = h <= headerFontSizes.count ? headerFontSizes[h-1] : 18
+            
+            guard let family = UserDefaultsManagement.noteFont.familyName else {
+                return UserDefaultsManagement.noteFont
+            }
+            
+            if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(NSFontBoldTrait)), weight: 5, size: CGFloat(size)) {
+                return font
+            }
+            
+            return UserDefaultsManagement.noteFont
+        }
+        
     #else
+        func headerFont(h: Int) -> UIFont {
+            let size = h <= headerFontSizes.count ? headerFontSizes[h-1] : 18
+            
+            var font = UserDefaultsManagement.noteFont.bold()
+            font.withSize(CGFloat(size))
+            
+            if #available(iOS 11.0, *) {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                font = fontMetrics.scaledFont(for: font)
+            }
+            
+            return font
+        }
+
         var boldFont: UIFont {
             get {
                 var font = UserDefaultsManagement.noteFont.bold()
@@ -641,6 +673,9 @@ public class NotesTextProcessor {
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                let hNumber = innerRange.length
+
+                styleApplier.addAttribute(.font, value: headerFont(h: hNumber), range: range)
                 let syntaxRange = NSMakeRange(innerRange.location, innerRange.length + 1)
                 hideSyntaxIfNecessary(range: syntaxRange)
             }
