@@ -396,7 +396,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         if (UserDefaultsManagement.preview && note.isMarkdown()) {
             // Removes scroll for long notes
+            
+            EditTextView.note = nil
             textStorage?.setAttributedString(NSAttributedString())
+            EditTextView.note = note
 
             let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
             let url = NSURL.fileURL(withPath: path!)
