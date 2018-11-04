@@ -10,4 +10,8 @@
    <FileRef
       location = "group:README.md">
    </FileRef>
+   <FileRef
+      location = "group:.travis.yml"
+      assignedFileDataType = "public.ruby-script">
+   </FileRef>
 </Workspace>
