@@ -426,7 +426,7 @@ public class Note: NSObject  {
     }
     
     func getPrettifiedContent() -> String {
-        let content = self.content.string
+        let content = NotesTextProcessor.convertAppLinks(in: self.content.string)
         return cleanMetaData(content: content)
     }
     
