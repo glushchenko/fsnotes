@@ -15,6 +15,14 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var date: NSTextField!
     @IBOutlet var pin: NSImageView!
     
+    @IBOutlet weak var imagePreview: NSImageView!
+    @IBOutlet weak var imagePreviewSecond: NSImageView!
+    @IBOutlet weak var imagePreviewThird: NSImageView!
+
+    public var note: Note?
+    public var contentLength: Int = 0
+    public var timestamp: Int64?
+
     let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
     let previewMaximumLineHeight: CGFloat = 12
     let previewLineSpacing: CGFloat = 1
@@ -23,9 +31,7 @@ class NoteCellView: NSTableCellView {
         if let originY = UserDefaultsManagement.cellViewFrameOriginY {
             self.frame.origin.y = originY
         }
-        
-        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing)
-        
+
         super.viewWillDraw()
     }
     
@@ -43,19 +49,27 @@ class NoteCellView: NSTableCellView {
         }
         
         udpateSelectionHighlight()
+
+        var margin = 0
+        if !UserDefaultsManagement.horizontalOrientation {
+            margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 58 : 0
+        }
+        
+        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing) + CGFloat(margin)
+    }
+
+    public func configure(note: Note) {
+        self.note = note
     }
     
     func applyPreviewStyle(_ color: NSColor) {
         let additionalHeight = CGFloat(UserDefaultsManagement.cellSpacing)
-    
+
         guard additionalHeight >= 0 else {
             applyPreviewAttributes(color: color)
             return
         }
-        
-        // fix full vertical view pin position
-        pin.frame.origin.y = -4 + additionalHeight
-        
+
         // vertically align
         let lineHeight = previewLineSpacing + previewMaximumLineHeight
         var numberOfLines = 0
@@ -177,5 +191,12 @@ class NoteCellView: NSTableCellView {
         if let value = objectValue, let note = value as? Note  {
             pin.isHidden = !note.isPinned
         }
+    }
+
+    public func styleImageView(imageView: ImageView) {
+        imageView.isHidden = false
+        imageView.layer?.borderWidth = 1
+        imageView.layer?.borderColor = Color.darkGray.cgColor
+        imageView.layer?.cornerRadius = 4
     }
 }

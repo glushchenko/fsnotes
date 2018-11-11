@@ -140,8 +140,7 @@ class ImageAttachment {
         return mutableString
     }
 
-    #if os(iOS)
-    public static func getImageAndCacheData(url: URL, note: Note) -> UIImage? {
+    public static func getImageAndCacheData(url: URL, note: Note) -> Image? {
         var data: Data?
 
         let cacheDirectoryUrl = note.project.url.appendingPathComponent("/.cache/")
@@ -166,10 +165,12 @@ class ImageAttachment {
                     print(error)
                 }
 
+                #if os(iOS)
                 if let imageData = data, let image = UIImage(data: imageData), let jpegImageData = UIImageJPEGRepresentation(image, 1.0) {
                     try? jpegImageData.write(to: imageCacheUrl, options: .atomic)
                     data = jpegImageData
                 }
+                #endif
 
             } else {
                 data = try? Data(contentsOf: imageCacheUrl)
@@ -180,9 +181,8 @@ class ImageAttachment {
 
         guard let imageData = data else { return nil }
 
-        return UIImage(data: imageData)
+        return Image(data: imageData)
     }
-    #endif
     
     #if os(iOS)
     private func getImageSize(image: UIImage) -> CGSize? {

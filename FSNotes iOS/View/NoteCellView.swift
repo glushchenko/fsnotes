@@ -19,9 +19,9 @@ class NoteCellView: UITableViewCell {
     @IBOutlet weak var imagePreviewSecond: UIImageView!
     @IBOutlet weak var imagePreviewThird: UIImageView!
 
-    private var note: Note?
-    private var contentLength: Int = 0
-    private var timestamp: Int64?
+    public var note: Note?
+    public var contentLength: Int = 0
+    public var timestamp: Int64?
 
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -67,85 +67,6 @@ class NoteCellView: UITableViewCell {
         }
     }
 
-    public func loadImagesPreview() {
-        guard let note = self.note else { return }
-
-        let imageURLs = note.getImagePreviewUrl()
-        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
-            self.title.text = firstLine
-            self.preview.text = note.preview
-        } else {
-            self.preview.text = note.getPreviewForLabel()
-            self.title.text = note.getTitleWithoutLabel()
-        }
-
-        guard note.content.length != self.contentLength else { return }
-        guard let tableView = self.superview as? NotesTableView else { return }
-
-        self.contentLength = note.content.length
-        self.note?.invalidateCache()
-
-        self.imagePreview.image = nil
-        self.imagePreview.isHidden = true
-        self.imagePreviewSecond.image = nil
-        self.imagePreviewSecond.isHidden = true
-        self.imagePreviewThird.image = nil
-        self.imagePreviewThird.isHidden = true
-
-        DispatchQueue.global(qos: .userInteractive).async {
-            let current = Date().toMillis()
-            self.timestamp = current
-
-            if let images = imageURLs {
-                var resizedImages: [UIImage] = []
-
-                for imageUrl in images {
-                    if current != self.timestamp {
-                        return
-                    }
-                    
-                    if let image = ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)?.resize(height: 70) {
-                        let resized = image.croppedInRect(rect: CGRect(x: 0, y: 0, width: 70, height: 70))
-                        resizedImages.append(resized)
-                    }
-                }
-
-                DispatchQueue.main.async {
-                    if current != self.timestamp {
-                        return
-                    }
-
-                    for resized in resizedImages {
-                        if self.imagePreview.image == nil {
-                            self.imagePreview.image = resized
-
-                            self.styleImageView(imageView: self.imagePreview)
-                        } else if self.imagePreviewSecond.image == nil {
-                            self.imagePreviewSecond.image = resized
-
-                            self.styleImageView(imageView: self.imagePreviewSecond)
-                        } else if self.imagePreviewThird.image == nil {
-                            self.imagePreviewThird.image = resized
-
-                            self.styleImageView(imageView: self.imagePreviewThird)
-                        }
-                    }
-                }
-            }
-        }
-
-        tableView.beginUpdates()
-        tableView.endUpdates()
-    }
-
-    private func styleImageView(imageView: UIImageView) {
-        imageView.isHidden = false
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.darkGray.cgColor
-        imageView.layer.cornerRadius = 4
-        imageView.clipsToBounds = true
-    }
-
     public func getDate() -> String {
         if let sidebarItem = UIApplication.getVC().sidebarTableView.getSidebarItem(),
             let sort = sidebarItem.project?.sortBy,
@@ -170,5 +91,13 @@ class NoteCellView: UITableViewCell {
         loadImagesPreview()
         reloadDate()
         layoutIfNeeded()
+    }
+
+    public func styleImageView(imageView: ImageView) {
+        imageView.isHidden = false
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = Color.darkGray.cgColor
+        imageView.layer.cornerRadius = 4
+        imageView.clipsToBounds = true
     }
 }

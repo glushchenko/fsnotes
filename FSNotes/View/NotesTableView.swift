@@ -72,6 +72,21 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func numberOfRows(in tableView: NSTableView) -> Int {
         return noteList.count
     }
+
+    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+        let height = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+
+        if !UserDefaultsManagement.horizontalOrientation {
+            if noteList.indices.contains(row) {
+                let note = noteList[row]
+                if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+                    return height + 58
+                }
+            }
+        }
+
+        return height
+    }
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
@@ -213,18 +228,23 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         let note = noteList[row]
         if (note.isPinned) {
-            pinnedCell = makeCell()
+            pinnedCell = makeCell(note: note)
             pinnedCell.pin.frame.size.width = 23
             return pinnedCell
         }
         
-        defaultCell = makeCell()
+        defaultCell = makeCell(note: note)
         defaultCell.pin.frame.size.width = 0
         return defaultCell
     }
     
-    func makeCell() -> NoteCellView {
-        return makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
+    func makeCell(note: Note) -> NoteCellView {
+        let cell = makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NoteCellView"), owner: self) as! NoteCellView
+
+        cell.configure(note: note)
+        cell.loadImagesPreview()
+
+        return cell
     }
     
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
@@ -310,5 +330,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
         self.endUpdates()
     }
+
+    public func reloadRow(note: Note) {
+        DispatchQueue.main.async {
+            if let i = self.noteList.firstIndex(of: note) {
+                note.invalidateCache()
+                self.noteHeightOfRows(withIndexesChanged: [i])
+                self.reloadData(forRowIndexes: [i], columnIndexes: [0])
+            }
+        }
+    }
+
+    //public func 
     
 }
