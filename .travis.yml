@@ -3,6 +3,9 @@ os: osx
 osx_image: xcode10.1
 xcode_workspace: FSNotes.xcworkspace
 
+before_install:
+    - pod install --repo-update
+
 env:
     - SCHEME=FSNotes SDK=macosx
     - SCHEME="FSNotes iOS" SDK=iphonesimulator
