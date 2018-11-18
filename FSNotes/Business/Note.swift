@@ -827,11 +827,11 @@ public class Note: NSObject  {
                 if url.isRemote() {
                     urls.append(url)
                     i += 1
-                } else {
-                    if FileManager.default.fileExists(atPath: url.path) {
-                        urls.append(url)
+                } else if
+                    let cleanPath = url.path.removingPercentEncoding,
+                    FileManager.default.fileExists(atPath: cleanPath) {
+                        urls.append(URL(fileURLWithPath: cleanPath))
                         i += 1
-                    }
                 }
             }
         })

@@ -227,4 +227,14 @@ class NoteCellView: NSTableCellView {
 
         return nil
     }
+
+    public func attachTitleAndPreview(note: Note) {
+        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
+            self.name.stringValue = firstLine
+            self.preview.stringValue = note.preview
+        } else {
+            self.preview.stringValue = note.getPreviewForLabel()
+            self.name.stringValue = note.getTitleWithoutLabel()
+        }
+    }
 }

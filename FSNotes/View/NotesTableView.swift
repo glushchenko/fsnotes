@@ -243,6 +243,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         cell.configure(note: note)
         cell.loadImagesPreview()
+        cell.attachTitleAndPreview(note: note)
 
         return cell
     }
