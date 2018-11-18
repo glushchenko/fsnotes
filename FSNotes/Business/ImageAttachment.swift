@@ -197,6 +197,13 @@ class ImageAttachment {
     }
 
     public static func savePreviewImage(url: URL, image: Image) {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if !FileManager.default.fileExists(atPath: temporary.path) {
+            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: false, attributes: nil)
+        }
+
         if let url = self.getCacheUrl(from: url) {
             if let data = image.jpgData {
                 try? data.write(to: url)
