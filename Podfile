@@ -17,7 +17,7 @@ end
 
 def common_pods
     pod 'Highlightr', '~> 2.0'
-    pod 'Down', '~> 0.5.2'
+    pod 'Down', '~> 0.6.0'
 end
 
 def framework_pods
