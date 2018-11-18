@@ -15,6 +15,24 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var date: NSTextField!
     @IBOutlet var pin: NSImageView!
     
+    @IBOutlet weak var imagePreview: NSImageView!
+    @IBOutlet weak var imagePreviewSecond: NSImageView!
+    @IBOutlet weak var imagePreviewThird: NSImageView!
+
+    public var note: Note?
+    public var contentLength: Int = 0
+    public var timestamp: Int64?
+
+    public var tableView: NotesTableView? {
+        get {
+            guard let viewController = NSApp.windows.first?.contentViewController as? ViewController else {
+                return nil
+            }
+
+            return viewController.notesTableView
+        }
+    }
+
     let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
     let previewMaximumLineHeight: CGFloat = 12
     let previewLineSpacing: CGFloat = 1
@@ -23,9 +41,7 @@ class NoteCellView: NSTableCellView {
         if let originY = UserDefaultsManagement.cellViewFrameOriginY {
             self.frame.origin.y = originY
         }
-        
-        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing)
-        
+
         super.viewWillDraw()
     }
     
@@ -43,19 +59,27 @@ class NoteCellView: NSTableCellView {
         }
         
         udpateSelectionHighlight()
+
+        var margin = 0
+        if !UserDefaultsManagement.horizontalOrientation {
+            margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 58 : 0
+        }
+        
+        pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing) + CGFloat(margin)
+    }
+
+    public func configure(note: Note) {
+        self.note = note
     }
     
     func applyPreviewStyle(_ color: NSColor) {
         let additionalHeight = CGFloat(UserDefaultsManagement.cellSpacing)
-    
+
         guard additionalHeight >= 0 else {
             applyPreviewAttributes(color: color)
             return
         }
-        
-        // fix full vertical view pin position
-        pin.frame.origin.y = -4 + additionalHeight
-        
+
         // vertically align
         let lineHeight = previewLineSpacing + previewMaximumLineHeight
         var numberOfLines = 0
@@ -156,7 +180,7 @@ class NoteCellView: NSTableCellView {
         }
     }
     
-    func udpateSelectionHighlight() {
+    public func udpateSelectionHighlight() {
         if ( self.backgroundStyle == NSView.BackgroundStyle.dark ) {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
@@ -176,6 +200,41 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             pin.isHidden = !note.isPinned
+        }
+    }
+
+    public func styleImageView(imageView: ImageView) {
+        imageView.isHidden = false
+        imageView.layer?.borderWidth = 1
+        imageView.layer?.borderColor = Color.darkGray.cgColor
+        imageView.layer?.cornerRadius = 4
+    }
+
+    public func getPreviewImage(imageUrl: URL, note: Note) -> Image? {
+        if let image = ImageAttachment.getPreviewImage(url: imageUrl) {
+            return image
+        } else {
+            guard let image =
+                ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)
+                else { return nil }
+
+            let size = CGSize(width: 70, height: 70)
+            if let resized = image.crop(to: size) {
+                ImageAttachment.savePreviewImage(url: imageUrl, image: resized)
+                return resized
+            }
+        }
+
+        return nil
+    }
+
+    public func attachTitleAndPreview(note: Note) {
+        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
+            self.name.stringValue = firstLine
+            self.preview.stringValue = note.preview
+        } else {
+            self.preview.stringValue = note.getPreviewForLabel()
+            self.name.stringValue = note.getTitleWithoutLabel()
         }
     }
 }

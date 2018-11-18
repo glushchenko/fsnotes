@@ -197,11 +197,10 @@ public extension NSImage {
         }
 
         // Get some points to center the cropping area.
-        let xCoord = floor((resized.size.width - targetSize.width) / 2)
-        let yCoord = floor((resized.size.height - targetSize.height) / 2)
+        let yCoord = floor(resized.size.height - targetSize.height)
 
         // Create the cropping frame.
-        let frame = CGRect(origin: CGPoint(x: xCoord, y: yCoord), size: targetSize)
+        let frame = CGRect(origin: CGPoint(x: 0, y: yCoord), size: targetSize)
 
         // Get the best representation of the image for the given cropping frame.
         guard let representation = resized.bestRepresentation(for: frame, context: nil, hints: nil) else {
@@ -219,5 +218,13 @@ public extension NSImage {
             return nil
         }
         return cropped
+    }
+
+    public var jpgData: Data? {
+        guard let tiffRepresentation = tiffRepresentation,
+            let bitmapImage = NSBitmapImageRep(data: tiffRepresentation)
+        else { return nil }
+
+        return bitmapImage.representation(using: .jpeg, properties: [:])
     }
 }

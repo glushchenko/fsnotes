@@ -140,8 +140,7 @@ class ImageAttachment {
         return mutableString
     }
 
-    #if os(iOS)
-    public static func getImageAndCacheData(url: URL, note: Note) -> UIImage? {
+    public static func getImageAndCacheData(url: URL, note: Note) -> Image? {
         var data: Data?
 
         let cacheDirectoryUrl = note.project.url.appendingPathComponent("/.cache/")
@@ -166,10 +165,12 @@ class ImageAttachment {
                     print(error)
                 }
 
+                #if os(iOS)
                 if let imageData = data, let image = UIImage(data: imageData), let jpegImageData = UIImageJPEGRepresentation(image, 1.0) {
                     try? jpegImageData.write(to: imageCacheUrl, options: .atomic)
                     data = jpegImageData
                 }
+                #endif
 
             } else {
                 data = try? Data(contentsOf: imageCacheUrl)
@@ -180,9 +181,38 @@ class ImageAttachment {
 
         guard let imageData = data else { return nil }
 
-        return UIImage(data: imageData)
+        return Image(data: imageData)
     }
-    #endif
+
+    public static func getCacheUrl(from url: URL) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            return temporary.appendingPathComponent(filePath)
+        }
+
+        return nil
+    }
+
+    public static func savePreviewImage(url: URL, image: Image) {
+        if let url = self.getCacheUrl(from: url) {
+            if let data = image.jpgData {
+                try? data.write(to: url)
+            }
+        }
+    }
+
+    public static func getPreviewImage(url: URL) -> Image? {
+        if let url = self.getCacheUrl(from: url) {
+            if let data = try? Data(contentsOf: url) {
+                return Image(data: data)
+            }
+        }
+
+        return nil
+    }
     
     #if os(iOS)
     private func getImageSize(image: UIImage) -> CGSize? {

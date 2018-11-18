@@ -235,6 +235,7 @@ class ViewController: NSViewController,
         self.editAreaScroll.textFinder?.findBarContainer =  self.editArea.enclosingScrollView
 
         self.editArea.textStorage?.delegate = self.editArea.textStorage
+        self.editArea.viewDelegate = self
     }
     
     private func configureShortcuts() {
@@ -369,6 +370,7 @@ class ViewController: NSViewController,
     
     func setTableRowHeight() {
         notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+        notesTableView.reloadData()
     }
     
     func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
@@ -1231,8 +1233,9 @@ class ViewController: NSViewController,
         let note = notesTableView.noteList.remove(at: index)
 
         notesTableView.noteList.insert(note, at: position)
+
+        notesTableView.reloadRow(note: note)
         notesTableView.moveRow(at: index, to: position)
-        notesTableView.reloadData(forRowIndexes: [index, position], columnIndexes: [0])
         notesTableView.scrollRowToVisible(0)
     }
     

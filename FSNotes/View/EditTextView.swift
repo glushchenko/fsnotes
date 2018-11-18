@@ -14,6 +14,8 @@ import FSNotesCore_macOS
 
 class EditTextView: NSTextView, NSTextFinderClient {
     public static var note: Note?
+
+    public var viewDelegate: ViewController?
     
     var isHighlighted: Bool = false
     let storage = Storage.sharedInstance()
@@ -880,7 +882,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
             textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
-            
+
             unLoadImages()
             setSelectedRange(NSRange(location: caretLocation, length: 0))
             
@@ -918,13 +920,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
             
             insertText(result, replacementRange: NSRange(location: caretLocation, length: 0))
-       
+
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
                 saveTextStorageContent(to: note)
             }
             
             loadImages()
+
+            self.viewDelegate?.notesTableView.reloadRow(note: note)
 
             return true
         }

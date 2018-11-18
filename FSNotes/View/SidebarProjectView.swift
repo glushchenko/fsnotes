@@ -134,7 +134,8 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 return true
             }
             
-            guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], let vd = viewDelegate, let project = sidebarItem.project else { return false }
+            guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
+                let project = sidebarItem.project else { return false }
             
             for url in urls {
                 do {

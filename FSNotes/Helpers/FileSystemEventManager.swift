@@ -183,6 +183,8 @@ class FileSystemEventManager {
             note.content = NSMutableAttributedString(attributedString: fsContent)
             note.isCached = false
 
+            self.delegate.notesTableView.reloadRow(note: note)
+
             if EditTextView.note == note {
                 self.delegate.refillEditArea()
             }
