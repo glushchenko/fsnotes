@@ -53,6 +53,7 @@ class NotesTableView: UITableView,
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
+        cell.attachTitleAndPreview(note: note)
         cell.loadImagesPreview()
 
         return cell

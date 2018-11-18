@@ -336,7 +336,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             if let i = self.noteList.firstIndex(of: note) {
                 note.invalidateCache()
                 self.noteHeightOfRows(withIndexesChanged: [i])
-                self.reloadData(forRowIndexes: [i], columnIndexes: [0])
+
+                if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
+                    cell.preview.stringValue = note.getPreviewLabel()
+                    cell.date.stringValue = note.getDateForLabel()
+                    cell.loadImagesPreview()
+                    cell.udpateSelectionHighlight()
+                }
             }
         }
     }

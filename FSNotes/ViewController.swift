@@ -1233,6 +1233,8 @@ class ViewController: NSViewController,
         let note = notesTableView.noteList.remove(at: index)
 
         notesTableView.noteList.insert(note, at: position)
+
+        notesTableView.reloadRow(note: note)
         notesTableView.moveRow(at: index, to: position)
         notesTableView.scrollRowToVisible(0)
     }

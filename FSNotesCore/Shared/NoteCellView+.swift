@@ -19,92 +19,87 @@ extension NoteCellView {
         guard let note = self.note else { return }
 
         let imageURLs = note.getImagePreviewUrl()
+        let imagesFound = imageURLs?.count ?? 0
 
-        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
-            #if os(iOS)
-            self.title.text = firstLine
-            self.preview.text = note.preview
-            #endif
-        } else {
-            #if os(iOS)
-            self.preview.text = note.getPreviewForLabel()
-            self.title.text = note.getTitleWithoutLabel()
-            #endif
-        }
+        hideUnusedImagesPreview(quantity: imagesFound)
 
         guard note.content.length != self.contentLength else { return }
-
-        #if os(iOS)
-        guard let tableView = self.superview as? NotesTableView else { return }
-        #else
-        guard let viewController = NSApp.windows.first?.contentViewController as? ViewController,
-            let tableView = viewController.notesTableView else { return }
-        #endif
+        guard let tableView = self.tableView else { return }
 
         self.contentLength = note.content.length
-        self.note?.invalidateCache()
-
-        self.imagePreview.image = nil
-        self.imagePreview.isHidden = true
-        self.imagePreviewSecond.image = nil
-        self.imagePreviewSecond.isHidden = true
-        self.imagePreviewThird.image = nil
-        self.imagePreviewThird.isHidden = true
 
         DispatchQueue.global(qos: .userInteractive).async {
             let current = Date().toMillis()
             self.timestamp = current
 
-            if let images = imageURLs {
-                var resizedImages: [Image] = []
-
-                for imageUrl in images {
-                    if current != self.timestamp {
-                        return
-                    }
-
-                    guard let image =
-                        ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)
-                    else { continue }
-
-                    #if os(iOS)
-                        let size = CGRect(x: 0, y: 0, width: 70, height: 70)
-                        if let resized = image.resize(height: 70)?.croppedInRect(rect: size) {
-                            resizedImages.append(resized)
-                        }
-                    #else
-                        let size = CGSize(width: 70, height: 70)
-                        if let resized = image.crop(to: size) {
-                            resizedImages.append(resized)
-                        }
-                    #endif
-                }
+            if let images = imageURLs, images.count > 0 {
+                let resizedImages = self.getResizedPreviewImages(note: note, images: images, timestamp: current!)
 
                 DispatchQueue.main.async {
                     if current != self.timestamp {
                         return
                     }
 
-                    for resized in resizedImages {
-                        if self.imagePreview.image == nil {
-                            self.imagePreview.image = resized
-
-                            self.styleImageView(imageView: self.imagePreview)
-                        } else if self.imagePreviewSecond.image == nil {
-                            self.imagePreviewSecond.image = resized
-
-                            self.styleImageView(imageView: self.imagePreviewSecond)
-                        } else if self.imagePreviewThird.image == nil {
-                            self.imagePreviewThird.image = resized
-
-                            self.styleImageView(imageView: self.imagePreviewThird)
-                        }
-                    }
+                    self.attachImagesPreview(resizedImages: resizedImages)
                 }
             }
         }
 
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+
+    private func hideUnusedImagesPreview(quantity: Int) {
+        if quantity < 3 {
+            self.imagePreviewThird.image = nil
+            self.imagePreviewThird.isHidden = true
+        }
+
+        if quantity < 2 {
+            self.imagePreviewSecond.image = nil
+            self.imagePreviewSecond.isHidden = true
+        }
+
+        if quantity < 1 {
+            self.imagePreview.image = nil
+            self.imagePreview.isHidden = true
+        }
+    }
+
+    private func attachImagesPreview(resizedImages: [Image]) {
+        var index = 0
+        for resized in resizedImages {
+            index += 1
+
+            switch index {
+            case 1:
+                self.imagePreview.image = resized
+                self.styleImageView(imageView: self.imagePreview)
+            case 2:
+                self.imagePreviewSecond.image = resized
+                self.styleImageView(imageView: self.imagePreviewSecond)
+            case 3:
+                self.imagePreviewThird.image = resized
+                self.styleImageView(imageView: self.imagePreviewThird)
+            default:
+                break
+            }
+        }
+    }
+
+    public func getResizedPreviewImages(note: Note, images: [URL], timestamp: Int64 = 00) -> [Image] {
+        var resizedImages: [Image] = []
+
+        for imageUrl in images {
+            if timestamp != self.timestamp {
+                return []
+            }
+
+            if let image = getPreviewImage(imageUrl: imageUrl, note: note) {
+                resizedImages.append(image)
+            }
+        }
+
+        return resizedImages
     }
 }

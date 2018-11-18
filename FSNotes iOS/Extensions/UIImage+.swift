@@ -102,4 +102,8 @@ extension UIImage {
             return Int(70 / actualHeight)
         }
     }
+
+    public var jpgData: Data? {
+        return UIImageJPEGRepresentation(self, 1)
+    }
 }

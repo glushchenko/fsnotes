@@ -183,6 +183,36 @@ class ImageAttachment {
 
         return Image(data: imageData)
     }
+
+    public static func getCacheUrl(from url: URL) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            return temporary.appendingPathComponent(filePath)
+        }
+
+        return nil
+    }
+
+    public static func savePreviewImage(url: URL, image: Image) {
+        if let url = self.getCacheUrl(from: url) {
+            if let data = image.jpgData {
+                try? data.write(to: url)
+            }
+        }
+    }
+
+    public static func getPreviewImage(url: URL) -> Image? {
+        if let url = self.getCacheUrl(from: url) {
+            if let data = try? Data(contentsOf: url) {
+                return Image(data: data)
+            }
+        }
+
+        return nil
+    }
     
     #if os(iOS)
     private func getImageSize(image: UIImage) -> CGSize? {

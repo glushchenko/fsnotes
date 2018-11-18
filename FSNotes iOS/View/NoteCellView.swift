@@ -23,6 +23,12 @@ class NoteCellView: UITableViewCell {
     public var contentLength: Int = 0
     public var timestamp: Int64?
 
+    public var tableView: NotesTableView? {
+        get {
+            return self.superview as? NotesTableView
+        }
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -88,6 +94,9 @@ class NoteCellView: UITableViewCell {
     }
 
     public func updateView() {
+        if let note = self.note {
+            attachTitleAndPreview(note: note)
+        }
         loadImagesPreview()
         reloadDate()
         layoutIfNeeded()
@@ -99,5 +108,28 @@ class NoteCellView: UITableViewCell {
         imageView.layer.borderColor = Color.darkGray.cgColor
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
+    }
+
+    public func attachTitleAndPreview(note: Note) {
+        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
+            self.title.text = firstLine
+            self.preview.text = note.preview
+        } else {
+            self.preview.text = note.getPreviewForLabel()
+            self.title.text = note.getTitleWithoutLabel()
+        }
+    }
+
+    public func getPreviewImage(imageUrl: URL, note: Note) -> Image? {
+        guard let image =
+            ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)
+            else { return nil }
+
+        let size = CGRect(x: 0, y: 0, width: 70, height: 70)
+        if let resized = image.resize(height: 70)?.croppedInRect(rect: size) {
+            return resized
+        }
+
+        return nil
     }
 }
