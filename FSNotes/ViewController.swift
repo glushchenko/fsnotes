@@ -1095,7 +1095,7 @@ class ViewController: NSViewController,
 
         var sidebarName = sidebarItem?.name ?? ""
         var selectedProject = sidebarItem?.project
-        var type = sidebarItem?.type
+        var type = sidebarItem?.type ?? .All
 
         if shouldLoadMain {
             filter = search.stringValue
@@ -1104,9 +1104,9 @@ class ViewController: NSViewController,
 
             sidebarName = sidebarItem?.name ?? ""
             selectedProject = sidebarItem?.project
-            type = sidebarItem?.type
+            type = sidebarItem?.type ?? .All
 
-            if let type = type, type == .Todo {
+            if type == .Todo {
                 terms!.append("- [ ]")
             }
         }
@@ -1120,10 +1120,9 @@ class ViewController: NSViewController,
                     )
                     || self.isMatched(note: note, terms: terms!)
             ) && (
-                type == .All && !note.project.isArchive
+                type == .All && !note.project.isArchive && note.project.showInCommon
                     || type == .Tag && note.tagNames.contains(sidebarName)
                     || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                    || type == nil && selectedProject == nil && !note.project.isArchive
                     || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject
                     || type == .Trash
                     || type == .Todo

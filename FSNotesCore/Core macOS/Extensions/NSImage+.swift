@@ -171,6 +171,27 @@ public extension NSImage {
         return image
     }
 
+    func resized(to newSize: NSSize) -> NSImage? {
+        if let bitmapRep = NSBitmapImageRep(
+            bitmapDataPlanes: nil, pixelsWide: Int(newSize.width), pixelsHigh: Int(newSize.height),
+            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
+            colorSpaceName: .calibratedRGB, bytesPerRow: 0, bitsPerPixel: 0
+            ) {
+            bitmapRep.size = newSize
+            NSGraphicsContext.saveGraphicsState()
+            NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmapRep)
+            let rect = NSRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+            draw(in: rect, from: .zero, operation: .copy, fraction: 1.0)
+            NSGraphicsContext.restoreGraphicsState()
+
+            let resizedImage = NSImage(size: newSize)
+            resizedImage.addRepresentation(bitmapRep)
+            return resizedImage
+        }
+
+        return nil
+    }
+
     /// Copy the image and resize it to the supplied size, while maintaining it's
     /// original aspect ratio.
     ///
@@ -181,7 +202,7 @@ public extension NSImage {
         let heightRatio = targetSize.height / size.height
         let ratio = max(widthRatio, heightRatio)
         let newSize = CGSize(width: floor(size.width * ratio), height: floor(size.height * ratio))
-        return resize(to: newSize)
+        return resized(to: NSSize(width: newSize.width, height: newSize.height))
     }
 
     // MARK: Cropping

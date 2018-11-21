@@ -241,6 +241,10 @@ public class Note: NSObject  {
     }
 
     @objc public func getPreviewForLabel() -> String {
+        if project.firstLineAsTitle {
+            return preview
+        }
+
         return getPreviewLabel(with: nil)
     }
     
@@ -902,5 +906,13 @@ public class Note: NSObject  {
 
         let markdown = NSMutableAttributedString(string: "\(prefix)![](\(path))")
         append(string: markdown)
+    }
+
+    @objc public func getName() -> String {
+        if project.firstLineAsTitle, let title = firstLineTitle {
+            return title
+        }
+
+        return title
     }
 }

@@ -203,7 +203,9 @@ public class ImagesProcessor {
 
             while name == nil {
                 let destination = to.appendingPathComponent(pathComponent)
-                if FileManager.default.fileExists(atPath: destination.path) {
+                let icloud = destination.appendingPathExtension("icloud")
+                
+                if FileManager.default.fileExists(atPath: destination.path) || FileManager.default.fileExists(atPath: icloud.path) {
                     i = i + 1
                     pathComponent = "\(i).\(ext)"
                     continue

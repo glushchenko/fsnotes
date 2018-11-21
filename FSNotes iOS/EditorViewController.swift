@@ -638,7 +638,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         let isHeic = url.pathExtension.lowercased() == "heic"
 
                         if isHeic, let imageUnwrapped = image {
-                            data = UIImageJPEGRepresentation(imageUnwrapped, 0.7);
+                            data = UIImageJPEGRepresentation(imageUnwrapped, 1);
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else {

@@ -1411,7 +1411,7 @@ CA
                                                                                                 <color key="textColor" name="mainText"/>
                                                                                                 <color key="backgroundColor" name="mainBackground"/>
                                                                                                 <connections>
-                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.title" id="Ug5-GR-NmC"/>
+                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getName" id="Zz0-PN-Ycc"/>
                                                                                                 </connections>
                                                                                             </textFieldCell>
                                                                                             <connections>
