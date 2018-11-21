@@ -43,7 +43,17 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleLabel: NSTextField!
+    @IBOutlet weak var titleLabel: NSTextField! {
+        didSet {
+            let clickGesture = NSClickGestureRecognizer()
+            clickGesture.target = self
+            clickGesture.numberOfClicksRequired = 2
+            clickGesture.buttonMask = 0x1
+            clickGesture.action = #selector(switchTitleToEditMode)
+            
+            titleLabel.addGestureRecognizer(clickGesture)
+        }
+    }
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBOutlet weak var titleBarAdditionalView: NSView!
@@ -703,6 +713,10 @@ class ViewController: NSViewController,
     }
     
     @IBAction func renameMenu(_ sender: Any) {
+        switchTitleToEditMode()
+    }
+    
+    @objc func switchTitleToEditMode() {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
 
         if vc.notesTableView.selectedRow > -1 {
@@ -710,7 +724,7 @@ class ViewController: NSViewController,
             vc.titleLabel.becomeFirstResponder()
         }
     }
-        
+
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else {
