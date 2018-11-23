@@ -19,6 +19,8 @@ class ViewController: NSViewController,
     NSOutlineViewDataSource {
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
+    private var projectSettingsViewController: ProjectSettingsViewController?
+
     let storage = Storage.sharedInstance()
     var filteredNoteList: [Note]?
     var alert: NSAlert?
@@ -926,8 +928,23 @@ class ViewController: NSViewController,
         operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
         operation.run()
     }
-    
-    
+
+    @IBAction func openProjectViewSettings(_ sender: NSMenuItem) {
+        guard let vc =  NSApp.windows.first?.contentViewController as? ViewController else {
+            return
+        }
+
+        if let controller = vc.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ProjectSettingsViewController"))
+            as? ProjectSettingsViewController {
+                self.projectSettingsViewController = controller
+
+            if let project = vc.getSidebarProject() {
+                vc.presentViewControllerAsSheet(controller)
+                controller.load(project: project)
+            }
+        }
+    }
+
     override func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
@@ -1018,6 +1035,7 @@ class ViewController: NSViewController,
             sidebarItem = self.getSidebarItem()
         }
 
+        let project = sidebarItem?.project
         let type = sidebarItem?.type
 
         var filter = searchText ?? self.search.stringValue
@@ -1046,7 +1064,7 @@ class ViewController: NSViewController,
             }
 
             self.filteredNoteList = notes
-            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, operation: operation)
+            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, project: project, operation: operation)
 
             if operation.isCancelled {
                 completion()

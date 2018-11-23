@@ -115,11 +115,7 @@ public class Project: Equatable {
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
             if let settings = keyStore.dictionary(forKey: relativePath) {
-
-                print(label)
-
                 if let common = settings["showInCommon"] as? Bool {
-                    print(common)
                     self.showInCommon = common
                 }
 

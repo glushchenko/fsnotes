@@ -339,10 +339,9 @@ class Storage {
     
     private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
         let sortDirection = UserDefaultsManagement.sortDirection
-        
-        if note.isPinned == next.isPinned {
-            let sort = project?.sortBy ?? UserDefaultsManagement.sort
+        let sort = project?.sortBy ?? UserDefaultsManagement.sort
 
+        if note.isPinned == next.isPinned {
             switch sort {
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
@@ -856,7 +855,6 @@ class Storage {
             }
 
             for name in names {
-                print("for \(name)")
                 if let note = getBy(name: name) {
                     note.addPin(cloudSave: false)
                     added.append(note)

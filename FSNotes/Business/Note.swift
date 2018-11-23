@@ -248,7 +248,7 @@ public class Note: NSObject  {
         return getPreviewLabel(with: nil)
     }
     
-    @objc func getDateForLabel() -> String {        
+    @objc func getDateForLabel() -> String {
         let calendar = NSCalendar.current
         if calendar.isDateInToday(modifiedLocalAt) {
             return dateFormatter.formatTimeForDisplay(modifiedLocalAt)

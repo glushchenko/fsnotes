@@ -22,8 +22,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
-            
-            
             if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
                 return true
             }

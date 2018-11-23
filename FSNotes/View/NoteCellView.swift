@@ -236,5 +236,15 @@ class NoteCellView: NSTableCellView {
             self.preview.stringValue = note.getPreviewForLabel()
             self.name.stringValue = note.getTitleWithoutLabel()
         }
+
+        if let viewController = NSApp.windows.first?.contentViewController as? ViewController,
+            let sidebarItem = viewController.getSidebarItem(),
+            let sort = sidebarItem.project?.sortBy,
+            sort == .creationDate,
+            let date = note.getCreationDateForLabel() {
+            self.date.stringValue = date
+        } else {
+            self.date.stringValue = note.getDateForLabel()
+        }
     }
 }
