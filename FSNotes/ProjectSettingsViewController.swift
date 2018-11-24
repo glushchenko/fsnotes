@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Carbon.HIToolbox
 
 class ProjectSettingsViewController: NSViewController {
 
@@ -42,6 +43,12 @@ class ProjectSettingsViewController: NSViewController {
 
     @IBAction func close(_ sender: Any) {
         self.dismiss(nil)
+    }
+
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == kVK_Return || event.keyCode == kVK_Escape {
+            self.dismiss(nil)
+        }
     }
 
     public func load(project: Project) {

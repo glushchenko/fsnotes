@@ -99,16 +99,21 @@ public class Project: Equatable {
     }
 
     public func saveSettings() {
+        let data = [
+            "sortBy": sortBy.rawValue,
+            "showInCommon": showInCommon,
+            "showInSidebar": showInSidebar,
+            "firstLineAsTitle": firstLineAsTitle
+        ] as [String : Any]
+
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set([
-                "sortBy": sortBy.rawValue,
-                "showInCommon": showInCommon,
-                "showInSidebar": showInSidebar,
-                "firstLineAsTitle": firstLineAsTitle
-            ], forKey: relativePath)
+            keyStore.set(data, forKey: relativePath)
             keyStore.synchronize()
+            return
         }
+
+        UserDefaults.standard.set(data, forKey: url.path)
     }
 
     public func loadSettings() {
@@ -130,6 +135,25 @@ public class Project: Equatable {
                 if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
                     self.firstLineAsTitle = firstLineAsTitle
                 }
+            }
+            return
+        }
+
+        if let settings = UserDefaults.standard.object(forKey: url.path) as? NSObject {
+            if let common = settings.value(forKey: "showInCommon") as? Bool {
+                self.showInCommon = common
+            }
+
+            if let sidebar = settings.value(forKey: "showInSidebar") as? Bool {
+                self.showInSidebar = sidebar
+            }
+
+            if let sortString = settings.value(forKey: "sortBy") as? String, let sort = SortBy(rawValue: sortString) {
+                self.sortBy = sort
+            }
+
+            if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
+                self.firstLineAsTitle = firstLineAsTitle
             }
         }
     }
