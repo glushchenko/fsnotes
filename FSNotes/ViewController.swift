@@ -838,6 +838,9 @@ class ViewController: NSViewController,
                     vc.storageOutlineView.removeTags(removed)
                     vc.storageOutlineView.deselectTags(deselected)
                     vc.storageOutlineView.addTags(tags)
+
+                    UserDataService.instance.skipListReload = true
+                    vc.storageOutlineView.reloadSidebar()
                 }
             }
             
