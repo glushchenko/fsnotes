@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         mainWindowController?.makeNew()
     }
     
-    func applicationDidFinishLaunching(_ aNotification: Notification) {        
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
         NSFontManager.shared.fontPanel(false)?.orderOut(self)
@@ -51,6 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 DispatchQueue.main.async {
                     NSMenu.setMenuBarVisible(true)
                     NSApp.setActivationPolicy(.regular)
+                    NSApp.requestUserAttention(.criticalRequest)
                     NSApp.activate(ignoringOtherApps: true)
                 }
             }
