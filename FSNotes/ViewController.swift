@@ -466,7 +466,13 @@ class ViewController: NSViewController,
         
         // Focus search bar on ESC
         if (
-            event.keyCode == kVK_Escape
+            (
+                event.keyCode == kVK_Escape
+                || (
+                    event.keyCode == kVK_ANSI_Period &&
+                    event.modifierFlags.contains(.command)
+                )
+            )
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
         ) {
             if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {

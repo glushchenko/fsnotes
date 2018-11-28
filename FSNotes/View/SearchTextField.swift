@@ -61,6 +61,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             || (
                 [kVK_ANSI_L, kVK_ANSI_N].contains(Int(event.keyCode))
                 && event.modifierFlags.contains(.command)
+            ) || (
+                event.keyCode == kVK_ANSI_Period &&
+                event.modifierFlags.contains(.command)
             )
         ) {
             self.searchQuery.removeAll()
