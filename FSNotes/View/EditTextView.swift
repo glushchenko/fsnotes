@@ -303,7 +303,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let clipboard = NSPasteboard.general.data(forType: .rtfd) {
             let currentRange = selectedRange()
 
-            self.replaceCharacters(in: currentRange, withRTFD: clipboard)
+            if let string = NSAttributedString(rtfd: clipboard, documentAttributes: nil) {
+                self.insertText(string, replacementRange: currentRange)
+            }
+
             storage.replaceCheckboxes()
 
             let range = NSRange(currentRange.location..<storage.length)
@@ -317,6 +320,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             return
         }
+
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
             super.paste(sender)
