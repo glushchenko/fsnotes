@@ -84,26 +84,6 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        if #available(OSX 10.14, *) {
-            if UserDefaultsManagement.appearanceType != .Custom {
-                if UserDefaultsManagement.appearanceType == .Dark {
-                    NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.darkAqua)
-                    UserDataService.instance.isDark = true
-                }
-
-                if UserDefaultsManagement.appearanceType == .Light {
-                    NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
-                    UserDataService.instance.isDark = false
-                }
-
-                if UserDefaultsManagement.appearanceType == .System, NSAppearance.current.isDark {
-                    UserDataService.instance.isDark = true
-                }
-            } else {
-                NSApp.appearance = NSAppearance.init(named: NSAppearance.Name.aqua)
-            }
-        }
-
         self.storage.loadDocuments() {}
         
         self.configureShortcuts()
