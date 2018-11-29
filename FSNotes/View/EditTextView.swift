@@ -381,7 +381,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         downView?.removeFromSuperview()
 
-        viewController.titleLabel.stringValue = note.title
+        viewController.updateTitle(newTitle: note.title)
 
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {
@@ -518,7 +518,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = false
-        viewController.titleLabel.stringValue = "FSNotes"
+        viewController.updateTitle(newTitle: nil)
         
         EditTextView.note = nil
     }

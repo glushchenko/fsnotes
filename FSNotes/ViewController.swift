@@ -45,7 +45,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleLabel: NSTextField! {
+    @IBOutlet private weak var titleLabel: NSTextField! {
         didSet {
             let clickGesture = NSClickGestureRecognizer()
             clickGesture.target = self
@@ -179,7 +179,7 @@ class ViewController: NSViewController,
     // MARK: - Initial configuration
     
     private func configureLayout() {
-        self.titleLabel.stringValue = "FSNotes"
+        updateTitle(newTitle: nil)
         
         self.editArea.textContainerInset.height = 0
         self.editArea.textContainerInset.width = 5
@@ -964,7 +964,7 @@ class ViewController: NSViewController,
         }
         else {
             let currentNote = notesTableView.getSelectedNote()
-            titleLabel.stringValue = currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note")
+            updateTitle(newTitle: currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note"))
         }
     }
     
@@ -1601,6 +1601,15 @@ class ViewController: NSViewController,
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
             pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
         }
+    }
+    
+    func updateTitle(newTitle: String?) {
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "FSNotes"
+        let noteTitle: String = newTitle ?? appName
+        titleLabel.stringValue = noteTitle
+        
+        let title = newTitle != nil ? "\(appName) - \(noteTitle)" : appName
+        NSApp.mainWindow?.title = title
     }
     
     //MARK: Share Service
