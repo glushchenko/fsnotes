@@ -163,7 +163,38 @@ public class Note: NSObject  {
         }
     }
 
+    #if os(iOS)
     // Return URL moved in
+    func removeFile() -> Array<URL>? {
+        if FileManager.default.fileExists(atPath: url.path) {
+            if isTrash() {
+                try? FileManager.default.removeItem(at: url)
+                return nil
+            }
+
+            var resultingItemUrl: NSURL?
+            if #available(iOS 11.0, *) {
+                try? FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
+
+                if let result = resultingItemUrl, let path = result.path {
+                    return [URL(fileURLWithPath: path), url]
+                }
+            } else {
+                let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
+                guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
+                try? FileManager.default.moveItem(at: url, to: reserveDst)
+
+                return [reserveDst, url]
+            }
+
+            return nil
+        }
+        
+        return nil
+    }
+    #endif
+
+    #if os(OSX)
     func removeFile() -> Array<URL>? {
         do {
             if FileManager.default.fileExists(atPath: url.path) {
@@ -171,43 +202,29 @@ public class Note: NSObject  {
                     try? FileManager.default.removeItem(at: url)
                     return nil
                 }
-                
-                #if os(OSX)
-                    guard let dst = getTrashURL()?.appendingPathComponent(name) else { return nil }
-                #else
-                    guard let dst = getTrashURL()?.appendingPathComponent(name) else {
-                        if #available(iOS 11.0, *) {
-                            try? FileManager.default.trashItem(at: url, resultingItemURL: nil)
-                        } else {
-                            try? FileManager.default.removeItem(at: url)
-                        }
-                        return nil
-                    }
-                #endif
-                
+
+                var resultingItemUrl: NSURL?
+
                 do {
-                    try FileManager.default.moveItem(at: url, to: dst)
+                    try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
+
+                    if let dst = resultingItemUrl, let path = dst.path {
+                        NSLog("Note moved to trash: \(name)")
+
+                        return [URL(fileURLWithPath: path), url]
+                    }
                 } catch {
-                    let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
-                    
-                    guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
-                    
-                    try FileManager.default.moveItem(at: url, to: reserveDst)
-                    
-                    return [reserveDst, url]
+                    return nil
                 }
-                
-                NSLog("Note moved to trash: \(name)")
-                
-                return [dst, url]
             }
         } catch let error as NSError {
             NSLog("Remove went wrong: \(error)")
             return nil
         }
-        
+
         return nil
     }
+    #endif
     
     private func getTrashURL() -> URL? {
         if let url = sharedStorage.getTrash(url: url) {
