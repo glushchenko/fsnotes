@@ -25,7 +25,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBAction func openMainWindow(_ sender: Any) {
         mainWindowController?.makeNew()
     }
-    
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        if !UserDefaultsManagement.showDockIcon {
+            let transformState = ProcessApplicationTransformState(kProcessTransformToUIElementApplication)
+            var psn = ProcessSerialNumber(highLongOfPSN: 0, lowLongOfPSN: UInt32(kCurrentProcess))
+            TransformProcessType(&psn, transformState)
+
+            NSApp.setActivationPolicy(.accessory)
+        }
+
+        let storage = Storage.sharedInstance()
+        storage.loadDocuments() {}
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Ensure the font panel is closed when the app starts, in case it was
         // left open when the app quit.
@@ -45,18 +58,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         #endif
-        
-        if UserDefaultsManagement.showDockIcon {
-            if let app = NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first {
-                app.activate()
-                
-                DispatchQueue.main.async {
-                    NSMenu.setMenuBarVisible(true)
-                    NSApp.setActivationPolicy(.regular)
-                    NSApp.requestUserAttention(.criticalRequest)
-                    NSApp.activate(ignoringOtherApps: true)
-                }
-            }
+
+        DispatchQueue.main.async {
+            NSApp.activate(ignoringOtherApps: true)
         }
 
         if UserDefaultsManagement.storagePath == nil {

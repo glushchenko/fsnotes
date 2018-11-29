@@ -84,8 +84,6 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        self.storage.loadDocuments() {}
-        
         self.configureShortcuts()
         self.configureDelegates()
         self.configureLayout()
