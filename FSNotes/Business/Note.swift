@@ -126,10 +126,20 @@ public class Note: NSObject  {
         }
     }
     
-    func move(to: URL) -> Bool {
+    func move(to: URL, project: Project? = nil) -> Bool {
         do {
-            try FileManager.default.moveItem(at: url, to: to)
-            NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(to.deletingPathExtension().lastPathComponent)\"")
+            var destination = to
+
+            if FileManager.default.fileExists(atPath: to.path) {
+                guard let project = project ?? sharedStorage.getProjectBy(url: to) else { return false }
+
+                if let uniqURL = Note.getUniqueFileName(name: title, project: project, type: type) {
+                    destination = uniqURL
+                }
+            }
+
+            try FileManager.default.moveItem(at: url, to: destination)
+            NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
             return false
@@ -331,17 +341,15 @@ public class Note: NSObject  {
         return modifiedLocalAt
     }
     
-    public static func getUniqueFileName(name: String, i: Int = 0, prefix: String = "", project: Project, type: NoteType) -> URL? {
+    public static func getUniqueFileName(name: String, i: Int = 0, project: Project, type: NoteType) -> URL? {
         let defaultName = "Untitled Note"
-        
+        var i = i
         var name = name
             .trimmingCharacters(in: CharacterSet.whitespaces)
             .replacingOccurrences(of: ":", with: "-")
             .replacingOccurrences(of: "/", with: ":")
 
-        if !prefix.isEmpty {
-            name = name + prefix
-        } else if name.isEmpty {
+        if name.isEmpty {
             name = defaultName
         }
         
@@ -351,9 +359,26 @@ public class Note: NSObject  {
         
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {
+            let regex = try? NSRegularExpression(pattern: "(.+)\\s(\\d)+", options: .caseInsensitive)
+
+            if let result = regex?.firstMatch(in: name, range: NSRange(0..<name.count)) {
+
+                if let r = Range(result.range(at: 1), in: name) {
+                    name = String(name[r])
+                }
+
+                if let r = Range(result.range(at: 2), in: name) {
+                    let digit = name[r]
+
+                    if let converted = Int(digit) {
+                        i = converted
+                    }
+                }
+            }
+
             let j = i + 1
-            let newName = defaultName + " " + String(j)
-            return Note.getUniqueFileName(name: newName, i: j, prefix: prefix, project: project, type: type)
+            let newName = name + " " + String(j)
+            return Note.getUniqueFileName(name: newName, i: j, project: project, type: type)
         }
         
         return fileUrl

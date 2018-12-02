@@ -307,16 +307,9 @@ class ViewController: NSViewController,
     public func move(notes: [Note], project: Project) {
         for note in notes {
             let destination = project.url.appendingPathComponent(note.name)
-            do {
-                try FileManager.default.moveItem(at: note.url, to: destination)
-
+            if note.move(to: destination, project: project) {
                 storage.removeBy(note: note)
                 notesTableView.removeByNotes(notes: [note])
-            } catch {
-                let alert = NSAlert.init()
-                alert.messageText = NSLocalizedString("Hmm, something goes wrong 🙈", comment: "")
-                alert.informativeText = String(format: NSLocalizedString("Note with name \"%@\" already exists in selected storage.", comment: ""), note.name)
-                alert.runModal()
             }
         }
         
