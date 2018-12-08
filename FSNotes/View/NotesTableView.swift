@@ -276,6 +276,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(i)) {
             DispatchQueue.main.async {
                 self.selectRowIndexes([i], byExtendingSelection: false)
+                self.scrollRowToVisible(i)
             }
         }
     }
