@@ -621,6 +621,7 @@ public class NotesTextProcessor {
         styleApplier.addAttribute(.font, value: font, range: paragraphRange)
 
         #if os(iOS)
+            styleApplier.fixAttributes(in: paragraphRange)
             if NightNight.theme == .night {
                 styleApplier.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
             } else {

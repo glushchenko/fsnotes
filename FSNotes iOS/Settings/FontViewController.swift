@@ -21,6 +21,10 @@ class FontViewController: UITableViewController {
         
         let names = UIFont.familyNames
         for familyName in names {
+            if ["Avenir", "Avenir Next Condensed"].contains(familyName) {
+                continue
+            }
+
             fontFamilyNames?.append(familyName)
             fontFamilyNames = fontFamilyNames?.sorted { $0.localizedCaseInsensitiveCompare($1) == ComparisonResult.orderedAscending }
         }
@@ -52,6 +56,8 @@ class FontViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let fontFamily = label.text {
             UserDefaultsManagement.noteFont = UIFont(name: fontFamily, size: CGFloat(UserDefaultsManagement.fontSize))
+
+            UIApplication.getVC().notesTable.reloadData()
             
             self.navigationController?.popViewController(animated: true)
         }

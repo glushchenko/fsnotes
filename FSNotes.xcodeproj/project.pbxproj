@@ -435,6 +435,54 @@
 		D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */; };
 		D7EDEDFC219203C9000B8C1A /* NoteCellView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */; };
 		D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */; };
+		D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
+		D7F2F19821C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
+		D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
+		D7F2F19A21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */; };
+		D7F2F19B21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */; };
+		D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */; };
+		D7F2F19D21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */; };
+		D7F2F19E21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */; };
+		D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */; };
+		D7F2F1A021C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */; };
+		D7F2F1A121C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */; };
+		D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */; };
+		D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */; };
+		D7F2F1A421C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */; };
+		D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */; };
+		D7F2F1A621C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */; };
+		D7F2F1A721C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */; };
+		D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */; };
+		D7F2F1A921C503F000E41811 /* AvenirNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */; };
+		D7F2F1AA21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */; };
+		D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */; };
+		D7F2F1AC21C503F000E41811 /* AvenirNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */; };
+		D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */; };
+		D7F2F1AE21C503F000E41811 /* AvenirNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */; };
+		D7F2F1AF21C503F000E41811 /* AvenirNext-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */; };
+		D7F2F1B021C503F000E41811 /* AvenirNext-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */; };
+		D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */; };
+		D7F2F1B221C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */; };
+		D7F2F1B321C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */; };
+		D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */; };
+		D7F2F1B521C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */; };
+		D7F2F1B621C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */; };
+		D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */; };
+		D7F2F1B821C503F000E41811 /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */; };
+		D7F2F1B921C503F000E41811 /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */; };
+		D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */; };
+		D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */; };
+		D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */; };
+		D7F2F1BD21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */; };
+		D7F2F1BE21C503F000E41811 /* AvenirNext-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */; };
+		D7F2F1BF21C503F000E41811 /* AvenirNext-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */; };
+		D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */; };
+		D7F2F1C121C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */; };
+		D7F2F1C221C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */; };
+		D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */; };
+		D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
+		D7F2F1C521C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
+		D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
 		D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF32056F1BC008C584A /* plus@2x.png */; };
 		D7F6CFF72056F1BF008C584A /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF42056F1BE008C584A /* plus@3x.png */; };
@@ -819,6 +867,22 @@
 		D7EA59EE213EAD8700582BD9 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 		D7ED6891200F87BD00FF975A /* Initial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Initial; sourceTree = "<group>"; };
 		D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoteCellView+.swift"; sourceTree = "<group>"; };
+		D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-MediumItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLight.ttf"; sourceTree = "<group>"; };
+		D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
+		D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Heavy.ttf"; sourceTree = "<group>"; };
+		D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-DemiItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-BoldItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Regular.ttf"; sourceTree = "<group>"; };
+		D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Light.ttf"; sourceTree = "<group>"; };
+		D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Demi.ttf"; sourceTree = "<group>"; };
+		D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-ThinItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Bold.ttf"; sourceTree = "<group>"; };
+		D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Thin.ttf"; sourceTree = "<group>"; };
+		D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Italic.ttf"; sourceTree = "<group>"; };
+		D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-LightItalic.ttf"; sourceTree = "<group>"; };
+		D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLightIt.ttf"; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F6CFF32056F1BC008C584A /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		D7F6CFF42056F1BE008C584A /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@3x.png"; sourceTree = "<group>"; };
@@ -1307,6 +1371,7 @@
 		D7D61FCC1F32EEA1004357C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D7F2F18521C5032D00E41811 /* Fonts */,
 				D739EC2121382E0100E1C021 /* iOS */,
 				D76025B5204F071B000B9F59 /* Toolbar */,
 				D7ED6891200F87BD00FF975A /* Initial */,
@@ -1424,6 +1489,37 @@
 				D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D7F2F18521C5032D00E41811 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				D7F2F18621C5034100E41811 /* AvenirNext */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		D7F2F18621C5034100E41811 /* AvenirNext */ = {
+			isa = PBXGroup;
+			children = (
+				D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */,
+				D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */,
+				D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */,
+				D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */,
+				D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */,
+				D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */,
+				D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */,
+				D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */,
+				D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */,
+				D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */,
+				D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */,
+				D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */,
+				D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */,
+				D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */,
+				D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */,
+				D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */,
+			);
+			path = AvenirNext;
 			sourceTree = "<group>";
 		};
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
@@ -1805,13 +1901,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				D71AA01A2143948A004AFD2A /* archive.png in Resources */,
+				D7F2F1AE21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */,
 				D7DF402B20A3780E000F8B13 /* home_white.png in Resources */,
 				D739EC312138305000E1C021 /* checkbox@3x.png in Resources */,
+				D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7DF402C20A3780E000F8B13 /* pin_white.png in Resources */,
 				D7DF402420A377BE000F8B13 /* repository_white.png in Resources */,
 				D7DF402520A377BE000F8B13 /* tag_white.png in Resources */,
 				D7735B13213D06C500FACB12 /* underline@3x.png in Resources */,
+				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
+				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7D95042209D8B40001FB60B /* home.png in Resources */,
 				D76F0B452152C9A2008E5F2F /* done.png in Resources */,
 				D739EC352138305000E1C021 /* checkbox_white@3x.png in Resources */,
@@ -1827,13 +1927,17 @@
 				D71AA01E21439A8C004AFD2A /* archive_white.png in Resources */,
 				D7D03BBB205C6D1A00D96A6D /* redo@2x.png in Resources */,
 				D70FE12D20FE198200813F9E /* Localizable.strings in Resources */,
+				D7F2F1BD21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D75DF64321319994003C3059 /* todo@3x.png in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
+				D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
 				D78115652153C035004FA1CA /* add.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
+				D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
+				D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D71353FE2042AE5F00E3776F /* settings.png in Resources */,
 				D7271FAB2052803500033D0C /* indent.png in Resources */,
 				D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */,
@@ -1861,13 +1965,17 @@
 				D739EC402138313400E1C021 /* checkbox_empty@3x.png in Resources */,
 				D739955F2051D1AB009017EE /* italic@2x.png in Resources */,
 				D739EC332138305000E1C021 /* checkbox.png in Resources */,
+				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
+				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
 				D78115602153AE89004FA1CA /* back.png in Resources */,
 				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
+				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D739EC412138313400E1C021 /* checkbox_empty_white@2x.png in Resources */,
 				D7E378812147A05D00D6D7DD /* search.png in Resources */,
 				D7EA59F1213EAD8800582BD9 /* image.png in Resources */,
 				D7D03BC6205C6ED200D96A6D /* undo@2x.png in Resources */,
 				D7271FAE2052803500033D0C /* unindent@3x.png in Resources */,
+				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7271FAA2052803500033D0C /* unindent.png in Resources */,
 				D79802802137C3D6008D6200 /* uncheckedbox@2x.png in Resources */,
 				D7F6CFF82056F1BF008C584A /* plus.png in Resources */,
@@ -1878,9 +1986,12 @@
 				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
+				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
+				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */,
+				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D78115612153AE89004FA1CA /* preview.png in Resources */,
 				D767938E201F21F5000F7BBF /* Main.storyboard in Resources */,
 				D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */,
@@ -1895,6 +2006,7 @@
 				D7EA59F0213EAD8800582BD9 /* image@2x.png in Resources */,
 				D739EC3C2138313400E1C021 /* checkbox_empty.png in Resources */,
 				D76025C1204F078A000B9F59 /* bold.png in Resources */,
+				D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
 				D76F0B402152C6CB008E5F2F /* more.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1904,8 +2016,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7CDE9D6215FEC6B00DC5978 /* copy_white.png in Resources */,
+				D7F2F19A21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */,
 				D7A216F92131A52C00AAFE11 /* todo.png in Resources */,
+				D7F2F1BE21C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
+				D7F2F1A021C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
+				D7F2F1A921C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D7487FCB2173566700D09383 /* checkbox@3x.png in Resources */,
@@ -1913,20 +2029,29 @@
 				D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7487FD02173566700D09383 /* checkbox_empty@2x.png in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
+				D7F2F19D21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
+				D7F2F1B821C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7CD5F691F508E74006AA35D /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7487FC62173566700D09383 /* checkbox_white.png in Resources */,
 				D7E6D9CB207F9878003ECAFC /* home.png in Resources */,
+				D7F2F1A621C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
+				D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
+				D7F2F1AC21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */,
 				D7DF402A20A377FE000F8B13 /* pin_white.png in Resources */,
 				D7BBCA7C208C7523002CE3C3 /* tag.png in Resources */,
 				D7465F28207F2CD600E46A52 /* Images.xcassets in Resources */,
 				D76C874C2136C17100F82952 /* trash.png in Resources */,
+				D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
 				D7CDE9D92160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6892200F87BD00FF975A /* Initial in Resources */,
+				D7F2F1B221C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
+				D7F2F1B521C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7FBBC2520F151F80014EC5B /* Localizable.strings in Resources */,
+				D7F2F1AF21C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7DF401F20A37717000F8B13 /* tag_white.png in Resources */,
 				D7DD79591F4E60D000D5724B /* SourceCodePro-It.ttf in Resources */,
 				D7487FCC2173566700D09383 /* checkbox_empty_white.png in Resources */,
@@ -1935,13 +2060,16 @@
 				D77B9E9B20DE53E0003FAA27 /* archive.png in Resources */,
 				D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */,
 				D7487FCE2173566700D09383 /* checkbox_empty_white@3x.png in Resources */,
+				D7F2F1C121C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 				D7487FC72173566700D09383 /* checkbox_white@2x.png in Resources */,
 				D7487FC92173566700D09383 /* checkbox.png in Resources */,
 				D7487FC82173566700D09383 /* checkbox_white@3x.png in Resources */,
+				D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D7D3D51A1F4483F500D152FE /* pin.png in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7487FCA2173566700D09383 /* checkbox@2x.png in Resources */,
+				D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7DF402820A377F4000F8B13 /* home_white.png in Resources */,
 				D7166F531F32F751001A883F /* icons.icns in Resources */,
 			);
@@ -1954,6 +2082,7 @@
 				D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */,
 				D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */,
 				D7487FBC2173566600D09383 /* checkbox_white@3x.png in Resources */,
+				D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
 				D7487FC12173566600D09383 /* checkbox_empty_white@2x.png in Resources */,
@@ -1961,31 +2090,46 @@
 				D7E81C4C1F925B5F00416A91 /* SourceCodePro-Bold.ttf in Resources */,
 				D7038E2120FA957400A54E69 /* copy.png in Resources */,
 				D7E6D9CC207F9878003ECAFC /* home.png in Resources */,
+				D7F2F1B921C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
+				D7F2F1BF21C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
 				D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */,
+				D7F2F19E21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
+				D7F2F1B321C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
 				D7BBCA7D208C7523002CE3C3 /* tag.png in Resources */,
 				D7CDE9D7215FEC6B00DC5978 /* copy_white.png in Resources */,
 				D7E81C4E1F925B5F00416A91 /* SourceCodePro-Regular.ttf in Resources */,
 				D7487FC22173566600D09383 /* checkbox_empty_white@3x.png in Resources */,
+				D7F2F1A121C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
+				D7F2F19821C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7487FC42173566600D09383 /* checkbox_empty@2x.png in Resources */,
+				D7F2F1A421C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D76C873E2136AA7100F82952 /* trash.png in Resources */,
 				D7E81C4F1F925B5F00416A91 /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6893200F87BD00FF975A /* Initial in Resources */,
+				D7F2F19B21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7E81C501F925B5F00416A91 /* SourceCodePro-It.ttf in Resources */,
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
+				D7F2F1B621C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7487FBD2173566600D09383 /* checkbox.png in Resources */,
 				D7487FBF2173566600D09383 /* checkbox@3x.png in Resources */,
+				D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7487FBB2173566600D09383 /* checkbox_white@2x.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
 				D7487FC52173566600D09383 /* checkbox_empty@3x.png in Resources */,
 				D7487FC02173566600D09383 /* checkbox_empty_white.png in Resources */,
+				D7F2F1B021C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7487FBA2173566600D09383 /* checkbox_white.png in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
+				D7F2F1A721C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */,
 				D7E81C541F925B5F00416A91 /* icons.icns in Resources */,
 				D7487FBE2173566600D09383 /* checkbox@2x.png in Resources */,
 				D7487FC32173566600D09383 /* checkbox_empty.png in Resources */,
+				D7F2F1AA21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
+				D7F2F1C521C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
+				D7F2F1C221C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
