@@ -619,7 +619,6 @@ public class NotesTextProcessor {
         }
 
         styleApplier.addAttribute(.font, value: font, range: paragraphRange)
-        styleApplier.fixFontAttribute(in: paragraphRange)
 
         #if os(iOS)
             if NightNight.theme == .night {
@@ -628,6 +627,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
             }
         #else
+            styleApplier.fixFontAttribute(in: paragraphRange)
             styleApplier.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
             styleApplier.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
 
@@ -704,7 +704,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.font, value: NotesTextProcessor.font, range: innerRange)
             }
         }
-        
+
         // We detect and process anchors (links)
         NotesTextProcessor.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
