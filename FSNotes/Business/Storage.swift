@@ -283,6 +283,14 @@ class Storage {
     public func getProjects() -> [Project] {
         return projects
     }
+
+    public func getProjectBy(element: Int) -> Project? {
+        if projects.indices.contains(element) {
+            return projects[element]
+        }
+
+        return nil
+    }
     
     public func getCloudDriveProjects() -> [Project] {
         return projects.filter({$0.isCloudDrive == true})

@@ -649,6 +649,7 @@ public class NotesTextProcessor {
                 NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
                     styleApplier.addAttribute(.font, value: hiddenFont, range: innerRange)
+                    styleApplier.fixAttributes(in: innerRange)
                     styleApplier.addAttribute(.foregroundColor, value: hiddenColor, range: innerRange)
                 }
             }
@@ -658,6 +659,8 @@ public class NotesTextProcessor {
         NotesTextProcessor.headersSetextRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
+            styleApplier.fixAttributes(in: range)
+
             NotesTextProcessor.headersSetextUnderlineRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -669,6 +672,8 @@ public class NotesTextProcessor {
         NotesTextProcessor.headersAtxRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
+            styleApplier.fixAttributes(in: range)
+
             NotesTextProcessor.headersAtxOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -703,6 +708,7 @@ public class NotesTextProcessor {
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 styleApplier.addAttribute(.font, value: NotesTextProcessor.font, range: innerRange)
+                styleApplier.fixAttributes(in: innerRange)
             }
         }
 
@@ -710,6 +716,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.anchorRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
+            styleApplier.fixAttributes(in: range)
             NotesTextProcessor.openingSquareRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -732,6 +739,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
+            styleApplier.fixAttributes(in: range)
             
             var destinationLink : String?
             
@@ -787,6 +795,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
+            styleApplier.fixAttributes(in: range)
 
             // TODO: add image attachment
             if NotesTextProcessor.hideSyntax {
@@ -817,6 +826,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.blockQuoteRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: quoteFont, range: range)
+            styleApplier.fixAttributes(in: range)
             styleApplier.addAttribute(.foregroundColor, value: Color.darkGray, range: range)
             styleApplier.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
@@ -830,6 +840,8 @@ public class NotesTextProcessor {
         NotesTextProcessor.strictItalicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: italicFont, range: range)
+            styleApplier.fixAttributes(in: range)
+
             let substring = textStorageNSString.substring(with: NSMakeRange(range.location, 1))
             var start = 0
             if substring == " " {
@@ -849,6 +861,8 @@ public class NotesTextProcessor {
         NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
+            styleApplier.fixAttributes(in: range)
+
             let substring = textStorageNSString.substring(with: NSMakeRange(range.location, 1))
             var start = 0
             if substring == " " {
@@ -868,6 +882,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: italicFont, range: range)
+            styleApplier.fixAttributes(in: range)
             
             let preRange = NSMakeRange(range.location, 1)
             styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
@@ -882,6 +897,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: boldFont, range: range)
+            styleApplier.fixAttributes(in: range)
             
             let preRange = NSMakeRange(range.location, 2)
             styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)

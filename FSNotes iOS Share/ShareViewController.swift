@@ -15,8 +15,13 @@ import NightNight
 
 class ShareViewController: SLComposeServiceViewController {
     private var notes: [Note]?
+    private var projects: [Project]?
     private var imagesFound = false
     private var urlPreview: String?
+    
+    public var currentProject: Project?
+    public let projectItem = SLComposeSheetConfigurationItem()
+    public let appendItem = SLComposeSheetConfigurationItem()
 
     override func viewDidLoad() {
         preferredContentSize = CGSize(width: 300, height: 300)
@@ -90,20 +95,39 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
-        guard let append = SLComposeSheetConfigurationItem() else { return [] }
-        append.title = "Append to"
+        projectItem?.title = "Project"
+        projectItem?.tapHandler = {
+            if let projects = self.projects {
+                let controller = ProjectListController()
+                controller.delegate = self
+                controller.setProjects(projects: projects)
+                self.pushConfigurationViewController(controller)
+            }
+        }
+
+        appendItem?.title = "Append to"
 
         DispatchQueue.global().async {
             let storage = Storage.sharedInstance()
             storage.loadProjects(withTrash: false)
+            self.projects = storage.getProjects()
 
-            self.notes = storage.sortNotes(noteList: storage.noteList, filter: "")
+            let element = UserDefaultsManagement.lastProject
+            if let project = storage.getProjectBy(element: element) {
+                self.currentProject = project
+                self.loadNotesFrom(project: project)
+            }
+
+            DispatchQueue.main.async {
+                self.projectItem?.value = self.currentProject?.getFullLabel()
+            }
+
             if let note = self.notes?.first {
                 note.loadContent()
 
                 DispatchQueue.main.async {
-                    append.value = note.title
-                    append.tapHandler = {
+                    self.appendItem?.value = note.title
+                    self.appendItem?.tapHandler = {
                         self.save(note: note)
                     }
                 }
@@ -121,14 +145,14 @@ class ShareViewController: SLComposeServiceViewController {
             }
         }
 
-        return [append, select]
+        return [self.projectItem!, self.appendItem!, select]
     }
 
     public func save(note: Note? = nil) {
         guard let context = self.extensionContext,
             let input = context.inputItems as? [NSExtensionItem] else { return }
 
-        let note = note ?? Note()
+        let note = note ?? Note(project: self.currentProject)
         var started = 0
         var finished = 0
 
@@ -186,5 +210,17 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         return "\n\n"
+    }
+
+    public func loadNotesFrom(project: Project) {
+        let storage = Storage.sharedInstance()
+        let notes = storage.noteList.filter({$0.project == project })
+        self.notes = storage.sortNotes(noteList: notes, filter: "")
+
+        if let notes = self.notes {
+            DispatchQueue.main.async {
+                self.appendItem?.value = notes.first?.title
+            }
+        }
     }
 }
