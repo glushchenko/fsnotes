@@ -22,6 +22,7 @@ extension NSTextStorage {
                 if let newFont = NSFont(descriptor: newFontDescriptor, size: CGFloat(UserDefaultsManagement.fontSize)) {
                     removeAttribute(.font, range: range)
                     addAttribute(.font, value: newFont, range: range)
+                    fixAttributes(in: range)
                 }
             }
         }

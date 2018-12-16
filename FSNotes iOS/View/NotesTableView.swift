@@ -100,10 +100,7 @@ class NotesTableView: UITableView,
             
             let note = self.notes[indexPath.row]
             note.remove()
-
-            DispatchQueue.main.async {
-                self.removeByNotes(notes: [note])
-            }
+            self.removeByNotes(notes: [note])
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 

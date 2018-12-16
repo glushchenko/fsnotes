@@ -308,6 +308,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
+    private var accessTime = DispatchTime.now()
+
     public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
         self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
@@ -327,8 +329,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             terms.append("- [ ]")
         }
 
+        self.searchQueue.cancelAllOperations()
+
         let operation = BlockOperation()
         operation.addExecutionBlock {
+
+            self.accessTime = DispatchTime.now()
 
             let source = storage.noteList
             var notes = [Note]()
@@ -373,7 +379,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 return
             }
 
-            DispatchQueue.main.async {
+            let delayInSeconds = 0.3
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds) {
+
+                if DispatchTime.now() - delayInSeconds < self.accessTime {
+                    return
+                }
+
                 self.notesTable.reloadData()
 
                 if let note = self.delayedInsert {

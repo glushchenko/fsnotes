@@ -22,6 +22,7 @@ extension NSTextStorage {
 
                 removeAttribute(.font, range: range)
                 addAttribute(.font, value: newFont, range: range)
+                fixAttributes(in: range)
             }
         }
         endEditing()

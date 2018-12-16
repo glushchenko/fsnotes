@@ -437,6 +437,7 @@ public class NotesTextProcessor {
         if let font = NotesTextProcessor.codeFont {
             if isActiveStorage {
                 storage?.addAttributes([.font: font], range: range)
+                storage?.fixAttributes(in: range)
             } else {
                 note.content.addAttributes([.font: font], range: range)
             }
@@ -619,16 +620,15 @@ public class NotesTextProcessor {
         }
 
         styleApplier.addAttribute(.font, value: font, range: paragraphRange)
+        styleApplier.fixAttributes(in: paragraphRange)
 
         #if os(iOS)
-            styleApplier.fixAttributes(in: paragraphRange)
             if NightNight.theme == .night {
                 styleApplier.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
             } else {
                 styleApplier.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
             }
         #else
-            styleApplier.fixFontAttribute(in: paragraphRange)
             styleApplier.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
             styleApplier.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
 
@@ -787,7 +787,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
-            
+
             // TODO: add image attachment
             if NotesTextProcessor.hideSyntax {
                 styleApplier.addAttribute(.font, value: hiddenFont, range: range)
