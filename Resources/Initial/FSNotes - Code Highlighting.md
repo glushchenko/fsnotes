@@ -1,6 +1,6 @@
 ## Code highlighting
 
-176 languages support
+Supports 176 languages
 
 ## Autodetect
 
