@@ -557,6 +557,17 @@ class ViewController: NSViewController,
             toggleSidebar("")
             return true
         }
+
+        if let fr = NSApp.windows.first?.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command), !event.modifierFlags.contains(.shift),
+            !event.modifierFlags.contains(.control) {
+
+            if let char = event.characters {
+                let newSet = CharacterSet(charactersIn: char)
+                if newSet.isSubset(of: CharacterSet.alphanumerics) {
+                    self.search.becomeFirstResponder()
+                }
+            }
+        }
         
         return true
     }
