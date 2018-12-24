@@ -462,7 +462,10 @@ class ViewController: NSViewController,
                 titleLabel.window?.makeFirstResponder(nil)
                 return true
             }
-            
+
+            UserDefaultsManagement.lastProject = 0
+            UserDefaultsManagement.lastSelectedURL = nil
+
             notesTableView.scroll(.zero)
             
             let hasSelectedNotes = notesTableView.selectedRow > -1
@@ -558,7 +561,7 @@ class ViewController: NSViewController,
             return true
         }
 
-        if let fr = NSApp.windows.first?.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command), !event.modifierFlags.contains(.shift),
+        if let fr = NSApp.windows.first?.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
             !event.modifierFlags.contains(.control) {
 
             if let char = event.characters {

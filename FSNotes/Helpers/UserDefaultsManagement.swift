@@ -420,6 +420,8 @@ public class UserDefaultsManagement {
         set {
             if let url = newValue {
                 UserDefaults.standard.set(url.path, forKey: Constants.LastSelectedPath)
+            } else {
+                UserDefaults.standard.set(nil, forKey: Constants.LastSelectedPath)
             }
         }
     }
