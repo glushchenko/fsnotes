@@ -9,10 +9,6 @@
 import Cocoa
 import FSNotesCore_macOS
 
-#if !CLOUDKIT
-import Sparkle
-#endif
-
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var mainWindowController: MainWindowController?    
@@ -79,15 +75,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         self.mainWindowController = mainWC
         mainWC.window?.makeKeyAndOrderFront(nil)
-
-        #if !CLOUDKIT
-        if let fsnotesMenu = NSApplication.shared.mainMenu?.item(at: 0) {
-            let checkForUpdates = NSMenuItem(title: "Check for updates", action: #selector(SUUpdater.checkForUpdates(_:)), keyEquivalent: "")
-            checkForUpdates.target = SUUpdater.shared()
-
-            fsnotesMenu.submenu?.insertItem(checkForUpdates, at: 3)
-        }
-        #endif
     }
         
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
