@@ -629,6 +629,7 @@ CA
                         <outlet property="sortByOutlet" destination="rHB-xF-GgG" id="Z3o-fD-Poh"/>
                     </connections>
                 </customObject>
+                <customObject id="SyL-xA-YNT" customClass="SUUpdater"/>
                 <customObject id="3kq-Pd-JKK" customClass="SidebarCellView" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="yxb-XH-bXh" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

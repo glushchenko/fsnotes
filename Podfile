@@ -41,6 +41,8 @@ target 'FSNotes' do
 
     mac_pods
     common_pods
+
+    pod 'Sparkle'
 end
 
 target 'FSNotes (iCloud Documents)' do
