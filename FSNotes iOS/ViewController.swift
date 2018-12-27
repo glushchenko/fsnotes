@@ -190,7 +190,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
 
                 self.notesTable.selectedIndexPaths = nil
-                self.notesTable.actionsSheet(notes: notes)
+                self.notesTable.actionsSheet(notes: notes, presentController: self)
             } else {
                 self.notesTable.allowsMultipleSelectionDuringEditing = false
                 self.notesTable.setEditing(false, animated: true)

@@ -126,7 +126,7 @@ class NotesTableView: UITableView,
         pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
 
         let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
-            self.actionsSheet(notes: [note], showAll: true)
+            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
         })
         more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
 
@@ -142,18 +142,18 @@ class NotesTableView: UITableView,
         self.cellHeights[indexPath] = frame.size.height
     }
 
-    public func actionsSheet(notes: [Note], showAll: Bool = false) {
+    public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController) {
         let note = notes.first!
         let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
 
         if showAll {
             let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
-                self.renameAction(note: note)
+                self.renameAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(rename)
         } else {
             let remove = UIAlertAction(title: "Delete", style: .default, handler: { _ in
-                self.removeAction(notes: notes)
+                self.removeAction(notes: notes, presentController: presentController)
             })
             actionSheet.addAction(remove)
         }
@@ -164,7 +164,7 @@ class NotesTableView: UITableView,
                 self.setEditing(false, animated: true)
             }
 
-            self.moveAction(notes: notes)
+            self.moveAction(notes: notes, presentController: presentController)
         })
         actionSheet.addAction(move)
 
@@ -174,15 +174,20 @@ class NotesTableView: UITableView,
                 self.setEditing(false, animated: true)
             }
             
-            self.tagsAction(notes: notes)
+            self.tagsAction(notes: notes, presentController: presentController)
         })
         actionSheet.addAction(tags)
 
         if showAll {
             let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
-                self.copyAction(note: note)
+                self.copyAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(copy)
+
+            let share = UIAlertAction(title: "Share ...", style: .default, handler: { _ in
+                self.shareAction(note: note, presentController: presentController)
+            })
+            actionSheet.addAction(share)
         }
 
         let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
@@ -198,7 +203,7 @@ class NotesTableView: UITableView,
             actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
         }
 
-        self.viewDelegate?.present(actionSheet, animated: true, completion: nil)
+        presentController.present(actionSheet, animated: true, completion: nil)
     }
     
     func removeByNotes(notes: [Note]) {
@@ -252,7 +257,7 @@ class NotesTableView: UITableView,
         }
     }
 
-    private func renameAction(note: Note) {
+    private func renameAction(note: Note, presentController: UIViewController) {
         let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
 
         alertController.addTextField { (textField) in
@@ -268,7 +273,7 @@ class NotesTableView: UITableView,
             guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
                 let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.viewDelegate?.present(alert, animated: true, completion: nil)
+                presentController.present(alert, animated: true, completion: nil)
                 return
             }
 
@@ -293,10 +298,10 @@ class NotesTableView: UITableView,
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
 
-        self.viewDelegate?.present(alertController, animated: true, completion: nil)
+        presentController.present(alertController, animated: true, completion: nil)
     }
 
-    private func removeAction(notes: [Note]) {
+    private func removeAction(notes: [Note], presentController: UIViewController) {
         for note in notes {
             note.remove()
         }
@@ -307,22 +312,30 @@ class NotesTableView: UITableView,
         self.setEditing(false, animated: true)
     }
 
-    private func moveAction(notes: [Note]) {
+    private func moveAction(notes: [Note], presentController: UIViewController) {
         let moveController = MoveViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController:moveController)
-        self.viewDelegate?.present(controller, animated: true, completion: nil)
+        presentController.present(controller, animated: true, completion: nil)
     }
 
-    private func tagsAction(notes: [Note]) {
+    private func tagsAction(notes: [Note], presentController: UIViewController) {
         let tagsController = TagsViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController: tagsController)
-        self.viewDelegate?.present(controller, animated: true, completion: nil)
+        presentController.present(controller, animated: true, completion: nil)
     }
 
-    private func copyAction(note: Note) {
+    private func copyAction(note: Note, presentController: UIViewController) {
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
         UIPasteboard.general.items = [item]
+    }
+
+    private func shareAction(note: Note, presentController: UIViewController) {
+        let objectsToShare = [note.content.string] as [Any]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
+
+        presentController.present(activityVC, animated: true, completion: nil)
     }
 
     public func moveRowUp(note: Note) {

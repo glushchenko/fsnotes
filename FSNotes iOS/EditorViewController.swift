@@ -149,7 +149,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         EditTextView.note = note
         
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
-        
+
+        let button =  UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        button.setTitle(note.title, for: .normal)
+        button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
+        self.navigationItem.titleView = button
         self.navigationItem.title = note.title
         
         UserDefaultsManagement.preview = false
@@ -217,6 +222,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         editArea.applyLeftParagraphStyle()
+    }
+
+    @objc private func clickOnButton() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                return
+        }
+
+        guard let note = self.note else { return }
+
+        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
     }
 
     private func configureToolbar() {
