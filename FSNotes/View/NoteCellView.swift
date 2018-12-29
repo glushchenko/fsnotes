@@ -200,6 +200,12 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             pin.isHidden = !note.isPinned
+
+            if note.isPinned {
+                pin.frame.size.width = 23
+            } else {
+                pin.frame.size.width = 0
+            }
         }
     }
 

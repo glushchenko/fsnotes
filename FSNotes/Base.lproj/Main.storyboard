@@ -1410,9 +1410,8 @@ CA
                                                                                     <rect key="frame" x="0.0" y="0.0" width="236" height="115"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
-                                                                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes">
-                                                                                            <rect key="frame" x="36" y="95" width="42" height="17"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                                                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes">
+                                                                                            <rect key="frame" x="36" y="95" width="40" height="17"/>
                                                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="mainText"/>
@@ -1437,13 +1436,16 @@ CA
                                                                                                 </connections>
                                                                                             </textFieldCell>
                                                                                         </textField>
-                                                                                        <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
+                                                                                        <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
                                                                                             <rect key="frame" x="3" y="90" width="23" height="23"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="height" constant="23" id="QQS-Ef-avR"/>
+                                                                                                <constraint firstAttribute="width" constant="23" id="hpI-x0-6Kw"/>
+                                                                                            </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pin" id="MIi-Yg-aUg"/>
                                                                                         </imageView>
-                                                                                        <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target">
-                                                                                            <rect key="frame" x="-1" y="70" width="228" height="15"/>
+                                                                                        <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target">
+                                                                                            <rect key="frame" x="-2" y="68" width="52" height="17"/>
                                                                                             <textFieldCell key="cell" lineBreakMode="charWrapping" continuous="YES" sendsActionOnEndEditing="YES" title="Preview" id="EC3-YF-sGZ">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1453,24 +1455,24 @@ CA
                                                                                                 </connections>
                                                                                             </textFieldCell>
                                                                                         </textField>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
-                                                                                            <rect key="frame" x="6" y="16" width="48" height="48"/>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
+                                                                                            <rect key="frame" x="6" y="14" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="48" id="3Ol-IX-621"/>
                                                                                                 <constraint firstAttribute="width" constant="48" id="GsQ-af-FtG"/>
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="fmy-oz-7CX"/>
                                                                                         </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
-                                                                                            <rect key="frame" x="60" y="16" width="48" height="48"/>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
+                                                                                            <rect key="frame" x="60" y="14" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="48" id="cyJ-09-oaf"/>
                                                                                                 <constraint firstAttribute="height" constant="48" id="eym-WE-ixq"/>
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="nOa-en-atB"/>
                                                                                         </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
-                                                                                            <rect key="frame" x="115" y="16" width="48" height="48"/>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
+                                                                                            <rect key="frame" x="115" y="14" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="48" id="XSB-Gr-9r6"/>
                                                                                                 <constraint firstAttribute="width" constant="48" id="dcv-nB-b3U"/>
@@ -1479,12 +1481,18 @@ CA
                                                                                         </imageView>
                                                                                     </subviews>
                                                                                     <constraints>
+                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="3" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="6" id="HkF-Wx-cmF"/>
+                                                                                        <constraint firstItem="9h5-Ob-Nej" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="3" id="URX-w7-IXX"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="b8F-pV-5lI"/>
+                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="top" secondItem="UvD-jB-7Ok" secondAttribute="bottom" constant="10" id="bwH-CQ-N0h"/>
+                                                                                        <constraint firstItem="9h5-Ob-Nej" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="2" id="csO-oU-odf"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
+                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" id="xyO-Sr-YNv"/>
+                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="leading" secondItem="9h5-Ob-Nej" secondAttribute="trailing" constant="12" id="z9R-oc-Yoe"/>
                                                                                     </constraints>
                                                                                     <connections>
                                                                                         <outlet property="date" destination="abw-Lq-K7d" id="k6D-i6-nTL"/>
