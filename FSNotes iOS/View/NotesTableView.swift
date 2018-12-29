@@ -184,7 +184,7 @@ class NotesTableView: UITableView,
             })
             actionSheet.addAction(copy)
 
-            let share = UIAlertAction(title: "Share ...", style: .default, handler: { _ in
+            let share = UIAlertAction(title: "Share", style: .default, handler: { _ in
                 self.shareAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(share)
@@ -291,6 +291,10 @@ class NotesTableView: UITableView,
             }
 
             self.updateRowView(note: note)
+
+            if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
+                evc.setTitle(text: note.title)
+            }
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }

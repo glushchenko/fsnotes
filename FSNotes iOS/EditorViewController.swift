@@ -144,18 +144,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.addToolBar(textField: self.editArea, toolbar: self.getToolbar(for: note))
     }
 
+    public func setTitle(text: String) {
+        let button =  UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        button.setTitle(text, for: .normal)
+        button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
+        self.navigationItem.titleView = button
+        self.navigationItem.title = text
+    }
+
     public func fill(note: Note, preview: Bool = false) {
         self.note = note
         EditTextView.note = note
         
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
-        let button =  UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        button.setTitle(note.title, for: .normal)
-        button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
-        self.navigationItem.titleView = button
-        self.navigationItem.title = note.title
+        setTitle(text: note.title)
         
         UserDefaultsManagement.preview = false
         removeMdSubviewIfExist()
