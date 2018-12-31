@@ -60,7 +60,6 @@ class ShareViewController: SLComposeServiceViewController {
             for row in input {
                 if let attach = row.attachments as? [NSItemProvider] {
                     for attachRow in attach {
-                        print(attachRow.registeredTypeIdentifiers)
                         if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) || attachRow.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String){
                             imagesFound = true
                             return super.loadPreviewView()

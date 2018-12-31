@@ -671,7 +671,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
+                                        <view key="view" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -801,7 +801,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" id="bSU-4V-L48">
+                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1410,8 +1410,62 @@ CA
                                                                                     <rect key="frame" x="0.0" y="0.0" width="236" height="115"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
-                                                                                        <textField autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes">
-                                                                                            <rect key="frame" x="36" y="95" width="40" height="17"/>
+                                                                                        <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
+                                                                                            <rect key="frame" x="186" y="95" width="49" height="17"/>
+                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                                                <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <connections>
+                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getDateForLabel" id="VH2-T1-K75"/>
+                                                                                                </connections>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <imageView identifier="pin" hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
+                                                                                            <rect key="frame" x="3" y="94" width="23" height="23"/>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="height" constant="23" id="QQS-Ef-avR"/>
+                                                                                                <constraint firstAttribute="width" constant="23" id="hpI-x0-6Kw"/>
+                                                                                            </constraints>
+                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pin" id="MIi-Yg-aUg"/>
+                                                                                        </imageView>
+                                                                                        <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target">
+                                                                                            <rect key="frame" x="3" y="78" width="52" height="17"/>
+                                                                                            <textFieldCell key="cell" lineBreakMode="charWrapping" continuous="YES" sendsActionOnEndEditing="YES" title="Preview" id="EC3-YF-sGZ">
+                                                                                                <font key="font" metaFont="system"/>
+                                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <connections>
+                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getPreviewForLabel" id="Y3f-cs-Y4H"/>
+                                                                                                </connections>
+                                                                                            </textFieldCell>
+                                                                                        </textField>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
+                                                                                            <rect key="frame" x="6" y="24" width="48" height="48"/>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="height" constant="48" id="3Ol-IX-621"/>
+                                                                                                <constraint firstAttribute="width" constant="48" id="GsQ-af-FtG"/>
+                                                                                            </constraints>
+                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="fmy-oz-7CX"/>
+                                                                                        </imageView>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
+                                                                                            <rect key="frame" x="60" y="24" width="48" height="48"/>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="width" constant="48" id="cyJ-09-oaf"/>
+                                                                                                <constraint firstAttribute="height" constant="48" id="eym-WE-ixq"/>
+                                                                                            </constraints>
+                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="nOa-en-atB"/>
+                                                                                        </imageView>
+                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
+                                                                                            <rect key="frame" x="115" y="24" width="48" height="48"/>
+                                                                                            <constraints>
+                                                                                                <constraint firstAttribute="height" constant="48" id="XSB-Gr-9r6"/>
+                                                                                                <constraint firstAttribute="width" constant="48" id="dcv-nB-b3U"/>
+                                                                                            </constraints>
+                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="oaj-cY-2Rf"/>
+                                                                                        </imageView>
+                                                                                        <textField identifier="cellName" autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes">
+                                                                                            <rect key="frame" x="24" y="98" width="40" height="17"/>
                                                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="mainText"/>
@@ -1424,75 +1478,24 @@ CA
                                                                                                 <action selector="fileName:" target="XfG-lQ-9wD" id="ZV9-vc-kbh"/>
                                                                                             </connections>
                                                                                         </textField>
-                                                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
-                                                                                            <rect key="frame" x="157" y="95" width="68" height="17"/>
-                                                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="2/23/11" id="9w3-fa-di3">
-                                                                                                <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                                <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <connections>
-                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getDateForLabel" id="VH2-T1-K75"/>
-                                                                                                </connections>
-                                                                                            </textFieldCell>
-                                                                                        </textField>
-                                                                                        <imageView hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
-                                                                                            <rect key="frame" x="3" y="90" width="23" height="23"/>
-                                                                                            <constraints>
-                                                                                                <constraint firstAttribute="height" constant="23" id="QQS-Ef-avR"/>
-                                                                                                <constraint firstAttribute="width" constant="23" id="hpI-x0-6Kw"/>
-                                                                                            </constraints>
-                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="pin" id="MIi-Yg-aUg"/>
-                                                                                        </imageView>
-                                                                                        <textField autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-Ld-D5r" customClass="PreviewTextField" customModule="FSNotes" customModuleProvider="target">
-                                                                                            <rect key="frame" x="-2" y="68" width="52" height="17"/>
-                                                                                            <textFieldCell key="cell" lineBreakMode="charWrapping" continuous="YES" sendsActionOnEndEditing="YES" title="Preview" id="EC3-YF-sGZ">
-                                                                                                <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <connections>
-                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getPreviewForLabel" id="Y3f-cs-Y4H"/>
-                                                                                                </connections>
-                                                                                            </textFieldCell>
-                                                                                        </textField>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
-                                                                                            <rect key="frame" x="6" y="14" width="48" height="48"/>
-                                                                                            <constraints>
-                                                                                                <constraint firstAttribute="height" constant="48" id="3Ol-IX-621"/>
-                                                                                                <constraint firstAttribute="width" constant="48" id="GsQ-af-FtG"/>
-                                                                                            </constraints>
-                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="fmy-oz-7CX"/>
-                                                                                        </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
-                                                                                            <rect key="frame" x="60" y="14" width="48" height="48"/>
-                                                                                            <constraints>
-                                                                                                <constraint firstAttribute="width" constant="48" id="cyJ-09-oaf"/>
-                                                                                                <constraint firstAttribute="height" constant="48" id="eym-WE-ixq"/>
-                                                                                            </constraints>
-                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="nOa-en-atB"/>
-                                                                                        </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
-                                                                                            <rect key="frame" x="115" y="14" width="48" height="48"/>
-                                                                                            <constraints>
-                                                                                                <constraint firstAttribute="height" constant="48" id="XSB-Gr-9r6"/>
-                                                                                                <constraint firstAttribute="width" constant="48" id="dcv-nB-b3U"/>
-                                                                                            </constraints>
-                                                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="oaj-cY-2Rf"/>
-                                                                                        </imageView>
                                                                                     </subviews>
                                                                                     <constraints>
-                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="3" id="AtV-FX-Ffi"/>
+                                                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="5" id="3CN-df-5Zy"/>
+                                                                                        <constraint firstItem="abw-Lq-K7d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UvD-jB-7Ok" secondAttribute="trailing" priority="999" constant="5" id="5SO-gP-dp0"/>
+                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="6" id="HkF-Wx-cmF"/>
                                                                                         <constraint firstItem="9h5-Ob-Nej" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="3" id="URX-w7-IXX"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="b8F-pV-5lI"/>
-                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="top" secondItem="UvD-jB-7Ok" secondAttribute="bottom" constant="10" id="bwH-CQ-N0h"/>
-                                                                                        <constraint firstItem="9h5-Ob-Nej" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="2" id="csO-oU-odf"/>
+                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="top" secondItem="UvD-jB-7Ok" secondAttribute="bottom" constant="3" id="bwH-CQ-N0h"/>
+                                                                                        <constraint firstItem="9h5-Ob-Nej" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="-2" id="csO-oU-odf"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
+                                                                                        <constraint firstItem="abw-Lq-K7d" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" constant="3" id="hKA-pJ-rpa"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="3" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
-                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" id="xyO-Sr-YNv"/>
-                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="leading" secondItem="9h5-Ob-Nej" secondAttribute="trailing" constant="12" id="z9R-oc-Yoe"/>
+                                                                                        <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="5" id="xyO-Sr-YNv"/>
+                                                                                        <constraint firstItem="UvD-jB-7Ok" firstAttribute="leading" secondItem="9h5-Ob-Nej" secondAttribute="trailing" id="z9R-oc-Yoe"/>
                                                                                     </constraints>
                                                                                     <connections>
                                                                                         <outlet property="date" destination="abw-Lq-K7d" id="k6D-i6-nTL"/>

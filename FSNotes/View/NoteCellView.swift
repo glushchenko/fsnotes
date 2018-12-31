@@ -39,7 +39,7 @@ class NoteCellView: NSTableCellView {
     
     override func viewWillDraw() {
         if let originY = UserDefaultsManagement.cellViewFrameOriginY {
-            self.frame.origin.y = originY
+            adjustTopMargin(margin: originY)
         }
 
         super.viewWillDraw()
@@ -53,11 +53,12 @@ class NoteCellView: NSTableCellView {
         renderPin()
         
         if (UserDefaultsManagement.horizontalOrientation) {
-            applyHorizontalConstrains()
+            preview.isHidden = true
         } else {
-            applyVerticalConstrainst()
+            preview.isHidden = false
         }
-        
+
+        adjustPinPosition()
         udpateSelectionHighlight()
 
         var margin = 0
@@ -100,8 +101,8 @@ class NoteCellView: NSTableCellView {
         
         // save margin
         if frameY >= 0 {
-            let y = CGFloat(Int(frameY))
-            self.frame.origin.y = y
+            let y = CGFloat(Int(frameY)) - 2
+            adjustTopMargin(margin: y)
             UserDefaultsManagement.cellViewFrameOriginY = y
         }
         
@@ -128,42 +129,6 @@ class NoteCellView: NSTableCellView {
         
         preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
         preview.maximumNumberOfLines = maximumNumberOfLines
-    }
-    
-    func applyVerticalConstrainst() {
-        preview.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
-        name.translatesAutoresizingMaskIntoConstraints = false
-        pin.translatesAutoresizingMaskIntoConstraints = true
-        
-        preview.isHidden =  false
-        
-        let previewTop = preview.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 4)
-        let previewLeft = preview.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5)
-        let previewRight = preview.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -3)
-        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: -1)
-        let nameRight = name.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -60)
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
-        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 3)
-        
-        NSLayoutConstraint.activate([previewTop, previewLeft, previewRight, dateRight, dateTop, nameLeft, nameRight, nameTop])
-    }
-    
-    func applyHorizontalConstrains() {
-        preview.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
-        name.translatesAutoresizingMaskIntoConstraints = false
-        
-        preview.isHidden =  true
-        
-        let dateRight = date.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10)
-        let dateTop = date.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
-        let nameTop = name.topAnchor.constraint(equalTo: self.topAnchor, constant: -2)
-        let nameLeft = name.leftAnchor.constraint(equalTo: pin.rightAnchor, constant: 5)
-        let nameRight = name.rightAnchor.constraint(equalTo: date.leftAnchor, constant: -7)
-        
-        NSLayoutConstraint.activate([dateRight, dateTop,  nameLeft, nameRight, nameTop])
     }
 
     // This NoteCellView has multiple contained views; this method changes
@@ -200,12 +165,6 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             pin.isHidden = !note.isPinned
-
-            if note.isPinned {
-                pin.frame.size.width = 23
-            } else {
-                pin.frame.size.width = 0
-            }
         }
     }
 
@@ -251,6 +210,40 @@ class NoteCellView: NSTableCellView {
             self.date.stringValue = date
         } else {
             self.date.stringValue = note.getDateForLabel()
+        }
+    }
+
+    public func adjustPinPosition() {
+        for constraint in self.constraints {
+            if constraint.secondAttribute == .leading, let im = constraint.firstItem as? NSImageView {
+                if im.identifier?.rawValue == "pin" {
+                    if let note = objectValue as? Note, !note.isPinned {
+                        constraint.constant = -17
+                    } else {
+                        constraint.constant = 3
+                    }
+                }
+            }
+        }
+    }
+
+    private func adjustTopMargin(margin: CGFloat) {
+        for constraint in self.constraints {
+            if constraint.secondAttribute == .top, let item = constraint.firstItem {
+                if let firstItem = item as? NSImageView, firstItem.identifier?.rawValue == "pin" {
+                    constraint.constant = margin - 1
+                    continue
+                }
+
+                if item.isKind(of: NameTextField.self) {
+                    constraint.constant = margin
+                    continue
+                }
+
+                if let item = item as? NSTextField, item.identifier?.rawValue == "cellDate" {
+                    constraint.constant = margin
+                }
+            }
         }
     }
 }
