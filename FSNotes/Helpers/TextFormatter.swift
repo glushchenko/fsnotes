@@ -599,8 +599,8 @@ public class TextFormatter {
             let unchecked = AttributedBox.getUnChecked() {
             let newLineSuggestion = prevParagraphRange.location + 2
             let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
-
-            if storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
+            
+            if storage.length >= newLineSuggestionRange.upperBound, storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
                 self.setSelectedRange(prevParagraphRange)
                 #if os(OSX)
                 textView.deleteBackward(nil)
