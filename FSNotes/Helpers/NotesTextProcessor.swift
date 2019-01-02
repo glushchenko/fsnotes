@@ -83,7 +83,7 @@ public class NotesTextProcessor {
         }
     }
 
-    open static var codeBackground: UIColor {
+    public static var codeBackground: UIColor {
         get {
             if NightNight.theme == .night {
                 return UIColor(red:0.27, green:0.27, blue:0.27, alpha:1.0)

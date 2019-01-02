@@ -63,11 +63,7 @@ extension UIFont {
             font = UIFont(descriptor: descriptor, size: descriptor.pointSize)
         } else {
             font = UserDefaultsManagement.noteFont!
-
-            if #available(iOS 11.0, *) {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font)
-            }
+            font.withSize(fontDescriptor.pointSize)
 
             return font
         }

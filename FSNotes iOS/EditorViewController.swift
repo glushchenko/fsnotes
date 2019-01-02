@@ -185,7 +185,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         if note.type == .PlainText {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
-            editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [NSAttributedStringKey.foregroundColor: foregroundColor])
+
+            editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
+                    NSAttributedStringKey.foregroundColor: foregroundColor,
+                    NSAttributedStringKey.font: UserDefaultsManagement.noteFont
+                ]
+            )
         } else {
             editArea.attributedText = note.content
         }
