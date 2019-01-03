@@ -32,7 +32,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
-        let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
+        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
 
         let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
         if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
@@ -54,11 +54,10 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
-        if self.textStorage.length > self.selectedRange.upperBound {
+        if self.textStorage.length >= self.selectedRange.upperBound {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
-                let item = [kUTTypeFlatRTFD as String : rtfd]
-                UIPasteboard.general.addItems([item])
+                UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
                 
                 if let textRange = getTextRange() {
                     self.replace(textRange, withText: "")
@@ -124,7 +123,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             return
         }
 
-        let attributedString = self.textStorage.attributedSubstring(from: self.selectedRange)
+        let attributedString = NSMutableAttributedString(attributedString: self.textStorage.attributedSubstring(from: self.selectedRange)).unLoadCheckboxes()
 
         let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
         if self.selectedRange.length == 1, let path = attributedString.attribute(pathKey, at: 0, effectiveRange: nil) as? String {
@@ -146,6 +145,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
+                return
             }
         }
 
