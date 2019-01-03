@@ -85,6 +85,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.dataSource = sidebarTableView
         sidebarTableView.delegate = sidebarTableView
         sidebarTableView.viewController = self
+        sidebarWidthConstraint.constant = 0
 
         self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
 
