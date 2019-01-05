@@ -159,9 +159,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         setTitle(text: note.title)
         removeMdSubviewIfExist()
 
-        guard editArea != nil else {
-            return
-        }
+        guard editArea != nil else { return }
         
         editArea.initUndoRedoButons()
         
@@ -216,6 +214,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         if note.type != .RichText {
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
+        } else {
+            editArea.typingAttributes[NSAttributedStringKey.foregroundColor.rawValue] =
+                UIColor.black
         }
 
         editArea.applyLeftParagraphStyle()
