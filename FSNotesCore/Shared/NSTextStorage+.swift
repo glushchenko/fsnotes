@@ -28,4 +28,11 @@ extension NSTextStorage {
             }
         }
     }
+
+    public func leftAlignment(range: NSRange) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        paragraphStyle.alignment = .left
+        addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
+    }
 }
