@@ -225,9 +225,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
-
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
-            return
         }
 
         editArea.applyLeftParagraphStyle()

@@ -182,22 +182,29 @@ public class Note: NSObject  {
                 return nil
             }
 
-            var resultingItemUrl: NSURL?
-            if #available(iOS 11.0, *) {
-                try? FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
+            guard let trashUrl = getTrashURL() else {
+                var resultingItemUrl: NSURL?
+                if #available(iOS 11.0, *) {
+                    try? FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
 
-                if let result = resultingItemUrl, let path = result.path {
-                    return [URL(fileURLWithPath: path), url]
+                    if let result = resultingItemUrl, let path = result.path {
+                        return [URL(fileURLWithPath: path), url]
+                    }
                 }
-            } else {
-                let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
-                guard let reserveDst = getTrashURL()?.appendingPathComponent(reserveName) else { return nil }
-                try? FileManager.default.moveItem(at: url, to: reserveDst)
 
-                return [reserveDst, url]
+                return nil
             }
 
-            return nil
+            var trashUrlTo = trashUrl.appendingPathComponent(name)
+
+            if FileManager.default.fileExists(atPath: trashUrlTo.path) {
+                let reserveName = "\(Int(Date().timeIntervalSince1970)) \(name)"
+                trashUrlTo = trashUrl.appendingPathComponent(reserveName)
+            }
+
+            try? FileManager.default.moveItem(at: url, to: trashUrlTo)
+
+            return [trashUrlTo, url]
         }
         
         return nil

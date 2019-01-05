@@ -371,7 +371,7 @@ class Storage {
         for document in documents {
             let url = document.0 as URL
 
-            #if NOT_EXTENSION || os(OSX)
+            #if os(OSX)
                 if let currentNoteURL = EditTextView.note?.url,
                     currentNoteURL == url {
                     continue

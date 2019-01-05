@@ -30,6 +30,7 @@ extension NSTextStorage: NSTextStorageDelegate {
             let paragraph = self.attributedSubstring(from: paragraphRange).string
 
             if isNewLine(editedRange: editedRange) {
+                textStorage.leftAlignment(range: NSRange(location: editedRange.location, length: 1))
                 return
             }
 
