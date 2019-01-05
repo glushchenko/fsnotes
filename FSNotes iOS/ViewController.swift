@@ -584,13 +584,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func rotated() {
         viewWillAppear(false)
         loadPlusButton()
-
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController else { return }
-
-        evc.reloadPreview()
     }
 
     @objc func didChangeScreenBrightness() {

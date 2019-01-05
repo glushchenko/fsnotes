@@ -14,6 +14,10 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     private var startOffset = CGFloat(0)
     private var swipeEnded = false
 
+    public var mainViewController: ViewController? = nil
+    public var editorViewController: EditorViewController? = nil
+    public var previewViewController: PreviewViewController? = nil
+
     override func viewDidLoad() {
         self.dataSource = self
         self.delegate = self
@@ -35,18 +39,26 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     func newVc(viewController: String) -> UIViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: viewController)
-        
+
         if viewController == "editorViewController" {
-            return UINavigationController(rootViewController: vc)
+            editorViewController = vc as? EditorViewController
+            return UINavigationController(rootViewController: editorViewController!)
         }
-        
+
+        if viewController == "previewViewController" {
+            previewViewController = vc as? PreviewViewController
+            return UINavigationController(rootViewController: previewViewController!)
+        }
+
+        mainViewController = vc as? ViewController
         return vc
     }
     
     lazy var orderedViewControllers: [UIViewController] = {
         return [
             self.newVc(viewController: "listViewController"),
-            self.newVc(viewController: "editorViewController")
+            self.newVc(viewController: "editorViewController"),
+            self.newVc(viewController: "previewViewController")
         ]
     }()
     

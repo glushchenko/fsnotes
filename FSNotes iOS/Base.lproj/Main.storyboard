@@ -339,6 +339,21 @@
             </objects>
             <point key="canvasLocation" x="928.79999999999995" y="133.5832083958021"/>
         </scene>
+        <!--Preview View Controller-->
+        <scene sceneID="HXZ-PF-sPm">
+            <objects>
+                <viewController storyboardIdentifier="previewViewController" id="Oga-nk-3WY" customClass="PreviewViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Fn5-LP-Dsx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ByR-0t-POa"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DZq-E6-XdK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1668" y="134"/>
+        </scene>
         <!--Settings View Controller-->
         <scene sceneID="PdG-qk-fEO">
             <objects>
@@ -582,7 +597,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JeY-7N-NBT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1750" y="134"/>
+            <point key="canvasLocation" x="2458" y="134"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="8HG-j4-oXm">
@@ -686,7 +701,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gGo-VN-Sc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2532" y="134"/>
+            <point key="canvasLocation" x="3241" y="134"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="EAd-xk-AdJ">

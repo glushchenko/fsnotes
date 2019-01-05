@@ -334,7 +334,7 @@ class NotesTableView: UITableView,
         UIPasteboard.general.items = [item]
     }
 
-    private func shareAction(note: Note, presentController: UIViewController) {
+    public func shareAction(note: Note, presentController: UIViewController) {
         let objectsToShare = [note.content.string] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]

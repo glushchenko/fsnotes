@@ -37,10 +37,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
 
-        if let n = note, n.isMarkdown() {
-            self.navigationItem.rightBarButtonItem = self.getPreviewButton()
-        }
-
+        self.navigationItem.rightBarButtonItem = self.getShareButton()
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
@@ -160,15 +157,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
         setTitle(text: note.title)
-        
-        UserDefaultsManagement.preview = false
         removeMdSubviewIfExist()
-        
-        if preview {
-            loadPreview(note: note)
-            return
-        }
-        
+
         guard editArea != nil else {
             return
         }
@@ -313,13 +303,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if keyboardIsOpen {
                 editArea.becomeFirstResponder()
             }
-        }
-    }
-    
-    
-    public func reloadPreview() {
-        if UserDefaultsManagement.preview, let note = self.note {
-            removeMdSubviewIfExist(reload: true, note: note)
         }
     }
     
@@ -747,23 +730,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         ea.initUndoRedoButons()
     }
     
-    @objc func preview() {
-        let isPreviewMode = !UserDefaultsManagement.preview
-        
-        guard let n = note else {
-            return
-        }
-        
-        if isPreviewMode {
-            view.endEditing(true)
-        }
-        
-        navigationItem.rightBarButtonItem?.title = isPreviewMode ? "Edit" : "Preview"
-        
-        fill(note: n, preview: isPreviewMode)
-        UserDefaultsManagement.preview = isPreviewMode
-    }
-    
     func removeMdSubviewIfExist(reload: Bool = false, note: Note? = nil) {
         guard view.subviews.indices.contains(1) else {
             return
@@ -904,11 +870,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
 
-    private func getPreviewButton() -> UIBarButtonItem {
+    private func getShareButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named: "preview"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(preview), for: UIControlEvents.touchUpInside)
+        menuBtn.setImage(UIImage(named: "share"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(share), for: UIControlEvents.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
@@ -916,6 +882,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
         currHeight?.isActive = true
 
+        menuBarItem.tintColor = UIColor.white
         return menuBarItem
     }
 
@@ -923,6 +890,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController {
             pageController.switchToList()
         }
+    }
+
+    @objc public func share() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let mvc = pageController.mainViewController,
+            let evc = pageController.editorViewController,
+            let note = evc.note
+        else { return }
+
+        mvc.notesTable.shareAction(note: note, presentController: evc)
     }
 
 }
