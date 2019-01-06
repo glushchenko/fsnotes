@@ -50,5 +50,20 @@
             parentDiv.insertBefore(copy, preList[i]);
         }
     </script>
+
+    <script>
+        var preList = document.getElementsByTagName("input"),
+        length = preList.length,
+        i = 0;
+
+        for (i; i < length; i++) {
+            if (preList[i].parentNode.tagName != "LI") {
+                continue;
+            }
+
+            preList[i].parentNode.classList.add('cb')
+            preList[i].disabled = true;
+        }
+    </script>
 </body>
 </html>

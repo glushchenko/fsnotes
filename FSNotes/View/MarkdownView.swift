@@ -8,6 +8,7 @@
 
 import WebKit
 import Highlightr
+import cmark_gfm_swift
 
 // MARK: - Public API
 
@@ -117,12 +118,15 @@ open class MarkdownView: WKWebView {
 private extension MarkdownView {
     
     func loadHTMLView(_ markdownString: String, css: String, imagesStorage: URL? = nil) throws {
-        var htmlString = try markdownString.toHTML()
-        
+
+        let node = Node(markdown: markdownString)
+        var htmlString = node!.html
+        htmlString = try htmlString.toHTML()
+
         if let imagesStorage = imagesStorage {
             htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)
         }
-        
+
         let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
         
         loadHTMLString(pageHTMLString, baseURL: baseURL)
@@ -147,7 +151,7 @@ private extension MarkdownView {
                     let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
                     let imageData = try Data(contentsOf: imageURL)
                     let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
-                    
+
                     htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
                 }
             }

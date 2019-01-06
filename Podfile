@@ -18,6 +18,7 @@ end
 def common_pods
     pod 'Highlightr', '~> 2.0'
     pod 'Down', '~> 0.6.0'
+    pod 'cmark-gfm-swift', :git => 'https://github.com/glushchenko/cmark-gfm-swift.git', :branch => 'master'
 end
 
 def framework_pods

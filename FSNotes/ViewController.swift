@@ -8,7 +8,7 @@
 
 import Cocoa
 import MASShortcut
-
+import cmark_gfm_swift
 import FSNotesCore_macOS
 
 class ViewController: NSViewController,
@@ -1621,10 +1621,12 @@ class ViewController: NSViewController,
     
     public func saveHtmlAtClipboard() {
         if let note = notesTableView.getSelectedNote() {
-            guard let render = try? note.content.string.toHTML() else { return }
-            let pasteboard = NSPasteboard.general
-            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-            pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
+            if let node = Node(markdown: note.content.string) {
+                guard let render = try? node.html.toHTML() else { return }
+                let pasteboard = NSPasteboard.general
+                pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+                pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
+            }
         }
     }
 
