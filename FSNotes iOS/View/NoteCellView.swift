@@ -121,13 +121,30 @@ class NoteCellView: UITableViewCell {
     }
 
     public func getPreviewImage(imageUrl: URL, note: Note) -> Image? {
-        guard let image =
-            ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)
-            else { return nil }
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory())
 
-        let size = CGRect(x: 0, y: 0, width: 70, height: 70)
-        if let resized = image.resize(height: 70)?.croppedInRect(rect: size) {
-            return resized
+        if let cacheName = imageUrl.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            let file = tempURL.appendingPathComponent(cacheName)
+            if FileManager.default.fileExists(atPath: file.path) {
+                if let data = try? Data(contentsOf: file), let image = UIImage(data: data) {
+                    return image
+                }
+            }
+
+            do {
+                let data = try Data(contentsOf: imageUrl)
+                if let image = UIImage(data: data) {
+                    let size = CGRect(x: 0, y: 0, width: 70, height: 70)
+                    if let resized = image.resize(height: 70)?.croppedInRect(rect: size) {
+                        let jpegImageData = UIImageJPEGRepresentation(resized, 1.0)
+                        try? jpegImageData?.write(to: file, options: .atomic)
+                        return resized
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
         }
 
         return nil

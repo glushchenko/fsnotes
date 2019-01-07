@@ -66,7 +66,7 @@ class PreviewViewController: UIViewController {
     }
 
     public func reloadPreview() {
-        guard view.subviews.indices.contains(1) else {
+        guard view.subviews.count > 0 else {
             self.loadPreview()
             return
         }
