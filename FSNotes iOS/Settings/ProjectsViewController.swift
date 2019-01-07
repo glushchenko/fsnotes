@@ -111,10 +111,12 @@ class ProjectsViewController: UITableViewController {
             self.projects.append(project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().add(project: project)
+            _ = Storage.sharedInstance().add(project: project)
 
-            //self.notesTableView.viewDelegate?.sidebarTableView.sidebar = Sidebar()
-            //self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
+            if let mvc = self.getMainVC() {
+                mvc.sidebarTableView.sidebar = Sidebar()
+                mvc.sidebarTableView.reloadData()
+            }
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
@@ -124,5 +126,12 @@ class ProjectsViewController: UITableViewController {
 
         self.present(alertController, animated: true, completion: nil)
 
+    }
+
+    public func getMainVC() -> ViewController? {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let mvc = pageController.mainViewController
+        else { return nil }
+
+        return mvc
     }
 }

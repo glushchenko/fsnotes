@@ -19,7 +19,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
     
     private var isHighlighted: Bool = false
-    private var downView: MarkdownView?
     private var isUndo = false
     private let storageQueue = OperationQueue()
     private var toolbar: Toolbar = .markdown
@@ -157,7 +156,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
         setTitle(text: note.title)
-        removeMdSubviewIfExist()
+        _ = view
 
         guard editArea != nil else { return }
         
@@ -257,27 +256,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.toolbar = .markdown
             self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
         }
-    }
-
-    func loadPreview(note: Note) {
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
-        let url = NSURL.fileURL(withPath: path!)
-        let bundle = Bundle(url: url)
-        let markdownString = note.getPrettifiedContent()
-        
-        do {
-            var imagesStorage = note.project.url
-            
-            if note.type == .TextBundle {
-                imagesStorage = note.url
-            }
-            
-            if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
-                downView.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(downView)
-            }
-        }
-        return
     }
     
     func refill() {
@@ -730,25 +708,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         um.redo()
         ea.initUndoRedoButons()
     }
-    
-    func removeMdSubviewIfExist(reload: Bool = false, note: Note? = nil) {
-        guard view.subviews.indices.contains(1) else {
-            return
-        }
-        
-        DispatchQueue.main.async {
-            for sub in self.view.subviews {
-                if sub.isKind(of: MarkdownView.self) {
-                    sub.removeFromSuperview()
-                }
-            }
-            
-            if reload, let note = note {
-                self.loadPreview(note: note)
-            }
-        }
-    }
-    
+
     func initLinksColor() {
         guard let note = self.note else { return }
 
