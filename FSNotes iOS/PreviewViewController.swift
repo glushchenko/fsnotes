@@ -25,13 +25,9 @@ class PreviewViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        reloadPreview()
-        super.viewWillAppear(animated)
-    }
-
     @objc public func returnBack() {
         if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController {
+            clear()
             pageController.switchToList()
         }
     }
@@ -69,7 +65,7 @@ class PreviewViewController: UIViewController {
         return
     }
 
-    private func reloadPreview() {
+    public func reloadPreview() {
         guard view.subviews.indices.contains(1) else {
             self.loadPreview()
             return
@@ -90,7 +86,17 @@ class PreviewViewController: UIViewController {
         let button =  UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         button.setTitle(text, for: .normal)
-        self.navigationItem.titleView = button
-        self.navigationItem.title = text
+        navigationItem.titleView = button
+        navigationItem.title = text
+    }
+
+    public func clear() {
+        setTitle(text: "")
+
+        for sub in self.view.subviews {
+            if sub.isKind(of: MarkdownView.self) {
+                sub.removeFromSuperview()
+            }
+        }
     }
 }

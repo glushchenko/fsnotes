@@ -57,12 +57,18 @@
         i = 0;
 
         for (i; i < length; i++) {
+            preList[i].disabled = true;
+
+            if (preList[i].parentNode.tagName == "P" && preList[i].parentNode.parentNode.tagName == "LI") {
+                preList[i].parentNode.parentNode.parentNode.classList.add('cb')
+                continue;
+            }
+
             if (preList[i].parentNode.tagName != "LI") {
                 continue;
             }
 
-            preList[i].parentNode.classList.add('cb')
-            preList[i].disabled = true;
+            preList[i].parentNode.parentNode.classList.add('cb')
         }
     </script>
 </body>

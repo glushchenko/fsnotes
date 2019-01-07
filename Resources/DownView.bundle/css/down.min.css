@@ -488,14 +488,28 @@ pre > .copyCode {
     transition: background 0.5s ease-out;
 }
 
-ul > li.cb  {
-    list-style-type: none;
-    line-height: 22px;
-    margin-left: -25px;
+body > ul, body > ol {
+    margin-left: 0;
+    padding: 0;
+
 }
+    ul.cb  {
+        list-style-type: none;
+    }
 
 input[type="checkbox"] {
-    -webkit-transform: scale(1.5); /* Safari and Chrome */
-    padding: 3px;
+    -webkit-transform: scale(1.5);
+    padding: 3px 0;
     margin-right: 5px;
 }
+
+li {
+    list-style-position: inside;
+    line-height: 22px;
+}
+
+ul li p {
+    margin: 0;
+    padding: 0;
+}
+
