@@ -13,7 +13,7 @@ import MobileCoreServices
 class NotesTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource {
-    
+
     var notes = [Note]()
     var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
@@ -260,10 +260,11 @@ class NotesTableView: UITableView,
     private func renameAction(note: Note, presentController: UIViewController) {
         let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
 
-        alertController.addTextField { (textField) in
+        alertController.addTextField(configurationHandler: {
+            [] (textField: UITextField) in
             textField.placeholder = "Enter note name"
             textField.attributedText = NSAttributedString(string: note.title)
-        }
+        })
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
             guard let name = alertController.textFields?[0].text, name.count > 0 else {
@@ -302,7 +303,9 @@ class NotesTableView: UITableView,
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
 
-        presentController.present(alertController, animated: true, completion: nil)
+        presentController.present(alertController, animated: true) {
+            alertController.textFields![0].selectAll(nil)
+        }
     }
 
     private func removeAction(notes: [Note], presentController: UIViewController) {
