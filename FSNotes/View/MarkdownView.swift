@@ -121,7 +121,6 @@ private extension MarkdownView {
 
         let node = Node(markdown: markdownString)
         var htmlString = node!.html
-        htmlString = try htmlString.toHTML()
 
         if let imagesStorage = imagesStorage {
             htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)

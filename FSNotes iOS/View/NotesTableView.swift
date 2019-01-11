@@ -9,6 +9,7 @@
 import UIKit
 import NightNight
 import MobileCoreServices
+import AudioToolbox
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
@@ -392,7 +393,10 @@ class NotesTableView: UITableView,
     }
 
     @objc public func toggleSelectAll() {
-        guard self.isEditing else { return }
+        guard self.isEditing else {
+            openPopover()
+            return
+        }
 
         if let selected = self.indexPathsForSelectedRows, (selected.count - 1) == self.notes.count {
             for indexPath in selected {
@@ -407,5 +411,28 @@ class NotesTableView: UITableView,
 
             self.selectedIndexPaths = indexPathsForSelectedRows
         }
+    }
+
+    private func openPopover() {
+        let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
+
+        guard type == nil || type == .Category || type == .All else { return }
+
+        let vc = FolderPopoverViewControler()
+        let height = Int(vc.tableView.rowHeight) * vc.actions.count
+
+        vc.preferredContentSize = CGSize(width: 200, height: height)
+        vc.modalPresentationStyle = .popover
+        if let pres = vc.presentationController {
+            pres.delegate = viewDelegate
+        }
+
+        viewDelegate?.present(vc, animated: true)
+        if let pop = vc.popoverPresentationController {
+            pop.sourceView = (viewDelegate?.currentFolder as! UIView)
+            pop.sourceRect = (viewDelegate?.currentFolder as! UIView).bounds
+        }
+
+        AudioServicesPlaySystemSound(1519)
     }
 }

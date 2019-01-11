@@ -10,12 +10,14 @@ import UIKit
 import NightNight
 
 class ProjectSettingsViewController: UITableViewController {
+    private var dismiss: Bool = false
     private var project: Project
     private var sections = ["Sort by", "Visibility", "Notes list"]
     private var rowsInSections = [3, 2, 1]
 
-    init(project: Project) {
+    init(project: Project, dismiss: Bool = false) {
         self.project = project
+        self.dismiss = dismiss
         
         super.init(style: .grouped)
     }
@@ -30,7 +32,11 @@ class ProjectSettingsViewController: UITableViewController {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
+        if dismiss {
+            self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))
+        } else {
+            self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
+        }
 
         self.title = "Project \"\(project.getFullLabel())\""
 
@@ -160,6 +166,17 @@ class ProjectSettingsViewController: UITableViewController {
 
     @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
+    }
+
+    @objc func close() {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let vc = pageController.mainViewController
+            else { return }
+
+        vc.sidebarTableView.sidebar = Sidebar()
+        vc.sidebarTableView.reloadData()
+        vc.notesTable.reloadData()
+
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -173,4 +173,12 @@ public class Project: Equatable {
             print(error)
         }
     }
+
+    public func remove() {
+        do {
+            try FileManager.default.removeItem(at: url)
+        } catch {
+            print(error)
+        }
+    }
 }

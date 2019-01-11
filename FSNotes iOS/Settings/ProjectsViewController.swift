@@ -73,6 +73,25 @@ class ProjectsViewController: UITableViewController {
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let project = self.projects[indexPath.row]
+
+        guard !project.isRoot else { return nil }
+
+
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
+            self.delete(project: project)
+        })
+
+        deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
+
+        return [deleteAction]
+    }
+
     @objc func cancel() {
         self.navigationController?.popViewController(animated: true)
     }
@@ -133,5 +152,36 @@ class ProjectsViewController: UITableViewController {
         else { return nil }
 
         return mvc
+    }
+
+    private func delete(project: Project) {
+        let message = "Are you sure you want to remove project \"\(project.getFullLabel())\" and all files inside?"
+
+        let alertController = UIAlertController(title: "Project removing ❌", message: message, preferredStyle: .alert)
+
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            project.remove()
+
+            if let i = self.projects.index(of: project) {
+                self.projects.remove(at: i)
+            }
+
+            self.tableView.reloadData()
+            Storage.sharedInstance().removeBy(project: project)
+
+            if let mvc = self.getMainVC() {
+                mvc.updateTable {
+                    mvc.sidebarTableView.sidebar = Sidebar()
+                    mvc.sidebarTableView.reloadData()
+                }
+            }
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
 }

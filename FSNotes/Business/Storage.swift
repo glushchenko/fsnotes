@@ -877,4 +877,10 @@ class Storage {
     public func getPinned() -> [Note]? {
         return noteList.filter({ $0.isPinned })
     }
+
+    public func remove(project: Project) {
+        if let index = projects.index(of: project) {
+            projects.remove(at: index)
+        }
+    }
 }

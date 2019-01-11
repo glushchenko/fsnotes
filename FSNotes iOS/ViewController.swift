@@ -770,3 +770,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return width + 40
     }
 }
+
+extension ViewController : UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
+    }
+}

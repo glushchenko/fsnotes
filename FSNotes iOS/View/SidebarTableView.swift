@@ -128,7 +128,13 @@ class SidebarTableView: UITableView,
         }
 
         AudioServicesPlaySystemSound(1519)
-        view.currentFolder.text = sidebarItem.name
+
+        var name = sidebarItem.name
+        if sidebarItem.type == .Category || sidebarItem.type == .All {
+            name += " ✦"
+        }
+
+        view.currentFolder.text = name
 
         if sidebarItem.isTrash() {
             let storage = Storage.sharedInstance()

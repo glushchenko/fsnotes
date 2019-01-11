@@ -85,13 +85,17 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = item["com.apple.flat-rtfd"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
-                    let location = selectedRange.location
+                    //let location = selectedRange.location
                     self.textStorage.insert(attributedString, at: selectedRange.location)
-                    self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: location, length: 1))
+
+                    if note.isMarkdown() {
+                        self.textStorage.replaceCheckboxes()
+                    }
+
+                    self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
 
                     note.content = NSMutableAttributedString(attributedString: self.attributedText)
                     note.save()
-                    UIApplication.getEVC().refill()
 
                     return
                 }
