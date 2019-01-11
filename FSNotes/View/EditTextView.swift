@@ -641,7 +641,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     override func keyDown(with event: NSEvent) {
         guard let storage = self.textStorage else { return }
-        
+
         guard !(
             event.modifierFlags.contains(.shift) &&
             [
@@ -691,12 +691,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if event.keyCode == kVK_Return {
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.newLine()
-            return
-        }
-        
         if event.keyCode == kVK_Tab {
             if event.modifierFlags.contains(.shift) {
                 let formatter = TextFormatter(textView: self, note: note)
@@ -704,11 +698,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 saveCursorPosition()
                 return
             }
-            
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.tabKey()
-            saveCursorPosition()
-            return
         }
         
         if note.type == .PlainText || note.type == .RichText {
@@ -728,6 +717,31 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         super.keyDown(with: event)
         saveCursorPosition()
+    }
+
+    var shouldChange = true
+    override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
+        guard shouldChange, let note = EditTextView.note else { return true }
+
+        // New line
+        if replacementString == "\n" {
+            shouldChange = false
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.newLine()
+            shouldChange = true
+            return false
+        }
+
+        // Tab
+        if replacementString == "\t" {
+            shouldChange = false
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
+            shouldChange = true
+            return false
+        }
+
+        return true
     }
 
     public func isCodeBlock(paragraph: String) -> Bool {
