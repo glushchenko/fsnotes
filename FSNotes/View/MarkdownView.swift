@@ -111,6 +111,34 @@ open class MarkdownView: WKWebView {
     }()
     
     fileprivate var didLoadSuccessfully: DownViewClosure?
+
+    func createTemporaryBundle(pageHTMLString: String) -> URL? {
+        guard let bundleResourceURL = bundle.resourceURL
+            else { return nil }
+
+        let indexURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("index.html", isDirectory: false)
+
+        // If updating markdown contents, no need to re-copy bundle.
+        if !FileManager.default.fileExists(atPath: indexURL.path) {
+            // Copy bundle resources to temporary location.
+            do {
+                let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
+
+                for file in fileList {
+                    let tmpURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(file)
+
+                    try FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
+                }
+            } catch {
+                print(error)
+            }
+        }
+
+        // Write generated index.html to temporary location.
+        try? pageHTMLString.write(to: indexURL, atomically: true, encoding: .utf8)
+
+        return indexURL
+    }
 }
 
 // MARK: - Private API
@@ -127,8 +155,16 @@ private extension MarkdownView {
         }
 
         let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
-        
+
+#if os(iOS)
         loadHTMLString(pageHTMLString, baseURL: baseURL)
+#elseif os(macOS)
+        let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString)
+        if let i = indexURL {
+            let accessURL = i.deletingLastPathComponent()
+            loadFileURL(i, allowingReadAccessTo: accessURL)
+        }
+#endif
     }
     
     private func loadImages(imagesStorage: URL, html: String) -> String {
@@ -143,21 +179,46 @@ private extension MarkdownView {
             }
             
             for image in images {
-                let localPath = image.replacingOccurrences(of: "<img src=\"", with: "").dropLast()
-                
+                var localPath = image.replacingOccurrences(of: "<img src=\"", with: "").dropLast()
+
                 if localPath.starts(with: "/") || localPath.starts(with: "assets/") {
                     let fullImageURL = imagesStorage
                     let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
+#if os(iOS)
                     let imageData = try Data(contentsOf: imageURL)
                     let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
 
                     htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
+#else
+                    let create = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(String(localPath)).deletingLastPathComponent()
+                    let destination = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(String(localPath))
+
+                    try? FileManager.default.createDirectory(atPath: create.path, withIntermediateDirectories: true, attributes: nil)
+                    try? FileManager.default.removeItem(at: destination)
+                    try? FileManager.default.copyItem(at: imageURL, to: destination)
+
+                    var orientation = 0
+                    let url = NSURL(fileURLWithPath: imageURL.path)
+                    if let imageSource = CGImageSourceCreateWithURL(url, nil) {
+                        let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
+                        if let orientationProp = imageProperties?[kCGImagePropertyOrientation] as? Int {
+                            orientation = orientationProp
+                        }
+                    }
+
+                    if localPath.first == "/" {
+                        localPath.remove(at: localPath.startIndex)
+                    }
+
+                    let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + localPath + "\""
+                    htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
+#endif
                 }
             }
         } catch let error {
             print("Images regex: \(error.localizedDescription)")
         }
-        
+
         return htmlString
     }
     
