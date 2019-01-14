@@ -580,7 +580,7 @@ public class TextFormatter {
         
         // Fenced code block style handler
         
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
+        if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
             let attributes = TextFormatter.getCodeBlockAttributes()
             self.storage.addAttributes(attributes, range: fencedRange)
         }
