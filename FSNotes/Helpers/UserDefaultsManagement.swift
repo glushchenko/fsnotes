@@ -221,9 +221,9 @@ public class UserDefaultsManagement {
             
             #if CLOUDKIT && os(macOS)
                 return nil
-            #else
-                return self.localDocumentsContainer?.path
             #endif
+
+            return self.localDocumentsContainer?.path
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
@@ -587,6 +587,8 @@ public class UserDefaultsManagement {
         set {
             if let url = newValue {
                 UserDefaults.standard.set(url.path, forKey: Constants.ArchiveDirectoryKey)
+            } else {
+                UserDefaults.standard.set(nil, forKey: Constants.ArchiveDirectoryKey)
             }
         }
     }

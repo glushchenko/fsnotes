@@ -62,14 +62,19 @@ class PrefsViewController: NSViewController {
                 guard let currentURL = UserDefaultsManagement.storageUrl else { return }
                 
                 let bookmark = SandboxBookmark.sharedInstance()
-                _ = bookmark.load()
+                let activeBookmars = bookmark.load()
                 bookmark.remove(url: currentURL)
                 bookmark.store(url: url)
                 bookmark.save()
                 
                 UserDefaultsManagement.storagePath = url.path
                 self.defaultStoragePath.stringValue = url.path
-                            
+
+                // Resets archive if not bookmarked
+                if let archiveURL = UserDefaultsManagement.archiveDirectory, !activeBookmars.contains(archiveURL) {
+                    UserDefaultsManagement.archiveDirectory = nil
+                }
+
                 self.restart()
             }
         }
