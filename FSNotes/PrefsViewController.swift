@@ -399,7 +399,9 @@ class PrefsViewController: NSViewController {
                     storage.unload(project: archive)
                     storage.loadLabel(archive)
                     storage.cacheMarkdown(project: archive)
-                    
+
+                    self.controller?.fsManager?.restart()
+
                     vc.notesTableView.reloadData()
                     vc.storageOutlineView.reloadData()
                     vc.storageOutlineView.selectArchive()

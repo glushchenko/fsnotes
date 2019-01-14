@@ -84,9 +84,9 @@ class SandboxBookmark {
         }
 
         Swift.print("Couldn't access: \(url.path)")
-        return false
-
         #endif
+
+        return false
     }
     
     func remove(url: URL) {
