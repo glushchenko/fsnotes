@@ -148,7 +148,10 @@ class EditTextView: UITextView, UITextViewDelegate {
         if self.textStorage.length >= self.selectedRange.upperBound {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
-                UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
+                UIPasteboard.general.setItems([
+                    [kUTTypeFlatRTFD as String: rtfd],
+                    [kUTTypePlainText as String: attributedString.string]
+                ])
                 return
             }
         }

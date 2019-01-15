@@ -421,10 +421,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     imagesStorage = note.url
                 }
                 
-                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle) {
-                }
-
-                viewController.editAreaScroll.addSubview(downView!)
+                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle, didLoadSuccessfully: {
+                    viewController.editAreaScroll.addSubview(self.downView!)
+                })
             }
             return
         }
@@ -1130,5 +1129,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         NotesTextProcessor.hl = nil
         NotesTextProcessor.scanCode(note: note, storage: textStorage)
+
+        let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
+        let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
+
+        downView?.evaluateJavaScript(switchScript)
     }
 }

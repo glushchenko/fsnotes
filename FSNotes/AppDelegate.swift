@@ -86,6 +86,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 
         return true
     }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+
+        try? FileManager.default.removeItem(at: webkitPreview)
+    }
     
     private func applyAppearance() {
         

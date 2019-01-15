@@ -50,7 +50,8 @@ open class MarkdownView: WKWebView {
         configuration.userContentController = userContentController
         
         super.init(frame: frame, configuration: configuration)
-        
+        setValue(false, forKey: "drawsBackground")
+
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
         try loadHTMLView(markdownString, css: getPreviewStyle(), imagesStorage: imagesStorage)
     }
@@ -116,7 +117,13 @@ open class MarkdownView: WKWebView {
         guard let bundleResourceURL = bundle.resourceURL
             else { return nil }
 
-        let indexURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("index.html", isDirectory: false)
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+
+        try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
+
+        let indexURL = webkitPreview.appendingPathComponent("index.html")
+
+        print(indexURL)
 
         // If updating markdown contents, no need to re-copy bundle.
         if !FileManager.default.fileExists(atPath: indexURL.path) {
@@ -125,7 +132,7 @@ open class MarkdownView: WKWebView {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
                 for file in fileList {
-                    let tmpURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(file)
+                    let tmpURL = webkitPreview.appendingPathComponent(file)
 
                     try FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
                 }
@@ -190,8 +197,10 @@ private extension MarkdownView {
 
                     htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
 #else
-                    let create = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(String(localPath)).deletingLastPathComponent()
-                    let destination = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(String(localPath))
+                    let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+
+                    let create = webkitPreview.appendingPathComponent(String(localPath)).deletingLastPathComponent()
+                    let destination = webkitPreview.appendingPathComponent(String(localPath))
 
                     try? FileManager.default.createDirectory(atPath: create.path, withIntermediateDirectories: true, attributes: nil)
                     try? FileManager.default.removeItem(at: destination)
@@ -225,6 +234,11 @@ private extension MarkdownView {
     func htmlFromTemplate(_ htmlString: String, css: String) throws -> String {
         var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
+
+        if UserDataService.instance.isDark {
+            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+        }
+
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
     

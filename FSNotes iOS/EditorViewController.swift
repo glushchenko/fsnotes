@@ -420,6 +420,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 font = fontMetrics.scaledFont(for: font)
             }
+
+            editArea.typingAttributes.removeValue(forKey: NSAttributedStringKey.backgroundColor.rawValue)
             editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
         }
         

@@ -583,6 +583,11 @@ public class TextFormatter {
         if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
             let attributes = TextFormatter.getCodeBlockAttributes()
             self.storage.addAttributes(attributes, range: fencedRange)
+
+            let remove = NSRange(location: fencedRange.upperBound, length: 1)
+            if remove.upperBound <= storage.length {
+                self.storage.removeAttribute(.backgroundColor, range: remove)
+            }
         }
         
         // Autocomplete unordered lists
