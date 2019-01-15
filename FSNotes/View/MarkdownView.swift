@@ -9,6 +9,7 @@
 import WebKit
 import Highlightr
 import cmark_gfm_swift
+import NightNight
 
 // MARK: - Public API
 
@@ -50,7 +51,10 @@ open class MarkdownView: WKWebView {
         configuration.userContentController = userContentController
         
         super.init(frame: frame, configuration: configuration)
+
+        #if os(OSX)
         setValue(false, forKey: "drawsBackground")
+        #endif
 
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
         try loadHTMLView(markdownString, css: getPreviewStyle(), imagesStorage: imagesStorage)
@@ -235,9 +239,15 @@ private extension MarkdownView {
         var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
+#if os(iOS)
+        if NightNight.theme == .night {
+            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+        }
+#else
         if UserDataService.instance.isDark {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
+#endif
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
