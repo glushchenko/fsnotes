@@ -9,7 +9,10 @@
 import WebKit
 import Highlightr
 import cmark_gfm_swift
+
+#if os(iOS)
 import NightNight
+#endif
 
 // MARK: - Public API
 
