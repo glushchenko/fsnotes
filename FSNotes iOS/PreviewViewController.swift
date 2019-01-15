@@ -18,6 +18,8 @@ class PreviewViewController: UIViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(returnBack))
 
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+
         super.viewDidLoad()
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -48,7 +50,8 @@ class PreviewViewController: UIViewController {
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
-        let markdownString = note.getPrettifiedContent()
+
+        let markdownString = note.content.unLoadImages().string
 
         do {
             var imagesStorage = note.project.url

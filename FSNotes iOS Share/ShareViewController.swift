@@ -31,7 +31,6 @@ class ShareViewController: SLComposeServiceViewController {
         navigationController?.navigationBar.barTintColor = UIColor.white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
 
-
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
         let font = UserDefaultsManagement.noteFont.italic().bold().withSize(16)
         label.text = "FSNotes"
@@ -70,7 +69,7 @@ class ShareViewController: SLComposeServiceViewController {
                                 if let data = url as? NSURL, let textLink = data.absoluteString {
                                     DispatchQueue.main.async {
                                         let preview = self.urlPreview ?? String()
-                                        self.textView.text = "\(preview)\n\n\(textLink)"
+                                        self.textView.text = "\(preview)\n\n\(textLink)".trimmingCharacters(in: .whitespacesAndNewlines)
                                     }
                                 }
                             })

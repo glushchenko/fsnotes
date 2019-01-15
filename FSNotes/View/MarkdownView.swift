@@ -57,6 +57,10 @@ open class MarkdownView: WKWebView {
 
         #if os(OSX)
         setValue(false, forKey: "drawsBackground")
+        #else
+        isOpaque = false
+        backgroundColor = UIColor.clear
+        scrollView.backgroundColor = UIColor.clear
         #endif
 
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
