@@ -216,7 +216,6 @@ td,
 th {
     padding: 0
 }
-img,
 table tr {
     background-color: #fff
 }
@@ -251,8 +250,13 @@ h1 {
     margin: .67em 0
 }
 img {
+    background: none;
+    border-radius: 3px;
     border-style: none;
     max-width: 100%
+}
+canvas {
+    border-radius: 3px;
 }
 h1,
 h2 {

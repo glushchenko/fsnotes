@@ -177,9 +177,12 @@ class ShareViewController: SLComposeServiceViewController {
                             finished = finished + 1
                             if started == finished {
                                 note.write()
+                                self.close()
+                                return
                             }
                         })
                     } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) || provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+
                         if !imagesFound, let contentText = self.contentText {
                             let prefix = self.getPrefix(for: note)
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
@@ -192,8 +195,6 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             }
         }
-
-        self.close()
     }
 
     public func close() {

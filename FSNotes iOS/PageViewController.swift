@@ -128,7 +128,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         guard completed, let current = self.viewControllers?.first else { return }
 
         if let nav = current as? UINavigationController, let preview = nav.viewControllers.first as? PreviewViewController {
-            preview.reloadPreview()
+            preview.loadPreview()
             return
         } else {
             previewViewController?.clear()

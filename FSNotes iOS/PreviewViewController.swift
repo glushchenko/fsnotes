@@ -38,7 +38,7 @@ class PreviewViewController: UIViewController {
         self.reloadPreview()
     }
 
-    private func loadPreview() {
+    public func loadPreview() {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let evc = pageController.editorViewController,
@@ -69,10 +69,7 @@ class PreviewViewController: UIViewController {
     }
 
     public func reloadPreview() {
-        guard view.subviews.count > 0 else {
-            self.loadPreview()
-            return
-        }
+        guard view.subviews.count > 0 else { return }
 
         DispatchQueue.main.async {
             for sub in self.view.subviews {
