@@ -46,10 +46,8 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
 
         if editedRange.length == textStorage.length {
-            NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil, async: false)
-            let range = NSRange(0..<textStorage.length)
-            let attributed = textStorage.attributedSubstring(from: range)
-            note.content = NSMutableAttributedString(attributedString: attributed)
+            NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil, forceUnload: true)
+
             note.isCached = true
         } else {
             let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)

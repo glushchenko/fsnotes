@@ -643,7 +643,7 @@ public class Note: NSObject  {
         self.caching = true
 
         #if NOT_EXTENSION || os(OSX)
-        NotesTextProcessor.fullScan(note: self, async: false)
+        NotesTextProcessor.fullScan(note: self)
         #endif
 
         self.caching = false

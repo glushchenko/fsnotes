@@ -671,7 +671,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" id="KEU-U8-bg0">
+                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -801,7 +801,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
+                                        <view key="view" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>

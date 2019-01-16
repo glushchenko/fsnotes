@@ -51,8 +51,7 @@ class PreviewViewController: UIViewController {
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
 
-        let markdownString = note.content.unLoadImages().string
-
+        let markdownString = note.content.string
         do {
             var imagesStorage = note.project.url
 

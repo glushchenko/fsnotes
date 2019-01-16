@@ -310,13 +310,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
             storage.replaceCheckboxes()
 
             let range = NSRange(currentRange.location..<storage.length)
-                NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
+            NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
+            note.save()
 
             // Set image size and .link after storage full scan (cleaned)
             storage.sizeAttachmentImages()
-
-            saveTextStorageContent(to: note)
-            note.save()
 
             return
         }
