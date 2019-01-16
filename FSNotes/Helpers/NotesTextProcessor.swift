@@ -287,19 +287,11 @@ public class NotesTextProcessor {
         return highlightr
     }
     
-    public static func fullScan(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil, forceUnload: Bool = false) {
+    public static func fullScan(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil) {
         self.scanBasicSyntax(note: note, storage: storage, range: range)
 
         if UserDefaultsManagement.codeBlockHighlight {
             NotesTextProcessor.scanCode(note: note, storage: storage, async: false)
-        }
-
-        if let unwrappedStorage = storage {
-            if forceUnload {
-                note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length))).unLoadImages()
-            } else {
-                note.content = NSMutableAttributedString(attributedString: unwrappedStorage.attributedSubstring(from: NSRange(0..<unwrappedStorage.length)))
-            }
         }
     }
 

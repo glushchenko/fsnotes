@@ -55,6 +55,7 @@ public class UserDefaultsManagement {
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
+        static let ImagesWidthKey = "imagesWidthKey"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
@@ -602,6 +603,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.LineSpacingEditorKey)
+        }
+    }
+
+    static var imagesWidth: Float {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.ImagesWidthKey) {
+                return result as! Float
+            }
+            return 300
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.ImagesWidthKey)
         }
     }
     

@@ -14,6 +14,7 @@ import FSNotesCore_macOS
 
 class EditTextView: NSTextView, NSTextFinderClient {
     public static var note: Note?
+    public static var isBusyProcessing: Bool = false
 
     public var viewDelegate: ViewController?
     
@@ -488,6 +489,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: textStorage!, note: note)
             processor.load()
+
+            textStorage?.sizeAttachmentImages()
         }
     }
 

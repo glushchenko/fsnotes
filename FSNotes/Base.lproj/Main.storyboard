@@ -671,7 +671,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
+                                        <view key="view" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -963,7 +963,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Editor" identifier="" id="vFY-vs-Qna">
-                                        <view key="view" id="4iE-YN-Vay">
+                                        <view key="view" ambiguous="YES" id="4iE-YN-Vay">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -997,7 +997,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
-                                                    <rect key="frame" x="40" y="125" width="378" height="18"/>
+                                                    <rect key="frame" x="40" y="87" width="378" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1008,7 +1008,7 @@ CA
                                                     </connections>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
-                                                    <rect key="frame" x="40" y="105" width="378" height="18"/>
+                                                    <rect key="frame" x="40" y="67" width="378" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Focus in editor when select note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -1061,10 +1061,6 @@ CA
                                                     <rect key="frame" x="19" y="192" width="397" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
-                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xIH-3f-k6g">
-                                                    <rect key="frame" x="19" y="80" width="397" height="5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                </box>
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-pB-1nm">
                                                     <rect key="frame" x="216" y="206" width="169" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1092,6 +1088,27 @@ CA
                                                         <action selector="markdownCodeThemeAction:" target="IAM-xZ-Bfs" id="613-6P-pTo"/>
                                                     </connections>
                                                 </popUpButton>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
+                                                    <rect key="frame" x="42" y="137" width="89" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Images width:" id="ltm-qj-nke">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
+                                                    <rect key="frame" x="216" y="135" width="168" height="19"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
+                                                    <connections>
+                                                        <action selector="imagesWidth:" target="IAM-xZ-Bfs" id="Faq-45-D9z"/>
+                                                    </connections>
+                                                </slider>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-VY-6Ij">
+                                                    <rect key="frame" x="19" y="117" width="397" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -1201,6 +1218,7 @@ CA
                         <outlet property="fontPreview" destination="7Az-gx-yGL" id="J5P-4l-NRs"/>
                         <outlet property="hidePreview" destination="F6G-ua-MNX" id="7t4-Vv-NBf"/>
                         <outlet property="horizontalRadio" destination="lkd-Oe-1Xz" id="yjf-wT-fLZ"/>
+                        <outlet property="imagesWidth" destination="DQU-Se-i0R" id="oqT-Hk-gv6"/>
                         <outlet property="inEditorFocus" destination="cj1-ab-Sv6" id="mev-86-gtJ"/>
                         <outlet property="languagePopUp" destination="TVn-At-Fhc" id="svg-aB-2y2"/>
                         <outlet property="lineSpacing" destination="T2k-ya-69N" id="qUA-Aa-hcH"/>

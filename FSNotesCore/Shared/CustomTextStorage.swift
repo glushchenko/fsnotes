@@ -22,7 +22,7 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         guard editedMask != .editedAttributes else { return }
 
-        guard let note = EditTextView.note, note.isMarkdown(),
+        guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
             (editedRange.length != textStorage.length) || !note.isCached else { return }
 
         if self.isInserting(delta: delta) {
@@ -46,7 +46,9 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
 
         if editedRange.length == textStorage.length {
-            NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil, forceUnload: true)
+            NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)
+
+            note.content = NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: NSRange(0..<textStorage.length)))
 
             note.isCached = true
         } else {

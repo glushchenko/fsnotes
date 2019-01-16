@@ -41,6 +41,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var appearance: NSPopUpButton!
     @IBOutlet weak var appearanceLabel: NSTextField!
 
+    @IBOutlet weak var imagesWidth: NSSlider!
 
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
@@ -132,7 +133,8 @@ class PrefsViewController: NSViewController {
         }
         
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
-        
+        imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
+
         let languages = [
             LanguageType(rawValue: 0x00),
             LanguageType(rawValue: 0x01)
@@ -161,7 +163,7 @@ class PrefsViewController: NSViewController {
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
         if UserDefaultsManagement.liveImagesPreview {
-            if let note = EditTextView.note, let storage = controller?.editArea.textStorage {
+            if let note = EditTextView.note, let storage = controller?.editArea.textStorage, storage.length > 0 {
                 let processor = ImagesProcessor(styleApplier: storage, note: note)
                 processor.unLoad()
                 storage.setAttributedString(note.content)
@@ -170,7 +172,7 @@ class PrefsViewController: NSViewController {
         
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
         
-        if let note = EditTextView.note {
+        if let note = EditTextView.note, !UserDefaultsManagement.preview {
             NotesTextProcessor.fullScan(note: note)
             controller?.refillEditArea()
         }
@@ -429,6 +431,15 @@ class PrefsViewController: NSViewController {
     
     @IBAction func textMatchAutoSelection(_ sender: NSButton) {
         UserDefaultsManagement.textMatchAutoSelection = (sender.state == .on)
+    }
+
+    @IBAction func imagesWidth(_ sender: NSSlider) {
+        UserDefaultsManagement.imagesWidth = sender.floatValue
+
+        if let note = EditTextView.note, !UserDefaultsManagement.preview {
+            NotesTextProcessor.fullScan(note: note)
+            controller?.refillEditArea()
+        }
     }
     
     

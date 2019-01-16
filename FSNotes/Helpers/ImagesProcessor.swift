@@ -48,6 +48,7 @@ public class ImagesProcessor {
         var offset = 0
 
         #if NOT_EXTENSION || os(OSX)
+        EditTextView.isBusyProcessing = true
         NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range else { return }
             
@@ -102,6 +103,7 @@ public class ImagesProcessor {
                 }
             }
         }
+        EditTextView.isBusyProcessing = false
         #endif
     }
     

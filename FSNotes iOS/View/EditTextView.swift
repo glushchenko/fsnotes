@@ -17,7 +17,10 @@ class EditTextView: UITextView, UITextViewDelegate {
     private var redoIcon = UIImage(named: "redo.png")
 
     public var typingFont: UIFont?
+
     public static var note: Note?
+    public static var isBusyProcessing: Bool = false
+
     public var lasTouchPoint: CGPoint?
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
