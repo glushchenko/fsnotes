@@ -23,6 +23,8 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public var lasTouchPoint: CGPoint?
 
+    public static var imagesLoaderQueue = OperationQueue.init()
+
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)

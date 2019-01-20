@@ -972,14 +972,13 @@ class ViewController: NSViewController,
             
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
-            storage.add(note)
-            
+
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
-                moveNoteToTop(note: index)
+                //moveNoteToTop(note: index)
             }
         }
 
-        // Fixes glitch wgen make/delete code block paragraph
+        // Fixes glitch when make/delete code block paragraph
         self.editArea.setSelectedRange(self.editArea.selectedRange())
     }
     
@@ -1189,7 +1188,7 @@ class ViewController: NSViewController,
                 self.editArea.window?.makeFirstResponder(resp)
                 
                 if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    self.editArea.restoreCursorPosition()
+                    //self.editArea.restoreCursorPosition()
                 }
             }
             return

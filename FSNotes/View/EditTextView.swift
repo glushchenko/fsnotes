@@ -24,6 +24,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var downView: MarkdownView?
     var timer: Timer?
 
+    public static var imagesLoaderQueue = OperationQueue.init()
+    
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
     }
@@ -256,27 +258,34 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return nil
     }
 
-    override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
-        guard let storage = textStorage, let note = EditTextView.note else { return false }
-
-        guard note.isMarkdown() else {
-            return super.writeSelection(to: pboard, type: type)
+    override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
+        get {
+            return [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string]
         }
+    }
+    override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
+
+        guard let storage = textStorage else { return false }
 
         let range = selectedRange()
         let attributedString = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: range))
 
-        // Save plain text
-        let plainText = attributedString.unLoadImages().unLoadCheckboxes().string
-        pboard.setString(plainText, forType: .string)
+        if type == .string {
+            let plainText = attributedString.unLoadImages().unLoadCheckboxes().string
 
-        // Save rich text
-        let richString = attributedString.unLoadCheckboxes()
-        if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
-            pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
+            pboard.setString(plainText, forType: .string)
+            return true
         }
 
-        return true
+        if type == .rtfd {
+            let richString = attributedString.unLoadCheckboxes()
+            if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
+                pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
+                return true
+            }
+        }
+
+        return false
     }
 
     // Copy empty string
@@ -390,15 +399,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let md = appd.mainWindowController {
             md.editorUndoManager = note.undoManager
         }
-        
+
         isEditable = !(UserDefaultsManagement.preview && note.isMarkdown())
-        isRichText = note.isRTF()
-        
+
         if !saveTyping {
             typingAttributes.removeAll()
             typingAttributes[.font] = UserDefaultsManagement.noteFont
         }
-        
+
         if (UserDefaultsManagement.preview && note.isMarkdown()) {
             // Removes scroll for long notes
             
@@ -419,7 +427,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 if note.type == .TextBundle {
                     imagesStorage = note.url
                 }
-                
+
                 downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle, didLoadSuccessfully: {
                     viewController.editAreaScroll.addSubview(self.downView!)
                 })
@@ -442,16 +450,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         
         if note.isMarkdown() {
+            EditTextView.isBusyProcessing = true
             textStorage?.replaceCheckboxes()
 
             if UserDefaultsManagement.liveImagesPreview {
-                self.timer?.invalidate()
-                self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.3), target: self, selector: #selector(loadImages), userInfo: nil, repeats: false)
+                EditTextView.imagesLoaderQueue.cancelAllOperations()
+                loadImages()
+                EditTextView.isBusyProcessing = false
             }
         }
-        
+
         restoreCursorPosition()
-        
+
         applyLeftParagraphStyle()
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
@@ -489,8 +499,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
             let processor = ImagesProcessor(styleApplier: textStorage!, note: note)
             processor.load()
-
-            textStorage?.sizeAttachmentImages()
         }
     }
 
@@ -586,10 +594,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         
         let range = editArea.selectedRange()
-        let string = storage.string as NSString
-        let paragraphRange = string.paragraphRange(for: range)
-        
-        return paragraphRange
+        return storage.mutableString.paragraphRange(for: range)
     }
     
     func toggleBoldFont(font: NSFont) -> NSFont {
@@ -741,7 +746,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return false
         }
 
-        return true
+
+        return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
     }
 
     public func isCodeBlock(paragraph: String) -> Bool {
@@ -794,7 +800,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return true
         }
         
-        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: storage.string) {
+        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: storage) {
             return true
         }
         
@@ -868,6 +874,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String)
         ])
+
+        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
+        EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
@@ -1129,11 +1138,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         NotesTextProcessor.hl = nil
-        NotesTextProcessor.scanCode(note: note, storage: textStorage)
+        NotesTextProcessor.fullScan(note: note)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
         let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
 
         downView?.evaluateJavaScript(switchScript)
+
+        // TODO: implement code block live theme changer
+        viewDelegate?.refillEditArea()
     }
 }

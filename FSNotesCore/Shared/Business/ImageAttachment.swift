@@ -1,0 +1,140 @@
+//
+//  ImageAttachment.swift
+//  FSNotes
+//
+//  Created by Oleksandr Glushchenko on 7/15/18.
+//  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+//
+
+import Foundation
+
+#if os(OSX)
+    import Cocoa
+#else
+    import UIKit
+#endif
+
+class ImageAttachment {
+    public var title: String
+    public var invalidateRange: NSRange?
+
+    private var path: String
+    public var url: URL
+    private var cacheDir: URL?
+
+    public var note: Note?
+    public var shouldWriteCache = false
+    public var imageCache: URL?
+
+    init(title: String, path: String, url: URL, cache: URL?, invalidateRange: NSRange? = nil, note: Note? = nil) {
+        self.title = title
+        self.url = url
+        self.path = path
+        self.cacheDir = cache
+        self.invalidateRange = invalidateRange
+        self.note = note
+
+        if url.isRemote() {
+            let imageName = url.removingFragment().absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+
+            if let directory = cache,
+                let imageName = imageName {
+                imageCache = directory.appendingPathComponent(imageName)
+            }
+        }
+    }
+
+    weak var weakTimer: Timer?
+
+    public func getAttributedString() -> NSMutableAttributedString? {
+        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+        let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+
+        if let dst = imageCache {
+            if FileManager.default.fileExists(atPath: dst.path) {
+                self.url = dst
+            } else {
+                shouldWriteCache = true
+            }
+        }
+
+        guard let attachment = load() else { return nil }
+
+        let attributedString = NSAttributedString(attachment: attachment)
+        let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+
+        let attributes = [titleKey: self.title, pathKey: self.path, .link: String(), .attachment: attachment, .paragraphStyle: paragraphStyle] as [NSAttributedStringKey: Any]
+
+        mutableAttributedString.addAttributes(attributes, range: NSRange(0..<1))
+
+        return mutableAttributedString
+    }
+
+    public func cache(data: Data) {
+        guard shouldWriteCache, let url = imageCache else { return }
+
+        do {
+            var isDirectory = ObjCBool(true)
+
+            if let cacheDir = self.cacheDir,
+                !FileManager.default.fileExists(atPath: cacheDir.path, isDirectory: &isDirectory) || !isDirectory.boolValue {
+                try FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: false, attributes: nil)
+            }
+
+            try data.write(to: url, options: .atomic)
+        } catch {
+            print(error)
+        }
+    }
+
+    public func getSize(url: URL) -> CGSize {
+        var width = 0
+        var height = 0
+        var orientation = 0
+
+        let url = NSURL(fileURLWithPath: url.path)
+        if let imageSource = CGImageSourceCreateWithURL(url, nil) {
+            let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
+            width = imageProperties?[kCGImagePropertyPixelWidth] as? Int ?? 0
+            height = imageProperties?[kCGImagePropertyPixelHeight] as? Int ?? 0
+            orientation = imageProperties?[kCGImagePropertyOrientation] as? Int ?? 0
+
+            if case 5...8 = orientation {
+                height = imageProperties?[kCGImagePropertyPixelWidth] as? Int ?? 0
+                width = imageProperties?[kCGImagePropertyPixelHeight] as? Int ?? 0
+            }
+        }
+
+        return CGSize(width: width, height: height)
+    }
+
+    public func getCacheUrl(from url: URL) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            return temporary.appendingPathComponent(filePath)
+        }
+
+        return nil
+    }
+
+    public func savePreviewImage(url: URL, image: Image) {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if !FileManager.default.fileExists(atPath: temporary.path) {
+            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        if let url = self.getCacheUrl(from: url) {
+            if let data = image.jpgData {
+                try? data.write(to: url)
+            }
+        }
+    }
+}

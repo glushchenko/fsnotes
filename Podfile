@@ -22,7 +22,7 @@ def common_pods
 end
 
 def framework_pods
-    pod 'SwiftLint', '~> 0.26.0'
+    pod 'SwiftLint', '~> 0.30.0'
 end
 
 target 'FSNotesCore iOS' do

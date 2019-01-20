@@ -254,8 +254,9 @@ public class Note: NSObject  {
     public func getPreviewLabel(with text: String? = nil) -> String {
         var preview: String = ""
         let content = text ?? self.content.string
+        let length = text?.count ?? self.content.length
 
-        if content.count > 250 {
+        if length > 250 {
             let startIndex = content.index((content.startIndex), offsetBy: 0)
             let endIndex = content.index((content.startIndex), offsetBy: 250)
             preview = String(content[startIndex...endIndex])
@@ -279,7 +280,7 @@ public class Note: NSObject  {
             return preview
         }
 
-        return getPreviewLabel(with: nil)
+        return getPreviewLabel()
     }
     
     @objc func getDateForLabel() -> String {
@@ -886,6 +887,10 @@ public class Note: NSObject  {
                         urls.append(URL(fileURLWithPath: cleanPath))
                         i += 1
                 }
+            }
+
+            if mdImages.count == 3 {
+                stop.pointee = true
             }
         })
         #endif

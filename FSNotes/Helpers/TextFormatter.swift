@@ -397,11 +397,13 @@ public class TextFormatter {
     }
     
     func highlight() {
-        let string = storage.string as NSString
         if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: storage),
             codeBlockRange.upperBound <= storage.length,
             UserDefaultsManagement.codeBlockHighlight {
-            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, string: string, note: note, async: true)
+
+            print("hl")
+            print(codeBlockRange)
+            NotesTextProcessor.highlight(range: codeBlockRange, storage: storage, note: note)
         }
     }
     
@@ -567,8 +569,7 @@ public class TextFormatter {
             }
 
             if charsMatch == nil && digitsMatch == nil {
-                let styledCode = self.addCodeBlockStyle(result + prefix)
-                self.insertText(styledCode, replacementRange: selectedRange)
+                self.insertText(result + prefix, replacementRange: selectedRange)
             }
 
             return
@@ -579,17 +580,18 @@ public class TextFormatter {
         self.insertText("\n", replacementRange: selectedRange)
         
         // Fenced code block style handler
-        
-        if UserDefaultsManagement.codeBlockHighlight, let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: currentParagraphRange, string: storage.string), self.note.isMarkdown() {
-            let attributes = TextFormatter.getCodeBlockAttributes()
-            self.storage.addAttributes(attributes, range: fencedRange)
 
-            let remove = NSRange(location: fencedRange.upperBound, length: 1)
-            if remove.upperBound <= storage.length {
-                self.storage.removeAttribute(.backgroundColor, range: remove)
+        if UserDefaultsManagement.codeBlockHighlight, self.note.isMarkdown() {
+            if let fencedRange = NotesTextProcessor.getFencedCodeBlock(at: selectedRange.location, string: storage) {
+                let attributes = TextFormatter.getCodeBlockAttributes()
+                self.storage.addAttributes(attributes, range: fencedRange)
+            } else {
+                if selectedRange.location + 2 <= storage.length {
+                    storage.removeAttribute(.backgroundColor, range: NSRange(location: selectedRange.location + 1, length: 1))
+                }
             }
         }
-        
+
         // Autocomplete unordered lists
         
         selectedRange = self.textView.selectedRange
@@ -981,7 +983,7 @@ public class TextFormatter {
             return true
         }
         
-        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: self.storage.string) {
+        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: self.storage) {
             return true
         }
         

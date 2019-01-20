@@ -176,7 +176,7 @@ class NoteCellView: NSTableCellView {
     }
 
     public func getPreviewImage(imageUrl: URL, note: Note) -> Image? {
-        if let image = ImageAttachment.getPreviewImage(url: imageUrl) {
+        if let image = getPreviewImage(url: imageUrl) {
             return image
         } else {
             guard let image =
@@ -185,7 +185,7 @@ class NoteCellView: NSTableCellView {
 
             let size = CGSize(width: 70, height: 70)
             if let resized = image.crop(to: size) {
-                ImageAttachment.savePreviewImage(url: imageUrl, image: resized)
+                savePreviewImage(url: imageUrl, image: resized)
                 return resized
             }
         }
@@ -245,5 +245,42 @@ class NoteCellView: NSTableCellView {
                 }
             }
         }
+    }
+
+    private func getCacheUrl(from url: URL) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            return temporary.appendingPathComponent(filePath)
+        }
+
+        return nil
+    }
+
+    private func savePreviewImage(url: URL, image: Image) {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("Preview")
+
+        if !FileManager.default.fileExists(atPath: temporary.path) {
+            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        if let url = getCacheUrl(from: url) {
+            if let data = image.jpgData {
+                try? data.write(to: url)
+            }
+        }
+    }
+
+    private func getPreviewImage(url: URL) -> Image? {
+        if let url = getCacheUrl(from: url) {
+            if let data = try? Data(contentsOf: url) {
+                return Image(data: data)
+            }
+        }
+
+        return nil
     }
 }

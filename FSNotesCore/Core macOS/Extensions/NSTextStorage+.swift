@@ -62,7 +62,6 @@ extension NSTextStorage {
 
                         var maxWidth = UserDefaultsManagement.imagesWidth
                         if maxWidth == Float(1000) {
-                            print(maxWidth)
                             maxWidth = Float(rep.pixelsWide)
                         }
 

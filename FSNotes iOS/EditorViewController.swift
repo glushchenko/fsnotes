@@ -42,7 +42,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
         self.editArea.textStorage.delegate = self.editArea.textStorage
-        
+
+        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
+        EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
+
         super.viewDidLoad()
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())

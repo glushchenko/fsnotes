@@ -19,7 +19,7 @@ extension NSMutableAttributedString {
         var offset = 0
         let content = self.mutableCopy() as? NSMutableAttributedString
 
-        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
 
             if let textAttachment = value as? NSTextAttachment,
                 self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
@@ -69,6 +69,8 @@ extension NSMutableAttributedString {
                 let unrappedTitle = title ?? ""
 
                 if let pathEncoded = unwrappedPath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+
+                    content?.removeAttribute(.attachment, range: newRange)
                     content?.replaceCharacters(in: newRange, with: "![\(unrappedTitle)](\(pathEncoded))")
                     offset += 4 + unwrappedPath.count + unrappedTitle.count
                 }
@@ -82,7 +84,7 @@ extension NSMutableAttributedString {
         var offset = 0
         let content = self.mutableCopy() as? NSMutableAttributedString
 
-        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+        self.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if value != nil {
                 let newRange = NSRange(location: range.location + offset, length: 1)
 

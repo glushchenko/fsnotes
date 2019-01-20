@@ -25,36 +25,30 @@ extension NSTextStorage: NSTextStorageDelegate {
         guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
             (editedRange.length != textStorage.length) || !note.isCached else { return }
 
-        if self.isInserting(delta: delta) {
-            let paragraphRange = (self.string as NSString).paragraphRange(for: editedRange)
-            let paragraph = self.attributedSubstring(from: paragraphRange).string
-
-            if isNewLine(editedRange: editedRange) {
-                textStorage.leftAlignment(range: NSRange(location: editedRange.location, length: 1))
-                return
-            }
-
-            if isCodeBlock(paragraph: paragraph) {
-                let attributes = TextFormatter.getCodeBlockAttributes()
-
-                addAttributes(attributes, range: paragraphRange)
-
-            }
-
-        } else if isRemoving(delta: delta) {
-            highlightCodeBlock(editedRange: editedRange)
-        }
-
         if editedRange.length == textStorage.length {
             NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)
-
-            note.content = NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: NSRange(0..<textStorage.length)))
-
+            let range = NSRange(0..<textStorage.length)
+            note.content =
+                NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: range))
             note.isCached = true
         } else {
             let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)
             processor.scanParagraph(loadImages: false)
         }
+    }
+
+    private func getCodeRanges(string: String, length: Int) -> ([NSRange], [NSRange])? {
+        var fencedRanges = [NSRange]()
+        if let ranges = NotesTextProcessor.getAllFencedCodeBlockRanges(string: string, length: length) {
+            fencedRanges = ranges
+        }
+
+        var indentedRanges = [NSRange]()
+        if let ranges = NotesTextProcessor.getAllIndentedCodeBlockRanges(string: string, length: length) {
+            indentedRanges = ranges
+        }
+
+        return (fencedRanges, indentedRanges)
     }
 
     public func isCodeBlock(paragraph: String) -> Bool {
@@ -83,9 +77,8 @@ extension NSTextStorage: NSTextStorageDelegate {
     }
 
     private func highlightCodeBlock(editedRange: NSRange) {
-        let paragraphRange = (self.string as NSString).paragraphRange(for: editedRange)
-
-        let paragraph = self.attributedSubstring(from: paragraphRange).string
+        let paragraphRange = mutableString.paragraphRange(for: editedRange)
+        let paragraph = attributedSubstring(from: paragraphRange).string
 
         if isCodeBlock(paragraph: paragraph) {
             let attributes = TextFormatter.getCodeBlockAttributes()

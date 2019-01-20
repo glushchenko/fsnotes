@@ -48,6 +48,7 @@ public class ImagesProcessor {
         var offset = 0
 
         #if NOT_EXTENSION || os(OSX)
+
         EditTextView.isBusyProcessing = true
         NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range else { return }
@@ -95,7 +96,10 @@ public class ImagesProcessor {
 
                 let invalidateRange = NSRange(location: range.location, length: 1)
                 let cacheUrl = self.note.project.url.appendingPathComponent("/.cache/")
-                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange)
+
+                if EditTextView.note?.url.absoluteString != self.note.url.absoluteString { return }
+
+                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange, note: self.note)
 
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
                     offset += mdLink.count - 1
@@ -103,7 +107,7 @@ public class ImagesProcessor {
                 }
             }
         }
-        EditTextView.isBusyProcessing = false
+
         #endif
     }
     
@@ -279,5 +283,11 @@ public class ImagesProcessor {
         }
         
         return false
+    }
+
+    deinit {
+        #if NOT_EXTENSION || os(OSX)
+            EditTextView.isBusyProcessing = false
+        #endif
     }
 }

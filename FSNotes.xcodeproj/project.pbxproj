@@ -295,6 +295,9 @@
 		D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BDFE6F201F788D00897A58 /* NoteCellView.swift */; };
 		D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */; };
 		D7C2AB0721E116CE00B1AC0E /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C2AB0621E116CE00B1AC0E /* share.png */; };
+		D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C221F31E5F0041627F /* ImageAttachment+.swift */; };
+		D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
+		D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
 		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
 		D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */; };
 		D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
@@ -812,6 +815,8 @@
 		D7BDFE6F201F788D00897A58 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		D7C2AB0621E116CE00B1AC0E /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		D7C302C221F31E5F0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
+		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
@@ -1159,6 +1164,7 @@
 		D7218944210211B800FE3AF2 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				D7038E2520FB24E000A54E69 /* ImageAttachment.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
 			);
@@ -1364,7 +1370,6 @@
 				D78678CA2093AE10001A6620 /* UndoData.swift */,
 				D7B3391420DE0FB100B36460 /* TagList.swift */,
 				D7A65C5820F11C38003E5ADC /* LanguageType.swift */,
-				D7038E2520FB24E000A54E69 /* ImageAttachment.swift */,
 				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
 			);
 			path = Business;
@@ -1375,6 +1380,7 @@
 			children = (
 				D7CD5F6B1F51185F006AA35D /* NSFont+.swift */,
 				D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */,
+				D7C302C421F320FD0041627F /* ImageAttachment+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1499,6 +1505,7 @@
 				D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */,
 				D71FD2242101CFD0008BEFA1 /* UITextView+.swift */,
 				D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */,
+				D7C302C221F31E5F0041627F /* ImageAttachment+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2501,6 +2508,7 @@
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
 				D7B6E59E20794B9200FE0E20 /* Sidebar.swift in Sources */,
 				D7DB5EDA2025BD7900E7E1B6 /* PageViewController.swift in Sources */,
+				D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */,
 				D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */,
 				D76025B4204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
@@ -2548,6 +2556,7 @@
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */,
+				D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				2799407C218484C900727B20 /* TitleBarView.swift in Sources */,
 				D75EE7FD2078C5460055F159 /* SidebarCellView.swift in Sources */,
@@ -2619,6 +2628,7 @@
 				D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D7487F9021734FCD00D09383 /* NSTextStorage+.swift in Sources */,
+				D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */,
 				D75EE7F82078B22D0055F159 /* SidebarItem.swift in Sources */,

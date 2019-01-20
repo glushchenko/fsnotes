@@ -485,6 +485,7 @@ pre > .copyCode {
     position: absolute;
     top: 0;
     right: 0;
+    background: white;
     border-radius: 3px;
     margin: 2px;
     padding: 2px;
