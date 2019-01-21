@@ -51,7 +51,10 @@ public class ImagesProcessor {
 
         EditTextView.isBusyProcessing = true
         NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
-            guard var range = result?.range else { return }
+            guard var range = result?.range else {
+                EditTextView.isBusyProcessing = false
+                return
+            }
             
             range = NSRange(location: range.location - offset, length: range.length)
             let mdLink = self.styleApplier.attributedSubstring(from: range).string
@@ -70,18 +73,29 @@ public class ImagesProcessor {
             
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.imageOpeningSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
+                    guard let innerRange = innerResult?.range else {
+                        EditTextView.isBusyProcessing = false
+                        return
+                    }
+
                     self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 }
                 
                 NotesTextProcessor.imageClosingSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
+                    guard let innerRange = innerResult?.range else {
+                        EditTextView.isBusyProcessing = false
+                        return
+                    }
                     self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
                 }
             }
             
             NotesTextProcessor.parenRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
-                guard let innerRange = innerResult?.range else { return }
+                guard let innerRange = innerResult?.range else {
+                    EditTextView.isBusyProcessing = false
+                    return
+                }
+
                 var url: URL?
                 
                 let filePath = self.getFilePath(innerRange: innerRange)
@@ -92,12 +106,18 @@ public class ImagesProcessor {
                     url = fs
                 }
                 
-                guard let imageUrl = url else { return }
+                guard let imageUrl = url else {
+                    EditTextView.isBusyProcessing = false
+                    return
+                }
 
                 let invalidateRange = NSRange(location: range.location, length: 1)
                 let cacheUrl = self.note.project.url.appendingPathComponent("/.cache/")
 
-                if EditTextView.note?.url.absoluteString != self.note.url.absoluteString { return }
+                if EditTextView.note?.url.absoluteString != self.note.url.absoluteString {
+                    EditTextView.isBusyProcessing = false
+                    return
+                }
 
                 let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange, note: self.note)
 
@@ -283,11 +303,5 @@ public class ImagesProcessor {
         }
         
         return false
-    }
-
-    deinit {
-        #if NOT_EXTENSION || os(OSX)
-            EditTextView.isBusyProcessing = false
-        #endif
     }
 }

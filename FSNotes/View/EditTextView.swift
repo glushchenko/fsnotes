@@ -728,6 +728,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
         guard shouldChange, let note = EditTextView.note else { return true }
 
+        typingAttributes.removeValue(forKey: .todo)
+
         // New line
         if replacementString == "\n" {
             shouldChange = false

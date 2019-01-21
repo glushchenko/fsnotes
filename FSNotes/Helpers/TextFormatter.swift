@@ -185,7 +185,10 @@ public class TextFormatter {
                     self.textView.selectedRange = selectedRange
                 #endif
 
+                self.textView.undoManager?.beginUndoGrouping()
                 self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                self.textView.undoManager?.endUndoGrouping()
+
                 self.textView.selectedRange = selectedRange
                 return
             }
@@ -233,7 +236,10 @@ public class TextFormatter {
                     self.textView.replace(selectedtTextRange, withText: attributedString.string)
                 #endif
 
+                self.textView.undoManager?.beginUndoGrouping()
                 self.storage.replaceCharacters(in: selectedRange, with: attributedString)
+                self.textView.undoManager?.endUndoGrouping()
+
                 self.textView.selectedRange = selectedRange
                 return
             }
@@ -353,10 +359,12 @@ public class TextFormatter {
         #else
             replaceWith(string: result)
         #endif
-        
-        setSelectedRange(NSRange(location: pRange.lowerBound, length: result.count))
+
+        let finalRange = NSRange(location: pRange.lowerBound, length: result.count)
+        setSelectedRange(finalRange)
         
         if note.isMarkdown() {
+            NotesTextProcessor.scanBasicSyntax(note: note, storage: storage, range: finalRange)
             highlight()
         }
     }
@@ -401,9 +409,7 @@ public class TextFormatter {
             codeBlockRange.upperBound <= storage.length,
             UserDefaultsManagement.codeBlockHighlight {
 
-            print("hl")
-            print(codeBlockRange)
-            NotesTextProcessor.highlight(range: codeBlockRange, storage: storage, note: note)
+            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, note: note)
         }
     }
     
@@ -547,7 +553,7 @@ public class TextFormatter {
 
         let isLast = self.textView.selectedRange.location == self.storage.length
         let currentParagraph = storage.attributedSubstring(from: currentParagraphRange)
-        var selectedRange = self.textView.selectedRange
+        let selectedRange = self.textView.selectedRange
         let result = "\n"
 
         let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string)
@@ -593,33 +599,34 @@ public class TextFormatter {
         }
 
         // Autocomplete unordered lists
-        
-        selectedRange = self.textView.selectedRange
-        guard self.storage.length > selectedRange.lowerBound - 1 else { return }
-        
-        let nsString = storage.string as NSString
-        let prevParagraphRange = nsString.paragraphRange(for: NSMakeRange(selectedRange.lowerBound - 1, 0))
 
-        // Autocomplete rendered todo
+        let prevParagraphLocation = NSMakeRange(selectedRange.lowerBound - 1, 0)
+        let prevParagraphRange = storage.mutableString.paragraphRange(for: prevParagraphLocation)
 
-        if self.note.isMarkdown(), self.storage.attribute(.todo, at: prevParagraphRange.location, effectiveRange: nil) != nil,
+        if note.isMarkdown(), storage.attribute(.todo, at: prevParagraphRange.location, effectiveRange: nil) != nil,
             let unchecked = AttributedBox.getUnChecked() {
-            let newLineSuggestion = prevParagraphRange.location + 2
-            let newLineSuggestionRange = NSRange(location: newLineSuggestion, length: 1)
-            
-            if storage.length >= newLineSuggestionRange.upperBound, storage.attributedSubstring(from: newLineSuggestionRange).string == "\n" {
+
+            let prevParagraph = storage.attributedSubstring(from: prevParagraphRange)
+            if prevParagraph.length >= 3, prevParagraph.string.last == "\n", (prevParagraph.attribute(NSAttributedStringKey.attachment, at: prevParagraph.length - 3, effectiveRange: nil) != nil) {
                 self.setSelectedRange(prevParagraphRange)
                 #if os(OSX)
-                textView.deleteBackward(nil)
+                    textView.deleteBackward(nil)
                 #else
-                textView.deleteBackward()
+                    textView.deleteBackward()
                 #endif
                 return
             }
 
-            self.insertText("  ")
-            let newRange = NSRange(location: selectedRange.location, length: 2)
-            self.storage.replaceCharacters(in: newRange, with: unchecked)
+            let currentParagraphRange = storage.mutableString.paragraphRange(for: NSRange(location: selectedRange.location, length: 0))
+
+            if storage.mutableString.substring(with: prevParagraphRange) != "\n"
+                && currentParagraphRange.length > 1, prevParagraph.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) != nil
+            {
+                self.insertText(unchecked)
+
+                storage.updateParagraphStyle()
+            }
+
             return
         }
 
@@ -639,8 +646,10 @@ public class TextFormatter {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
 
+            self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
-            
+            self.textView.undoManager?.endUndoGrouping()
+
             guard let paragraph = getParagraphRange(for: location) else { return }
             
             if todoAttr == 0 {
@@ -678,7 +687,10 @@ public class TextFormatter {
                 if let value = value as? Int {
                     let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
                     let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
+
+                    self.textView.undoManager?.beginUndoGrouping()
                     self.storage.replaceCharacters(in: existsRange, with: attributedText)
+                    self.textView.undoManager?.endUndoGrouping()
 
                     stop.pointee = true
                     rangeFound = true
@@ -691,7 +703,10 @@ public class TextFormatter {
             self.insertText("  ")
 
             let newRange = NSRange(location: loc, length: 2)
+
+            self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: newRange, with: attributedText)
+            self.textView.undoManager?.endUndoGrouping()
 
             return
         }

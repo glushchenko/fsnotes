@@ -422,65 +422,51 @@ public class NotesTextProcessor {
         }
     }
     #endif
-    
-    public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage?, string: NSString, note: Note) {
-        let content: NSAttributedString
-        if let storageUnwrapped = storage {
-            content = storageUnwrapped
-        } else {
-            content = note.content
-        }
-        
-        if ((range.location + range.length) > content.length) {
-            return
-        }
-        
-        if content.length >= range.upperBound && (code.string != content.attributedSubstring(from: range).string) {
-            return
-        }
-        
-        var isActiveStorage = false
-        #if os(iOS)
-            isActiveStorage = true
-        #else
-            if let n = EditTextView.note {
-                isActiveStorage = (n === note)
+
+    public static func highlightCode(range: NSRange, storage: NSTextStorage, note: Note) {
+        let codeRange = storage.mutableString.substring(with: range)
+        let preDefinedLanguage = self.getLanguage(codeRange)
+
+        DispatchQueue.global().async {
+            if let code = self.highlight(codeRange, language: preDefinedLanguage) {
+                DispatchQueue.main.async(execute: {
+                    let codeM = NotesTextProcessor.updateParagraphStyle(code: code)
+                    NotesTextProcessor.updateStorage(range: range, code: codeM, storage: storage, note: note)
+                })
             }
-        #endif
+        }
+    }
+
+    public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage, note: Note) {
+        let length = storage.length
+
+        if ((range.location + range.length) > storage.length) {
+            return
+        }
+
+        if storage.length >= range.upperBound && (code.string != storage.attributedSubstring(from: range).string) {
+            return
+        }
 
         code.enumerateAttributes(
             in: NSMakeRange(0, code.length),
             options: [],
             using: { (attrs, locRange, stop) in
                 var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                fixedRange.length = (fixedRange.location + fixedRange.length < string.length) ? fixedRange.length : string.length-fixedRange.location
+                fixedRange.length = (fixedRange.location + fixedRange.length < length) ? fixedRange.length : length-fixedRange.location
                 fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-                
-                if isActiveStorage {
-                    storage?.setAttributes(attrs, range: fixedRange)
-                } else if note.content.length >= fixedRange.location + fixedRange.length {                    note.content.setAttributes(attrs, range: fixedRange)
-                }
-            }
-        )
-        
+
+                storage.setAttributes(attrs, range: fixedRange)
+        })
+
         if let font = NotesTextProcessor.codeFont {
-            if isActiveStorage {
-                storage?.addAttributes([.font: font], range: range)
-                storage?.fixAttributes(in: range)
-            } else {
-                note.content.addAttributes([.font: font], range: range)
-            }
+            storage.addAttributes([.font: font], range: range)
+            storage.fixAttributes(in: range)
         }
-        
-        if isActiveStorage {
-            storage?.addAttributes([
+
+        storage.addAttributes([
                 .backgroundColor: NotesTextProcessor.codeBackground
                 ], range: range)
-        } else {
-            note.content.addAttributes([
-                .backgroundColor: NotesTextProcessor.codeBackground
-            ], range: range)
-        }
     }
 
     public static func highlight(range: NSRange, storage: NSMutableAttributedString, note: Note) {
