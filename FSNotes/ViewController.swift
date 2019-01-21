@@ -486,7 +486,7 @@ class ViewController: NSViewController,
         }
 
         // Search cmd-f
-        if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command)) {
+        if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command) && !event.modifierFlags.contains(.control)) {
             if self.notesTableView.getSelectedNote() != nil {
                 
                 //Turn off preview mode as text search works only in text editor
