@@ -17,9 +17,11 @@ public class ImagesProcessor {
 #if os(OSX)
     typealias Size = NSSize
     typealias Image = NSImage
+    typealias TView = EditTextView
 #else
     typealias Size = CGSize
     typealias Image = UIImage
+    typealias TView = UITextView
 #endif
     
     var textStorageNSString: NSString
@@ -27,15 +29,17 @@ public class ImagesProcessor {
     var range: NSRange?
     var note: Note
     var paragraphRange: NSRange
+    var textView: TView?
     
     var offset = 0
     var newLineOffset = 0
     
-    init(styleApplier: NSMutableAttributedString, range: NSRange? = nil, note: Note) {
+    init(styleApplier: NSMutableAttributedString, range: NSRange? = nil, note: Note, textView: TView? = nil) {
         self.styleApplier = styleApplier
         self.range = range
         self.note = note
         self.textStorageNSString = styleApplier.string as NSString
+        self.textView = textView
         
         if let unwrappedRange = range {
             paragraphRange = unwrappedRange

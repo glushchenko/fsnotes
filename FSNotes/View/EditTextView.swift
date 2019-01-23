@@ -323,6 +323,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
             note.save()
 
+            saveTextStorageContent(to: note)
+
             // Set image size and .link after storage full scan (cleaned)
             storage.sizeAttachmentImages()
 
@@ -343,7 +345,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             saveTextStorageContent(to: note)
 
             if UserDefaultsManagement.liveImagesPreview {
-                let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
+                let processor = ImagesProcessor(styleApplier: storage, range: range, note: note, textView: self)
                 processor.load()
             }
 
@@ -726,7 +728,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     var shouldChange = true
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        guard shouldChange, let note = EditTextView.note else { return true }
+        guard shouldChange, let note = EditTextView.note else {
+
+            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+
+        }
 
         typingAttributes.removeValue(forKey: .todo)
 
@@ -735,6 +741,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             shouldChange = false
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            breakUndoCoalescing()
             shouldChange = true
             return false
         }
@@ -744,6 +751,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             shouldChange = false
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.tabKey()
+            breakUndoCoalescing()
             shouldChange = true
             return false
         }
@@ -923,8 +931,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             
             let dropPoint = convert(sender.draggingLocation(), from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
-            
-            var result = String()
+            var offset = 0
+
             unLoadImages()
             
             for url in urls {
@@ -939,24 +947,34 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 {
                     return false
                 }
-                
-                var markup = "![](/i/\(name))"
+
+                var imagePath = "/i/\(name)"
                 if note.type == .TextBundle {
-                    markup = "![](assets/\(name))"
+                    imagePath = "assets/\(name)"
                 }
-                markup += "\n\n"
-                result.append(markup)
+
+                guard let url = note.getImageUrl(imageName: imagePath) else { return false }
+
+                let insertRange = NSRange(location: caretLocation + offset, length: 0)
+                let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
+
+                let attachment = ImageAttachment(title: "", path: imagePath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+
+                if let string = attachment.getAttributedString() {
+                    insertText(string, replacementRange: insertRange)
+                    insertNewline(nil)
+                    insertNewline(nil)
+
+                    offset += 3
+                }
             }
-            
-            insertText(result, replacementRange: NSRange(location: caretLocation, length: 0))
 
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
                 saveTextStorageContent(to: note)
             }
-            
-            loadImages()
 
+            applyLeftParagraphStyle()
             self.viewDelegate?.notesTableView.reloadRow(note: note)
 
             return true

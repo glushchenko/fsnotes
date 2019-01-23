@@ -254,12 +254,16 @@ public class Note: NSObject  {
     public func getPreviewLabel(with text: String? = nil) -> String {
         var preview: String = ""
         let content = text ?? self.content.string
-        let length = text?.count ?? self.content.length
+        let length = text?.count ?? self.content.string.count
 
         if length > 250 {
-            let startIndex = content.index((content.startIndex), offsetBy: 0)
-            let endIndex = content.index((content.startIndex), offsetBy: 250)
-            preview = String(content[startIndex...endIndex])
+            if text == nil {
+                let startIndex = content.index((content.startIndex), offsetBy: 0)
+                let endIndex = content.index((content.startIndex), offsetBy: 250)
+                preview = String(content[startIndex...endIndex])
+            } else {
+                preview = self.content.mutableString.substring(with: NSRange(0..<250))
+            }
         } else {
             preview = content
         }

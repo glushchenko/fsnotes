@@ -472,8 +472,8 @@ public class TextFormatter {
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
             return
         }
-        
-        self.insertText("\t", replacementRange: self.textView.selectedRange)
+
+        self.insertText("\t")
     }
 
     public static func getAutocompleteCharsMatch(string: String) -> NSTextCheckingResult? {
@@ -489,16 +489,13 @@ public class TextFormatter {
     }
 
     private func matchChars(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
+         guard string.count >= match.range.upperBound else { return }
+
         let nsPrev = string as NSString
         var prefix = nsPrev.substring(with: match.range)
 
         if (string == prefix + "\n") || (string == prefix && isLast) {
-            self.setSelectedRange(prevParagraphRange)
-            #if os(OSX)
-                textView.delete(nil)
-            #else
-                textView.deleteBackward()
-            #endif
+            self.insertText("", replacementRange: prevParagraphRange)
             return
         }
 
@@ -507,40 +504,35 @@ public class TextFormatter {
         }
 
         #if os(iOS)
-            textView.insertText(prefix)
+            textView.insertText("\n" + prefix)
         #else
-            let attributedString = NSMutableAttributedString(string: prefix)
+            let attributedString = NSMutableAttributedString(string: "\n" + prefix)
             attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
-            textView.insertText(attributedString, replacementRange: textView.selectedRange())
+
+            self.insertText(attributedString, replacementRange: textView.selectedRange())
         #endif
     }
 
     private func matchDigits(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
+
         let nsPrev = string as NSString
         let prefix = nsPrev.substring(with: match.range)
 
         if (string == prefix + "\n") || (string == prefix && isLast) {
-            #if os(OSX)
-                textView.setSelectedRange(prevParagraphRange)
-                textView.delete(nil)
-            #else
-                textView.selectedRange = prevParagraphRange
-                textView.deleteBackward()
-            #endif
+            self.insertText("", replacementRange: prevParagraphRange)
             return
         }
 
         if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
-
             let newDigit = prefix.replacingOccurrences(of: String(position), with: String(position + 1))
 
             #if os(iOS)
-                textView.insertText(newDigit)
+                textView.insertText("\n" + newDigit)
             #else
-                let attributedString = NSMutableAttributedString(string: newDigit)
+                let attributedString = NSMutableAttributedString(string: "\n" + newDigit)
                 attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
 
-                textView.insertText(attributedString, replacementRange: textView.selectedRange())
+            self.insertText(attributedString)
             #endif
         }
     }
@@ -565,12 +557,10 @@ public class TextFormatter {
            let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
 
             if let charsMatch = charsMatch {
-                self.insertText("\n", replacementRange: selectedRange)
                 self.matchChars(string: currentParagraph.string, match: charsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
             }
 
             if let digitsMatch = digitsMatch {
-                self.insertText("\n", replacementRange: selectedRange)
                 self.matchDigits(string: currentParagraph.string, match: digitsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
             }
 
@@ -580,11 +570,26 @@ public class TextFormatter {
 
             return
         }
+
+        // Autocomplete ordered and unordered lists
         
+        guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
+        let currentP = storage.attributedSubstring(from: currentPR)
+
+        if let charsMatch = charsMatch {
+            self.matchChars(string: currentP.string, match: charsMatch, prevParagraphRange: currentPR, isLast: isLast)
+            return
+        }
+
+        if let digitsMatch = digitsMatch {
+            self.matchDigits(string: currentP.string, match: digitsMatch, prevParagraphRange: currentPR, isLast: isLast)
+            return
+        }
+
         // New Line insertion
 
-        self.insertText("\n", replacementRange: selectedRange)
-        
+        self.insertText("\n")
+
         // Fenced code block style handler
 
         if UserDefaultsManagement.codeBlockHighlight, self.note.isMarkdown() {
@@ -601,6 +606,10 @@ public class TextFormatter {
         // Autocomplete unordered lists
 
         let prevParagraphLocation = NSMakeRange(selectedRange.lowerBound - 1, 0)
+        if selectedRange.lowerBound == 0 {
+            return
+        }
+
         let prevParagraphRange = storage.mutableString.paragraphRange(for: prevParagraphLocation)
 
         if note.isMarkdown(), storage.attribute(.todo, at: prevParagraphRange.location, effectiveRange: nil) != nil,
@@ -608,12 +617,8 @@ public class TextFormatter {
 
             let prevParagraph = storage.attributedSubstring(from: prevParagraphRange)
             if prevParagraph.length >= 3, prevParagraph.string.last == "\n", (prevParagraph.attribute(NSAttributedStringKey.attachment, at: prevParagraph.length - 3, effectiveRange: nil) != nil) {
-                self.setSelectedRange(prevParagraphRange)
-                #if os(OSX)
-                    textView.deleteBackward(nil)
-                #else
-                    textView.deleteBackward()
-                #endif
+
+                self.insertText("", replacementRange: prevParagraphRange)
                 return
             }
 
@@ -622,23 +627,12 @@ public class TextFormatter {
             if storage.mutableString.substring(with: prevParagraphRange) != "\n"
                 && currentParagraphRange.length > 1, prevParagraph.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) != nil
             {
-                self.insertText(unchecked)
 
+                self.insertText(unchecked)
                 storage.updateParagraphStyle()
             }
 
             return
-        }
-
-        guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
-        let currentP = storage.attributedSubstring(from: currentPR)
-
-        if let charsMatch = charsMatch {
-            self.matchChars(string: currentP.string, match: charsMatch, prevParagraphRange: currentPR, isLast: isLast)
-        }
-
-        if let digitsMatch = digitsMatch {
-            self.matchDigits(string: currentP.string, match: digitsMatch, prevParagraphRange: currentPR, isLast: isLast)
         }
     }
 
@@ -688,9 +682,7 @@ public class TextFormatter {
                     let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
                     let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
 
-                    self.textView.undoManager?.beginUndoGrouping()
-                    self.storage.replaceCharacters(in: existsRange, with: attributedText)
-                    self.textView.undoManager?.endUndoGrouping()
+                    self.insertText(attributedText, replacementRange: existsRange)
 
                     stop.pointee = true
                     rangeFound = true
@@ -704,10 +696,7 @@ public class TextFormatter {
 
             let newRange = NSRange(location: loc, length: 2)
 
-            self.textView.undoManager?.beginUndoGrouping()
-            self.storage.replaceCharacters(in: newRange, with: attributedText)
-            self.textView.undoManager?.endUndoGrouping()
-
+            self.insertText(attributedText, replacementRange: newRange)
             return
         }
         
@@ -770,9 +759,7 @@ public class TextFormatter {
                 r = range
             }
         
-            textView.undoManager?.beginUndoGrouping()
             textView.insertText(string, replacementRange: r)
-            textView.undoManager?.endUndoGrouping()
         #endif
     }
     
@@ -820,9 +807,8 @@ public class TextFormatter {
     }
     
     func getParagraphRange() -> NSRange? {
-        let string = storage.string as NSString
-        if range.upperBound <= string.length {
-            let paragraph = string.paragraphRange(for: range)
+        if range.upperBound <= storage.length {
+            let paragraph = storage.mutableString.paragraphRange(for: range)
             return paragraph
         }
         
@@ -830,9 +816,10 @@ public class TextFormatter {
     }
     
     private func getParagraphRange(for location: Int) -> NSRange? {
-        let string = storage.string as NSString
+        guard location <= storage.length else { return nil}
+
         let range = NSRange(location: location, length: 0)
-        let paragraphRange = string.paragraphRange(for: range)
+        let paragraphRange = storage.mutableString.paragraphRange(for: range)
         
         return paragraphRange
     }

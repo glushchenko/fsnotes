@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.7.1</string>
+	<string>2.7.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -60,7 +60,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>217</string>
+	<string>220</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
