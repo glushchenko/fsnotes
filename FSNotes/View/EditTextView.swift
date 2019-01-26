@@ -458,12 +458,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if UserDefaultsManagement.liveImagesPreview {
                 EditTextView.imagesLoaderQueue.cancelAllOperations()
                 loadImages()
-                EditTextView.isBusyProcessing = false
             }
+            
+            EditTextView.isBusyProcessing = false
         }
 
         restoreCursorPosition()
-
         applyLeftParagraphStyle()
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {

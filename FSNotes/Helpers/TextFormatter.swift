@@ -477,98 +477,110 @@ public class TextFormatter {
     }
 
     public static func getAutocompleteCharsMatch(string: String) -> NSTextCheckingResult? {
-        guard let regex = try? NSRegularExpression(pattern: "^(( |\t)*\\- \\[[x| ]*\\] )|^( |\t)*([-|–|—|*|•|\\+]{1} )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
+        guard let regex = try? NSRegularExpression(pattern:
+            "^(( |\t)*\\- \\[[x| ]*\\] )|^(( |\t)*[-|–|—|*|•|\\+]{1} )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
 
         return result
     }
 
     public static func getAutocompleteDigitsMatch(string: String) -> NSTextCheckingResult? {
-        guard let regex = try? NSRegularExpression(pattern: "^(?: |\t)*([0-9])+\\. "), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
+        guard let regex = try? NSRegularExpression(pattern: "^(( |\t)*[0-9]+\\. )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
 
         return result
     }
 
-    private func matchChars(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
-         guard string.count >= match.range.upperBound else { return }
+    private func matchChars(string: NSAttributedString, match: NSTextCheckingResult, prefix: String? = nil) {
+        guard string.length >= match.range.upperBound else { return }
 
-        let nsPrev = string as NSString
-        var prefix = nsPrev.substring(with: match.range)
+        let found = string.attributedSubstring(from: match.range).string
+        var newLine = 1
 
-        if (string == prefix + "\n") || (string == prefix && isLast) {
-            self.insertText("", replacementRange: prevParagraphRange)
+        if textView.selectedRange.upperBound == storage.length {
+            newLine = 0
+        }
+
+        if found.count + newLine == string.length {
+            insertText("", replacementRange: storage.mutableString.paragraphRange(for: textView.selectedRange))
             return
         }
 
-        if prefix == "- [x] " {
-            prefix = "- [ ] "
-        }
-
-        #if os(iOS)
-            textView.insertText("\n" + prefix)
-        #else
-            let attributedString = NSMutableAttributedString(string: "\n" + prefix)
-            attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
-
-            self.insertText(attributedString, replacementRange: textView.selectedRange())
-        #endif
+        insertText("\n" + found)
     }
 
-    private func matchDigits(string: String, match: NSTextCheckingResult, prevParagraphRange: NSRange, isLast: Bool = false) {
+    private func matchDigits(string: NSAttributedString, match: NSTextCheckingResult) {
+        guard string.length >= match.range.upperBound else { return }
 
-        let nsPrev = string as NSString
-        let prefix = nsPrev.substring(with: match.range)
+        let found = string.attributedSubstring(from: match.range).string
+        var newLine = 1
 
-        if (string == prefix + "\n") || (string == prefix && isLast) {
-            self.insertText("", replacementRange: prevParagraphRange)
+        if textView.selectedRange.upperBound == storage.length {
+            newLine = 0
+        }
+
+        if found.count + newLine == string.length {
+            insertText("", replacementRange: storage.mutableString.paragraphRange(for: textView.selectedRange))
             return
         }
 
-        if let position = Int(prefix.replacingOccurrences( of:"[^0-9]", with: "", options: .regularExpression)) {
-            let newDigit = prefix.replacingOccurrences(of: String(position), with: String(position + 1))
+        if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
 
-            #if os(iOS)
-                textView.insertText("\n" + newDigit)
-            #else
-                let attributedString = NSMutableAttributedString(string: "\n" + newDigit)
-                attributedString.addAttribute(.foregroundColor, value: self.getDefaultColor(), range: NSRange(0..<prefix.count))
+            let newDigit = found.replacingOccurrences(of: String(position), with: String(position + 1))
 
-            self.insertText(attributedString)
-            #endif
+            insertText("\n" + newDigit)
         }
     }
 
     public func newLine() {
-
-        // Before new line inserted. CodeBlock margin autocomplete and style
-        
         guard let currentParagraphRange = self.getParagraphRange() else { return }
 
-        let isLast = self.textView.selectedRange.location == self.storage.length
         let currentParagraph = storage.attributedSubstring(from: currentParagraphRange)
         let selectedRange = self.textView.selectedRange
-        let result = "\n"
 
-        let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string)
-        let digitsMatch = TextFormatter.getAutocompleteDigitsMatch(string: currentParagraph.string)
 
-        // Insert code block new line
+        // Autocomplete todo lists
 
-        if currentParagraphRange.lowerBound != textView.selectedRange.location,
-           let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
+        if currentParagraph.length >= 2 {
+            let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
-            if let charsMatch = charsMatch {
-                self.matchChars(string: currentParagraph.string, match: charsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
+            if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
+                insertText("", replacementRange: currentParagraphRange)
+                return
             }
 
-            if let digitsMatch = digitsMatch {
-                self.matchDigits(string: currentParagraph.string, match: digitsMatch, prevParagraphRange: currentParagraphRange, isLast: isLast)
+            var todoLocation = -1
+            currentParagraph.enumerateAttribute(.todo, in: NSRange(0..<currentParagraph.length), options: []) { (value, range, stop) -> Void in
+                guard value != nil else { return }
+
+                todoLocation = range.location
+                stop.pointee = true
             }
 
-            if charsMatch == nil && digitsMatch == nil {
-                self.insertText(result + prefix, replacementRange: selectedRange)
-            }
+            if todoLocation > -1 {
+                let unchecked = AttributedBox.getUnChecked()?.attributedSubstring(from: NSRange(0..<2))
+                var prefix = String()
 
-            return
+                if todoLocation > 0 {
+                    prefix = currentParagraph.attributedSubstring(from: NSRange(0..<todoLocation)).string
+                }
+
+            #if os(OSX)
+                insertText("\n" + prefix)
+                let newRange = NSRange(location: textView.selectedRange.location, length: 0)
+                self.insertText(unchecked, replacementRange: newRange, selectRange: nil)
+            #else
+                let selectedRange = textView.selectedRange
+                let selectedTextRange = textView.selectedTextRange!
+                let checkbox = NSMutableAttributedString(string: "\n" + prefix)
+                checkbox.append(unchecked!)
+
+                textView.undoManager?.beginUndoGrouping()
+                textView.replace(selectedTextRange, withText: checkbox.string)
+                textView.textStorage.replaceCharacters(in: NSRange(location: selectedRange.location, length: checkbox.length), with: checkbox)
+                textView.undoManager?.endUndoGrouping()
+            #endif
+                storage.updateParagraphStyle()
+                return
+            }
         }
 
         // Autocomplete ordered and unordered lists
@@ -576,13 +588,13 @@ public class TextFormatter {
         guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
         let currentP = storage.attributedSubstring(from: currentPR)
 
-        if let charsMatch = charsMatch {
-            self.matchChars(string: currentP.string, match: charsMatch, prevParagraphRange: currentPR, isLast: isLast)
+        if let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string) {
+            self.matchChars(string: currentP, match: charsMatch)
             return
         }
 
-        if let digitsMatch = digitsMatch {
-            self.matchDigits(string: currentP.string, match: digitsMatch, prevParagraphRange: currentPR, isLast: isLast)
+        if let digitsMatch = TextFormatter.getAutocompleteDigitsMatch(string: currentParagraph.string) {
+            self.matchDigits(string: currentP, match: digitsMatch)
             return
         }
 
@@ -602,44 +614,13 @@ public class TextFormatter {
                 }
             }
         }
-
-        // Autocomplete unordered lists
-
-        let prevParagraphLocation = NSMakeRange(selectedRange.lowerBound - 1, 0)
-        if selectedRange.lowerBound == 0 {
-            return
-        }
-
-        let prevParagraphRange = storage.mutableString.paragraphRange(for: prevParagraphLocation)
-
-        if note.isMarkdown(), storage.attribute(.todo, at: prevParagraphRange.location, effectiveRange: nil) != nil,
-            let unchecked = AttributedBox.getUnChecked() {
-
-            let prevParagraph = storage.attributedSubstring(from: prevParagraphRange)
-            if prevParagraph.length >= 3, prevParagraph.string.last == "\n", (prevParagraph.attribute(NSAttributedStringKey.attachment, at: prevParagraph.length - 3, effectiveRange: nil) != nil) {
-
-                self.insertText("", replacementRange: prevParagraphRange)
-                return
-            }
-
-            let currentParagraphRange = storage.mutableString.paragraphRange(for: NSRange(location: selectedRange.location, length: 0))
-
-            if storage.mutableString.substring(with: prevParagraphRange) != "\n"
-                && currentParagraphRange.length > 1, prevParagraph.attribute(NSAttributedStringKey.attachment, at: 0, effectiveRange: nil) != nil
-            {
-
-                self.insertText(unchecked)
-                storage.updateParagraphStyle()
-            }
-
-            return
-        }
     }
 
     public func toggleTodo(_ location: Int? = nil) {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
 
+            print("toggle todo 1")
             self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
             self.textView.undoManager?.endUndoGrouping()
@@ -682,7 +663,10 @@ public class TextFormatter {
                     let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
                     let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
 
-                    self.insertText(attributedText, replacementRange: existsRange)
+                    print("toggle todo 1")
+                    self.textView.undoManager?.beginUndoGrouping()
+                    self.storage.replaceCharacters(in: existsRange, with: attributedText)
+                    self.textView.undoManager?.endUndoGrouping()
 
                     stop.pointee = true
                     rangeFound = true
@@ -696,7 +680,9 @@ public class TextFormatter {
 
             let newRange = NSRange(location: loc, length: 2)
 
-            self.insertText(attributedText, replacementRange: newRange)
+            self.textView.undoManager?.beginUndoGrouping()
+            self.storage.replaceCharacters(in: newRange, with: attributedText)
+            self.textView.undoManager?.endUndoGrouping()
             return
         }
         

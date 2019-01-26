@@ -191,7 +191,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         if note.isMarkdown() {
             note.isCached = false
+            EditTextView.isBusyProcessing = true
             editArea.textStorage.replaceCheckboxes()
+            EditTextView.isBusyProcessing = false
         }
         
         editArea.delegate = self
@@ -201,8 +203,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let range = NSRange(0..<storage.length)
 
         if UserDefaultsManagement.liveImagesPreview {
+            EditTextView.isBusyProcessing = true
             let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
             processor.load()
+            EditTextView.isBusyProcessing = false
         }
 
         let search = getSearchText()
