@@ -90,14 +90,18 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = item["com.apple.flat-rtfd"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
-                    //let location = selectedRange.location
-                    self.textStorage.insert(attributedString, at: selectedRange.location)
+                    let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
 
-                    if note.isMarkdown() {
-                        self.textStorage.replaceCheckboxes()
+                    if let selTextRange = selectedTextRange, let undoManager = undoManager {
+                        undoManager.beginUndoGrouping()
+                        self.replace(selTextRange, withText: attributedString.string)
+                        self.textStorage.replaceCharacters(in: newRange, with: attributedString)
+                        undoManager.endUndoGrouping()
                     }
 
                     self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
+
+                    NotesTextProcessor.scanMarkdownSyntax(textStorage, paragraphRange: newRange, note: note)
 
                     note.content = NSMutableAttributedString(attributedString: self.attributedText)
                     note.save()
@@ -107,19 +111,13 @@ class EditTextView: UITextView, UITextViewDelegate {
             }
 
             if let image = item["public.jpeg"] as? UIImage, let data = UIImageJPEGRepresentation(image, 1) {
-                if let string = ImagesProcessor.writeImage(data: data, note: note) {
-                    let path = note.getMdImagePath(name: string)
-                    if let imageUrl = note.getImageUrl(imageName: path) {
-                        let range = NSRange(location: selectedRange.location, length: 1)
-                        let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range)
+                saveImageClipboard(data: data, note: note)
+                return
+            }
 
-                        if let attributedString = attachment.getAttributedString() {
-                            self.insertText(" ")
-                            self.textStorage.replaceCharacters(in: range, with: attributedString)
-                            return
-                        }
-                    }
-                }
+            if let image = item["public.png"] as? UIImage, let data = UIImagePNGRepresentation(image) {
+                saveImageClipboard(data: data, note: note)
+                return
             }
         }
 
@@ -194,6 +192,32 @@ class EditTextView: UITextView, UITextViewDelegate {
                 
                 if item.action == #selector(EditorViewController.redoPressed) {
                     item.image = redoImg
+                }
+            }
+        }
+    }
+
+    private func saveImageClipboard(data: Data, note: Note) {
+        if let string = ImagesProcessor.writeImage(data: data, note: note) {
+            let path = note.getMdImagePath(name: string)
+            if let imageUrl = note.getImageUrl(imageName: path) {
+
+                let range = NSRange(location: selectedRange.location, length: 1)
+                let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
+
+                if let attributedString = attachment.getAttributedString() {
+                    let newLineImage = NSMutableAttributedString(attributedString: attributedString)
+                    newLineImage.append(NSAttributedString(string: "\n"))
+
+                    self.undoManager?.beginUndoGrouping()
+                    self.replace(selectedTextRange!, withText: newLineImage.string)
+
+                    let newRange = NSRange(location: selectedRange.location - newLineImage.length, length: newLineImage.length)
+                    self.textStorage.replaceCharacters(in: newRange, with: newLineImage)
+                    self.undoManager?.endUndoGrouping()
+
+                    applyLeftParagraphStyle()
+                    return
                 }
             }
         }
