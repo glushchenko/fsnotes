@@ -317,8 +317,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 self.insertText(string, replacementRange: currentRange)
             }
 
-            storage.replaceCheckboxes()
-
             let range = NSRange(currentRange.location..<storage.length)
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
             note.save()

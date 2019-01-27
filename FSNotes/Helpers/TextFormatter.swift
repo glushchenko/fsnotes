@@ -620,7 +620,6 @@ public class TextFormatter {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
 
-            print("toggle todo 1")
             self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
             self.textView.undoManager?.endUndoGrouping()
@@ -663,7 +662,6 @@ public class TextFormatter {
                     let attributedText = (value == 0) ? AttributedBox.getCleanChecked() : AttributedBox.getCleanUnchecked()
                     let existsRange = NSRange(location: paragraphRange.lowerBound + range.location, length: 1)
 
-                    print("toggle todo 1")
                     self.textView.undoManager?.beginUndoGrouping()
                     self.storage.replaceCharacters(in: existsRange, with: attributedText)
                     self.textView.undoManager?.endUndoGrouping()
