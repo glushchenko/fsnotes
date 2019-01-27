@@ -98,7 +98,7 @@ public class TextFormatter {
             #endif
             
             textView.undoManager?.beginUndoGrouping()
-            
+
             #if os(OSX)
                 let string = NSMutableAttributedString(attributedString: attributedString)
                 string.addAttribute(.font, value: newFont, range: selectedRange)
@@ -116,7 +116,7 @@ public class TextFormatter {
                 textView.textStorage.replaceCharacters(in: selectedRange, with: mutableAttributedString)
                 textView.selectedRange = selectedRange
             #endif
-            
+
             textView.undoManager?.endUndoGrouping()
         }
     }
@@ -523,9 +523,7 @@ public class TextFormatter {
         }
 
         if let position = Int(found.replacingOccurrences(of:"[^0-9]", with: "", options: .regularExpression)) {
-
             let newDigit = found.replacingOccurrences(of: String(position), with: String(position + 1))
-
             insertText("\n" + newDigit)
         }
     }
@@ -564,9 +562,9 @@ public class TextFormatter {
                 }
 
             #if os(OSX)
-                insertText("\n" + prefix)
-                let newRange = NSRange(location: textView.selectedRange.location, length: 0)
-                self.insertText(unchecked, replacementRange: newRange, selectRange: nil)
+                let string = NSMutableAttributedString(string: "\n" + prefix)
+                string.append(unchecked!)
+                self.insertText(string)
             #else
                 let selectedRange = textView.selectedRange
                 let selectedTextRange = textView.selectedTextRange!
@@ -599,6 +597,16 @@ public class TextFormatter {
         }
 
         // New Line insertion
+
+        if currentParagraph.string.starts(with: "\t"), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
+            self.insertText(addCodeBlockStyle("\n" + prefix))
+            return
+        }
+
+        if currentParagraph.string.starts(with: "    "), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
+            self.insertText(addCodeBlockStyle("\n" + prefix))
+            return
+        }
 
         self.insertText("\n")
 
@@ -673,14 +681,17 @@ public class TextFormatter {
 
             guard !rangeFound else { return }
 
-            let loc = textView.selectedRange.location
-            self.insertText("  ")
-
-            let newRange = NSRange(location: loc, length: 2)
-
-            self.textView.undoManager?.beginUndoGrouping()
-            self.storage.replaceCharacters(in: newRange, with: attributedText)
-            self.textView.undoManager?.endUndoGrouping()
+#if os(iOS)
+            if let selTextRange = self.textView.selectedTextRange {
+                let newRange = NSRange(location: self.textView.selectedRange.location, length: attributedText.length)
+                self.textView.undoManager?.beginUndoGrouping()
+                self.textView.replace(selTextRange, withText: attributedText.string)
+                self.storage.replaceCharacters(in: newRange, with: attributedText)
+                self.textView.undoManager?.endUndoGrouping()
+            }
+#else
+            self.insertText(attributedText)
+#endif
             return
         }
         

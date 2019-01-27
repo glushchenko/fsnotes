@@ -23,8 +23,7 @@ public class ImagesProcessor {
     typealias Image = UIImage
     typealias TView = UITextView
 #endif
-    
-    var textStorageNSString: NSString
+
     var styleApplier: NSMutableAttributedString
     var range: NSRange?
     var note: Note
@@ -38,7 +37,6 @@ public class ImagesProcessor {
         self.styleApplier = styleApplier
         self.range = range
         self.note = note
-        self.textStorageNSString = styleApplier.string as NSString
         self.textView = textView
         
         if let unwrappedRange = range {
@@ -131,6 +129,7 @@ public class ImagesProcessor {
                 }
             }
         }
+        EditTextView.isBusyProcessing = false
 
         #endif
     }

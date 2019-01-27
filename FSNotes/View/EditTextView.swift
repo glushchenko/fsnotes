@@ -331,12 +331,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
-            super.paste(sender)
+            let currentRange = selectedRange()
 
-            let end = (selectedRanges[0] as! NSRange).location
-            let start = end - clipboard.count
-            let range = NSRange(start..<end)
+            self.insertText(clipboard, replacementRange: currentRange)
 
+            let range = NSRange(currentRange.location..<storage.length)
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
             note.save()
 
@@ -727,9 +726,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var shouldChange = true
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
         guard shouldChange, let note = EditTextView.note else {
-
+            breakUndoCoalescing()
             return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
-
         }
 
         typingAttributes.removeValue(forKey: .todo)
@@ -739,7 +737,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             shouldChange = false
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
-            breakUndoCoalescing()
             shouldChange = true
             return false
         }
@@ -749,7 +746,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             shouldChange = false
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.tabKey()
-            breakUndoCoalescing()
             shouldChange = true
             return false
         }
