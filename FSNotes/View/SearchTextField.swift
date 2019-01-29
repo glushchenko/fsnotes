@@ -55,29 +55,14 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         }
     }
 
-    override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if (
-            event.keyCode == kVK_Escape
-            || (
-                [kVK_ANSI_L, kVK_ANSI_N].contains(Int(event.keyCode))
-                && event.modifierFlags.contains(.command)
-            ) || (
-                event.keyCode == kVK_ANSI_Period &&
-                event.modifierFlags.contains(.command)
-            )
-        ) {
-            self.searchQuery.removeAll()
-            return true
-        }
-
-        return super.performKeyEquivalent(with: event)
-    }
-
     func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
         switch commandSelector.description {
         case "moveDown:":
             if let editor = currentEditor() {
                 let query = editor.string.prefix(editor.selectedRange.location)
+                if query.count == 0 {
+                    return false
+                }
                 self.stringValue = String(query)
             }
             return true

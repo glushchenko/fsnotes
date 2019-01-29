@@ -538,11 +538,13 @@ public class TextFormatter {
         // Autocomplete todo lists
 
         if currentParagraph.length >= 2 {
-            let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
+            if textView.selectedRange.upperBound > 2 {
+                let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
-            if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
-                insertText("", replacementRange: currentParagraphRange)
-                return
+                if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
+                    insertText("", replacementRange: currentParagraphRange)
+                    return
+                }
             }
 
             var todoLocation = -1
@@ -608,7 +610,11 @@ public class TextFormatter {
             return
         }
 
-        self.insertText("\n")
+        #if os(iOS)
+            self.textView.insertText("\n")
+        #else
+            self.insertText("\n")
+        #endif
 
         // Fenced code block style handler
 

@@ -645,6 +645,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         }
 
                         guard let imageData = data else { return }
+
+                        if UserDefaultsManagement.liveImagesPreview {
+                            self.editArea.saveImageClipboard(data: imageData, note: note)
+                            return
+                        }
+
                         guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note) else { return }
 
                         if note.type == .TextBundle {

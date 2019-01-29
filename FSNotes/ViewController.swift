@@ -221,6 +221,7 @@ class ViewController: NSViewController,
         self.editArea.usesFindBar = true
 
         self.editAreaScroll.textFinder = NSTextFinder.init()
+        self.editAreaScroll.textFinder?.isIncrementalSearchingEnabled = true
         self.editAreaScroll.textFinder?.client = self.editArea
         self.editAreaScroll.textFinder?.findBarContainer =  self.editArea.enclosingScrollView
 
@@ -261,8 +262,7 @@ class ViewController: NSViewController,
     
     @IBAction func searchAndCreate(_ sender: Any) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
-        
-        vc.search.becomeFirstResponder()
+        vc.search.window?.makeFirstResponder(vc.search)
     }
 
     @IBAction func sortBy(_ sender: NSMenuItem) {
@@ -453,7 +453,7 @@ class ViewController: NSViewController,
 
             if self.editAreaScroll.isFindBarVisible {
                 cancelTextSearch()
-                return true
+                return false
             }
 
             // Renaming is in progress
@@ -493,14 +493,8 @@ class ViewController: NSViewController,
                 disablePreview()
                 
                 self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.showFindInterface)
-                return true
+                return false
             }
-        }
-
-        // Focus search field shortcut (cmd-L)
-        if (event.keyCode == kVK_ANSI_L && event.modifierFlags.contains(.command)) {
-            search.becomeFirstResponder()
-            return true
         }
 
         // Make note shortcut (cmd-n)
@@ -576,7 +570,8 @@ class ViewController: NSViewController,
     }
     
     func cancelTextSearch() {
-        self.editAreaScroll.isFindBarVisible = false
+        self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.hideFindInterface)
+
         if !UserDefaultsManagement.preview {
             NSApp.mainWindow?.makeFirstResponder(self.editArea)
         }
