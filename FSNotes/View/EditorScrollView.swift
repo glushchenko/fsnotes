@@ -9,9 +9,7 @@
 import Cocoa
 
 class EditorScrollView: NSScrollView {
-
     private var initialHeight: CGFloat?
-    public var textFinder: NSTextFinder?
 
     override var isFindBarVisible: Bool {
         set {
@@ -26,8 +24,6 @@ class EditorScrollView: NSScrollView {
                     }
                 }
             }
-
-            self.textFinder?.performAction(NSTextFinder.Action.setSearchString)
 
             super.isFindBarVisible = newValue
         }

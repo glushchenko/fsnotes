@@ -147,6 +147,8 @@ class ViewController: NSViewController,
                 guard let p = vc.getSidebarProject(), !p.isTrash else {
                     return false
                 }
+            case "findMenu":
+                return vc.editAreaScroll.isFindBarVisible || vc.editArea.hasFocus()
             default:
                 break
             }
@@ -220,11 +222,7 @@ class ViewController: NSViewController,
         }
 
         self.editArea.usesFindBar = true
-
-        self.editAreaScroll.textFinder = NSTextFinder.init()
-        self.editAreaScroll.textFinder?.isIncrementalSearchingEnabled = true
-        self.editAreaScroll.textFinder?.client = self.editArea
-        self.editAreaScroll.textFinder?.findBarContainer =  self.editArea.enclosingScrollView
+        self.editArea.isIncrementalSearchingEnabled = true
 
         self.editArea.textStorage?.delegate = self.editArea.textStorage
         self.editArea.viewDelegate = self
@@ -333,7 +331,7 @@ class ViewController: NSViewController,
             }
         }
     }
-        
+
     func reloadSideBar() {
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
@@ -492,9 +490,8 @@ class ViewController: NSViewController,
                 
                 //Turn off preview mode as text search works only in text editor
                 disablePreview()
-                
-                self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.showFindInterface)
-                return false
+
+                return true
             }
         }
 
@@ -549,9 +546,13 @@ class ViewController: NSViewController,
         
         return true
     }
+
+
     
     func cancelTextSearch() {
-        self.editAreaScroll.textFinder?.performAction(NSTextFinder.Action.hideFindInterface)
+        let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+        menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
+        self.editArea.performTextFinderAction(menu)
 
         if !UserDefaultsManagement.preview {
             NSApp.mainWindow?.makeFirstResponder(self.editArea)
@@ -1623,6 +1624,11 @@ class ViewController: NSViewController,
                 pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)
             }
         }
+    }
+
+    @IBAction func textFinder(_ sender: NSMenuItem) {
+        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        vc.editArea.performTextFinderAction(sender)
     }
 
 }
