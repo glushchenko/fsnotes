@@ -27,6 +27,7 @@ class ViewController: NSViewController,
     var refilled: Bool = false
     var timer = Timer()
     var sidebarTimer = Timer()
+    var rowUpdaterTimer = Timer()
     let searchQueue = OperationQueue()
 
     override var representedObject: Any? {
@@ -949,7 +950,9 @@ class ViewController: NSViewController,
             note.save()
 
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
-                //moveNoteToTop(note: index)
+
+                rowUpdaterTimer.invalidate()
+                rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateCurrentRow), userInfo: nil, repeats: false)
             }
         }
 
@@ -959,6 +962,19 @@ class ViewController: NSViewController,
     
     @objc func enableFSUpdates() {
         UserDataService.instance.fsUpdatesDisabled = false
+    }
+
+    @objc private func updateCurrentRow() {
+        let index = notesTableView.selectedRow
+
+        if (
+            notesTableView.noteList.indices.contains(index)
+                && index > -1
+                && !UserDefaultsManagement.preview
+                && self.editArea.isEditable
+        ) {
+            moveNoteToTop(note: index)
+        }
     }
     
     func getSidebarProject() -> Project? {
