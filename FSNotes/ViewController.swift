@@ -148,6 +148,10 @@ class ViewController: NSViewController,
                     return false
                 }
             case "findMenu":
+                if ["findMenu.find", "findMenu.findAndReplace"].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
+                    return true
+                }
+
                 return vc.editAreaScroll.isFindBarVisible || vc.editArea.hasFocus()
             default:
                 break

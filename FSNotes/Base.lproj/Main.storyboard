@@ -261,12 +261,12 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Find" identifier="findMenu" id="1b7-l0-nxx">
                                                 <items>
-                                                    <menuItem title="Find…" tag="1" keyEquivalent="f" id="Xz5-n4-O0W">
+                                                    <menuItem title="Find…" tag="1" keyEquivalent="f" identifier="findMenu.find" id="Xz5-n4-O0W">
                                                         <connections>
                                                             <action selector="textFinder:" target="L4m-js-agn" id="mFD-Ug-i7L"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" id="YEy-JH-Tfz">
+                                                    <menuItem title="Find and Replace…" tag="12" keyEquivalent="f" identifier="findMenu.findAndReplace" id="YEy-JH-Tfz">
                                                         <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                                         <connections>
                                                             <action selector="textFinder:" target="L4m-js-agn" id="Poh-Ps-jaI"/>
