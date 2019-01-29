@@ -613,7 +613,7 @@ public class TextFormatter {
         #if os(iOS)
             self.textView.insertText("\n")
         #else
-            self.insertText("\n")
+            self.textView.insertNewline(nil)
         #endif
 
         // Fenced code block style handler

@@ -94,7 +94,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.fillTimestamp = timestamp
 
         let vc = self.window?.contentViewController as! ViewController
-        
+
+        if vc.editAreaScroll.isFindBarVisible {
+            let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+            menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
+            vc.editArea.performTextFinderAction(menu)
+        }
+
         if UserDataService.instance.isNotesTableEscape {
             if vc.storageOutlineView.selectedRow == -1 {
                 UserDataService.instance.isNotesTableEscape = false
