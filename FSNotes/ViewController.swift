@@ -497,26 +497,6 @@ class ViewController: NSViewController,
             }
         }
 
-        // Make note shortcut (cmd-n)
-        if (
-            event.keyCode == kVK_ANSI_N
-            && event.modifierFlags.contains(.command)
-            && !event.modifierFlags.contains(.shift)
-        ) {
-            makeNote(SearchTextField())
-            return true
-        }
-        
-        // Make note shortcut (cmd-n)
-        if (
-            event.keyCode == kVK_ANSI_N
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
-        ) {
-            fileMenuNewRTF(NSTextField())
-            return true
-        }
-        
         // Pin note shortcut (cmd-8)
         if (event.keyCode == kVK_ANSI_8 && event.modifierFlags.contains(.command)) {
             pin(notesTableView.selectedRowIndexes)
@@ -1382,8 +1362,13 @@ class ViewController: NSViewController,
     func external(selectedRow: Int) {
         if (notesTableView.noteList.indices.contains(selectedRow)) {
             let note = notesTableView.noteList[selectedRow]
-            
-            NSWorkspace.shared.openFile(note.url.path, withApplication: UserDefaultsManagement.externalEditor)
+
+            var path = note.url.path
+            if note.type == .TextBundle {
+                path = note.url.appendingPathComponent("text.markdown").absoluteURL.path
+            }
+
+            NSWorkspace.shared.openFile(path, withApplication: UserDefaultsManagement.externalEditor)
         }
     }
         
