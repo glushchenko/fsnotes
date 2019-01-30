@@ -787,7 +787,13 @@ class ViewController: NSViewController,
         let window = NSApp.windows[0]
         vc.alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        field.placeholderString = "sex, drugs, rock and roll"
+
+        #if CLOUDKIT
+            field.placeholderString = "fun, health, life"
+        #else
+            field.placeholderString = "sex, drugs, rock and roll"
+        #endif
+
         field.stringValue = note.getCommaSeparatedTags()
         
         vc.alert?.messageText = NSLocalizedString("Tags", comment: "Menu")

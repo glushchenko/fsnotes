@@ -882,13 +882,31 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
-    
+
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let board = sender.draggingPasteboard()
+        let range = selectedRange
         var data: Data
-        
+
         guard let note = getSelectedNote(), let storage = textStorage else { return false }
-        
+
+        if let data = board.data(forType: .rtfd),
+            let text = NSAttributedString(rtfd: data, documentAttributes: nil),
+            text.length > 0,
+            range.length > 0
+        {
+            insertText("", replacementRange: range)
+
+            let dropPoint = convert(sender.draggingLocation(), from: nil)
+            let caretLocation = characterIndexForInsertion(at: dropPoint)
+
+            insertText(text, replacementRange: NSRange(location: caretLocation, length: 0))
+            setSelectedRange(NSRange(location: caretLocation, length: text.length))
+
+            storage.sizeAttachmentImages()
+            return true
+        }
+
         if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "attributedText")), let attributedText = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableAttributedString {
             let dropPoint = convert(sender.draggingLocation(), from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
