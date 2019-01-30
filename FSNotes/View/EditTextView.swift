@@ -900,10 +900,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let dropPoint = convert(sender.draggingLocation(), from: nil)
             let caretLocation = characterIndexForInsertion(at: dropPoint)
 
-            insertText(text, replacementRange: NSRange(location: caretLocation, length: 0))
-            setSelectedRange(NSRange(location: caretLocation, length: text.length))
+            let mutable = NSMutableAttributedString(attributedString: text)
+            mutable.loadCheckboxes()
 
+            insertText(mutable, replacementRange: NSRange(location: caretLocation, length: 0))
             storage.sizeAttachmentImages()
+
+            DispatchQueue.main.async {
+                self.setSelectedRange(NSRange(location: caretLocation, length: mutable.length))
+            }
+            
             return true
         }
 

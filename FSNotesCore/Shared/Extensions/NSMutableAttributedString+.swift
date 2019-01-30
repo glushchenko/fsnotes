@@ -103,4 +103,20 @@ extension NSMutableAttributedString {
 
         return content!
     }
+
+    public func loadCheckboxes() {
+        while mutableString.contains("- [ ] ") {
+            let range = mutableString.range(of: "- [ ] ")
+            if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
+                replaceCharacters(in: range, with: unChecked)
+            }
+        }
+
+        while mutableString.contains("- [x] ") {
+            let range = mutableString.range(of: "- [x] ")
+            if length >= range.upperBound, let checked = AttributedBox.getChecked() {
+                replaceCharacters(in: range, with: checked)
+            }
+        }
+    }
 }
