@@ -104,6 +104,7 @@ extension NSMutableAttributedString {
         return content!
     }
 
+    #if os(OSX)
     public func loadCheckboxes() {
         while mutableString.contains("- [ ] ") {
             let range = mutableString.range(of: "- [ ] ")
@@ -119,4 +120,5 @@ extension NSMutableAttributedString {
             }
         }
     }
+    #endif
 }
