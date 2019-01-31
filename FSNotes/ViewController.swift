@@ -148,7 +148,7 @@ class ViewController: NSViewController,
                     return false
                 }
             case "findMenu":
-                if ["findMenu.find", "findMenu.findAndReplace"].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
+                if ["findMenu.find", "findMenu.findAndReplace", "findMenu.next", "findMenu.prev"].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
                     return true
                 }
 
@@ -1638,7 +1638,17 @@ class ViewController: NSViewController,
 
     @IBAction func textFinder(_ sender: NSMenuItem) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
-        vc.editArea.performTextFinderAction(sender)
+
+        if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
+
+            let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
+            menu.tag = NSTextFinder.Action.showFindInterface.rawValue
+            vc.editArea.performTextFinderAction(menu)
+        }
+
+        DispatchQueue.main.async {
+            vc.editArea.performTextFinderAction(sender)
+        }
     }
 
 }

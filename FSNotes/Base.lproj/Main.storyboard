@@ -272,12 +272,12 @@ CA
                                                             <action selector="textFinder:" target="L4m-js-agn" id="Poh-Ps-jaI"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Find Next" tag="2" keyEquivalent="g" id="q09-fT-Sye">
+                                                    <menuItem title="Find Next" tag="2" keyEquivalent="g" identifier="findMenu.next" id="q09-fT-Sye">
                                                         <connections>
                                                             <action selector="textFinder:" target="L4m-js-agn" id="nrJ-XJ-kW7"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Find Previous" tag="3" keyEquivalent="G" id="OwM-mh-QMV">
+                                                    <menuItem title="Find Previous" tag="3" keyEquivalent="G" identifier="findMenu.prev" id="OwM-mh-QMV">
                                                         <connections>
                                                             <action selector="textFinder:" target="L4m-js-agn" id="8pM-AX-2ZQ"/>
                                                         </connections>
