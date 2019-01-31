@@ -534,10 +534,9 @@ public class TextFormatter {
         let currentParagraph = storage.attributedSubstring(from: currentParagraphRange)
         let selectedRange = self.textView.selectedRange
 
-
         // Autocomplete todo lists
 
-        if currentParagraph.length >= 2 {
+        if selectedRange.location != currentParagraphRange.location && currentParagraphRange.upperBound - 2 < selectedRange.location, currentParagraph.length >= 2 {
             if textView.selectedRange.upperBound > 2 {
                 let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
@@ -584,29 +583,39 @@ public class TextFormatter {
         }
 
         // Autocomplete ordered and unordered lists
-        
-        guard let currentPR = getParagraphRange(for: currentParagraphRange.location) else { return }
-        let currentP = storage.attributedSubstring(from: currentPR)
 
-        if let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string) {
-            self.matchChars(string: currentP, match: charsMatch)
-            return
+        if selectedRange.location != currentParagraphRange.location && currentParagraphRange.upperBound - 2 < selectedRange.location {
+            if let charsMatch = TextFormatter.getAutocompleteCharsMatch(string: currentParagraph.string) {
+                self.matchChars(string: currentParagraph, match: charsMatch)
+                return
+            }
+
+            if let digitsMatch = TextFormatter.getAutocompleteDigitsMatch(string: currentParagraph.string) {
+                self.matchDigits(string: currentParagraph, match: digitsMatch)
+                return
+            }
         }
 
-        if let digitsMatch = TextFormatter.getAutocompleteDigitsMatch(string: currentParagraph.string) {
-            self.matchDigits(string: currentP, match: digitsMatch)
-            return
-        }
 
         // New Line insertion
 
+        var newLine = "\n"
+
         if currentParagraph.string.starts(with: "\t"), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
-            self.insertText(addCodeBlockStyle("\n" + prefix))
+            if selectedRange.location != currentParagraphRange.location {
+                newLine += prefix
+            }
+
+            self.insertText(addCodeBlockStyle(newLine))
             return
         }
 
         if currentParagraph.string.starts(with: "    "), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
-            self.insertText(addCodeBlockStyle("\n" + prefix))
+            if selectedRange.location != currentParagraphRange.location {
+                newLine += prefix
+            }
+
+            self.insertText(addCodeBlockStyle(newLine))
             return
         }
 

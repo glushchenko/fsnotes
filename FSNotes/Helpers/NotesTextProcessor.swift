@@ -996,7 +996,7 @@ public class NotesTextProcessor {
         "^(.+?)",
         "\\p{Z}*",
         "\\n",
-        "(=+|-+)",  // $1 = string of ='s or -'s
+        "(==+|--+)",  // $1 = string of ='s or -'s
         "\\p{Z}*",
         "\\n|\\Z"
         ].joined(separator: "\n")
