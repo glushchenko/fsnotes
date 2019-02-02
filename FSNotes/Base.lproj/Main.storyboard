@@ -1272,9 +1272,9 @@ CA
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                                 <subviews>
-                                    <customView id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
+                                    <customView autoresizesSubviews="NO" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdT-Ac-GAV">
                                                 <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
@@ -1367,7 +1367,7 @@ CA
                                                 </scroller>
                                             </scrollView>
                                             <customView canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes">
-                                                <rect key="frame" x="0.0" y="562" width="144" height="38"/>
+                                                <rect key="frame" x="0.0" y="562" width="0.0" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="9sA-Ak-h1e"/>
                                                 </constraints>
@@ -1375,15 +1375,15 @@ CA
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="vp7-cq-QSI" firstAttribute="top" secondItem="5sB-7J-vgE" secondAttribute="top" id="2aO-4z-1Ox"/>
-                                            <constraint firstAttribute="trailing" secondItem="vp7-cq-QSI" secondAttribute="trailing" id="mkT-vm-r6A"/>
+                                            <constraint firstAttribute="trailing" secondItem="vp7-cq-QSI" secondAttribute="trailing" constant="144" id="mkT-vm-r6A"/>
                                             <constraint firstItem="vp7-cq-QSI" firstAttribute="leading" secondItem="5sB-7J-vgE" secondAttribute="leading" id="tSE-Sw-ulk"/>
                                         </constraints>
                                     </customView>
                                     <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="145" y="0.0" width="655" height="600"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <customView id="8ej-mX-KM6" customClass="SidebarNotesView" customModule="FSNotes" customModuleProvider="target">
+                                            <customView autoresizesSubviews="NO" id="8ej-mX-KM6" customClass="SidebarNotesView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="237" height="600"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 <subviews>
@@ -1557,7 +1557,7 @@ CA
                                                     <constraint firstItem="Kzf-Jh-YEb" firstAttribute="top" secondItem="bd7-O3-GQF" secondAttribute="bottom" constant="8" id="z4N-Ag-s6x"/>
                                                 </constraints>
                                             </customView>
-                                            <customView id="at7-wA-VAS" customClass="EditorView" customModule="FSNotes" customModuleProvider="target">
+                                            <customView autoresizesSubviews="NO" id="at7-wA-VAS" customClass="EditorView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="238" y="0.0" width="417" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
@@ -1649,7 +1649,7 @@ CA
                                                         </constraints>
                                                     </customView>
                                                     <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
-                                                        <rect key="frame" x="70" y="573" width="277" height="17"/>
+                                                        <rect key="frame" x="191" y="573" width="35" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1669,8 +1669,8 @@ CA
                                                 <constraints>
                                                     <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerX" secondItem="at7-wA-VAS" secondAttribute="centerX" id="1uj-pH-by2"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="8Ne-do-Q9o"/>
-                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" constant="70" id="9Sl-l7-wNT"/>
-                                                    <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="70" id="Ai3-Ih-AZU"/>
+                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="at7-wA-VAS" secondAttribute="leading" id="9Sl-l7-wNT"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rZx-hk-GcJ" secondAttribute="trailing" id="Ai3-Ih-AZU"/>
                                                     <constraint firstItem="xSU-Mk-2F1" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="CQ0-DY-aM0"/>
                                                     <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerY" secondItem="xSU-Mk-2F1" secondAttribute="centerY" id="Ett-1f-HTb"/>
                                                     <constraint firstAttribute="trailing" secondItem="qJO-7f-vkL" secondAttribute="trailing" id="GZ2-jz-8Ue"/>
@@ -1683,14 +1683,17 @@ CA
                                             </customView>
                                         </subviews>
                                         <holdingPriorities>
-                                            <real value="399"/>
-                                            <real value="173"/>
+                                            <real value="240"/>
+                                            <real value="260"/>
                                         </holdingPriorities>
                                     </splitView>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="700" id="gS8-dF-Fzu"/>
+                                </constraints>
                                 <holdingPriorities>
                                     <real value="250"/>
-                                    <real value="250"/>
+                                    <real value="248"/>
                                 </holdingPriorities>
                             </splitView>
                         </subviews>

@@ -36,7 +36,7 @@ class ViewController: NSViewController,
 
     // MARK: - IBOutlets
     @IBOutlet var emptyEditAreaImage: NSImageView!
-    @IBOutlet weak var splitView: NSSplitView!
+    @IBOutlet weak var splitView: EditorSplitView!
     @IBOutlet var editArea: EditTextView!
     @IBOutlet weak var editAreaScroll: EditorScrollView!
     @IBOutlet weak var search: SearchTextField!
@@ -318,11 +318,11 @@ class ViewController: NSViewController,
         
         editArea.clear()
     }
-        
-    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {        
+
+    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
         return sidebarSplitView.frame.width / 5
     }
-    
+
     func splitViewDidResizeSubviews(_ notification: Notification) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         vc.checkSidebarConstraint()
@@ -534,7 +534,7 @@ class ViewController: NSViewController,
         // Toggle sidebar cmd+shift+control+b
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
-            return true
+            return false
         }
 
         if let fr = NSApp.windows.first?.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
@@ -840,38 +840,35 @@ class ViewController: NSViewController,
     
     @IBAction func toggleNoteList(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
-        
-        if !UserDefaultsManagement.hideSidebar {
-            UserDefaultsManagement.hideSidebar = true
-            vc.splitView.subviews[0].isHidden = true
-            return
-        }
 
-        vc.splitView.subviews[0].isHidden = false
-        UserDefaultsManagement.hideSidebar = false
+        let size = UserDefaultsManagement.horizontalOrientation
+            ? vc.splitView.subviews[0].frame.height
+            : vc.splitView.subviews[0].frame.width
+
+        if size != 0 {
+            UserDefaultsManagement.sidebarSize = size
+            vc.splitView.shouldHideDivider = true
+            vc.splitView.setPosition(0, ofDividerAt: 0)
+
+            DispatchQueue.main.async {
+                vc.splitView.setPosition(0, ofDividerAt: 0)
+            }
+        } else {
+            vc.splitView.shouldHideDivider = false
+            vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
+        }
     }
     
     @IBAction func toggleSidebar(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+
+        let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
         
-        if !UserDefaultsManagement.hideRealSidebar {
-            if vc.sidebarSplitView.subviews[0].frame.width != 0.0 {
-                UserDefaultsManagement.realSidebarSize = Int(vc.sidebarSplitView.subviews[0].frame.width)
-            }
-            
-            UserDefaultsManagement.hideRealSidebar = true
-            vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
-            vc.searchTopConstraint.constant = CGFloat(25)
-        } else {
-            let size =
-                UserDefaultsManagement.realSidebarSize > 10
-                    ? UserDefaultsManagement.realSidebarSize
-                    : 200
-            
-            vc.sidebarSplitView.setPosition(CGFloat(size), ofDividerAt: 0)
-            UserDefaultsManagement.hideRealSidebar = false
+        if size != 0 {
             UserDefaultsManagement.realSidebarSize = size
-            vc.searchTopConstraint.constant = CGFloat(8)
+            vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
+        } else {
+            vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
         }
     }
     
@@ -1649,6 +1646,16 @@ class ViewController: NSViewController,
         DispatchQueue.main.async {
             vc.editArea.performTextFinderAction(sender)
         }
+    }
+
+    func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
+        for item in menu.items {
+            if item.title == "Copy Link" {
+                item.action = #selector(NSText.copy(_:))
+            }
+        }
+
+        return menu
     }
 
 }

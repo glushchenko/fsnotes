@@ -9,15 +9,23 @@
 import Cocoa
 
 class EditorSplitView: NSSplitView, NSSplitViewDelegate {
+    public var shouldHideDivider = false
+
     override func draw(_ dirtyRect: NSRect) {
         self.delegate = self
         super.draw(dirtyRect)
     }
-    
-    override func maxPossiblePositionOfDivider(at dividerIndex: Int) -> CGFloat {
-        return 250
+
+    func splitView(_ splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+
+        return (shouldHideDivider || UserDefaultsManagement.horizontalOrientation) ? 0 : 200
     }
-    
+
+    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
+
+        return UserDefaultsManagement.horizontalOrientation ? 99999 : 350
+    }
+
     override var dividerColor: NSColor {
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
             return NSColor.init(named: NSColor.Name(rawValue: "divider"))!
@@ -25,4 +33,11 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
             return NSColor(red:0.83, green:0.83, blue:0.83, alpha:1.0)
         }
     }
+
+    override var dividerThickness: CGFloat {
+        get {
+            return shouldHideDivider ? 0 : 1
+        }
+    }
+
 }
