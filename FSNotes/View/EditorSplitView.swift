@@ -16,6 +16,11 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
         super.draw(dirtyRect)
     }
 
+    override func minPossiblePositionOfDivider(at dividerIndex: Int) -> CGFloat {
+        return 0
+    }
+
+    /*
     func splitView(_ splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
 
         return (shouldHideDivider || UserDefaultsManagement.horizontalOrientation) ? 0 : 200
@@ -24,7 +29,7 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
     func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
 
         return UserDefaultsManagement.horizontalOrientation ? 99999 : 350
-    }
+    }*/
 
     override var dividerColor: NSColor {
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {

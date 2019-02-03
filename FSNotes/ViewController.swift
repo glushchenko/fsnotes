@@ -319,10 +319,6 @@ class ViewController: NSViewController,
         editArea.clear()
     }
 
-    func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
-        return sidebarSplitView.frame.width / 5
-    }
-
     func splitViewDidResizeSubviews(_ notification: Notification) {
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
         vc.checkSidebarConstraint()
@@ -845,7 +841,11 @@ class ViewController: NSViewController,
             ? vc.splitView.subviews[0].frame.height
             : vc.splitView.subviews[0].frame.width
 
-        if size != 0 {
+        let visibleSize = UserDefaultsManagement.horizontalOrientation
+            ? size - vc.titleBarView.frame.height
+            : size
+
+        if visibleSize != 0 {
             UserDefaultsManagement.sidebarSize = size
             vc.splitView.shouldHideDivider = true
             vc.splitView.setPosition(0, ofDividerAt: 0)
@@ -863,7 +863,8 @@ class ViewController: NSViewController,
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
 
         let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
-        
+
+        print(size)
         if size != 0 {
             UserDefaultsManagement.realSidebarSize = size
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)

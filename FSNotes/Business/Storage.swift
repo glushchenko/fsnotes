@@ -36,7 +36,6 @@ class Storage {
 #else
     let initialFiles = [
         "FSNotes - Readme.md",
-        "FSNotes - Release Notes.md",
         "FSNotes - Shortcuts.md",
         "FSNotes - Code Highlighting.md"
     ]
