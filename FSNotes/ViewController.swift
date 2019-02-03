@@ -841,7 +841,11 @@ class ViewController: NSViewController,
             ? vc.splitView.subviews[0].frame.height
             : vc.splitView.subviews[0].frame.width
 
-        if size != 0 {
+        let visibleSize = UserDefaultsManagement.horizontalOrientation
+            ? size - vc.titleBarView.frame.height
+            : size
+
+        if visibleSize != 0 {
             UserDefaultsManagement.sidebarSize = size
             vc.splitView.shouldHideDivider = true
             vc.splitView.setPosition(0, ofDividerAt: 0)
