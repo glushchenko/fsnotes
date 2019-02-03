@@ -46,6 +46,18 @@ class PrefsViewController: NSViewController {
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
+
+            if type == .Dark {
+                UserDefaultsManagement.codeTheme = "monokai-sublime"
+            } else if type == .System {
+                if #available(OSX 10.14, *) {
+                    if let appearance = NSApp.appearance, appearance.isDark {
+                        UserDefaultsManagement.codeTheme = "monokai-sublime"
+                    }
+                }
+            } else {
+                UserDefaultsManagement.codeTheme = "atom-one-light"
+            }
         }
 
         restart()
