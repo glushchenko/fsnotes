@@ -1265,11 +1265,13 @@ public class NotesTextProcessor {
      */
     
     public static let _codeBlockPattern = [
+        "(?<=\\n|\\A)",
         "(",
         "   (?:",
         "       (?:\\p{Z}{4}|\\t+)                 # Lines must start with a tab-width of spaces",
         "       (",
-        "            (?!\\-\\ \\[(?:\\ |x)\\])     # Exclude todo lists - [ ] and - [x]",
+        "            (?!\\-\\ \\[(?:\\ |x)\\])          # Exclude todo lists - [ ] and - [x]",
+        "            (?!(?:[\\+\\-\\*]|[1-9]{1}\\.)\\ ) # Exclude ordered/unordered lists",
         "            .",
         "       )*",
         "       (?:\\n|\\Z)",
