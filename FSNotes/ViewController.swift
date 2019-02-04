@@ -490,7 +490,6 @@ class ViewController: NSViewController,
                 
                 //Turn off preview mode as text search works only in text editor
                 disablePreview()
-
                 return true
             }
         }
@@ -1638,6 +1637,10 @@ class ViewController: NSViewController,
         let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
 
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
+
+            if UserDefaultsManagement.preview && vc.notesTableView.selectedRow > -1 {
+                vc.disablePreview()
+            }
 
             let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
             menu.tag = NSTextFinder.Action.showFindInterface.rawValue

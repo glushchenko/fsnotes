@@ -139,6 +139,9 @@ public class Note: NSObject  {
             }
 
             try FileManager.default.moveItem(at: url, to: destination)
+            
+            removeCacheForPreviewImages()
+
             NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
@@ -972,5 +975,29 @@ public class Note: NSObject  {
         }
 
         return title
+    }
+
+    public func getCacheForPreviewImage(at url: URL) -> URL? {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+            temporary.appendPathComponent("Preview")
+
+        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+
+            return temporary.appendingPathComponent(filePath)
+        }
+
+        return nil
+    }
+
+    public func removeCacheForPreviewImages() {
+        guard let imageURLs = getImagePreviewUrl() else { return }
+
+        for url in imageURLs {
+            if let imageURL = getCacheForPreviewImage(at: url) {
+                if FileManager.default.fileExists(atPath: imageURL.path) {
+                    try? FileManager.default.removeItem(at: imageURL)
+                }
+            }
+        }
     }
 }

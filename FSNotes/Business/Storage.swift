@@ -641,6 +641,8 @@ class Storage {
         }
         
         for note in notes {
+            note.removeCacheForPreviewImages()
+            
             #if os(OSX)
                 for tag in note.tagNames {
                     _ = removeTag(tag)
