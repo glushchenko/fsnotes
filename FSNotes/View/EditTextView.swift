@@ -823,13 +823,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     func restoreCursorPosition() {
         guard let storage = textStorage else { return }
-        
-        var position = storage.length
-        
+
         guard UserDefaultsManagement.restoreCursorPosition else {
-            setSelectedRange(NSMakeRange(position, 0))
+            setSelectedRange(NSMakeRange(0, 0))
             return
         }
+
+        var position = storage.length
         
         if let note = EditTextView.note {
             if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
