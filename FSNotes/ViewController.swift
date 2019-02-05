@@ -515,17 +515,7 @@ class ViewController: NSViewController,
             notesTableView.selectPrev()
             return true
         }
-        
-        // Open in finder (cmd-shift-r)
-        if (
-            event.keyCode == kVK_ANSI_R
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
-        ) {
-            finder(selectedRow: notesTableView.selectedRow)
-            return true
-        }
-        
+
         // Toggle sidebar cmd+shift+control+b
         if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
             toggleSidebar("")
@@ -659,11 +649,19 @@ class ViewController: NSViewController,
     }
     
     @IBAction func editorMenu(_ sender: Any) {
-        external(selectedRow: notesTableView.selectedRow)
+        for index in notesTableView.selectedRowIndexes {
+            external(selectedRow: index)
+        }
     }
     
-    @IBAction func finderMenu(_ sender: Any) {
-        finder(selectedRow: notesTableView.selectedRow)
+    @IBAction func finderMenu(_ sender: NSMenuItem) {
+        if let notes = notesTableView.getSelectedNotes() {
+            var urls = [URL]()
+            for note in notes {
+                urls.append(note.url)
+            }
+            NSWorkspace.shared.activateFileViewerSelecting(urls)
+        }
     }
     
     @IBAction func makeMenu(_ sender: Any) {
@@ -827,12 +825,7 @@ class ViewController: NSViewController,
         guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
         vc.external(selectedRow: vc.notesTableView.selectedRow)
     }
-    
-    @IBAction func revealInFinder(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
-        vc.finder(selectedRow: vc.notesTableView.selectedRow)
-    }
-    
+
     @IBAction func toggleNoteList(_ sender: Any) {
         guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
 
@@ -1375,14 +1368,7 @@ class ViewController: NSViewController,
         
         cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
     }
-    
-    func finder(selectedRow: Int) {
-        if (self.notesTableView.noteList.indices.contains(selectedRow)) {
-            let note = notesTableView.noteList[selectedRow]
-            NSWorkspace.shared.activateFileViewerSelecting([note.url])
-        }
-    }
-    
+
     func external(selectedRow: Int) {
         if (notesTableView.noteList.indices.contains(selectedRow)) {
             let note = notesTableView.noteList[selectedRow]
@@ -1474,7 +1460,22 @@ class ViewController: NSViewController,
             menuItem.action = #selector(vc.moveNote(_:))
             moveMenu.addItem(menuItem)
         }
-        
+
+        let personalSelection = [
+            "noteMove.print",
+            "noteMove.copyTitle",
+            "noteMove.copyUrl",
+            "noteMove.rename"
+        ]
+
+        for menu in noteMenu.items {
+            if let identifier = menu.identifier?.rawValue,
+                personalSelection.contains(identifier)
+            {
+                menu.isHidden = (vc.notesTableView.selectedRowIndexes.count > 1)
+            }
+        }
+
         noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
     }
 
@@ -1550,8 +1551,11 @@ class ViewController: NSViewController,
     }
     
     @IBAction func duplicate(_ sender: Any) {
-        if let note = notesTableView.getSelectedNote() {
-            note.duplicate()
+        if let notes = notesTableView.getSelectedNotes() {
+            for note in notes {
+                print(note)
+                note.duplicate()
+            }
         }
     }
     

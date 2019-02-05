@@ -123,12 +123,12 @@ CA
                                         <menuItem title="Open external" keyEquivalent="e" id="7MT-fy-lXN">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <action selector="openInExternalEditor:" target="L4m-js-agn" id="pbC-EO-vOS"/>
+                                                <action selector="editorMenu:" target="Ady-hI-5gd" id="bT1-dL-ioY"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Reveal in Finder" keyEquivalent="R" id="rXU-X3-UjC">
                                             <connections>
-                                                <action selector="revealInFinder:" target="L4m-js-agn" id="xsj-tr-R2Y"/>
+                                                <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Tags" keyEquivalent="t" id="XZ6-FD-yro">
@@ -1741,7 +1741,7 @@ CA
                                 <action selector="duplicate:" target="rPt-NT-nkU" id="hUh-qX-nAT"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename" keyEquivalent="r" id="XBB-Sr-T1D">
+                        <menuItem title="Rename" keyEquivalent="r" identifier="noteMove.rename" id="XBB-Sr-T1D">
                             <connections>
                                 <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
                             </connections>
@@ -1762,12 +1762,12 @@ CA
                         <menuItem title="Open" keyEquivalent="e" id="3tV-h0-YEb">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                             <connections>
-                                <action selector="editorMenu:" target="XfG-lQ-9wD" id="rG9-zd-fZp"/>
+                                <action selector="editorMenu:" target="rPt-NT-nkU" id="0ta-2C-c0S"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Reveal in Finder" alternate="YES" keyEquivalent="R" id="xSO-lW-k8f">
                             <connections>
-                                <action selector="finderMenu:" target="XfG-lQ-9wD" id="xPJ-Ag-5hy"/>
+                                <action selector="finderMenu:" target="rPt-NT-nkU" id="HN5-My-jcv"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
@@ -1782,20 +1782,20 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>
-                        <menuItem title="Copy URL" id="uQ1-ej-ufE">
+                        <menuItem title="Copy URL" identifier="noteMove.copyUrl" id="uQ1-ej-ufE">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="copyURL:" target="rPt-NT-nkU" id="zCA-0T-c96"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Copy title" keyEquivalent="c" id="3kn-9C-fsB">
+                        <menuItem title="Copy title" keyEquivalent="c" identifier="noteMove.copyTitle" id="3kn-9C-fsB">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fMM-tl-BQP"/>
-                        <menuItem title="Print" keyEquivalent="p" id="nCW-CZ-qC7">
+                        <menuItem title="Print" keyEquivalent="p" identifier="noteMove.print" id="nCW-CZ-qC7">
                             <connections>
                                 <action selector="printNotes:" target="rPt-NT-nkU" id="f6C-X6-WZP"/>
                             </connections>

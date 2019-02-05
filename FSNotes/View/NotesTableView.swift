@@ -57,9 +57,19 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func rightMouseDown(with event: NSEvent) {
         let point = self.convert(event.locationInWindow, from: nil)
         let i = row(at: point)
+        
         if self.noteList.indices.contains(i) {
-            self.selectRow(i)
+            DispatchQueue.main.async {
+                var selectedRows = self.selectedRowIndexes
+                if !selectedRows.contains(i) {
+                    selectedRows.insert(i)
+                }
+
+                self.selectRowIndexes(selectedRows, byExtendingSelection: false)
+                self.scrollRowToVisible(i)
+            }
         }
+
         super.rightMouseDown(with: event)
     }
         
@@ -286,7 +296,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
     }
-    
+
     func setSelected(note: Note) {
         if let i = getIndex(note) {
             selectRow(i)
@@ -354,7 +364,5 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
     }
-
-    //public func 
     
 }
