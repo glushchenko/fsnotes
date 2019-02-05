@@ -725,8 +725,8 @@ class ViewController: NSViewController,
             return
         }
         
-        let selectedRow = vc.notesTableView.selectedRow - notes.count + 1
-        
+        let selectedRow = vc.notesTableView.selectedRowIndexes.min()
+
         UserDataService.instance.searchTrigger = true
         vc.editArea.clear()
         vc.storage.removeNotes(notes: notes) { urls in
@@ -744,8 +744,8 @@ class ViewController: NSViewController,
                     undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
                     undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
                     
-                    if selectedRow > -1 {
-                        vc.notesTableView.selectRow(selectedRow)
+                    if let i = selectedRow, i > -1 {
+                        vc.notesTableView.selectRow(i)
                         UserDataService.instance.skipListReload = true
                     }
                     
