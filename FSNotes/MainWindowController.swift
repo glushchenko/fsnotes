@@ -19,6 +19,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         self.window?.titleVisibility = .hidden
         self.window?.titlebarAppearsTransparent = true
+
+        self.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: "myMainWindow")
     }
     
     func windowDidResize(_ notification: Notification) {

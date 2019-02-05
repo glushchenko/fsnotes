@@ -12,7 +12,7 @@ class MainWindow: NSWindow {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        guard UserDefaults.standard.object(forKey: "NSWindow Frame MainWindow") == nil else { return }
+        guard UserDefaults.standard.object(forKey: "NSWindow Frame myMainWindow") == nil else { return }
 
         if let screenHeight = NSScreen.main?.frame.height, let screenWidth = NSScreen.main?.frame.width {
             let frame = self.frame
