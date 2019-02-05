@@ -199,41 +199,44 @@ private extension MarkdownView {
             for image in images {
                 var localPath = image.replacingOccurrences(of: "<img src=\"", with: "").dropLast()
 
-                if localPath.starts(with: "/") || localPath.starts(with: "assets/") {
-                    let fullImageURL = imagesStorage
-                    let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
-#if os(iOS)
-                    let imageData = try Data(contentsOf: imageURL)
-                    let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
-
-                    htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
-#else
-                    let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-
-                    let create = webkitPreview.appendingPathComponent(String(localPath)).deletingLastPathComponent()
-                    let destination = webkitPreview.appendingPathComponent(String(localPath))
-
-                    try? FileManager.default.createDirectory(atPath: create.path, withIntermediateDirectories: true, attributes: nil)
-                    try? FileManager.default.removeItem(at: destination)
-                    try? FileManager.default.copyItem(at: imageURL, to: destination)
-
-                    var orientation = 0
-                    let url = NSURL(fileURLWithPath: imageURL.path)
-                    if let imageSource = CGImageSourceCreateWithURL(url, nil) {
-                        let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
-                        if let orientationProp = imageProperties?[kCGImagePropertyOrientation] as? Int {
-                            orientation = orientationProp
-                        }
-                    }
-
-                    if localPath.first == "/" {
-                        localPath.remove(at: localPath.startIndex)
-                    }
-
-                    let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + localPath + "\""
-                    htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
-#endif
+                guard !localPath.starts(with: "http://") && !localPath.starts(with: "https://") else {
+                    continue
                 }
+
+                let fullImageURL = imagesStorage
+                let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
+#if os(iOS)
+                let imageData = try Data(contentsOf: imageURL)
+                let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
+
+                htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
+#else
+                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+
+                let create = webkitPreview.appendingPathComponent(String(localPath)).deletingLastPathComponent()
+                let destination = webkitPreview.appendingPathComponent(String(localPath))
+
+                try? FileManager.default.createDirectory(atPath: create.path, withIntermediateDirectories: true, attributes: nil)
+                try? FileManager.default.removeItem(at: destination)
+                try? FileManager.default.copyItem(at: imageURL, to: destination)
+
+                var orientation = 0
+                let url = NSURL(fileURLWithPath: imageURL.path)
+                if let imageSource = CGImageSourceCreateWithURL(url, nil) {
+                    let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary?
+                    if let orientationProp = imageProperties?[kCGImagePropertyOrientation] as? Int {
+                        orientation = orientationProp
+                    }
+                }
+
+                if localPath.first == "/" {
+                    localPath.remove(at: localPath.startIndex)
+                }
+
+                let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + localPath + "\""
+
+                htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
+#endif
             }
         } catch let error {
             print("Images regex: \(error.localizedDescription)")
