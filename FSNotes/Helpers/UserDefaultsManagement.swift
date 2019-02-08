@@ -59,6 +59,7 @@ public class UserDefaultsManagement {
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
+        static let LineWidthKey = "lineWidth"
         static let LiveImagesPreview = "liveImagesPreview"
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
@@ -615,6 +616,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.ImagesWidthKey)
+        }
+    }
+
+    static var lineWidth: Float {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.LineWidthKey) {
+                return result as! Float
+            }
+            return 1000
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.LineWidthKey)
         }
     }
     

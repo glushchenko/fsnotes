@@ -45,4 +45,10 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
         }
     }
 
+    func splitViewWillResizeSubviews(_ notification: Notification) {
+        if let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController {
+            vc.editArea.updateTextContainerInset()
+        }
+    }
+
 }

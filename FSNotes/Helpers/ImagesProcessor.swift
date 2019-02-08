@@ -212,7 +212,7 @@ public class ImagesProcessor {
         return ""
     }
     
-    public static func getFileName(from: URL? = nil, to: URL) -> String? {
+    public static func getFileName(from: URL? = nil, to: URL, ext: String? = nil) -> String? {
         let path = from?.absoluteString ?? to.absoluteString
         var name: String?
 
@@ -222,8 +222,8 @@ public class ImagesProcessor {
         
         if path.starts(with: "file://") {
             var i = 0
-            var pathComponent = "1.jpg"
-            var ext = "jpg"
+            var ext = ext ?? "jpg"
+            var pathComponent = "1." + ext
 
             if let from = from {
                 pathComponent = from.lastPathComponent
@@ -247,7 +247,7 @@ public class ImagesProcessor {
         return name
     }
     
-    public static func writeImage(data: Data, url: URL? = nil, note: Note) -> String? {
+    public static func writeImage(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
         if note.type == .TextBundle {
             let assetsUrl = note.url.appendingPathComponent("assets")
             
@@ -256,7 +256,7 @@ public class ImagesProcessor {
             }
 
             let destination = URL(fileURLWithPath: assetsUrl.path)
-            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
+            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else {
                 return nil
             }
             
@@ -278,7 +278,7 @@ public class ImagesProcessor {
         } catch {
         }
 
-        guard let fileName = ImagesProcessor.getFileName(from: url, to: destination) else {
+        guard let fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else {
             return nil
         }
 

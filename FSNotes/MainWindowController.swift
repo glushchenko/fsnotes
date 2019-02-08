@@ -36,6 +36,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     func refreshEditArea() {
         let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
         controller?.focusEditArea()
+        controller?.editArea.updateTextContainerInset()
     }
     
     func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {

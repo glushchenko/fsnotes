@@ -42,6 +42,7 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var appearanceLabel: NSTextField!
 
     @IBOutlet weak var imagesWidth: NSSlider!
+    @IBOutlet weak var lineWidth: NSSlider!
 
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
@@ -146,6 +147,7 @@ class PrefsViewController: NSViewController {
         
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
+        lineWidth.floatValue = UserDefaultsManagement.lineWidth
 
         let languages = [
             LanguageType(rawValue: 0x00),
@@ -453,6 +455,14 @@ class PrefsViewController: NSViewController {
             controller?.refillEditArea()
         }
     }
-    
+
+    @IBAction func lineWidth(_ sender: NSSlider) {
+        UserDefaultsManagement.lineWidth = sender.floatValue
+
+        if let _ = EditTextView.note, !UserDefaultsManagement.preview {
+            controller?.editArea.updateTextContainerInset()
+        }
+    }
+
     
 }

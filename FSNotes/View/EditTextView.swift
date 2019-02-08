@@ -329,6 +329,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
+        if pasteImageFromClipboard(in: note) {
+            return
+        }
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
             let currentRange = selectedRange()
@@ -386,7 +389,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
-        
+
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
         
@@ -883,6 +886,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
 
+    override var textContainerOrigin: NSPoint {
+        let origin = super.textContainerOrigin
+        return NSPoint(x: origin.x, y: origin.y - 10)
+    }
+
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let board = sender.draggingPasteboard()
         let range = selectedRange
@@ -1185,5 +1193,79 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         // TODO: implement code block live theme changer
         viewDelegate?.refillEditArea()
+    }
+
+    private func pasteImageFromClipboard(in note: Note) -> Bool {
+        if let url = NSURL(from: NSPasteboard.general) {
+            if let data = try? Data(contentsOf: url as URL), let _ = NSImage(data: data) {
+
+                var ext = "jpg"
+                if let source = CGImageSourceCreateWithData(data as CFData, nil) {
+                    let uti = CGImageSourceGetType(source)
+
+                    if let fileExtension = (uti as String?)?.utiFileExtension {
+                        ext = fileExtension
+                    }
+                }
+
+                saveImageClipboard(data: data, note: note, ext: ext)
+                note.save()
+                saveTextStorageContent(to: note)
+                textStorage?.sizeAttachmentImages()
+
+                return true
+            }
+
+            return false
+        }
+
+        if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
+            saveImageClipboard(data: jpgData, note: note)
+            note.save()
+            saveTextStorageContent(to: note)
+            textStorage?.sizeAttachmentImages()
+            return true
+        }
+
+        return false
+    }
+
+    private func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
+        if let string = ImagesProcessor.writeImage(data: data, note: note, ext: ext) {
+            let path = note.getMdImagePath(name: string)
+            if let imageUrl = note.getImageUrl(imageName: path) {
+                let range = NSRange(location: selectedRange.location, length: 1)
+                let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
+
+                if let attributedString = attachment.getAttributedString() {
+                    let newLineImage = NSMutableAttributedString(attributedString: attributedString)
+                    newLineImage.append(NSAttributedString(string: "\n"))
+
+                    self.insertText(newLineImage, replacementRange: selectedRange())
+                    applyLeftParagraphStyle()
+
+                    return
+                }
+            }
+        }
+    }
+
+    public func updateTextContainerInset() {
+        let lineWidth = UserDefaultsManagement.lineWidth
+        let width = frame.width
+
+        if lineWidth == 1000 {
+            textContainerInset.width = 5
+            return
+        }
+
+        guard Float(width) > lineWidth else {
+            textContainerInset.width = 5
+            return
+        }
+
+        let inset = (Float(width) - lineWidth) / 2
+        
+        textContainerInset.width = CGFloat(inset)
     }
 }

@@ -165,9 +165,12 @@ class ViewController: NSViewController,
     
     private func configureLayout() {
         updateTitle(newTitle: nil)
-        
-        self.editArea.textContainerInset.height = 0
-        self.editArea.textContainerInset.width = 5
+
+        DispatchQueue.main.async {
+            self.editArea.updateTextContainerInset()
+        }
+
+        self.editArea.textContainerInset.height = 10
         self.editArea.isEditable = false
 
         if #available(OSX 10.13, *) {} else {
@@ -260,7 +263,7 @@ class ViewController: NSViewController,
         self.sidebarSplitView.delegate = self
         self.storageOutlineView.viewDelegate = self
     }
-
+    
     // MARK: - Actions
     
     @IBAction func searchAndCreate(_ sender: Any) {
@@ -849,6 +852,8 @@ class ViewController: NSViewController,
             vc.splitView.shouldHideDivider = false
             vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
         }
+
+        vc.editArea.updateTextContainerInset()
     }
     
     @IBAction func toggleSidebar(_ sender: Any) {
@@ -856,13 +861,14 @@ class ViewController: NSViewController,
 
         let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
 
-        print(size)
         if size != 0 {
             UserDefaultsManagement.realSidebarSize = size
             vc.sidebarSplitView.setPosition(0, ofDividerAt: 0)
         } else {
             vc.sidebarSplitView.setPosition(CGFloat(UserDefaultsManagement.realSidebarSize), ofDividerAt: 0)
         }
+
+        vc.editArea.updateTextContainerInset()
     }
     
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
@@ -1664,6 +1670,10 @@ class ViewController: NSViewController,
         }
 
         return menu
+    }
+
+    func splitViewWillResizeSubviews(_ notification: Notification) {
+        editArea.updateTextContainerInset()
     }
 
 }
