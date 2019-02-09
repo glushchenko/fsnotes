@@ -370,6 +370,9 @@
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "Сховати FSNotes";
 
+/* Class = "NSMenuItem"; title = "Code Block"; ObjectID = "OOL-dM-zIE"; */
+"OOL-dM-zIE.title" = "Блок коду";
+
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
 "OV0-om-POJ.title" = "Роздрукувати";
 

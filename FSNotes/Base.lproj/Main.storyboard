@@ -496,6 +496,12 @@ CA
                                                 <action selector="insertMarkdownImage:" target="Ady-hI-5gd" id="2EE-rd-dsJ"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Code Block" keyEquivalent="c" id="OOL-dM-zIE">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="insertCodeBlock:" target="Ady-hI-5gd" id="dB1-yF-DnW"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="iDC-du-8d9"/>
                                         <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
                                             <connections>
@@ -670,7 +676,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" id="KEU-U8-bg0">
+                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1129,7 +1135,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Advanced" identifier="" id="U2i-1m-lBm">
-                                        <view key="view" ambiguous="YES" id="Qbl-QU-oWF">
+                                        <view key="view" id="Qbl-QU-oWF">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
