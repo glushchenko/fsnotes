@@ -1,76 +1,152 @@
-/*
- Localizable.strings
- FSNotes
- 
- Created by Oleksandr Glushchenko on 7/4/18.
- Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
- */
+/* No comment provided by engineer. */
+"Add" = "Додати";
 
-"Preferences" = "Налаштування";
-
-// Alerts
-
-"Remove" = "Видалити";
-"Cancel" = "Відміна";
-"Delete" = "Видалити";
-
-// Sidebar
-
-"Tags" = "Теги";
-"Notes" = "Нотатки";
+/* Sidebar label */
 "Archive" = "Архів";
-"Trash" = "Сміття";
-"Move" = "Перемістити";
 
-"This action cannot be undone." = "Ця дія не може бути відмінена.";
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "Вы впевнені що хочете назавжди видалити %d нотатку(ок)? ";
 
-"Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Вы впевнені що хочете видалити директорію \"%@\"?";
 
-"This action cannot be undone." = "Это действие не может быть отменено.";
-
-"Remove note(s)" = "Удалить";
-
-"Hmm, something goes wrong 🙈" = "Что-то пошло не так";
-
-"Note with name \"%@\" already exists in selected storage." = "Заметка с именем \"%@\" уже существует в выбранном хранилище.";
-
-"Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
-
-"FSNotes [preview]" = "FSNotes [предпросмотр]";
-
-"FSNotes [edit]" = "FSNotes [редактирование]";
-
-"URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
-
-// Menu
-
-"View" = "Вид";
-"Sort By" = "Упорядочить по";
-
-// Validate
-
-"Spelling and Grammar" = "Орфография и грамматика";
-"Substitutions" = "Замены";
-"Check Spelling While Typing" = "Проверять во время набора";
-"Check Grammar With Spelling" = "Проверить грамматику с орфографией";
-"Correct Spelling Automatically" = "Корректировать правописание";
-"Smart Copy/Paste" = "Смарт-копирование/вставка";
-"Smart Quotes" = "Смарт-кавычки";
-"Smart Dashes" = "Смарт-тире";
-"Smart Links" = "Смарт-ссылки";
-"Text Replacement" = "Замена текста";
-"Data Detectors" = "Определение данных";
-
-// Project menu
-
-"Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
-
+/* No comment provided by engineer. */
 "Attach storage" = "Подключить хранилище";
 
-"New project" = "Новая директория";
+/* Delete menu */
+"Cancel" = "Відміна";
 
-"Please enter project name:" = "Пожалуйста, введите название директории:";
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Перевіряти граматику та правопис";
 
-"Add" = "Добавить";
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Перевіряти правопис під час набору";
 
-"New folder" = "Новая директория";
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Автоматично коригувати правописання";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Детектори даних";
+
+/* No comment provided by engineer. */
+"Delete" = "Видалити";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [редагування]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [попередній перегляд]";
+
+/* No comment provided by engineer. */
+"Header 1" = "Заголовок 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Заголовок 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Заголовок 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Заголовок 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Заголовок 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Заголовок 6";
+
+/* No comment provided by engineer. */
+"Image" = "Зображення";
+
+/* Edit area */
+"Image title" = "Заголовок зображення";
+
+/* No comment provided by engineer. */
+"Link" = "Посилання";
+
+/* Menu */
+"Move" = "Перемістити";
+
+/* No comment provided by engineer. */
+"New folder" = "Нова директорія";
+
+/* No comment provided by engineer. */
+"New project" = "Нова директорія";
+
+/* Rename
+   Sidebar label */
+"Notes" = "Нотатки";
+
+/* Edit area */
+"Please enter image title:" = "Заголовок зображення:";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Будь ласка, введіть назву директорії:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Будь ласка, введіть теги (розділити комою):";
+
+/* No comment provided by engineer. */
+"Preferences" = "Налаштування";
+
+/* Delete menu */
+"Remove" = "Видалити";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Видалити нотатку(ок)";
+
+/* No comment provided by engineer. */
+"Reveal folder" = "Показати директорію";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Розумне копіювання/вставка";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Розумні тире";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Розумні посилання";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Розумні лапки";
+
+/* View menu */
+"Sort By" = "Сортувати за";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Орфографія і граматика";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Перекреслений";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Заміни";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Теги";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Заміна тексту";
+
+/* Delete menu */
+"This action cannot be undone." = "Цю дію неможливо відмінити";
+
+/* No comment provided by engineer. */
+"Todo" = "Завдання";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Переключити перегляд";
+
+/* Sidebar label */
+"Trash" = "Сміття";
+
+/* No comment provided by engineer. */
+"Underline" = "Підкреслити";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
+
+/* Menu */
+"View" = "Вид";
+

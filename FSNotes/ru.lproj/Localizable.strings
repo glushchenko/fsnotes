@@ -37,9 +37,6 @@
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
-/* No comment provided by engineer. */
-"Hmm, something goes wrong 🙈" = "Что-то пошло не так";
-
 /* Edit area */
 "Image title" = "Заголовок";
 
@@ -51,9 +48,6 @@
 
 /* No comment provided by engineer. */
 "New project" = "Новая директория";
-
-/* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected storage." = "Заметка с именем \"%@\" уже существует в выбранном хранилище.";
 
 /* Rename
    Sidebar label */

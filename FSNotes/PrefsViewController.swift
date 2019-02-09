@@ -43,7 +43,8 @@ class PrefsViewController: NSViewController {
 
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
-
+    @IBOutlet weak var version: NSTextField!
+    
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
@@ -151,7 +152,8 @@ class PrefsViewController: NSViewController {
 
         let languages = [
             LanguageType(rawValue: 0x00),
-            LanguageType(rawValue: 0x01)
+            LanguageType(rawValue: 0x01),
+            LanguageType(rawValue: 0x02)
         ]
         
         for language in languages {
@@ -172,6 +174,12 @@ class PrefsViewController: NSViewController {
         } else {
             appearanceLabel.isHidden = true
             appearance.isHidden = true
+        }
+
+        if let dictionary = Bundle.main.infoDictionary,
+            let ver = dictionary["CFBundleShortVersionString"] as? String,
+            let build = dictionary["CFBundleVersion"] as? String {
+            version.stringValue = "v\(ver) build \(build)"
         }
     }
     

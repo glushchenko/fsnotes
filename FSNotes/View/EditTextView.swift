@@ -1073,9 +1073,33 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     @IBAction func insertMarkdownImage(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
-        
-        f.image()
+        guard let note = EditTextView.note else { return }
+
+        if !UserDefaultsManagement.liveImagesPreview {
+            guard let f = self.getTextFormatter() else { return }
+            f.image()
+
+            return
+        }
+
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.canCreateDirectories = true
+        panel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                let urls = panel.urls
+
+                for url in urls {
+                    if self.saveImageUrl(url: url, in: note) {
+                        self.insertNewline(nil)
+                    }
+                }
+            } else {
+                exit(EXIT_SUCCESS)
+            }
+        }
     }
     
     private func getTextFormatter() -> TextFormatter? {
@@ -1197,26 +1221,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     private func pasteImageFromClipboard(in note: Note) -> Bool {
         if let url = NSURL(from: NSPasteboard.general) {
-            if let data = try? Data(contentsOf: url as URL), let _ = NSImage(data: data) {
-
-                var ext = "jpg"
-                if let source = CGImageSourceCreateWithData(data as CFData, nil) {
-                    let uti = CGImageSourceGetType(source)
-
-                    if let fileExtension = (uti as String?)?.utiFileExtension {
-                        ext = fileExtension
-                    }
-                }
-
-                saveImageClipboard(data: data, note: note, ext: ext)
-                note.save()
-                saveTextStorageContent(to: note)
-                textStorage?.sizeAttachmentImages()
-
-                return true
-            }
-
-            return false
+            return saveImageUrl(url: url as URL, in: note)
         }
 
         if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
@@ -1224,6 +1229,29 @@ class EditTextView: NSTextView, NSTextFinderClient {
             note.save()
             saveTextStorageContent(to: note)
             textStorage?.sizeAttachmentImages()
+            return true
+        }
+
+        return false
+    }
+
+    private func saveImageUrl(url: URL, in note: Note) -> Bool {
+        if let data = try? Data(contentsOf: url), let _ = NSImage(data: data) {
+
+            var ext = "jpg"
+            if let source = CGImageSourceCreateWithData(data as CFData, nil) {
+                let uti = CGImageSourceGetType(source)
+
+                if let fileExtension = (uti as String?)?.utiFileExtension {
+                    ext = fileExtension
+                }
+            }
+
+            saveImageClipboard(data: data, note: note, ext: ext)
+            note.save()
+            saveTextStorageContent(to: note)
+            textStorage?.sizeAttachmentImages()
+
             return true
         }
 
