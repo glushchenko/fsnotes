@@ -170,11 +170,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let container = self.textContainer, let manager = self.layoutManager else { return }
 
         let point = self.convert(event.locationInWindow, from: nil)
-        let index = manager.characterIndex(for: point, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+        let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
+
+        let index = manager.characterIndex(for: properPoint, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
 
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
 
-        if glyphRect.contains(point), isTodo(index) {
+        if glyphRect.contains(properPoint), isTodo(index) {
             guard let f = self.getTextFormatter() else { return }
             f.toggleTodo(index)
             
@@ -200,18 +202,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         let point = self.convert(event.locationInWindow, from: nil)
+        let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
+
         guard let container = self.textContainer, let manager = self.layoutManager else { return }
 
-        let index = manager.characterIndex(for: point, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
+        let index = manager.characterIndex(for: properPoint, in: container, fractionOfDistanceBetweenInsertionPoints: nil)
 
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
         
-        if glyphRect.contains(point), self.isTodo(index) {
+        if glyphRect.contains(properPoint), self.isTodo(index) {
             NSCursor.pointingHand.set()
             return
         }
 
-        if glyphRect.contains(point), ((textStorage?.attribute(.link, at: index, effectiveRange: nil)) != nil) {
+        if glyphRect.contains(properPoint), ((textStorage?.attribute(.link, at: index, effectiveRange: nil)) != nil) {
             NSCursor.pointingHand.set()
             return
         }
