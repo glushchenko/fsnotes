@@ -382,6 +382,9 @@
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
 "NMo-om-nkz.title" = "Сервисы";
 
+/* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
+"O8Z-cg-XnH.title" = "Импортировать";
+
 /* Class = "NSTextFieldCell"; title = "Title"; ObjectID = "O9K-a1-3eu"; */
 "O9K-a1-3eu.title" = "Title";
 

@@ -80,6 +80,11 @@ CA
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="kc5-tb-yP0"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Import" keyEquivalent="O" identifier="fileMenu.import" id="O8Z-cg-XnH">
+                                            <connections>
+                                                <action selector="importNote:" target="Ady-hI-5gd" id="r4z-z3-fFc"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="New" keyEquivalent="n" identifier="fileMenu.new" id="2Ci-Yj-aWK">
                                             <connections>
                                                 <action selector="fileMenuNewNote:" target="L4m-js-agn" id="N33-Jf-oOg"/>

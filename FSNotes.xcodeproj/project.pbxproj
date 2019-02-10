@@ -793,6 +793,7 @@
 		D77F181C220E234D00716DE3 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		D77F181D220F47FB00716DE3 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D77F181F220F47FB00716DE3 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D77F1821221015F200716DE3 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		D781155E2153AE85004FA1CA /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		D781155F2153AE86004FA1CA /* preview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview.png; sourceTree = "<group>"; };
 		D78115622153B36C004FA1CA /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
@@ -2779,6 +2780,7 @@
 			children = (
 				D767938D201F21F5000F7BBF /* Base */,
 				D70FE13720FE198200813F9E /* ru */,
+				D77F1821221015F200716DE3 /* uk */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

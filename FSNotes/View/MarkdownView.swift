@@ -134,8 +134,6 @@ open class MarkdownView: WKWebView {
 
         let indexURL = webkitPreview.appendingPathComponent("index.html")
 
-        print(indexURL)
-
         // If updating markdown contents, no need to re-copy bundle.
         if !FileManager.default.fileExists(atPath: indexURL.path) {
             // Copy bundle resources to temporary location.

@@ -130,8 +130,8 @@ class ViewController: NSViewController,
                             ? [.command, .option]
                             : [.command]
                 }
-                
-                if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate"].contains(menuItem.identifier?.rawValue) {
+
+                if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate", "fileMenu.import"].contains(menuItem.identifier?.rawValue) {
                     return true
                 }
                 
@@ -576,6 +576,41 @@ class ViewController: NSViewController,
         }
         
         vc.createNote()
+    }
+
+    @IBAction func importNote(_ sender: NSMenuItem) {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = true
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.canCreateDirectories = false
+        panel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                let urls = panel.urls
+                let project = self.getSidebarProject() ?? self.storage.getMainProject()
+
+                for url in urls {
+                    do {
+                        try FileManager.default.copyItem(at: url, to: project.url)
+                    } catch {
+                        var tempUrl = url
+
+                        let ext = tempUrl.pathExtension
+                        tempUrl.deletePathExtension()
+
+                        let name = tempUrl.lastPathComponent
+                        tempUrl.deleteLastPathComponent()
+
+                        let now = DateFormatter().formatForDuplicate(Date())
+                        let baseUrl = project.url.appendingPathComponent(name + " " + now + "." + ext)
+
+                        try? FileManager.default.copyItem(at: url, to: baseUrl)
+                    }
+                }
+            } else {
+                exit(EXIT_SUCCESS)
+            }
+        }
     }
     
     @IBAction func fileMenuNewRTF(_ sender: Any) {

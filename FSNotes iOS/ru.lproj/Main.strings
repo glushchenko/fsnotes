@@ -25,6 +25,9 @@
 /* Class = "UILabel"; text = "Preview"; ObjectID = "LAf-Rz-QFy"; */
 "LAf-Rz-QFy.text" = "Preview";
 
+/* Class = "UILabel"; text = "Import"; ObjectID = "mjM-hk-WQE"; */
+"mjM-hk-WQE.text" = "Импортировать";
+
 /* Class = "UILabel"; text = "Font"; ObjectID = "mZP-M0-ypM"; */
 "mZP-M0-ypM.text" = "Font";
 
