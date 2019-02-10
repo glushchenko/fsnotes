@@ -81,7 +81,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Header 6", comment: ""),
                 NSLocalizedString("Link", comment: ""),
                 NSLocalizedString("Image", comment: ""),
-                NSLocalizedString("Toggle preview", comment: "")
+                NSLocalizedString("Toggle preview", comment: ""),
+                NSLocalizedString("Code Block", comment: "")
             ]
             
             return !disableRTF.contains(menuItem.title)
@@ -1100,6 +1101,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 exit(EXIT_SUCCESS)
             }
         }
+    }
+
+    @IBAction func insertCodeBlock(_ sender: NSButton) {
+        let currentRange = selectedRange()
+        insertText("```\n\n```\n", replacementRange: currentRange)
+        setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
     }
     
     private func getTextFormatter() -> TextFormatter? {

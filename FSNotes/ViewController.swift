@@ -1650,12 +1650,6 @@ class ViewController: NSViewController,
     @IBAction func togglePreview(_ sender: NSButton) {
         togglePreview()
     }
-
-    @IBAction func insertCodeBlock(_ sender: NSButton) {
-        let currentRange = editArea.selectedRange()
-        self.editArea.insertText("```\n\n```\n", replacementRange: currentRange)
-        self.editArea.setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
-    }
     
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = notesTableView.getSelectedNote() {
