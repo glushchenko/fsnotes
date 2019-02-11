@@ -115,7 +115,13 @@ extension NSMutableAttributedString {
 
         while mutableString.contains("- [x] ") {
             let range = mutableString.range(of: "- [x] ")
+            let parRange = mutableString.paragraphRange(for: range)
+
             if length >= range.upperBound, let checked = AttributedBox.getChecked() {
+
+                let color = UserDataService.instance.isDark ? NSColor.white : NSColor.black
+                addAttribute(.strikethroughColor, value: color, range: parRange)
+
                 replaceCharacters(in: range, with: checked)
             }
         }

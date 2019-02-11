@@ -319,7 +319,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let currentRange = selectedRange()
 
             if let string = NSAttributedString(rtfd: clipboard, documentAttributes: nil) {
-                self.insertText(string, replacementRange: currentRange)
+
+                let mutable = NSMutableAttributedString(attributedString: string)
+                mutable.loadCheckboxes()
+
+                self.insertText(mutable, replacementRange: currentRange)
             }
 
             let range = NSRange(currentRange.location..<storage.length)
@@ -739,6 +743,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         typingAttributes.removeValue(forKey: .todo)
+
+        if note.isMarkdown(), textStorage?.length == 0, let appearance = appearance {
+            typingAttributes[.foregroundColor] = appearance.isDark ? NSColor.white : NSColor.black
+        }
 
         // New line
         if replacementString == "\n" {
