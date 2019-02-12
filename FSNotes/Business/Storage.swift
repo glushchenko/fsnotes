@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreServices
 
 #if os(OSX)
 import Cocoa
@@ -442,7 +443,7 @@ class Storage {
             }
         }
     }
-    
+
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         do {
             let directoryFiles =
@@ -450,7 +451,18 @@ class Storage {
             
             return
                 directoryFiles.filter {
-                    allowedExtensions.contains($0.pathExtension)}.map{
+                    allowedExtensions.contains($0.pathExtension)
+                    || UTTypeConformsTo(
+                        (
+                            UTTypeCreatePreferredIdentifierForTag(
+                                kUTTagClassFilenameExtension,
+                                $0.pathExtension as CFString,
+                                nil
+                                )?.takeRetainedValue()
+                        )!,
+                        kUTTypeText
+                    )
+                }.map{
                     url in (
                         url,
                         (try? url.resourceValues(forKeys: [.contentModificationDateKey])

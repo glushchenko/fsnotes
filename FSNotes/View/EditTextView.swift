@@ -1051,7 +1051,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return false
     }
-        
+
     @IBAction func shiftLeft(_ sender: Any) {
         guard let f = self.getTextFormatter() else { return }
         

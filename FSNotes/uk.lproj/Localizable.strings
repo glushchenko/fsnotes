@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы впевнені що хочете видалити директорію \"%@\"?";
 
 /* No comment provided by engineer. */
-"Attach storage" = "Подключить хранилище";
+"Attach storage" = "Підключити сховище";
 
 /* Delete menu */
 "Cancel" = "Відміна";
@@ -21,6 +21,12 @@
 
 /* No comment provided by engineer. */
 "Check Spelling While Typing" = "Перевіряти правопис під час набору";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Скопіювати HTML";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Скопіювати текст";
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Автоматично коригувати правописання";
@@ -142,7 +148,7 @@
 "Trash" = "Сміття";
 
 /* No comment provided by engineer. */
-"Underline" = "Підкреслити";
+"Underline" = "Підкреслений";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";

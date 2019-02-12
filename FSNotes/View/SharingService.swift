@@ -16,12 +16,14 @@ extension ViewController: NSSharingServicePickerDelegate {
         }
         
         var share = proposedServices
-        let plainText = NSSharingService(title: "Copy Plain Text", image: image, alternateImage: image, handler: {
+        let titlePlain = NSLocalizedString("Copy Plain Text", comment: "")
+        let plainText = NSSharingService(title: titlePlain, image: image, alternateImage: image, handler: {
             self.saveTextAtClipboard()
         })
         share.insert(plainText, at: 0)
-        
-        let html = NSSharingService(title: "Copy HTML", image: image, alternateImage: image, handler: {
+
+        let titleHTML = NSLocalizedString("Copy HTML", comment: "")
+        let html = NSSharingService(title: titleHTML, image: image, alternateImage: image, handler: {
             self.saveHtmlAtClipboard()
         })
         share.insert(html, at: 1)
