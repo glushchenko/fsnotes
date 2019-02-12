@@ -1094,8 +1094,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                         self.insertNewline(nil)
                     }
                 }
-            } else {
-                exit(EXIT_SUCCESS)
             }
         }
     }

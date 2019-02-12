@@ -117,4 +117,8 @@ public extension URL {
 
         return URL(string: string) ?? self
     }
+
+    var typeIdentifier: String? {
+        return (try? resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier
+    }
 }

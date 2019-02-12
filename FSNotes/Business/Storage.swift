@@ -26,7 +26,7 @@ class Storage {
     var notesDict: [String: Note] = [:]
 
     var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension, "textbundle"]
-    
+
     var pinned: Int = 0
     
 #if os(iOS)
@@ -447,21 +447,12 @@ class Storage {
     func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         do {
             let directoryFiles =
-                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey], options:.skipsHiddenFiles)
+                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey, .typeIdentifierKey], options:.skipsHiddenFiles)
             
             return
                 directoryFiles.filter {
                     allowedExtensions.contains($0.pathExtension)
-                    || UTTypeConformsTo(
-                        (
-                            UTTypeCreatePreferredIdentifierForTag(
-                                kUTTagClassFilenameExtension,
-                                $0.pathExtension as CFString,
-                                nil
-                                )?.takeRetainedValue()
-                        )!,
-                        kUTTypeText
-                    )
+                    || self.isValidUTI(url: $0)
                 }.map{
                     url in (
                         url,
@@ -476,6 +467,12 @@ class Storage {
         }
         
         return []
+    }
+
+    public func isValidUTI(url: URL) -> Bool {
+        guard let typeIdentifier = (try? url.resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier else { return false }
+
+        return UTTypeConformsTo(typeIdentifier as CFString, kUTTypeText)
     }
     
     func add(_ note: Note) {

@@ -610,8 +610,6 @@ class ViewController: NSViewController,
                         try? FileManager.default.copyItem(at: url, to: baseUrl)
                     }
                 }
-            } else {
-                exit(EXIT_SUCCESS)
             }
         }
     }
