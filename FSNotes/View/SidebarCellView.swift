@@ -34,6 +34,7 @@ class SidebarCellView: NSTableCellView {
     }
     
     override func mouseEntered(with event: NSEvent) {
+        guard let vc = ViewController.shared() else { return }
         guard let sidebarItem = objectValue as? SidebarItem else { return }
         
         let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
@@ -43,8 +44,7 @@ class SidebarCellView: NSTableCellView {
             
             return
         }
-        
-        let vc = getViewController()
+
         if sidebarItem.type == .Tag, let note = vc.notesTableView.getSelectedNote() {
             if note.tagNames.contains(sidebarItem.name) {
                 plus.alternateTitle = sidebarItem.name
@@ -97,26 +97,18 @@ class SidebarCellView: NSTableCellView {
     }
     
     @IBAction func add(_ sender: Any) {
-        let vc = getViewController()
+        guard let vc = ViewController.shared() else { return }
         vc.storageOutlineView.addProject(self)
     }
-    
-    private func getViewController() -> ViewController {
-        let vc = NSApp.windows[0].contentViewController as? ViewController
         
-        return vc!
-    }
-    
     @objc public func removeTag(sender: Any?) {
         guard let button = sender as? NSButton else { return }
-        
-        let vc = getViewController()
+        guard let vc = ViewController.shared() else { return }
+
         if let note = vc.notesTableView.getSelectedNote() {
             let tag = button.alternateTitle
             note.removeTag(tag)
-            
-            let vc = getViewController()
-            
+
             if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
                 vc.storageOutlineView.deselectTag(item: sidebarItem)
                 
@@ -129,14 +121,12 @@ class SidebarCellView: NSTableCellView {
     
     @objc public func addTag(sender: Any?) {
         guard let button = sender as? NSButton else { return }
-        
-        let vc = getViewController()
+        guard let vc = ViewController.shared() else { return }
+
         if let note = vc.notesTableView.getSelectedNote() {
             let tag = button.alternateTitle
             note.addTag(tag)
-            
-            let vc = getViewController()
-            
+
             if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
                 vc.storageOutlineView.selectTag(item: sidebarItem)
             }

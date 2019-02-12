@@ -24,7 +24,7 @@ class ProjectSettingsViewController: NSViewController {
         project?.sortBy = SortBy(rawValue: sender.identifier!.rawValue)!
         project?.saveSettings()
 
-        guard let vc =  NSApp.windows.first?.contentViewController as? ViewController else {
+        guard let vc = ViewController.shared() else {
             return
         }
 

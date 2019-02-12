@@ -63,11 +63,7 @@ extension AppDelegate {
     
     /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
-        guard let window = NSApplication.shared.windows.first,
-            let controller = window.contentViewController as? ViewController
-            else {
-                return
-            }
+        guard let controller = ViewController.shared() else { return }
 
         let lastPath = url.lastPathComponent
         
@@ -103,9 +99,7 @@ extension AppDelegate {
             body = htmlParam
         }
         
-        guard let window = NSApplication.shared.windows.first,
-            let controller = window.contentViewController as? ViewController
-            else { return }
+        guard let controller = ViewController.shared() else { return }
         
         controller.createNote(name: title, content: body)
     }
@@ -173,9 +167,7 @@ extension AppDelegate {
             body = body.appending("\n\nnvALT tags: \(tagsParam)")
         }
         
-        guard let window = NSApplication.shared.windows.first,
-            let controller = window.contentViewController as? ViewController
-            else { return }
+        guard let controller = ViewController.shared() else { return }
         
         controller.createNote(name: title, content: body)
     }

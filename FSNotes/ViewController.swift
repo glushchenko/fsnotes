@@ -108,7 +108,7 @@ class ViewController: NSViewController,
     }
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return false}
+        guard let vc = ViewController.shared() else { return false}
         
         if let title = menuItem.menu?.identifier?.rawValue {
             switch title {
@@ -267,7 +267,8 @@ class ViewController: NSViewController,
     // MARK: - Actions
     
     @IBAction func searchAndCreate(_ sender: Any) {
-        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        guard let vc = ViewController.shared() else { return }
+
         vc.search.window?.makeFirstResponder(vc.search)
     }
 
@@ -284,7 +285,7 @@ class ViewController: NSViewController,
             
             sender.state = NSControl.StateValue.on
             
-            let controller = NSApplication.shared.windows.first!.contentViewController as! ViewController
+            guard let controller = ViewController.shared() else { return }
             
             // Sort all notes
             storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: controller.search.stringValue)
@@ -323,7 +324,7 @@ class ViewController: NSViewController,
     }
 
     func splitViewDidResizeSubviews(_ notification: Notification) {
-        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        guard let vc = ViewController.shared() else { return }
         vc.checkSidebarConstraint()
                 
         if !refilled {
@@ -387,9 +388,11 @@ class ViewController: NSViewController,
     }
         
     public func keyDown(with event: NSEvent) -> Bool {
+        guard let mw = MainWindowController.shared() else { return false }
+
         guard self.alert == nil else {
             if event.keyCode == kVK_Escape, let unwrapped = alert {
-                NSApp.windows[0].endSheet(unwrapped.window)
+                mw.endSheet(unwrapped.window)
             }
             return true
         }
@@ -525,7 +528,7 @@ class ViewController: NSViewController,
             return false
         }
 
-        if let fr = NSApp.windows.first?.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
+        if let fr = mw.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
             !event.modifierFlags.contains(.control) {
 
             if let char = event.characters {
@@ -552,7 +555,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
@@ -569,7 +572,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileMenuNewNote(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
@@ -614,7 +617,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileMenuNewRTF(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
@@ -624,7 +627,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func moveMenu(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if vc.notesTableView.selectedRow >= 0 {
             vc.loadMoveMenu()
@@ -703,7 +706,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func makeMenu(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
@@ -713,7 +716,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func pinMenu(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         vc.pin(vc.notesTableView.selectedRowIndexes)
     }
     
@@ -722,7 +725,7 @@ class ViewController: NSViewController,
     }
     
     @objc func switchTitleToEditMode() {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
 
         if vc.notesTableView.selectedRow > -1 {
             vc.titleLabel.isEditable = true
@@ -731,7 +734,7 @@ class ViewController: NSViewController,
     }
 
     @IBAction func deleteNote(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else {
             return
         }
@@ -794,7 +797,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func archiveNote(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         guard let notes = vc.notesTableView.getSelectedNotes() else {
             return
@@ -811,11 +814,11 @@ class ViewController: NSViewController,
     }
 
     @IBAction func tagNote(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else { return }
         guard let note = notes.first else { return }
-        
-        let window = NSApp.windows[0]
+        guard let window = MainWindowController.shared() else { return }
+
         vc.alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
 
@@ -860,12 +863,12 @@ class ViewController: NSViewController,
     }
     
     @IBAction func openInExternalEditor(_ sender: Any) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         vc.external(selectedRow: vc.notesTableView.selectedRow)
     }
 
     @IBAction func toggleNoteList(_ sender: Any) {
-        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
 
         let size = UserDefaultsManagement.horizontalOrientation
             ? vc.splitView.subviews[0].frame.height
@@ -892,7 +895,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func toggleSidebar(_ sender: Any) {
-        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
 
         let size = Int(vc.sidebarSplitView.subviews[0].frame.width)
 
@@ -907,7 +910,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func emptyTrash(_ sender: NSMenuItem) {
-        guard let vc = NSApplication.shared.windows.first?.contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         if let sidebarItem = vc.getSidebarItem(), sidebarItem.isTrash() {
             let indexSet = IndexSet(integersIn: 0..<vc.notesTableView.noteList.count)
@@ -942,7 +945,7 @@ class ViewController: NSViewController,
     }
 
     @IBAction func openProjectViewSettings(_ sender: NSMenuItem) {
-        guard let vc =  NSApp.windows.first?.contentViewController as? ViewController else {
+        guard let vc = ViewController.shared() else {
             return
         }
 
@@ -1264,7 +1267,7 @@ class ViewController: NSViewController,
     }
     
     func searchShortcut() {
-        guard let mainWindow = NSApplication.shared.windows.first else { return }
+        guard let mainWindow = MainWindowController.shared() else { return }
 
         if (
             NSApplication.shared.isActive
@@ -1297,7 +1300,7 @@ class ViewController: NSViewController,
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
-        guard let vc = NSApp.windows[0].contentViewController as? ViewController else { return }
+        guard let vc = ViewController.shared() else { return }
         
         var sidebarProject = getSidebarProject()
         var text = content
@@ -1427,7 +1430,7 @@ class ViewController: NSViewController,
         //Preview mode doesn't support text search
         cancelTextSearch()
         
-        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        guard let vc = ViewController.shared() else { return }
         vc.editArea.window?.makeFirstResponder(vc.notesTableView)
         
         self.view.window!.title = NSLocalizedString("FSNotes [preview]", comment: "")
@@ -1459,7 +1462,7 @@ class ViewController: NSViewController,
     
     func loadMoveMenu() {
         guard
-            let vc = NSApp.windows[0].contentViewController as? ViewController,
+            let vc = ViewController.shared(),
             let note = vc.notesTableView.getSelectedNote() else { return }
         
         let moveTitle = NSLocalizedString("Move", comment: "Menu")
@@ -1679,7 +1682,7 @@ class ViewController: NSViewController,
     }
 
     @IBAction func textFinder(_ sender: NSMenuItem) {
-        let vc = NSApplication.shared.windows.first!.contentViewController as! ViewController
+        guard let vc = ViewController.shared() else { return }
 
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
 
@@ -1709,6 +1712,12 @@ class ViewController: NSViewController,
 
     func splitViewWillResizeSubviews(_ notification: Notification) {
         editArea.updateTextContainerInset()
+    }
+
+    public static func shared() -> ViewController? {
+        guard let delegate = NSApplication.shared.delegate as? AppDelegate else { return nil }
+        
+        return delegate.mainWindowController?.window?.contentViewController as? ViewController
     }
 
 }

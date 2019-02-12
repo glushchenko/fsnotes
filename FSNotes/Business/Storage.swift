@@ -604,8 +604,7 @@ class Storage {
 
                 if note.url == currentNote.url {
                 #if os(OSX)
-                    let viewController = NSApplication.shared.windows.first!.contentViewController as! ViewController
-                    viewController.refillEditArea()
+                    ViewController.shared()?.refillEditArea()
                 #else
                     DispatchQueue.main.async {
                         guard

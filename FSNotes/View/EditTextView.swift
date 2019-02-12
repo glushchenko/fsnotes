@@ -67,7 +67,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             validateSubmenu(menuItem.menu!)
         }
         
-        if menuItem.menu?.identifier?.rawValue == "formatMenu", let vc = self.getVc(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
+        if menuItem.menu?.identifier?.rawValue == "formatMenu", let vc = ViewController.shared(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
             return false
         }
         
@@ -382,17 +382,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     @IBAction func togglePreview(_ sender: Any) {
-        let mainWindow = NSApplication.shared.windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        
-        viewController.togglePreview()
+        guard let vc = ViewController.shared() else { return }
+
+        vc.togglePreview()
     }
     
     func getSelectedNote() -> Note? {
-        let mainWindow = NSApplication.shared.windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        let note = viewController.notesTableView.getSelectedNote()
-        return note
+        guard let vc = ViewController.shared() else { return nil }
+
+        return vc.notesTableView.getSelectedNote()
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
@@ -547,9 +545,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     func formatShortcut(keyCode: UInt16, modifier: NSEvent.ModifierFlags) -> Bool {
-        guard
-            let mainWindow = NSApplication.shared.windows.first,
-            let vc = mainWindow.contentViewController as? ViewController,
+        guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = getSelectedNote(),
             !UserDefaultsManagement.preview,
@@ -596,9 +592,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     func getParagraphRange() -> NSRange? {
-        guard let mw = NSApplication.shared.windows.first,
-            let c = mw.contentViewController as? ViewController,
-            let editArea = c.editArea,
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
             let storage = editArea.textStorage
         else {
             return nil
@@ -1029,15 +1024,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     func getSearchText() -> String {
-        let mainWindow = NSApplication.shared.windows.first
-        let viewController = mainWindow?.contentViewController as! ViewController
-        let search = viewController.search.stringValue
+        guard let search = ViewController.shared()?.search else { return String() }
 
-        if let editor = viewController.search.currentEditor(), editor.selectedRange.length > 0 {
-            return (search as NSString).substring(with: NSRange(0..<editor.selectedRange.location))
+        if let editor = search.currentEditor(), editor.selectedRange.length > 0 {
+            return (search.stringValue as NSString).substring(with: NSRange(0..<editor.selectedRange.location))
         }
         
-        return search
+        return search.stringValue
     }
     
     @objc func undoEdit(_ object: UndoData) {
@@ -1058,15 +1051,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return false
     }
-    
-    private func getVc() -> ViewController? {
-        if let viewController = NSApplication.shared.windows.first?.contentViewController as? ViewController {
-            return viewController
-        }
         
-        return nil
-    }
-    
     @IBAction func shiftLeft(_ sender: Any) {
         guard let f = self.getTextFormatter() else { return }
         
@@ -1183,9 +1168,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
         
-        let window = NSApp.windows[0]
         let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
-        
+
+        guard let window = MainWindowController.shared() else { return }
         guard let vc = window.contentViewController as? ViewController else { return }
 
         vc.alert = NSAlert()

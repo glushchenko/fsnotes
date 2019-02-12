@@ -53,7 +53,7 @@ extension ImageAttachment {
     }
 
     private func getEditorView() -> EditTextView? {
-        if let cvc = NSApplication.shared.windows.first?.contentViewController as? ViewController, let view = cvc.editArea {
+        if let cvc = ViewController.shared(), let view = cvc.editArea {
             return view
         }
 

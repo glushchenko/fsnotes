@@ -16,6 +16,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     override func windowDidLoad() {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.mainWindowController = self
+
         self.window?.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         self.window?.titleVisibility = .hidden
         self.window?.titlebarAppearsTransparent = true
@@ -34,9 +35,10 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     }
     
     func refreshEditArea() {
-        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-        controller?.focusEditArea()
-        controller?.editArea.updateTextContainerInset()
+        guard let vc = ViewController.shared() else { return }
+        
+        vc.focusEditArea()
+        vc.editArea.updateTextContainerInset()
     }
     
     func windowWillReturnUndoManager(_ window: NSWindow) -> UndoManager? {
@@ -49,11 +51,19 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
         }
         
         if fr.isKind(of: EditTextView.self) {
-            guard let vc = NSApp.windows[0].contentViewController as? ViewController, let ev = vc.editArea, ev.isEditable else { return notesListUndoManager }
+            guard let vc = ViewController.shared(), let ev = vc.editArea, ev.isEditable else { return notesListUndoManager }
             
             return editorUndoManager
         }
         
         return notesListUndoManager
+    }
+
+    public static func shared() -> NSWindow? {
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            return appDelegate.mainWindowController?.window
+        }
+
+        return nil
     }
 }

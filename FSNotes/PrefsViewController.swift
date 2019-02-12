@@ -94,8 +94,11 @@ class PrefsViewController: NSViewController {
             }
         }
     }
-    
-    let viewController = NSApplication.shared.windows.first?.contentViewController as? ViewController
+
+
+    //MARK: global variables
+
+    var fontPanelOpen: Bool = false
     let storage = Storage.sharedInstance()
     
     override func viewDidLoad() {
@@ -184,8 +187,10 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
+        guard let vc = ViewController.shared() else { return }
+
         if UserDefaultsManagement.liveImagesPreview {
-            if let note = EditTextView.note, let storage = controller?.editArea.textStorage, storage.length > 0 {
+            if let note = EditTextView.note, let storage = vc.editArea.textStorage, storage.length > 0 {
                 let processor = ImagesProcessor(styleApplier: storage, note: note)
                 processor.unLoad()
                 storage.setAttributedString(note.content)
@@ -196,7 +201,7 @@ class PrefsViewController: NSViewController {
         
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
             NotesTextProcessor.fullScan(note: note)
-            controller?.refillEditArea()
+            vc.refillEditArea()
         }
     }
     
@@ -224,30 +229,33 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func verticalOrientation(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.horizontalOrientation = false
         
         horizontalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        controller?.splitView.isVertical = true
-        controller?.splitView.setPosition(215, ofDividerAt: 0)
-        //controller?.titleLabel.isHidden = false
+        vc.splitView.isVertical = true
+        vc.splitView.setPosition(215, ofDividerAt: 0)
         
         UserDefaultsManagement.cellSpacing = 38
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-        controller?.setTableRowHeight()
+        vc.setTableRowHeight()
     }
     
     @IBAction func horizontalOrientation(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.horizontalOrientation = true
         
         verticalRadio.cell?.state = NSControl.StateValue(rawValue: 0)
-        controller?.splitView.isVertical = false
-        controller?.splitView.setPosition(145, ofDividerAt: 0)
+        vc.splitView.isVertical = false
+        vc.splitView.setPosition(145, ofDividerAt: 0)
 
         UserDefaultsManagement.cellSpacing = 12
         cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
-        controller?.setTableRowHeight()
-        
-        controller?.notesTableView.reloadData()
+
+        vc.setTableRowHeight()
+        vc.notesTableView.reloadData()
     }
     
     @IBAction func setFont(_ sender: NSButton) {
@@ -261,38 +269,43 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func setFontColor(_ sender: NSColorWell) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.fontColor = sender.color
-        controller?.editArea.setEditorTextColor(sender.color)
+        vc.editArea.setEditorTextColor(sender.color)
         
         if let note = EditTextView.note {
             self.storage.fullCacheReset()
             note.reCache()
-            controller?.refillEditArea()
+            vc.refillEditArea()
         }
     }
     
     @IBAction func setBgColor(_ sender: NSColorWell) {
-        let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
+        guard let vc = ViewController.shared() else { return }
         
         UserDefaultsManagement.bgColor = sender.color
         
-        controller?.editArea.backgroundColor = sender.color
+        vc.editArea.backgroundColor = sender.color
     }
     
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
-        controller?.setTableRowHeight()
+        guard let vc = ViewController.shared() else { return }
+
+        vc.setTableRowHeight()
     }
     
     @IBAction func changePreview(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.hidePreview = ((sender as AnyObject).state == NSControl.StateValue.on)
-        controller?.notesTableView.reloadData()
+        vc.notesTableView.reloadData()
     }
-    
-    var fontPanelOpen: Bool = false
-    let controller = NSApplication.shared.windows.first?.contentViewController as? ViewController
-    
+
     // changeFont is sent by the Font Panel.
     override func changeFont(_ sender: Any?) {
+        guard let vc = ViewController.shared() else { return }
+
         let fontManager = NSFontManager.shared
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont
@@ -300,10 +313,10 @@ class PrefsViewController: NSViewController {
         if let note = EditTextView.note {
             self.storage.fullCacheReset()
             note.reCache()
-            controller?.refillEditArea()
+            vc.refillEditArea()
         }
         
-        controller?.reloadView()
+        vc.reloadView()
         setFontPreview()
     }
 
@@ -323,6 +336,8 @@ class PrefsViewController: NSViewController {
     }
     
     func initShortcuts() {
+        guard let vc = ViewController.shared() else { return }
+
         let mas = MASShortcutMonitor.shared()
         
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
@@ -338,7 +353,7 @@ class PrefsViewController: NSViewController {
                 UserDefaultsManagement.newNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
                 
                 MASShortcutMonitor.shared().register(self.newNoteshortcutView.shortcutValue, withAction: {
-                    self.controller?.makeNoteShortcut()
+                    vc.makeNoteShortcut()
                 })
             }
         }
@@ -353,13 +368,14 @@ class PrefsViewController: NSViewController {
                 UserDefaultsManagement.searchNoteShortcut = MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
                 
                 MASShortcutMonitor.shared().register(self.searchNotesShortcut.shortcutValue, withAction: {
-                    self.controller?.searchShortcut()
+                    vc.searchShortcut()
                 })
             }
         }
     }
         
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
+        guard let vc = ViewController.shared() else { return }
         guard let item = sender.selectedItem else {
             return
         }
@@ -368,7 +384,7 @@ class PrefsViewController: NSViewController {
 
         NotesTextProcessor.hl = nil
         self.storage.fullCacheReset()
-        controller?.refillEditArea()
+        vc.refillEditArea()
     }
     
     @IBAction func inEditorFocus(_ sender: NSButton) {
@@ -416,7 +432,7 @@ class PrefsViewController: NSViewController {
                 self.archivePathControl.url = url
                 
                 let storage = self.storage
-                guard let vc = self.viewController else { return }
+                guard let vc = ViewController.shared() else { return }
                 
                 if let archive = storage.getArchive() {
                     archive.url = url
@@ -424,8 +440,7 @@ class PrefsViewController: NSViewController {
                     storage.loadLabel(archive)
                     storage.cacheMarkdown(project: archive)
 
-                    self.controller?.fsManager?.restart()
-
+                    vc.fsManager?.restart()
                     vc.notesTableView.reloadData()
                     vc.storageOutlineView.reloadData()
                     vc.storageOutlineView.selectArchive()
@@ -435,9 +450,10 @@ class PrefsViewController: NSViewController {
     }
     
     @IBAction func lineSpacing(_ sender: NSSlider) {
+        guard let vc = ViewController.shared() else { return }
         UserDefaultsManagement.editorLineSpacing = sender.floatValue
         
-        self.viewController?.editArea.applyLeftParagraphStyle()
+        vc.editArea.applyLeftParagraphStyle()
     }
     
     @IBAction func languagePopUp(_ sender: NSPopUpButton) {
@@ -456,19 +472,23 @@ class PrefsViewController: NSViewController {
     }
 
     @IBAction func imagesWidth(_ sender: NSSlider) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.imagesWidth = sender.floatValue
 
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
             NotesTextProcessor.fullScan(note: note)
-            controller?.refillEditArea()
+            vc.refillEditArea()
         }
     }
 
     @IBAction func lineWidth(_ sender: NSSlider) {
+        guard let vc = ViewController.shared() else { return }
+
         UserDefaultsManagement.lineWidth = sender.floatValue
 
         if let _ = EditTextView.note, !UserDefaultsManagement.preview {
-            controller?.editArea.updateTextContainerInset()
+            vc.editArea.updateTextContainerInset()
         }
     }
 

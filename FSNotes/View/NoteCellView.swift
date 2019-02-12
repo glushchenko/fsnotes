@@ -25,11 +25,9 @@ class NoteCellView: NSTableCellView {
 
     public var tableView: NotesTableView? {
         get {
-            guard let viewController = NSApp.windows.first?.contentViewController as? ViewController else {
-                return nil
-            }
-
-            return viewController.notesTableView
+            guard let vc = ViewController.shared() else { return nil }
+            
+            return vc.notesTableView
         }
     }
 
@@ -202,7 +200,7 @@ class NoteCellView: NSTableCellView {
             self.name.stringValue = note.getTitleWithoutLabel()
         }
 
-        if let viewController = NSApp.windows.first?.contentViewController as? ViewController,
+        if let viewController = ViewController.shared(),
             let sidebarItem = viewController.getSidebarItem(),
             let sort = sidebarItem.project?.sortBy,
             sort == .creationDate,
