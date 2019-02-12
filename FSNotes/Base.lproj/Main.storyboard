@@ -681,7 +681,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
+                                        <view key="view" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -973,7 +973,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="Editor" identifier="" id="vFY-vs-Qna">
-                                        <view key="view" id="4iE-YN-Vay">
+                                        <view key="view" ambiguous="YES" id="4iE-YN-Vay">
                                             <rect key="frame" x="10" y="33" width="434" height="281"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1174,7 +1174,7 @@ CA
                                                     </connections>
                                                 </button>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wax-qG-Xl8">
-                                                    <rect key="frame" x="19" y="149" width="235" height="17"/>
+                                                    <rect key="frame" x="19" y="165" width="235" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Language (need app restart):" id="6yz-uX-0Fr">
                                                         <font key="font" metaFont="system"/>
@@ -1183,7 +1183,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6kM-RS-dbQ">
-                                                    <rect key="frame" x="19" y="113" width="81" height="17"/>
+                                                    <rect key="frame" x="18" y="135" width="81" height="17"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="dp3-Zm-vFa">
                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -1192,7 +1192,7 @@ CA
                                                     </textFieldCell>
                                                 </textField>
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BWZ-xj-djf">
-                                                    <rect key="frame" x="258" y="108" width="160" height="25"/>
+                                                    <rect key="frame" x="257" y="130" width="160" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <popUpButtonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="ehR-X0-q5R" id="Z2U-eJ-LHW">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1213,7 +1213,7 @@ CA
                                                     </connections>
                                                 </popUpButton>
                                                 <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="sWB-ZV-zIz">
-                                                    <rect key="frame" x="21" y="188" width="394" height="5"/>
+                                                    <rect key="frame" x="20" y="196" width="394" height="5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </box>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J7O-s2-BYX">
@@ -1234,12 +1234,8 @@ CA
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zQ0-mG-ivR">
-                                                    <rect key="frame" x="20" y="50" width="394" height="5"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                </box>
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TVn-At-Fhc">
-                                                    <rect key="frame" x="257" y="143" width="160" height="26"/>
+                                                    <rect key="frame" x="257" y="159" width="160" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="ITt-Tn-KDV">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -1250,6 +1246,10 @@ CA
                                                         <action selector="languagePopUp:" target="IAM-xZ-Bfs" id="HzA-Z9-Aff"/>
                                                     </connections>
                                                 </popUpButton>
+                                                <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zQ0-mG-ivR">
+                                                    <rect key="frame" x="21" y="47" width="394" height="5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </box>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -2025,7 +2025,7 @@ CA
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
-        <image name="makeNoteAsset" width="512" height="512"/>
+        <image name="makeNoteAsset" width="122.87999725341797" height="122.87999725341797"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
         <namedColor name="mainBackground">
