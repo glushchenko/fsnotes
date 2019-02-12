@@ -89,13 +89,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         guard let sidebarItem = item as? SidebarItem else { return false }
+        guard let vc = ViewController.shared() else { return false }
+
         let board = info.draggingPasteboard()
-        
+
         switch sidebarItem.type {
         case .Tag:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-                guard let vc = ViewController.shared() else { return false }
-                
+
                 for row in rows {
                     let note = vc.notesTableView.noteList[row]
                     note.addTag(sidebarItem.name)
@@ -107,8 +108,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             break
         case .Label, .Category, .Trash, .Archive:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-                guard let vc = ViewController.shared() else { return false }
-                
+
                 var notes = [Note]()
                 for row in rows {
                     let note = vc.notesTableView.noteList[row]
@@ -136,11 +136,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 let project = sidebarItem.project else { return false }
             
             for url in urls {
-                do {
-                    try FileManager.default.copyItem(at: url, to: project.url.appendingPathComponent(url.lastPathComponent))
-                } catch {
-                    print(error)
-                }
+                vc.copy(project: project, url: url)
             }
             
             return true

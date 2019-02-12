@@ -593,27 +593,12 @@ class ViewController: NSViewController,
                 let project = self.getSidebarProject() ?? self.storage.getMainProject()
 
                 for url in urls {
-                    do {
-                        try FileManager.default.copyItem(at: url, to: project.url)
-                    } catch {
-                        var tempUrl = url
-
-                        let ext = tempUrl.pathExtension
-                        tempUrl.deletePathExtension()
-
-                        let name = tempUrl.lastPathComponent
-                        tempUrl.deleteLastPathComponent()
-
-                        let now = DateFormatter().formatForDuplicate(Date())
-                        let baseUrl = project.url.appendingPathComponent(name + " " + now + "." + ext)
-
-                        try? FileManager.default.copyItem(at: url, to: baseUrl)
-                    }
+                    self.copy(project: project, url: url)
                 }
             }
         }
     }
-    
+
     @IBAction func fileMenuNewRTF(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         
@@ -1716,6 +1701,25 @@ class ViewController: NSViewController,
         guard let delegate = NSApplication.shared.delegate as? AppDelegate else { return nil }
         
         return delegate.mainWindowController?.window?.contentViewController as? ViewController
+    }
+
+    public func copy(project: Project, url: URL) {
+        do {
+            try FileManager.default.copyItem(at: url, to: project.url)
+        } catch {
+            var tempUrl = url
+
+            let ext = tempUrl.pathExtension
+            tempUrl.deletePathExtension()
+
+            let name = tempUrl.lastPathComponent
+            tempUrl.deleteLastPathComponent()
+
+            let now = DateFormatter().formatForDuplicate(Date())
+            let baseUrl = project.url.appendingPathComponent(name + " " + now + "." + ext)
+
+            try? FileManager.default.copyItem(at: url, to: baseUrl)
+        }
     }
 
 }
