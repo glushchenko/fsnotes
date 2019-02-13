@@ -16,10 +16,11 @@ public enum NoteType: String {
     
     static func withExt(rawValue: String) -> NoteType {
         switch rawValue {
+            case "markdown", "md", "mkd": return NoteType.Markdown
             case "rtf": return NoteType.RichText
             case "textbundle": return NoteType.TextBundle
             case "txt": return NoteType.PlainText
-            default: return NoteType.Markdown
+            default: return NoteType.PlainText
         }
     }
 }
