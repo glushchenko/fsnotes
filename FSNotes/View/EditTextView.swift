@@ -737,12 +737,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
         }
 
-        typingAttributes.removeValue(forKey: .todo)
+        if note.isMarkdown() {
+            typingAttributes.removeValue(forKey: .todo)
+            typingAttributes.removeValue(forKey: .backgroundColor)
 
-        if note.isMarkdown(), textStorage?.length == 0, let appearance = appearance {
-            typingAttributes[.foregroundColor] = appearance.isDark ? NSColor.white : NSColor.black
+            if textStorage?.length == 0 {
+                typingAttributes[.foregroundColor] = NSAppearance.current.isDark ? NSColor.white : NSColor.black
+            }
         }
-
+        
         // New line
         if replacementString == "\n" {
             shouldChange = false

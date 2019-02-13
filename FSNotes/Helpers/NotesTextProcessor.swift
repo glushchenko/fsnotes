@@ -178,7 +178,7 @@ public class NotesTextProcessor {
                 if r.range.upperBound >= paragraphRange.location && r.range.lowerBound <= paragraphRange.location {
                     
                     if r.range.upperBound < string.length {
-                        foundRange = NSRange(location: r.range.location, length: r.range.length + 1)
+                        foundRange = NSRange(location: r.range.location, length: r.range.length)
                     } else {
                         foundRange = r.range
                     }
@@ -1280,7 +1280,8 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let _codeQuoteBlockPattern = [
-        "(^```[a-zA-Z0-9]*\\n[\\s\\S]*?\\n```)"
+        "(?<=\\n|\\A)",
+        "(^```[a-zA-Z0-9]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
         ].joined(separator: "\n")
             
     fileprivate static let codeSpanPattern = [

@@ -628,13 +628,8 @@ public class TextFormatter {
         // Fenced code block style handler
 
         if UserDefaultsManagement.codeBlockHighlight, self.note.isMarkdown() {
-            if let fencedRange = NotesTextProcessor.getFencedCodeBlock(at: selectedRange.location, string: storage) {
-                let attributes = TextFormatter.getCodeBlockAttributes()
-                self.storage.addAttributes(attributes, range: fencedRange)
-            } else {
-                if selectedRange.location + 2 <= storage.length {
-                    storage.removeAttribute(.backgroundColor, range: NSRange(location: selectedRange.location + 1, length: 1))
-                }
+            if NotesTextProcessor.getFencedCodeBlock(at: selectedRange.location + 1, string: storage) == nil, storage.length >= selectedRange.location + 2 {
+                storage.removeAttribute(.backgroundColor, range: NSRange(location: selectedRange.location + 1, length: 1))
             }
         }
     }
