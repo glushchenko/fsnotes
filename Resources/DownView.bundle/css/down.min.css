@@ -503,11 +503,25 @@ body > ul, body > ol {
         list-style-type: none;
     }
 
-input[type="checkbox"] {
-    -webkit-transform: scale(1.5);
-    padding: 3px 0;
-    margin-right: 5px;
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+    line-height: 14px;
+    border-radius:5px;
+    border:1px solid #555;
+    vertical-align: middle;
 }
+    input[type='checkbox'][disabled][checked]:after {
+        content:'✓';
+        position: absolute;
+        margin-left: 4px;
+        margin-top: 3px;
+        opacity: 1 !important;
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: normal;
+    }
 
 li {
     list-style-position: inside;
