@@ -106,9 +106,6 @@
     <script>
         var loadCanvas = function(images) {
             if (images.length == 0) {
-                if (typeof objcConnector !== 'undefined') {
-                    objcConnector.allImagesLoaded("empty");
-                }
                 return;
             }
 
@@ -123,16 +120,11 @@
             loadImage(
                 image.src,
                 function (canvas) {
-                      print("want load")
                     image.parentNode.replaceChild(canvas, image)
                     canvas.style.maxWidth = '100%';
 
                     if (images.length > 0) {
                         loadCanvas(images);
-                      } else {
-                        if (typeof objcConnector !== 'undefined') {
-                            objcConnector.allImagesLoaded("canvas end");
-                        }
                       }
                 }, {
                     orientation: orientation,
@@ -144,9 +136,6 @@
         var onLoaded = function() {
            var collection = document.getElementsByClassName("fsnotes-preview"),
            images = Array.prototype.slice.call(collection);
-           if (typeof objcConnector !== 'undefined') {
-               objcConnector.allImagesLoaded(images.length.toString());
-           }
            loadCanvas(images);
 
         };
