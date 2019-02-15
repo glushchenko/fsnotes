@@ -912,7 +912,7 @@ class ViewController: NSViewController,
     }
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
-        if UserDefaultsManagement.preview {
+        if let note = EditTextView.note, note.isMarkdown() {
             printMarkdownPreview()
             return
         }
@@ -948,7 +948,7 @@ class ViewController: NSViewController,
 
         let markdownString = note.getPrettifiedContent()
         let mainCSS = try! String(contentsOf: cssURL!)
-        let css = editArea.getPreviewStyle() + mainCSS + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid black; } pre, pre code { word-wrap: break-word; }" + MarkdownView.getPreviewStyle() ;
+        let css = MarkdownView.getPreviewStyle(theme: "atom-one-light") + mainCSS + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
 
         var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
@@ -965,7 +965,11 @@ class ViewController: NSViewController,
 
         self.webView = WebView()
         self.webView?.frameLoadDelegate = self
-        self.webView?.mainFrame.loadHTMLString(htmlString, baseURL: nil)
+        self.webView?.mainFrame.loadHTMLString(htmlString, baseURL: baseURL)
+
+        if UserDataService.instance.isDark {
+            self.webView?.stringByEvaluatingJavaScript(from: "switchToDarkMode();")
+        }
     }
 
     override class func isSelectorExcluded(fromWebScript sel: Selector) -> Bool {

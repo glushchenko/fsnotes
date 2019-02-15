@@ -91,9 +91,11 @@ open class MarkdownView: WKWebView {
         try loadHTMLView(markdownString, css: "")
     }
     
-    public static func getPreviewStyle() -> String {
+    public static func getPreviewStyle(theme: String? = nil) -> String {
+        let theme = theme ?? UserDefaultsManagement.codeTheme
+
         var codeStyle = ""
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
         
