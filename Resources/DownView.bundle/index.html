@@ -6,6 +6,13 @@
     <link charset="utf-8" href="css/down.min.css" rel="stylesheet">
     <script charset="utf-8" src="js/load-image.all.min.js" type="text/javascript"></script>
     <script charset="utf-8" src="js/highlight.min.js" type="text/javascript"></script>
+    <title></title>
+    <style>DOWN_CSS</style>
+</head>
+<body>
+
+    DOWN_HTML
+
     <script>
         hljs.initHighlightingOnLoad();
 
@@ -21,7 +28,7 @@
         function switchToDarkMode() {
             var darkModeStyleElement = document.getElementById(darkModeStylesNodeID);
             if (darkModeStyleElement == null) {
-                var darkModeStyles = "* { color: white; } body { background: #2a2b2e; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table td, table th { color: black }";
+                var darkModeStyles = "* { color: white; } body { background: #2a2b2e; } code { background: #454545; } .hljs { background: #454545 } a { color: #98e7a7 } table td, table th { color: black } input[type='checkbox'] { border: 1px solid white; }";
                 addStyleString(darkModeStyles, darkModeStylesNodeID);
             }
         }
@@ -37,13 +44,6 @@
             switchToDarkMode();
         }
     </script>
-    <title></title>
-    <style>DOWN_CSS</style>
-</head>
-<body>
-
-    DOWN_HTML
-    
     <script>
         var preList = document.getElementsByTagName("code"),
         length = preList.length,
@@ -125,7 +125,7 @@
 
                     if (images.length > 0) {
                         loadCanvas(images);
-                    }
+                      }
                 }, {
                     orientation: orientation,
                     canvas: true
@@ -137,6 +137,7 @@
            var collection = document.getElementsByClassName("fsnotes-preview"),
            images = Array.prototype.slice.call(collection);
            loadCanvas(images);
+
         };
 
         document.addEventListener("DOMContentLoaded", onLoaded);

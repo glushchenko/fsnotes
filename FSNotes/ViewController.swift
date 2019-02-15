@@ -10,13 +10,15 @@ import Cocoa
 import MASShortcut
 import cmark_gfm_swift
 import FSNotesCore_macOS
+import WebKit
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
     NSTextFieldDelegate,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
-    NSOutlineViewDataSource {
+    NSOutlineViewDataSource,
+    WebFrameLoadDelegate{
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
     private var projectSettingsViewController: ProjectSettingsViewController?
@@ -29,6 +31,7 @@ class ViewController: NSViewController,
     var sidebarTimer = Timer()
     var rowUpdaterTimer = Timer()
     let searchQueue = OperationQueue()
+    var printWebView: WebView?
 
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
@@ -81,7 +84,7 @@ class ViewController: NSViewController,
             }
         }
     }
-    
+
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -909,6 +912,12 @@ class ViewController: NSViewController,
     }
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
+        if let note = EditTextView.note, note.isMarkdown() {
+            self.printWebView = WebView()
+            printMarkdownPreview(webView: self.printWebView)
+            return
+        }
+
         let pv = NSTextView(frame: NSMakeRect(0, 0, 528, 688))
         pv.textStorage?.append(editArea.attributedString())
         
@@ -1723,4 +1732,3 @@ class ViewController: NSViewController,
     }
 
 }
-

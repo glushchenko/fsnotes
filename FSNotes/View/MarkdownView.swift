@@ -64,7 +64,7 @@ open class MarkdownView: WKWebView {
         #endif
 
         if openLinksInBrowser || didLoadSuccessfully != nil { navigationDelegate = self }
-        try loadHTMLView(markdownString, css: getPreviewStyle(), imagesStorage: imagesStorage)
+        try loadHTMLView(markdownString, css: MarkdownView.getPreviewStyle(), imagesStorage: imagesStorage)
     }
     
     required public init?(coder: NSCoder) {
@@ -91,9 +91,11 @@ open class MarkdownView: WKWebView {
         try loadHTMLView(markdownString, css: "")
     }
     
-    private func getPreviewStyle() -> String {
+    public static func getPreviewStyle(theme: String? = nil) -> String {
+        let theme = theme ?? UserDefaultsManagement.codeTheme
+
         var codeStyle = ""
-        if let hgPath = Bundle(for: Highlightr.self).path(forResource: UserDefaultsManagement.codeTheme + ".min", ofType: "css") {
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
         
