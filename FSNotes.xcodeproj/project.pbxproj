@@ -818,7 +818,6 @@
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
 		D7B3391420DE0FB100B36460 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		D7B6E599207912E300FE0E20 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		D7B80593221482BB00F3844F /* FSNotes copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes copy-Info.plist"; path = "/Users/fluder/src/fsnotes/FSNotes copy-Info.plist"; sourceTree = "<absolute>"; };
 		D7BBCA78208C749F002CE3C3 /* repository.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repository.png; sourceTree = "<group>"; };
 		D7BBCA7B208C7523002CE3C3 /* tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag.png; sourceTree = "<group>"; };
 		D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FSNotes iOS.entitlements"; sourceTree = "<group>"; };
@@ -1327,7 +1326,6 @@
 				D7793C701F211C6000CA39B7 /* Products */,
 				A124E2E6306B074DE002E8BA /* Pods */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
-				D7B80593221482BB00F3844F /* FSNotes copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
