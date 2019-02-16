@@ -221,9 +221,8 @@ public class ImagesProcessor {
         }
         
         if path.starts(with: "file://") {
-            var i = 0
             var ext = ext ?? "jpg"
-            var pathComponent = "1." + ext
+            var pathComponent = NSUUID().uuidString.lowercased() + "." + ext
 
             if let from = from {
                 pathComponent = from.lastPathComponent
@@ -235,8 +234,7 @@ public class ImagesProcessor {
                 let icloud = destination.appendingPathExtension("icloud")
                 
                 if FileManager.default.fileExists(atPath: destination.path) || FileManager.default.fileExists(atPath: icloud.path) {
-                    i = i + 1
-                    pathComponent = "\(i).\(ext)"
+                    pathComponent = NSUUID().uuidString.lowercased() + ".\(ext)"
                     continue
                 }
                 

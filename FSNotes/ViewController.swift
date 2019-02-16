@@ -317,6 +317,16 @@ class ViewController: NSViewController,
     public func move(notes: [Note], project: Project) {
         for note in notes {
             let destination = project.url.appendingPathComponent(note.name)
+
+            if note.type == .Markdown {
+                let imagesMeta = note.getAllImages()
+                for imageMeta in imagesMeta {
+                    move(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: project)
+                }
+
+                note.save()
+            }
+
             if note.move(to: destination, project: project) {
                 storage.removeBy(note: note)
                 notesTableView.removeByNotes(notes: [note])
@@ -324,6 +334,46 @@ class ViewController: NSViewController,
         }
         
         editArea.clear()
+    }
+
+    private func move(note: Note, from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
+        let dest = project.url.appendingPathComponent("i")
+
+        if !FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        do {
+            if copy {
+                try FileManager.default.copyItem(at: imageURL, to: dest)
+            } else {
+                try FileManager.default.moveItem(at: imageURL, to: dest)
+            }
+        } catch {
+            if let fileName = ImagesProcessor.getFileName(from: imageURL, to: dest, ext: imageURL.pathExtension) {
+
+                let dest = dest.appendingPathComponent(fileName)
+
+                if copy {
+                    try? FileManager.default.copyItem(at: imageURL, to: dest)
+                } else {
+                    try? FileManager.default.moveItem(at: imageURL, to: dest)
+                }
+
+                let prefix = "]("
+                let postfix = ")"
+
+                let find = prefix + imagePath + postfix
+                let replace = prefix + "/i/" + fileName + postfix
+
+                guard find != replace else { return }
+
+                while note.content.mutableString.contains(find) {
+                    let range = note.content.mutableString.range(of: find)
+                    note.content.replaceCharacters(in: range, with: replace)
+                }
+            }
+        }
     }
 
     func splitViewDidResizeSubviews(_ notification: Notification) {
@@ -1592,8 +1642,29 @@ class ViewController: NSViewController,
     @IBAction func duplicate(_ sender: Any) {
         if let notes = notesTableView.getSelectedNotes() {
             for note in notes {
-                print(note)
-                note.duplicate()
+                if note.type == .TextBundle {
+                    note.duplicate()
+                    continue
+                }
+
+                guard let name = note.getDupeName() else { continue }
+
+                let noteDupe = Note(name: name, project: note.project, type: note.type)
+                noteDupe.content = NSMutableAttributedString(string: note.content.string)
+
+                // Clone images
+                if note.type == .Markdown {
+                    let images = note.getAllImages()
+                    for image in images {
+                        move(note: noteDupe, from: image.url, imagePath: image.path, to: note.project, copy: true)
+                    }
+                }
+
+                noteDupe.isCached = false
+                noteDupe.save()
+
+                storage.add(noteDupe)
+                notesTableView.insertNew(note: noteDupe)
             }
         }
     }
