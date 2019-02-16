@@ -845,6 +845,24 @@ public class Note: NSObject  {
     }
 
     #if os(OSX)
+    public func getAllImages() -> [(url: URL, path: String)] {
+        var res = [(url: URL, path: String)]()
+
+        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
+            {(result, flags, stop) -> Void in
+
+                guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
+
+                let imagePath = self.content.attributedSubstring(from: range).string
+
+                if let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
+                    res.append((url: url, path: imagePath))
+                }
+        })
+
+        return res
+    }
+
     public func duplicate() {
         var url: URL = self.url
 
@@ -934,24 +952,6 @@ public class Note: NSObject  {
         self.isParsed = true
 
         return urls
-    }
-
-    public func getAllImages() -> [(url: URL, path: String)] {
-        var res = [(url: URL, path: String)]()
-
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
-            {(result, flags, stop) -> Void in
-
-            guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
-
-            let imagePath = self.content.attributedSubstring(from: range).string
-
-            if let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
-                res.append((url: url, path: imagePath))
-            }
-        })
-
-        return res
     }
 
     public func invalidateCache() {
