@@ -741,6 +741,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             typingAttributes.removeValue(forKey: .todo)
             typingAttributes.removeValue(forKey: .backgroundColor)
 
+            if replacementString == "\n", let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+                paragraphStyle.alignment = .left
+            }
+
             if textStorage?.length == 0 {
                 typingAttributes[.foregroundColor] = NSAppearance.current.isDark ? NSColor.white : NSColor.black
             }

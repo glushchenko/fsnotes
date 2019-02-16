@@ -623,6 +623,9 @@ public class TextFormatter {
             self.textView.insertText("\n")
         #else
             self.textView.insertNewline(nil)
+
+            // TODO: performance improvements
+            self.textView.textStorage?.updateParagraphStyle()
         #endif
 
         // Fenced code block style handler
