@@ -53,7 +53,7 @@ extension NSTextStorage {
     }
 
     public func sizeAttachmentImages() {
-        enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+        enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if let attachment = value as? NSTextAttachment,
                 attribute(.todo, at: range.location, effectiveRange: nil) == nil {
 

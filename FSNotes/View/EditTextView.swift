@@ -319,18 +319,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let currentRange = selectedRange()
 
             if let string = NSAttributedString(rtfd: clipboard, documentAttributes: nil) {
-
-                let mutable = NSMutableAttributedString(attributedString: string)
+                var mutable = NSMutableAttributedString(attributedString: string)
                 mutable.loadCheckboxes()
+
+                if !UserDefaultsManagement.liveImagesPreview {
+                    mutable = mutable.unLoadImages(note: note)
+                }
 
                 self.insertText(mutable, replacementRange: currentRange)
             }
 
             let range = NSRange(currentRange.location..<storage.length)
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
-            note.save()
-
             saveTextStorageContent(to: note)
+            note.save()
 
             // Set image size and .link after storage full scan (cleaned)
             storage.sizeAttachmentImages()
@@ -349,9 +351,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             let range = NSRange(currentRange.location..<storage.length)
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
-            note.save()
-
             saveTextStorageContent(to: note)
+            note.save()
 
             if UserDefaultsManagement.liveImagesPreview {
                 let processor = ImagesProcessor(styleApplier: storage, range: range, note: note, textView: self)
@@ -950,6 +951,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let position = attributedText.attribute(positionKey, at: 0, effectiveRange: nil) as? Int else { return false }
             
             guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
+
             let cacheUrl = note.getImageCacheUrl()
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
@@ -963,7 +965,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             unLoadImages()
             setSelectedRange(NSRange(location: caretLocation, length: 0))
-            
+
             return true
         }
         
@@ -994,26 +996,31 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     imagePath = "assets/\(name)"
                 }
 
-                guard let url = note.getImageUrl(imageName: imagePath) else { return false }
-
                 let insertRange = NSRange(location: caretLocation + offset, length: 0)
-                let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
 
-                let attachment = ImageAttachment(title: "", path: imagePath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+                if UserDefaultsManagement.liveImagesPreview {
+                    guard let url = note.getImageUrl(imageName: imagePath) else { return false }
 
-                if let string = attachment.getAttributedString() {
-                    insertText(string, replacementRange: insertRange)
+                    let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
+                    let attachment = ImageAttachment(title: "", path: imagePath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+
+                    if let string = attachment.getAttributedString() {
+                        insertText(string, replacementRange: insertRange)
+                        insertNewline(nil)
+                        insertNewline(nil)
+
+                        offset += 3
+                    }
+                } else {
+                    insertText("![](\(imagePath))", replacementRange: insertRange)
                     insertNewline(nil)
                     insertNewline(nil)
-
-                    offset += 3
                 }
             }
 
-            if !UserDefaultsManagement.liveImagesPreview {
-                NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
-                saveTextStorageContent(to: note)
-            }
+            NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
+            saveTextStorageContent(to: note)
+            note.save()
 
             applyLeftParagraphStyle()
             self.viewDelegate?.notesTableView.reloadRow(note: note)
@@ -1235,8 +1242,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
             saveImageClipboard(data: jpgData, note: note)
-            note.save()
             saveTextStorageContent(to: note)
+            note.save()
+
             textStorage?.sizeAttachmentImages()
             return true
         }
@@ -1257,8 +1265,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             saveImageClipboard(data: data, note: note, ext: ext)
-            note.save()
             saveTextStorageContent(to: note)
+            note.save()
+
             textStorage?.sizeAttachmentImages()
 
             return true
@@ -1270,6 +1279,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
     private func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
         if let string = ImagesProcessor.writeImage(data: data, note: note, ext: ext) {
             let path = note.getMdImagePath(name: string)
+
+            guard UserDefaultsManagement.liveImagesPreview else {
+                let newLineImage = NSAttributedString(string: "![](\(path))")
+                self.insertText(newLineImage, replacementRange: selectedRange())
+                return
+            }
+
             if let imageUrl = note.getImageUrl(imageName: path) {
                 let range = NSRange(location: selectedRange.location, length: 1)
                 let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)

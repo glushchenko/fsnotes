@@ -1640,7 +1640,7 @@ class ViewController: NSViewController,
         titleLabel.stringValue = noteTitle
         
         let title = newTitle != nil ? "\(appName) - \(noteTitle)" : appName
-        NSApp.mainWindow?.title = title
+        MainWindowController.shared()?.title = title
     }
     
     //MARK: Share Service
