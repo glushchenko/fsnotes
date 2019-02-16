@@ -986,11 +986,8 @@ class ViewController: NSViewController,
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
 
-            if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
-
-                rowUpdaterTimer.invalidate()
-                rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateCurrentRow), userInfo: nil, repeats: false)
-            }
+            rowUpdaterTimer.invalidate()
+            rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateCurrentRow), userInfo: nil, repeats: false)
         }
 
         // Fixes glitch when make/delete code block paragraph
@@ -1010,7 +1007,13 @@ class ViewController: NSViewController,
                 && !UserDefaultsManagement.preview
                 && self.editArea.isEditable
         ) {
-            moveNoteToTop(note: index)
+
+            if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
+                moveNoteToTop(note: index)
+            } else {
+                let note = notesTableView.noteList[index]
+                notesTableView.reloadRow(note: note)
+            }
         }
     }
     
