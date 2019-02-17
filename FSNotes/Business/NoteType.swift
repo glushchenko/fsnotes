@@ -19,7 +19,12 @@ public enum NoteType: String {
             case "markdown", "md", "mkd": return NoteType.Markdown
             case "rtf": return NoteType.RichText
             case "textbundle": return NoteType.TextBundle
-            case "txt": return NoteType.PlainText
+            case "txt":
+                return
+                    UserDefaultsManagement.txtAsMarkdown
+                        ? NoteType.Markdown
+                        : NoteType.PlainText
+            
             default: return NoteType.PlainText
         }
     }

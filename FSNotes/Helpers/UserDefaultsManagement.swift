@@ -73,6 +73,7 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
+        static let TxtAsMarkdown = "txtAsMarkdown"
         static let AutocloseBrackets = "autocloseBrackets"
     }
         
@@ -760,6 +761,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.HideSidebar)
+        }
+    }
+
+    static var txtAsMarkdown: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.TxtAsMarkdown) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.TxtAsMarkdown)
         }
     }
 }

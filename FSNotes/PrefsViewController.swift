@@ -44,7 +44,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var version: NSTextField!
-    
+    @IBOutlet weak var txtAsMarkdown: NSButton!
+
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
@@ -184,6 +185,8 @@ class PrefsViewController: NSViewController {
             let build = dictionary["CFBundleVersion"] as? String {
             version.stringValue = "v\(ver) build \(build)"
         }
+
+        txtAsMarkdown.state = UserDefaultsManagement.txtAsMarkdown ? .on : .off
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -492,5 +495,8 @@ class PrefsViewController: NSViewController {
         }
     }
 
-    
+    @IBAction func txtAsMarkdown(_ sender: NSButton) {
+        UserDefaultsManagement.txtAsMarkdown = sender.state == .on
+    }
+
 }
