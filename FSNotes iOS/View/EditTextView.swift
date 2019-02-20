@@ -90,6 +90,9 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = item["com.apple.flat-rtfd"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
+                    let attributedString = NSMutableAttributedString(attributedString: attributedString)
+                    attributedString.loadCheckboxes()
+                    
                     let newRange = NSRange(location: selectedRange.location, length: attributedString.length)
 
                     if let selTextRange = selectedTextRange, let undoManager = undoManager {
@@ -152,9 +155,10 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setItems([
-                    [kUTTypeFlatRTFD as String: rtfd],
-                    [kUTTypePlainText as String: attributedString.string]
+                    [kUTTypePlainText as String: attributedString.string],
+                    [kUTTypeFlatRTFD as String: rtfd]
                 ])
+                
                 return
             }
         }

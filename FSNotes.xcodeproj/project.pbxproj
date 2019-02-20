@@ -118,6 +118,7 @@
 		D739EC412138313400E1C021 /* checkbox_empty_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */; };
 		D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
 		D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */; };
+		D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */; };
 		D74112281FABA21B00AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D74112291FABA29100AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D7465F28207F2CD600E46A52 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
@@ -720,6 +721,7 @@
 		D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_empty@3x.png"; sourceTree = "<group>"; };
 		D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_empty_white@2x.png"; sourceTree = "<group>"; };
 		D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Checkboxes.swift"; sourceTree = "<group>"; };
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D7465F27207F2CD600E46A52 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D7470D062170E890006B2A92 /* CustomTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextStorage.swift; sourceTree = "<group>"; };
@@ -1521,6 +1523,7 @@
 				D71FD2242101CFD0008BEFA1 /* UITextView+.swift */,
 				D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */,
 				D7C302C221F31E5F0041627F /* ImageAttachment+.swift */,
+				D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2488,6 +2491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */,
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */,
