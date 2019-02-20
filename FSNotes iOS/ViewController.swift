@@ -402,6 +402,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.searchQueue.addOperation(operation)
     }
+    
+    public func updateNotesCounter() {
+        DispatchQueue.main.async {
+            self.folderCapacity.text = String(self.notesTable.notes.count)
+        }
+    }
 
     public func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
         let type: SidebarItemType = sidebarItem?.type ?? .All

@@ -215,6 +215,8 @@ class NotesTableView: UITableView,
                 deleteRows(at: [indexPath], with: .fade)
             }
         }
+        
+        self.viewDelegate?.updateNotesCounter()
     }
     
     @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {

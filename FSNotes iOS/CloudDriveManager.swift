@@ -63,6 +63,8 @@ class CloudDriveManager {
         self.saveCloudDriveResultsCache()
 
         cloudDriveQuery.enableUpdates()
+        
+        self.delegate.updateNotesCounter()
     }
 
     private func saveCloudDriveResultsCache() {

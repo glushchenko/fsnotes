@@ -65,6 +65,8 @@ class MoveViewController: UITableViewController {
                     self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
                 }
             }
+            
+            self.notesTableView.viewDelegate?.updateNotesCounter()
         }
 
         self.dismiss(animated: true, completion: nil)
