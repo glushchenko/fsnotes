@@ -1448,7 +1448,7 @@ class ViewController: NSViewController,
         cell.name.becomeFirstResponder()
         cell.name.stringValue = note.getTitleWithoutLabel()
 
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !NSAppearance.current.isDark, #available(OSX 10.13, *) {
+        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !UserDataService.instance.isDark, #available(OSX 10.13, *) {
             cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
         }
         

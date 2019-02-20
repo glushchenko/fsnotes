@@ -747,7 +747,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             if textStorage?.length == 0 {
-                typingAttributes[.foregroundColor] = NSAppearance.current.isDark ? NSColor.white : NSColor.black
+                typingAttributes[.foregroundColor] = UserDataService.instance.isDark ? NSColor.white : NSColor.black
             }
         }
         
