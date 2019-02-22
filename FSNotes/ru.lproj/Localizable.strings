@@ -44,10 +44,16 @@
 "Move" = "Переместить";
 
 /* No comment provided by engineer. */
+"New" = "Создать";
+
+/* No comment provided by engineer. */
 "New folder" = "Новая директория";
 
 /* No comment provided by engineer. */
 "New project" = "Новая директория";
+
+/* No comment provided by engineer. */
+"New RTF" = "Создать RTF";
 
 /* Rename
    Sidebar label */
@@ -65,11 +71,17 @@
 /* No comment provided by engineer. */
 "Preferences" = "Настройки";
 
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Выйти из FSNotes";
+
 /* Delete menu */
 "Remove" = "Удалить";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Удалить";
+
+/* No comment provided by engineer. */
+"Search and create" = "Найти и создать";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Смарт-копирование/вставка";

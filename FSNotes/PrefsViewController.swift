@@ -45,7 +45,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var version: NSTextField!
     @IBOutlet weak var txtAsMarkdown: NSButton!
-
+    @IBOutlet weak var showInMenuBar: NSButton!
+    
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
@@ -187,6 +188,8 @@ class PrefsViewController: NSViewController {
         }
 
         txtAsMarkdown.state = UserDefaultsManagement.txtAsMarkdown ? .on : .off
+        
+        showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -498,5 +501,18 @@ class PrefsViewController: NSViewController {
     @IBAction func txtAsMarkdown(_ sender: NSButton) {
         UserDefaultsManagement.txtAsMarkdown = sender.state == .on
     }
-
+    
+    @IBAction func showInMenuBar(_ sender: NSButton) {
+        UserDefaultsManagement.showInMenuBar = sender.state == .on
+        
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+        
+        if sender.state == .off {
+            appDelegate.removeMenuBar(nil)
+            return
+        }
+        
+        appDelegate.addMenuBar(nil)
+    }
+    
 }

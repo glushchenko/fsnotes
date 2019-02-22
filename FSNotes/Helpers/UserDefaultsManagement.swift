@@ -68,6 +68,7 @@ public class UserDefaultsManagement {
         static let Preview = "preview"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let ShowDockIcon = "showDockIcon"
+        static let ShowInMenuBar = "showInMenuBar"
         static let SmartInsertDelete = "smartInsertDelete"
         static let SortBy = "sortBy"
         static let StoragePathKey = "storageUrl"
@@ -773,6 +774,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.TxtAsMarkdown)
+        }
+    }
+    
+    static var showInMenuBar: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.ShowInMenuBar) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.ShowInMenuBar)
         }
     }
 }

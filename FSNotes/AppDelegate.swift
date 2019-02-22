@@ -11,21 +11,21 @@ import FSNotesCore_macOS
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    var mainWindowController: MainWindowController?    
+    
+    var mainWindowController: MainWindowController?
+    var prefsWindowController: PrefsWindowController?
+    var statusItem: NSStatusItem?
+    
     var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
-
-    @IBAction func openHelp(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
-    }
     
-    @IBAction func openMainWindow(_ sender: Any) {
-        mainWindowController?.makeNew()
-    }
-
     func applicationWillFinishLaunching(_ notification: Notification) {
+        if UserDefaultsManagement.showInMenuBar {
+            constructMenu()
+        }
+        
         if !UserDefaultsManagement.showDockIcon {
             let transformState = ProcessApplicationTransformState(kProcessTransformToUIElementApplication)
             var psn = ProcessSerialNumber(highLongOfPSN: 0, lowLongOfPSN: UInt32(kCurrentProcess))
@@ -159,5 +159,91 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 exit(EXIT_SUCCESS)
             }
         }
+    }
+    
+    func constructMenu() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        
+        if let button = statusItem?.button, let image = NSImage(named: NSImage.Name(rawValue: "blackWhite")) {
+            image.size.width = 20
+            image.size.height = 20
+            button.image = image
+        }
+        
+        let menu = NSMenu()
+        menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
+        
+        let rtf = NSMenuItem(title: NSLocalizedString("New RTF", comment: ""), action: #selector(AppDelegate.newRTF(_:)), keyEquivalent: "n")
+        var modifier = NSEvent.modifierFlags
+        modifier.insert(.command)
+        modifier.insert(.shift)
+        rtf.keyEquivalentModifierMask = modifier
+        menu.addItem(rtf)
+        
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Search and create", comment: ""), action: #selector(AppDelegate.searchAndCreate(_:)), keyEquivalent: "l"))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Preferences", comment: ""), action: #selector(AppDelegate.openPreferences(_:)), keyEquivalent: ","))
+        
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Quit FSNotes", comment: ""), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        
+        statusItem?.menu = menu
+    }
+    
+    // MARK: IBActions
+    
+    @IBAction func openMainWindow(_ sender: Any) {
+        mainWindowController?.makeNew()
+    }
+    
+    @IBAction func openHelp(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
+    }
+    
+    @IBAction func openPreferences(_ sender: Any?) {
+        if prefsWindowController == nil {
+            let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+            
+            prefsWindowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Preferences")) as? PrefsWindowController
+        }
+        
+        guard let prefsWindowController = prefsWindowController else { return }
+        
+        prefsWindowController.showWindow(nil)
+        prefsWindowController.window?.makeKeyAndOrderFront(prefsWindowController)
+        
+        NSApp.activate(ignoringOtherApps: true)
+    }
+    
+    @IBAction func new(_ sender: Any?) {
+        mainWindowController?.makeNew()
+        NSApp.activate(ignoringOtherApps: true)
+        ViewController.shared()?.fileMenuNewNote(self)
+    }
+    
+    @IBAction func newRTF(_ sender: Any?) {
+        mainWindowController?.makeNew()
+        NSApp.activate(ignoringOtherApps: true)
+        ViewController.shared()?.fileMenuNewRTF(self)
+    }
+    
+    @IBAction func searchAndCreate(_ sender: Any?) {
+        mainWindowController?.makeNew()
+        NSApp.activate(ignoringOtherApps: true)
+        
+        guard let vc = ViewController.shared() else { return }
+        
+        DispatchQueue.main.async {
+            vc.search.window?.makeFirstResponder(vc.search)
+        }
+    }
+    
+    @IBAction func removeMenuBar(_ sender: Any?) {
+        guard let statusItem = statusItem else { return }
+        NSStatusBar.system.removeStatusItem(statusItem)
+    }
+    
+    @IBAction func addMenuBar(_ sender: Any?) {
+        constructMenu()
     }
 }

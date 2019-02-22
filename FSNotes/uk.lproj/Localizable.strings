@@ -74,10 +74,16 @@
 "Move" = "Перемістити";
 
 /* No comment provided by engineer. */
+"New" = "Новий";
+
+/* No comment provided by engineer. */
 "New folder" = "Нова директорія";
 
 /* No comment provided by engineer. */
 "New project" = "Нова директорія";
+
+/* No comment provided by engineer. */
+"New RTF" = "Новий RTF";
 
 /* Rename
    Sidebar label */
@@ -95,6 +101,9 @@
 /* No comment provided by engineer. */
 "Preferences" = "Налаштування";
 
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Завершити роботу FSNotes";
+
 /* Delete menu */
 "Remove" = "Видалити";
 
@@ -103,6 +112,9 @@
 
 /* No comment provided by engineer. */
 "Reveal folder" = "Показати директорію";
+
+/* No comment provided by engineer. */
+"Search and create" = "Знайти або створити";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Розумне копіювання/вставка";

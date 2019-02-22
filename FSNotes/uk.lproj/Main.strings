@@ -110,7 +110,7 @@
 "bJC-he-nDV.title" = "Шрифт:";
 
 /* Class = "NSButtonCell"; title = "Show icon in dock"; ObjectID = "bJv-E9-bwW"; */
-"bJv-E9-bwW.title" = "Відображати іконку в док-панелі";
+"bJv-E9-bwW.title" = "Відображати іконку в док панелі";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
 "BOF-NM-1cW.title" = "Налаштування";
@@ -468,6 +468,9 @@
 
 /* Class = "NSMenuItem"; title = "New folder"; ObjectID = "SrH-fe-Hog"; */
 "SrH-fe-Hog.title" = "Нова директорія";
+
+/* Class = "NSButtonCell"; title = "Show icon in menu bar"; ObjectID = "SSY-US-gmJ"; */
+"SSY-US-gmJ.title" = "Відображати іконку в меню барі";
 
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "Tap-iY-hyA"; */
 "Tap-iY-hyA.title" = "Перейменувати директорію";
