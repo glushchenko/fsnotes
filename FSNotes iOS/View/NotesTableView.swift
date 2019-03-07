@@ -46,7 +46,7 @@ class NotesTableView: UITableView,
         guard self.notes.indices.contains(indexPath.row) else { return cell }
         
         let note = self.notes[indexPath.row]
-        note.load(note.url)
+        note.load()
 
         cell.configure(note: self.notes[indexPath.row])
         cell.selectionStyle = .gray
@@ -180,6 +180,11 @@ class NotesTableView: UITableView,
         actionSheet.addAction(tags)
 
         if showAll {
+            let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in
+                self.encryptionAction(note: note, presentController: presentController)
+            })
+            actionSheet.addAction(encryption)
+
             let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
@@ -338,6 +343,14 @@ class NotesTableView: UITableView,
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
         UIPasteboard.general.items = [item]
+    }
+
+    private func encryptionAction(note: Note, presentController: UIViewController) {
+        if note.container == .encryptedTextPack {
+            //unLock(notes: notes)
+        } else {
+            //lock(notes: notes)
+        }
     }
 
     public func shareAction(note: Note, presentController: UIViewController) {

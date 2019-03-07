@@ -653,7 +653,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                         guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note) else { return }
 
-                        if note.type == .TextBundle {
+                        if note.isTextBundle() {
                             markup += "![](assets/\(fileName))"
                         } else {
                             markup += "![](/i/\(fileName))"

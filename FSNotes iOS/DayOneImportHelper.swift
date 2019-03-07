@@ -90,7 +90,7 @@ class DayOneImportHelper {
                 content = content.replacingOccurrences(of: "dayone-moment://\(photo.identifier)", with: mdPath)
                 let imageSource = photosSrcURL.appendingPathComponent("\(photo.md5).jpeg")
 
-                if note.type == .TextBundle, let data = try? Data(contentsOf: imageSource) {
+                if note.isTextBundle(), let data = try? Data(contentsOf: imageSource) {
                     iWrapper.addRegularFile(withContents: data, preferredFilename: "\(photo.md5).jpeg")
                 } else if let imageDestination = note.getImageUrl(imageName: mdPath) {
                     try? FileManager.default.copyItem(at: imageSource, to: imageDestination)

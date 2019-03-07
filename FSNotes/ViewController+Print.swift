@@ -45,7 +45,7 @@ extension ViewController {
         var htmlString = template.replacingOccurrences(of: "DOWN_HTML", with: html)
         var imagesStorage = note.project.url
 
-        if note.type == .TextBundle {
+        if note.isTextBundle() {
             imagesStorage = note.url
         }
 

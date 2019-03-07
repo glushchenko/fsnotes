@@ -25,7 +25,14 @@ class Storage {
     
     var notesDict: [String: Note] = [:]
 
-    var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension, "textbundle"]
+    var allowedExtensions = [
+        "md", "markdown",
+        "txt",
+        "rtf",
+        "fountain",
+        "textbundle",
+        "etp" // Encrypted Text Pack
+    ]
 
     var pinned: Int = 0
     
@@ -247,7 +254,7 @@ class Storage {
         #if os(iOS)
         DispatchQueue.global().async {
             for note in self.noteList {
-                note.load(note.url)
+                note.load()
                 i += 1
                 if i == count {
                     print("Loaded notes: \(count)")
@@ -405,7 +412,7 @@ class Storage {
             #endif
 
             #if os(OSX)
-                note.load(url)
+                note.load()
             #endif
 
             if note.isPinned {

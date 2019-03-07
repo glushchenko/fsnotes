@@ -55,7 +55,7 @@ class PreviewViewController: UIViewController {
         do {
             var imagesStorage = note.project.url
 
-            if note.type == .TextBundle {
+            if note.isTextBundle() {
                 imagesStorage = note.url
             }
 

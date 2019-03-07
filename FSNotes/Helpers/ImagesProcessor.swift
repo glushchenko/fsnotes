@@ -135,6 +135,8 @@ public class ImagesProcessor {
     }
     
     public func unLoad() {
+        guard note.container != .encryptedTextPack else { return }
+        
         note.content = NSMutableAttributedString(attributedString: styleApplier.attributedSubstring(from: NSRange(0..<styleApplier.length)))
         
         var offset = 0
@@ -191,7 +193,7 @@ public class ImagesProcessor {
             return notePath
         }
         
-        if note.type == .TextBundle {
+        if note.isTextBundle() {
             if let name = path.removingPercentEncoding {
                 return "\(note.url.path)/\(name)"
             }
@@ -246,7 +248,7 @@ public class ImagesProcessor {
     }
     
     public static func writeImage(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
-        if note.type == .TextBundle {
+        if note.isTextBundle() {
             let assetsUrl = note.url.appendingPathComponent("assets")
             
             if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {

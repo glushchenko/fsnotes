@@ -574,7 +574,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let image = pboard.image {
             if let data = UIImageJPEGRepresentation(image, 1) {
                 guard let fileName = ImagesProcessor.writeImage(data: data, note: note) else { return }
-                let imagePath = note.type == .TextBundle ? "assets" : "/i"
+                let imagePath = note.isTextBundle() ? "assets" : "/i"
                 note.content = NSMutableAttributedString(string: "![](\(imagePath)/\(fileName))\n\n")
             }
         }

@@ -18,7 +18,6 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet var tabView: NSTabView!
     @IBOutlet var hidePreview: NSButtonCell!
-    @IBOutlet var fileExtensionOutlet: NSTextField!
     @IBOutlet var newNoteshortcutView: MASShortcutView!
     @IBOutlet var searchNotesShortcut: MASShortcutView!
     @IBOutlet weak var fontPreview: NSTextField!
@@ -46,6 +45,8 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var version: NSTextField!
     @IBOutlet weak var txtAsMarkdown: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
+    @IBOutlet weak var fileFormat: NSPopUpButton!
+    @IBOutlet weak var fileContainer: NSPopUpButton!
     
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
@@ -122,8 +123,6 @@ class PrefsViewController: NSViewController {
         
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
         
-        fileExtensionOutlet.stringValue = UserDefaultsManagement.storageExtension
-                
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
         
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
@@ -190,6 +189,8 @@ class PrefsViewController: NSViewController {
         txtAsMarkdown.state = UserDefaultsManagement.txtAsMarkdown ? .on : .off
         
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
+        
+        fileFormat.selectItem(withTag: UserDefaultsManagement.fileFormat.tag)
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -215,11 +216,6 @@ class PrefsViewController: NSViewController {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
         
         restart()
-    }
-    
-    @IBAction func fileExtensionAction(_ sender: NSTextField) {
-        let value = sender.stringValue
-        UserDefaults.standard.set(value, forKey: "fileExtension")
     }
     
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
@@ -514,5 +510,21 @@ class PrefsViewController: NSViewController {
         
         appDelegate.addMenuBar(nil)
     }
+    
+    @IBAction func fileFormat(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else { return }
+        
+        UserDefaultsManagement.fileFormat = NoteType.withTag(rawValue: item.tag)
+    }
+    
+    @IBAction func fileContainer(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else { return }
+        
+        if let container = NoteContainer(rawValue: item.tag) {
+            UserDefaultsManagement.fileContainer = container
+        }
+    }
+    
+    
     
 }

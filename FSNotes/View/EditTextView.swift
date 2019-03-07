@@ -30,6 +30,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
         validateSubmenu(menu)
     }
     
+    override func becomeFirstResponder() -> Bool {
+        if let note = EditTextView.note, note.container == .encryptedTextPack {
+            return false
+        }
+        
+        return super.becomeFirstResponder()
+    }
+    
     //MARK: caret width
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
@@ -162,9 +170,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func mouseDown(with event: NSEvent) {
-        let viewController = self.window?.contentViewController as! ViewController
-        if (!viewController.emptyEditAreaImage.isHidden) {
-            viewController.makeNote(viewController.search)
+        let vc = self.window?.contentViewController as! ViewController
+        
+        guard let note = EditTextView.note else { return }
+        guard note.container != .encryptedTextPack else {
+            vc.unLock(notes: [note])
+            vc.emptyEditAreaImage.isHidden = false
+            return
+        }
+        
+        if !vc.emptyEditAreaImage.isHidden {
+            vc.makeNote(vc.search)
         }
 
         guard let container = self.textContainer, let manager = self.layoutManager else { return }
@@ -393,11 +409,31 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         return vc.notesTableView.getSelectedNote()
     }
+    
+    public func isEditable(note: Note) -> Bool {
+        if note.container == .encryptedTextPack {
+            return false
+        }
+        
+        if UserDefaultsManagement.preview && note.isMarkdown() {
+            return false
+        }
+        
+        return true
+    }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
-
+        
+        if note.container == .encryptedTextPack {
+            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
+            viewController.emptyEditAreaImage.isHidden = false
+        } else {
+            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
+            viewController.emptyEditAreaImage.isHidden = true
+        }
+        
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
         
@@ -410,7 +446,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             md.editorUndoManager = note.undoManager
         }
 
-        isEditable = !(UserDefaultsManagement.preview && note.isMarkdown())
+        isEditable = isEditable(note: note)
 
         if !saveTyping {
             typingAttributes.removeAll()
@@ -434,7 +470,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             do {
                 var imagesStorage = note.project.url
 
-                if note.type == .TextBundle {
+                if note.isTextBundle() {
                     imagesStorage = note.url
                 }
 
@@ -539,6 +575,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         self.window?.title = appDelegate.appTitle
         
         let viewController = self.window?.contentViewController as! ViewController
+        viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
         viewController.emptyEditAreaImage.isHidden = false
         viewController.updateTitle(newTitle: nil)
         
@@ -866,6 +903,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     func saveTextStorageContent(to note: Note) {
+        guard note.container != .encryptedTextPack else { return }
+        
         guard let storage = self.textStorage else {
             return
         }
@@ -992,7 +1031,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
 
                 var imagePath = "/i/\(name)"
-                if note.type == .TextBundle {
+                if note.isTextBundle() {
                     imagePath = "assets/\(name)"
                 }
 
@@ -1033,6 +1072,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     public func unLoadImages() {
         guard let note = getSelectedNote() else { return }
+        guard note.container != .encryptedTextPack else { return }
+        
         note.content = NSMutableAttributedString(attributedString:  attributedString())
         note.save()
     }
@@ -1202,7 +1243,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 self.textStorage?.addAttribute(titleKey, value: field.stringValue, range: range)
                 
-                if let note = vc.notesTableView.getSelectedNote() {
+                if let note = vc.notesTableView.getSelectedNote(), note.container != .encryptedTextPack {
                     note.content = NSMutableAttributedString(attributedString: self.attributedString())
                     note.save()
                 }

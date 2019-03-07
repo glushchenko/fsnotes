@@ -90,6 +90,32 @@
 		D7271FAE2052803500033D0C /* unindent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA82052803400033D0C /* unindent@3x.png */; };
 		D7271FAF2052803500033D0C /* indent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA92052803500033D0C /* indent@3x.png */; };
 		D7271FB02052C77600033D0C /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D730BD24222AA6B200E69C93 /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD23222AA6B200E69C93 /* locked.png */; };
+		D730BD25222AA6B200E69C93 /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD23222AA6B200E69C93 /* locked.png */; };
+		D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */; };
+		D730BD28222BF30700E69C93 /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */; };
+		D730BD2A222BF32A00E69C93 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */; };
+		D730BD2B222BF32A00E69C93 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */; };
+		D730BD2C222DA97800E69C93 /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
+		D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD32222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD33222DABA100E69C93 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD38222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD39222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD3A222DB11E00E69C93 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD3B222DB9FC00E69C93 /* NameHelper.swift */; };
+		D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD3B222DB9FC00E69C93 /* NameHelper.swift */; };
+		D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD3B222DB9FC00E69C93 /* NameHelper.swift */; };
+		D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD3B222DB9FC00E69C93 /* NameHelper.swift */; };
+		D730BD42222EFFF900E69C93 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
+		D730BD43222EFFFA00E69C93 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
+		D730BD4422305DC200E69C93 /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED0215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
@@ -699,6 +725,12 @@
 		D7271FA82052803400033D0C /* unindent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unindent@3x.png"; sourceTree = "<group>"; };
 		D7271FA92052803500033D0C /* indent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "indent@3x.png"; sourceTree = "<group>"; };
 		D72E05861F5220D300977D02 /* Down.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Down.framework; sourceTree = "<group>"; };
+		D730BD23222AA6B200E69C93 /* locked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locked.png; sourceTree = "<group>"; };
+		D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainConfiguration.swift; sourceTree = "<group>"; };
+		D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainPasswordItem.swift; sourceTree = "<group>"; };
+		D730BD2D222DABA100E69C93 /* NoteContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteContainer.swift; sourceTree = "<group>"; };
+		D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBundleInfo.swift; sourceTree = "<group>"; };
+		D730BD3B222DB9FC00E69C93 /* NameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameHelper.swift; sourceTree = "<group>"; };
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
@@ -1015,6 +1047,9 @@
 				D7470D062170E890006B2A92 /* CustomTextStorage.swift */,
 				D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */,
 				D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */,
+				D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */,
+				D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */,
+				D730BD3B222DB9FC00E69C93 /* NameHelper.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1186,6 +1221,8 @@
 				D7038E2520FB24E000A54E69 /* ImageAttachment.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
+				D730BD2D222DABA100E69C93 /* NoteContainer.swift */,
+				D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1460,6 +1497,7 @@
 				D78115642153C034004FA1CA /* add.png */,
 				D7C2AB0621E116CE00B1AC0E /* share.png */,
 				D7409FA9222070020057C072 /* blackWhite.png */,
+				D730BD23222AA6B200E69C93 /* locked.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2095,6 +2133,7 @@
 				D7CDE9D92160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6892200F87BD00FF975A /* Initial in Resources */,
+				D730BD24222AA6B200E69C93 /* locked.png in Resources */,
 				D7F2F1B221C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
 				D7F2F1B521C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7FBBC2520F151F80014EC5B /* Localizable.strings in Resources */,
@@ -2139,6 +2178,7 @@
 				D7E6D9CC207F9878003ECAFC /* home.png in Resources */,
 				D7F2F1B921C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7F2F1BF21C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
+				D730BD25222AA6B200E69C93 /* locked.png in Resources */,
 				D7E81C4D1F925B5F00416A91 /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7F2F19E21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7F2F1B321C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
@@ -2258,30 +2298,32 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/NightNight/NightNight.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift-iOS/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Down-iOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-iOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-iOS/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-iOS/cmark_gfm_swift.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/GSImageViewerController/GSImageViewerController.framework",
-				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NightNight.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSImageViewerController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B327EA93D459A83252BE5D02 /* [CP] Check Pods Manifest.lock */ = {
@@ -2326,22 +2368,26 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift-macOS/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CA325C1BE7538B79AFDE8AAB /* [CP] Check Pods Manifest.lock */ = {
@@ -2368,22 +2414,26 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift-macOS/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FE1FA4DE05AA000556FC1C26 /* [CP] Check Pods Manifest.lock */ = {
@@ -2411,7 +2461,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D730BD2C222DA97800E69C93 /* NoteType.swift in Sources */,
 				D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */,
+				D730BD32222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
 				D7DCFED12108D6910059B37B /* CoreNote.swift in Sources */,
 				D7218945210211D800FE3AF2 /* SortBy.swift in Sources */,
@@ -2419,7 +2471,9 @@
 				6F13BB6C20FEE04A0005E120 /* String+.swift in Sources */,
 				D7487F952173535200D09383 /* NSFont+.swift in Sources */,
 				D7487FE92174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */,
+				D730BD39222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				6F13BB7120FEE0DD0005E120 /* UserDataService.swift in Sources */,
+				D730BD42222EFFF900E69C93 /* Date+.swift in Sources */,
 				6F13BB6E20FEE04F0005E120 /* URL+.swift in Sources */,
 				D72189362102099B00FE3AF2 /* NSTextStorage+.swift in Sources */,
 				6F13BB6A20FEE0450005E120 /* DateFormatter+.swift in Sources */,
@@ -2443,11 +2497,15 @@
 			files = (
 				D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */,
 				D75FC5C621021CC000C516A7 /* NightMode.swift in Sources */,
+				D730BD4422305DC200E69C93 /* NoteType.swift in Sources */,
 				D721894721021BB700FE3AF2 /* SortBy.swift in Sources */,
+				D730BD43222EFFFA00E69C93 /* Date+.swift in Sources */,
 				D721894621021B2400FE3AF2 /* UserDefaultsManagement.swift in Sources */,
 				D7487FEA2174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */,
+				D730BD3A222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				6F13BB6D20FEE04B0005E120 /* String+.swift in Sources */,
 				D72189342102096000FE3AF2 /* NSTextStorage+.swift in Sources */,
+				D730BD33222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				6F13BB6F20FEE04F0005E120 /* URL+.swift in Sources */,
 				6F13BB6B20FEE0460005E120 /* DateFormatter+.swift in Sources */,
 			);
@@ -2467,6 +2525,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D730BD38222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */,
 				D7CD5CD221820CDC0009D63B /* NSMutableAttributedString+.swift in Sources */,
 				D7CD5CD121820CCD0009D63B /* Date+.swift in Sources */,
@@ -2489,7 +2548,9 @@
 				D7CD5CC6218209960009D63B /* Project.swift in Sources */,
 				D7CD5CC8218209D10009D63B /* Note.swift in Sources */,
 				D7CD5CD421820D640009D63B /* NSAttributedStringKey+.swift in Sources */,
+				D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
+				D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2513,12 +2574,14 @@
 				D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
+				D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
+				D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */,
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
 				D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */,
@@ -2526,6 +2589,7 @@
 				D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
+				D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
@@ -2588,12 +2652,14 @@
 				D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				2799407C218484C900727B20 /* TitleBarView.swift in Sources */,
+				D730BD2A222BF32A00E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D75EE7FD2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */,
 				D7EDEDFB219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */,
 				D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D7CB9905207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
+				D730BD27222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD821738A1900D09383 /* NSImage+.swift in Sources */,
 				D75EE7F72078B22D0055F159 /* SidebarItem.swift in Sources */,
 				D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
@@ -2627,12 +2693,15 @@
 				D77CC041216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
 				D7487F932173503C00D09383 /* AttributedBox.swift in Sources */,
+				D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
 				275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D78678CB2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7B3391520DE0FB100B36460 /* TagList.swift in Sources */,
+				D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */,
+				D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D79FE8A21F77D04A00113CFD /* Note.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);
@@ -2662,12 +2731,14 @@
 				D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */,
+				D730BD2B222BF32A00E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D75EE7F82078B22D0055F159 /* SidebarItem.swift in Sources */,
 				D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */,
 				D7EDEDFC219203C9000B8C1A /* NoteCellView+.swift in Sources */,
 				D75EE8012078E0C60055F159 /* SidebarItemType.swift in Sources */,
 				D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */,
 				D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
+				D730BD28222BF30700E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7487FD721738A1800D09383 /* NSImage+.swift in Sources */,
 				D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */,
 				D75EE7FB2078B3C00055F159 /* Sidebar.swift in Sources */,
@@ -2701,12 +2772,15 @@
 				D77CC042216A608500582B97 /* EditorScrollView.swift in Sources */,
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
 				D7487F922173503C00D09383 /* AttributedBox.swift in Sources */,
+				D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7E81C3F1F925B5F00416A91 /* NSFont+.swift in Sources */,
 				D7E81C411F925B5F00416A91 /* SearchTextField.swift in Sources */,
 				D7E81C421F925B5F00416A91 /* MainWindowController.swift in Sources */,
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
 				D78678CC2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7B3391620DE0FB100B36460 /* TagList.swift in Sources */,
+				D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */,
+				D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7E81C461F925B5F00416A91 /* Note.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);
