@@ -52,6 +52,9 @@
 /* Class = "NSTabViewItem"; label = "User Interface"; ObjectID = "5dd-4a-6kQ"; */
 "5dd-4a-6kQ.label" = "Интерфейс";
 
+/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "5gL-j7-Zq8"; */
+"5gL-j7-Zq8.title" = "Зашифровать/раcшифровать";
+
 /* Class = "NSMenuItem"; title = "About FSNotes"; ObjectID = "5kV-Vb-QxS"; */
 "5kV-Vb-QxS.title" = "Про FSNotes";
 
@@ -145,7 +148,7 @@
 /* Class = "NSMenuItem"; title = "Header 6"; ObjectID = "cq7-SM-dez"; */
 "cq7-SM-dez.title" = "Заголовок 6";
 
-/* Class = "NSTextFieldCell"; title = "Default file extension:"; ObjectID = "ctD-Qn-kDS"; */
+/* Class = "NSTextFieldCell"; title = "Format:"; ObjectID = "ctD-Qn-kDS"; */
 "ctD-Qn-kDS.title" = "Расширение:";
 
 /* Class = "NSMenuItem"; title = "Move"; ObjectID = "CvG-Kp-kdK"; */

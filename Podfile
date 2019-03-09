@@ -19,7 +19,7 @@ def common_pods
     pod 'Highlightr', '~> 2.0'
     pod 'Down', '~> 0.6.0'
     pod 'cmark-gfm-swift', :git => 'https://github.com/glushchenko/cmark-gfm-swift.git', :branch => 'master'
-    pod 'CryptoSwift'
+    pod 'RNCryptor', '~> 5.0'
     pod 'SSZipArchive'
 end
 

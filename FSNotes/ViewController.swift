@@ -1781,7 +1781,7 @@ class ViewController: NSViewController,
 
     func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         for item in menu.items {
-            if item.title == "Copy Link" {
+            if item.title == NSLocalizedString("Copy Link", comment: "")  {
                 item.action = #selector(NSText.copy(_:))
             }
         }
@@ -1851,7 +1851,7 @@ class ViewController: NSViewController,
     
     private func getMasterPassword(isLock: Bool = false, completion: @escaping (String) -> ()) {
         let context = LAContext()
-        context.localizedFallbackTitle = "Enter Master Password"
+        context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
         
         if #available(OSX 10.12.2, *) {
             guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
@@ -1884,8 +1884,10 @@ class ViewController: NSViewController,
     
     private func masterPasswordPrompt(saveKeychain: Bool = false, completion: @escaping (String) -> ()) {
         guard let window = MainWindowController.shared() else { return }
-        
-        let alert = NSAlert()
+
+        self.alert = NSAlert()
+        guard let alert = self.alert else { return }
+
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
         alert.messageText = NSLocalizedString("Master password:", comment: "")
         alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")

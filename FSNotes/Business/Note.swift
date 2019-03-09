@@ -8,7 +8,7 @@
 //
 
 import Foundation
-import CryptoSwift
+import RNCryptor
 import SSZipArchive
 import LocalAuthentication
 
@@ -1068,10 +1068,8 @@ public class Note: NSObject  {
         do {
             let name = url.deletingPathExtension().lastPathComponent
             let data = try Data(contentsOf: url)
-            
-            let aes = try AES(key: [UInt8](hex: password.md5()), blockMode: ECB(), padding: .pkcs7)
-            let decryptedData = try data.decrypt(cipher: aes)
-            
+
+            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
             let textPackURL = url.appendingPathExtension("textpack")
             try decryptedData.write(to: textPackURL)
 
@@ -1126,8 +1124,7 @@ public class Note: NSObject  {
             }
 
             let data = try Data(contentsOf: textPackURL)
-            let aes = try AES(key: [UInt8](hex: password.md5()), blockMode: ECB(), padding: .pkcs7)
-            let encrypted = try data.encrypt(cipher: aes)
+            let encrypted = RNCryptor.encrypt(data: data, withPassword: password)
             let encryptedURL = project.url.appendingPathComponent(fileName).appendingPathExtension("etp")
             
             url = encryptedURL

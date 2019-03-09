@@ -23,7 +23,13 @@
 "Check Spelling While Typing" = "Перевіряти правопис під час набору";
 
 /* No comment provided by engineer. */
+"Code Block" = "Блок коду";
+
+/* No comment provided by engineer. */
 "Copy HTML" = "Скопіювати HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Скопіювати посилання";
 
 /* No comment provided by engineer. */
 "Copy Plain Text" = "Скопіювати текст";
@@ -36,6 +42,9 @@
 
 /* No comment provided by engineer. */
 "Delete" = "Видалити";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Введіть мастер пароль";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редагування]";
@@ -70,6 +79,9 @@
 /* No comment provided by engineer. */
 "Link" = "Посилання";
 
+/* No comment provided by engineer. */
+"Master password:" = "Мастер пароль";
+
 /* Menu */
 "Move" = "Перемістити";
 
@@ -91,6 +103,9 @@
 
 /* Edit area */
 "Please enter image title:" = "Заголовок зображення:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Будь ласка, введіть пароль для нотатки";
 
 /* No comment provided by engineer. */
 "Please enter project name:" = "Будь ласка, введіть назву директорії:";
