@@ -72,7 +72,7 @@ extension NSMutableAttributedString {
 
                     content?.removeAttribute(.attachment, range: newRange)
                     content?.replaceCharacters(in: newRange, with: "![\(unrappedTitle)](\(pathEncoded))")
-                    offset += 4 + unwrappedPath.count + unrappedTitle.count
+                    offset += 4 + pathEncoded.count + unrappedTitle.count
                 }
             }
         }

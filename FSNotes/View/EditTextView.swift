@@ -1038,7 +1038,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let insertRange = NSRange(location: caretLocation + offset, length: 0)
 
                 if UserDefaultsManagement.liveImagesPreview {
-                    guard let url = note.getImageUrl(imageName: imagePath) else { return false }
+                    guard let url = note.getImageUrl(imageName: imagePath.removingPercentEncoding ?? imagePath) else { return false }
 
                     let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
                     let attachment = ImageAttachment(title: "", path: imagePath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)

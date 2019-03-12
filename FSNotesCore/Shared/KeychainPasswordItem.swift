@@ -51,7 +51,7 @@ struct KeychainPasswordItem {
         let status = withUnsafeMutablePointer(to: &queryResult) {
             SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
         }
-        
+
         // Check the return status and throw an error if appropriate.
         guard status != errSecItemNotFound else { throw KeychainError.noPassword }
         guard status == noErr else { throw KeychainError.unhandledError(status: status) }

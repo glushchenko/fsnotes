@@ -50,7 +50,7 @@ class Storage {
 #endif
     
     private var bookmarks = [URL]()
-    
+
     init() {
         #if os(OSX)
             let bookmark = SandboxBookmark.sharedInstance()
@@ -89,7 +89,20 @@ class Storage {
             _ = add(project: project)
         }
     }
-    
+
+    public func makeTempEncryptionDirectory() -> URL? {
+        let url = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("Encryption")
+            .appendingPathComponent(UUID().uuidString)
+
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            return url
+        } catch {
+            return nil
+        }
+    }
+
     public func getChildProjects(project: Project) -> [Project] {
         return projects.filter({ $0.parent == project }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }

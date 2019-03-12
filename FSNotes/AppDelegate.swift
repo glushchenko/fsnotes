@@ -91,6 +91,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
 
         try? FileManager.default.removeItem(at: webkitPreview)
+
+        let encryption = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Encryption")
+        try? FileManager.default.removeItem(at: encryption)
     }
     
     private func applyAppearance() {

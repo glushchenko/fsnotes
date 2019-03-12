@@ -735,7 +735,7 @@ class ViewController: NSViewController,
         if let notes = notesTableView.getSelectedNotes() {
             var urls = [URL]()
             for note in notes {
-                urls.append(note.url)
+                urls.append(note.getFinder())
             }
             NSWorkspace.shared.activateFileViewerSelecting(urls)
         }
@@ -986,16 +986,74 @@ class ViewController: NSViewController,
         operation.run()
     }
     
-    @IBAction func toggleLockNotes(_ sender: Any) {
+    @IBAction func toggleNotesLock(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        guard var notes = vc.notesTableView.getSelectedNotes() else { return }
+
+        var isFirst = true
+        for note in notes {
+            if note.isUnlocked() {
+                if note.lock() && isFirst {
+                    self.refillEditArea()
+                }
+
+                notes.removeAll { $0 === note }
+            }
+            isFirst = false
+
+            self.notesTableView.reloadRow(note: note)
+        }
+
+        if notes.count == 0 {
+            return
+        }
+
+        getMasterPassword() { password, isTypedByUser in
+            guard password.count > 0 else { return }
+
+            var isFirst = true
+            for note in notes {
+                var success = false
+
+                if note.container == .encryptedTextPack {
+                    success = note.unLock(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                    }
+                } else {
+                    success = note.encrypt(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                        self.focusTable()
+                    }
+                }
+
+                if success && isTypedByUser {
+                    self.save(password: password)
+                }
+
+                self.notesTableView.reloadRow(note: note)
+                isFirst = false
+            }
+        }
+    }
+
+    @IBAction func removeNoteEncryption(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else { return }
-        
-        guard let note = notes.first else { return }
-        
-        if note.container == .encryptedTextPack {
-            unLock(notes: notes)
-        } else {
-            lock(notes: notes)
+
+        getMasterPassword() { password, isTypedByUser in
+            var isFirst = true
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    let success = note.unEncrypt(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                    }
+                }
+                self.notesTableView.reloadRow(note: note)
+                isFirst = false
+            }
         }
     }
 
@@ -1655,7 +1713,11 @@ class ViewController: NSViewController,
     @IBAction func duplicate(_ sender: Any) {
         if let notes = notesTableView.getSelectedNotes() {
             for note in notes {
-                if note.isTextBundle() {
+                if note.isUnlocked() {
+
+                }
+
+                if note.isTextBundle() || note.isEncrypted() {
                     note.duplicate()
                     continue
                 }
@@ -1819,12 +1881,18 @@ class ViewController: NSViewController,
     }
     
     public func unLock(notes: [Note]) {
-        getMasterPassword() { password in
+        getMasterPassword() { password, isTypedByUser in
+            guard password.count > 0 else { return }
+
             var i = 0
             for note in notes {
                 let success = note.unLock(password: password)
                 if success, i == 0 {
                     self.refillEditArea()
+
+                    if isTypedByUser {
+                        self.save(password: password)
+                    }
                 }
 
                 self.notesTableView.reloadRow(note: note)
@@ -1832,87 +1900,75 @@ class ViewController: NSViewController,
             }
         }
     }
-    
-    public func lock(notes: [Note]) {
-        getMasterPassword(isLock: true) { password in
-            var i = 0
-            for note in notes {
-                let success = note.lock(password: password)
-                if success, i == 0 {
-                    self.refillEditArea()
-                    self.focusTable()
-                }
 
-                self.notesTableView.reloadRow(note: note)
-                i = i + 1
-            }
-        }
-    }
-    
-    private func getMasterPassword(isLock: Bool = false, completion: @escaping (String) -> ()) {
+    private func getMasterPassword(completion: @escaping (String, Bool) -> ()) {
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
         
         if #available(OSX 10.12.2, *) {
             guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
-                masterPasswordPrompt(saveKeychain: isLock, completion: completion)
+                masterPasswordPrompt(completion: completion)
                 return
             }
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To access secure data") { (success, evaluateError) in
                 
                 if !success {
-                    DispatchQueue.main.async {
-                        self.masterPasswordPrompt(saveKeychain: isLock, completion: completion)
-                    }
+                    self.masterPasswordPrompt(completion: completion)
+
                     return
                 }
-                
+
                 do {
                     let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
                     let password = try item.readPassword()
-                    
-                    completion(password)
+
+                    completion(password, false)
+                    return
                 } catch {
                     print(error)
                 }
+
+                self.masterPasswordPrompt(completion: completion)
             }
         } else {
-            masterPasswordPrompt(saveKeychain: isLock, completion: completion)
+            masterPasswordPrompt(completion: completion)
         }
     }
     
-    private func masterPasswordPrompt(saveKeychain: Bool = false, completion: @escaping (String) -> ()) {
-        guard let window = MainWindowController.shared() else { return }
+    private func masterPasswordPrompt(completion: @escaping (String, Bool) -> ()) {
+        DispatchQueue.main.async {
+            guard let window = MainWindowController.shared() else { return }
 
-        self.alert = NSAlert()
-        guard let alert = self.alert else { return }
+            self.alert = NSAlert()
+            guard let alert = self.alert else { return }
 
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        alert.messageText = NSLocalizedString("Master password:", comment: "")
-        alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
-        alert.accessoryView = field
-        alert.alertStyle = .informational
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let data = Data(field.stringValue.utf8)
-                let hexString = data.map{ String(format:"%02x", $0) }.joined()
-                
-                if saveKeychain {
-                    let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-                    
-                    do {
-                        try item.savePassword(hexString)
-                    } catch {}
+            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+            alert.messageText = NSLocalizedString("Master password:", comment: "")
+            alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
+            alert.accessoryView = field
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    completion(field.stringValue, true)
                 }
-                
-                completion(hexString)
             }
+
+            field.becomeFirstResponder()
         }
-        
-        field.becomeFirstResponder()
+    }
+
+    private func save(password: String) {
+        guard password.count > 0 else { return }
+
+        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+        do {
+            try item.savePassword(password)
+        } catch {
+            print("Master password saving error: \(error)")
+        }
     }
 
 }

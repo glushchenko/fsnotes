@@ -125,10 +125,16 @@ CA
                                                 <action selector="pinMenu:" target="L4m-js-agn" id="uSp-AH-paW"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Lock/unlock" keyEquivalent="l" identifier="fileMenu.toggleLock" id="fkH-Wf-n87">
+                                        <menuItem title="Remove encryption" keyEquivalent="l" identifier="fileMenu.toggleLock" id="fkH-Wf-n87">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="removeNoteEncryption:" target="Ady-hI-5gd" id="nZq-wN-Jep"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Lock/unlock" keyEquivalent="l" id="RSs-wb-GNg">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleLockNotes:" target="Ady-hI-5gd" id="Dik-qv-2IS"/>
+                                                <action selector="toggleNotesLock:" target="Ady-hI-5gd" id="VTr-hR-bSV"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Open external" keyEquivalent="e" id="7MT-fy-lXN">
@@ -1876,10 +1882,16 @@ CA
                                 <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Lock/unlock" keyEquivalent="l" identifier="noteMove.toggleLock" id="5gL-j7-Zq8">
+                        <menuItem title="Remove encryption" keyEquivalent="l" identifier="noteMove.toggleLock" id="5gL-j7-Zq8">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Lock/unlock" keyEquivalent="l" id="kg2-3u-V99">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
-                                <action selector="toggleLockNotes:" target="rPt-NT-nkU" id="2St-6G-xxu"/>
+                                <action selector="toggleNotesLock:" target="rPt-NT-nkU" id="tK5-CH-cx8"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Open" keyEquivalent="e" id="3tV-h0-YEb">

@@ -52,8 +52,8 @@
 /* Class = "NSTabViewItem"; label = "User Interface"; ObjectID = "5dd-4a-6kQ"; */
 "5dd-4a-6kQ.label" = "Интерфейс";
 
-/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "5gL-j7-Zq8"; */
-"5gL-j7-Zq8.title" = "Зашифровать/раcшифровать";
+/* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "5gL-j7-Zq8"; */
+"5gL-j7-Zq8.title" = "Снять шифрование";
 
 /* Class = "NSMenuItem"; title = "About FSNotes"; ObjectID = "5kV-Vb-QxS"; */
 "5kV-Vb-QxS.title" = "Про FSNotes";
@@ -232,6 +232,9 @@
 /* Class = "NSMenuItem"; title = "FSNotes Help"; ObjectID = "FKE-Sm-Kum"; */
 "FKE-Sm-Kum.title" = "Помощь FSNotes";
 
+/* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "fkH-Wf-n87"; */
+"fkH-Wf-n87.title" = "Снять шифрование";
+
 /* Class = "NSTextFieldCell"; title = "Default storage:"; ObjectID = "fmS-eE-nne"; */
 "fmS-eE-nne.title" = "Хранилище по умолчанию:";
 
@@ -340,6 +343,9 @@
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Показать все";
 
+/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "kg2-3u-V99"; */
+"kg2-3u-V99.title" = "Заблокировать/разблокировать";
+
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "Закрыть";
 
@@ -369,6 +375,9 @@
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "MlK-p2-CxF"; */
 "MlK-p2-CxF.title" = "Окно";
+
+/* Class = "NSTextFieldCell"; title = "Container:"; ObjectID = "mXw-d9-js5"; */
+"mXw-d9-js5.title" = "Контейнер:";
 
 /* Class = "NSMenuItem"; title = "Toggle Todo"; ObjectID = "n0M-SN-fzg"; */
 "n0M-SN-fzg.title" = "Переключить Todo";
@@ -456,6 +465,9 @@
 
 /* Class = "NSMenuItem"; title = "Sort by"; ObjectID = "rHB-xF-GgG"; */
 "rHB-xF-GgG.title" = "Упорядочить по";
+
+/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "RSs-wb-GNg"; */
+"RSs-wb-GNg.title" = "Заблокировать/разблокировать";
 
 /* Class = "NSMenuItem"; title = "Delete folder"; ObjectID = "RuM-sf-kcZ"; */
 "RuM-sf-kcZ.title" = "Удалить директорию";

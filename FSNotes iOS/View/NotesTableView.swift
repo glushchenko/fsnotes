@@ -86,6 +86,21 @@ class NotesTableView: UITableView,
                 u.removeAllActions()
             }
 
+            if note.container == .encryptedTextPack {
+                viewDelegate?.unLock(notes: [note], completion: { notes in
+                    DispatchQueue.main.async {
+                        guard note.container != .encryptedTextPack else {
+                            self.invalidPasswordAlert()
+                            return
+                        }
+
+                        evc.fill(note: note)
+                        pageController.switchToEditor()
+                    }
+                })
+                return
+            }
+
             self.deselectRow(at: indexPath, animated: true)
             evc.fill(note: note)
             pageController.switchToEditor()
@@ -347,9 +362,11 @@ class NotesTableView: UITableView,
 
     private func encryptionAction(note: Note, presentController: UIViewController) {
         if note.container == .encryptedTextPack {
-            //unLock(notes: notes)
+            viewDelegate?.unLock(notes: [note]) { notes in
+
+            }
         } else {
-            //lock(notes: notes)
+            viewDelegate?.lock(notes: [note])
         }
     }
 
@@ -449,5 +466,13 @@ class NotesTableView: UITableView,
         }
 
         AudioServicesPlaySystemSound(1519)
+    }
+
+    private func invalidPasswordAlert() {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+
+        let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        pageController.present(alert, animated: true, completion: nil)
     }
 }

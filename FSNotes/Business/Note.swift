@@ -18,6 +18,7 @@ public class Note: NSObject  {
     var container: NoteContainer = .none
     var type: NoteType = .Markdown
     var url: URL
+
     var content: NSMutableAttributedString = NSMutableAttributedString()
     var creationDate: Date? = Date()
     var isCached = false
@@ -38,10 +39,18 @@ public class Note: NSObject  {
     public var imageUrl: [URL]?
     public var isParsed = false
     private var caching = false
+
+    private var encrypted: URL?
+    private var temporaryTextBundle: URL?
+
+    public var ciphertextWriter = OperationQueue.init()
     
     // Load exist
     
     init(url: URL, with project: Project) {
+        self.ciphertextWriter.maxConcurrentOperationCount = 1
+        self.ciphertextWriter.qualityOfService = .userInteractive
+
         self.url = url
         self.project = project
         super.init()
@@ -52,6 +61,9 @@ public class Note: NSObject  {
     // Make new
     
     init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
+        self.ciphertextWriter.maxConcurrentOperationCount = 1
+        self.ciphertextWriter.qualityOfService = .userInteractive
+
         let project = project ?? Storage.sharedInstance().getMainProject()
         let name = name ?? String()
 
@@ -522,6 +534,16 @@ public class Note: NSObject  {
             let contentSrc = getContentFileURL()
             try fileWrapper.write(to: contentSrc, options: .atomic, originalContentsURL: nil)
             try FileManager.default.setAttributes(attributes, ofItemAtPath: contentSrc.path)
+
+            if let _ = encrypted {
+                self.ciphertextWriter.cancelAllOperations()
+                self.ciphertextWriter.addOperation {
+                    usleep(useconds_t(1000000))
+
+                    guard self.ciphertextWriter.operationCount == 1 else { return }
+                    self.writeEncrypted()
+                }
+            }
         } catch {
             NSLog("Write error \(error)")
             return
@@ -860,7 +882,7 @@ public class Note: NSObject  {
     }
 
     public func duplicate() {
-        var url: URL = self.url
+        var url: URL = self.encrypted ?? self.url
 
         let ext = url.pathExtension
         url.deletePathExtension()
@@ -1062,7 +1084,82 @@ public class Note: NSObject  {
         }
     }
 
+    private func loadTextBundle() {
+        let json = url.appendingPathComponent("info.json")
+
+        if let jsonData = try? Data(contentsOf: json),
+            let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
+            type = .withUTI(rawValue: info.type)
+            if info.version == 1 {
+                container = .textBundle
+                return
+            }
+            container = .textBundleV2
+        }
+    }
+
+    private func writeEncrypted() {
+        let baseTextPack = url
+        let textPackURL = baseTextPack.appendingPathExtension("textpack")
+
+        SSZipArchive.createZipFile(atPath: textPackURL.path, withContentsOfDirectory: baseTextPack.path)
+
+        do {
+            let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+            let password = try item.readPassword()
+
+            let data = try Data(contentsOf: textPackURL)
+            let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
+            if let url = encrypted {
+                try encryptedData.write(to: url)
+                print("FSNotes successfully writed encrypted data for: \(title)")
+            }
+
+            try FileManager.default.removeItem(at: textPackURL)
+        } catch {
+            return
+        }
+    }
+
     public func unLock(password: String) -> Bool {
+        let originalSrc = url
+
+        do {
+            let name = url.deletingPathExtension().lastPathComponent
+            let data = try Data(contentsOf: url)
+
+            guard let temporary = sharedStorage.makeTempEncryptionDirectory()?.appendingPathComponent(name) else { return false }
+
+            let temporaryTextPack = temporary.appendingPathExtension("textpack")
+            let temporaryTextBundle = temporary.appendingPathExtension("textbundle")
+
+            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
+            try decryptedData.write(to: temporaryTextPack)
+
+            let successUnZip = SSZipArchive.unzipFile(atPath: temporaryTextPack.path, toDestination: temporaryTextBundle.path)
+
+            guard successUnZip else { return false }
+
+            url = temporaryTextBundle
+            self.temporaryTextBundle = url
+
+            loadTextBundle()
+
+            load()
+            reCache()
+
+            encrypted = originalSrc
+
+            try? FileManager.default.removeItem(at: temporaryTextPack)
+
+            return true
+        } catch {
+            print("Decryption error: \(error)")
+            return false
+        }
+    }
+
+    public func unEncrypt(password: String) -> Bool {
         let originalSrc = url
 
         do {
@@ -1076,7 +1173,7 @@ public class Note: NSObject  {
             let newURL = project.url.appendingPathComponent(name).appendingPathExtension("textbundle")
             url = newURL
             container = .textBundleV2
-            
+
             let successUnZip = SSZipArchive.unzipFile(atPath: textPackURL.path, toDestination: newURL.path)
 
             guard successUnZip else {
@@ -1084,7 +1181,7 @@ public class Note: NSObject  {
                 container = .encryptedTextPack
                 return false
             }
-            
+
             try FileManager.default.removeItem(at: textPackURL)
             try FileManager.default.removeItem(at: originalSrc)
 
@@ -1102,7 +1199,7 @@ public class Note: NSObject  {
         }
     }
 
-    public func lock(password: String) -> Bool {
+    public func encrypt(password: String) -> Bool {
         var temporaryFlatSrc: URL?
         let isContainer = isTextBundle()
 
@@ -1135,6 +1232,7 @@ public class Note: NSObject  {
             try FileManager.default.removeItem(at: textPackURL)
 
             cleanOut()
+            removeTempContainer()
 
             return true
         } catch {
@@ -1149,9 +1247,55 @@ public class Note: NSObject  {
 
         content = NSMutableAttributedString(string: String())
         preview = String()
+        title = String()
 
         isCached = false
         caching = false
+    }
+
+    private func removeTempContainer() {
+        if let url = temporaryTextBundle {
+            try? FileManager.default.removeItem(at: url)
+        }
+    }
+
+    public func getFinder() -> URL {
+        if let url = encrypted {
+            return url
+        }
+        return url
+    }
+
+    public func isUnlocked() -> Bool {
+        return (encrypted != nil && temporaryTextBundle != nil)
+    }
+
+    public func isEncrypted() -> Bool {
+        return (container == .encryptedTextPack || isUnlocked())
+    }
+
+    public func lock() -> Bool {
+        guard isUnlocked() else { return false }
+
+        if let temporaryURL = temporaryTextBundle, let encryptedURL = encrypted {
+            while true {
+                if ciphertextWriter.operationCount == 0 {
+                    url = encryptedURL
+                    encrypted = nil
+
+                    container = .encryptedTextPack
+                    cleanOut()
+
+                    try? FileManager.default.removeItem(at: temporaryURL)
+
+                    return true
+                }
+
+                usleep(100000)
+            }
+        }
+
+        return false
     }
     
 }

@@ -65,6 +65,6 @@ target 'FSNotes iOS Share Extension' do
 
     pod 'Highlightr', '~> 2.0'
     pod 'NightNight', '~> 0.5.0'
-    pod 'CryptoSwift'
+    pod 'RNCryptor', '~> 5.0'
     pod 'SSZipArchive'
 end
