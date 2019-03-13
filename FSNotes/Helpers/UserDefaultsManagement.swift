@@ -68,6 +68,7 @@ public class UserDefaultsManagement {
         static let NoteContainer = "noteContainer"
         static let PinListKey = "pinList"
         static let Preview = "preview"
+        static let PreviewFontSize = "previewFontSize"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let ShowDockIcon = "showDockIcon"
         static let ShowInMenuBar = "showInMenuBar"
@@ -812,6 +813,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue.tag, forKey: Constants.NoteType)
+        }
+    }
+
+    static var previewFontSize: Int {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.PreviewFontSize) as? Int {
+                return result
+            }
+            return 11
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.PreviewFontSize)
         }
     }
 }

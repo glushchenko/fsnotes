@@ -47,7 +47,9 @@ class PrefsViewController: NSViewController {
     @IBOutlet weak var showInMenuBar: NSButton!
     @IBOutlet weak var fileFormat: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
-    
+    @IBOutlet weak var previewFontSize: NSPopUpButton!
+    @IBOutlet weak var hideImagesPreview: NSButton!
+
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
             UserDefaultsManagement.appearanceType = type
@@ -191,6 +193,8 @@ class PrefsViewController: NSViewController {
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
         
         fileFormat.selectItem(withTag: UserDefaultsManagement.fileFormat.tag)
+
+        previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -525,6 +529,17 @@ class PrefsViewController: NSViewController {
         }
     }
     
+    @IBAction func hideImagesPreview(_ sender: Any) {
+    }
+
+    @IBAction func changePreviewFontSize(_ sender: NSPopUpButton) {
+        guard let tag = sender.selectedItem?.tag else { return }
+
+        UserDefaultsManagement.previewFontSize = tag
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
     
     
 }

@@ -9,9 +9,5 @@
 import Cocoa
 
 class PreviewTextField: NSTextField {
-    override var intrinsicContentSize: NSSize {
-        let width = super.intrinsicContentSize.width
-        let height = maximumNumberOfLines * 13
-        return NSSize(width: width, height: CGFloat(height))
-    }
+
 }

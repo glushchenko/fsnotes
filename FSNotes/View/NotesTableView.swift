@@ -84,13 +84,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        let height = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+        let height = CGFloat(21 + UserDefaultsManagement.cellSpacing)
 
         if !UserDefaultsManagement.horizontalOrientation {
             if noteList.indices.contains(row) {
                 let note = noteList[row]
                 if let urls = note.getImagePreviewUrl(), urls.count > 0 {
-                    return height + 58
+                    return height + 63
                 }
             }
         }
@@ -360,6 +360,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     cell.date.stringValue = note.getDateForLabel()
                     cell.loadImagesPreview()
                     cell.udpateSelectionHighlight()
+                    cell.renderPin()
                 }
             }
         }

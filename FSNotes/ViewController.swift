@@ -409,7 +409,7 @@ class ViewController: NSViewController,
     }
     
     func setTableRowHeight() {
-        notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+        notesTableView.rowHeight = CGFloat(21 + UserDefaultsManagement.cellSpacing)
         notesTableView.reloadData()
     }
     

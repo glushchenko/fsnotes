@@ -1297,5 +1297,9 @@ public class Note: NSObject  {
 
         return false
     }
+
+    public func showIconInList() -> Bool {
+        return (isPinned || isEncrypted())
+    }
     
 }
