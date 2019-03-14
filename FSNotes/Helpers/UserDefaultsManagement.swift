@@ -56,6 +56,7 @@ public class UserDefaultsManagement {
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
+        static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
@@ -825,6 +826,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.PreviewFontSize)
+        }
+    }
+
+    static var hidePreviewImages: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.HidePreviewImages) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewImages)
         }
     }
 }

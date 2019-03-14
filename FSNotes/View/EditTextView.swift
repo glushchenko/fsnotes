@@ -1038,10 +1038,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let insertRange = NSRange(location: caretLocation + offset, length: 0)
 
                 if UserDefaultsManagement.liveImagesPreview {
-                    guard let url = note.getImageUrl(imageName: imagePath.removingPercentEncoding ?? imagePath) else { return false }
+                    let cleanPath = imagePath.removingPercentEncoding ?? imagePath
+                    guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
 
                     let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
-                    let attachment = ImageAttachment(title: "", path: imagePath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+                    let attachment = ImageAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
 
                     if let string = attachment.getAttributedString() {
                         insertText(string, replacementRange: insertRange)

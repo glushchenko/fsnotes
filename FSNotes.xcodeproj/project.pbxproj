@@ -118,10 +118,12 @@
 		D730BD4422305DC200E69C93 /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */; };
 		D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */; };
-		D730BD482238365800E69C93 /* lock-min.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-min.png */; };
-		D730BD492238365800E69C93 /* lock-min.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-min.png */; };
+		D730BD482238365800E69C93 /* lock-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-closed.png */; };
+		D730BD492238365800E69C93 /* lock-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-closed.png */; };
 		D730BD4B223837F300E69C93 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
 		D730BD4C223837F300E69C93 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
+		D730BD57223AB54F00E69C93 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
+		D730BD58223AB54F00E69C93 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
 		D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED0215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
@@ -737,8 +739,9 @@
 		D730BD2D222DABA100E69C93 /* NoteContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteContainer.swift; sourceTree = "<group>"; };
 		D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBundleInfo.swift; sourceTree = "<group>"; };
 		D730BD3B222DB9FC00E69C93 /* NameHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameHelper.swift; sourceTree = "<group>"; };
-		D730BD472238365700E69C93 /* lock-min.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock-min.png"; sourceTree = "<group>"; };
+		D730BD472238365700E69C93 /* lock-closed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock-closed.png"; sourceTree = "<group>"; };
 		D730BD4A223837F300E69C93 /* lock-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock-open.png"; sourceTree = "<group>"; };
+		D730BD56223AB54E00E69C93 /* new-note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-note.png"; sourceTree = "<group>"; };
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
@@ -1506,8 +1509,9 @@
 				D7C2AB0621E116CE00B1AC0E /* share.png */,
 				D7409FA9222070020057C072 /* blackWhite.png */,
 				D730BD23222AA6B200E69C93 /* locked.png */,
-				D730BD472238365700E69C93 /* lock-min.png */,
+				D730BD472238365700E69C93 /* lock-closed.png */,
 				D730BD4A223837F300E69C93 /* lock-open.png */,
+				D730BD56223AB54E00E69C93 /* new-note.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2141,6 +2145,7 @@
 				D76C874C2136C17100F82952 /* trash.png in Resources */,
 				D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
+				D730BD57223AB54F00E69C93 /* new-note.png in Resources */,
 				D7CDE9D92160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6892200F87BD00FF975A /* Initial in Resources */,
@@ -2155,7 +2160,7 @@
 				D7487FCD2173566700D09383 /* checkbox_empty_white@2x.png in Resources */,
 				D7487FCF2173566700D09383 /* checkbox_empty.png in Resources */,
 				D77B9E9B20DE53E0003FAA27 /* archive.png in Resources */,
-				D730BD482238365800E69C93 /* lock-min.png in Resources */,
+				D730BD482238365800E69C93 /* lock-closed.png in Resources */,
 				D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */,
 				D7487FCE2173566700D09383 /* checkbox_empty_white@3x.png in Resources */,
 				D7F2F1C121C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
@@ -2181,6 +2186,7 @@
 				D7CAD6AB20DD50A500FF4674 /* tag_red.png in Resources */,
 				D7487FBC2173566600D09383 /* checkbox_white@3x.png in Resources */,
 				D7F2F1BC21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
+				D730BD58223AB54F00E69C93 /* new-note.png in Resources */,
 				D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
 				D7487FC12173566600D09383 /* checkbox_empty_white@2x.png in Resources */,
@@ -2211,7 +2217,7 @@
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
-				D730BD492238365800E69C93 /* lock-min.png in Resources */,
+				D730BD492238365800E69C93 /* lock-closed.png in Resources */,
 				D7F2F1B621C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7487FBD2173566600D09383 /* checkbox.png in Resources */,
 				D7487FBF2173566600D09383 /* checkbox@3x.png in Resources */,

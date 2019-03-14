@@ -86,6 +86,9 @@ class ViewController: NSViewController,
         }
     }
 
+    @IBOutlet weak var lockUnlock: NSButton!
+
+
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -1073,6 +1076,18 @@ class ViewController: NSViewController,
         }
     }
 
+    @IBAction func lockUnlockAll(_ sender: Any) {
+        let notes = storage.noteList.filter({ $0.isUnlocked() })
+        for note in notes {
+            if note.lock() {
+                notesTableView.reloadRow(note: note)
+            }
+        }
+
+        editArea.clear()
+        refillEditArea()
+    }
+
     override func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
@@ -1953,6 +1968,8 @@ class ViewController: NSViewController,
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     completion(field.stringValue, true)
+                } else {
+                    self.alert = nil
                 }
             }
 

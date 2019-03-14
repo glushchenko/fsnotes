@@ -692,7 +692,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" id="KEU-U8-bg0">
+                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="442" height="354"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -876,7 +876,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
+                                        <view key="view" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="442" height="354"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1026,14 +1026,14 @@ CA
                                                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h8R-h7-V5R">
                                                     <rect key="frame" x="217" y="250" width="179" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
+                                                    <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
                                                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="menu"/>
                                                         <menu key="menu" id="h03-jd-8ll">
                                                             <items>
                                                                 <menuItem title="Big" tag="13" id="cUI-cw-eo5"/>
                                                                 <menuItem title="Medium" tag="12" id="DcN-1g-hEi"/>
-                                                                <menuItem title="Small" tag="11" id="8AQ-IN-Edm"/>
+                                                                <menuItem title="Small" state="on" tag="11" id="8AQ-IN-Edm"/>
                                                             </items>
                                                         </menu>
                                                     </popUpButtonCell>
@@ -1592,7 +1592,7 @@ CA
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
-                                                                                            <rect key="frame" x="169" y="98" width="49" height="17"/>
+                                                                                            <rect key="frame" x="183" y="98" width="49" height="17"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1661,7 +1661,7 @@ CA
                                                                                         </textField>
                                                                                     </subviews>
                                                                                     <constraints>
-                                                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="20" id="3CN-df-5Zy"/>
+                                                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="6" id="3CN-df-5Zy"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UvD-jB-7Ok" secondAttribute="trailing" priority="999" constant="5" id="5SO-gP-dp0"/>
                                                                                         <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="HkF-Wx-cmF"/>
@@ -1672,7 +1672,7 @@ CA
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="hKA-pJ-rpa"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
-                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="20" id="ngR-5z-x5I"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="6" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
                                                                                         <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="xyO-Sr-YNv"/>
@@ -1757,8 +1757,8 @@ CA
                                                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="562" width="313" height="38"/>
                                                         <subviews>
-                                                            <customView hidden="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="0.0" y="0.0" width="313" height="38"/>
+                                                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
+                                                                <rect key="frame" x="0.0" y="0.0" width="300" height="38"/>
                                                                 <subviews>
                                                                     <box hidden="YES" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-nk-gch">
                                                                         <rect key="frame" x="0.0" y="-2" width="300" height="5"/>
@@ -1790,15 +1790,30 @@ CA
                                                                             <action selector="togglePreview:" target="XfG-lQ-9wD" id="Mf0-5U-8VP"/>
                                                                         </connections>
                                                                     </button>
+                                                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
+                                                                        <rect key="frame" x="231" y="11" width="10" height="16"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="16" id="KX9-jI-cyF"/>
+                                                                        </constraints>
+                                                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="aHW-dK-rqB">
+                                                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                            <font key="font" metaFont="system"/>
+                                                                        </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="lockUnlockAll:" target="XfG-lQ-9wD" id="BBj-kB-YmY"/>
+                                                                        </connections>
+                                                                    </button>
                                                                 </subviews>
                                                                 <constraints>
                                                                     <constraint firstItem="Bn7-FD-jzc" firstAttribute="centerY" secondItem="oDB-Y6-20P" secondAttribute="centerY" id="5ca-la-z4K"/>
                                                                     <constraint firstAttribute="bottom" secondItem="sIv-nk-gch" secondAttribute="bottom" id="8zI-PO-LGd"/>
                                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="centerY" secondItem="Ua8-RE-q01" secondAttribute="centerY" id="CqL-TZ-knJ"/>
                                                                     <constraint firstItem="sIv-nk-gch" firstAttribute="leading" secondItem="Ua8-RE-q01" secondAttribute="leading" id="FzU-YG-fYc"/>
+                                                                    <constraint firstItem="Ote-7U-BZm" firstAttribute="centerY" secondItem="Ua8-RE-q01" secondAttribute="centerY" id="GEa-vV-SOX"/>
                                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="leading" secondItem="Bn7-FD-jzc" secondAttribute="trailing" constant="10" id="Gen-sI-BLY"/>
                                                                     <constraint firstAttribute="trailing" secondItem="sIv-nk-gch" secondAttribute="trailing" id="LlO-H5-hxQ"/>
                                                                     <constraint firstAttribute="trailing" secondItem="oDB-Y6-20P" secondAttribute="trailing" constant="8" id="Vjg-yM-FoF"/>
+                                                                    <constraint firstItem="Bn7-FD-jzc" firstAttribute="leading" secondItem="Ote-7U-BZm" secondAttribute="trailing" constant="8" id="vJ1-vr-2an"/>
                                                                 </constraints>
                                                             </customView>
                                                         </subviews>
@@ -1870,6 +1885,7 @@ CA
                         <outlet property="editArea" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
+                        <outlet property="lockUnlock" destination="Ote-7U-BZm" id="7aC-s7-wA6"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
@@ -2143,6 +2159,7 @@ CA
     </scenes>
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSLockLockedTemplate" width="10" height="14"/>
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
         <image name="makeNoteAsset" width="122.87999725341797" height="122.87999725341797"/>

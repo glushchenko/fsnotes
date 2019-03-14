@@ -47,18 +47,24 @@ class NoteCellView: NSTableCellView {
         super.draw(dirtyRect)
         
         renderPin()
-        
+
         if (UserDefaultsManagement.horizontalOrientation) {
             preview.isHidden = true
         } else {
             preview.isHidden = false
         }
 
+        if UserDefaultsManagement.hidePreviewImages {
+            imagePreview.isHidden = true
+            imagePreviewSecond.isHidden = true
+            imagePreviewThird.isHidden = true
+        }
+
         udpateSelectionHighlight()
 
         var margin = 0
-        if !UserDefaultsManagement.horizontalOrientation {
-            margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 63 : 0
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
+            margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 58 : 0
         }
         
         pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing) + CGFloat(margin)
@@ -110,8 +116,9 @@ class NoteCellView: NSTableCellView {
                 (additionalHeight - previewMaximumLineHeight * CGFloat(numberOfLines) - previewLineSpacing * CGFloat(numberOfLines - 1)) / 2
             )
         } else {
+            let lines = numberOfLines > 0 ? numberOfLines : 0
             frameY = Int(
-                (additionalHeight - previewMaximumLineHeight * CGFloat(numberOfLines)) / 2
+                (additionalHeight - previewMaximumLineHeight * CGFloat(lines)) / 2
             )
         }
 
@@ -122,7 +129,6 @@ class NoteCellView: NSTableCellView {
             UserDefaultsManagement.cellViewFrameOriginY = y
         }
 
-        preview.isHidden = (numberOfLines == 0)
 
         // apply font and max lines numbers
         applyPreviewAttributes(numberOfLines, color: color)
@@ -147,8 +153,13 @@ class NoteCellView: NSTableCellView {
             NSAttributedStringKey.paragraphStyle: textParagraph
         ]
 
-        preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
-        preview.maximumNumberOfLines = maximumNumberOfLines
+        if maximumNumberOfLines > 0 {
+            preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
+            preview.maximumNumberOfLines = maximumNumberOfLines
+        } else {
+            preview.attributedStringValue = NSAttributedString()
+            preview.maximumNumberOfLines = -1
+        }
     }
 
     // This NoteCellView has multiple contained views; this method changes
@@ -185,7 +196,7 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             if note.isEncrypted() {
-                let name = note.isUnlocked() ? "lock-open.png" : "lock-min.png"
+                let name = note.isUnlocked() ? "lock-open" : "lock-closed.png"
                 pin.image = NSImage(named: NSImage.Name(rawValue: name))
                 pin.isHidden = false
                 pin.image?.size = NSSize(width: 14, height: 14)

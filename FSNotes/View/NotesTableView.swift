@@ -26,7 +26,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.delegate = self
         super.draw(dirtyRect)
     }
-    
+
     override func keyUp(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else {
             super.keyUp(with: event)
@@ -86,11 +86,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
         let height = CGFloat(21 + UserDefaultsManagement.cellSpacing)
 
-        if !UserDefaultsManagement.horizontalOrientation {
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             if noteList.indices.contains(row) {
                 let note = noteList[row]
                 if let urls = note.getImagePreviewUrl(), urls.count > 0 {
-                    return height + 63
+                    return (height + 58)
                 }
             }
         }

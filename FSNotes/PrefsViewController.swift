@@ -195,6 +195,8 @@ class PrefsViewController: NSViewController {
         fileFormat.selectItem(withTag: UserDefaultsManagement.fileFormat.tag)
 
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
+
+        hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
     }
     
     @IBAction func liveImagesPreview(_ sender: NSButton) {
@@ -529,7 +531,11 @@ class PrefsViewController: NSViewController {
         }
     }
     
-    @IBAction func hideImagesPreview(_ sender: Any) {
+    @IBAction func hideImagesPreview(_ sender: NSButton) {
+        UserDefaultsManagement.hidePreviewImages = sender.state == .on
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
     }
 
     @IBAction func changePreviewFontSize(_ sender: NSPopUpButton) {
