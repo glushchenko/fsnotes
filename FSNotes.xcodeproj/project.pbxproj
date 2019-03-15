@@ -124,6 +124,9 @@
 		D730BD4C223837F300E69C93 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
 		D730BD57223AB54F00E69C93 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
 		D730BD58223AB54F00E69C93 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
+		D730BD5A223BFEB200E69C93 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD59223BFEB200E69C93 /* RuntimeError.swift */; };
+		D730BD5B223BFEB200E69C93 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD59223BFEB200E69C93 /* RuntimeError.swift */; };
+		D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD59223BFEB200E69C93 /* RuntimeError.swift */; };
 		D7315ECF215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED0215ECF3000AB49D4 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
 		D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
@@ -742,6 +745,7 @@
 		D730BD472238365700E69C93 /* lock-closed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock-closed.png"; sourceTree = "<group>"; };
 		D730BD4A223837F300E69C93 /* lock-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock-open.png"; sourceTree = "<group>"; };
 		D730BD56223AB54E00E69C93 /* new-note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-note.png"; sourceTree = "<group>"; };
+		D730BD59223BFEB200E69C93 /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
@@ -1234,6 +1238,7 @@
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
 				D730BD2D222DABA100E69C93 /* NoteContainer.swift */,
 				D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */,
+				D730BD59223BFEB200E69C93 /* RuntimeError.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -2643,6 +2648,7 @@
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
+				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7D88192214AACF40054586C /* UINote.swift in Sources */,
 				D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */,
 				D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */,
@@ -2663,6 +2669,7 @@
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
 				D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */,
+				D730BD5A223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B6E59A207912E300FE0E20 /* Project.swift in Sources */,
 				D777D7812009115C00D86B33 /* ImagesProcessor.swift in Sources */,
 				D708AC672000EF5800A1760F /* NoteType.swift in Sources */,
@@ -2742,6 +2749,7 @@
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D790641D1FCB4E5F005677E7 /* MarkdownView.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
+				D730BD5B223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */,
 				D75EE7FE2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D74112291FABA29100AB619A /* MainWindow.swift in Sources */,

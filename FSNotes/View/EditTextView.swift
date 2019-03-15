@@ -471,7 +471,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 var imagesStorage = note.project.url
 
                 if note.isTextBundle() {
-                    imagesStorage = note.url
+                    imagesStorage = note.getURL()
                 }
 
                 downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle, didLoadSuccessfully: {
@@ -995,7 +995,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
             let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
-            
+
             guard let attachmentText = attachment.getAttributedString() else { return false }
             guard locationDiff < storage.length else { return false }
             

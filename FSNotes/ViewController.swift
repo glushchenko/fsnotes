@@ -738,7 +738,7 @@ class ViewController: NSViewController,
         if let notes = notesTableView.getSelectedNotes() {
             var urls = [URL]()
             for note in notes {
-                urls.append(note.getFinder())
+                urls.append(note.url)
             }
             NSWorkspace.shared.activateFileViewerSelecting(urls)
         }
@@ -1549,7 +1549,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selectedRow]
 
             var path = note.url.path
-            if note.isTextBundle() {
+            if note.isTextBundle() && !note.isUnlocked() {
                 path = note.url.appendingPathComponent("text.markdown").absoluteURL.path
             }
 

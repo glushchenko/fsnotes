@@ -46,7 +46,7 @@ extension ViewController {
         var imagesStorage = note.project.url
 
         if note.isTextBundle() {
-            imagesStorage = note.url
+            imagesStorage = note.getURL()
         }
 
         htmlString = self.loadImages(imagesStorage: imagesStorage, html: htmlString)

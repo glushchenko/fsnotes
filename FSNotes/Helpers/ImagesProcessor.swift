@@ -195,7 +195,7 @@ public class ImagesProcessor {
         
         if note.isTextBundle() {
             if let name = path.removingPercentEncoding {
-                return "\(note.url.path)/\(name)"
+                return "\(note.getURL().path)/\(name)"
             }
         }
 
@@ -249,7 +249,7 @@ public class ImagesProcessor {
     
     public static func writeImage(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
         if note.isTextBundle() {
-            let assetsUrl = note.url.appendingPathComponent("assets")
+            let assetsUrl = note.getURL().appendingPathComponent("assets")
             
             if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {
                 try? FileManager.default.createDirectory(at: assetsUrl, withIntermediateDirectories: true, attributes: nil)
