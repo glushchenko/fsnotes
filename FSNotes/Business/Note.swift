@@ -1298,6 +1298,8 @@ public class Note: NSObject  {
                 cleanOut()
 
                 try? FileManager.default.removeItem(at: temporaryURL)
+                self.decryptedTemporarySrc = nil
+
                 return true
             }
 

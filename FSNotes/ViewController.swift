@@ -1076,7 +1076,7 @@ class ViewController: NSViewController,
         }
     }
 
-    @IBAction func lockUnlockAll(_ sender: Any) {
+    @IBAction func lockAll(_ sender: Any) {
         let notes = storage.noteList.filter({ $0.isUnlocked() })
         for note in notes {
             if note.lock() {

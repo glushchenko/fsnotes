@@ -68,9 +68,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 self.selectRowIndexes(selectedRows, byExtendingSelection: false)
                 self.scrollRowToVisible(i)
             }
-        }
 
-        super.rightMouseDown(with: event)
+            super.rightMouseDown(with: event)
+        }
     }
         
     // Custom note highlight style
@@ -263,11 +263,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         return cell
     }
-    
+
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         if (clickedRow > -1 && selectedRow < 0) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
+
+        if selectedRow < 1 {
+            return
+        }
+
+        print(selectedRow)
         
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         vc.loadMoveMenu()

@@ -196,7 +196,7 @@ class NoteCellView: NSTableCellView {
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
             if note.isEncrypted() {
-                let name = note.isUnlocked() ? "lock-open" : "lock-closed.png"
+                let name = note.isUnlocked() ? "lock-open" : "lock-closed"
                 pin.image = NSImage(named: NSImage.Name(rawValue: name))
                 pin.isHidden = false
                 pin.image?.size = NSSize(width: 14, height: 14)

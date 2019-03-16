@@ -29,6 +29,11 @@
                                                 <action selector="openPreferences:" target="Voe-Tx-rLC" id="inL-8g-wqE"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Lock All" keyEquivalent="L" id="GrP-W1-7ZQ">
+                                            <connections>
+                                                <action selector="lockAll:" target="Ady-hI-5gd" id="13I-PF-JJb"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="KF2-I2-ZON"/>
                                         <menuItem title="Empty Trash" identifier="emptyTrashMenu" id="G9H-Lg-TXE">
                                             <string key="keyEquivalent" base64-UTF8="YES">
@@ -125,8 +130,7 @@ CA
                                                 <action selector="pinMenu:" target="L4m-js-agn" id="uSp-AH-paW"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Remove encryption" keyEquivalent="l" identifier="fileMenu.toggleLock" id="fkH-Wf-n87">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="fileMenu.toggleLock" id="fkH-Wf-n87">
                                             <connections>
                                                 <action selector="removeNoteEncryption:" target="Ady-hI-5gd" id="nZq-wN-Jep"/>
                                             </connections>
@@ -692,7 +696,7 @@ CA
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="General" identifier="1" id="qNP-GS-U7K">
-                                        <view key="view" ambiguous="YES" id="KEU-U8-bg0">
+                                        <view key="view" id="KEU-U8-bg0">
                                             <rect key="frame" x="10" y="33" width="442" height="354"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -876,7 +880,7 @@ CA
                                         </view>
                                     </tabViewItem>
                                     <tabViewItem label="User Interface" identifier="2" id="5dd-4a-6kQ">
-                                        <view key="view" id="bSU-4V-L48">
+                                        <view key="view" ambiguous="YES" id="bSU-4V-L48">
                                             <rect key="frame" x="10" y="33" width="442" height="354"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
@@ -1002,7 +1006,7 @@ CA
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b18-fM-0tk">
                                                     <rect key="frame" x="39" y="305" width="160" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Notes List Location:" id="54i-GK-spQ">
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Note list location:" id="54i-GK-spQ">
                                                         <font key="font" metaFont="system"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1799,9 +1803,6 @@ CA
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
-                                                                        <connections>
-                                                                            <action selector="lockUnlockAll:" target="XfG-lQ-9wD" id="BBj-kB-YmY"/>
-                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -1885,7 +1886,6 @@ CA
                         <outlet property="editArea" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
-                        <outlet property="lockUnlock" destination="Ote-7U-BZm" id="7aC-s7-wA6"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
@@ -1904,17 +1904,6 @@ CA
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="New" keyEquivalent="n" id="bF9-1E-bzg">
-                            <connections>
-                                <action selector="makeMenu:" target="XfG-lQ-9wD" id="Vf5-ax-zBr"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="New RTF" keyEquivalent="N" id="qV0-jX-O3d">
-                            <connections>
-                                <action selector="fileMenuNewRTF:" target="XfG-lQ-9wD" id="IrK-og-cvB"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem isSeparatorItem="YES" id="SVJ-cA-OFV"/>
                         <menuItem title="Duplicate" keyEquivalent="d" id="E6I-n5-dsi">
                             <connections>
                                 <action selector="duplicate:" target="rPt-NT-nkU" id="hUh-qX-nAT"/>
@@ -1938,8 +1927,7 @@ CA
                                 <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Remove encryption" keyEquivalent="l" identifier="noteMove.toggleLock" id="5gL-j7-Zq8">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="noteMove.toggleLock" id="5gL-j7-Zq8">
                             <connections>
                                 <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
                             </connections>

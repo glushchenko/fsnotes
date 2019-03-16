@@ -490,6 +490,8 @@ class Storage {
     }
 
     public func isValidUTI(url: URL) -> Bool {
+        guard url.fileSize < 100000000 else { return false }
+
         guard let typeIdentifier = (try? url.resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier else { return false }
 
         return UTTypeConformsTo(typeIdentifier as CFString, kUTTypeText)
