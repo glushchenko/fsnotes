@@ -9,6 +9,7 @@
 import UIKit
 import NightNight
 import Solar
+import LocalAuthentication
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
@@ -574,7 +575,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let image = pboard.image {
             if let data = UIImageJPEGRepresentation(image, 1) {
                 guard let fileName = ImagesProcessor.writeImage(data: data, note: note) else { return }
-                let imagePath = note.type == .TextBundle ? "assets" : "/i"
+                let imagePath = note.isTextBundle() ? "assets" : "/i"
                 note.content = NSMutableAttributedString(string: "![](\(imagePath)/\(fileName))\n\n")
             }
         }
@@ -774,6 +775,155 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         return width + 40
+    }
+
+    public func unLock(notes: [Note], completion: @escaping ([Note]?) -> ()) {
+        getMasterPassword() { password in
+            for note in notes {
+                var success: [Note]? = nil
+                if note.unLock(password: password) {
+                    success?.append(note)
+                }
+                completion(success)
+            }
+        }
+    }
+
+    public func toggleNotesLock(notes: [Note]) {
+        var notes = notes
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+
+        notes = lockUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
+
+        getMasterPassword() { password in
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    if note.unLock(password: password) {
+                        self.notesTable.reloadRow(note: note)
+
+                        DispatchQueue.main.async {
+                            UIApplication.getEVC().fill(note: note)
+                            pageController.switchToEditor()
+
+                        }
+                    }
+                } else {
+                    if note.encrypt(password: password) {
+                        self.notesTable.reloadRow(note: note)
+                    }
+                }
+            }
+        }
+    }
+
+    private func lockUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+        var isFirst = true
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.lock() && isFirst {
+                    notesTable.reloadRow(note: note)
+                }
+                notes.removeAll { $0 === note }
+            }
+            isFirst = false
+        }
+
+        return notes
+    }
+
+    private func getMasterPassword(completion: @escaping (String) -> ()) {
+        let context = LAContext()
+        context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
+
+        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
+            masterPasswordPrompt(completion: completion)
+            return
+        }
+
+        context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To access master password") { (success, evaluateError) in
+
+            print(success)
+            if !success {
+                self.masterPasswordPrompt(completion: completion)
+                return
+            }
+
+            do {
+                let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+                let password = try item.readPassword()
+
+                completion(password)
+                return
+            } catch {
+                print(error)
+            }
+
+            self.masterPasswordPrompt(completion: completion)
+        }
+    }
+
+    private func masterPasswordPrompt(completion: @escaping (String) -> ()) {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Master password:", message: nil, preferredStyle: .alert)
+
+            alertController.addTextField(configurationHandler: {
+                [] (textField: UITextField) in
+                textField.placeholder = "mast3r passw0rd"
+            })
+
+            let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+                guard let password = alertController.textFields?[0].text, password.count > 0 else {
+                    return
+                }
+
+                let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+                do {
+                    try item.savePassword(password)
+                } catch {}
+
+                completion(password)
+            }
+
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+
+            self.present(alertController, animated: true) {
+                alertController.textFields![0].selectAll(nil)
+            }
+        }
+        /*
+
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+        alert.messageText = NSLocalizedString("Master password:", comment: "")
+        alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
+        alert.accessoryView = field
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                let data = Data(field.stringValue.utf8)
+                let hexString = data.map{ String(format:"%02x", $0) }.joined()
+
+                if saveKeychain {
+                    let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+
+                    do {
+                        try item.savePassword(hexString)
+                    } catch {}
+                }
+
+                completion(hexString)
+            }
+        }
+
+        field.becomeFirstResponder()
+ */
     }
 }
 

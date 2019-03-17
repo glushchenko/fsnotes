@@ -95,7 +95,7 @@ class CloudDriveManager {
                 }
 
                 note.invalidateCache()
-                self.delegate.notesTable.updateRowView(note: note)
+                self.delegate.notesTable.reloadRow(note: note)
                 self.resolveConflict(url: url)
                 continue
             }
@@ -219,7 +219,7 @@ class CloudDriveManager {
                     let note = Storage.sharedInstance().initNote(url: conflict.url),
                     let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
 
-                note.loadContent()
+                note.load(tags: false)
 
                 conflictNote.content = note.content
                 conflictNote.write()

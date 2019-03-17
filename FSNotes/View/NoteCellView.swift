@@ -23,6 +23,10 @@ class NoteCellView: NSTableCellView {
     public var contentLength: Int = 0
     public var timestamp: Int64?
 
+    private let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+    private var previewMaximumLineHeight: CGFloat = 12
+    private let previewLineSpacing: CGFloat = 3
+
     public var tableView: NotesTableView? {
         get {
             guard let vc = ViewController.shared() else { return nil }
@@ -31,10 +35,6 @@ class NoteCellView: NSTableCellView {
         }
     }
 
-    let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-    let previewMaximumLineHeight: CGFloat = 12
-    let previewLineSpacing: CGFloat = 1
-    
     override func viewWillDraw() {
         if let originY = UserDefaultsManagement.cellViewFrameOriginY {
             adjustTopMargin(margin: originY)
@@ -46,21 +46,24 @@ class NoteCellView: NSTableCellView {
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
         
-        let fontName = UserDefaultsManagement.fontName
-        date.font = NSFont(name: fontName, size: 10)
         renderPin()
-        
+
         if (UserDefaultsManagement.horizontalOrientation) {
             preview.isHidden = true
         } else {
             preview.isHidden = false
         }
 
-        adjustPinPosition()
+        if UserDefaultsManagement.hidePreviewImages {
+            imagePreview.isHidden = true
+            imagePreviewSecond.isHidden = true
+            imagePreviewThird.isHidden = true
+        }
+
         udpateSelectionHighlight()
 
         var margin = 0
-        if !UserDefaultsManagement.horizontalOrientation {
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
             margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 58 : 0
         }
         
@@ -79,31 +82,54 @@ class NoteCellView: NSTableCellView {
             return
         }
 
+        let fontName = UserDefaultsManagement.noteFont.fontName
+        let previewFontSzie = CGFloat(UserDefaultsManagement.previewFontSize)
+        guard let font = NSFont(name: fontName, size: previewFontSzie) else { return }
+        self.previewMaximumLineHeight = font.lineHeightCustom
+
         // vertically align
-        let lineHeight = previewLineSpacing + previewMaximumLineHeight
         var numberOfLines = 0
-        
+        var frameY = 0
+
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreview {
-            let minimumLineNumbers = Int(additionalHeight / lineHeight) - 1
-            
-            if minimumLineNumbers > 0 {
-                numberOfLines = minimumLineNumbers
+            var size = CGFloat(0)
+            var i = -1
+
+            while true {
+                if size > additionalHeight - 8 {
+                    break
+                }
+
+                i += 1
+                if i == 1 {
+                    size += previewMaximumLineHeight
+                } else {
+                    size += previewLineSpacing + previewMaximumLineHeight
+                }
             }
-            
-            if (additionalHeight > 1 + CGFloat(Int(lineHeight) * (minimumLineNumbers + 1))) {
-                numberOfLines = Int(additionalHeight / lineHeight)
-            }
+
+            numberOfLines = i
         }
-                
-        let frameY = (CGFloat(UserDefaultsManagement.cellSpacing) - CGFloat(numberOfLines) * CGFloat(lineHeight)) / 2
-        
+
+        if numberOfLines > 1 {
+            frameY = Int(
+                (additionalHeight - previewMaximumLineHeight * CGFloat(numberOfLines) - previewLineSpacing * CGFloat(numberOfLines - 1)) / 2
+            )
+        } else {
+            let lines = numberOfLines > 0 ? numberOfLines : 0
+            frameY = Int(
+                (additionalHeight - previewMaximumLineHeight * CGFloat(lines)) / 2
+            )
+        }
+
         // save margin
         if frameY >= 0 {
-            let y = CGFloat(Int(frameY)) - 2
+            let y = CGFloat(Int(frameY))
             adjustTopMargin(margin: y)
             UserDefaultsManagement.cellViewFrameOriginY = y
         }
-        
+
+
         // apply font and max lines numbers
         applyPreviewAttributes(numberOfLines, color: color)
     }
@@ -111,22 +137,29 @@ class NoteCellView: NSTableCellView {
     func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1, color: NSColor) {
         let string = preview.stringValue
         let fontName = UserDefaultsManagement.noteFont.fontName
-        guard let font = NSFont(name: fontName, size: 11) else { return }
-            
+
+        let previewFontSize = CGFloat(UserDefaultsManagement.previewFontSize)
+        guard let font = NSFont(name: fontName, size: previewFontSize) else { return }
+
         let textColor = color
         
         let textParagraph = NSMutableParagraphStyle()
         textParagraph.lineSpacing = previewLineSpacing
         textParagraph.maximumLineHeight = previewMaximumLineHeight
-        
+
         let attribs = [
             NSAttributedStringKey.font: font,
             NSAttributedStringKey.foregroundColor: textColor,
             NSAttributedStringKey.paragraphStyle: textParagraph
         ]
-        
-        preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
-        preview.maximumNumberOfLines = maximumNumberOfLines
+
+        if maximumNumberOfLines > 0 {
+            preview.attributedStringValue = NSAttributedString.init(string: string, attributes: attribs)
+            preview.maximumNumberOfLines = maximumNumberOfLines
+        } else {
+            preview.attributedStringValue = NSAttributedString()
+            preview.maximumNumberOfLines = -1
+        }
     }
 
     // This NoteCellView has multiple contained views; this method changes
@@ -162,8 +195,18 @@ class NoteCellView: NSTableCellView {
     
     func renderPin() {
         if let value = objectValue, let note = value as? Note  {
-            pin.isHidden = !note.isPinned
+            if note.isEncrypted() {
+                let name = note.isUnlocked() ? "lock-open" : "lock-closed"
+                pin.image = NSImage(named: NSImage.Name(rawValue: name))
+                pin.isHidden = false
+                pin.image?.size = NSSize(width: 14, height: 14)
+            } else {
+                pin.image = NSImage(named: NSImage.Name(rawValue: "pin"))
+                pin.isHidden = !note.isPinned
+            }
         }
+
+        adjustPinPosition()
     }
 
     public func styleImageView(imageView: ImageView) {
@@ -215,7 +258,7 @@ class NoteCellView: NSTableCellView {
         for constraint in self.constraints {
             if constraint.secondAttribute == .leading, let im = constraint.firstItem as? NSImageView {
                 if im.identifier?.rawValue == "pin" {
-                    if let note = objectValue as? Note, !note.isPinned {
+                    if let note = objectValue as? Note, !note.showIconInList() {
                         constraint.constant = -17
                     } else {
                         constraint.constant = 3

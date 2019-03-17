@@ -10,8 +10,12 @@ import Cocoa
 
 class PreviewTextField: NSTextField {
     override var intrinsicContentSize: NSSize {
-        let width = super.intrinsicContentSize.width
-        let height = maximumNumberOfLines * 13
-        return NSSize(width: width, height: CGFloat(height))
+        if maximumNumberOfLines == -1 {
+            let width = super.intrinsicContentSize.width
+
+            return NSSize(width: width, height: 0)
+        }
+
+        return super.intrinsicContentSize
     }
 }

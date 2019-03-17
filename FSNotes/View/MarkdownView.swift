@@ -70,7 +70,19 @@ open class MarkdownView: WKWebView {
     required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    #if os(OSX)
+    open override func mouseDown(with event: NSEvent) {
+        guard let vc = ViewController.shared(),
+            let note = EditTextView.note,
+            note.container == .encryptedTextPack,
+            !note.isUnlocked()
+        else { return }
+
+        vc.unLock(notes: [note])
+    }
+    #endif
+
     // MARK: - API
     
     /**
@@ -203,8 +215,10 @@ private extension MarkdownView {
                     continue
                 }
 
+                let localPathClean = localPath.removingPercentEncoding ?? String(localPath)
+
                 let fullImageURL = imagesStorage
-                let imageURL = fullImageURL.appendingPathComponent(String(localPath.removingPercentEncoding!))
+                let imageURL = fullImageURL.appendingPathComponent(localPathClean)
 #if os(iOS)
                 let imageData = try Data(contentsOf: imageURL)
                 let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
@@ -213,8 +227,10 @@ private extension MarkdownView {
 #else
                 let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
 
-                let create = webkitPreview.appendingPathComponent(String(localPath)).deletingLastPathComponent()
-                let destination = webkitPreview.appendingPathComponent(String(localPath))
+                let create = webkitPreview
+                    .appendingPathComponent(localPathClean)
+                    .deletingLastPathComponent()
+                let destination = webkitPreview.appendingPathComponent(localPathClean)
 
                 try? FileManager.default.createDirectory(atPath: create.path, withIntermediateDirectories: true, attributes: nil)
                 try? FileManager.default.removeItem(at: destination)

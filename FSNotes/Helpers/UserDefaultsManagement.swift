@@ -51,10 +51,12 @@ public class UserDefaultsManagement {
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
+        static let NoteType = "noteType"
         static let GrammarChecking = "grammarChecking"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
+        static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
@@ -64,8 +66,10 @@ public class UserDefaultsManagement {
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
+        static let NoteContainer = "noteContainer"
         static let PinListKey = "pinList"
         static let Preview = "preview"
+        static let PreviewFontSize = "previewFontSize"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let ShowDockIcon = "showDockIcon"
         static let ShowInMenuBar = "showInMenuBar"
@@ -786,6 +790,54 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.ShowInMenuBar)
+        }
+    }
+    
+    static var fileContainer: NoteContainer {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.NoteContainer) as? Int, let container = NoteContainer(rawValue: result) {
+                return container
+            }
+            return .textBundleV2
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NoteContainer)
+        }
+    }
+
+    static var fileFormat: NoteType {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.NoteType) as? Int {
+                return NoteType.withTag(rawValue: result)
+            }
+            return .Markdown
+        }
+        set {
+            UserDefaults.standard.set(newValue.tag, forKey: Constants.NoteType)
+        }
+    }
+
+    static var previewFontSize: Int {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.PreviewFontSize) as? Int {
+                return result
+            }
+            return 11
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.PreviewFontSize)
+        }
+    }
+
+    static var hidePreviewImages: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.HidePreviewImages) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HidePreviewImages)
         }
     }
 }

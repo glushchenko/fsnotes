@@ -11,6 +11,7 @@ import MASShortcut
 import cmark_gfm_swift
 import FSNotesCore_macOS
 import WebKit
+import LocalAuthentication
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
@@ -84,6 +85,9 @@ class ViewController: NSViewController,
             }
         }
     }
+
+    @IBOutlet weak var lockUnlock: NSButton!
+
 
     // MARK: - Overrides
     
@@ -318,7 +322,7 @@ class ViewController: NSViewController,
         for note in notes {
             let destination = project.url.appendingPathComponent(note.name)
 
-            if note.type == .Markdown {
+            if note.type == .Markdown && note.container == .none {
                 let imagesMeta = note.getAllImages()
                 for imageMeta in imagesMeta {
                     move(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: project)
@@ -408,7 +412,7 @@ class ViewController: NSViewController,
     }
     
     func setTableRowHeight() {
-        notesTableView.rowHeight = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+        notesTableView.rowHeight = CGFloat(21 + UserDefaultsManagement.cellSpacing)
         notesTableView.reloadData()
     }
     
@@ -480,7 +484,7 @@ class ViewController: NSViewController,
             return true
         }
         
-        // Control + Tab
+        // Tab / Control + Tab
         if event.keyCode == kVK_Tab {
             if event.modifierFlags.contains(.control) {
                 self.notesTableView.window?.makeFirstResponder(self.notesTableView)
@@ -679,11 +683,10 @@ class ViewController: NSViewController,
     }
     
     @IBAction func fileName(_ sender: NSTextField) {
+        guard let note = notesTableView.getNoteFromSelectedRow() else { return }
+
         let value = sender.stringValue
-        
-        guard let note = notesTableView.getNoteFromSelectedRow(), let url = note.url else {
-            return
-        }
+        let url = note.url
         
         let newName = sender.stringValue + "." + note.url.pathExtension
         let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
@@ -985,6 +988,62 @@ class ViewController: NSViewController,
         operation.printPanel.options.insert(NSPrintPanel.Options.showsOrientation)
         operation.run()
     }
+    
+    @IBAction func toggleNotesLock(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        guard var notes = vc.notesTableView.getSelectedNotes() else { return }
+
+        notes = lockUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
+
+        getMasterPassword() { password, isTypedByUser in
+            guard password.count > 0 else { return }
+
+            var isFirst = true
+            for note in notes {
+                var success = false
+
+                if note.container == .encryptedTextPack {
+                    success = note.unLock(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                    }
+                } else {
+                    success = note.encrypt(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                        self.focusTable()
+                    }
+                }
+
+                if success && isTypedByUser {
+                    self.save(password: password)
+                }
+
+                self.notesTableView.reloadRow(note: note)
+                isFirst = false
+            }
+        }
+    }
+
+    @IBAction func removeNoteEncryption(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
+
+        getMasterPassword() { password, isTypedByUser in
+            var isFirst = true
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    let success = note.unEncrypt(password: password)
+                    if success && isFirst {
+                        self.refillEditArea()
+                    }
+                }
+                self.notesTableView.reloadRow(note: note)
+                isFirst = false
+            }
+        }
+    }
 
     @IBAction func openProjectViewSettings(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else {
@@ -1000,6 +1059,18 @@ class ViewController: NSViewController,
                 controller.load(project: project)
             }
         }
+    }
+
+    @IBAction func lockAll(_ sender: Any) {
+        let notes = storage.noteList.filter({ $0.isUnlocked() })
+        for note in notes {
+            if note.lock() {
+                notesTableView.reloadRow(note: note)
+            }
+        }
+
+        editArea.clear()
+        refillEditArea()
     }
 
     override func controlTextDidEndEditing(_ obj: Notification) {
@@ -1255,7 +1326,7 @@ class ViewController: NSViewController,
     }
     
     func focusEditArea(firstResponder: NSResponder? = nil) {
-        guard !UserDefaultsManagement.preview else { return }
+        guard !UserDefaultsManagement.preview, EditTextView.note?.container != .encryptedTextPack else { return }
 
         var resp: NSResponder = self.editArea
         if let responder = firstResponder {
@@ -1463,7 +1534,7 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selectedRow]
 
             var path = note.url.path
-            if note.type == .TextBundle {
+            if note.isTextBundle() && !note.isUnlocked() {
                 path = note.url.appendingPathComponent("text.markdown").absoluteURL.path
             }
 
@@ -1642,7 +1713,11 @@ class ViewController: NSViewController,
     @IBAction func duplicate(_ sender: Any) {
         if let notes = notesTableView.getSelectedNotes() {
             for note in notes {
-                if note.type == .TextBundle {
+                if note.isUnlocked() {
+
+                }
+
+                if note.isTextBundle() || note.isEncrypted() {
                     note.duplicate()
                     continue
                 }
@@ -1653,7 +1728,7 @@ class ViewController: NSViewController,
                 noteDupe.content = NSMutableAttributedString(string: note.content.string)
 
                 // Clone images
-                if note.type == .Markdown {
+                if note.type == .Markdown && note.container == .none {
                     let images = note.getAllImages()
                     for image in images {
                         move(note: noteDupe, from: image.url, imagePath: image.path, to: note.project, copy: true)
@@ -1768,7 +1843,7 @@ class ViewController: NSViewController,
 
     func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         for item in menu.items {
-            if item.title == "Copy Link" {
+            if item.title == NSLocalizedString("Copy Link", comment: "")  {
                 item.action = #selector(NSText.copy(_:))
             }
         }
@@ -1803,6 +1878,118 @@ class ViewController: NSViewController,
 
             try? FileManager.default.copyItem(at: url, to: baseUrl)
         }
+    }
+    
+    public func unLock(notes: [Note]) {
+        getMasterPassword() { password, isTypedByUser in
+            guard password.count > 0 else { return }
+
+            var i = 0
+            for note in notes {
+                let success = note.unLock(password: password)
+                if success, i == 0 {
+                    self.refillEditArea()
+
+                    if isTypedByUser {
+                        self.save(password: password)
+                    }
+                }
+
+                self.notesTableView.reloadRow(note: note)
+                i = i + 1
+            }
+        }
+    }
+
+    private func getMasterPassword(completion: @escaping (String, Bool) -> ()) {
+        let context = LAContext()
+        context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
+        
+        if #available(OSX 10.12.2, *) {
+            guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
+                masterPasswordPrompt(completion: completion)
+                return
+            }
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To access secure data") { (success, evaluateError) in
+                
+                if !success {
+                    self.masterPasswordPrompt(completion: completion)
+
+                    return
+                }
+
+                do {
+                    let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+                    let password = try item.readPassword()
+
+                    completion(password, false)
+                    return
+                } catch {
+                    print(error)
+                }
+
+                self.masterPasswordPrompt(completion: completion)
+            }
+        } else {
+            masterPasswordPrompt(completion: completion)
+        }
+    }
+    
+    private func masterPasswordPrompt(completion: @escaping (String, Bool) -> ()) {
+        DispatchQueue.main.async {
+            guard let window = MainWindowController.shared() else { return }
+
+            self.alert = NSAlert()
+            guard let alert = self.alert else { return }
+
+            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+            alert.messageText = NSLocalizedString("Master password:", comment: "")
+            alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
+            alert.accessoryView = field
+            alert.alertStyle = .informational
+            alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    completion(field.stringValue, true)
+                } else {
+                    self.alert = nil
+                }
+            }
+
+            field.becomeFirstResponder()
+        }
+    }
+
+    private func save(password: String) {
+        guard password.count > 0 else { return }
+
+        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+        do {
+            try item.savePassword(password)
+        } catch {
+            print("Master password saving error: \(error)")
+        }
+    }
+
+    private func lockUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+        var isFirst = true
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.lock() && isFirst {
+                    self.refillEditArea()
+                }
+                notes.removeAll { $0 === note }
+            }
+            isFirst = false
+
+            self.notesTableView.reloadRow(note: note)
+        }
+
+        return notes
     }
 
 }

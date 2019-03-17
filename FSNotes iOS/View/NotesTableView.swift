@@ -46,7 +46,7 @@ class NotesTableView: UITableView,
         guard self.notes.indices.contains(indexPath.row) else { return cell }
         
         let note = self.notes[indexPath.row]
-        note.load(note.url)
+        note.load()
 
         cell.configure(note: self.notes[indexPath.row])
         cell.selectionStyle = .gray
@@ -84,6 +84,23 @@ class NotesTableView: UITableView,
         if let evc = viewController.viewControllers[0] as? EditorViewController {
             if let editArea = evc.editArea, let u = editArea.undoManager {
                 u.removeAllActions()
+            }
+
+            if note.container == .encryptedTextPack {
+                viewDelegate?.unLock(notes: [note], completion: { notes in
+                    DispatchQueue.main.async {
+                        guard note.container != .encryptedTextPack else {
+                            self.invalidPasswordAlert()
+                            return
+                        }
+
+                        self.reloadRow(note: note)
+                        evc.fill(note: note)
+                        pageController.switchToEditor()
+
+                    }
+                })
+                return
             }
 
             self.deselectRow(at: indexPath, animated: true)
@@ -180,6 +197,11 @@ class NotesTableView: UITableView,
         actionSheet.addAction(tags)
 
         if showAll {
+            let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in
+                self.viewDelegate?.toggleNotesLock(notes: [note])
+            })
+            actionSheet.addAction(encryption)
+
             let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
@@ -248,7 +270,7 @@ class NotesTableView: UITableView,
         }
     }
     
-    public func updateRowView(note: Note) {
+    public func reloadRow(note: Note) {
         if let i = self.notes.index(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
@@ -294,7 +316,7 @@ class NotesTableView: UITableView,
                 note.addPin()
             }
 
-            self.updateRowView(note: note)
+            self.reloadRow(note: note)
 
             if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
                 evc.setTitle(text: note.title)
@@ -436,5 +458,13 @@ class NotesTableView: UITableView,
         }
 
         AudioServicesPlaySystemSound(1519)
+    }
+
+    private func invalidPasswordAlert() {
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+
+        let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        pageController.present(alert, animated: true, completion: nil)
     }
 }

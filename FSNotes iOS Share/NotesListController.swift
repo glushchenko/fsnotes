@@ -37,7 +37,7 @@ class NotesListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let note = self.notes[indexPath.row]
-        note.loadContent()
+        note.load(tags: false)
         delegate?.save(note: note)
     }
 }

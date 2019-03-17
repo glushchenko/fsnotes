@@ -25,7 +25,14 @@ class Storage {
     
     var notesDict: [String: Note] = [:]
 
-    var allowedExtensions = ["md", "markdown", "txt", "rtf", "fountain", UserDefaultsManagement.storageExtension, "textbundle"]
+    var allowedExtensions = [
+        "md", "markdown",
+        "txt",
+        "rtf",
+        "fountain",
+        "textbundle",
+        "etp" // Encrypted Text Pack
+    ]
 
     var pinned: Int = 0
     
@@ -43,7 +50,7 @@ class Storage {
 #endif
     
     private var bookmarks = [URL]()
-    
+
     init() {
         #if os(OSX)
             let bookmark = SandboxBookmark.sharedInstance()
@@ -82,7 +89,20 @@ class Storage {
             _ = add(project: project)
         }
     }
-    
+
+    public func makeTempEncryptionDirectory() -> URL? {
+        let url = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("Encryption")
+            .appendingPathComponent(UUID().uuidString)
+
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            return url
+        } catch {
+            return nil
+        }
+    }
+
     public func getChildProjects(project: Project) -> [Project] {
         return projects.filter({ $0.parent == project }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
@@ -247,7 +267,7 @@ class Storage {
         #if os(iOS)
         DispatchQueue.global().async {
             for note in self.noteList {
-                note.load(note.url)
+                note.load()
                 i += 1
                 if i == count {
                     print("Loaded notes: \(count)")
@@ -405,7 +425,7 @@ class Storage {
             #endif
 
             #if os(OSX)
-                note.load(url)
+                note.load()
             #endif
 
             if note.isPinned {
@@ -470,6 +490,8 @@ class Storage {
     }
 
     public func isValidUTI(url: URL) -> Bool {
+        guard url.fileSize < 100000000 else { return false }
+
         guard let typeIdentifier = (try? url.resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier else { return false }
 
         return UTTypeConformsTo(typeIdentifier as CFString, kUTTypeText)

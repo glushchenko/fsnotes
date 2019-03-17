@@ -26,7 +26,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.delegate = self
         super.draw(dirtyRect)
     }
-    
+
     override func keyUp(with event: NSEvent) {
         guard let vc = self.window?.contentViewController as? ViewController else {
             super.keyUp(with: event)
@@ -68,9 +68,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 self.selectRowIndexes(selectedRows, byExtendingSelection: false)
                 self.scrollRowToVisible(i)
             }
-        }
 
-        super.rightMouseDown(with: event)
+            super.rightMouseDown(with: event)
+        }
     }
         
     // Custom note highlight style
@@ -84,13 +84,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        let height = CGFloat(16 + UserDefaultsManagement.cellSpacing)
+        let height = CGFloat(21 + UserDefaultsManagement.cellSpacing)
 
-        if !UserDefaultsManagement.horizontalOrientation {
+        if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             if noteList.indices.contains(row) {
                 let note = noteList[row]
                 if let urls = note.getImagePreviewUrl(), urls.count > 0 {
-                    return height + 58
+                    return (height + 58)
                 }
             }
         }
@@ -263,11 +263,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         return cell
     }
-    
+
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         if (clickedRow > -1 && selectedRow < 0) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
+
+        if selectedRow < 1 {
+            return
+        }
+
+        print(selectedRow)
         
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         vc.loadMoveMenu()
@@ -360,6 +366,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     cell.date.stringValue = note.getDateForLabel()
                     cell.loadImagesPreview()
                     cell.udpateSelectionHighlight()
+                    cell.renderPin()
                 }
             }
         }

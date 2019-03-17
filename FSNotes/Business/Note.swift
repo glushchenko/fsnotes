@@ -8,12 +8,17 @@
 //
 
 import Foundation
+import RNCryptor
+import SSZipArchive
+import LocalAuthentication
 
 public class Note: NSObject  {
     @objc var title: String = ""
     var project: Project
+    var container: NoteContainer = .none
     var type: NoteType = .Markdown
-    var url: URL!
+    var url: URL
+
     var content: NSMutableAttributedString = NSMutableAttributedString()
     var creationDate: Date? = Date()
     var isCached = false
@@ -21,6 +26,8 @@ public class Note: NSObject  {
     var tagNames = [String]()
     let dateFormatter = DateFormatter()
     let undoManager = UndoManager()
+
+    public var originalExtension: String?
     
     public var name: String = ""
     public var preview: String = ""
@@ -32,8 +39,16 @@ public class Note: NSObject  {
     public var imageUrl: [URL]?
     public var isParsed = false
     private var caching = false
+
+    private var decryptedTemporarySrc: URL?
+    public var ciphertextWriter = OperationQueue.init()
+    
+    // Load exist
     
     init(url: URL, with project: Project) {
+        self.ciphertextWriter.maxConcurrentOperationCount = 1
+        self.ciphertextWriter.qualityOfService = .userInteractive
+
         self.url = url
         self.project = project
         super.init()
@@ -41,20 +56,38 @@ public class Note: NSObject  {
         self.parseURL(loadProject: false)
     }
     
-    init(name: String? = nil, project: Project? = nil, type: NoteType? = nil) {
+    // Make new
+    
+    init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
+        self.ciphertextWriter.maxConcurrentOperationCount = 1
+        self.ciphertextWriter.qualityOfService = .userInteractive
+
         let project = project ?? Storage.sharedInstance().getMainProject()
         let name = name ?? String()
 
         self.project = project
-        self.name = name        
-        self.type = type ?? NoteType.withExt(rawValue: UserDefaultsManagement.storageExtension)
+        self.name = name
         
-        if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: self.type) {
-            url = uniqURL
-        }
+        self.container = cont ?? UserDefaultsManagement.fileContainer
+        self.type = type ?? UserDefaultsManagement.fileFormat
+        
+        let ext = container == .none
+            ? self.type.getExtension(for: container)
+            : "textbundle"
+                
+        url = NameHelper.getUniqueFileName(name: name, project: project, ext: ext)
 
         super.init()
         self.parseURL()
+    }
+
+    /// Important for decrypted temporary containers
+    public func getURL() -> URL {
+        if let url = self.decryptedTemporarySrc {
+            return url
+        }
+
+        return self.url
     }
     
     public func loadProject(url: URL) {
@@ -64,20 +97,8 @@ public class Note: NSObject  {
             self.project = project
         }
     }
-    
-    func initURL() {
-        if let uniqURL = Note.getUniqueFileName(name: name, project: project, type: type) {
-            url = uniqURL
-        }
         
-        parseURL()
-    }
-    
-    func load(_ newUrl: URL) {
-        url = newUrl
-        type = NoteType.withExt(rawValue: url.pathExtension)
-        parseURL()
-        
+    func load(tags: Bool = true) {        
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
@@ -93,7 +114,7 @@ public class Note: NSObject  {
         }
                         
         if (modifiedAt != modifiedLocalAt) {
-            if let attributedString = getContent() {
+            if container != .encryptedTextPack, let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
             loadModifiedLocalAt()
@@ -112,13 +133,25 @@ public class Note: NSObject  {
         modifiedLocalAt = modifiedAt
     }
     
+    public func isTextBundle() -> Bool {
+        return (container == .textBundle || container == .textBundleV2)
+    }
+    
+    public func getExtensionForContainer() -> String {
+        return type.getExtension(for: container)
+    }
+    
     public func getFileModifiedDate() -> Date? {
         do {
+            let url = getURL()
             var path = url.path
-            if self.type == .TextBundle {
-                path = url.appendingPathComponent("text.markdown").path
+
+            if isTextBundle() {
+                let ext = getExtensionForContainer()
+                path = url.appendingPathComponent("text.\(ext)").path
             }
             let attr = try FileManager.default.attributesOfItem(atPath: path)
+
             return attr[FileAttributeKey.modificationDate] as? Date
         } catch {
             NSLog("Note modification date load error: \(error.localizedDescription)")
@@ -133,9 +166,8 @@ public class Note: NSObject  {
             if FileManager.default.fileExists(atPath: to.path) {
                 guard let project = project ?? sharedStorage.getProjectBy(url: to) else { return false }
 
-                if let uniqURL = Note.getUniqueFileName(name: title, project: project, type: type) {
-                    destination = uniqURL
-                }
+                let ext = getExtensionForContainer()
+                destination = NameHelper.getUniqueFileName(name: title, project: project, ext: ext)
             }
 
             try FileManager.default.moveItem(at: url, to: destination)
@@ -312,33 +344,29 @@ public class Note: NSObject  {
     }
     
     func getContent() -> NSAttributedString? {
-        let options = getDocOptions()
-        var url = self.url
+        guard container != .encryptedTextPack else { return nil }
 
-        if type == .TextBundle {
-            url?.appendPathComponent("text.markdown")
+        let options = getDocOptions()
+        var url = getURL()
+
+        if isTextBundle() {
+            let ext = getExtensionForContainer()
+            url.appendPathComponent("text.\(ext)")
         }
 
-        guard let docUrl = url else { return nil }
-
         do {
-            return try NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
+            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
         } catch {
-            if let data = try? Data(contentsOf: docUrl) {
+
+            if let data = try? Data(contentsOf: url) {
             let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
 
                 let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
-                return try? NSAttributedString(url: docUrl, options: options, documentAttributes: nil)
+                return try? NSAttributedString(url: url, options: options, documentAttributes: nil)
             }
         }
         
         return nil
-    }
-    
-    func loadContent() {
-        if let content = getContent() {
-            self.content = NSMutableAttributedString(attributedString: content)
-        }
     }
     
     func readModificatonDate() -> Date? {
@@ -355,55 +383,12 @@ public class Note: NSObject  {
         return modifiedLocalAt
     }
     
-    public static func getUniqueFileName(name: String, i: Int = 0, project: Project, type: NoteType) -> URL? {
-        let defaultName = "Untitled Note"
-        var i = i
-        var name = name
-            .trimmingCharacters(in: CharacterSet.whitespaces)
-            .replacingOccurrences(of: ":", with: "-")
-            .replacingOccurrences(of: "/", with: ":")
-
-        if name.isEmpty {
-            name = defaultName
-        }
-        
-        var fileUrl = project.url
-        fileUrl.appendPathComponent(name)
-        fileUrl.appendPathExtension(type.rawValue)
-        
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: fileUrl.path) {
-            let regex = try? NSRegularExpression(pattern: "(.+)\\s(\\d)+", options: .caseInsensitive)
-
-            if let result = regex?.firstMatch(in: name, range: NSRange(0..<name.count)) {
-
-                if let r = Range(result.range(at: 1), in: name) {
-                    name = String(name[r])
-                }
-
-                if let r = Range(result.range(at: 2), in: name) {
-                    let digit = name[r]
-
-                    if let converted = Int(digit) {
-                        i = converted
-                    }
-                }
-            }
-
-            let j = i + 1
-            let newName = name + " " + String(j)
-            return Note.getUniqueFileName(name: newName, i: j, project: project, type: type)
-        }
-        
-        return fileUrl
-    }
-    
     func isRTF() -> Bool {
-        return (type == .RichText)
+        return type == .RichText
     }
     
     func isMarkdown() -> Bool {
-        return (type == .Markdown) || (type == .TextBundle)
+        return type == .Markdown
     }
     
     func addPin(cloudSave: Bool = true) {
@@ -497,14 +482,44 @@ public class Note: NSObject  {
     
     func parseURL(loadProject: Bool = true) {
         if (url.pathComponents.count > 0) {
+            container = .withExt(rawValue: url.pathExtension)
             name = url.pathComponents.last!
-            type = .withExt(rawValue: url.pathExtension)
-            title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+            
+            if isTextBundle() {
+                let info = url.appendingPathComponent("info.json")
+                
+                if let jsonData = try? Data(contentsOf: info),
+                    let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
+                    
+                    if info.version == 0x02 {
+                        type = NoteType.withUTI(rawValue: info.type)
+                        container = .textBundleV2
+                        originalExtension = info.flatExtension
+                    } else {
+                        type = .Markdown
+                        container = .textBundle
+                    }
+                }
+            }
+            
+            if container == .none {
+                type = .withExt(rawValue: url.pathExtension)
+            }
+            
+            loadTitle()
         }
 
         if loadProject {
             self.loadProject(url: url)
         }
+    }
+
+    private func loadTitle() {
+        title = url
+            .deletingPathExtension()
+            .pathComponents
+            .last!
+            .replacingOccurrences(of: ":", with: "/")
     }
         
     public func save() {
@@ -520,21 +535,33 @@ public class Note: NSObject  {
     }
 
     private func save(attributedString: NSAttributedString) {
+        let url = getURL()
         let attributes = getFileAttributes()
         
         do {
             let fileWrapper = getFileWrapper(attributedString: attributedString)
 
-            if type == .TextBundle {
-                if let uurl = self.url, !FileManager.default.fileExists(atPath: uurl.path) {
-                    try? FileManager.default.createDirectory(at: uurl, withIntermediateDirectories: false, attributes: nil)
-                    self.writeTextBundleInfo(url: uurl)
+            if isTextBundle() {
+                if !FileManager.default.fileExists(atPath: url.path) {
+                    try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: false, attributes: nil)
+
+                    self.writeTextBundleInfo(url: url)
                 }
             }
 
-            let url = getContentFileURL()
-            try fileWrapper.write(to: url, options: .atomic, originalContentsURL: nil)
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+            let contentSrc = getContentFileURL()
+            try fileWrapper.write(to: contentSrc, options: .atomic, originalContentsURL: nil)
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: contentSrc.path)
+
+            if decryptedTemporarySrc != nil {
+                self.ciphertextWriter.cancelAllOperations()
+                self.ciphertextWriter.addOperation {
+                    usleep(useconds_t(1000000))
+
+                    guard self.ciphertextWriter.operationCount == 1 else { return }
+                    self.writeEncrypted()
+                }
+            }
         } catch {
             NSLog("Write error \(error)")
             return
@@ -544,8 +571,11 @@ public class Note: NSObject  {
     }
 
     private func getContentFileURL() -> URL {
-        if type == .TextBundle {
-            return url.appendingPathComponent("text.markdown")
+        let url = getURL()
+
+        if isTextBundle() {
+            let ext = getExtensionForContainer()
+            return url.appendingPathComponent("text.\(ext)")
         }
 
         return url
@@ -554,23 +584,16 @@ public class Note: NSObject  {
     public func getFileWrapper(with imagesWrapper: FileWrapper? = nil) -> FileWrapper {
         let fileWrapper = getFileWrapper(attributedString: content)
 
-        if type == .TextBundle {
-
+        if isTextBundle() {
             let fileWrapper = getFileWrapper(attributedString: content)
-            let info = """
-            {
-                "transient" : true,
-                "type" : "net.daringfireball.markdown",
-                "creatorIdentifier" : "co.fluder.fsnotes",
-                "version" : 2
-            }
-            """
+            let info = getTextBundleJsonInfo()
             let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info))
 
+            let ext = getExtensionForContainer()
             let textBundle = FileWrapper.init(directoryWithFileWrappers: [
-                    "text.markdown": fileWrapper,
-                    "info.json": infoWrapper
-                ])
+                "text.\(ext)": fileWrapper,
+                "info.json": infoWrapper
+            ])
 
             let assetsWrapper = imagesWrapper ?? getAssetsFileWrapper()
             textBundle.addFileWrapper(assetsWrapper)
@@ -581,6 +604,29 @@ public class Note: NSObject  {
         fileWrapper.filename = name
 
         return fileWrapper
+    }
+    
+    private func getTextBundleJsonInfo() -> String {
+        if let originalExtension = originalExtension {
+            return """
+            {
+                "transient" : true,
+                "type" : "\(type.uti)",
+                "creatorIdentifier" : "co.fluder.fsnotes",
+                "version" : 2,
+                "flatExtension" : "\(originalExtension)"
+            }
+            """
+        }
+
+        return """
+        {
+            "transient" : true,
+            "type" : "\(type.uti)",
+            "creatorIdentifier" : "co.fluder.fsnotes",
+            "version" : 2
+        }
+        """
     }
 
     private func getAssetsFileWrapper() -> FileWrapper {
@@ -601,18 +647,10 @@ public class Note: NSObject  {
 
         return wrapper
     }
-        
+    
     private func writeTextBundleInfo(url: URL) {
         let url = url.appendingPathComponent("info.json")
-        
-        let info = """
-        {
-            "transient" : true,
-            "type" : "net.daringfireball.markdown",
-            "creatorIdentifier" : "co.fluder.fsnotes",
-            "version" : 2
-        }
-        """
+        let info = getTextBundleJsonInfo()
 
         try? info.write(to: url, atomically: true, encoding: String.Encoding.utf8)
     }
@@ -829,8 +867,8 @@ public class Note: NSObject  {
             return URL(string: imageName)
         }
         
-        if type == .TextBundle {
-            return url.appendingPathComponent(imageName)
+        if isTextBundle() {
+            return getURL().appendingPathComponent(imageName)
         }
         
         if type == .Markdown {
@@ -864,8 +902,7 @@ public class Note: NSObject  {
     }
 
     public func duplicate() {
-        var url: URL = self.url
-
+        var url = self.url
         let ext = url.pathExtension
         url.deletePathExtension()
 
@@ -880,7 +917,7 @@ public class Note: NSObject  {
     }
 
     public func getDupeName() -> String? {
-        guard var url = self.url else { return nil }
+        var url = self.url
         url.deletePathExtension()
 
         let name = url.lastPathComponent
@@ -963,7 +1000,7 @@ public class Note: NSObject  {
         let encoded = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         let name = encoded ?? name
 
-        if type == .TextBundle {
+        if isTextBundle() {
             return "assets/\(name)"
         }
 
@@ -1028,4 +1065,259 @@ public class Note: NSObject  {
             }
         }
     }
+
+    private func convertFlatToTextBundle() -> URL {
+        let temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        let temporaryProject = Project(url: temporary)
+
+        let currentName = url.deletingPathExtension().lastPathComponent
+        let note = Note(name: currentName, project: temporaryProject, type: type, cont: .textBundleV2)
+
+        note.originalExtension = url.pathExtension
+        note.content = content
+        note.save()
+
+        return note.url
+    }
+
+    private func convertTextBundleToFlat(name: String) {
+        let textBundleURL = url
+        let json = textBundleURL.appendingPathComponent("info.json")
+
+        if let jsonData = try? Data(contentsOf: json),
+            let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
+            if let flatExtension = info.flatExtension {
+                let ext = NoteType.withUTI(rawValue: info.type).getExtension(for: .textBundleV2)
+                let fileName = "text.\(ext)"
+
+                let uniqueURL = NameHelper.getUniqueFileName(name: name, project: project, ext: flatExtension)
+                let flatURL = url.appendingPathComponent(fileName)
+
+                url = uniqueURL
+                type = .withExt(rawValue: flatExtension)
+                container = .none
+
+                try? FileManager.default.moveItem(at: flatURL, to: uniqueURL)
+                try? FileManager.default.removeItem(at: textBundleURL)
+            }
+        }
+    }
+
+    private func loadTextBundle() -> Bool {
+        do {
+            let url = getURL()
+            let json = url.appendingPathComponent("info.json")
+            let jsonData = try Data(contentsOf: json)
+            let info = try JSONDecoder().decode(TextBundleInfo.self, from: jsonData)
+
+            type = .withUTI(rawValue: info.type)
+
+            if info.version == 1 {
+                container = .textBundle
+                return true
+            }
+
+            container = .textBundleV2
+            return true
+        } catch {
+            print("Can not load TextBundle: \(error)")
+        }
+
+        return false
+    }
+
+    private func writeEncrypted() {
+        guard let baseTextPack = self.decryptedTemporarySrc else { return }
+
+        let textPackURL = baseTextPack.appendingPathExtension("textpack")
+
+        SSZipArchive.createZipFile(atPath: textPackURL.path, withContentsOfDirectory: baseTextPack.path)
+
+        do {
+            let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+            let password = try item.readPassword()
+
+            let data = try Data(contentsOf: textPackURL)
+            let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
+
+            try encryptedData.write(to: self.url)
+            print("FSNotes successfully writed encrypted data for: \(title)")
+
+            try FileManager.default.removeItem(at: textPackURL)
+        } catch {
+            return
+        }
+    }
+
+    public func unLock(password: String) -> Bool {
+        do {
+            let name = url.deletingPathExtension().lastPathComponent
+            let data = try Data(contentsOf: url)
+
+            guard let temporary = sharedStorage.makeTempEncryptionDirectory()?.appendingPathComponent(name) else { return false }
+
+            let temporaryTextPack = temporary.appendingPathExtension("textpack")
+            let temporaryTextBundle = temporary.appendingPathExtension("textbundle")
+
+            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
+            try decryptedData.write(to: temporaryTextPack)
+
+            let successUnZip = SSZipArchive.unzipFile(atPath: temporaryTextPack.path, toDestination: temporaryTextBundle.path)
+
+            try FileManager.default.removeItem(at: temporaryTextPack)
+            guard successUnZip else { return false }
+
+            self.decryptedTemporarySrc = temporaryTextBundle
+
+            guard loadTextBundle() else {
+                container = .encryptedTextPack
+                return false
+            }
+
+            load()
+            loadTitle()
+            
+            invalidateCache()
+            reCache()
+
+            return true
+        } catch {
+            print("Decryption error: \(error)")
+            return false
+        }
+    }
+
+    public func unEncrypt(password: String) -> Bool {
+        let originalSrc = url
+
+        do {
+            let name = url.deletingPathExtension().lastPathComponent
+            let data = try Data(contentsOf: url)
+
+            let decryptedData = try RNCryptor.decrypt(data: data, withPassword: password)
+            let textPackURL = url.appendingPathExtension("textpack")
+            try decryptedData.write(to: textPackURL)
+
+            let newURL = project.url.appendingPathComponent(name).appendingPathExtension("textbundle")
+            url = newURL
+            container = .textBundleV2
+
+            let successUnZip = SSZipArchive.unzipFile(atPath: textPackURL.path, toDestination: newURL.path)
+
+            guard successUnZip else {
+                url = originalSrc
+                container = .encryptedTextPack
+                return false
+            }
+
+            try FileManager.default.removeItem(at: textPackURL)
+            try FileManager.default.removeItem(at: originalSrc)
+
+            convertTextBundleToFlat(name: name)
+            self.decryptedTemporarySrc = nil
+
+            load()
+            reCache()
+
+            return true
+
+        } catch {
+            print("Decryption error: \(error)")
+
+            return false
+        }
+    }
+
+    public func encrypt(password: String) -> Bool {
+        var temporaryFlatSrc: URL?
+        let isContainer = isTextBundle()
+
+        if !isContainer {
+            temporaryFlatSrc = convertFlatToTextBundle()
+        }
+
+        let originalSrc = url
+        let fileName = url.deletingPathExtension().lastPathComponent
+
+        let baseTextPack = temporaryFlatSrc ?? url
+        let textPackURL = baseTextPack.appendingPathExtension("textpack")
+
+        SSZipArchive.createZipFile(atPath: textPackURL.path, withContentsOfDirectory: baseTextPack.path)
+
+        do {
+            if let tempURL = temporaryFlatSrc {
+                try FileManager.default.removeItem(at: tempURL)
+            }
+
+            let data = try Data(contentsOf: textPackURL)
+            let encrypted = RNCryptor.encrypt(data: data, withPassword: password)
+            let encryptedURL = project.url.appendingPathComponent(fileName).appendingPathExtension("etp")
+            
+            url = encryptedURL
+            container = .encryptedTextPack
+            
+            try encrypted.write(to: encryptedURL)
+            try FileManager.default.removeItem(at: originalSrc)
+            try FileManager.default.removeItem(at: textPackURL)
+
+            cleanOut()
+            removeTempContainer()
+
+            return true
+        } catch {
+            print("Encyption error: \(error)")
+
+            return false
+        }
+    }
+
+    private func cleanOut() {
+        imageUrl = nil
+
+        content = NSMutableAttributedString(string: String())
+        preview = String()
+        title = String()
+
+        isCached = false
+        caching = false
+    }
+
+    private func removeTempContainer() {
+        if let url = decryptedTemporarySrc {
+            try? FileManager.default.removeItem(at: url)
+        }
+    }
+
+    public func isUnlocked() -> Bool {
+        return (decryptedTemporarySrc != nil)
+    }
+
+    public func isEncrypted() -> Bool {
+        return (container == .encryptedTextPack || isUnlocked())
+    }
+
+    public func lock() -> Bool {
+        guard let temporaryURL = self.decryptedTemporarySrc else { return false }
+
+        while true {
+            if ciphertextWriter.operationCount == 0 {
+                print("Note \"\(title)\" successfully locked.")
+
+                container = .encryptedTextPack
+                cleanOut()
+
+                try? FileManager.default.removeItem(at: temporaryURL)
+                self.decryptedTemporarySrc = nil
+
+                return true
+            }
+
+            usleep(100000)
+        }
+    }
+
+    public func showIconInList() -> Bool {
+        return (isPinned || isEncrypted())
+    }
+    
 }

@@ -23,6 +23,18 @@
 "Check Spelling While Typing" = "Проверять во время набора";
 
 /* No comment provided by engineer. */
+"Code Block" = "Блок кода";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Скопировать HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Скопировать ссылку";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Скопировать чистый текст";
+
+/* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Корректировать правописание";
 
 /* No comment provided by engineer. */
@@ -32,13 +44,25 @@
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
+"Enter Master Password" = "Введите мастер пароль";
+
+/* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
+/* No comment provided by engineer. */
+"Image" = "Изображение";
+
 /* Edit area */
 "Image title" = "Заголовок";
+
+/* No comment provided by engineer. */
+"Link" = "Ссылка";
+
+/* No comment provided by engineer. */
+"Master password:" = "Мастер пароль:";
 
 /* Menu */
 "Move" = "Переместить";
@@ -61,6 +85,9 @@
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Введите пароль для текущей заметки";
 
 /* No comment provided by engineer. */
 "Please enter project name:" = "Пожалуйста, введите название директории:";
@@ -102,6 +129,9 @@
 "Spelling and Grammar" = "Орфография и грамматика";
 
 /* No comment provided by engineer. */
+"Strikethrough" = "Зачёркнутый";
+
+/* No comment provided by engineer. */
 "Substitutions" = "Замены";
 
 /* Menu
@@ -114,8 +144,14 @@
 /* Delete menu */
 "This action cannot be undone." = "Это действие не может быть отменено.";
 
+/* No comment provided by engineer. */
+"Toggle preview" = "Переключить предпросмотр";
+
 /* Sidebar label */
 "Trash" = "Корзина";
+
+/* No comment provided by engineer. */
+"Underline" = "Подчёркнутый";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";

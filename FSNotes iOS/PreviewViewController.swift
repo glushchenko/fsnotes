@@ -55,8 +55,8 @@ class PreviewViewController: UIViewController {
         do {
             var imagesStorage = note.project.url
 
-            if note.type == .TextBundle {
-                imagesStorage = note.url
+            if note.isTextBundle() {
+                imagesStorage = note.getURL()
             }
 
             if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {

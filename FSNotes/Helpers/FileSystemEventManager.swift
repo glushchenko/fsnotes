@@ -117,7 +117,7 @@ class FileSystemEventManager {
         }
         
         guard let note = storage.initNote(url: url) else { return }
-        note.load(url)
+        note.load()
         note.loadModifiedLocalAt()
         note.markdownCache()
         
@@ -178,7 +178,9 @@ class FileSystemEventManager {
     }
     
     private func reloadNote(note: Note) {
+        guard note.container != .encryptedTextPack else { return }
         guard let fsContent = note.getContent() else { return }
+        
         let memoryContent = note.content.attributedSubstring(from: NSRange(0..<note.content.length))
         
         if (note.isRTF() && fsContent != memoryContent)
@@ -195,7 +197,7 @@ class FileSystemEventManager {
     }
     
     private func handleTextBundle(url: URL) -> URL {
-        if url.lastPathComponent == "text.markdown" && url.path.contains(".textbundle") {
+        if ["text.markdown", "text.md", "text.txt", "text.rtf"].contains(url.lastPathComponent) && url.path.contains(".textbundle") {
             let path = url.deletingLastPathComponent().path
             return URL(fileURLWithPath: path)
         }

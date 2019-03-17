@@ -17,7 +17,6 @@ extension UserDefaultsManagement {
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
-        static let StorageExtensionKey = "fileExtension"
     }
 
     static var appearanceType: AppearanceType {
@@ -34,19 +33,6 @@ extension UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: Constants.AppearanceTypeKey)
-        }
-    }
-
-    static var storageExtension: String {
-        get {
-            if let storageExtension = UserDefaults.standard.object(forKey: Constants.StorageExtensionKey) as? String {
-                return storageExtension
-            } else {
-                return "md"
-            }
-        }
-        set {
-            UserDefaults.standard.set(newValue, forKey: Constants.StorageExtensionKey)
         }
     }
 
