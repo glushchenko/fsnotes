@@ -993,23 +993,8 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
         guard var notes = vc.notesTableView.getSelectedNotes() else { return }
 
-        var isFirst = true
-        for note in notes {
-            if note.isUnlocked() {
-                if note.lock() && isFirst {
-                    self.refillEditArea()
-                }
-
-                notes.removeAll { $0 === note }
-            }
-            isFirst = false
-
-            self.notesTableView.reloadRow(note: note)
-        }
-
-        if notes.count == 0 {
-            return
-        }
+        notes = lockUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
 
         getMasterPassword() { password, isTypedByUser in
             guard password.count > 0 else { return }
@@ -1986,6 +1971,25 @@ class ViewController: NSViewController,
         } catch {
             print("Master password saving error: \(error)")
         }
+    }
+
+    private func lockUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+        var isFirst = true
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.lock() && isFirst {
+                    self.refillEditArea()
+                }
+                notes.removeAll { $0 === note }
+            }
+            isFirst = false
+
+            self.notesTableView.reloadRow(note: note)
+        }
+
+        return notes
     }
 
 }

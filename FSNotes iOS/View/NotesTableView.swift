@@ -94,8 +94,10 @@ class NotesTableView: UITableView,
                             return
                         }
 
+                        self.reloadRow(note: note)
                         evc.fill(note: note)
                         pageController.switchToEditor()
+
                     }
                 })
                 return
@@ -196,7 +198,7 @@ class NotesTableView: UITableView,
 
         if showAll {
             let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in
-                self.encryptionAction(note: note, presentController: presentController)
+                self.viewDelegate?.toggleNotesLock(notes: [note])
             })
             actionSheet.addAction(encryption)
 
@@ -268,7 +270,7 @@ class NotesTableView: UITableView,
         }
     }
     
-    public func updateRowView(note: Note) {
+    public func reloadRow(note: Note) {
         if let i = self.notes.index(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
@@ -314,7 +316,7 @@ class NotesTableView: UITableView,
                 note.addPin()
             }
 
-            self.updateRowView(note: note)
+            self.reloadRow(note: note)
 
             if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
                 evc.setTitle(text: note.title)
@@ -358,16 +360,6 @@ class NotesTableView: UITableView,
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
         UIPasteboard.general.items = [item]
-    }
-
-    private func encryptionAction(note: Note, presentController: UIViewController) {
-        if note.container == .encryptedTextPack {
-            viewDelegate?.unLock(notes: [note]) { notes in
-
-            }
-        } else {
-            viewDelegate?.lock(notes: [note])
-        }
     }
 
     public func shareAction(note: Note, presentController: UIViewController) {

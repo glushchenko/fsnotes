@@ -275,6 +275,8 @@
 		D7735B13213D06C500FACB12 /* underline@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7735B0D213D06C500FACB12 /* underline@3x.png */; };
 		D7735B14213D06C500FACB12 /* strike@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7735B0E213D06C500FACB12 /* strike@2x.png */; };
 		D7735B15213D06C500FACB12 /* strike@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7735B0F213D06C500FACB12 /* strike@3x.png */; };
+		D7737393223D59CF00154B9E /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */; };
+		D7737394223D59D300154B9E /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */; };
 		D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */; };
 		D777D7812009115C00D86B33 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
 		D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
@@ -2553,6 +2555,7 @@
 				D730BD38222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7CD5CE321836A230009D63B /* UIFont+.swift in Sources */,
 				D7CD5CD221820CDC0009D63B /* NSMutableAttributedString+.swift in Sources */,
+				D7737394223D59D300154B9E /* KeychainPasswordItem.swift in Sources */,
 				D7CD5CD121820CCD0009D63B /* Date+.swift in Sources */,
 				D7CD5CD82182342B0009D63B /* NightMode.swift in Sources */,
 				D7CD5CC7218209BD0009D63B /* SortBy.swift in Sources */,
@@ -2574,6 +2577,7 @@
 				D7CD5CC8218209D10009D63B /* Note.swift in Sources */,
 				D7CD5CD421820D640009D63B /* NSAttributedStringKey+.swift in Sources */,
 				D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */,
+				D7737393223D59CF00154B9E /* KeychainConfiguration.swift in Sources */,
 				D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */,
 			);

@@ -71,6 +71,7 @@ open class MarkdownView: WKWebView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    #if os(OSX)
     open override func mouseDown(with event: NSEvent) {
         guard let vc = ViewController.shared(),
             let note = EditTextView.note,
@@ -80,6 +81,7 @@ open class MarkdownView: WKWebView {
 
         vc.unLock(notes: [note])
     }
+    #endif
 
     // MARK: - API
     

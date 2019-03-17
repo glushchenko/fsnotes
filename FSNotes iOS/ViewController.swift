@@ -789,20 +789,49 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func lock(notes: [Note]) {
-        getMasterPassword() { password in
-            var i = 0
-            for note in notes {
-                let success = note.lock(password: password)
-                if success, i == 0 {
-                    //self.refillEditArea()
-                    //self.focusTable()
-                }
+    public func toggleNotesLock(notes: [Note]) {
+        var notes = notes
+        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
 
-                //self.notesTableView.reloadRow(note: note)
-                i = i + 1
+        notes = lockUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
+
+        getMasterPassword() { password in
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    if note.unLock(password: password) {
+                        self.notesTable.reloadRow(note: note)
+
+                        DispatchQueue.main.async {
+                            UIApplication.getEVC().fill(note: note)
+                            pageController.switchToEditor()
+
+                        }
+                    }
+                } else {
+                    if note.encrypt(password: password) {
+                        self.notesTable.reloadRow(note: note)
+                    }
+                }
             }
         }
+    }
+
+    private func lockUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+        var isFirst = true
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.lock() && isFirst {
+                    notesTable.reloadRow(note: note)
+                }
+                notes.removeAll { $0 === note }
+            }
+            isFirst = false
+        }
+
+        return notes
     }
 
     private func getMasterPassword(completion: @escaping (String) -> ()) {

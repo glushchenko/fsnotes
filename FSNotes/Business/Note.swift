@@ -506,16 +506,20 @@ public class Note: NSObject  {
                 type = .withExt(rawValue: url.pathExtension)
             }
             
-            title = url
-                .deletingPathExtension()
-                .pathComponents
-                .last!
-                .replacingOccurrences(of: ":", with: "/")
+            loadTitle()
         }
 
         if loadProject {
             self.loadProject(url: url)
         }
+    }
+
+    private func loadTitle() {
+        title = url
+            .deletingPathExtension()
+            .pathComponents
+            .last!
+            .replacingOccurrences(of: ":", with: "/")
     }
         
     public func save() {
@@ -1171,6 +1175,9 @@ public class Note: NSObject  {
             }
 
             load()
+            loadTitle()
+            
+            invalidateCache()
             reCache()
 
             return true
@@ -1294,6 +1301,8 @@ public class Note: NSObject  {
 
         while true {
             if ciphertextWriter.operationCount == 0 {
+                print("Note \"\(title)\" successfully locked.")
+
                 container = .encryptedTextPack
                 cleanOut()
 

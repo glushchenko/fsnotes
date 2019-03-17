@@ -95,7 +95,7 @@ class CloudDriveManager {
                 }
 
                 note.invalidateCache()
-                self.delegate.notesTable.updateRowView(note: note)
+                self.delegate.notesTable.reloadRow(note: note)
                 self.resolveConflict(url: url)
                 continue
             }
