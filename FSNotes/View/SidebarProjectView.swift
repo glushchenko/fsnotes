@@ -303,7 +303,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                         let i = vd.notesTableView.getIndex(lastNote)
                     {
                         vd.notesTableView.selectRow(i)
-                        vd.notesTableView.scrollRowToVisible(i)
+
+                        DispatchQueue.main.async {
+                            vd.notesTableView.scrollRowToVisible(i)
+                        }
                     } else if vd.notesTableView.noteList.count > 0 {
                         vd.focusTable()
                     }

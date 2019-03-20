@@ -138,6 +138,8 @@
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
+		D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
+		D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
 		D739955E2051D1AB009017EE /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
 		D739955F2051D1AB009017EE /* italic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955C2051D1AA009017EE /* italic@2x.png */; };
 		D73995602051D1AB009017EE /* italic.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955D2051D1AB009017EE /* italic.png */; };
@@ -226,6 +228,8 @@
 		D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FC71F337E850047AB76 /* SearchTextField.swift */; };
 		D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FCD1F3438540047AB76 /* PrefsViewController.swift */; };
+		D75C903A223EDAFD002A9CAD /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
+		D75C903B223EDAFD002A9CAD /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
 		D75DF64121319994003C3059 /* todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63E21319993003C3059 /* todo@2x.png */; };
 		D75DF64221319994003C3059 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
 		D75DF64321319994003C3059 /* todo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF64021319993003C3059 /* todo@3x.png */; };
@@ -537,6 +541,20 @@
 		D7F2F1C521C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C821C68B5700E41811 /* ProjectListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2F1C721C68B5700E41811 /* ProjectListController.swift */; };
+		D7F5C0E6223EC1DB0038F172 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
+		D7F5C0E7223EC1DB0038F172 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
+		D7F5C0EC223EC5670038F172 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
+		D7F5C0ED223EC5670038F172 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
+		D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
+		D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
+		D7F5C0F2223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */; };
+		D7F5C0F3223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */; };
+		D7F5C0F5223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */; };
+		D7F5C0F6223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */; };
+		D7F5C0F8223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */; };
+		D7F5C0F9223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */; };
+		D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
+		D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
 		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
 		D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF32056F1BC008C584A /* plus@2x.png */; };
 		D7F6CFF72056F1BF008C584A /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF42056F1BE008C584A /* plus@3x.png */; };
@@ -756,6 +774,7 @@
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
+		D738356C2242871400B260DD /* MasterPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordViewController.swift; sourceTree = "<group>"; };
 		D739955B2051D1AA009017EE /* italic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@3x.png"; sourceTree = "<group>"; };
 		D739955C2051D1AA009017EE /* italic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "italic@2x.png"; sourceTree = "<group>"; };
 		D739955D2051D1AB009017EE /* italic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = italic.png; sourceTree = "<group>"; };
@@ -792,6 +811,7 @@
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
+		D75C9039223EDAFD002A9CAD /* padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padlock.png; sourceTree = "<group>"; };
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
@@ -962,6 +982,13 @@
 		D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-LightItalic.ttf"; sourceTree = "<group>"; };
 		D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLightIt.ttf"; sourceTree = "<group>"; };
 		D7F2F1C721C68B5700E41811 /* ProjectListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListController.swift; sourceTree = "<group>"; };
+		D7F5C0E5223EC1DB0038F172 /* editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editor.png; sourceTree = "<group>"; };
+		D7F5C0EB223EC5670038F172 /* ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui.png; sourceTree = "<group>"; };
+		D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesGeneralViewController.swift; sourceTree = "<group>"; };
+		D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesUserInterfaceViewController.swift; sourceTree = "<group>"; };
+		D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesEditorViewController.swift; sourceTree = "<group>"; };
+		D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSecurityViewController.swift; sourceTree = "<group>"; };
+		D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAdvancedViewController.swift; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F6CFF32056F1BC008C584A /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		D7F6CFF42056F1BE008C584A /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@3x.png"; sourceTree = "<group>"; };
@@ -1270,6 +1297,19 @@
 			path = iOS;
 			sourceTree = "<group>";
 		};
+		D75C903C223EF727002A9CAD /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */,
+				D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */,
+				D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */,
+				D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */,
+				D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */,
+				D738356C2242871400B260DD /* MasterPasswordViewController.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		D75F3337205EC34800CC887E /* FSNotes iOS Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -1407,6 +1447,7 @@
 		D7793C711F211C6000CA39B7 /* FSNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D75C903C223EF727002A9CAD /* Preferences */,
 				D7CD5F6A1F51184A006AA35D /* Extensions */,
 				D7B6E59C20794B4C00FE0E20 /* Business */,
 				D7E6D9D520808652003ECAFC /* Helpers */,
@@ -1463,6 +1504,7 @@
 		D7D61FCC1F32EEA1004357C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D7F5C0E4223EC1B30038F172 /* Preferences */,
 				D7F2F18521C5032D00E41811 /* Fonts */,
 				D739EC2121382E0100E1C021 /* iOS */,
 				D76025B5204F071B000B9F59 /* Toolbar */,
@@ -1620,6 +1662,16 @@
 				D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */,
 			);
 			path = AvenirNext;
+			sourceTree = "<group>";
+		};
+		D7F5C0E4223EC1B30038F172 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				D7F5C0EB223EC5670038F172 /* ui.png */,
+				D75C9039223EDAFD002A9CAD /* padlock.png */,
+				D7F5C0E5223EC1DB0038F172 /* editor.png */,
+			);
+			path = Preferences;
 			sourceTree = "<group>";
 		};
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
@@ -2143,6 +2195,7 @@
 				D7F2F1A621C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
 				D730BD4B223837F300E69C93 /* lock-open.png in Resources */,
+				D7F5C0EC223EC5670038F172 /* ui.png in Resources */,
 				D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D7F2F1AC21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */,
@@ -2152,6 +2205,7 @@
 				D76C874C2136C17100F82952 /* trash.png in Resources */,
 				D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
+				D7F5C0E6223EC1DB0038F172 /* editor.png in Resources */,
 				D730BD57223AB54F00E69C93 /* new-note.png in Resources */,
 				D7CDE9D92160C1D500DC5978 /* makeNote_white.png in Resources */,
 				D7DD79581F4E60D000D5724B /* SourceCodePro-Black.ttf in Resources */,
@@ -2177,6 +2231,7 @@
 				D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
 				D7D3D51A1F4483F500D152FE /* pin.png in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
+				D75C903A223EDAFD002A9CAD /* padlock.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7487FCA2173566700D09383 /* checkbox@2x.png in Resources */,
 				D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
@@ -2220,6 +2275,7 @@
 				D7E81C4F1F925B5F00416A91 /* SourceCodePro-Black.ttf in Resources */,
 				D7ED6893200F87BD00FF975A /* Initial in Resources */,
 				D7F2F19B21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
+				D7F5C0ED223EC5670038F172 /* ui.png in Resources */,
 				D7E81C501F925B5F00416A91 /* SourceCodePro-It.ttf in Resources */,
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */,
@@ -2229,6 +2285,7 @@
 				D7487FBD2173566600D09383 /* checkbox.png in Resources */,
 				D7487FBF2173566600D09383 /* checkbox@3x.png in Resources */,
 				D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
+				D75C903B223EDAFD002A9CAD /* padlock.png in Resources */,
 				D7487FBB2173566600D09383 /* checkbox_white@2x.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
 				D7487FC52173566600D09383 /* checkbox_empty@3x.png in Resources */,
@@ -2236,6 +2293,7 @@
 				D7F2F1B021C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7487FBA2173566600D09383 /* checkbox_white.png in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
+				D7F5C0E7223EC1DB0038F172 /* editor.png in Resources */,
 				D7409FAB222070020057C072 /* blackWhite.png in Resources */,
 				D7F2F1A721C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D7E81C531F925B5F00416A91 /* Main.storyboard in Resources */,
@@ -2698,6 +2756,7 @@
 				D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */,
 				D75EE8002078E0C60055F159 /* SidebarItemType.swift in Sources */,
 				D7793C731F211C6000CA39B7 /* AppDelegate.swift in Sources */,
+				D7F5C0F8223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */,
 				D7E51713220D814D00A9CAD9 /* UTI.swift in Sources */,
 				D7DCFED32108E3210059B37B /* Note+.swift in Sources */,
 				D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */,
@@ -2712,6 +2771,7 @@
 				D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
 				D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */,
+				D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7D372F7207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
 				D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */,
@@ -2727,9 +2787,13 @@
 				D773DE801F36F45900A39C9F /* SandboxBookmark.swift in Sources */,
 				D7487F932173503C00D09383 /* AttributedBox.swift in Sources */,
 				D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */,
+				D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7CD5F6C1F51185F006AA35D /* NSFont+.swift in Sources */,
 				D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */,
+				D7F5C0F2223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */,
 				275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */,
+				D7F5C0F5223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
+				D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
 				D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */,
 				D78678CB2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7B3391520DE0FB100B36460 /* TagList.swift in Sources */,
@@ -2778,6 +2842,7 @@
 				D75EE7FB2078B3C00055F159 /* Sidebar.swift in Sources */,
 				D7169A5E2077BA140025D2C9 /* StorageView.swift in Sources */,
 				D7E81C301F925B5F00416A91 /* FileWatcher.swift in Sources */,
+				D7F5C0F9223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */,
 				D7E51714220D814D00A9CAD9 /* UTI.swift in Sources */,
 				D7DCFED42108E3210059B37B /* Note+.swift in Sources */,
 				D7E81C321F925B5F00416A91 /* PrefsViewController.swift in Sources */,
@@ -2792,6 +2857,7 @@
 				D7CDE9DD2161767B00DC5978 /* AppearanceType.swift in Sources */,
 				D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */,
 				D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */,
+				D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */,
 				D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */,
 				D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D7E81C371F925B5F00416A91 /* NoteRowView.swift in Sources */,
@@ -2807,9 +2873,13 @@
 				D7E81C3D1F925B5F00416A91 /* SandboxBookmark.swift in Sources */,
 				D7487F922173503C00D09383 /* AttributedBox.swift in Sources */,
 				D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */,
+				D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7E81C3F1F925B5F00416A91 /* NSFont+.swift in Sources */,
 				D7E81C411F925B5F00416A91 /* SearchTextField.swift in Sources */,
+				D7F5C0F3223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */,
 				D7E81C421F925B5F00416A91 /* MainWindowController.swift in Sources */,
+				D7F5C0F6223ED5620038F172 /* PreferencesEditorViewController.swift in Sources */,
+				D738356E2242871400B260DD /* MasterPasswordViewController.swift in Sources */,
 				D7E81C441F925B5F00416A91 /* NoteCellView.swift in Sources */,
 				D78678CC2093AE10001A6620 /* UndoData.swift in Sources */,
 				D7B3391620DE0FB100B36460 /* TagList.swift in Sources */,

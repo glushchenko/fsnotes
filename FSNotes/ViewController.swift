@@ -203,8 +203,23 @@ class ViewController: NSViewController,
         
         self.sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
         self.splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
+
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self, selector: #selector(onSleepNote(note:)),
+            name: NSWorkspace.willSleepNotification, object: nil)
+
+        NSWorkspace.shared.notificationCenter.addObserver(
+            self, selector: #selector(onUserSwitch(note:)),
+            name: NSWorkspace.sessionDidBecomeActiveNotification, object: nil)
+
+        DistributedNotificationCenter.default().addObserver(
+            self,
+            selector: #selector(onScreenLocked(note:)),
+            name: NSNotification.Name(rawValue: "com.apple.screenIsLocked"),
+            object: nil
+        )
     }
-    
+
     private func configureNotesList() {
         self.updateTable() {
             let lastSidebarItem = UserDefaultsManagement.lastProject
@@ -1905,7 +1920,7 @@ class ViewController: NSViewController,
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
         
-        if #available(OSX 10.12.2, *) {
+        if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
             guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
                 masterPasswordPrompt(completion: completion)
                 return
@@ -1963,10 +1978,14 @@ class ViewController: NSViewController,
     }
 
     private func save(password: String) {
-        guard password.count > 0 else { return }
+        guard password.count > 0, UserDefaultsManagement.savePasswordInKeychain else { return }
 
         let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+
         do {
+            let oldPassword = try item.readPassword()
+            guard oldPassword.count == 0 else { return }
+
             try item.savePassword(password)
         } catch {
             print("Master password saving error: \(error)")
@@ -1991,5 +2010,24 @@ class ViewController: NSViewController,
 
         return notes
     }
+
+    @objc func onSleepNote(note: NSNotification) {
+        if UserDefaultsManagement.lockOnSleep {
+            lockAll(self)
+        }
+    }
+
+    @objc func onScreenLocked(note: NSNotification) {
+        if UserDefaultsManagement.lockOnScreenActivated{
+            lockAll(self)
+        }
+    }
+
+    @objc func onUserSwitch(note: NSNotification) {
+        if UserDefaultsManagement.lockOnUserSwitch {
+            lockAll(self)
+        }
+    }
+
 
 }
