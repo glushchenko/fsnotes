@@ -38,10 +38,16 @@
 "Correct Spelling Automatically" = "Корректировать правописание";
 
 /* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "Пароль не соответствует паролю в связке";
+
+/* No comment provided by engineer. */
 "Data Detectors" = "Детекторы данных";
 
 /* No comment provided by engineer. */
 "Delete" = "Удаление";
+
+/* No comment provided by engineer. */
+"Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "Введите мастер пароль";
@@ -60,6 +66,9 @@
 
 /* No comment provided by engineer. */
 "Link" = "Ссылка";
+
+/* No comment provided by engineer. */
+"Lock All" = "Заблокировать все";
 
 /* No comment provided by engineer. */
 "Master password:" = "Мастер пароль:";
@@ -96,6 +105,9 @@
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
 
 /* No comment provided by engineer. */
+"Please try again" = "Пожалуйста, попробуйте ещё раз";
+
+/* No comment provided by engineer. */
 "Preferences" = "Настройки";
 
 /* No comment provided by engineer. */
@@ -106,6 +118,9 @@
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Удалить";
+
+/* No comment provided by engineer. */
+"Reveal folder" = "Открыть директорию";
 
 /* No comment provided by engineer. */
 "Search and create" = "Найти и создать";
@@ -158,4 +173,7 @@
 
 /* Menu */
 "View" = "Вид";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Несоответствие паролей";
 
