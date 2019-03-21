@@ -54,6 +54,7 @@ public class UserDefaultsManagement {
         static let FontColorKey = "fontColorKeyed"
         static let NoteType = "noteType"
         static let GrammarChecking = "grammarChecking"
+        static let HideDate = "hideDate"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
         static let HidePreviewKey = "hidePreview"
@@ -917,6 +918,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.SaveInKeychain)
+        }
+    }
+
+    static var hideDate: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.HideDate) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.HideDate)
         }
     }
 }

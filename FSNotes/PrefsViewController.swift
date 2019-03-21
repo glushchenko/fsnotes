@@ -25,13 +25,13 @@ class PrefsViewController: NSTabViewController  {
             let toolbarItem = toolbarItem,
             let tabViewItem = tabViewItems.first(where: { ($0.identifier as? String) == itemIdentifier.rawValue })
         {
-            if (tabViewItem.identifier as? String) != "advanced" {
-                toolbarItem.label = "  \(tabViewItem.label)  "
+            if let name = tabViewItem.identifier as? String, !["advanced", "security"].contains(name)  {
+                toolbarItem.label = "\(tabViewItem.label)    "
             }
         }
         return toolbarItem
     }
-    
+
     override func changeFont(_ sender: Any?) {
         guard let vc = ViewController.shared() else { return }
 

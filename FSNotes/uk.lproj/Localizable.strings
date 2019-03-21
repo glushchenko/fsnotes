@@ -38,10 +38,16 @@
 "Correct Spelling Automatically" = "Автоматично коригувати правописання";
 
 /* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "Пароль не співпадає з паролем у зв'язці";
+
+/* No comment provided by engineer. */
 "Data Detectors" = "Детектори даних";
 
 /* No comment provided by engineer. */
 "Delete" = "Видалити";
+
+/* No comment provided by engineer. */
+"Empty password" = "Введіть пароль";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "Введіть мастер пароль";
@@ -80,6 +86,9 @@
 "Link" = "Посилання";
 
 /* No comment provided by engineer. */
+"Lock All" = "Заблокувати всі";
+
+/* No comment provided by engineer. */
 "Master password:" = "Мастер пароль";
 
 /* Menu */
@@ -112,6 +121,9 @@
 
 /* Menu */
 "Please enter tags (comma separated):" = "Будь ласка, введіть теги (розділити комою):";
+
+/* No comment provided by engineer. */
+"Please try again" = "Буль ласка, спробуйте знову";
 
 /* No comment provided by engineer. */
 "Preferences" = "Налаштування";
@@ -182,4 +194,7 @@
 
 /* Menu */
 "View" = "Вид";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Паролі не співпадають";
 

@@ -10,9 +10,23 @@ import Cocoa
 
 class PreferencesUserInterfaceViewController: NSViewController {
 
+    public var fontPanelOpen: Bool = false
+
+    @IBOutlet weak var horizontalRadio: NSButton!
+    @IBOutlet weak var verticalRadio: NSButton!
+    @IBOutlet weak var fontPreview: NSTextField!
+    @IBOutlet weak var cellSpacing: NSSlider!
+    @IBOutlet weak var noteFontColor: NSColorWell!
+    @IBOutlet weak var backgroundColor: NSColorWell!
+    @IBOutlet weak var textMatchAutoSelection: NSButton!
+    @IBOutlet weak var previewFontSize: NSPopUpButton!
+    @IBOutlet weak var hideImagesPreview: NSButton!
+    @IBOutlet weak var hidePreview: NSButton!
+    @IBOutlet weak var hideDate: NSButton!
+
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 467, height: 387)
+        preferredContentSize = NSSize(width: 467, height: 403)
     }
 
     override func viewDidLoad() {
@@ -44,20 +58,9 @@ class PreferencesUserInterfaceViewController: NSViewController {
         previewFontSize.selectItem(withTag: UserDefaultsManagement.previewFontSize)
 
         hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
+
+        hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
     }
-
-    public var fontPanelOpen: Bool = false
-
-    @IBOutlet weak var horizontalRadio: NSButton!
-    @IBOutlet weak var verticalRadio: NSButton!
-    @IBOutlet weak var fontPreview: NSTextField!
-    @IBOutlet weak var cellSpacing: NSSlider!
-    @IBOutlet weak var noteFontColor: NSColorWell!
-    @IBOutlet weak var backgroundColor: NSColorWell!
-    @IBOutlet weak var textMatchAutoSelection: NSButton!
-    @IBOutlet weak var previewFontSize: NSPopUpButton!
-    @IBOutlet weak var hideImagesPreview: NSButton!
-    @IBOutlet weak var hidePreview: NSButton!
 
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
         // We don't need to set the user defaults value here as the checkbox is
@@ -161,4 +164,12 @@ class PreferencesUserInterfaceViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
     }
+
+    @IBAction func hideDate(_ sender: NSButton) {
+        UserDefaultsManagement.hideDate = (sender.state == .on)
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
 }

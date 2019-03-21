@@ -322,6 +322,8 @@ public class Note: NSObject  {
     }
     
     @objc func getDateForLabel() -> String {
+        guard !UserDefaultsManagement.hideDate else { return String() }
+
         let calendar = NSCalendar.current
         if calendar.isDateInToday(modifiedLocalAt) {
             return dateFormatter.formatTimeForDisplay(modifiedLocalAt)
@@ -333,6 +335,7 @@ public class Note: NSObject  {
 
     @objc func getCreationDateForLabel() -> String? {
         guard let creationDate = self.creationDate else { return nil }
+        guard !UserDefaultsManagement.hideDate else { return nil }
 
         let calendar = NSCalendar.current
         if calendar.isDateInToday(creationDate) {
