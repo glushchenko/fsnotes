@@ -565,7 +565,7 @@
 /* Class = "NSButtonCell"; title = "Live images preview"; ObjectID = "wG8-3A-BMJ"; */
 "wG8-3A-BMJ.title" = "Превью изображений";
 
-/* Class = "NSMenuItem"; title = "Hide/show notes"; ObjectID = "WHt-T4-l9c"; */
+/* Class = "NSMenuItem"; title = "Hide/show note list"; ObjectID = "WHt-T4-l9c"; */
 "WHt-T4-l9c.title" = "Спрятать/показать список заметок";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */

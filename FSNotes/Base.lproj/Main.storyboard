@@ -552,7 +552,7 @@ CA
                                                 <action selector="togglePreview:" target="N0L-g4-qwj" id="2w1-01-aD6"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Hide/show notes" keyEquivalent="B" id="WHt-T4-l9c">
+                                        <menuItem title="Hide/show note list" keyEquivalent="B" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
                                             </connections>
