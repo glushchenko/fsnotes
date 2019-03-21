@@ -291,6 +291,14 @@ class ViewController: NSViewController,
     @IBAction func searchAndCreate(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
 
+        let size = UserDefaultsManagement.horizontalOrientation
+            ? vc.splitView.subviews[0].frame.height
+            : vc.splitView.subviews[0].frame.width
+
+        if size == 0 {
+            toggleNoteList(self)
+        }
+        
         vc.search.window?.makeFirstResponder(vc.search)
     }
 
