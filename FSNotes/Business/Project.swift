@@ -181,4 +181,12 @@ public class Project: Equatable {
             print(error)
         }
     }
+
+    public func create() {
+        do {
+            try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print(error)
+        }
+    }
 }

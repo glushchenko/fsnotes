@@ -136,7 +136,23 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 let project = sidebarItem.project else { return false }
             
             for url in urls {
-                vc.copy(project: project, url: url)
+                var isDirectory = ObjCBool(true)
+                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
+
+                    let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
+                    let newProject = Project(url: newSub, parent: project)
+                    newProject.create()
+
+                    _ = self.storage.add(project: newProject)
+                    self.reloadSidebar()
+
+                    let validFiles = self.storage.readDirectory(url)
+                    for file in validFiles {
+                        vc.copy(project: newProject, url: file.0)
+                    }
+                } else {
+                    vc.copy(project: project, url: url)
+                }
             }
             
             return true

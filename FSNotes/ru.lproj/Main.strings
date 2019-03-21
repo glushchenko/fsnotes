@@ -326,7 +326,7 @@
 "hz9-B4-Xy5.title" = "Услуги";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
-"IlF-tS-GFG.title" = "Заблокировать при вкл. скрин сейвера";
+"IlF-tS-GFG.title" = "Заблокировать при включении скринсейвера";
 
 /* Class = "NSTextFieldCell"; title = "New password:"; ObjectID = "iNK-dg-n5E"; */
 "iNK-dg-n5E.title" = "Новый пароль:";
@@ -499,7 +499,7 @@
 /* Class = "NSMenuItem"; title = "Main Window"; ObjectID = "qZf-Xp-kDW"; */
 "qZf-Xp-kDW.title" = "Главное окно";
 
-/* Class = "NSButtonCell"; title = "Focus in editor when select note"; ObjectID = "r2R-xe-eCA"; */
+/* Class = "NSButtonCell"; title = "Focus in editor when selecting note"; ObjectID = "r2R-xe-eCA"; */
 "r2R-xe-eCA.title" = "Фокус в редактор, при выборе заметки";
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */

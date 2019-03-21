@@ -2064,7 +2064,7 @@ Gw
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
                                 <rect key="frame" x="48" y="90" width="378" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Focus in editor when select note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
+                                <buttonCell key="cell" type="check" title="Focus in editor when selecting note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>

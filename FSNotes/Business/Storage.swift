@@ -464,7 +464,7 @@ class Storage {
         }
     }
 
-    func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
+    public func readDirectory(_ url: URL) -> [(URL, Date, Date)] {
         do {
             let directoryFiles =
                 try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey, .typeIdentifierKey], options:.skipsHiddenFiles)

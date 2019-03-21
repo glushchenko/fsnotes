@@ -478,7 +478,7 @@
 /* Class = "NSMenuItem"; title = "Main Window"; ObjectID = "qZf-Xp-kDW"; */
 "qZf-Xp-kDW.title" = "Головне Вікно";
 
-/* Class = "NSButtonCell"; title = "Focus in editor when select note"; ObjectID = "r2R-xe-eCA"; */
+/* Class = "NSButtonCell"; title = "Focus in editor when selecting note"; ObjectID = "r2R-xe-eCA"; */
 "r2R-xe-eCA.title" = "Фокус в редактор при виборі нотатки";
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
