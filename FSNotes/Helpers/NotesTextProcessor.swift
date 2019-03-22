@@ -110,7 +110,7 @@ public class NotesTextProcessor {
     open var quoteIndendation : CGFloat = 20
     
 #if os(OSX)
-    public static var codeFont = NSFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize))
+    public static var codeFont = NSFont(name: UserDefaultsManagement.codeFontName, size: CGFloat(UserDefaultsManagement.codeFontSize))
 #else
     static var codeFont: UIFont? {
         get {

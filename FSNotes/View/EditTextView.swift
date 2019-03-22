@@ -928,7 +928,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return codeStyle
         }
         
-        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} \(codeStyle)"
+        return "body {font: \(UserDefaultsManagement.fontSize)px \(familyName); } code, pre {font: \(UserDefaultsManagement.codeFontSize)px \(UserDefaultsManagement.codeFontName);} \(codeStyle)"
     }
     
     override func awakeFromNib() {

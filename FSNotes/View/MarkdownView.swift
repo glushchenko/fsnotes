@@ -125,7 +125,7 @@ open class MarkdownView: WKWebView {
             }
         #endif
         
-        return "@font-face { font-family: 'Source Code Pro'; src: url('SourceCodePro-Regular.ttf'); } body {font: \(UserDefaultsManagement.fontSize)px \(String(describing: familyName)); } code, pre {font: \(UserDefaultsManagement.fontSize)px Source Code Pro;} img {display: block; margin: 0 auto;} \(codeStyle)"
+        return "@font-face { font-family: '\(UserDefaultsManagement.codeFontName)'; } body {font: \(UserDefaultsManagement.fontSize)px \(String(describing: familyName)); } code, pre {font: \(UserDefaultsManagement.codeFontSize)px \(UserDefaultsManagement.codeFontName);} img {display: block; margin: 0 auto;} \(codeStyle)"
     }
     
     // MARK: - Private Properties

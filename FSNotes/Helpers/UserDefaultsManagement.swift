@@ -45,6 +45,8 @@ public class UserDefaultsManagement {
         static let BgColorKey = "bgColorKeyed"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
+        static let CodeFontNameKey = "codeFont"
+        static let CodeFontSizeKey = "codeFontSize"
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
         static let ContinuousSpellChecking = "continuousSpellChecking"
@@ -89,13 +91,39 @@ public class UserDefaultsManagement {
         static let TxtAsMarkdown = "txtAsMarkdown"
         static let AutocloseBrackets = "autocloseBrackets"
     }
-        
+
+    static var codeFontName: String {
+        get {
+            if let returnFontName = UserDefaults.standard.object(forKey: Constants.CodeFontNameKey) {
+                return returnFontName as! String
+            } else {
+                return self.DefaultFont
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CodeFontNameKey)
+        }
+    }
+
+    static var codeFontSize: Int {
+        get {
+            if let returnFontSize = UserDefaults.standard.object(forKey: Constants.CodeFontSizeKey) {
+                return returnFontSize as! Int
+            } else {
+                return self.DefaultFontSize
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CodeFontSizeKey)
+        }
+    }
+
     static var fontName: String {
         get {
             if let returnFontName = UserDefaults.standard.object(forKey: Constants.FontNameKey) {
                 return returnFontName as! String
             } else {
-                return self.DefaultFont
+                return "Source Code Pro"
             }
         }
         set {
@@ -115,7 +143,23 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.FontSizeKey)
         }
     }
-    
+
+    static var codeFont: Font! {
+        get {
+            if let font = Font(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                return font
+            }
+
+            return Font.systemFont(ofSize: CGFloat(self.codeFontSize))
+        }
+        set {
+            guard let newValue = newValue else {return}
+
+            self.codeFontName = newValue.fontName
+            self.codeFontSize = Int(newValue.pointSize)
+        }
+    }
+
     static var noteFont: Font! {
         get {
             if let font = Font(name: self.fontName, size: CGFloat(self.fontSize)) {

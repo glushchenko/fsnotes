@@ -9,27 +9,18 @@
 import Cocoa
 
 class PreferencesEditorViewController: NSViewController {
+    
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 474, height: 394)
     }
 
-    @IBOutlet weak var codeBlockHighlight: NSButton!
-    @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
-    @IBOutlet weak var liveImagesPreview: NSButton!
-    @IBOutlet weak var inEditorFocus: NSButton!
-    @IBOutlet weak var restoreCursorButton: NSButton!
-    @IBOutlet weak var autocloseBrackets: NSButton!
-    @IBOutlet weak var lineSpacing: NSSlider!
-    @IBOutlet weak var imagesWidth: NSSlider!
-    @IBOutlet weak var lineWidth: NSSlider!
-
-    //MARK: global variables
-
-    let storage = Storage.sharedInstance()
-
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if let parent = parent as? PrefsViewController {
+            parent.setCodeFontPreview()
+        }
     }
 
     override func viewDidAppear() {
@@ -51,6 +42,21 @@ class PreferencesEditorViewController: NSViewController {
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
     }
+    
+    @IBOutlet weak var codeFont: NSTextField!
+    @IBOutlet weak var codeBlockHighlight: NSButton!
+    @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
+    @IBOutlet weak var liveImagesPreview: NSButton!
+    @IBOutlet weak var inEditorFocus: NSButton!
+    @IBOutlet weak var restoreCursorButton: NSButton!
+    @IBOutlet weak var autocloseBrackets: NSButton!
+    @IBOutlet weak var lineSpacing: NSSlider!
+    @IBOutlet weak var imagesWidth: NSSlider!
+    @IBOutlet weak var lineWidth: NSSlider!
+
+    //MARK: global variables
+
+    let storage = Storage.sharedInstance()
 
     @IBAction func liveImagesPreview(_ sender: NSButton) {
         guard let vc = ViewController.shared() else { return }
@@ -138,5 +144,14 @@ class PreferencesEditorViewController: NSViewController {
         task.arguments = [path]
         task.launch()
         exit(0)
+    }
+
+    @IBAction func setFont(_ sender: NSButton) {
+        let fontManager = NSFontManager.shared
+        if UserDefaultsManagement.codeFont != nil {
+            fontManager.setSelectedFont(UserDefaultsManagement.codeFont!, isMultiple: false)
+        }
+
+        fontManager.orderFrontFontPanel(self)
     }
 }

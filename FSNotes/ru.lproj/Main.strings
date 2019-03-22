@@ -344,7 +344,7 @@
 "iUm-Zm-zeg.title" = "Межстрочный интервал:";
 
 /* Class = "NSMenuItem"; title = "Plain Text"; ObjectID = "iV0-pn-mg0"; */
-"iV0-pn-mg0.title" = "";
+"iV0-pn-mg0.title" = "Plain Text";
 
 /* Class = "NSTextFieldCell"; title = "Line width:"; ObjectID = "Izt-6v-pKO"; */
 "Izt-6v-pKO.title" = "Ширина строки:";
@@ -482,7 +482,7 @@
 "Psk-r4-JT5.title" = "Фон:";
 
 /* Class = "NSViewController"; title = "Security"; ObjectID = "PXw-YJ-q6A"; */
-"PXw-YJ-q6A.title" = "Бкзопасность";
+"PXw-YJ-q6A.title" = "Безопасность";
 
 /* Class = "NSButtonCell"; title = "Creation date"; ObjectID = "PY8-lr-5qr"; */
 "PY8-lr-5qr.title" = "Дата создания";
