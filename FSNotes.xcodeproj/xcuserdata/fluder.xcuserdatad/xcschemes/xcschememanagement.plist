@@ -7,6 +7,11 @@
 		<key>FSNotes (CloudKit).xcscheme</key>
 		<dict>
 			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>FSNotes (Notarized).xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
 		<key>FSNotes (iCloud Documents).xcscheme</key>
@@ -22,7 +27,7 @@
 		<key>FSNotes iOS Share Extension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>5</integer>
 		</dict>
 		<key>FSNotes iOS Share.xcscheme</key>
 		<dict>
@@ -32,7 +37,7 @@
 		<key>FSNotes iOS.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>FSNotes.xcscheme</key>
 		<dict>
@@ -57,7 +62,7 @@
 		<key>FSNotesCore iOSTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>30</integer>
+			<integer>31</integer>
 		</dict>
 		<key>FSNotesCore macOS.xcscheme</key>
 		<dict>
@@ -67,7 +72,7 @@
 		<key>FSNotesCore macOS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>28</integer>
+			<integer>30</integer>
 		</dict>
 		<key>FSNotesCore macOSTests.xcscheme</key>
 		<dict>
@@ -88,6 +93,16 @@
 			<true/>
 		</dict>
 		<key>D71354062042D46E00E3776F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D75E32D02246238A006AD1C1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D75E337122462442006AD1C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

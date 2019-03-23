@@ -650,7 +650,7 @@ CA
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="N0L-g4-qwj" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target"/>
-                <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes">
+                <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes" customModuleProvider="target">
                     <connections>
                         <outlet property="sortByOutlet" destination="rHB-xF-GgG" id="Z3o-fD-Poh"/>
                     </connections>
@@ -685,7 +685,7 @@ CA
         <!--Preferences-->
         <scene sceneID="jPb-fQ-VKL">
             <objects>
-                <tabViewController title="Preferences" selectedTabViewItemIndex="0" tabStyle="toolbar" id="tR0-Uj-4tB" customClass="PrefsViewController" customModule="FSNotes" sceneMemberID="viewController">
+                <tabViewController title="Preferences" selectedTabViewItemIndex="0" tabStyle="toolbar" id="tR0-Uj-4tB" customClass="PrefsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem identifier="" image="NSPreferencesGeneral" id="rNR-GY-ptT" userLabel="General">
                             <nil key="label"/>
@@ -1186,7 +1186,7 @@ CA
                         <rect key="frame" x="0.0" y="0.0" width="694" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes">
+                            <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="694" height="600"/>
                                 <subviews>
                                     <customView autoresizesSubviews="NO" misplaced="YES" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
@@ -1283,7 +1283,7 @@ CA
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
-                                            <customView canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes">
+                                            <customView canDrawConcurrently="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="562" width="250" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="9sA-Ak-h1e"/>
@@ -1297,7 +1297,7 @@ CA
                                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="tmy-ZK-4qh"/>
                                         </constraints>
                                     </customView>
-                                    <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes">
+                                    <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="145" y="0.0" width="549" height="600"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
@@ -1347,7 +1347,7 @@ CA
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
-                                                                                            <rect key="frame" x="183" y="98" width="49" height="17"/>
+                                                                                            <rect key="frame" x="177" y="98" width="49" height="17"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1400,7 +1400,7 @@ CA
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="oaj-cY-2Rf"/>
                                                                                         </imageView>
-                                                                                        <textField identifier="cellName" autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes">
+                                                                                        <textField identifier="cellName" autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes" customModuleProvider="target">
                                                                                             <rect key="frame" x="24" y="98" width="40" height="17"/>
                                                                                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
@@ -1416,7 +1416,7 @@ CA
                                                                                         </textField>
                                                                                     </subviews>
                                                                                     <constraints>
-                                                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="6" id="3CN-df-5Zy"/>
+                                                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="12" id="3CN-df-5Zy"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UvD-jB-7Ok" secondAttribute="trailing" priority="999" constant="5" id="5SO-gP-dp0"/>
                                                                                         <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="HkF-Wx-cmF"/>
@@ -1427,7 +1427,7 @@ CA
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="hKA-pJ-rpa"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
-                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="6" id="ngR-5z-x5I"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="12" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
                                                                                         <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="xyO-Sr-YNv"/>
@@ -1478,7 +1478,7 @@ CA
                                                 <rect key="frame" x="238" y="0.0" width="311" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
-                                                    <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes">
+                                                    <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="311" height="562"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
                                                             <rect key="frame" x="0.0" y="0.0" width="311" height="562"/>
@@ -1775,7 +1775,7 @@ CA
         <!--Master Password View Controller-->
         <scene sceneID="6kq-pY-Hei">
             <objects>
-                <viewController storyboardIdentifier="MasterPasswordViewController" id="6ub-n9-nIJ" customClass="MasterPasswordViewController" customModule="FSNotes" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterPasswordViewController" id="6ub-n9-nIJ" customClass="MasterPasswordViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="9jJ-7H-xQA">
                         <rect key="frame" x="0.0" y="0.0" width="343" height="266"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1902,7 +1902,7 @@ Gw
         <!--Project Settings View Controller-->
         <scene sceneID="dYK-AI-vld">
             <objects>
-                <viewController storyboardIdentifier="ProjectSettingsViewController" id="JOV-dV-hyG" customClass="ProjectSettingsViewController" customModule="FSNotes" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProjectSettingsViewController" id="JOV-dV-hyG" customClass="ProjectSettingsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="MgV-BT-LsD">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="266"/>
                         <autoresizingMask key="autoresizingMask"/>

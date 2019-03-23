@@ -233,6 +233,153 @@
 		D75DF64121319994003C3059 /* todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63E21319993003C3059 /* todo@2x.png */; };
 		D75DF64221319994003C3059 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
 		D75DF64321319994003C3059 /* todo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF64021319993003C3059 /* todo@3x.png */; };
+		D75E337622462442006AD1C1 /* OutlineHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E1D21031901001CF0BE /* OutlineHeaderView.swift */; };
+		D75E337722462442006AD1C1 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
+		D75E337822462442006AD1C1 /* SidebarSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */; };
+		D75E337922462442006AD1C1 /* AppDelegate+URLRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E6ACE820832D40003599A2 /* AppDelegate+URLRoutes.swift */; };
+		D75E337A22462442006AD1C1 /* FileSystemEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */; };
+		D75E337B22462442006AD1C1 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
+		D75E337C22462442006AD1C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
+		D75E337D22462442006AD1C1 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */; };
+		D75E337E22462442006AD1C1 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
+		D75E337F22462442006AD1C1 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD59223BFEB200E69C93 /* RuntimeError.swift */; };
+		D75E338022462442006AD1C1 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
+		D75E338122462442006AD1C1 /* ImagesProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D777D7802009115C00D86B33 /* ImagesProcessor.swift */; };
+		D75E338222462442006AD1C1 /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
+		D75E338322462442006AD1C1 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FCD1F3438540047AB76 /* PrefsViewController.swift */; };
+		D75E338422462442006AD1C1 /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
+		D75E338522462442006AD1C1 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
+		D75E338622462442006AD1C1 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
+		D75E338722462442006AD1C1 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
+		D75E338822462442006AD1C1 /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
+		D75E338922462442006AD1C1 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
+		D75E338A22462442006AD1C1 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
+		D75E338B22462442006AD1C1 /* KeychainPasswordItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */; };
+		D75E338C22462442006AD1C1 /* SidebarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7FC2078C5460055F159 /* SidebarCellView.swift */; };
+		D75E338D22462442006AD1C1 /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
+		D75E338E22462442006AD1C1 /* NoteCellView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */; };
+		D75E338F22462442006AD1C1 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
+		D75E339022462442006AD1C1 /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
+		D75E339122462442006AD1C1 /* SidebarTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CB9904207E5AE300037E91 /* SidebarTableRowView.swift */; };
+		D75E339222462442006AD1C1 /* KeychainConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */; };
+		D75E339322462442006AD1C1 /* NSImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FD5217389F800D09383 /* NSImage+.swift */; };
+		D75E339422462442006AD1C1 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F62078B22D0055F159 /* SidebarItem.swift */; };
+		D75E339522462442006AD1C1 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
+		D75E339622462442006AD1C1 /* SidebarItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */; };
+		D75E339722462442006AD1C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C721F211C6000CA39B7 /* AppDelegate.swift */; };
+		D75E339822462442006AD1C1 /* PreferencesSecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */; };
+		D75E339922462442006AD1C1 /* UTI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E51712220D814D00A9CAD9 /* UTI.swift */; };
+		D75E339A22462442006AD1C1 /* Note+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFED22108E3210059B37B /* Note+.swift */; };
+		D75E339B22462442006AD1C1 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F92078B3C00055F159 /* Sidebar.swift */; };
+		D75E339C22462442006AD1C1 /* StorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7169A5C2077BA140025D2C9 /* StorageView.swift */; };
+		D75E339D22462442006AD1C1 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D1DE67216D05A800AC1845 /* NameTextField.swift */; };
+		D75E339E22462442006AD1C1 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
+		D75E339F22462442006AD1C1 /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECE2108CAC90059B37B /* CoreNote.swift */; };
+		D75E33A022462442006AD1C1 /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */; };
+		D75E33A122462442006AD1C1 /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76025B1204EEF64000B9F59 /* TextFormatter.swift */; };
+		D75E33A222462442006AD1C1 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
+		D75E33A322462442006AD1C1 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
+		D75E33A422462442006AD1C1 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
+		D75E33A522462442006AD1C1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
+		D75E33A622462442006AD1C1 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
+		D75E33A722462442006AD1C1 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
+		D75E33A822462442006AD1C1 /* SidebarProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */; };
+		D75E33A922462442006AD1C1 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
+		D75E33AA22462442006AD1C1 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
+		D75E33AB22462442006AD1C1 /* ViewController+Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = D772C8832217362C007E440B /* ViewController+Print.swift */; };
+		D75E33AC22462442006AD1C1 /* FileWatcherEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A891F88D50000CE947E /* FileWatcherEvent.swift */; };
+		D75E33AD22462442006AD1C1 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D75E33AE22462442006AD1C1 /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
+		D75E33AF22462442006AD1C1 /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
+		D75E33B022462442006AD1C1 /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
+		D75E33B122462442006AD1C1 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ECE215ECF3000AB49D4 /* EditorView.swift */; };
+		D75E33B222462442006AD1C1 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D75E33B322462442006AD1C1 /* EditorScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77CC040216A608500582B97 /* EditorScrollView.swift */; };
+		D75E33B422462442006AD1C1 /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */; };
+		D75E33B522462442006AD1C1 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
+		D75E33B622462442006AD1C1 /* NameHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD3B222DB9FC00E69C93 /* NameHelper.swift */; };
+		D75E33B722462442006AD1C1 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
+		D75E33B822462442006AD1C1 /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5F6B1F51185F006AA35D /* NSFont+.swift */; };
+		D75E33B922462442006AD1C1 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FC71F337E850047AB76 /* SearchTextField.swift */; };
+		D75E33BA22462442006AD1C1 /* PreferencesUserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */; };
+		D75E33BB22462442006AD1C1 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
+		D75E33BC22462442006AD1C1 /* PreferencesEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */; };
+		D75E33BD22462442006AD1C1 /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
+		D75E33BE22462442006AD1C1 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
+		D75E33BF22462442006AD1C1 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
+		D75E33C022462442006AD1C1 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
+		D75E33C122462442006AD1C1 /* NoteContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD2D222DABA100E69C93 /* NoteContainer.swift */; };
+		D75E33C222462442006AD1C1 /* TextBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */; };
+		D75E33C322462442006AD1C1 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
+		D75E33C422462442006AD1C1 /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
+		D75E33C622462442006AD1C1 /* FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; };
+		D75E33C722462442006AD1C1 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77671B81FACEDDE00DDF28D /* Pods_FSNotes.framework */; };
+		D75E33C922462442006AD1C1 /* copy_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D5215FEC6A00DC5978 /* copy_white.png */; };
+		D75E33CA22462442006AD1C1 /* AvenirNext-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */; };
+		D75E33CB22462442006AD1C1 /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
+		D75E33CC22462442006AD1C1 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
+		D75E33CD22462442006AD1C1 /* AvenirNext-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19421C503F000E41811 /* AvenirNext-Italic.ttf */; };
+		D75E33CE22462442006AD1C1 /* AvenirNext-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18A21C503EF00E41811 /* AvenirNext-Heavy.ttf */; };
+		D75E33CF22462442006AD1C1 /* AvenirNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18D21C503EF00E41811 /* AvenirNext-Regular.ttf */; };
+		D75E33D022462442006AD1C1 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
+		D75E33D122462442006AD1C1 /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
+		D75E33D222462442006AD1C1 /* checkbox@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2B2138305000E1C021 /* checkbox@3x.png */; };
+		D75E33D322462442006AD1C1 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3A2138313400E1C021 /* checkbox_empty@3x.png */; };
+		D75E33D422462442006AD1C1 /* blackWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = D7409FA9222070020057C072 /* blackWhite.png */; };
+		D75E33D522462442006AD1C1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE13120FE198200813F9E /* InfoPlist.strings */; };
+		D75E33D622462442006AD1C1 /* checkbox_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC392138313400E1C021 /* checkbox_empty@2x.png */; };
+		D75E33D722462442006AD1C1 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F671F508E6A006AA35D /* SourceCodePro-Bold.ttf */; };
+		D75E33D822462442006AD1C1 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */; };
+		D75E33D922462442006AD1C1 /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19221C503F000E41811 /* AvenirNext-Bold.ttf */; };
+		D75E33DA22462442006AD1C1 /* SourceCodePro-BoldIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */; };
+		D75E33DB22462442006AD1C1 /* checkbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2C2138305000E1C021 /* checkbox_white.png */; };
+		D75E33DC22462442006AD1C1 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E6D9C9207F9876003ECAFC /* home.png */; };
+		D75E33DD22462442006AD1C1 /* AvenirNext-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */; };
+		D75E33DE22462442006AD1C1 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
+		D75E33DF22462442006AD1C1 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
+		D75E33E022462442006AD1C1 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
+		D75E33E122462442006AD1C1 /* AvenirNext-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */; };
+		D75E33E222462442006AD1C1 /* AvenirNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */; };
+		D75E33E322462442006AD1C1 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
+		D75E33E422462442006AD1C1 /* pin_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF402920A377FE000F8B13 /* pin_white.png */; };
+		D75E33E522462442006AD1C1 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA7B208C7523002CE3C3 /* tag.png */; };
+		D75E33E622462442006AD1C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
+		D75E33E722462442006AD1C1 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
+		D75E33E822462442006AD1C1 /* AvenirNext-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */; };
+		D75E33E922462442006AD1C1 /* repository_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401720A37716000F8B13 /* repository_white.png */; };
+		D75E33EA22462442006AD1C1 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
+		D75E33EB22462442006AD1C1 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
+		D75E33EC22462442006AD1C1 /* makeNote_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D82160C1D500DC5978 /* makeNote_white.png */; };
+		D75E33ED22462442006AD1C1 /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
+		D75E33EE22462442006AD1C1 /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
+		D75E33EF22462442006AD1C1 /* locked.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD23222AA6B200E69C93 /* locked.png */; };
+		D75E33F022462442006AD1C1 /* AvenirNext-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19021C503EF00E41811 /* AvenirNext-HeavyItalic.ttf */; };
+		D75E33F122462442006AD1C1 /* AvenirNext-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19121C503F000E41811 /* AvenirNext-ThinItalic.ttf */; };
+		D75E33F222462442006AD1C1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7FBBC2820F151F80014EC5B /* Localizable.strings */; };
+		D75E33F322462442006AD1C1 /* AvenirNext-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18F21C503EF00E41811 /* AvenirNext-Demi.ttf */; };
+		D75E33F422462442006AD1C1 /* tag_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401A20A37717000F8B13 /* tag_white.png */; };
+		D75E33F522462442006AD1C1 /* SourceCodePro-It.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */; };
+		D75E33F622462442006AD1C1 /* checkbox_empty_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC372138313400E1C021 /* checkbox_empty_white.png */; };
+		D75E33F722462442006AD1C1 /* checkbox_empty_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC3B2138313400E1C021 /* checkbox_empty_white@2x.png */; };
+		D75E33F822462442006AD1C1 /* checkbox_empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC362138313300E1C021 /* checkbox_empty.png */; };
+		D75E33F922462442006AD1C1 /* archive.png in Resources */ = {isa = PBXBuildFile; fileRef = D77B9E9A20DE53E0003FAA27 /* archive.png */; };
+		D75E33FA22462442006AD1C1 /* lock-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-closed.png */; };
+		D75E33FB22462442006AD1C1 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
+		D75E33FC22462442006AD1C1 /* checkbox_empty_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC382138313400E1C021 /* checkbox_empty_white@3x.png */; };
+		D75E33FD22462442006AD1C1 /* AvenirNext-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */; };
+		D75E33FE22462442006AD1C1 /* checkbox_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2E2138305000E1C021 /* checkbox_white@2x.png */; };
+		D75E33FF22462442006AD1C1 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2D2138305000E1C021 /* checkbox.png */; };
+		D75E340022462442006AD1C1 /* checkbox_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2F2138305000E1C021 /* checkbox_white@3x.png */; };
+		D75E340122462442006AD1C1 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
+		D75E340222462442006AD1C1 /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D75E340322462442006AD1C1 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
+		D75E340422462442006AD1C1 /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
+		D75E340522462442006AD1C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
+		D75E340622462442006AD1C1 /* checkbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739EC2A2138305000E1C021 /* checkbox@2x.png */; };
+		D75E340722462442006AD1C1 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
+		D75E340822462442006AD1C1 /* home_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF402720A377F4000F8B13 /* home_white.png */; };
+		D75E340922462442006AD1C1 /* icons.icns in Resources */ = {isa = PBXBuildFile; fileRef = D735E5B81F2E45CC00173215 /* icons.icns */; };
+		D75E340C22462442006AD1C1 /* FSNotesCore_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D75EE7F72078B22D0055F159 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F62078B22D0055F159 /* SidebarItem.swift */; };
 		D75EE7F82078B22D0055F159 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F62078B22D0055F159 /* SidebarItem.swift */; };
 		D75EE7FA2078B3C00055F159 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F92078B3C00055F159 /* Sidebar.swift */; };
@@ -614,6 +761,13 @@
 			remoteGlobalIDString = 6F13BB4B20FEDE550005E120;
 			remoteInfo = "FSNotesCore iOS";
 		};
+		D75E337322462442006AD1C1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F13BB0320FEDDF40005E120;
+			remoteInfo = "FSNotesCore macOS";
+		};
 		D75F333E205EC34800CC887E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D7793C671F211C6000CA39B7 /* Project object */;
@@ -676,6 +830,17 @@
 				D75F3340205EC34800CC887E /* FSNotes iOS Share Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D75E340B22462442006AD1C1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D75E340C22462442006AD1C1 /* FSNotesCore_macOS.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -815,6 +980,9 @@
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
+		D75E33702246238A006AD1C1 /* FSNotes copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes copy-Info.plist"; path = "/Users/fluder/src/fsnotes/FSNotes copy-Info.plist"; sourceTree = "<absolute>"; };
+		D75E341022462442006AD1C1 /* FSNotes (Notarized).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes (Notarized).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D75E341122462442006AD1C1 /* FSNotes copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes copy2-Info.plist"; path = "/Users/fluder/src/fsnotes/FSNotes copy2-Info.plist"; sourceTree = "<absolute>"; };
 		D75EE7F62078B22D0055F159 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		D75EE7F92078B3C00055F159 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		D75EE7FC2078C5460055F159 /* SidebarCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarCellView.swift; sourceTree = "<group>"; };
@@ -1032,6 +1200,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F13BB5520FEDE560005E120 /* FSNotesCore_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D75E33C522462442006AD1C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D75E33C622462442006AD1C1 /* FSNotesCore_macOS.framework in Frameworks */,
+				D75E33C722462442006AD1C1 /* Pods_FSNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,6 +1603,8 @@
 				D7793C701F211C6000CA39B7 /* Products */,
 				A124E2E6306B074DE002E8BA /* Pods */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
+				D75E33702246238A006AD1C1 /* FSNotes copy-Info.plist */,
+				D75E341122462442006AD1C1 /* FSNotes copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1440,6 +1619,7 @@
 				6F13BB0C20FEDDF50005E120 /* FSNotesCore macOSTests.xctest */,
 				6F13BB4C20FEDE550005E120 /* FSNotesCore_iOS.framework */,
 				6F13BB5420FEDE560005E120 /* FSNotesCore iOSTests.xctest */,
+				D75E341022462442006AD1C1 /* FSNotes (Notarized).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1787,6 +1967,27 @@
 			productReference = 6F13BB5420FEDE560005E120 /* FSNotesCore iOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D75E337122462442006AD1C1 /* FSNotes (Notarized) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D75E340D22462442006AD1C1 /* Build configuration list for PBXNativeTarget "FSNotes (Notarized)" */;
+			buildPhases = (
+				D75E337422462442006AD1C1 /* [CP] Check Pods Manifest.lock */,
+				D75E337522462442006AD1C1 /* Sources */,
+				D75E33C522462442006AD1C1 /* Frameworks */,
+				D75E33C822462442006AD1C1 /* Resources */,
+				D75E340A22462442006AD1C1 /* [CP] Embed Pods Frameworks */,
+				D75E340B22462442006AD1C1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D75E337222462442006AD1C1 /* PBXTargetDependency */,
+			);
+			name = "FSNotes (Notarized)";
+			productName = FSNotes;
+			productReference = D75E341022462442006AD1C1 /* FSNotes (Notarized).app */;
+			productType = "com.apple.product-type.application";
+		};
 		D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D75F3341205EC34800CC887E /* Build configuration list for PBXNativeTarget "FSNotes iOS Share Extension" */;
@@ -1896,6 +2097,14 @@
 						CreatedOnToolsVersion = 10.0;
 						ProvisioningStyle = Automatic;
 					};
+					D75E337122462442006AD1C1 = {
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+						};
+					};
 					D75F3335205EC34800CC887E = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -1985,6 +2194,7 @@
 			targets = (
 				D7793C6E1F211C6000CA39B7 /* FSNotes */,
 				D7E81C2B1F925B5F00416A91 /* FSNotes (iCloud Documents) */,
+				D75E337122462442006AD1C1 /* FSNotes (Notarized) */,
 				D7679385201F21F5000F7BBF /* FSNotes iOS */,
 				D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */,
 				6F13BB0320FEDDF40005E120 /* FSNotesCore macOS */,
@@ -2040,6 +2250,78 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D75E33C822462442006AD1C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D75E33C922462442006AD1C1 /* copy_white.png in Resources */,
+				D75E33CA22462442006AD1C1 /* AvenirNext-UltraLight.ttf in Resources */,
+				D75E33CB22462442006AD1C1 /* todo_sidebar.png in Resources */,
+				D75E33CC22462442006AD1C1 /* todo.png in Resources */,
+				D75E33CD22462442006AD1C1 /* AvenirNext-Italic.ttf in Resources */,
+				D75E33CE22462442006AD1C1 /* AvenirNext-Heavy.ttf in Resources */,
+				D75E33CF22462442006AD1C1 /* AvenirNext-Regular.ttf in Resources */,
+				D75E33D022462442006AD1C1 /* copy.png in Resources */,
+				D75E33D122462442006AD1C1 /* DownView.bundle in Resources */,
+				D75E33D222462442006AD1C1 /* checkbox@3x.png in Resources */,
+				D75E33D322462442006AD1C1 /* checkbox_empty@3x.png in Resources */,
+				D75E33D422462442006AD1C1 /* blackWhite.png in Resources */,
+				D75E33D522462442006AD1C1 /* InfoPlist.strings in Resources */,
+				D75E33D622462442006AD1C1 /* checkbox_empty@2x.png in Resources */,
+				D75E33D722462442006AD1C1 /* SourceCodePro-Bold.ttf in Resources */,
+				D75E33D822462442006AD1C1 /* AvenirNext-Medium.ttf in Resources */,
+				D75E33D922462442006AD1C1 /* AvenirNext-Bold.ttf in Resources */,
+				D75E33DA22462442006AD1C1 /* SourceCodePro-BoldIt.ttf in Resources */,
+				D75E33DB22462442006AD1C1 /* checkbox_white.png in Resources */,
+				D75E33DC22462442006AD1C1 /* home.png in Resources */,
+				D75E33DD22462442006AD1C1 /* AvenirNext-BoldItalic.ttf in Resources */,
+				D75E33DE22462442006AD1C1 /* SourceCodePro-Regular.ttf in Resources */,
+				D75E33DF22462442006AD1C1 /* lock-open.png in Resources */,
+				D75E33E022462442006AD1C1 /* ui.png in Resources */,
+				D75E33E122462442006AD1C1 /* AvenirNext-DemiItalic.ttf in Resources */,
+				D75E33E222462442006AD1C1 /* AvenirNext-Light.ttf in Resources */,
+				D75E33E322462442006AD1C1 /* tag_red.png in Resources */,
+				D75E33E422462442006AD1C1 /* pin_white.png in Resources */,
+				D75E33E522462442006AD1C1 /* tag.png in Resources */,
+				D75E33E622462442006AD1C1 /* Images.xcassets in Resources */,
+				D75E33E722462442006AD1C1 /* trash.png in Resources */,
+				D75E33E822462442006AD1C1 /* AvenirNext-Thin.ttf in Resources */,
+				D75E33E922462442006AD1C1 /* repository_white.png in Resources */,
+				D75E33EA22462442006AD1C1 /* editor.png in Resources */,
+				D75E33EB22462442006AD1C1 /* new-note.png in Resources */,
+				D75E33EC22462442006AD1C1 /* makeNote_white.png in Resources */,
+				D75E33ED22462442006AD1C1 /* SourceCodePro-Black.ttf in Resources */,
+				D75E33EE22462442006AD1C1 /* Initial in Resources */,
+				D75E33EF22462442006AD1C1 /* locked.png in Resources */,
+				D75E33F022462442006AD1C1 /* AvenirNext-HeavyItalic.ttf in Resources */,
+				D75E33F122462442006AD1C1 /* AvenirNext-ThinItalic.ttf in Resources */,
+				D75E33F222462442006AD1C1 /* Localizable.strings in Resources */,
+				D75E33F322462442006AD1C1 /* AvenirNext-Demi.ttf in Resources */,
+				D75E33F422462442006AD1C1 /* tag_white.png in Resources */,
+				D75E33F522462442006AD1C1 /* SourceCodePro-It.ttf in Resources */,
+				D75E33F622462442006AD1C1 /* checkbox_empty_white.png in Resources */,
+				D75E33F722462442006AD1C1 /* checkbox_empty_white@2x.png in Resources */,
+				D75E33F822462442006AD1C1 /* checkbox_empty.png in Resources */,
+				D75E33F922462442006AD1C1 /* archive.png in Resources */,
+				D75E33FA22462442006AD1C1 /* lock-closed.png in Resources */,
+				D75E33FB22462442006AD1C1 /* repository.png in Resources */,
+				D75E33FC22462442006AD1C1 /* checkbox_empty_white@3x.png in Resources */,
+				D75E33FD22462442006AD1C1 /* AvenirNext-LightItalic.ttf in Resources */,
+				D75E33FE22462442006AD1C1 /* checkbox_white@2x.png in Resources */,
+				D75E33FF22462442006AD1C1 /* checkbox.png in Resources */,
+				D75E340022462442006AD1C1 /* checkbox_white@3x.png in Resources */,
+				D75E340122462442006AD1C1 /* AvenirNext-UltraLightIt.ttf in Resources */,
+				D75E340222462442006AD1C1 /* pin.png in Resources */,
+				D75E340322462442006AD1C1 /* makeNote.png in Resources */,
+				D75E340422462442006AD1C1 /* padlock.png in Resources */,
+				D75E340522462442006AD1C1 /* Main.storyboard in Resources */,
+				D75E340622462442006AD1C1 /* checkbox@2x.png in Resources */,
+				D75E340722462442006AD1C1 /* AvenirNext-MediumItalic.ttf in Resources */,
+				D75E340822462442006AD1C1 /* home_white.png in Resources */,
+				D75E340922462442006AD1C1 /* icons.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,6 +2775,52 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D75E337422462442006AD1C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D75E340A22462442006AD1C1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		EF05BC144E24BED78E33FAB7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2603,6 +2931,92 @@
 				6F13BB7320FEE1E40005E120 /* DateFormatter+Tests.swift in Sources */,
 				6F13BB5C20FEDE560005E120 /* FSNotesCore_iOSTests.swift in Sources */,
 				6F13BB7520FEE1E80005E120 /* String+Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D75E337522462442006AD1C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D75E337622462442006AD1C1 /* OutlineHeaderView.swift in Sources */,
+				D75E337722462442006AD1C1 /* UserDataService.swift in Sources */,
+				D75E337822462442006AD1C1 /* SidebarSplitView.swift in Sources */,
+				D75E337922462442006AD1C1 /* AppDelegate+URLRoutes.swift in Sources */,
+				D75E337A22462442006AD1C1 /* FileSystemEventManager.swift in Sources */,
+				D75E337B22462442006AD1C1 /* PrefsWindowController.swift in Sources */,
+				D75E337C22462442006AD1C1 /* ViewController.swift in Sources */,
+				D75E337D22462442006AD1C1 /* FileWatcher.swift in Sources */,
+				D75E337E22462442006AD1C1 /* NotesTextProcessor.swift in Sources */,
+				D75E337F22462442006AD1C1 /* RuntimeError.swift in Sources */,
+				D75E338022462442006AD1C1 /* Project.swift in Sources */,
+				D75E338122462442006AD1C1 /* ImagesProcessor.swift in Sources */,
+				D75E338222462442006AD1C1 /* NoteType.swift in Sources */,
+				D75E338322462442006AD1C1 /* PrefsViewController.swift in Sources */,
+				D75E338422462442006AD1C1 /* ProjectSettingsViewController.swift in Sources */,
+				D75E338522462442006AD1C1 /* NSAppearance+.swift in Sources */,
+				D75E338622462442006AD1C1 /* NSMutableAttributedString+.swift in Sources */,
+				D75E338722462442006AD1C1 /* NSTextStorage+.swift in Sources */,
+				D75E338822462442006AD1C1 /* ImageAttachment+.swift in Sources */,
+				D75E338922462442006AD1C1 /* UserDefaultsManagement.swift in Sources */,
+				D75E338A22462442006AD1C1 /* TitleBarView.swift in Sources */,
+				D75E338B22462442006AD1C1 /* KeychainPasswordItem.swift in Sources */,
+				D75E338C22462442006AD1C1 /* SidebarCellView.swift in Sources */,
+				D75E338D22462442006AD1C1 /* EditTextView.swift in Sources */,
+				D75E338E22462442006AD1C1 /* NoteCellView+.swift in Sources */,
+				D75E338F22462442006AD1C1 /* MarkdownView.swift in Sources */,
+				D75E339022462442006AD1C1 /* LanguageType.swift in Sources */,
+				D75E339122462442006AD1C1 /* SidebarTableRowView.swift in Sources */,
+				D75E339222462442006AD1C1 /* KeychainConfiguration.swift in Sources */,
+				D75E339322462442006AD1C1 /* NSImage+.swift in Sources */,
+				D75E339422462442006AD1C1 /* SidebarItem.swift in Sources */,
+				D75E339522462442006AD1C1 /* EditorSplitView.swift in Sources */,
+				D75E339622462442006AD1C1 /* SidebarItemType.swift in Sources */,
+				D75E339722462442006AD1C1 /* AppDelegate.swift in Sources */,
+				D75E339822462442006AD1C1 /* PreferencesSecurityViewController.swift in Sources */,
+				D75E339922462442006AD1C1 /* UTI.swift in Sources */,
+				D75E339A22462442006AD1C1 /* Note+.swift in Sources */,
+				D75E339B22462442006AD1C1 /* Sidebar.swift in Sources */,
+				D75E339C22462442006AD1C1 /* StorageView.swift in Sources */,
+				D75E339D22462442006AD1C1 /* NameTextField.swift in Sources */,
+				D75E339E22462442006AD1C1 /* NoteRowView.swift in Sources */,
+				D75E339F22462442006AD1C1 /* CoreNote.swift in Sources */,
+				D75E33A022462442006AD1C1 /* UserDefaultsManagement+.swift in Sources */,
+				D75E33A122462442006AD1C1 /* TextFormatter.swift in Sources */,
+				D75E33A222462442006AD1C1 /* ImageAttachment.swift in Sources */,
+				D75E33A322462442006AD1C1 /* MainWindow.swift in Sources */,
+				D75E33A422462442006AD1C1 /* AppearanceType.swift in Sources */,
+				D75E33A522462442006AD1C1 /* Storage.swift in Sources */,
+				D75E33A622462442006AD1C1 /* Date+.swift in Sources */,
+				D75E33A722462442006AD1C1 /* PreferencesGeneralViewController.swift in Sources */,
+				D75E33A822462442006AD1C1 /* SidebarProjectView.swift in Sources */,
+				D75E33A922462442006AD1C1 /* CustomTextStorage.swift in Sources */,
+				D75E33AA22462442006AD1C1 /* SharingService.swift in Sources */,
+				D75E33AB22462442006AD1C1 /* ViewController+Print.swift in Sources */,
+				D75E33AC22462442006AD1C1 /* FileWatcherEvent.swift in Sources */,
+				D75E33AD22462442006AD1C1 /* NSAttributedStringKey+.swift in Sources */,
+				D75E33AE22462442006AD1C1 /* PreviewTextField.swift in Sources */,
+				D75E33AF22462442006AD1C1 /* SortBy.swift in Sources */,
+				D75E33B022462442006AD1C1 /* NotesTableView.swift in Sources */,
+				D75E33B122462442006AD1C1 /* EditorView.swift in Sources */,
+				D75E33B222462442006AD1C1 /* NoteAttribute.swift in Sources */,
+				D75E33B322462442006AD1C1 /* EditorScrollView.swift in Sources */,
+				D75E33B422462442006AD1C1 /* SandboxBookmark.swift in Sources */,
+				D75E33B522462442006AD1C1 /* AttributedBox.swift in Sources */,
+				D75E33B622462442006AD1C1 /* NameHelper.swift in Sources */,
+				D75E33B722462442006AD1C1 /* PreferencesAdvancedViewController.swift in Sources */,
+				D75E33B822462442006AD1C1 /* NSFont+.swift in Sources */,
+				D75E33B922462442006AD1C1 /* SearchTextField.swift in Sources */,
+				D75E33BA22462442006AD1C1 /* PreferencesUserInterfaceViewController.swift in Sources */,
+				D75E33BB22462442006AD1C1 /* MainWindowController.swift in Sources */,
+				D75E33BC22462442006AD1C1 /* PreferencesEditorViewController.swift in Sources */,
+				D75E33BD22462442006AD1C1 /* MasterPasswordViewController.swift in Sources */,
+				D75E33BE22462442006AD1C1 /* NoteCellView.swift in Sources */,
+				D75E33BF22462442006AD1C1 /* UndoData.swift in Sources */,
+				D75E33C022462442006AD1C1 /* TagList.swift in Sources */,
+				D75E33C122462442006AD1C1 /* NoteContainer.swift in Sources */,
+				D75E33C222462442006AD1C1 /* TextBundleInfo.swift in Sources */,
+				D75E33C322462442006AD1C1 /* Note.swift in Sources */,
+				D75E33C422462442006AD1C1 /* SidebarNotesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2923,6 +3337,11 @@
 			target = 6F13BB4B20FEDE550005E120 /* FSNotesCore iOS */;
 			targetProxy = 6F13BB5F20FEDE560005E120 /* PBXContainerItemProxy */;
 		};
+		D75E337222462442006AD1C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F13BB0320FEDDF40005E120 /* FSNotesCore macOS */;
+			targetProxy = D75E337322462442006AD1C1 /* PBXContainerItemProxy */;
+		};
 		D75F333F205EC34800CC887E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */;
@@ -3236,6 +3655,74 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D75E340E22462442006AD1C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D4CB680A72611EC13792DED /* Pods-FSNotes.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "FSNotes copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Debug;
+		};
+		D75E340F22462442006AD1C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F06741487033D206BD611B4 /* Pods-FSNotes.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FSNotes/FSNotes.entitlements;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = NO;
+				DEVELOPMENT_TEAM = 866P6MTE92;
+				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "FSNotes copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "dd517dd5-8ed9-471c-8c66-5d26cd6d37ab";
+				PROVISIONING_PROFILE_SPECIFIER = "Developer Production";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -3618,6 +4105,15 @@
 			buildConfigurations = (
 				6F13BB6820FEDE560005E120 /* Debug */,
 				6F13BB6920FEDE560005E120 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D75E340D22462442006AD1C1 /* Build configuration list for PBXNativeTarget "FSNotes (Notarized)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D75E340E22462442006AD1C1 /* Debug */,
+				D75E340F22462442006AD1C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

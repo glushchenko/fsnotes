@@ -62,7 +62,6 @@ class PrefsViewController: NSTabViewController  {
         NotesTextProcessor.codeFont = newFont
 
         if let note = EditTextView.note {
-            print(newFont)
             Storage.sharedInstance().fullCacheReset()
             note.reCache()
             vc.refillEditArea()
