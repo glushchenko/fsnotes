@@ -980,7 +980,7 @@
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
-		D75E341022462442006AD1C1 /* FSNotes (Notarized).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes (Notarized).app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D75E341022462442006AD1C1 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes Info (Notarized).plist"; path = "/Users/fluder/src/fsnotes/FSNotes Info (Notarized).plist"; sourceTree = "<absolute>"; };
 		D75EE7F62078B22D0055F159 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		D75EE7F92078B3C00055F159 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
@@ -1617,7 +1617,7 @@
 				6F13BB0C20FEDDF50005E120 /* FSNotesCore macOSTests.xctest */,
 				6F13BB4C20FEDE550005E120 /* FSNotesCore_iOS.framework */,
 				6F13BB5420FEDE560005E120 /* FSNotesCore iOSTests.xctest */,
-				D75E341022462442006AD1C1 /* FSNotes (Notarized).app */,
+				D75E341022462442006AD1C1 /* FSNotes.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1983,7 +1983,7 @@
 			);
 			name = "FSNotes (Notarized)";
 			productName = FSNotes;
-			productReference = D75E341022462442006AD1C1 /* FSNotes (Notarized).app */;
+			productReference = D75E341022462442006AD1C1 /* FSNotes.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D75F3335205EC34800CC887E /* FSNotes iOS Share Extension */ = {
@@ -3681,7 +3681,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -3716,7 +3716,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE = "dd517dd5-8ed9-471c-8c66-5d26cd6d37ab";
 				PROVISIONING_PROFILE_SPECIFIER = "Developer Production";
 				SDKROOT = macosx;
