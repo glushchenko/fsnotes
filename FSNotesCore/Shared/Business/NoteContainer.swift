@@ -28,4 +28,13 @@ public enum NoteContainer: Int {
         case .none: return ""
         }
     }
+
+    public var tag: Int {
+        switch self {
+        case .textBundle: return 0x02
+        case .textBundleV2: return 0x03
+        case .encryptedTextPack: return 0x04
+        case .none: return 0x01
+        }
+    }
 }

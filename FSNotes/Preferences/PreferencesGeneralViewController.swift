@@ -52,6 +52,8 @@ class PreferencesGeneralViewController: NSViewController {
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
 
         fileFormat.selectItem(withTag: UserDefaultsManagement.fileFormat.tag)
+
+        fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
     }
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
