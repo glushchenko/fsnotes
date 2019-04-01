@@ -342,6 +342,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     mutable = mutable.unLoadImages(note: note)
                 }
 
+                self.breakUndoCoalescing()
                 self.insertText(mutable, replacementRange: currentRange)
             }
 
@@ -363,6 +364,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
             let currentRange = selectedRange()
 
+            self.breakUndoCoalescing()
             self.insertText(clipboard, replacementRange: currentRange)
 
             let range = NSRange(currentRange.location..<storage.length)
@@ -1324,6 +1326,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             guard UserDefaultsManagement.liveImagesPreview else {
                 let newLineImage = NSAttributedString(string: "![](\(path))")
+                self.breakUndoCoalescing()
                 self.insertText(newLineImage, replacementRange: selectedRange())
                 return
             }
@@ -1336,6 +1339,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     let newLineImage = NSMutableAttributedString(attributedString: attributedString)
                     newLineImage.append(NSAttributedString(string: "\n"))
 
+                    self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())
                     applyLeftParagraphStyle()
 

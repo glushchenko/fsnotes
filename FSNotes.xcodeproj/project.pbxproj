@@ -980,9 +980,8 @@
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
-		D75E33702246238A006AD1C1 /* FSNotes copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes copy-Info.plist"; path = "/Users/fluder/src/fsnotes/FSNotes copy-Info.plist"; sourceTree = "<absolute>"; };
 		D75E341022462442006AD1C1 /* FSNotes (Notarized).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes (Notarized).app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D75E341122462442006AD1C1 /* FSNotes copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes copy2-Info.plist"; path = "/Users/fluder/src/fsnotes/FSNotes copy2-Info.plist"; sourceTree = "<absolute>"; };
+		D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FSNotes Info (Notarized).plist"; path = "/Users/fluder/src/fsnotes/FSNotes Info (Notarized).plist"; sourceTree = "<absolute>"; };
 		D75EE7F62078B22D0055F159 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
 		D75EE7F92078B3C00055F159 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		D75EE7FC2078C5460055F159 /* SidebarCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarCellView.swift; sourceTree = "<group>"; };
@@ -1603,8 +1602,7 @@
 				D7793C701F211C6000CA39B7 /* Products */,
 				A124E2E6306B074DE002E8BA /* Pods */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
-				D75E33702246238A006AD1C1 /* FSNotes copy-Info.plist */,
-				D75E341122462442006AD1C1 /* FSNotes copy2-Info.plist */,
+				D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3679,7 +3677,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "FSNotes copy2-Info.plist";
+				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
@@ -3713,7 +3711,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				INFOPLIST_FILE = "FSNotes copy2-Info.plist";
+				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
