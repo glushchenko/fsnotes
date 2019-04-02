@@ -2218,6 +2218,17 @@ Gw
                                     <action selector="markdownCodeThemeAction:" target="ssC-ed-19K" id="ZEP-34-8PC"/>
                                 </connections>
                             </popUpButton>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SmD-r7-dGK">
+                                <rect key="frame" x="48" y="30" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Use 4 spaces instead tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Poh-KB-4ws">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="spacesInsteadTab:" target="ssC-ed-19K" id="yhE-pe-9gN"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2231,6 +2242,7 @@ Gw
                         <outlet property="liveImagesPreview" destination="ons-S0-fcz" id="jhA-O4-Jo7"/>
                         <outlet property="markdownCodeTheme" destination="xZA-pB-1nm" id="lkX-04-F8B"/>
                         <outlet property="restoreCursorButton" destination="APN-cG-GJc" id="oUp-xe-mh0"/>
+                        <outlet property="spacesInsteadTab" destination="SmD-r7-dGK" id="SRs-jA-N48"/>
                     </connections>
                 </viewController>
                 <customObject id="bsT-UP-VdO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

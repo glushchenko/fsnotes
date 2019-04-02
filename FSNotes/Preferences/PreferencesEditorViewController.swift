@@ -41,6 +41,8 @@ class PreferencesEditorViewController: NSViewController {
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
+
+        spacesInsteadTab.state = UserDefaultsManagement.spacesInsteadTabs ? .on : .off
     }
     
     @IBOutlet weak var codeFont: NSTextField!
@@ -53,6 +55,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var lineSpacing: NSSlider!
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
+    @IBOutlet weak var spacesInsteadTab: NSButton!
 
     //MARK: global variables
 
@@ -153,5 +156,9 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         fontManager.orderFrontFontPanel(self)
+    }
+
+    @IBAction func spacesInsteadTab(_ sender: NSButton) {
+        UserDefaultsManagement.spacesInsteadTabs = (sender.state == .on)
     }
 }

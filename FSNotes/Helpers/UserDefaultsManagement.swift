@@ -85,6 +85,7 @@ public class UserDefaultsManagement {
         static let ShowInMenuBar = "showInMenuBar"
         static let SmartInsertDelete = "smartInsertDelete"
         static let SortBy = "sortBy"
+        static let SpacesInsteadTabs = "spacesInsteadTabs"
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
@@ -974,6 +975,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.HideDate)
+        }
+    }
+
+    static var spacesInsteadTabs: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.SpacesInsteadTabs) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.SpacesInsteadTabs)
         }
     }
 }

@@ -750,6 +750,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
         }
+
+        if event.keyCode == kVK_Tab {
+            if UserDefaultsManagement.spacesInsteadTabs {
+                breakUndoCoalescing()
+                insertText("    ", replacementRange: selectedRange())
+                return
+            }
+        }
         
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
