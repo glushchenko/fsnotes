@@ -107,10 +107,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
             self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem) {
-                if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    self.searchTimer.invalidate()
-                    self.searchTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.onEndSearch), userInfo: nil, repeats: false)
-                } else {
+                if !UserDefaultsManagement.focusInEditorOnNoteSelect {
                     UserDataService.instance.searchTrigger = false
                 }
             }
@@ -119,10 +116,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         let pb = NSPasteboard(name: .findPboard)
         pb.declareTypes([.textFinderOptions, .string], owner: nil)
         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
-    }
-
-    @objc func onEndSearch() {
-        UserDataService.instance.searchTrigger = false
     }
     
     public func suggestAutocomplete(_ note: Note, filter: String) {

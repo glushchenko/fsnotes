@@ -53,8 +53,16 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return true
     }
-    
+
+    override func mouseDown(with event: NSEvent) {
+        UserDataService.instance.searchTrigger = false
+
+        super.mouseDown(with: event)
+    }
+
     override func rightMouseDown(with event: NSEvent) {
+        UserDataService.instance.searchTrigger = false
+
         let point = self.convert(event.locationInWindow, from: nil)
         let i = row(at: point)
         
@@ -287,10 +295,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func selectNext() {
+        UserDataService.instance.searchTrigger = false
+
         selectRow(selectedRow + 1)
     }
     
     func selectPrev() {
+        UserDataService.instance.searchTrigger = false
+        
         selectRow(selectedRow - 1)
     }
     
