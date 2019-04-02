@@ -10,7 +10,7 @@ import Cocoa
 import FSNotesCore_macOS
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     var mainWindowController: MainWindowController?
     var prefsWindowController: PrefsWindowController?
@@ -168,7 +168,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             image.size.height = 20
             button.image = image
         }
-        
+
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
         
@@ -189,7 +189,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: NSLocalizedString("Quit FSNotes", comment: ""), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
-        
+
+        menu.delegate = self
         statusItem?.menu = menu
     }
     
@@ -248,5 +249,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBAction func addMenuBar(_ sender: Any?) {
         constructMenu()
+    }
+
+    func menuWillOpen(_ menu: NSMenu) {
+        guard let event = NSApp.currentEvent else { return }
+
+        if event.type == NSEvent.EventType.leftMouseDown {
+            mainWindowController?.makeNew()
+        }
     }
 }
