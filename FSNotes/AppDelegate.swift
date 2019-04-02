@@ -58,10 +58,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         #endif
 
-        DispatchQueue.main.async {
-            NSApp.activate(ignoringOtherApps: true)
-        }
-
         if UserDefaultsManagement.storagePath == nil {
             self.requestStorageDirectory()
             return
