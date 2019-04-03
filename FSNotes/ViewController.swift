@@ -1051,7 +1051,10 @@ class ViewController: NSViewController,
 
     @IBAction func removeNoteEncryption(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
-        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
+        guard var notes = vc.notesTableView.getSelectedNotes() else { return }
+
+        notes = decryptUnlocked(notes: notes)
+        guard notes.count > 0 else { return }
 
         getMasterPassword() { password, isTypedByUser in
             var isFirst = true
@@ -2014,6 +2017,21 @@ class ViewController: NSViewController,
             isFirst = false
 
             self.notesTableView.reloadRow(note: note)
+        }
+
+        return notes
+    }
+
+    private func decryptUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.unEncryptUnlocked() {
+                    notes.removeAll { $0 === note }
+                    notesTableView.reloadRow(note: note)
+                }
+            }
         }
 
         return notes

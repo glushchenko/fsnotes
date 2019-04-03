@@ -666,7 +666,7 @@ public class Note: NSObject  {
         do {
             attributes = try FileManager.default.attributesOfItem(atPath: url.path)
         } catch {}
-        
+
         attributes[.modificationDate] = modifiedLocalAt
         return attributes
     }
@@ -1226,6 +1226,36 @@ public class Note: NSObject  {
 
         } catch {
             print("Decryption error: \(error)")
+
+            return false
+        }
+    }
+
+    public func unEncryptUnlocked() -> Bool {
+        guard let decSrcUrl = decryptedTemporarySrc else { return false }
+
+        let originalSrc = url
+
+        do {
+            let name = url.deletingPathExtension().lastPathComponent
+            let newURL = project.url.appendingPathComponent(name).appendingPathExtension("textbundle")
+
+            url = newURL
+            container = .textBundleV2
+
+            try FileManager.default.removeItem(at: originalSrc)
+            try FileManager.default.moveItem(at: decSrcUrl, to: newURL)
+
+            self.decryptedTemporarySrc = nil
+            convertTextBundleToFlat(name: name)
+
+            load()
+            reCache()
+
+            return true
+
+        } catch {
+            print("Encryption removing error: \(error)")
 
             return false
         }
