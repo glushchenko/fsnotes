@@ -1183,11 +1183,11 @@ CA
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="694" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="951" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dO0-pK-Ktm" customClass="SidebarSplitView" customModule="FSNotes" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="694" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="951" height="600"/>
                                 <subviews>
                                     <customView autoresizesSubviews="NO" misplaced="YES" id="5sB-7J-vgE" customClass="StorageView" customModule="FSNotes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
@@ -1298,10 +1298,10 @@ CA
                                         </constraints>
                                     </customView>
                                     <splitView fixedFrame="YES" arrangesAllSubviews="NO" autosaveName="" dividerStyle="thin" vertical="YES" id="yWu-3F-P62" customClass="EditorSplitView" customModule="FSNotes" customModuleProvider="target">
-                                        <rect key="frame" x="145" y="0.0" width="549" height="600"/>
+                                        <rect key="frame" x="145" y="0.0" width="806" height="600"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <customView autoresizesSubviews="NO" misplaced="YES" id="8ej-mX-KM6" customClass="SidebarNotesView" customModule="FSNotes" customModuleProvider="target">
+                                            <customView autoresizesSubviews="NO" id="8ej-mX-KM6" customClass="SidebarNotesView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="237" height="600"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 <subviews>
@@ -1316,7 +1316,7 @@ CA
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         </searchFieldCell>
                                                     </searchField>
-                                                    <scrollView focusRingType="none" misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="116" horizontalPageScroll="10" verticalLineScroll="116" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzf-Jh-YEb">
+                                                    <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="116" horizontalPageScroll="10" verticalLineScroll="116" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzf-Jh-YEb">
                                                         <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" id="MtJ-BC-rZB">
                                                             <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
@@ -1475,21 +1475,21 @@ CA
                                                 </constraints>
                                             </customView>
                                             <customView autoresizesSubviews="NO" misplaced="YES" id="at7-wA-VAS" customClass="EditorView" customModule="FSNotes" customModuleProvider="target">
-                                                <rect key="frame" x="238" y="0.0" width="311" height="600"/>
+                                                <rect key="frame" x="238" y="0.0" width="568" height="600"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="311" height="562"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                         <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
-                                                            <rect key="frame" x="0.0" y="0.0" width="311" height="562"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" allowsDocumentBackgroundColorChange="YES" allowsUndo="YES" allowsImageEditing="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" linkDetection="YES" dataDetection="YES" dashSubstitution="YES" textReplacement="YES" smartInsertDelete="YES" id="cmZ-KL-T9k" customClass="EditTextView" customModule="FSNotes" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="311" height="562"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="mainBackground"/>
-                                                                    <size key="minSize" width="311" height="562"/>
+                                                                    <size key="minSize" width="568" height="562"/>
                                                                     <size key="maxSize" width="636" height="10000000"/>
                                                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                 </textView>
@@ -1510,19 +1510,19 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="562" width="313" height="38"/>
+                                                        <rect key="frame" x="0.0" y="562" width="568" height="38"/>
                                                         <subviews>
-                                                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="0.0" y="0.0" width="300" height="38"/>
+                                                            <customView hidden="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
+                                                                <rect key="frame" x="0.0" y="0.0" width="568" height="38"/>
                                                                 <subviews>
                                                                     <box hidden="YES" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-nk-gch">
-                                                                        <rect key="frame" x="0.0" y="-2" width="300" height="5"/>
+                                                                        <rect key="frame" x="0.0" y="-2" width="462" height="5"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="0.5" id="Cgx-T0-tZD"/>
                                                                         </constraints>
                                                                     </box>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
-                                                                        <rect key="frame" x="281" y="11" width="11" height="16"/>
+                                                                        <rect key="frame" x="443" y="11" width="11" height="16"/>
                                                                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -1532,7 +1532,7 @@ CA
                                                                         </connections>
                                                                     </button>
                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
-                                                                        <rect key="frame" x="249" y="11" width="22" height="16"/>
+                                                                        <rect key="frame" x="411" y="11" width="22" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="22" id="cL1-PF-gSQ"/>
                                                                             <constraint firstAttribute="height" constant="16" id="mhf-Ok-C0D"/>
@@ -1546,7 +1546,7 @@ CA
                                                                         </connections>
                                                                     </button>
                                                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
-                                                                        <rect key="frame" x="231" y="11" width="10" height="16"/>
+                                                                        <rect key="frame" x="393" y="11" width="10" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="16" id="KX9-jI-cyF"/>
                                                                         </constraints>
@@ -1578,7 +1578,7 @@ CA
                                                         </constraints>
                                                     </customView>
                                                     <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
-                                                        <rect key="frame" x="133" y="573" width="35" height="17"/>
+                                                        <rect key="frame" x="214" y="573" width="35" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1589,7 +1589,7 @@ CA
                                                         </connections>
                                                     </textField>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="121" y="254" width="59" height="91"/>
+                                                        <rect key="frame" x="255" y="254" width="59" height="91"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNoteAsset" id="WpA-pT-SDs"/>
                                                         <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1770,7 +1770,7 @@ CA
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="-28" y="682"/>
+            <point key="canvasLocation" x="-72.5" y="680"/>
         </scene>
         <!--Master Password View Controller-->
         <scene sceneID="6kq-pY-Hei">
@@ -2386,7 +2386,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6jD-2w-AAk">
-                                <rect key="frame" x="29" y="272" width="66" height="17"/>
+                                <rect key="frame" x="29" y="39" width="66" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="KaC-Mz-siK">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2395,7 +2395,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2GG-sE-P9s">
-                                <rect key="frame" x="103" y="263" width="194" height="32"/>
+                                <rect key="frame" x="103" y="30" width="194" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Change Master Password" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3RO-C7-NOO">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2406,7 +2406,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bAD-aT-6wv">
-                                <rect key="frame" x="108" y="206" width="295" height="18"/>
+                                <rect key="frame" x="108" y="279" width="295" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on sleep" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ve2-qz-vtH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2417,7 +2417,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jxK-y9-8yA">
-                                <rect key="frame" x="108" y="173" width="295" height="18"/>
+                                <rect key="frame" x="108" y="246" width="295" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on screen saver activated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IlF-tS-GFG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2428,7 +2428,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyD-5q-zrb">
-                                <rect key="frame" x="108" y="141" width="295" height="18"/>
+                                <rect key="frame" x="108" y="214" width="295" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock when user switched" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dk-Cf-bSg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2439,7 +2439,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LfK-G8-GaN">
-                                <rect key="frame" x="107" y="73" width="301" height="18"/>
+                                <rect key="frame" x="107" y="140" width="301" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Allow Touch ID to unlock notes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KST-y3-KvM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2450,7 +2450,7 @@ Gw
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-TJ-FAD">
-                                <rect key="frame" x="33" y="73" width="62" height="17"/>
+                                <rect key="frame" x="33" y="140" width="62" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Touch ID:" id="Nw2-km-iDW">
                                     <font key="font" metaFont="system"/>
@@ -2459,7 +2459,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eoX-AC-xuA">
-                                <rect key="frame" x="107" y="44" width="310" height="18"/>
+                                <rect key="frame" x="107" y="111" width="310" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Save Master Password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wM5-nS-jjt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2469,12 +2469,8 @@ Gw
                                     <action selector="saveInKeychain:" target="PXw-YJ-q6A" id="DTh-fX-VH3"/>
                                 </connections>
                             </button>
-                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9JU-4V-Lgp">
-                                <rect key="frame" x="32" y="106" width="386" height="5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3K8-4C-o6B">
-                                <rect key="frame" x="29" y="207" width="67" height="17"/>
+                                <rect key="frame" x="29" y="280" width="67" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Auto-lock:" id="fzY-c6-DaK">
                                     <font key="font" metaFont="system"/>
@@ -2483,7 +2479,11 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="O2e-aX-dha">
-                                <rect key="frame" x="29" y="247" width="386" height="5"/>
+                                <rect key="frame" x="31" y="84" width="386" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </box>
+                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9JU-4V-Lgp">
+                                <rect key="frame" x="32" y="184" width="386" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                         </subviews>
@@ -2493,6 +2493,7 @@ Gw
                         <outlet property="lockOnScreenActivated" destination="jxK-y9-8yA" id="gWR-lE-hA2"/>
                         <outlet property="lockOnSleep" destination="bAD-aT-6wv" id="CIt-n9-zYN"/>
                         <outlet property="lockWhenFastUser" destination="VyD-5q-zrb" id="FYT-qZ-W5I"/>
+                        <outlet property="masterPassword" destination="2GG-sE-P9s" id="YwE-Mx-evI"/>
                         <outlet property="saveInKeychain" destination="eoX-AC-xuA" id="zDO-t1-NfO"/>
                     </connections>
                 </viewController>

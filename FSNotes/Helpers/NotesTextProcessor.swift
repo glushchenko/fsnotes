@@ -825,7 +825,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.link, value: destinationLinkString, range: _range)
             }
         }
-        
+
         NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             styleApplier.addAttribute(.font, value: codeFont, range: range)
@@ -844,7 +844,7 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
-        
+
         // We detect and process app urls [[link]]
         NotesTextProcessor.appUrlRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let innerRange = result?.range else { return }
@@ -1231,7 +1231,7 @@ public class NotesTextProcessor {
     fileprivate static let imageInlinePattern = [
         "(                     # wrap whole match in $1",
         "  !\\[",
-        "      (.*?)           # alt text = $2",
+        "      ([^\\[\\]]*?)           # alt text = $2",
         "  \\]",
         "  \\s?                # one optional whitespace character",
         "  \\(                 # literal paren",

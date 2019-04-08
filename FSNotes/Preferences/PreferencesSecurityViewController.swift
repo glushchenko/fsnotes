@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import LocalAuthentication
 
 class PreferencesSecurityViewController: NSViewController {
 
@@ -15,6 +16,7 @@ class PreferencesSecurityViewController: NSViewController {
     @IBOutlet weak var lockWhenFastUser: NSButton!
     @IBOutlet weak var allowTouchID: NSButton!
     @IBOutlet weak var saveInKeychain: NSButton!
+    @IBOutlet weak var masterPassword: NSButton!
 
     override func viewDidLoad() {
         lockOnSleep.state = UserDefaultsManagement.lockOnSleep ? .on : .off
@@ -22,6 +24,18 @@ class PreferencesSecurityViewController: NSViewController {
         lockWhenFastUser.state = UserDefaultsManagement.lockOnUserSwitch ? .on : .off
         allowTouchID.state = UserDefaultsManagement.allowTouchID ? .on : .off
         saveInKeychain.state = UserDefaultsManagement.savePasswordInKeychain ? .on : .off
+
+        masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
+
+        let context = LAContext()
+        if #available(OSX 10.12.2, *) {
+            if !context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
+                disableTouchID()
+                return
+            }
+        } else {
+            disableTouchID()
+        }
     }
 
     override func viewWillAppear() {
@@ -52,10 +66,18 @@ class PreferencesSecurityViewController: NSViewController {
 
     @IBAction func allowTouchID(_ sender: NSButton) {
         UserDefaultsManagement.allowTouchID = (sender.state == .on)
+
+        masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
     }
 
     @IBAction func saveInKeychain(_ sender: NSButton) {
         UserDefaultsManagement.savePasswordInKeychain = (sender.state == .on)
+    }
+
+    private func disableTouchID() {
+        masterPassword.isEnabled = false
+        allowTouchID.isEnabled = false
+        allowTouchID.state = .off
     }
 
 }

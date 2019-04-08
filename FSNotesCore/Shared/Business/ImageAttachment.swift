@@ -58,6 +58,7 @@ class ImageAttachment {
             }
         }
 
+        guard FileManager.default.fileExists(atPath: self.url.path) else { return nil }
         guard let attachment = load() else { return nil }
 
         let attributedString = NSAttributedString(attachment: attachment)
