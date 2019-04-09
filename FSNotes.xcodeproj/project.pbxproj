@@ -47,6 +47,7 @@
 		D70BA87720599D1300875E9C /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87420599D1200875E9C /* header.png */; };
 		D70BA87820599D1300875E9C /* header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87520599D1300875E9C /* header@3x.png */; };
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
+		D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D70FE12D20FE198200813F9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12B20FE198200813F9E /* Localizable.strings */; };
 		D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12E20FE198200813F9E /* InfoPlist.strings */; };
 		D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE13120FE198200813F9E /* InfoPlist.strings */; };
@@ -2876,6 +2877,7 @@
 				D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */,
 				D730BD32222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
+				D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */,
 				D7DCFED12108D6910059B37B /* CoreNote.swift in Sources */,
 				D7218945210211D800FE3AF2 /* SortBy.swift in Sources */,
 				D721894121020DDF00FE3AF2 /* UserDefaultsManagement.swift in Sources */,

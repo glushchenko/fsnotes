@@ -8,6 +8,7 @@
 
 import Foundation
 import MASShortcut
+import AppKit
 
 extension UserDefaultsManagement {
     private struct Constants {
@@ -74,6 +75,14 @@ extension UserDefaultsManagement {
         get {
             if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
                 return theme
+            }
+
+            if #available(OSX 10.14, *) {
+                if NSAppearance.current.isDark {
+                    UserDefaults.standard.set("monokai-sublime", forKey: Constants.codeTheme)
+
+                    return "monokai-sublime"
+                }
             }
 
             return "atom-one-light"

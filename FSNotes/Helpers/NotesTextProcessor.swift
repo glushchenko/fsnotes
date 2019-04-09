@@ -340,15 +340,7 @@ public class NotesTextProcessor {
             return nil
         }
 
-        #if os(OSX)
-        if UserDefaultsManagement.appearanceType == AppearanceType.System && UserDataService.instance.isDark {
-            highlightr.setTheme(to: "monokai-sublime")
-        } else {
-            highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
-        }
-        #else
-            highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
-        #endif
+        highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
 
         self.hl = highlightr
         
