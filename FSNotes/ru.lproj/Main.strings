@@ -286,8 +286,8 @@
 /* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "goN-LO-L7l"; */
 "goN-LO-L7l.title" = "Открыть директорию";
 
-/* Class = "NSMenuItem"; title = "Lock All"; ObjectID = "GrP-W1-7ZQ"; */
-"GrP-W1-7ZQ.title" = "Заблокировать все";
+/* Class = "NSMenuItem"; title = "Lock All Encrypted"; ObjectID = "GrP-W1-7ZQ"; */
+"GrP-W1-7ZQ.title" = "Заблокировать все секретные";
 
 /* Class = "NSMenuItem"; title = "Paste"; ObjectID = "gVA-U4-sdL"; */
 "gVA-U4-sdL.title" = "Вставить";
@@ -382,8 +382,8 @@
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Показать все";
 
-/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "kg2-3u-V99"; */
-"kg2-3u-V99.title" = "Заблокировать/разблокировать";
+/* Class = "NSMenuItem"; title = "Encrypt/unlock"; ObjectID = "kg2-3u-V99"; */
+"kg2-3u-V99.title" = "Зашифровать/разблокировать";
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "Закрыть";
@@ -514,8 +514,8 @@
 /* Class = "NSMenuItem"; title = "Sort by"; ObjectID = "rHB-xF-GgG"; */
 "rHB-xF-GgG.title" = "Упорядочить по";
 
-/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "RSs-wb-GNg"; */
-"RSs-wb-GNg.title" = "Заблокировать/разблокировать";
+/* Class = "NSMenuItem"; title = "Encrypt/unlock"; ObjectID = "RSs-wb-GNg"; */
+"RSs-wb-GNg.title" = "Зашифровать/разблокировать";
 
 /* Class = "NSMenuItem"; title = "System"; ObjectID = "rSZ-Wo-Rtj"; */
 "rSZ-Wo-Rtj.title" = "Система";

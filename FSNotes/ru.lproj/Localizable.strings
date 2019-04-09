@@ -68,7 +68,7 @@
 "Link" = "Ссылка";
 
 /* No comment provided by engineer. */
-"Lock All" = "Заблокировать все";
+"Lock All Encrypted" = "Заблокировать все секретные";
 
 /* No comment provided by engineer. */
 "Master password:" = "Мастер пароль:";

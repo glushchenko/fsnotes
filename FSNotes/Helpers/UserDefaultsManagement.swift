@@ -54,6 +54,7 @@ public class UserDefaultsManagement {
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
+        static let FirstLineAsTitle = "firstLineAsTitle"
         static let NoteType = "noteType"
         static let GrammarChecking = "grammarChecking"
         static let HideDate = "hideDate"
@@ -987,6 +988,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.SpacesInsteadTabs)
+        }
+    }
+
+    static var firstLineAsTitle: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.FirstLineAsTitle) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.FirstLineAsTitle)
         }
     }
 }

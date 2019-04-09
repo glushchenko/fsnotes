@@ -23,10 +23,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var hideImagesPreview: NSButton!
     @IBOutlet weak var hidePreview: NSButton!
     @IBOutlet weak var hideDate: NSButton!
+    @IBOutlet weak var firstLineAsTitle: NSButton!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 467, height: 403)
+        preferredContentSize = NSSize(width: 467, height: 460)
     }
 
     override func viewDidLoad() {
@@ -60,6 +61,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideImagesPreview.state = UserDefaultsManagement.hidePreviewImages ? .on : .off
 
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
+
+        firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
     }
 
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
@@ -171,5 +174,18 @@ class PreferencesUserInterfaceViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
     }
+
+    @IBAction func firstLineAsTitle(_ sender: NSButton) {
+        UserDefaultsManagement.firstLineAsTitle = (sender.state == .on)
+
+        let projects = Storage.sharedInstance().getProjects()
+        for project in projects {
+            project.loadSettings()
+        }
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
+    }
+
 
 }

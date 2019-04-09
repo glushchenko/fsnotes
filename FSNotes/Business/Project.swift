@@ -132,8 +132,12 @@ public class Project: Equatable {
                     self.sortBy = sort
                 }
 
-                if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+                if isRoot {
+                    self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+                } else if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
                     self.firstLineAsTitle = firstLineAsTitle
+                } else {
+                    self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
                 }
             }
             return

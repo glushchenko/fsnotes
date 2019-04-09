@@ -374,7 +374,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 self.noteHeightOfRows(withIndexesChanged: [i])
 
                 if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
-                    cell.preview.stringValue = note.getPreviewLabel()
+                    cell.attachTitleAndPreview(note: note)
                     cell.date.stringValue = note.getDateForLabel()
                     cell.loadImagesPreview()
                     cell.udpateSelectionHighlight()

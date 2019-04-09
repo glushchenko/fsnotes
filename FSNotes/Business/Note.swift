@@ -296,7 +296,7 @@ public class Note: NSObject  {
                 let endIndex = content.index((content.startIndex), offsetBy: 250)
                 preview = String(content[startIndex...endIndex])
             } else {
-                preview = self.content.mutableString.substring(with: NSRange(0..<250))
+                preview = String(content.prefix(250))
             }
         } else {
             preview = content
