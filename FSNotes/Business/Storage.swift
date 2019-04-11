@@ -743,7 +743,7 @@ class Storage {
     }
     
     public func getTags() -> [String] {
-        return tagNames
+        return tagNames.sorted { $0 < $1 }
     }
     
     public func hasTags() -> Bool {

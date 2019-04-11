@@ -11,7 +11,7 @@ import Cocoa
 class PreferencesAdvancedViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 464, height: 368)
+        preferredContentSize = NSSize(width: 464, height: 303)
     }
 
     @IBOutlet weak var archivePathControl: NSPathControl!

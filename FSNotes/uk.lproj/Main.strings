@@ -367,8 +367,8 @@
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "Kd2-mp-pUS"; */
 "Kd2-mp-pUS.title" = "Показати все";
 
-/* Class = "NSMenuItem"; title = "Encrypt/unlock"; ObjectID = "kg2-3u-V99"; */
-"kg2-3u-V99.title" = "Зашифрувати/розблокувати";
+/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "kg2-3u-V99"; */
+"kg2-3u-V99.title" = "Заблокувати/розблокувати";
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "Закрити";
@@ -493,8 +493,8 @@
 /* Class = "NSMenuItem"; title = "Sort by"; ObjectID = "rHB-xF-GgG"; */
 "rHB-xF-GgG.title" = "Сортувати за";
 
-/* Class = "NSMenuItem"; title = "Encrypt/unlock"; ObjectID = "RSs-wb-GNg"; */
-"RSs-wb-GNg.title" = "Зашифрувати/розблокувати";
+/* Class = "NSMenuItem"; title = "Lock/unlock"; ObjectID = "RSs-wb-GNg"; */
+"RSs-wb-GNg.title" = "Заблокувати/розблокувати";
 
 /* Class = "NSMenuItem"; title = "System"; ObjectID = "rSZ-Wo-Rtj"; */
 "rSZ-Wo-Rtj.title" = "Системна";

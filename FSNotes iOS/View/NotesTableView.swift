@@ -197,7 +197,7 @@ class NotesTableView: UITableView,
         actionSheet.addAction(tags)
 
         if showAll {
-            let encryption = UIAlertAction(title: "Encrypt/unlock", style: .default, handler: { _ in
+            let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
             })
             actionSheet.addAction(encryption)
