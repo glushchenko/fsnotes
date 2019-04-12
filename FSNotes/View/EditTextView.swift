@@ -1364,15 +1364,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     public func updateTextContainerInset() {
         let lineWidth = UserDefaultsManagement.lineWidth
+        let margin = UserDefaultsManagement.marginSize
         let width = frame.width
 
         if lineWidth == 1000 {
-            textContainerInset.width = 5
+            textContainerInset.width = CGFloat(margin)
             return
         }
 
-        guard Float(width) > lineWidth else {
-            textContainerInset.width = 5
+        guard Float(width) - margin * 2 > lineWidth else {
+            textContainerInset.width = CGFloat(margin)
             return
         }
 

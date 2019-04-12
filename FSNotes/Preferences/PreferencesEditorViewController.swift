@@ -12,7 +12,7 @@ class PreferencesEditorViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 474, height: 394)
+        preferredContentSize = NSSize(width: 474, height: 440)
     }
 
     override func viewDidLoad() {
@@ -43,6 +43,8 @@ class PreferencesEditorViewController: NSViewController {
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
 
         spacesInsteadTab.state = UserDefaultsManagement.spacesInsteadTabs ? .on : .off
+
+        marginSize.floatValue = UserDefaultsManagement.marginSize
     }
     
     @IBOutlet weak var codeFont: NSTextField!
@@ -56,6 +58,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var spacesInsteadTab: NSButton!
+    @IBOutlet weak var marginSize: NSSlider!
 
     //MARK: global variables
 
@@ -161,4 +164,15 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func spacesInsteadTab(_ sender: NSButton) {
         UserDefaultsManagement.spacesInsteadTabs = (sender.state == .on)
     }
+
+    @IBAction func marginSize(_ sender: NSSlider) {
+        guard let vc = ViewController.shared() else { return }
+
+        UserDefaultsManagement.marginSize = sender.floatValue
+
+        if let _ = EditTextView.note, !UserDefaultsManagement.preview {
+            vc.editArea.updateTextContainerInset()
+        }
+    }
+
 }

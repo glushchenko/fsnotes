@@ -72,6 +72,7 @@ public class UserDefaultsManagement {
         static let LockOnScreenActivated = "lockOnScreenActivated"
         static let LockAfterIDLE = "lockAfterIdle"
         static let LockAfterUserSwitch = "lockAfterUserSwitch"
+        static let MarginSizeKey = "marginSize"
         static let MasterPasswordHint = "masterPasswordHint"
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
@@ -1000,6 +1001,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.FirstLineAsTitle)
+        }
+    }
+
+    static var marginSize: Float {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.MarginSizeKey) {
+                return result as! Float
+            }
+            return 20
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.MarginSizeKey)
         }
     }
 }
