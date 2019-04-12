@@ -659,7 +659,7 @@ public class NotesTextProcessor {
             styleApplier.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
 
                 if (value as? NSColor) != nil {
-                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: paragraphRange)
+                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: range)
                 }
             }
         #endif
@@ -721,20 +721,11 @@ public class NotesTextProcessor {
         }
         
         // We detect and process lists
-        if isFullScan {
-            NotesTextProcessor.listRegex.matches(string, range: paragraphRange) { (result) -> Void in
-                guard let range = result?.range else { return }
-                NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
-            }
-        } else {
-            NotesTextProcessor.listSingleLineRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+        NotesTextProcessor.listRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+            NotesTextProcessor.listOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                styleApplier.addAttribute(.font, value: NotesTextProcessor.font, range: innerRange)
-                styleApplier.fixAttributes(in: innerRange)
             }
         }
 
@@ -1068,7 +1059,7 @@ public class NotesTextProcessor {
     fileprivate static let _markerUL = "[*+-]"
     fileprivate static let _markerOL = "\\d+[.]"
     
-    fileprivate static let _listMarker = "(?:\(_markerUL)|\(_markerOL))"
+    fileprivate static let _listMarker = "(?:\\p{Z}|\\t)*(?:\(_markerUL)|\(_markerOL))"
     fileprivate static let _wholeList = [
         "(                               # $1 = whole list",
         "  (                             # $2",
