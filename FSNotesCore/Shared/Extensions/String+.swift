@@ -54,6 +54,10 @@ public extension String {
         
         return self
     }
+
+    var isValidUUID: Bool {
+        return UUID(uuidString: self) != nil
+    }
 }
 
 extension StringProtocol where Index == String.Index {

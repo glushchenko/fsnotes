@@ -682,7 +682,13 @@ public class Note: NSObject  {
     }
         
     func getTitleWithoutLabel() -> String {
-        return url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+        let title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+
+        if title.isValidUUID {
+            return "Untitled Note"
+        }
+
+        return title
     }
     
     func markdownCache() {
@@ -1042,6 +1048,10 @@ public class Note: NSObject  {
             return title
         }
 
+        if title.isValidUUID {
+            return "Untitled Note"
+        }
+
         return title
     }
 
@@ -1310,6 +1320,7 @@ public class Note: NSObject  {
         content = NSMutableAttributedString(string: String())
         preview = String()
         title = String()
+        firstLineTitle = nil
 
         isCached = false
         caching = false
@@ -1338,6 +1349,7 @@ public class Note: NSObject  {
 
                 container = .encryptedTextPack
                 cleanOut()
+                loadTitle()
 
                 try? FileManager.default.removeItem(at: temporaryURL)
                 self.decryptedTemporarySrc = nil

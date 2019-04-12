@@ -10,7 +10,7 @@ import Foundation
 
 class NameHelper {
     public static func getUniqueFileName(name: String, postfix: Int = 0, project: Project, ext: String) -> URL {
-        let defaultName = Date.getCurrentFormattedDate()
+        let defaultName = UUID().uuidString
         var postfix = postfix
         var name = name
             .trimmingCharacters(in: CharacterSet.whitespaces)

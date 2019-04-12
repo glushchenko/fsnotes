@@ -1057,8 +1057,8 @@ public class NotesTextProcessor {
      */
     
     fileprivate static let _markerUL = "[*+-]"
-    fileprivate static let _markerOL = "\\d+[.]"
-    
+    fileprivate static let _markerOL = "[0-9-]+[.]"
+
     fileprivate static let _listMarker = "(?:\\p{Z}|\\t)*(?:\(_markerUL)|\(_markerOL))"
     fileprivate static let _wholeList = [
         "(                               # $1 = whole list",
