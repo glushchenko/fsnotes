@@ -344,6 +344,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                 self.breakUndoCoalescing()
                 self.insertText(mutable, replacementRange: currentRange)
+                self.breakUndoCoalescing()
             }
 
             let range = NSRange(currentRange.location..<storage.length)
@@ -366,6 +367,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             self.breakUndoCoalescing()
             self.insertText(clipboard, replacementRange: currentRange)
+            self.breakUndoCoalescing()
 
             let range = NSRange(currentRange.location..<storage.length)
             NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
@@ -1336,6 +1338,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let newLineImage = NSAttributedString(string: "![](\(path))")
                 self.breakUndoCoalescing()
                 self.insertText(newLineImage, replacementRange: selectedRange())
+                self.breakUndoCoalescing()
                 return
             }
 
@@ -1349,6 +1352,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                     self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())
+                    self.breakUndoCoalescing()
+
                     applyLeftParagraphStyle()
 
                     return
