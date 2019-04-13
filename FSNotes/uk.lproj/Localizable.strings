@@ -189,6 +189,9 @@
 /* No comment provided by engineer. */
 "Underline" = "Підкреслений";
 
+/* Untitled Note */
+"Untitled Note" = "Без назви";
+
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
 

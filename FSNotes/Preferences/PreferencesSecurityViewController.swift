@@ -40,7 +40,7 @@ class PreferencesSecurityViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 450, height: 287)
+        preferredContentSize = NSSize(width: 450, height: 306)
     }
 
     @IBAction func openMasterPasswordWindow(_ sender: Any) {

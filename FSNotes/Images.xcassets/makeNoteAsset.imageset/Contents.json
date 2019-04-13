@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "makeNote-3.png",
+      "filename" : "Untitled.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "AppIcon 3 копіювати.png",
+      "filename" : "Untitled-3.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -18,12 +18,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "makeNote-2.png",
+      "filename" : "Untitled-2.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "AppIcon 3 копіювати-1.png",
+      "filename" : "Untitled-4.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -34,7 +34,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "makeNote-1.png",
+      "filename" : "Untitled-1.png",
       "scale" : "3x"
     }
   ],
