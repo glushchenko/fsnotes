@@ -53,6 +53,13 @@ target 'FSNotes (iCloud Documents)' do
     common_pods
 end
 
+target 'FSNotes (Notarized)' do
+  platform :osx, MAC_TARGET_VERSION
+
+  mac_pods
+  common_pods
+end
+
 target 'FSNotes iOS' do
     platform :ios, IOS_TARGET_VERSION
 

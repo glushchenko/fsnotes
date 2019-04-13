@@ -2544,7 +2544,7 @@ Gw
         <image name="NSQuickLookTemplate" width="19" height="12"/>
         <image name="NSShareTemplate" width="11" height="16"/>
         <image name="editor" width="384" height="384"/>
-        <image name="makeNoteAsset" width="256" height="256"/>
+        <image name="makeNoteAsset" width="512" height="512"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
