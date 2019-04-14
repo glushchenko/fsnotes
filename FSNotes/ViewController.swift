@@ -940,7 +940,7 @@ class ViewController: NSViewController,
             ? size - vc.titleBarView.frame.height
             : size
 
-        if UserDefaultsManagement.horizontalOrientation && size == 55 {
+        if UserDefaultsManagement.horizontalOrientation && vc.splitView.shouldHideDivider {
             vc.splitView.shouldHideDivider = false
             vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
             vc.editArea.updateTextContainerInset()
