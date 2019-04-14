@@ -16,7 +16,7 @@ typealias ImageView = NSImageView
 
 extension NoteCellView {
     public func loadImagesPreview() {
-        guard let note = self.note, !UserDefaultsManagement.hidePreviewImages else { return }
+        guard let note = self.note, !UserDefaultsManagement.hidePreviewImages, !UserDefaultsManagement.horizontalOrientation else { return }
 
         let imageURLs = note.getImagePreviewUrl()
         let imagesFound = imageURLs?.count ?? 0

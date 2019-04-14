@@ -1081,7 +1081,7 @@ public class NotesTextProcessor {
         ")"
         ].joined(separator: "\n")
 
-    fileprivate static let listPattern = "(?:(?<=\\n\\n)|\\A\\n?)" + _wholeList
+    fileprivate static let listPattern = "(?:(?<=\\n)|\\A\\n?)" + _wholeList
 
     private static let listSingleLinePattern = "\\A(?:\\p{Z}|\\t)*((?:[*+-]|\\d+[.]))\\p{Z}+"
     

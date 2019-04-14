@@ -54,7 +54,7 @@ class NoteCellView: NSTableCellView {
             preview.isHidden = false
         }
 
-        if UserDefaultsManagement.hidePreviewImages {
+        if UserDefaultsManagement.hidePreviewImages || UserDefaultsManagement.horizontalOrientation {
             imagePreview.isHidden = true
             imagePreviewSecond.isHidden = true
             imagePreviewThird.isHidden = true
