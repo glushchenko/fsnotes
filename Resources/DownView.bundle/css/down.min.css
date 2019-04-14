@@ -538,3 +538,9 @@ canvas {
     margin: 0 auto;
 }
 
+/* Mermaid center */
+
+code.language-mermaid {
+    display: block;
+    text-align: center;
+}

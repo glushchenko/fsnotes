@@ -6,6 +6,8 @@
     <link charset="utf-8" href="css/down.min.css" rel="stylesheet">
     <script charset="utf-8" src="js/load-image.all.min.js" type="text/javascript"></script>
     <script charset="utf-8" src="js/highlight.min.js" type="text/javascript"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+    <script src="js/mermaid.min.js"></script>
     <title></title>
     <style>DOWN_CSS</style>
 </head>
@@ -50,7 +52,13 @@
         i = 0;
         
         for (i; i < length; i++) {
+            continue;
+
             if (preList[i].parentNode.tagName != "PRE") {
+                continue;
+            }
+
+            if (preList[i].classList.contains('language-mermaid')) {
                 continue;
             }
             
@@ -141,6 +149,21 @@
         };
 
         document.addEventListener("DOMContentLoaded", onLoaded);
+    </script>
+
+    <script>
+    var config = {
+        startOnLoad:true,
+        theme: 'forest',
+        flowchart:{
+            useMaxWidth:false,
+            htmlLabels:true
+        }
+    };
+    
+    mermaid.initialize(config);
+    window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
+
     </script>
 </body>
 </html>
