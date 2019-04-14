@@ -201,7 +201,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @IBAction func openHelp(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes")!)
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues")!)
     }
     
     @IBAction func openPreferences(_ sender: Any?) {

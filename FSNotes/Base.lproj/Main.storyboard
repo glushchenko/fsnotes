@@ -1570,6 +1570,9 @@ CA
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
                                                                         </buttonCell>
+                                                                        <connections>
+                                                                            <action selector="toggleNotesLock:" target="XfG-lQ-9wD" id="wku-AS-7EO"/>
+                                                                        </connections>
                                                                     </button>
                                                                 </subviews>
                                                                 <constraints>
@@ -1653,6 +1656,7 @@ CA
                         <outlet property="editArea" destination="cmZ-KL-T9k" id="sJd-5P-0mf"/>
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
+                        <outlet property="lockUnlock" destination="Ote-7U-BZm" id="DXV-am-jEC"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
                         <outlet property="notesListCustomView" destination="8ej-mX-KM6" id="yDe-gf-AHy"/>
                         <outlet property="notesTableView" destination="8X8-yh-5EA" id="pGL-Nn-LM0"/>
@@ -1666,6 +1670,7 @@ CA
                         <outlet property="titleBarAdditionalView" destination="Ua8-RE-q01" id="CfN-3p-UH3"/>
                         <outlet property="titleBarView" destination="xSU-Mk-2F1" id="lbu-pA-1Hs"/>
                         <outlet property="titleLabel" destination="rZx-hk-GcJ" id="wKj-zD-Ovz"/>
+                        <outlet property="titleLock" destination="GEa-vV-SOX" id="W3f-m2-Ryf"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

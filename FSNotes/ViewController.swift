@@ -77,6 +77,16 @@ class ViewController: NSViewController,
             }
             titleBarView.onMouseEnteredClosure = { [weak self] in
                 DispatchQueue.main.async {
+                    if let note = EditTextView.note {
+                        if note.isUnlocked() {
+                            self?.lockUnlock.image = NSImage(named: .lockUnlockedTemplate)
+                        } else {
+                            self?.lockUnlock.image = NSImage(named: .lockLockedTemplate)
+                        }
+                    }
+
+                    self?.lockUnlock.isHidden = (EditTextView.note == nil)
+
                     NSAnimationContext.runAnimationGroup({ context in
                         context.duration = 0.25
                         self?.titleBarAdditionalView.isHidden = false
