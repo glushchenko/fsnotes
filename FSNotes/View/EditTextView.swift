@@ -479,7 +479,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
 
                 downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle, didLoadSuccessfully: {
-                    viewController.editAreaScroll.addSubview(self.downView!)
+
+                    if EditTextView.note != nil {
+                        viewController.editAreaScroll.addSubview(self.downView!)
+                    }
                 })
             }
             return
@@ -570,7 +573,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
     }
     
-    func clear() {
+    public func clear() {
         textStorage?.setAttributedString(NSAttributedString())
         downView?.removeFromSuperview()
         isEditable = false

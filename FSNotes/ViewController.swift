@@ -810,7 +810,7 @@ class ViewController: NSViewController,
         guard let notes = vc.notesTableView.getSelectedNotes() else {
             return
         }
-        
+
         var isTrash = false
         if let sidebarItem = vc.getSidebarItem() {
             isTrash = sidebarItem.isTrash()
@@ -841,30 +841,34 @@ class ViewController: NSViewController,
         let selectedRow = vc.notesTableView.selectedRowIndexes.min()
 
         UserDataService.instance.searchTrigger = true
-        vc.editArea.clear()
+
+        vc.notesTableView.removeByNotes(notes: notes)
+
         vc.storage.removeNotes(notes: notes) { urls in
             UserDataService.instance.skipListReload = true
             vc.storageOutlineView.reloadSidebar()
-            
-            DispatchQueue.main.async {
-                vc.notesTableView.removeByNotes(notes: notes)
-                
-                if
-                    let appd = NSApplication.shared.delegate as? AppDelegate,
-                    let md = appd.mainWindowController {
-                    
-                    let undoManager = md.notesListUndoManager
-                    undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
-                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
-                    
-                    if let i = selectedRow, i > -1 {
-                        vc.notesTableView.selectRow(i)
-                        UserDataService.instance.skipListReload = true
-                    }
-                    
-                    UserDataService.instance.searchTrigger = false
+
+            if let appd = NSApplication.shared.delegate as? AppDelegate,
+                let md = appd.mainWindowController {
+
+                let undoManager = md.notesListUndoManager
+                undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
+                undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+
+                if let i = selectedRow, i > -1 {
+                    vc.notesTableView.selectRow(i)
                 }
+
+                UserDataService.instance.searchTrigger = false
             }
+
+            UserDataService.instance.skipListReload = false
+
+            if UserDefaultsManagement.preview {
+                vc.disablePreview()
+            }
+
+            vc.editArea.clear()
         }
     }
     
