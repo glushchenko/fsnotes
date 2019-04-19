@@ -2105,14 +2105,6 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
-                                <rect key="frame" x="225" y="207" width="168" height="19"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
-                                <connections>
-                                    <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
-                                </connections>
-                            </slider>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
                                 <rect key="frame" x="49" y="350" width="172" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -2123,7 +2115,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-5j-kY7">
-                                <rect key="frame" x="225" y="229" width="166" height="19"/>
+                                <rect key="frame" x="225" y="205" width="166" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="311" maxValue="1000" doubleValue="1000" tickMarkPosition="above" sliderType="linear" id="csk-Ct-cff"/>
                                 <connections>
@@ -2267,6 +2259,14 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
+                                <rect key="frame" x="225" y="229" width="168" height="19"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
+                                <connections>
+                                    <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
+                                </connections>
+                            </slider>
                         </subviews>
                     </view>
                     <connections>
