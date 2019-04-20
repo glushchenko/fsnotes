@@ -173,6 +173,10 @@ public class Note: NSObject  {
             try FileManager.default.moveItem(at: url, to: destination)
             removeCacheForPreviewImages()
 
+            #if os(OSX)
+                overwrite(url: destination)
+            #endif
+
             NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
         } catch {
             Swift.print(error)
@@ -247,30 +251,31 @@ public class Note: NSObject  {
 
     #if os(OSX)
     func removeFile() -> Array<URL>? {
-        do {
-            if FileManager.default.fileExists(atPath: url.path) {
-                if isTrash() {
-                    try? FileManager.default.removeItem(at: url)
-                    return nil
-                }
-
-                var resultingItemUrl: NSURL?
-
-                do {
-                    try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
-
-                    if let dst = resultingItemUrl, let path = dst.path {
-                        NSLog("Note moved to trash: \(name)")
-
-                        return [URL(fileURLWithPath: path), url]
-                    }
-                } catch {
-                    return nil
-                }
+        if FileManager.default.fileExists(atPath: url.path) {
+            if isTrash() {
+                try? FileManager.default.removeItem(at: url)
+                return nil
             }
-        } catch let error as NSError {
-            NSLog("Remove went wrong: \(error)")
-            return nil
+
+            var resultingItemUrl: NSURL?
+
+            do {
+                try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
+
+                if let dst = resultingItemUrl, let path = dst.path {
+
+                    let originalURL = url
+                    let destination = URL(fileURLWithPath: path)
+
+                    overwrite(url: destination)
+
+                    NSLog("Note moved to trash: \(name)")
+
+                    return [self.url, originalURL]
+                }
+            } catch {
+                return nil
+            }
         }
 
         return nil
@@ -482,7 +487,13 @@ public class Note: NSObject  {
         
         return cleanMetaData(content: content)
     }
-    
+
+    public func overwrite(url: URL) {
+        self.url = url
+
+        parseURL()
+    }
+
     func parseURL(loadProject: Bool = true) {
         if (url.pathComponents.count > 0) {
             container = .withExt(rawValue: url.pathExtension)

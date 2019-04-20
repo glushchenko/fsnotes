@@ -125,8 +125,8 @@ class FileSystemEventManager {
         self.storage.add(note)
         
         DispatchQueue.main.async {
-            if let url = UserDataService.instance.lastRenamed,
-                let note = self.storage.getBy(url: url) {
+            if let url = UserDataService.instance.lastRenamed, let note = self.storage.getBy(url: url) {
+
                 self.delegate.updateTable() {
                     self.delegate.notesTableView.setSelected(note: note)
                     UserDataService.instance.lastRenamed = nil
@@ -137,7 +137,6 @@ class FileSystemEventManager {
                     self.delegate.notesTableView.insertNew(note: note)
                 }
 
-                UserDataService.instance.skipListReload = true
                 self.delegate.reloadSideBar()
             }
         }

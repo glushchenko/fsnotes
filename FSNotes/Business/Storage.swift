@@ -677,8 +677,9 @@ class Storage {
                 for tag in note.tagNames {
                     _ = removeTag(tag)
                 }
+            #else
+                removeBy(note: note)
             #endif
-            removeBy(note: note)
         }
         
         var removed = [URL: URL]()

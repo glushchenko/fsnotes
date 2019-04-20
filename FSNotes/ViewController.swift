@@ -353,6 +353,10 @@ class ViewController: NSViewController,
     
     public func move(notes: [Note], project: Project) {
         for note in notes {
+            if note.project == project {
+                continue
+            }
+
             let destination = project.url.appendingPathComponent(note.name)
 
             if note.type == .Markdown && note.container == .none {
@@ -364,8 +368,10 @@ class ViewController: NSViewController,
                 note.save()
             }
 
-            if note.move(to: destination, project: project) {
-                storage.removeBy(note: note)
+            let show = isFit(note: note)
+            _ = note.move(to: destination, project: project)
+
+            if !show {
                 notesTableView.removeByNotes(notes: [note])
             }
         }
@@ -484,6 +490,8 @@ class ViewController: NSViewController,
             if event.keyCode == kVK_Escape, let unwrapped = alert {
                 mw.endSheet(unwrapped.window)
             }
+
+            self.alert = nil
             return true
         }
         
@@ -576,6 +584,7 @@ class ViewController: NSViewController,
 
             storageOutlineView.deselectAll(nil)
             cleanSearchAndEditArea()
+            UserDataService.instance.resetLastSidebar()
 
             return true
         }
@@ -725,7 +734,9 @@ class ViewController: NSViewController,
         let isSoftRename = note.url.lastPathComponent.lowercased() == newName.lowercased()
         
         if note.project.fileExist(fileName: value, ext: note.url.pathExtension), !isSoftRename {
-            let alert = NSAlert()
+            self.alert = NSAlert()
+            guard let alert = self.alert else { return }
+
             alert.messageText = "Hmm, something goes wrong 🙈"
             alert.informativeText = "Note with name \"\(value)\" already exists in selected storage."
             alert.runModal()
@@ -749,15 +760,13 @@ class ViewController: NSViewController,
             return
         }
         
-        note.url = newUrl
-        note.parseURL()
+        note.overwrite(url: newUrl)
         
         do {
             try FileManager.default.moveItem(at: url, to: newUrl)
             print("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(newUrl.deletingPathExtension().lastPathComponent)\"")
         } catch {
-            note.url = url
-            note.parseURL()
+            note.overwrite(url: url)
         }
     }
     
@@ -811,30 +820,8 @@ class ViewController: NSViewController,
             return
         }
 
-        var isTrash = false
-        if let sidebarItem = vc.getSidebarItem() {
-            isTrash = sidebarItem.isTrash()
-        }
-        
-        if isTrash {
-            let alert = NSAlert()
-            alert.messageText = String(format: NSLocalizedString("Are you sure you want to irretrievably delete %d note(s)?", comment: ""), notes.count)
-            
-            alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
-            alert.addButton(withTitle: NSLocalizedString("Remove note(s)", comment: ""))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-            alert.beginSheetModal(for: vc.view.window!) { (returnCode: NSApplication.ModalResponse) -> Void in
-                if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                    vc.editArea.clear()
-                    vc.storage.removeNotes(notes: notes) { _ in
-                        vc.storageOutlineView.reloadSidebar()
-                        DispatchQueue.main.async {
-                            vc.notesTableView.removeByNotes(notes: notes)
-                        }
-                    }
-                }
-            }
-            
+        if let si = vc.getSidebarItem(), si.isTrash() {
+            removeForever()
             return
         }
         
@@ -845,12 +832,11 @@ class ViewController: NSViewController,
         vc.notesTableView.removeByNotes(notes: notes)
 
         vc.storage.removeNotes(notes: notes) { urls in
-            UserDataService.instance.skipListReload = true
             vc.storageOutlineView.reloadSidebar()
 
             if let appd = NSApplication.shared.delegate as? AppDelegate,
-                let md = appd.mainWindowController {
-
+                let md = appd.mainWindowController
+            {
                 let undoManager = md.notesListUndoManager
                 undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
                 undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
@@ -861,8 +847,6 @@ class ViewController: NSViewController,
 
                 UserDataService.instance.searchTrigger = false
             }
-
-            UserDataService.instance.skipListReload = false
 
             if UserDefaultsManagement.preview {
                 vc.disablePreview()
@@ -926,8 +910,6 @@ class ViewController: NSViewController,
                     vc.storageOutlineView.removeTags(removed)
                     vc.storageOutlineView.deselectTags(deselected)
                     vc.storageOutlineView.addTags(tags)
-
-                    UserDataService.instance.skipListReload = true
                     vc.storageOutlineView.reloadSidebar()
                 }
             }
@@ -1161,6 +1143,39 @@ class ViewController: NSViewController,
         // Fixes glitch when make/delete code block paragraph
         self.editArea.setSelectedRange(self.editArea.selectedRange())
     }
+
+    private func removeForever() {
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
+        guard let window = MainWindowController.shared() else { return }
+
+        vc.alert = NSAlert()
+
+        guard let alert = vc.alert else { return }
+
+        alert.messageText = String(format: NSLocalizedString("Are you sure you want to irretrievably delete %d note(s)?", comment: ""), notes.count)
+
+        alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "")
+        alert.addButton(withTitle: NSLocalizedString("Remove note(s)", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                let selectedRow = vc.notesTableView.selectedRowIndexes.min()
+                vc.editArea.clear()
+                vc.storage.removeNotes(notes: notes) { _ in
+                    DispatchQueue.main.async {
+                        vc.storageOutlineView.reloadSidebar()
+                        vc.notesTableView.removeByNotes(notes: notes)
+                        if let i = selectedRow, i > -1 {
+                            vc.notesTableView.selectRow(i)
+                        }
+                    }
+                }
+            } else {
+                self.alert = nil
+            }
+        }
+    }
     
     @objc func enableFSUpdates() {
         UserDataService.instance.fsUpdatesDisabled = false
@@ -1247,7 +1262,7 @@ class ViewController: NSViewController,
             
             for note in source {
                 if operation.isCancelled {
-                    break
+                    return
                 }
 
                 if (self.isFit(note: note, sidebarItem: sidebarItem, filter: filter, terms: terms)) {

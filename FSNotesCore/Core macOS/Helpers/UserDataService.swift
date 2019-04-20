@@ -14,9 +14,12 @@ public class UserDataService {
     fileprivate var _searchTrigger = false
     fileprivate var _lastRenamed: URL?
     fileprivate var _fsUpdates = false
-    fileprivate var _skipListReload = false
     fileprivate var _isNotesTableEscape = false
     fileprivate var _isDark = false
+
+    fileprivate var _lastType: Int?
+    fileprivate var _lastProject: URL?
+    fileprivate var _lastName: String?
 
     public var searchTrigger: Bool {
         get {
@@ -45,15 +48,6 @@ public class UserDataService {
         }
     }
 
-    public var skipListReload: Bool {
-        get {
-            return _skipListReload
-        }
-        set {
-            _skipListReload = newValue
-        }
-    }
-    
     public var isNotesTableEscape: Bool {
         get {
             return _isNotesTableEscape
@@ -70,5 +64,38 @@ public class UserDataService {
         set {
             _isDark = newValue
         }
+    }
+
+    public var lastType: Int? {
+        get {
+            return _lastType
+        }
+        set {
+            _lastType = newValue
+        }
+    }
+
+    public var lastName: String? {
+        get {
+            return _lastName
+        }
+        set {
+            _lastName = newValue
+        }
+    }
+
+    public var lastProject: URL? {
+        get {
+            return _lastProject
+        }
+        set {
+            _lastProject = newValue
+        }
+    }
+
+    public func resetLastSidebar() {
+        _lastProject = nil
+        _lastType = nil
+        _lastName = nil
     }
 }

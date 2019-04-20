@@ -1238,6 +1238,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
         
         let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+
+        if let event = NSApp.currentEvent,
+            !event.modifierFlags.contains(.command),
+            let note = EditTextView.note,
+            !note.isEncrypted(),
+            let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
+            let url = note.getImageUrl(imageName: path) {
+
+            NSWorkspace.shared.activateFileViewerSelecting([url])
+            return
+        }
 
         guard let window = MainWindowController.shared() else { return }
         guard let vc = window.contentViewController as? ViewController else { return }

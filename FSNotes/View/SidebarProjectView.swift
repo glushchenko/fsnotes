@@ -114,16 +114,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                     let note = vc.notesTableView.noteList[row]
                     notes.append(note)
                 }
-                
+
                 if let project = sidebarItem.project {
                     vc.move(notes: notes, project: project)
-                }
-                
-                if sidebarItem.isTrash() {
+                } else if sidebarItem.isTrash() {
                     vc.editArea.clear()
                     vc.storage.removeNotes(notes: notes) { _ in
-                        vc.storageOutlineView.reloadSidebar()
                         DispatchQueue.main.async {
+                            vc.storageOutlineView.reloadSidebar()
                             vc.notesTableView.removeByNotes(notes: notes)
                         }
                     }
@@ -290,11 +288,6 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
-        guard !UserDataService.instance.skipListReload else {
-            UserDataService.instance.skipListReload = false
-            return
-        }
-        
         if UserDataService.instance.isNotesTableEscape {
             UserDataService.instance.isNotesTableEscape = false
         }
@@ -303,15 +296,25 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         
         if let view = notification.object as? NSOutlineView {
             guard let sidebar = sidebarItems, let vd = viewDelegate else { return }
-            
+
+            let i = view.selectedRow
+
+            if sidebar.indices.contains(i) {
+                if UserDataService.instance.lastType == sidebar[i].type.rawValue && UserDataService.instance.lastProject == sidebar[i].project?.url &&
+                    UserDataService.instance.lastName == sidebar[i].name {
+                    return
+                }
+
+                UserDefaultsManagement.lastProject = i
+
+                UserDataService.instance.lastType = sidebar[i].type.rawValue
+                UserDataService.instance.lastProject = sidebar[i].project?.url
+                UserDataService.instance.lastName = sidebar[i].name
+            }
+
             vd.editArea.clear()
             vd.search.stringValue = ""
-                        
-            let i = view.selectedRow
-            if sidebar.indices.contains(i) {
-                UserDefaultsManagement.lastProject = i
-            }
-            
+
             vd.updateTable() {
                 if self.isFirstLaunch {
                     if let url = UserDefaultsManagement.lastSelectedURL,

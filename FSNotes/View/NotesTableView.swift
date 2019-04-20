@@ -335,6 +335,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     @objc public func unDelete(_ urls: [URL: URL]) {
         for (src, dst) in urls {
             do {
+                if let note = storage.getBy(url: src) {
+                    storage.removeBy(note: note)
+                }
+
                 try FileManager.default.moveItem(at: src, to: dst)
             } catch {
                 print(error)
