@@ -26,6 +26,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     var inProgress = false
     var change = 0
 
+    private var initialKeyboardHeight: CGFloat = 0
+
     @IBOutlet weak var editArea: EditTextView!
     
     override func viewDidLoad() {
@@ -49,7 +51,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
-        
+
         guard let pageController = self.parent as? PageViewController else {
             return
         }
@@ -64,6 +66,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         coordinator.animate(alongsideTransition: { (ctx) in
             self.refillToolbar()
+            self.refill()
         })
     }
 
@@ -172,7 +175,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
             editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         }
-        
+
         if note.type == .PlainText {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
 
@@ -444,16 +447,30 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         return ""
     }
-    
+
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.size.height = UIScreen.main.bounds.height
-            self.view.frame.size.height -= keyboardSize.height
+        let info = notification.userInfo
+        let infoNSValue = info![UIKeyboardFrameBeginUserInfoKey] as! NSValue
+        let kbSize = infoNSValue.cgRectValue.size
+
+        if initialKeyboardHeight == 0 {
+            initialKeyboardHeight = kbSize.height
         }
+
+        var padding: CGFloat = 0
+        if kbSize.height < initialKeyboardHeight && !UIDevice.current.orientation.isLandscape {
+            padding = 44
+        }
+
+        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height + padding, 0.0)
+        self.editArea.contentInset = contentInsets
+        self.editArea.scrollIndicatorInsets = contentInsets
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.view.frame.size.height = UIScreen.main.bounds.height
+        let contentInsets = UIEdgeInsets.zero
+        editArea.contentInset = contentInsets
+        editArea.scrollIndicatorInsets = contentInsets
     }
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
@@ -748,7 +765,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         var location = sender.location(in: myTextView)
         location.x -= myTextView.textContainerInset.left;
         location.y -= myTextView.textContainerInset.top;
-        
+
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
         // Image preview/selection on click

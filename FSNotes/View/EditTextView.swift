@@ -1160,9 +1160,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if result.rawValue == NSFileHandlingPanelOKButton {
                 let urls = panel.urls
 
+                let last = urls.last
                 for url in urls {
                     if self.saveImageUrl(url: url, in: note) {
-                        self.insertNewline(nil)
+                        if last != url {
+                            self.insertNewline(nil)
+                        }
                     }
                 }
             }
