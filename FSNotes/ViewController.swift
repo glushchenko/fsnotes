@@ -549,6 +549,8 @@ class ViewController: NSViewController,
             )
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
         ) {
+            UserDataService.instance.resetLastSidebar()
+            
             if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {
                 NSApp.mainWindow?.makeFirstResponder( self.notesTableView)
                 return false
@@ -584,7 +586,6 @@ class ViewController: NSViewController,
 
             storageOutlineView.deselectAll(nil)
             cleanSearchAndEditArea()
-            UserDataService.instance.resetLastSidebar()
 
             return true
         }
