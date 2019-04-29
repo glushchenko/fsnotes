@@ -369,7 +369,7 @@ class ViewController: NSViewController,
             }
 
             _ = note.move(to: destination, project: project)
-            let show = isFit(note: note)
+            let show = isFit(note: note, shouldLoadMain: true)
 
             if !show {
                 notesTableView.removeByNotes(notes: [note])
