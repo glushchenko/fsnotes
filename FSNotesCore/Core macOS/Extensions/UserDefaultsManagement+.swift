@@ -14,6 +14,7 @@ extension UserDefaultsManagement {
     private struct Constants {
         static let AppearanceTypeKey = "appearanceType"
         static let codeTheme = "codeTheme"
+        static let dockIcon = "dockIcon"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
@@ -89,6 +90,20 @@ extension UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+        }
+    }
+
+    static var dockIcon: Int {
+        get {
+            if let tag = UserDefaults.standard.object(forKey: Constants.dockIcon) as? Int {
+                return tag
+            }
+
+            return 0
+        }
+
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.dockIcon)
         }
     }
 }

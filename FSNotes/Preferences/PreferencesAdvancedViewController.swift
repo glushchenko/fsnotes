@@ -11,7 +11,7 @@ import Cocoa
 class PreferencesAdvancedViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 464, height: 303)
+        preferredContentSize = NSSize(width: 464, height: 413)
     }
 
     @IBOutlet weak var archivePathControl: NSPathControl!
@@ -19,6 +19,9 @@ class PreferencesAdvancedViewController: NSViewController {
     @IBOutlet weak var version: NSTextField!
     @IBOutlet weak var appearance: NSPopUpButton!
     @IBOutlet weak var appearanceLabel: NSTextField!
+
+    @IBOutlet weak var dockIconFirst: NSButton!
+    @IBOutlet weak var dockIconSecond: NSButton!
 
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
@@ -73,6 +76,17 @@ class PreferencesAdvancedViewController: NSViewController {
             let ver = dictionary["CFBundleShortVersionString"] as? String,
             let build = dictionary["CFBundleVersion"] as? String {
             version.stringValue = "v\(ver) build \(build)"
+        }
+
+        switch UserDefaultsManagement.dockIcon {
+        case 0:
+            dockIconFirst.state = .on
+            break
+        case 1:
+            dockIconSecond.state = .on
+            break
+        default:
+            dockIconFirst.state = .on
         }
     }
 
@@ -134,4 +148,12 @@ class PreferencesAdvancedViewController: NSViewController {
         task.launch()
         exit(0)
     }
+
+    @IBAction func dockIcon(_ sender: NSButton) {
+        UserDefaultsManagement.dockIcon = sender.tag
+
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.loadDockIcon()
+    }
+
 }

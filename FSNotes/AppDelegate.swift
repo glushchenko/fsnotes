@@ -20,8 +20,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
     }
-    
+
     func applicationWillFinishLaunching(_ notification: Notification) {
+        loadDockIcon()
+        
         if UserDefaultsManagement.showInMenuBar {
             constructMenu()
         }
@@ -203,6 +205,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     @IBAction func openHelp(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues")!)
     }
+
+    @IBAction func openSite(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://fsnot.es")!)
+    }
+
+    @IBAction func openTwitter(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://twitter.com/FSNotesApp")!)
+    }
     
     @IBAction func openPreferences(_ sender: Any?) {
         if prefsWindowController == nil {
@@ -257,5 +267,29 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if event.type == NSEvent.EventType.leftMouseDown {
             mainWindowController?.makeNew()
         }
+    }
+
+    public func loadDockIcon() {
+        var image: Image?
+
+        switch UserDefaultsManagement.dockIcon {
+        case 0:
+            image = NSImage(named: NSImage.Name(rawValue: "icon.png"))
+            break
+        case 1:
+            image = NSImage(named: NSImage.Name(rawValue: "icon_alt.png"))
+            break
+        default:
+            break
+        }
+
+        guard let im = image else { return }
+
+        let appDockTile = NSApplication.shared.dockTile
+        if #available(OSX 10.12, *) {
+            appDockTile.contentView = NSImageView(image: im)
+        }
+
+        appDockTile.display()
     }
 }
