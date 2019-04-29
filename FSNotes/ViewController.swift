@@ -368,12 +368,14 @@ class ViewController: NSViewController,
                 note.save()
             }
 
-            let show = isFit(note: note)
             _ = note.move(to: destination, project: project)
+            let show = isFit(note: note)
 
             if !show {
                 notesTableView.removeByNotes(notes: [note])
             }
+
+            note.invalidateCache()
         }
         
         editArea.clear()
