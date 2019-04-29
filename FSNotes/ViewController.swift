@@ -933,28 +933,18 @@ class ViewController: NSViewController,
             ? vc.splitView.subviews[0].frame.height
             : vc.splitView.subviews[0].frame.width
 
-        let visibleSize = UserDefaultsManagement.horizontalOrientation
-            ? size - vc.titleBarView.frame.height
-            : size
-
-        if UserDefaultsManagement.horizontalOrientation && vc.splitView.shouldHideDivider {
+        if vc.splitView.shouldHideDivider {
             vc.splitView.shouldHideDivider = false
             vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
-            vc.editArea.updateTextContainerInset()
-            return
-        }
-
-        if visibleSize != 0 {
+        } else {
             UserDefaultsManagement.sidebarSize = size
+
             vc.splitView.shouldHideDivider = true
             vc.splitView.setPosition(0, ofDividerAt: 0)
 
             DispatchQueue.main.async {
                 vc.splitView.setPosition(0, ofDividerAt: 0)
             }
-        } else {
-            vc.splitView.shouldHideDivider = false
-            vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
         }
 
         vc.editArea.updateTextContainerInset()
