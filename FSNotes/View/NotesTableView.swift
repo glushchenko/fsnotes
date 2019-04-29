@@ -281,8 +281,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
 
-        print(selectedRow)
-        
         guard let vc = self.window?.contentViewController as? ViewController else { return }
         vc.loadMoveMenu()
     }

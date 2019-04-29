@@ -536,7 +536,7 @@ public class Note: NSObject  {
             .replacingOccurrences(of: ":", with: "/")
     }
         
-    public func save() {
+    public func save(globalStorage: Bool = true) {
         if self.isMarkdown() {
             self.content = self.content.unLoadCheckboxes()
             
@@ -545,10 +545,10 @@ public class Note: NSObject  {
             }
         }
         
-        self.save(attributedString: self.content)
+        self.save(attributedString: self.content, globalStorage: globalStorage)
     }
 
-    private func save(attributedString: NSAttributedString) {
+    private func save(attributedString: NSAttributedString, globalStorage: Bool = true) {
         let url = getURL()
         let attributes = getFileAttributes()
         
@@ -581,7 +581,9 @@ public class Note: NSObject  {
             return
         }
 
-        sharedStorage.add(self)
+        if globalStorage {
+            sharedStorage.add(self)
+        }
     }
 
     private func getContentFileURL() -> URL {
@@ -1099,7 +1101,7 @@ public class Note: NSObject  {
 
         note.originalExtension = url.pathExtension
         note.content = content
-        note.save()
+        note.save(globalStorage: false)
 
         return note.url
     }

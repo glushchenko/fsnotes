@@ -100,7 +100,7 @@ public class UserDefaultsManagement {
             if let returnFontName = UserDefaults.standard.object(forKey: Constants.CodeFontNameKey) {
                 return returnFontName as! String
             } else {
-                return self.DefaultFont
+                return "Source Code Pro"
             }
         }
         set {
@@ -126,7 +126,7 @@ public class UserDefaultsManagement {
             if let returnFontName = UserDefaults.standard.object(forKey: Constants.FontNameKey) {
                 return returnFontName as! String
             } else {
-                return "Source Code Pro"
+                return "Avenir Next"
             }
         }
         set {

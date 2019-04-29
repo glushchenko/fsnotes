@@ -2045,7 +2045,7 @@ class ViewController: NSViewController,
         var isFirst = true
 
         for note in notes {
-            if note.isUnlocked() {
+            if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
                     self.refillEditArea()
                 }

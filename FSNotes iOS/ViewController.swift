@@ -845,7 +845,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "To access master password") { (success, evaluateError) in
 
-            print(success)
             if !success {
                 self.masterPasswordPrompt(completion: completion)
                 return

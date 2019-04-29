@@ -256,7 +256,7 @@
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "fzU-ZR-Ubv"; */
 "fzU-ZR-Ubv.title" = "Перейменувати директорію";
 
-/* Class = "NSTextFieldCell"; title = "Auto-lock:"; ObjectID = "fzY-c6-DaK"; */
+/* Class = "NSTextFieldCell"; title = "Auto-lock for encrypted notes:"; ObjectID = "fzY-c6-DaK"; */
 "fzY-c6-DaK.title" = "Авто-блокування:";
 
 /* Class = "NSMenuItem"; title = "Empty Trash"; ObjectID = "G9H-Lg-TXE"; */
