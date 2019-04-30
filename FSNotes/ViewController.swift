@@ -98,6 +98,8 @@ class ViewController: NSViewController,
 
     @IBOutlet weak var lockUnlock: NSButton!
 
+    @IBOutlet weak var sidebarScrollView: NSScrollView!
+    @IBOutlet weak var notesScrollView: NSScrollView!
 
     // MARK: - Overrides
     
@@ -213,6 +215,9 @@ class ViewController: NSViewController,
         
         self.sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
         self.splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
+
+        notesScrollView.scrollerStyle = .overlay
+        sidebarScrollView.scrollerStyle = .overlay
 
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
