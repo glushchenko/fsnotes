@@ -118,7 +118,6 @@ class CloudDriveManager {
 
             if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
                 self.add(url: url)
-                continue
             }
         }
     }
@@ -141,13 +140,17 @@ class CloudDriveManager {
             for item in addedMetadataItems {
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else { continue }
 
+                if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
+
+                    self.add(url: url)
+                    continue
+                }
+
                 if FileManager.default.isUbiquitousItem(at: url) {
                     try? FileManager.default.startDownloadingUbiquitousItem(at: url)
                 }
 
-                if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-                    self.add(url: url)
-                }
+
             }
         }
     }

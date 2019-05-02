@@ -122,9 +122,10 @@ class ShareViewController: SLComposeServiceViewController {
 
             if let note = self.notes?.first {
                 note.load(tags: false)
+                note.parseURL()
 
                 DispatchQueue.main.async {
-                    self.appendItem?.value = note.title
+                    self.appendItem?.value = note.getName()
                     self.appendItem?.tapHandler = {
                         self.save(note: note)
                     }

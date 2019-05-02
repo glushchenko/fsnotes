@@ -454,11 +454,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let kbSize = infoNSValue.cgRectValue.size
 
         if initialKeyboardHeight == 0 {
-            initialKeyboardHeight = kbSize.height
+            initialKeyboardHeight = kbSize.height + 44
         }
 
         var padding: CGFloat = 0
-        if kbSize.height < initialKeyboardHeight && !UIDevice.current.orientation.isLandscape {
+        if kbSize.height < initialKeyboardHeight - 44 && !UIDevice.current.orientation.isLandscape {
             padding = 44
         }
 

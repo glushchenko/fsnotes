@@ -29,8 +29,16 @@ class NotesListController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = self.notes[indexPath.row].title
+        let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: nil)
+        let note = self.notes[indexPath.row]
+
+        note.load(tags: false)
+        note.parseURL()
+
+        let title = note.getName()
+
+        cell.textLabel?.text = title
+        cell.detailTextLabel?.text = note.getPreviewForLabel()
 
         return cell
     }
