@@ -2403,7 +2403,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxW-70-Bdh">
-                                <rect key="frame" x="178" y="108" width="22" height="15"/>
+                                <rect key="frame" x="178" y="108" width="22" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DwS-mH-qZ6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
