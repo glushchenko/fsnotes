@@ -1250,7 +1250,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
             let url = note.getImageUrl(imageName: path) {
 
-            NSWorkspace.shared.activateFileViewerSelecting([url])
+            NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
             return
         }
 

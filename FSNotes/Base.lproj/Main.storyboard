@@ -745,11 +745,7 @@ CA
                                 </textFieldCell>
                                 <connections>
                                     <action selector="externalEditor:" target="NHv-lG-vxt" id="7GF-3g-9zI"/>
-                                    <binding destination="gjk-6s-Y8x" name="displayPatternValue1" keyPath="values.externalEditorApp" id="dq9-NY-fP5">
-                                        <dictionary key="options">
-                                            <string key="NSDisplayPattern">%{value1}@</string>
-                                        </dictionary>
-                                    </binding>
+                                    <binding destination="gPl-hR-49I" name="value" keyPath="values.externalEditorApp" id="0j3-ee-7f3"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1vW-Wi-nGt">
@@ -931,7 +927,7 @@ CA
                     </connections>
                 </viewController>
                 <customObject id="o4P-dg-Cec" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <userDefaultsController id="gjk-6s-Y8x"/>
+                <userDefaultsController id="gPl-hR-49I"/>
             </objects>
             <point key="canvasLocation" x="675" y="579"/>
         </scene>
