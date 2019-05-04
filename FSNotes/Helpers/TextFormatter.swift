@@ -444,7 +444,7 @@ public class TextFormatter {
         {
             self.insertText("\t", replacementRange: sRange)
             let attributes = TextFormatter.getCodeBlockAttributes()
-            let attributeRange = NSRange(location: sRange.location, length: 2)
+            let attributeRange = NSRange(location: sRange.location, length: 1)
             self.storage.addAttributes(attributes, range: attributeRange)
             return
         }
@@ -595,7 +595,6 @@ public class TextFormatter {
                 return
             }
         }
-
 
         // New Line insertion
 

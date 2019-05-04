@@ -756,12 +756,24 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
         }
 
-        if event.keyCode == kVK_Tab {
+        // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
+        if event.keyCode == kVK_Tab && !hasMarkedText(){
+            breakUndoCoalescing()
             if UserDefaultsManagement.spacesInsteadTabs {
-                breakUndoCoalescing()
                 insertText("    ", replacementRange: selectedRange())
                 return
             }
+
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
+            return
+        }
+
+        if event.keyCode == kVK_Return && !hasMarkedText() {
+            breakUndoCoalescing()
+            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+            formatter.newLine()
+            return
         }
         
         if note.type == .PlainText || note.type == .RichText {
@@ -783,10 +795,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         saveCursorPosition()
     }
 
-    var shouldChange = true
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        guard shouldChange, let note = EditTextView.note else {
-            breakUndoCoalescing()
+        guard let note = EditTextView.note else {
             return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
         }
 
@@ -802,25 +812,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 typingAttributes[.foregroundColor] = UserDataService.instance.isDark ? NSColor.white : NSColor.black
             }
         }
-        
-        // New line
-        if replacementString == "\n" {
-            shouldChange = false
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.newLine()
-            shouldChange = true
-            return false
-        }
-
-        // Tab
-        if replacementString == "\t" {
-            shouldChange = false
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.tabKey()
-            shouldChange = true
-            return false
-        }
-
 
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
     }
@@ -849,7 +840,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return attributedText
     }
-    
+
     public func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -1103,13 +1094,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return search.stringValue
     }
-    
-    @objc func undoEdit(_ object: UndoData) {
-        textStorage?.beginEditing()
-        textStorage?.replaceCharacters(in: object.range, with: object.string)
-        textStorage?.endEditing()
-    }
-    
+
     public func scrollToCursor() {
         let cursorRange = NSMakeRange(self.selectedRange().location, 0)
         scrollRangeToVisible(cursorRange)
