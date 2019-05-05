@@ -898,6 +898,10 @@
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
 		D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPopoverViewController.swift; sourceTree = "<group>"; };
+		D735BF2C227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		D735BF2D227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D735BF2E227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D735BF2F227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D735E5B81F2E45CC00173215 /* icons.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icons.icns; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
@@ -2155,6 +2159,7 @@
 				Base,
 				uk,
 				ru,
+				de,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -3307,6 +3312,7 @@
 			children = (
 				D70FE13220FE198200813F9E /* ru */,
 				D77F181D220F47FB00716DE3 /* uk */,
+				D735BF2F227EC4C8004C0B31 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3351,6 +3357,7 @@
 				D7793C791F211C6000CA39B7 /* Base */,
 				D7FBBC2120F151530014EC5B /* ru */,
 				D77F181C220E234D00716DE3 /* uk */,
+				D735BF2C227EC4C8004C0B31 /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3359,6 +3366,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D77F181F220F47FB00716DE3 /* uk */,
+				D735BF2D227EC4C8004C0B31 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3368,6 +3376,7 @@
 			children = (
 				D7FBBC2720F151F80014EC5B /* ru */,
 				D77F181B220E234D00716DE3 /* uk */,
+				D735BF2E227EC4C8004C0B31 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

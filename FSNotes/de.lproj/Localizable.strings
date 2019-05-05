@@ -1,0 +1,182 @@
+/* No comment provided by engineer. */
+"Add" = "Добавить";
+
+/* Sidebar label */
+"Archive" = "Архив";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
+
+/* No comment provided by engineer. */
+"Attach storage" = "Подключить хранилище";
+
+/* Delete menu */
+"Cancel" = "Отмена";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Проверить грамматику с орфографией";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Проверять во время набора";
+
+/* No comment provided by engineer. */
+"Code Block" = "Блок кода";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Скопировать HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Скопировать ссылку";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Скопировать чистый текст";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Корректировать правописание";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "Пароль не соответствует паролю в связке";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Детекторы данных";
+
+/* No comment provided by engineer. */
+"Delete" = "Удаление";
+
+/* No comment provided by engineer. */
+"Empty password" = "Не введен пароль";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Введите мастер пароль";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [редактирование]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [предпросмотр]";
+
+/* No comment provided by engineer. */
+"Image" = "Изображение";
+
+/* Edit area */
+"Image title" = "Заголовок";
+
+/* No comment provided by engineer. */
+"Link" = "Ссылка";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "Заблокировать все секретные";
+
+/* No comment provided by engineer. */
+"Master password:" = "Мастер пароль:";
+
+/* Menu */
+"Move" = "Переместить";
+
+/* No comment provided by engineer. */
+"New" = "Создать";
+
+/* No comment provided by engineer. */
+"New folder" = "Новая директория";
+
+/* No comment provided by engineer. */
+"New project" = "Новая директория";
+
+/* No comment provided by engineer. */
+"New RTF" = "Создать RTF";
+
+/* Rename
+   Sidebar label */
+"Notes" = "Заметки";
+
+/* Edit area */
+"Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Введите пароль для текущей заметки";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Пожалуйста, введите название директории:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
+
+/* No comment provided by engineer. */
+"Please try again" = "Пожалуйста, попробуйте ещё раз";
+
+/* No comment provided by engineer. */
+"Preferences" = "Настройки";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Выйти из FSNotes";
+
+/* Delete menu */
+"Remove" = "Удалить";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Удалить";
+
+/* No comment provided by engineer. */
+"Reveal folder" = "Открыть директорию";
+
+/* No comment provided by engineer. */
+"Search and create" = "Найти и создать";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Смарт-копирование/вставка";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Смарт-тире";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Смарт-ссылки";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Смарт-кавычки";
+
+/* View menu */
+"Sort By" = "Упорядочить по";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Орфография и грамматика";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Зачёркнутый";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Замены";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Теги";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Замена текста";
+
+/* Delete menu */
+"This action cannot be undone." = "Это действие не может быть отменено.";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Переключить предпросмотр";
+
+/* Sidebar label */
+"Trash" = "Корзина";
+
+/* No comment provided by engineer. */
+"Underline" = "Подчёркнутый";
+
+/* Untitled Note */
+"Untitled Note" = "Без названия";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
+
+/* Menu */
+"View" = "Вид";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Несоответствие паролей";
+
