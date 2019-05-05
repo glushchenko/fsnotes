@@ -78,6 +78,8 @@ class PreferencesSecurityViewController: NSViewController {
         masterPassword.isEnabled = false
         allowTouchID.isEnabled = false
         allowTouchID.state = .off
+        saveInKeychain.isEnabled = false
+        saveInKeychain.state = .off
     }
 
 }
