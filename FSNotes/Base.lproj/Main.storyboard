@@ -1545,8 +1545,8 @@ CA
                                                                             <constraint firstAttribute="height" constant="0.5" id="Cgx-T0-tZD"/>
                                                                         </constraints>
                                                                     </box>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
-                                                                        <rect key="frame" x="443" y="11" width="11" height="16"/>
+                                                                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
+                                                                        <rect key="frame" x="545" y="11" width="11" height="16"/>
                                                                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                             <font key="font" metaFont="system"/>
@@ -1555,8 +1555,8 @@ CA
                                                                             <action selector="shareSheet:" target="rPt-NT-nkU" id="Kfd-pJ-Bqc"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
-                                                                        <rect key="frame" x="411" y="11" width="22" height="16"/>
+                                                                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
+                                                                        <rect key="frame" x="513" y="11" width="22" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="22" id="cL1-PF-gSQ"/>
                                                                             <constraint firstAttribute="height" constant="16" id="mhf-Ok-C0D"/>
@@ -1569,10 +1569,11 @@ CA
                                                                             <action selector="togglePreview:" target="XfG-lQ-9wD" id="Mf0-5U-8VP"/>
                                                                         </connections>
                                                                     </button>
-                                                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
-                                                                        <rect key="frame" x="393" y="11" width="10" height="16"/>
+                                                                    <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
+                                                                        <rect key="frame" x="495" y="11" width="10" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="16" id="KX9-jI-cyF"/>
+                                                                            <constraint firstAttribute="width" constant="10" id="fyl-XF-faY"/>
                                                                         </constraints>
                                                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="aHW-dK-rqB">
                                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1592,7 +1593,7 @@ CA
                                                                     <constraint firstItem="oDB-Y6-20P" firstAttribute="leading" secondItem="Bn7-FD-jzc" secondAttribute="trailing" constant="10" id="Gen-sI-BLY"/>
                                                                     <constraint firstAttribute="trailing" secondItem="sIv-nk-gch" secondAttribute="trailing" id="LlO-H5-hxQ"/>
                                                                     <constraint firstAttribute="trailing" secondItem="oDB-Y6-20P" secondAttribute="trailing" constant="8" id="Vjg-yM-FoF"/>
-                                                                    <constraint firstItem="Bn7-FD-jzc" firstAttribute="leading" secondItem="Ote-7U-BZm" secondAttribute="trailing" constant="8" id="vJ1-vr-2an"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="Ote-7U-BZm" secondAttribute="trailing" constant="63" id="vJ1-vr-2an"/>
                                                                 </constraints>
                                                             </customView>
                                                         </subviews>
