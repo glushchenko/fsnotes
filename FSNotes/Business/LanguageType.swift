@@ -22,6 +22,7 @@ enum LanguageType: Int {
     case English = 0x00
     case Russian = 0x01
     case Ukrainian = 0x02
+    case Deutsch = 0x03
     
     var description: String {
         get {
@@ -29,6 +30,7 @@ enum LanguageType: Int {
             case 0x00: return "English"
             case 0x01: return "Русский"
             case 0x02: return "Українська"
+            case 0x03: return "Deutsch"
             default: return ""
             }
         }
@@ -40,6 +42,7 @@ enum LanguageType: Int {
             case 0x00: return "en"
             case 0x01: return "ru"
             case 0x02: return "uk"
+            case 0x03: return "de"
             default: return "en"
             }
         }
@@ -50,6 +53,7 @@ enum LanguageType: Int {
         case "English": return LanguageType.English
         case "Русский": return LanguageType.Russian
         case "Українська": return LanguageType.Ukrainian
+        case "Deutsch": return LanguageType.Deutsch
         default: return LanguageType.English
         }
     }

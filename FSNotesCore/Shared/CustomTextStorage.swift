@@ -23,7 +23,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         guard editedMask != .editedAttributes else { return }
 
         guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
-            (editedRange.length != textStorage.length) || !note.isCached else { return }
+            (editedRange.length != textStorage.length) || !note.isCached || EditTextView.isPasteOperation else { return }
 
         if editedRange.length == textStorage.length {
             NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)

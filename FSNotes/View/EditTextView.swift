@@ -15,6 +15,7 @@ import FSNotesCore_macOS
 class EditTextView: NSTextView, NSTextFinderClient {
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
+    public static var isPasteOperation: Bool = false
 
     public var viewDelegate: ViewController?
     
@@ -335,26 +336,23 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let currentRange = selectedRange()
 
             if let string = NSAttributedString(rtfd: clipboard, documentAttributes: nil) {
-                var mutable = NSMutableAttributedString(attributedString: string)
+                let mutable = NSMutableAttributedString(attributedString: string)
                 mutable.loadCheckboxes()
-
-                if !UserDefaultsManagement.liveImagesPreview {
-                    mutable = mutable.unLoadImages(note: note)
-                }
+                mutable.updateParagraph()
 
                 self.breakUndoCoalescing()
+
+                EditTextView.isPasteOperation = true
                 self.insertText(mutable, replacementRange: currentRange)
+                EditTextView.isPasteOperation = false
+
                 self.breakUndoCoalescing()
             }
 
-            let range = NSRange(currentRange.location..<storage.length)
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
             saveTextStorageContent(to: note)
-            note.save()
 
             // Set image size and .link after storage full scan (cleaned)
             storage.sizeAttachmentImages()
-
             return
         }
 
@@ -363,23 +361,45 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
+            EditTextView.isPasteOperation = true
+
             let currentRange = selectedRange()
 
             self.breakUndoCoalescing()
             self.insertText(clipboard, replacementRange: currentRange)
             self.breakUndoCoalescing()
 
-            let range = NSRange(currentRange.location..<storage.length)
-            NotesTextProcessor.fullScan(note: note, storage: storage, range: range)
             saveTextStorageContent(to: note)
-            note.save()
+            EditTextView.isPasteOperation = false
+            return
+        }
+    }
 
-            if UserDefaultsManagement.liveImagesPreview {
-                let processor = ImagesProcessor(styleApplier: storage, range: range, note: note, textView: self)
-                processor.load()
+    public func saveImages() {
+        guard let storage = textStorage else { return }
+
+        storage.enumerateAttribute(.attachment, in: NSRange(location: 0, length: storage.length)) { (value, range, _) in
+
+            guard let textAttachment = value as? NSTextAttachment,
+                storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil else {
+                return
             }
 
-            return
+            let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+
+            if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+                print(filePath)
+                return
+            }
+
+            if let note = EditTextView.note,
+                let imageData = textAttachment.fileWrapper?.regularFileContents,
+                let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
+                let path = note.getMdImagePath(name: fileName)
+
+                storage.attribute(filePathKey, at: range.location, effectiveRange: nil)
+                storage.addAttribute(filePathKey, value: path, range: range)
+            }
         }
     }
 
@@ -761,11 +781,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
             breakUndoCoalescing()
             if UserDefaultsManagement.spacesInsteadTabs {
                 insertText("    ", replacementRange: selectedRange())
+                breakUndoCoalescing()
                 return
             }
 
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.tabKey()
+            breakUndoCoalescing()
             return
         }
 
@@ -773,6 +795,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             breakUndoCoalescing()
             let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
             formatter.newLine()
+            breakUndoCoalescing()
             return
         }
         
@@ -804,7 +827,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             typingAttributes.removeValue(forKey: .todo)
             typingAttributes.removeValue(forKey: .backgroundColor)
 
-            if replacementString == "\n", let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+            if replacementString != "\n", let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
                 paragraphStyle.alignment = .left
             }
 

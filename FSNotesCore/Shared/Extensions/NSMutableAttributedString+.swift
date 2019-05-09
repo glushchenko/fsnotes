@@ -29,30 +29,7 @@ extension NSMutableAttributedString {
                 let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
                 let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
 
-                if let note = note,
-                    let components = textAttachment.fileWrapper?.filename?.components(separatedBy: "@::"),
-                    components.count == 2 {
-
-                    path = components.last
-                    title = components.first
-
-                    guard let unwrappedPath = path else { return }
-
-                    let attachmentImageURL = URL(fileURLWithPath: unwrappedPath)
-                    let mdImagePath = note.getMdImagePath(name: attachmentImageURL.lastPathComponent)
-                    let currentImageURL = note.getImageUrl(imageName: mdImagePath)
-
-                    if let currentURL = currentImageURL,
-                        FileManager.default.fileExists(atPath: currentURL.path),
-                        currentURL.fileSize == attachmentImageURL.fileSize {
-                        path = mdImagePath
-                    } else if let data = textAttachment.fileWrapper?.regularFileContents,
-                        let fileName = ImagesProcessor.writeImage(data: data, note: note) {
-                        path = note.getMdImagePath(name: fileName)
-                    }
-
-                } else if
-                    let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+                if let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
 
                     path = filePath
                     title = self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String
@@ -127,4 +104,27 @@ extension NSMutableAttributedString {
         }
     }
     #endif
+
+    public func updateParagraph() {
+        beginEditing()
+
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+
+        let attachmentParagraph = NSMutableParagraphStyle()
+        attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        attachmentParagraph.alignment = .center
+
+        addAttribute(.paragraphStyle, value: paragraph, range: NSRange(0..<length))
+
+        enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
+
+            if value as? NSTextAttachment != nil,
+                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+                addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
+            }
+        }
+
+        endEditing()
+    }
 }

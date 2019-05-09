@@ -1130,7 +1130,8 @@ class ViewController: NSViewController,
         ) {
             editArea.removeHighlight()
             let note = notesTableView.noteList[index]
-            
+            editArea.saveImages()
+
             note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
             note.save()
 

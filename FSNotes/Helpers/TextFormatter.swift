@@ -577,7 +577,6 @@ public class TextFormatter {
                 textView.textStorage.replaceCharacters(in: NSRange(location: selectedRange.location, length: checkbox.length), with: checkbox)
                 textView.undoManager?.endUndoGrouping()
             #endif
-                storage.updateParagraphStyle()
                 return
             }
         }
@@ -622,9 +621,6 @@ public class TextFormatter {
             self.textView.insertText("\n")
         #else
             self.textView.insertNewline(nil)
-
-            // TODO: performance improvements
-            self.textView.textStorage?.updateParagraphStyle()
         #endif
 
         // Fenced code block style handler
