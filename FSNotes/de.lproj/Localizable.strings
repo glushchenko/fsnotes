@@ -20,10 +20,10 @@
 "Check Grammar With Spelling" = "Grammatik und Rechtschreibung prüfen";
 
 /* No comment provided by engineer. */
-"Check Spelling While Typing" = "Rechtsschreibung während der Eingabe prüfen";
+"Check Spelling While Typing" = "Während der Texteingabe prüfen";
 
 /* No comment provided by engineer. */
-"Code Block" = "Code Block";
+"Code Block" = "Blocksatz";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "HTML kopieren";
@@ -35,7 +35,7 @@
 "Copy Plain Text" = "Plain Text kopieren";
 
 /* No comment provided by engineer. */
-"Correct Spelling Automatically" = "Schreibweise automatisch korrigieren";
+"Correct Spelling Automatically" = "Rechtschreibung automatisch korrigieren";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Das aktuelle Passwort stimmt nicht mit dem Passwort im Schlüsselbund überein";
@@ -80,7 +80,7 @@
 "New" = "Neu";
 
 /* No comment provided by engineer. */
-"New folder" = "Neue Ordner";
+"New folder" = "Neuer Ordner";
 
 /* No comment provided by engineer. */
 "New project" = "Neues Projekt";
@@ -126,16 +126,16 @@
 "Search and create" = "Suchen und ersetzen";
 
 /* No comment provided by engineer. */
-"Smart Copy/Paste" = "Intelligentes Kopieren / Einfügen";
+"Smart Copy/Paste" = "Intelligente Kopieren / Einfügen";
 
 /* No comment provided by engineer. */
-"Smart Dashes" = "Смарт-тире";
+"Smart Dashes" = "Intelligente Bindestriche";
 
 /* No comment provided by engineer. */
-"Smart Links" = "Smart Links";
+"Smart Links" = "Intelligente Links";
 
 /* No comment provided by engineer. */
-"Smart Quotes" = "Smart Zitaten";
+"Smart Quotes" = "Intelligente Anführungszeichen";
 
 /* View menu */
 "Sort By" = "Sortieren nach";
@@ -147,7 +147,7 @@
 "Strikethrough" = "Durchgestrichen";
 
 /* No comment provided by engineer. */
-"Substitutions" = "Замены";
+"Substitutions" = "Ersetzungen";
 
 /* Menu
    Sidebar label */
@@ -166,7 +166,7 @@
 "Trash" = "Papierkorb";
 
 /* No comment provided by engineer. */
-"Underline" = "Unterstreichen";
+"Underline" = "Unterstrichen";
 
 /* Untitled Note */
 "Untitled Note" = "Unbenannte Notiz";

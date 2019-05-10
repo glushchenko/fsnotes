@@ -11,9 +11,10 @@ import FSNotesCore_macOS
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
-    
+
     var mainWindowController: MainWindowController?
     var prefsWindowController: PrefsWindowController?
+    var aboutWindowController: AboutWindowController?
     var statusItem: NSStatusItem?
     
     var appTitle: String {
@@ -259,6 +260,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @IBAction func addMenuBar(_ sender: Any?) {
         constructMenu()
+    }
+
+    @IBAction func showAboutWindow(_ sender: AnyObject) {
+        if aboutWindowController == nil {
+            let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+
+            aboutWindowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "About")) as? AboutWindowController
+        }
+
+        guard let aboutWindowController = aboutWindowController else { return }
+
+        aboutWindowController.showWindow(nil)
+        aboutWindowController.window?.makeKeyAndOrderFront(aboutWindowController)
+
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func menuWillOpen(_ menu: NSMenu) {
