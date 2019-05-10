@@ -50,7 +50,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var titleLabel: NSTextField! {
+    @IBOutlet private weak var titleLabel: TitleTextField! {
         didSet {
             let clickGesture = NSClickGestureRecognizer()
             clickGesture.target = self
@@ -819,6 +819,8 @@ class ViewController: NSViewController,
         if vc.notesTableView.selectedRow > -1 {
             vc.titleLabel.isEditable = true
             vc.titleLabel.becomeFirstResponder()
+
+            //vc.titleLabel.
         }
     }
 

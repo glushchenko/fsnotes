@@ -1605,7 +1605,7 @@ CA
                                                             <constraint firstAttribute="height" constant="38" id="uht-o4-cfz"/>
                                                         </constraints>
                                                     </customView>
-                                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ">
+                                                    <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="214" y="573" width="35" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
                                                             <font key="font" size="13" name=".AppleSystemUIFont"/>
