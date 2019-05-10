@@ -2595,7 +2595,7 @@ Olena Glushchenko</string>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bAD-aT-6wv">
-                                <rect key="frame" x="109" y="238" width="295" height="18"/>
+                                <rect key="frame" x="109" y="238" width="323" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on sleep" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ve2-qz-vtH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2606,7 +2606,7 @@ Olena Glushchenko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jxK-y9-8yA">
-                                <rect key="frame" x="109" y="218" width="295" height="18"/>
+                                <rect key="frame" x="109" y="218" width="323" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on screen saver activated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IlF-tS-GFG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2617,7 +2617,7 @@ Olena Glushchenko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyD-5q-zrb">
-                                <rect key="frame" x="108" y="198" width="295" height="18"/>
+                                <rect key="frame" x="108" y="198" width="324" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock when user switched" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dk-Cf-bSg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2652,7 +2652,7 @@ Olena Glushchenko</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LfK-G8-GaN">
-                                <rect key="frame" x="108" y="130" width="301" height="18"/>
+                                <rect key="frame" x="108" y="130" width="310" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Allow Touch ID to unlock notes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KST-y3-KvM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2672,7 +2672,7 @@ Olena Glushchenko</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eoX-AC-xuA">
-                                <rect key="frame" x="108" y="110" width="310" height="18"/>
+                                <rect key="frame" x="108" y="110" width="324" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Save Master Password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wM5-nS-jjt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
