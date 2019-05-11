@@ -1983,7 +1983,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="18" y="155" width="329" height="35"/>
+                                <rect key="frame" x="18" y="155" width="316" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved." id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
@@ -1991,19 +1991,8 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7js-bf-o2N">
-                                <rect key="frame" x="24" y="44" width="138" height="34"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" selectable="YES" id="iKE-bp-SFG">
-                                    <font key="font" metaFont="system"/>
-                                    <string key="title">Deutsch 🇩🇪
-Українська 🇺🇦</string>
-                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kDk-iM-GuK">
-                                <rect key="frame" x="182" y="44" width="152" height="34"/>
+                                <rect key="frame" x="182" y="37" width="152" height="34"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="dPf-CP-fuZ">
                                     <font key="font" metaFont="systemThin" size="13"/>
@@ -2014,7 +2003,7 @@ Olena Glushchenko</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="136" y="86" width="76" height="17"/>
+                                <rect key="frame" x="136" y="79" width="76" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
@@ -2033,6 +2022,21 @@ Olena Glushchenko</string>
                                     <action selector="openContributorsPage:" target="6OZ-zZ-7EL" id="lH1-Ed-dtl"/>
                                 </connections>
                             </button>
+                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
+                                <rect key="frame" x="20" y="111" width="312" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </box>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7js-bf-o2N">
+                                <rect key="frame" x="36" y="37" width="138" height="34"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" selectable="YES" id="iKE-bp-SFG">
+                                    <font key="font" metaFont="system"/>
+                                    <string key="title">Deutsch 🇩🇪
+Українська 🇺🇦</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>

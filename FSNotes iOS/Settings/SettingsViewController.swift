@@ -13,14 +13,14 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     
     var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
     var rows = [
-        ["Default Extension", "Default Keyboard In Editor"],
+        ["Default Extension", "Default Container", "Default Keyboard In Editor"],
         ["Code block live highlighting", "Live images preview"],
         ["Font", "Night Mode"],
         ["Projects", "Import notes"],
         ["Support", "Homepage", "Twitter"]
     ]
 
-    var rowsInSection = [2, 2, 2, 2, 3]
+    var rowsInSection = [3, 2, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -120,6 +120,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             case 0:
                 lvc = DefaultExtensionViewController()
             case 1:
+                lvc = DefaultContainerViewController()
+            case 2:
                 lvc = LanguageViewController()
             default:
                 return
