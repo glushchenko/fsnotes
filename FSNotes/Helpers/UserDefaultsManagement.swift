@@ -83,6 +83,7 @@ public class UserDefaultsManagement {
         static let PreviewFontSize = "previewFontSize"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
+        static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
         static let ShowInMenuBar = "showInMenuBar"
         static let SmartInsertDelete = "smartInsertDelete"
@@ -850,12 +851,23 @@ public class UserDefaultsManagement {
     
     static var fileContainer: NoteContainer {
         get {
+            #if SHARE_EXT
+                let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager")
+                if let result = defaults?.object(forKey: Constants.SharedContainerKey) as? Int, let container = NoteContainer(rawValue: result) {
+                    return container
+                }
+            #endif
+
             if let result = UserDefaults.standard.object(forKey: Constants.NoteContainer) as? Int, let container = NoteContainer(rawValue: result) {
                 return container
             }
             return .textBundleV2
         }
         set {
+            #if os(iOS)
+            UserDefaults.init(suiteName: "group.fsnotes-manager")?.set(newValue.rawValue, forKey: Constants.SharedContainerKey)
+            #endif
+
             UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NoteContainer)
         }
     }

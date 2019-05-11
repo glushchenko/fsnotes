@@ -89,7 +89,6 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
         save()
-        close()
     }
 
     override func configurationItems() -> [Any]! {
