@@ -330,8 +330,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
             formatter.newLine()
             return false
+        } else {
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .left
+            editArea.typingAttributes[NSAttributedStringKey.paragraphStyle.rawValue] = paragraphStyle
         }
-        
+
         // Tab
         if text == "\t" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
