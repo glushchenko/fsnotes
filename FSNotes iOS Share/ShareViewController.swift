@@ -47,8 +47,19 @@ class ShareViewController: SLComposeServiceViewController {
         if let table = textView.superview?.superview?.superview as? UITableView {
             let length = table.numberOfRows(inSection: 0)
             table.scrollToRow(at: IndexPath(row: length - 1, section: 0), at: .bottom, animated: true)
+
+            for item in 0...2 {
+                if let cell = table.cellForRow(at: IndexPath(item: item, section: 0)) {
+                    cell.textLabel?.textColor = UIColor(red:0.19, green:0.38, blue:0.57, alpha:1.0)
+                }
+            }
         }
 
+        if let font = self.textView.font, #available(iOSApplicationExtension 11.0, *) {
+            let fontMetrics = UIFontMetrics(forTextStyle: .largeTitle)
+            self.textView.font = fontMetrics.scaledFont(for: font).italic()
+            self.textView.textColor = UIColor.darkGray
+        }
     }
 
     override func loadPreviewView() -> UIView! {
