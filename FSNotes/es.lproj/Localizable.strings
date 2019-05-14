@@ -1,182 +1,182 @@
 /* No comment provided by engineer. */
-"Add" = "Добавить";
+"Add" = "Añadir";
 
 /* Sidebar label */
-"Archive" = "Архив";
+"Archive" = "Archivo";
 
 /* No comment provided by engineer. */
-"Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
+"Are you sure you want to irretrievably delete %d note(s)?" = "¿Seguro que quieres borrar definitivamente %d notas?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
+"Are you sure you want to remove project \"%@\" and all files inside?" = "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?";
 
 /* No comment provided by engineer. */
-"Attach storage" = "Подключить хранилище";
+"Attach storage" = "Adjuntar almacenamiento";
 
 /* Delete menu */
-"Cancel" = "Отмена";
+"Cancel" = "Cancelar";
 
 /* No comment provided by engineer. */
-"Check Grammar With Spelling" = "Проверить грамматику с орфографией";
+"Check Grammar With Spelling" = "Comprobar gramática con la ortografía";
 
 /* No comment provided by engineer. */
-"Check Spelling While Typing" = "Проверять во время набора";
+"Check Spelling While Typing" = "Comprobar ortografía mientras se escribe";
 
 /* No comment provided by engineer. */
-"Code Block" = "Блок кода";
+"Code Block" = "Bloque de código";
 
 /* No comment provided by engineer. */
-"Copy HTML" = "Скопировать HTML";
+"Copy HTML" = "Copiar HTML";
 
 /* No comment provided by engineer. */
-"Copy Link" = "Скопировать ссылку";
+"Copy Link" = "Copiar enlace";
 
 /* No comment provided by engineer. */
-"Copy Plain Text" = "Скопировать чистый текст";
+"Copy Plain Text" = "Copiar texto sin estilo";
 
 /* No comment provided by engineer. */
-"Correct Spelling Automatically" = "Корректировать правописание";
+"Correct Spelling Automatically" = "Corregir ortografía automáticamente";
 
 /* No comment provided by engineer. */
-"Current password does not match with password in keychain" = "Пароль не соответствует паролю в связке";
+"Current password does not match with password in keychain" = "La contraseña actual no coincide con la contraseña en el Llavero";
 
 /* No comment provided by engineer. */
-"Data Detectors" = "Детекторы данных";
+"Data Detectors" = "Detectores de datos";
 
 /* No comment provided by engineer. */
-"Delete" = "Удаление";
+"Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
-"Empty password" = "Не введен пароль";
+"Empty password" = "Contraseña vacía";
 
 /* No comment provided by engineer. */
-"Enter Master Password" = "Введите мастер пароль";
+"Enter Master Password" = "Introduce la contraseña maestra";
 
 /* No comment provided by engineer. */
-"FSNotes [edit]" = "FSNotes [редактирование]";
+"FSNotes [edit]" = "FSNotes [edición]";
 
 /* No comment provided by engineer. */
-"FSNotes [preview]" = "FSNotes [предпросмотр]";
+"FSNotes [preview]" = "FSNotes [previsualización]";
 
 /* No comment provided by engineer. */
-"Image" = "Изображение";
+"Image" = "Imagen";
 
 /* Edit area */
-"Image title" = "Заголовок";
+"Image title" = "Título de imagen";
 
 /* No comment provided by engineer. */
-"Link" = "Ссылка";
+"Link" = "Enlace";
 
 /* No comment provided by engineer. */
-"Lock All Encrypted" = "Заблокировать все секретные";
+"Lock All Encrypted" = "Bloquar todas las encriptadas";
 
 /* No comment provided by engineer. */
-"Master password:" = "Мастер пароль:";
+"Master password:" = "Contraseña maestra:";
 
 /* Menu */
-"Move" = "Переместить";
+"Move" = "Mover";
 
 /* No comment provided by engineer. */
-"New" = "Создать";
+"New" = "Nuevo";
 
 /* No comment provided by engineer. */
-"New folder" = "Новая директория";
+"New folder" = "Nueva carpeta";
 
 /* No comment provided by engineer. */
-"New project" = "Новая директория";
+"New project" = "Nuevo proyecto";
 
 /* No comment provided by engineer. */
-"New RTF" = "Создать RTF";
+"New RTF" = "Nuevo RTF";
 
 /* Rename
    Sidebar label */
-"Notes" = "Заметки";
+"Notes" = "Notas";
 
 /* Edit area */
-"Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
+"Please enter image title:" = "Por favor, introduce un título para la imagen:";
 
 /* No comment provided by engineer. */
-"Please enter password for current note" = "Введите пароль для текущей заметки";
+"Please enter password for current note" = "Por favor, introduce una contraseña para la nota";
 
 /* No comment provided by engineer. */
-"Please enter project name:" = "Пожалуйста, введите название директории:";
+"Please enter project name:" = "Por favor, introduce un nombre para el proyecto:";
 
 /* Menu */
-"Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
+"Please enter tags (comma separated):" = "Por favor, introduce las etiquetas (separadas por comas):";
 
 /* No comment provided by engineer. */
-"Please try again" = "Пожалуйста, попробуйте ещё раз";
+"Please try again" = "Por favor intenta de nuevo";
 
 /* No comment provided by engineer. */
-"Preferences" = "Настройки";
+"Preferences" = "Preferencias";
 
 /* No comment provided by engineer. */
-"Quit FSNotes" = "Выйти из FSNotes";
+"Quit FSNotes" = "Salir de FSNotes";
 
 /* Delete menu */
-"Remove" = "Удалить";
+"Remove" = "Borrar";
 
 /* No comment provided by engineer. */
-"Remove note(s)" = "Удалить";
+"Remove note(s)" = "Eliminar nota(s)";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "Открыть директорию";
+"Reveal folder" = "Mostrar carpeta";
 
 /* No comment provided by engineer. */
-"Search and create" = "Найти и создать";
+"Search and create" = "Buscar y crear";
 
 /* No comment provided by engineer. */
-"Smart Copy/Paste" = "Смарт-копирование/вставка";
+"Smart Copy/Paste" = "Copiado/pegado Inteligente";
 
 /* No comment provided by engineer. */
-"Smart Dashes" = "Смарт-тире";
+"Smart Dashes" = "Guiones inteligentes";
 
 /* No comment provided by engineer. */
-"Smart Links" = "Смарт-ссылки";
+"Smart Links" = "Enlaces inteligentes";
 
 /* No comment provided by engineer. */
-"Smart Quotes" = "Смарт-кавычки";
+"Smart Quotes" = "Comillas tipográficas";
 
 /* View menu */
-"Sort By" = "Упорядочить по";
+"Sort By" = "Ordenar por";
 
 /* No comment provided by engineer. */
-"Spelling and Grammar" = "Орфография и грамматика";
+"Spelling and Grammar" = "Ortografía y gramática";
 
 /* No comment provided by engineer. */
-"Strikethrough" = "Зачёркнутый";
+"Strikethrough" = "Tachado";
 
 /* No comment provided by engineer. */
-"Substitutions" = "Замены";
+"Substitutions" = "Sustituciones";
 
 /* Menu
    Sidebar label */
-"Tags" = "Теги";
+"Tags" = "Etiquetas";
 
 /* No comment provided by engineer. */
-"Text Replacement" = "Замена текста";
+"Text Replacement" = "Reemplazar texto";
 
 /* Delete menu */
-"This action cannot be undone." = "Это действие не может быть отменено.";
+"This action cannot be undone." = "Esta operación no se puede deshacer.";
 
 /* No comment provided by engineer. */
-"Toggle preview" = "Переключить предпросмотр";
+"Toggle preview" = "Cambiar previsualización";
 
 /* Sidebar label */
-"Trash" = "Корзина";
+"Trash" = "Papelera";
 
 /* No comment provided by engineer. */
-"Underline" = "Подчёркнутый";
+"Underline" = "Subrayar";
 
 /* Untitled Note */
-"Untitled Note" = "Без названия";
+"Untitled Note" = "Nota sin título";
 
 /* No comment provided by engineer. */
-"URL has been copied to clipboard" = "Ссылка была скопирована в буфер обмена";
+"URL has been copied to clipboard" = "El enlace se ha copiado al portapapeles";
 
 /* Menu */
-"View" = "Вид";
+"View" = "Visualización";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Несоответствие паролей";
+"Wrong repeated password" = "Repetición de contraseña incorrecta";
 
