@@ -66,7 +66,7 @@
 "4sb-4s-VLi.title" = "Salir de FSNotes";
 
 /* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
-"54i-GK-spQ.title" = "Ubicación de la lista de la nota:";
+"54i-GK-spQ.title" = "Ubicación de la lista:";
 
 /* Class = "NSMenuItem"; title = "Copy title"; ObjectID = "5LV-Vi-n79"; */
 "5LV-Vi-n79.title" = "Copiar título";
@@ -81,13 +81,13 @@
 "5kV-Vb-QxS.title" = "Acerca de FSNotes";
 
 /* Class = "NSTextFieldCell"; title = "Code Font:"; ObjectID = "63m-us-3j9"; */
-"63m-us-3j9.title" = "Fuente del código:";
+"63m-us-3j9.title" = "Fuente:";
 
 /* Class = "NSButtonCell"; title = "Hide images preview"; ObjectID = "6AI-tL-TDI"; */
 "6AI-tL-TDI.title" = "Ocultar la previsualización de imágenes";
 
 /* Class = "NSTextFieldCell"; title = "Code Theme:"; ObjectID = "6F0-Cb-DVX"; */
-"6F0-Cb-DVX.title" = "Tema del código:";
+"6F0-Cb-DVX.title" = "Tema:";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "Rehacer";
@@ -114,7 +114,7 @@
 "8dk-Cf-bSg.title" = "Bloquear al cambiar de usuario";
 
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
-"8oP-79-BAN.title" = "Color de nota:";
+"8oP-79-BAN.title" = "Color:";
 
 /* Class = "NSMenuItem"; title = "Markdown"; ObjectID = "8yn-cx-Rtm"; */
 "8yn-cx-Rtm.title" = "Markdown";
@@ -453,13 +453,13 @@
 "a6n-hz-V8D.title" = "Función rápida de búsqueda:";
 
 /* Class = "NSTextFieldCell"; title = "Note Font:"; ObjectID = "bJC-he-nDV"; */
-"bJC-he-nDV.title" = "Fuente de la nota:";
+"bJC-he-nDV.title" = "Fuente:";
 
 /* Class = "NSButtonCell"; title = "Show icon in dock"; ObjectID = "bJv-E9-bwW"; */
 "bJv-E9-bwW.title" = "Mostrar icono en el Dock";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
-"bXK-wP-sZc.title" = "Espaciado en la lista de notas:";
+"bXK-wP-sZc.title" = "Espaciado en la lista:";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Usar selección para buscar";
@@ -501,7 +501,7 @@
 "dRJ-4n-Yzg.title" = "Deshacer";
 
 /* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "dZD-Db-KHs"; */
-"dZD-Db-KHs.title" = "Idioma (requiere reiniciar FSNotes):";
+"dZD-Db-KHs.title" = "Idioma (requiere reiniciar):";
 
 /* Class = "NSTextFieldCell"; title = "v2.9.0"; ObjectID = "dgD-xe-DVG"; */
 "dgD-xe-DVG.title" = "v2.9.0";
@@ -555,7 +555,7 @@
 "gY8-zt-Iak.title" = "Oscuro";
 
 /* Class = "NSTextFieldCell"; title = "Save clipboard shortcut:"; ObjectID = "gbE-yH-ECm"; */
-"gbE-yH-ECm.title" = "Función rápida guardar portapapeles:";
+"gbE-yH-ECm.title" = "F. rápida guardar portapapeles:";
 
 /* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "goN-LO-L7l"; */
 "goN-LO-L7l.title" = "Mostrar carpeta";
@@ -741,7 +741,7 @@
 "xSO-lW-k8f.title" = "Mostrar en el Finder";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
-"xX0-9b-KDq.title" = "Resaltado sintáctico de código (requiere reiniciar FSNotes)";
+"xX0-9b-KDq.title" = "Resaltado sintáctico de código (requiere reiniciar)";
 
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "Enlace";
