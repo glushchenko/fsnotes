@@ -162,7 +162,7 @@
 "DWe-bx-jfM.title" = "Encabezado 5";
 
 /* Class = "NSMenuItem"; title = "Medium"; ObjectID = "DcN-1g-hEi"; */
-"DcN-1g-hEi.title" = "Medio";
+"DcN-1g-hEi.title" = "Mediano";
 
 /* Class = "NSMenuItem"; title = "Shift Left"; ObjectID = "DeU-hy-pvi"; */
 "DeU-hy-pvi.title" = "Tabular a la izquierda";
@@ -177,7 +177,7 @@
 "EC3-YF-sGZ.title" = "Previsualizar";
 
 /* Class = "NSMenuItem"; title = "Strikethrough"; ObjectID = "EK1-kN-kK3"; */
-"EK1-kN-kK3.title" = "Tachar";
+"EK1-kN-kK3.title" = "Tachado";
 
 /* Class = "NSTextFieldCell"; title = "Version"; ObjectID = "ELw-Y4-DV0"; */
 "ELw-Y4-DV0.title" = "Versión";
@@ -192,7 +192,7 @@
 "F5A-zs-zwP.title" = "Mostrar carpeta";
 
 /* Class = "NSButtonCell"; title = "Hide preview"; ObjectID = "F6G-ua-MNX"; */
-"F6G-ua-MNX.title" = "Ocultar previsualización";
+"F6G-ua-MNX.title" = "Ocultar la previsualización de notas";
 
 /* Class = "NSMenuItem"; title = "FSNotes Help"; ObjectID = "FKE-Sm-Kum"; */
 "FKE-Sm-Kum.title" = "Ayuda de FSNotes";
@@ -222,7 +222,7 @@
 "GhL-6I-558.title" = "Encabezado 4";
 
 /* Class = "NSMenuItem"; title = "Lock All Encrypted"; ObjectID = "GrP-W1-7ZQ"; */
-"GrP-W1-7ZQ.title" = "Bloquear todas las encriptadas";
+"GrP-W1-7ZQ.title" = "Bloquear todas las notas encriptadas";
 
 /* Class = "NSTableColumn"; headerCell.title = "Library"; ObjectID = "Gwp-vX-YaR"; */
 "Gwp-vX-YaR.headerCell.title" = "Librería";
@@ -309,7 +309,7 @@
 "OOL-dM-zIE.title" = "Bloque de código";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
-"OV0-om-POJ.title" = "Print";
+"OV0-om-POJ.title" = "Imprimir…";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "Ocultar FSNotes";
@@ -336,7 +336,7 @@
 "PdU-Em-Ugm.title" = "Cambiar previsualización";
 
 /* Class = "NSButtonCell"; title = "Use 4 spaces instead tab"; ObjectID = "Poh-KB-4ws"; */
-"Poh-KB-4ws.title" = "Utilizar 4 espacios en vez de una tabulación";
+"Poh-KB-4ws.title" = "Utilizar 4 espacios en vez del tabulado";
 
 /* Class = "NSTextFieldCell"; title = "Background:"; ObjectID = "Psk-r4-JT5"; */
 "Psk-r4-JT5.title" = "Fondo:";
@@ -366,7 +366,7 @@
 "SFY-jB-hva.title" = "Text Cell";
 
 /* Class = "NSButtonCell"; title = "Show icon in menu bar"; ObjectID = "SSY-US-gmJ"; */
-"SSY-US-gmJ.title" = "Mostrar icono en la barra de menú";
+"SSY-US-gmJ.title" = "Mostrar icono en la barra de menús";
 
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Lista de notas:";
@@ -399,10 +399,10 @@
 "Tys-UY-xaW.title" = "Nuevo RTF";
 
 /* Class = "NSMenuItem"; title = "Capitalize"; ObjectID = "UEZ-Bs-lqG"; */
-"UEZ-Bs-lqG.title" = "Capitalizar";
+"UEZ-Bs-lqG.title" = "Mayúsculas iniciales";
 
 /* Class = "NSMenuItem"; title = "Light"; ObjectID = "UFh-mf-ZKG"; */
-"UFh-mf-ZKG.title" = "Ligero";
+"UFh-mf-ZKG.title" = "Claro";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "Vdr-fp-XzO"; */
 "Vdr-fp-XzO.title" = "Ocultar otros";
@@ -489,7 +489,7 @@
 "cwc-a7-vkr.title" = "vs";
 
 /* Class = "NSMenuItem"; title = "Make Lower Case"; ObjectID = "d9M-CD-aMd"; */
-"d9M-CD-aMd.title" = "Convertir en minúsculas";
+"d9M-CD-aMd.title" = "Todo en minúsculas";
 
 /* Class = "NSMenuItem"; title = "Modification date"; ObjectID = "dCc-l5-XB2"; */
 "dCc-l5-XB2.title" = "Fecha de modificación";
@@ -510,7 +510,7 @@
 "dys-2Q-lfZ.title" = "Almacenamiento de datos:";
 
 /* Class = "NSButtonCell"; title = "Hide date"; ObjectID = "e15-ps-th1"; */
-"e15-ps-th1.title" = "Ocultar fecha";
+"e15-ps-th1.title" = "Ocultar la fecha";
 
 /* Class = "NSTextFieldCell"; title = "Font preview"; ObjectID = "eKQ-lM-8Z4"; */
 "eKQ-lM-8Z4.title" = "Font preview";
@@ -522,7 +522,7 @@
 "f2h-Tl-AHi.title" = "Etiquetas";
 
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "fCZ-JX-nxF"; */
-"fCZ-JX-nxF.title" = "Subrallar";
+"fCZ-JX-nxF.title" = "Subrallado";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "fHG-zk-g0k"; */
 "fHG-zk-g0k.title" = "Eliminar";
@@ -720,7 +720,7 @@
 "v1K-9W-2aB.title" = "github";
 
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
-"vmV-6d-7jI.title" = "Convertir en mayúsculas";
+"vmV-6d-7jI.title" = "Todo en mayúsculas";
 
 /* Class = "NSButtonCell"; title = "Live images preview"; ObjectID = "wG8-3A-BMJ"; */
 "wG8-3A-BMJ.title" = "Previsualizar imágenes";
