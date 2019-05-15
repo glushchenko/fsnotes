@@ -1,0 +1,182 @@
+/* No comment provided by engineer. */
+"Add" = "Añadir";
+
+/* Sidebar label */
+"Archive" = "Archivo";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "¿Seguro que quieres borrar definitivamente %d notas?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?";
+
+/* No comment provided by engineer. */
+"Attach storage" = "Adjuntar almacenamiento";
+
+/* Delete menu */
+"Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Comprobar gramática con la ortografía";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Comprobar ortografía mientras se escribe";
+
+/* No comment provided by engineer. */
+"Code Block" = "Bloque de código";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Copiar HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Copiar enlace";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Copiar texto sin estilo";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Corregir ortografía automáticamente";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "La contraseña actual no coincide con la contraseña en el Llavero";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Detectores de datos";
+
+/* No comment provided by engineer. */
+"Delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"Empty password" = "Contraseña vacía";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Introduce la contraseña maestra";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [edición]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [previsualización]";
+
+/* No comment provided by engineer. */
+"Image" = "Imagen";
+
+/* Edit area */
+"Image title" = "Título de imagen";
+
+/* No comment provided by engineer. */
+"Link" = "Enlace";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "Bloquar todas las encriptadas";
+
+/* No comment provided by engineer. */
+"Master password:" = "Contraseña maestra:";
+
+/* Menu */
+"Move" = "Mover";
+
+/* No comment provided by engineer. */
+"New" = "Nuevo";
+
+/* No comment provided by engineer. */
+"New folder" = "Nueva carpeta";
+
+/* No comment provided by engineer. */
+"New project" = "Nuevo proyecto";
+
+/* No comment provided by engineer. */
+"New RTF" = "Nuevo RTF";
+
+/* Rename
+   Sidebar label */
+"Notes" = "Notas";
+
+/* Edit area */
+"Please enter image title:" = "Por favor, introduce un título para la imagen:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Por favor, introduce una contraseña para la nota";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Por favor, introduce un nombre para el proyecto:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Por favor, introduce las etiquetas (separadas por comas):";
+
+/* No comment provided by engineer. */
+"Please try again" = "Por favor intenta de nuevo";
+
+/* No comment provided by engineer. */
+"Preferences" = "Preferencias";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Salir de FSNotes";
+
+/* Delete menu */
+"Remove" = "Borrar";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Eliminar nota(s)";
+
+/* No comment provided by engineer. */
+"Reveal folder" = "Mostrar carpeta";
+
+/* No comment provided by engineer. */
+"Search and create" = "Buscar y crear";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Copiado/pegado Inteligente";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Guiones inteligentes";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Enlaces inteligentes";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Comillas tipográficas";
+
+/* View menu */
+"Sort By" = "Ordenar por";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Ortografía y gramática";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Tachado";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Sustituciones";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Etiquetas";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Reemplazar texto";
+
+/* Delete menu */
+"This action cannot be undone." = "Esta operación no se puede deshacer.";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Cambiar previsualización";
+
+/* Sidebar label */
+"Trash" = "Papelera";
+
+/* No comment provided by engineer. */
+"Underline" = "Subrayar";
+
+/* Untitled Note */
+"Untitled Note" = "Nota sin título";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "El enlace se ha copiado al portapapeles";
+
+/* Menu */
+"View" = "Visualización";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Repetición de contraseña incorrecta";
+
