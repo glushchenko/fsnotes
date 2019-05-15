@@ -1115,6 +1115,10 @@
 		D7EA59EE213EAD8700582BD9 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
 		D7ED6891200F87BD00FF975A /* Initial */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Initial; sourceTree = "<group>"; };
 		D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoteCellView+.swift"; sourceTree = "<group>"; };
+		D7F272F7228C96C300974FE2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		D7F272F8228C96C300974FE2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7F272F9228C96C300974FE2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7F272FA228C96C400974FE2 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-MediumItalic.ttf"; sourceTree = "<group>"; };
 		D7F2F18821C503EF00E41811 /* AvenirNext-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLight.ttf"; sourceTree = "<group>"; };
 		D7F2F18921C503EF00E41811 /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
@@ -2178,6 +2182,7 @@
 				uk,
 				ru,
 				de,
+				es,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -3341,6 +3346,7 @@
 				D70FE13220FE198200813F9E /* ru */,
 				D77F181D220F47FB00716DE3 /* uk */,
 				D735BF2F227EC4C8004C0B31 /* de */,
+				D7F272FA228C96C400974FE2 /* es */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3386,6 +3392,7 @@
 				D7FBBC2120F151530014EC5B /* ru */,
 				D77F181C220E234D00716DE3 /* uk */,
 				D735BF2C227EC4C8004C0B31 /* de */,
+				D7F272F7228C96C300974FE2 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3395,6 +3402,7 @@
 			children = (
 				D77F181F220F47FB00716DE3 /* uk */,
 				D735BF2D227EC4C8004C0B31 /* de */,
+				D7F272F8228C96C300974FE2 /* es */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3405,6 +3413,7 @@
 				D7FBBC2720F151F80014EC5B /* ru */,
 				D77F181B220E234D00716DE3 /* uk */,
 				D735BF2E227EC4C8004C0B31 /* de */,
+				D7F272F9228C96C300974FE2 /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
