@@ -493,16 +493,18 @@ public class NotesTextProcessor {
                 fixedRange.length = (fixedRange.location + fixedRange.length < storage.length) ? fixedRange.length : storage.length-fixedRange.location
                 fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
 
-                storage.setAttributes(attrs, range: fixedRange)
+                for (key, value) in attrs {
+                    storage.addAttribute(key, value: value, range: fixedRange)
+                }
             }
         )
 
         if let font = NotesTextProcessor.codeFont {
-            storage.addAttributes([.font: font], range: range)
+            storage.addAttribute(.font, value: font, range: range)
             storage.fixAttributes(in: range)
         }
 
-        storage.addAttributes([.backgroundColor: NotesTextProcessor.codeBackground], range: range)
+        storage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
     }
     
     public static func updateParagraphStyle(code: NSAttributedString) -> NSMutableAttributedString {
