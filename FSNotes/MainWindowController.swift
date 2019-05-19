@@ -25,7 +25,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
     }
     
     func windowDidResize(_ notification: Notification) {
-        refreshEditArea()
+        refreshEditArea(focusSearch: true)
     }
         
     func makeNew() {
@@ -34,10 +34,15 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
         refreshEditArea()
     }
     
-    func refreshEditArea() {
+    func refreshEditArea(focusSearch: Bool = false) {
         guard let vc = ViewController.shared() else { return }
-        
-        vc.focusEditArea()
+
+        if vc.storageOutlineView.isFirstLaunch && focusSearch {
+            vc.search.window?.makeFirstResponder(vc.search)
+        } else {
+            vc.focusEditArea()
+        }
+
         vc.editArea.updateTextContainerInset()
     }
     

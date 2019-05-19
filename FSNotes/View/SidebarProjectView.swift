@@ -18,7 +18,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     var viewDelegate: ViewController? = nil
     
     private var storage = Storage.sharedInstance()
-    private var isFirstLaunch = true
+    public var isFirstLaunch = true
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
