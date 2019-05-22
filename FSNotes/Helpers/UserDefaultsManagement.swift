@@ -73,6 +73,7 @@ public class UserDefaultsManagement {
         static let LockAfterIDLE = "lockAfterIdle"
         static let LockAfterUserSwitch = "lockAfterUserSwitch"
         static let MarginSizeKey = "marginSize"
+        static let MarkdownPreviewCSS = "markdownPreviewCSS"
         static let MasterPasswordHint = "masterPasswordHint"
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
@@ -1025,6 +1026,27 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.MarginSizeKey)
+        }
+    }
+
+    static var markdownPreviewCSS: URL? {
+        get {
+            if let path = UserDefaults.standard.object(forKey: Constants.MarkdownPreviewCSS) as? String,
+                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+
+                if FileManager.default.fileExists(atPath: path) {
+                    return URL(string: "file://" + encodedPath)
+                }
+            }
+            
+            return nil
+        }
+        set {
+            if let url = newValue {
+                UserDefaults.standard.set(url.path, forKey: Constants.MarkdownPreviewCSS)
+            } else {
+                UserDefaults.standard.set(nil, forKey: Constants.MarkdownPreviewCSS)
+            }
         }
     }
 }

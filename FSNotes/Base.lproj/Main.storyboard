@@ -2421,11 +2421,11 @@ Olena Glushchenko aonez (aone@keka.io)</string>
             <objects>
                 <viewController title="Advanced" id="mvt-gI-iG0" customClass="PreferencesAdvancedViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tJA-7g-MI3">
-                        <rect key="frame" x="0.0" y="0.0" width="464" height="413"/>
+                        <rect key="frame" x="0.0" y="0.0" width="464" height="440"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TgQ-6U-Kco">
-                                <rect key="frame" x="52" y="327" width="265" height="20"/>
+                                <rect key="frame" x="52" y="349" width="265" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="NNM-sq-Yp5">
                                     <font key="font" metaFont="system"/>
@@ -2434,7 +2434,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </pathCell>
                             </pathControl>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="npR-f6-xHj">
-                                <rect key="frame" x="320" y="321" width="95" height="28"/>
+                                <rect key="frame" x="320" y="343" width="95" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hGi-4f-mtY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2445,7 +2445,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F2w-YD-uv3">
-                                <rect key="frame" x="49" y="276" width="221" height="17"/>
+                                <rect key="frame" x="50" y="230" width="221" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Language (need app restart):" id="dZD-Db-KHs">
                                     <font key="font" metaFont="system"/>
@@ -2454,7 +2454,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eI4-Qa-xyg">
-                                <rect key="frame" x="269" y="244" width="144" height="25"/>
+                                <rect key="frame" x="270" y="198" width="144" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="rSZ-Wo-Rtj" id="BZN-Xe-Atr">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -2475,11 +2475,11 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </popUpButton>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UMU-6c-hjh">
-                                <rect key="frame" x="34" y="307" width="394" height="5"/>
+                                <rect key="frame" x="35" y="261" width="394" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qKm-Ud-lP4">
-                                <rect key="frame" x="269" y="270" width="144" height="26"/>
+                                <rect key="frame" x="270" y="224" width="144" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="cmQ-0I-gTB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -2491,11 +2491,11 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </popUpButton>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="eiE-QT-Gmx">
-                                <rect key="frame" x="34" y="226" width="394" height="5"/>
+                                <rect key="frame" x="35" y="180" width="394" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CPL-jT-YaF">
-                                <rect key="frame" x="49" y="249" width="183" height="17"/>
+                                <rect key="frame" x="50" y="203" width="183" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="Tjy-Pz-wrj">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2504,7 +2504,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yyd-fi-946">
-                                <rect key="frame" x="50" y="365" width="170" height="17"/>
+                                <rect key="frame" x="50" y="377" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Archive storage:" id="dys-2Q-lfZ">
                                     <font key="font" metaFont="system"/>
@@ -2513,7 +2513,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZXG-8N-Rny">
-                                <rect key="frame" x="50" y="196" width="68" height="17"/>
+                                <rect key="frame" x="50" y="144" width="68" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Dock icon:" id="2CI-mu-aiB">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2522,7 +2522,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SxW-70-Bdh">
-                                <rect key="frame" x="178" y="108" width="22" height="18"/>
+                                <rect key="frame" x="178" y="83" width="22" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="left" inset="2" id="DwS-mH-qZ6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2533,17 +2533,17 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGT-qO-FvD">
-                                <rect key="frame" x="164" y="141" width="48" height="48"/>
+                                <rect key="frame" x="164" y="116" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="39f-ji-gqR"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ia3-Pz-Sap">
-                                <rect key="frame" x="233" y="141" width="48" height="48"/>
+                                <rect key="frame" x="233" y="116" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon_alt" id="8UF-BS-zlW"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="vJo-sa-P9T">
-                                <rect key="frame" x="247" y="107" width="22" height="18"/>
+                                <rect key="frame" x="247" y="82" width="22" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="UsT-rs-mlR">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2554,7 +2554,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Atm-xW-q1V">
-                                <rect key="frame" x="50" y="49" width="362" height="17"/>
+                                <rect key="frame" x="50" y="35" width="362" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Made with ❤️ in Ukraine 🇺🇦 " id="fsF-5N-tWg">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2563,7 +2563,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dxk-ZE-26V">
-                                <rect key="frame" x="275" y="49" width="130" height="17"/>
+                                <rect key="frame" x="275" y="35" width="130" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="v2.9.0" id="dgD-xe-DVG">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2572,9 +2572,37 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="f0N-UJ-lzU">
-                                <rect key="frame" x="34" y="85" width="394" height="5"/>
+                                <rect key="frame" x="35" y="66" width="394" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dpr-bZ-cmA">
+                                <rect key="frame" x="50" y="313" width="151" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Markdown Preview CSS:" id="Icf-3C-atz">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3UE-oX-J5k">
+                                <rect key="frame" x="52" y="285" width="265" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="lBe-Pa-whI">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </pathCell>
+                            </pathControl>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R1Q-mU-ebK">
+                                <rect key="frame" x="319" y="278" width="97" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="Yum-W4-OUy">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="changeMarkdownStyle:" target="mvt-gI-iG0" id="4LS-Ay-xUy"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2584,23 +2612,24 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                         <outlet property="dockIconFirst" destination="SxW-70-Bdh" id="MhB-k7-XvP"/>
                         <outlet property="dockIconSecond" destination="vJo-sa-P9T" id="im8-M5-wmr"/>
                         <outlet property="languagePopUp" destination="qKm-Ud-lP4" id="iq8-FI-S7g"/>
+                        <outlet property="markdownPreviewCSS" destination="3UE-oX-J5k" id="9wQ-Cd-ioH"/>
                         <outlet property="version" destination="Dxk-ZE-26V" id="eI0-rW-7Ju"/>
                     </connections>
                 </viewController>
                 <customObject id="uuN-ji-W5S" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2399" y="578.5"/>
+            <point key="canvasLocation" x="2399" y="592"/>
         </scene>
         <!--Security-->
         <scene sceneID="dgo-jz-dll">
             <objects>
                 <viewController title="Security" id="PXw-YJ-q6A" customClass="PreferencesSecurityViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="kQa-Jx-cRD">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="306"/>
+                        <rect key="frame" x="0.0" y="0.0" width="492" height="352"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bAD-aT-6wv">
-                                <rect key="frame" x="109" y="238" width="323" height="18"/>
+                                <rect key="frame" x="129" y="256" width="323" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on sleep" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Ve2-qz-vtH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2611,7 +2640,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jxK-y9-8yA">
-                                <rect key="frame" x="109" y="218" width="323" height="18"/>
+                                <rect key="frame" x="129" y="236" width="323" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock on screen saver activated" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IlF-tS-GFG">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2622,7 +2651,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VyD-5q-zrb">
-                                <rect key="frame" x="108" y="198" width="324" height="18"/>
+                                <rect key="frame" x="128" y="216" width="324" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Lock when user switched" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8dk-Cf-bSg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2633,7 +2662,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3K8-4C-o6B">
-                                <rect key="frame" x="29" y="269" width="389" height="17"/>
+                                <rect key="frame" x="49" y="290" width="389" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Auto-lock for encrypted notes:" id="fzY-c6-DaK">
                                     <font key="font" metaFont="system"/>
@@ -2642,22 +2671,11 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9JU-4V-Lgp">
-                                <rect key="frame" x="32" y="172" width="386" height="5"/>
+                                <rect key="frame" x="40" y="192" width="410" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2GG-sE-P9s">
-                                <rect key="frame" x="104" y="30" width="194" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Change Master Password" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3RO-C7-NOO">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="openMasterPasswordWindow:" target="PXw-YJ-q6A" id="wnh-nx-9iE"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LfK-G8-GaN">
-                                <rect key="frame" x="108" y="130" width="310" height="18"/>
+                                <rect key="frame" x="128" y="136" width="310" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Allow Touch ID to unlock notes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="KST-y3-KvM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2668,7 +2686,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vfa-TJ-FAD">
-                                <rect key="frame" x="29" y="131" width="62" height="17"/>
+                                <rect key="frame" x="49" y="155" width="62" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Touch ID:" id="Nw2-km-iDW">
                                     <font key="font" metaFont="system"/>
@@ -2677,7 +2695,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eoX-AC-xuA">
-                                <rect key="frame" x="108" y="110" width="324" height="18"/>
+                                <rect key="frame" x="128" y="116" width="324" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Save Master Password in Keychain" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wM5-nS-jjt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2688,11 +2706,22 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="O2e-aX-dha">
-                                <rect key="frame" x="32" y="83" width="386" height="5"/>
+                                <rect key="frame" x="40" y="88" width="410" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2GG-sE-P9s">
+                                <rect key="frame" x="123" y="32" width="194" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Change Master Password" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3RO-C7-NOO">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openMasterPasswordWindow:" target="PXw-YJ-q6A" id="wnh-nx-9iE"/>
+                                </connections>
+                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6jD-2w-AAk">
-                                <rect key="frame" x="30" y="37" width="66" height="21"/>
+                                <rect key="frame" x="49" y="39" width="66" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Password:" id="KaC-Mz-siK">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2713,7 +2742,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                 </viewController>
                 <customObject id="8cl-fg-jNQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="662" y="1033"/>
+            <point key="canvasLocation" x="683" y="1056"/>
         </scene>
     </scenes>
     <resources>

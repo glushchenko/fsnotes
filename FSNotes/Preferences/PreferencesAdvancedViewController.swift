@@ -11,7 +11,7 @@ import Cocoa
 class PreferencesAdvancedViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 464, height: 413)
+        preferredContentSize = NSSize(width: 464, height: 440)
     }
 
     @IBOutlet weak var archivePathControl: NSPathControl!
@@ -22,6 +22,8 @@ class PreferencesAdvancedViewController: NSViewController {
 
     @IBOutlet weak var dockIconFirst: NSButton!
     @IBOutlet weak var dockIconSecond: NSButton!
+
+    @IBOutlet weak var markdownPreviewCSS: NSPathControl!
 
     @IBAction func appearanceClick(_ sender: NSPopUpButton) {
         if let type = AppearanceType(rawValue: sender.indexOfSelectedItem) {
@@ -90,6 +92,10 @@ class PreferencesAdvancedViewController: NSViewController {
         default:
             dockIconFirst.state = .on
         }
+
+        if let preview = UserDefaultsManagement.markdownPreviewCSS {
+            markdownPreviewCSS.url = preview
+        }
     }
 
     @IBAction func changeArchiveStorage(_ sender: Any) {
@@ -126,6 +132,40 @@ class PreferencesAdvancedViewController: NSViewController {
                     vc.storageOutlineView.reloadData()
                     vc.storageOutlineView.selectArchive()
                 }
+            }
+        }
+    }
+
+    @IBAction func changeMarkdownStyle(_ sender: Any) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = true
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["css"]
+        openPanel.begin { (result) -> Void in
+            if result.rawValue == NSFileHandlingPanelOKButton {
+                guard let url = openPanel.url else { return }
+
+                let bookmark = SandboxBookmark.sharedInstance()
+                _ = bookmark.load()
+                
+                if let currentURL = UserDefaultsManagement.markdownPreviewCSS {
+                    bookmark.remove(url: currentURL)
+                }
+
+                bookmark.store(url: url)
+                bookmark.save()
+
+                UserDefaultsManagement.markdownPreviewCSS = url
+                self.markdownPreviewCSS.url = url
+
+                let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+
+                try? FileManager.default.removeItem(at: webkitPreview)
+
+                guard let vc = ViewController.shared() else { return }
+                vc.refillEditArea()
             }
         }
     }

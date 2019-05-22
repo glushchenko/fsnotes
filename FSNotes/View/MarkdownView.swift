@@ -145,6 +145,8 @@ open class MarkdownView: WKWebView {
         guard let bundleResourceURL = bundle.resourceURL
             else { return nil }
 
+        let customCSS = UserDefaultsManagement.markdownPreviewCSS
+
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
 
         try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
@@ -158,10 +160,26 @@ open class MarkdownView: WKWebView {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
 
                 for file in fileList {
+                    if customCSS != nil && file == "css" {
+                        continue
+                    }
+
                     let tmpURL = webkitPreview.appendingPathComponent(file)
 
                     try FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
                 }
+            } catch {
+                print(error)
+            }
+        }
+
+        if let customCSS = customCSS {
+            let cssDst = webkitPreview.appendingPathComponent("css")
+            let styleDst = cssDst.appendingPathComponent("markdown-preview.css", isDirectory: false)
+
+            do {
+                try FileManager.default.createDirectory(at: cssDst, withIntermediateDirectories: false, attributes: nil)
+                _ = try FileManager.default.copyItem(at: customCSS, to: styleDst)
             } catch {
                 print(error)
             }

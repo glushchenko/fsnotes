@@ -69,6 +69,10 @@ class Storage {
 
         #if os(OSX)
         for url in bookmarks {
+            if url.pathExtension == "css" {
+                continue
+            }
+
             guard !projectExist(url: url) else {
                 continue
             }
