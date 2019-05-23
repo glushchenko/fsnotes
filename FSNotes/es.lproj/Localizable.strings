@@ -89,7 +89,7 @@
 "New RTF" = "Nuevo RTF";
 
 /* Rename
- Sidebar label */
+   Sidebar label */
 "Notes" = "Notas";
 
 /* Edit area */
@@ -150,7 +150,7 @@
 "Substitutions" = "Sustituciones";
 
 /* Menu
- Sidebar label */
+   Sidebar label */
 "Tags" = "Etiquetas";
 
 /* No comment provided by engineer. */
@@ -179,3 +179,4 @@
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Repetición de contraseña incorrecta";
+

@@ -187,6 +187,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                             finished = finished + 1
                             if started == finished {
+                                note.append(string: NSMutableAttributedString(string: "\n\n" + self.textView.text))
                                 note.write()
                                 self.close()
                                 return

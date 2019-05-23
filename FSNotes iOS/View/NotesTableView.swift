@@ -368,6 +368,17 @@ class NotesTableView: UITableView,
         activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
 
         presentController.present(activityVC, animated: true, completion: nil)
+
+        if let i = self.notes.index(where: {$0 === note}) {
+            let indexPath = IndexPath(row: i, section: 0)
+
+            let f = tableView(self, cellForRowAt: indexPath)
+            if let popOver = activityVC.popoverPresentationController {
+                popOver.sourceView = f
+                popOver.sourceRect = CGRect(x: 100, y: f.frame.height, width: 10, height: 10)
+                popOver.permittedArrowDirections = .up
+            }
+        }
     }
 
     public func moveRowUp(note: Note) {
