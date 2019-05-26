@@ -387,8 +387,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
 
-            if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
-                print(filePath)
+            if (storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String) != nil {
                 return
             }
 
@@ -824,6 +823,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if note.isMarkdown() {
+            deleteUnusedImages(checkRange: affectedCharRange)
+
             typingAttributes.removeValue(forKey: .todo)
             typingAttributes.removeValue(forKey: .backgroundColor)
 
@@ -1406,5 +1407,50 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let inset = (Float(width) - lineWidth) / 2
         
         textContainerInset.width = CGFloat(inset)
+    }
+
+    private func deleteUnusedImages(checkRange: NSRange) {
+        guard let storage = textStorage else { return }
+        guard let note = EditTextView.note else { return }
+
+        var removedImages = [URL: URL]()
+
+        storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
+            if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+
+                let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+
+                if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+
+                    if let note = EditTextView.note {
+                        guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
+
+                        do {
+                            var resultingItemUrl: NSURL?
+                            try FileManager.default.trashItem(at: imageURL, resultingItemURL: &resultingItemUrl)
+
+                            if let result = resultingItemUrl {
+                                removedImages[result as URL] = imageURL
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+
+        note.undoManager.registerUndo(withTarget: self, selector: #selector(unDeleteImages), object: removedImages)
+        note.undoManager.setActionName(NSLocalizedString("Delete Images", comment: ""))
+    }
+
+    @objc public func unDeleteImages(_ urls: [URL: URL]) {
+        for (src, dst) in urls {
+            do {
+                try FileManager.default.moveItem(at: src, to: dst)
+            } catch {
+                print(error)
+            }
+        }
     }
 }

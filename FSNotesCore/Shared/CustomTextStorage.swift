@@ -35,6 +35,8 @@ extension NSTextStorage: NSTextStorageDelegate {
             let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)
             processor.scanParagraph(loadImages: false)
         }
+
+        centerImages(storage: textStorage, checkRange: editedRange)
     }
 
     private func getCodeRanges(string: String, length: Int) -> ([NSRange], [NSRange])? {
@@ -86,4 +88,27 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
     }
 
+    private func centerImages(storage: NSTextStorage, checkRange: NSRange) {
+        var start = checkRange.lowerBound
+        var finish = checkRange.upperBound
+
+        if checkRange.upperBound < storage.length {
+           finish = checkRange.upperBound + 1
+        }
+
+        if checkRange.lowerBound > 1 {
+            start = checkRange.lowerBound - 1
+        }
+
+        let affectedRange = NSRange(start..<finish)
+
+        enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
+            if nil != value as? NSTextAttachment, attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.alignment = .center
+
+                addAttribute(.paragraphStyle, value: paragraph, range: range)
+            }
+        }
+    }
 }
