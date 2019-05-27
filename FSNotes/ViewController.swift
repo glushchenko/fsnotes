@@ -140,14 +140,16 @@ class ViewController: NSViewController,
                 }
             case "fileMenu":
                 if menuItem.identifier?.rawValue == "fileMenu.delete" {
-                    if !UserDefaultsManagement.focusInEditorOnNoteSelect && vc.editArea.hasFocus() {
-                        return false
-                    }
-                    
                     menuItem.keyEquivalentModifierMask =
                         UserDefaultsManagement.focusInEditorOnNoteSelect
-                            ? [.command, .option]
-                            : [.command]
+                        ? [.command, .option]
+                        : [.command]
+
+                    if UserDefaultsManagement.focusInEditorOnNoteSelect {
+                        return true
+                    } else if vc.editArea.hasFocus() {
+                        return false
+                    }
                 }
 
                 if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate", "fileMenu.import"].contains(menuItem.identifier?.rawValue) {
