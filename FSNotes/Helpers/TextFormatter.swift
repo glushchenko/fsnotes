@@ -708,18 +708,18 @@ public class TextFormatter {
         if let index = paragraph.string.range(of: "- [ ]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-            let attributedText = AttributedBox.getChecked()
+            if let attributedText = AttributedBox.getChecked() {
+                self.insertText(attributedText, replacementRange: range)
+            }
             
-            self.insertText(attributedText, replacementRange: range)
-
             return
 
         } else if let index = paragraph.string.range(of: "- [x]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-            let attributedText = AttributedBox.getUnChecked()
-            
-            self.insertText(attributedText, replacementRange: range)
+            if let attributedText = AttributedBox.getUnChecked() {
+                self.insertText(attributedText, replacementRange: range)
+            }
             
             return
         }

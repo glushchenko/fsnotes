@@ -919,8 +919,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         if let note = EditTextView.note {
             if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
-                position = data.withUnsafeBytes { (ptr: UnsafePointer<Int>) -> Int in
-                    return ptr.pointee
+                position = data.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> Int in
+                    ptr.load(as: Int.self)
                 }
             }
         }

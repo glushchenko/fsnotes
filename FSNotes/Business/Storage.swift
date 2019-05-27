@@ -227,13 +227,13 @@ class Storage {
     func getTrash(url: URL) -> URL? {
         #if os(OSX)
             return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
-        #endif
-        
+        #else
         if #available(iOS 11.0, *) {
             return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
         } else {
             return nil
         }
+        #endif
     }
     
     public func getBookmarks() -> [URL] {

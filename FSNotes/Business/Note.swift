@@ -407,10 +407,7 @@ public class Note: NSObject  {
         if cloudSave {
             sharedStorage.saveCloudPins()
         }
-        return
-        #endif
-        
-        #if os(OSX)
+        #elseif os(OSX)
             var pin = true
             let data = Data(bytes: &pin, count: 1)
             try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
@@ -426,10 +423,7 @@ public class Note: NSObject  {
             if cloudSave {
                 sharedStorage.saveCloudPins()
             }
-            return
-            #endif
-            
-            #if os(OSX)
+            #elseif os(OSX)
                 var pin = false
                 let data = Data(bytes: &pin, count: 1)
                 try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")

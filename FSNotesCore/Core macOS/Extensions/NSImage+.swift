@@ -129,7 +129,7 @@ public extension NSImage {
         }
     }
 
-    public func resize(to targetSize: CGSize) -> NSImage? {
+    func resize(to targetSize: CGSize) -> NSImage? {
         let frame = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
         guard let representation = bestRepresentation(for: frame, context: nil, hints: nil) else {
             return nil
@@ -210,7 +210,7 @@ public extension NSImage {
         return cropped
     }
 
-    public var jpgData: Data? {
+    var jpgData: Data? {
         guard let tiffRepresentation = tiffRepresentation,
             let bitmapImage = NSBitmapImageRep(data: tiffRepresentation)
         else { return nil }

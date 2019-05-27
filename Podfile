@@ -16,10 +16,10 @@ def ios_pods
 end
 
 def common_pods
-    pod 'Highlightr', '~> 2.0'
+    pod 'Highlightr', '~> 2.1.0'
     pod 'Down', '~> 0.8.3'
     pod 'cmark-gfm-swift', :git => 'https://github.com/glushchenko/cmark-gfm-swift.git', :branch => 'master'
-    pod 'RNCryptor', '~> 5.0.3'
+    pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end
 
@@ -70,8 +70,8 @@ end
 target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
-    pod 'Highlightr', '~> 2.0'
+    pod 'Highlightr', '~> 2.1.0'
     pod 'NightNight', '~> 0.5.0'
-    pod 'RNCryptor', '~> 5.0.3'
+    pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end

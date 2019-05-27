@@ -442,8 +442,10 @@ class ViewController: NSViewController,
     }
 
     func reloadSideBar() {
+        guard let outline = storageOutlineView else { return }
+
         sidebarTimer.invalidate()
-        sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
+        sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: outline, selector: #selector(outline.reloadSidebar), userInfo: nil, repeats: false)
     }
     
     func reloadView(note: Note? = nil) {
@@ -850,8 +852,11 @@ class ViewController: NSViewController,
                 let md = appd.mainWindowController
             {
                 let undoManager = md.notesListUndoManager
-                undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
-                undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+
+                if let ntv = vc.notesTableView {
+                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
+                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+                }
 
                 if let i = selectedRow, i > -1 {
                     vc.notesTableView.selectRow(i)
