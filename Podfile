@@ -9,7 +9,7 @@ end
 
 def ios_pods
     pod 'Solar', '~> 2.0'
-    pod 'NightNight', '~> 0.5.0'
+    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'DKImagePickerController', '4.1.4'
     pod 'GSImageViewerController'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
@@ -29,7 +29,7 @@ end
 
 target 'FSNotesCore iOS' do
     platform :ios, IOS_TARGET_VERSION
-    pod 'NightNight', '~> 0.5.0'
+    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     framework_pods
 end
 
@@ -71,7 +71,7 @@ target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
     pod 'Highlightr', '~> 2.1.0'
-    pod 'NightNight', '~> 0.5.0'
+    pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end
