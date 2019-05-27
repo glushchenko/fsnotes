@@ -147,7 +147,7 @@ class Sidebar {
     
     private func getImage(named: String) -> Image? {
         #if os(OSX)
-            if let image = NSImage(named: NSImage.Name.init(rawValue: named)) {
+            if let image = NSImage(named: named) {
                 return image
             }
         #else

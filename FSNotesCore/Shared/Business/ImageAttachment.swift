@@ -47,8 +47,8 @@ class ImageAttachment {
     weak var weakTimer: Timer?
 
     public func getAttributedString() -> NSMutableAttributedString? {
-        let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-        let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+        let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
 
         if let dst = imageCache {
             if FileManager.default.fileExists(atPath: dst.path) {
@@ -67,7 +67,7 @@ class ImageAttachment {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
 
-        let attributes = [titleKey: self.title, pathKey: self.path, .link: String(), .attachment: attachment, .paragraphStyle: paragraphStyle] as [NSAttributedStringKey: Any]
+        let attributes = [titleKey: self.title, pathKey: self.path, .link: String(), .attachment: attachment, .paragraphStyle: paragraphStyle] as [NSAttributedString.Key: Any]
 
         mutableAttributedString.addAttributes(attributes, range: NSRange(0..<1))
 

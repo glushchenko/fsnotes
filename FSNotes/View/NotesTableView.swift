@@ -50,7 +50,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         super.keyUp(with: event)
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return true
     }
 
@@ -286,7 +286,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func getIndex(_ note: Note) -> Int? {
-        if let index = noteList.index(where: {$0 === note}) {
+        if let index = noteList.firstIndex(where: {$0 === note}) {
             return index
         }
         return nil
@@ -322,7 +322,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     func removeByNotes(notes: [Note]) {
         for note in notes {
-            if let i = noteList.index(where: {$0 === note}) {
+            if let i = noteList.firstIndex(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .slideDown)

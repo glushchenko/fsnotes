@@ -25,7 +25,7 @@ public class NotesTextProcessor {
     public static var fontColor: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: NSColor.Name(rawValue: "mainText"))!
+                return NSColor(named: "mainText")!
             } else {
                 return UserDefaultsManagement.fontColor
             }
@@ -53,7 +53,7 @@ public class NotesTextProcessor {
     public static var codeBackground: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: NSColor.Name(rawValue: "code"))!
+                return NSColor(named: "code")!
             } else {
                 return NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
             }
@@ -63,7 +63,7 @@ public class NotesTextProcessor {
     open var highlightColor: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: NSColor.Name(rawValue: "highlight"))!
+                return NSColor(named: "highlight")!
             } else {
                 return NSColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
             }
@@ -617,7 +617,7 @@ public class NotesTextProcessor {
     #endif
 
         let hiddenColor = Color.clear
-        let hiddenAttributes: [NSAttributedStringKey : Any] = [
+        let hiddenAttributes: [NSAttributedString.Key : Any] = [
             .font : hiddenFont,
             .foregroundColor : hiddenColor
         ]
@@ -1641,16 +1641,16 @@ public class NotesTextProcessor {
                     if remove {
                         if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NoteAttribute.highlight) {
                             storage.removeAttribute(NoteAttribute.highlight, range: subRange)
-                            storage.addAttribute(NSAttributedStringKey.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
+                            storage.addAttribute(NSAttributedString.Key.backgroundColor, value: NotesTextProcessor.codeBackground, range: subRange)
                             return
                         } else {
-                            storage.removeAttribute(NSAttributedStringKey.backgroundColor, range: subRange)
+                            storage.removeAttribute(NSAttributedString.Key.backgroundColor, range: subRange)
                         }
                     } else {
-                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedStringKey.backgroundColor) {
+                        if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedString.Key.backgroundColor) {
                             attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
                         }
-                        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: highlightColor, range: subRange)
+                        attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: highlightColor, range: subRange)
                     }
                 }
             )

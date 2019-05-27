@@ -46,9 +46,9 @@ class PreferencesSecurityViewController: NSViewController {
     @IBAction func openMasterPasswordWindow(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
 
-        if let controller = vc.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MasterPasswordViewController")) as? MasterPasswordViewController {
+        if let controller = vc.storyboard?.instantiateController(withIdentifier: "MasterPasswordViewController") as? MasterPasswordViewController {
 
-            presentViewControllerAsSheet(controller)
+            presentAsSheet(controller)
         }
     }
 

@@ -11,7 +11,7 @@ import Cocoa
 extension ViewController: NSSharingServicePickerDelegate {
     func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
         
-        guard let image = NSImage(named: NSImage.Name(rawValue: "copy.png")) else {
+        guard let image = NSImage(named: "copy.png") else {
             return proposedServices
         }
         

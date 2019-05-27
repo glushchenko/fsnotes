@@ -145,8 +145,8 @@ public class ImagesProcessor {
 
             if value != nil, self.styleApplier.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 let newRange = NSRange(location: range.location + offset, length: range.length)
-                let filePathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
-                let titleKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.title")
+                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+                let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
                 
                 guard
                     let path = self.styleApplier.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,

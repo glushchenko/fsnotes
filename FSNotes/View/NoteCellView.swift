@@ -148,9 +148,9 @@ class NoteCellView: NSTableCellView {
         textParagraph.maximumLineHeight = previewMaximumLineHeight
 
         let attribs = [
-            NSAttributedStringKey.font: font,
-            NSAttributedStringKey.foregroundColor: textColor,
-            NSAttributedStringKey.paragraphStyle: textParagraph
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: textColor,
+            NSAttributedString.Key.paragraphStyle: textParagraph
         ]
 
         if maximumNumberOfLines > 0 {
@@ -191,7 +191,7 @@ class NoteCellView: NSTableCellView {
             }
 
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                name.textColor = NSColor.init(named: NSColor.Name(rawValue: "mainText"))
+                name.textColor = NSColor.init(named: "mainText")
             } else {
                 name.textColor = NSColor.black
             }
@@ -202,11 +202,11 @@ class NoteCellView: NSTableCellView {
         if let value = objectValue, let note = value as? Note  {
             if note.isEncrypted() {
                 let name = note.isUnlocked() ? "lock-open" : "lock-closed"
-                pin.image = NSImage(named: NSImage.Name(rawValue: name))
+                pin.image = NSImage(named: name)
                 pin.isHidden = false
                 pin.image?.size = NSSize(width: 14, height: 14)
             } else {
-                pin.image = NSImage(named: NSImage.Name(rawValue: "pin"))
+                pin.image = NSImage(named: "pin")
                 pin.isHidden = !note.isPinned
             }
         }

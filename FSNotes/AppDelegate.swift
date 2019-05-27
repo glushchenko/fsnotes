@@ -66,9 +66,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             return
         }
         
-        let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
         
-        guard let mainWC = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "MainWindowController")) as? MainWindowController else {
+        guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
             fatalError("Error getting main window controller")
         }
         
@@ -166,7 +166,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func constructMenu() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
-        if let button = statusItem?.button, let image = NSImage(named: NSImage.Name(rawValue: "blackWhite")) {
+        if let button = statusItem?.button, let image = NSImage(named: "blackWhite") {
             image.size.width = 20
             image.size.height = 20
             button.image = image
@@ -217,9 +217,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     @IBAction func openPreferences(_ sender: Any?) {
         if prefsWindowController == nil {
-            let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
             
-            prefsWindowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Preferences")) as? PrefsWindowController
+            prefsWindowController = storyboard.instantiateController(withIdentifier: "Preferences") as? PrefsWindowController
         }
         
         guard let prefsWindowController = prefsWindowController else { return }
@@ -264,9 +264,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @IBAction func showAboutWindow(_ sender: AnyObject) {
         if aboutWindowController == nil {
-            let storyboard = NSStoryboard(name: NSStoryboard.Name(rawValue: "Main"), bundle: nil)
+            let storyboard = NSStoryboard(name: "Main", bundle: nil)
 
-            aboutWindowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "About")) as? AboutWindowController
+            aboutWindowController = storyboard.instantiateController(withIdentifier: "About") as? AboutWindowController
         }
 
         guard let aboutWindowController = aboutWindowController else { return }
@@ -290,10 +290,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         switch UserDefaultsManagement.dockIcon {
         case 0:
-            image = NSImage(named: NSImage.Name(rawValue: "icon.png"))
+            image = NSImage(named: "icon.png")
             break
         case 1:
-            image = NSImage(named: NSImage.Name(rawValue: "icon_alt.png"))
+            image = NSImage(named: "icon_alt.png")
             break
         default:
             break

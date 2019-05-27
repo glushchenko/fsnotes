@@ -192,12 +192,12 @@ class Storage {
             project })
         
         for note in list {
-            if let i = noteList.index(where: {$0 === note}) {
+            if let i = noteList.firstIndex(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
         
-        if let i = projects.index(of: project) {
+        if let i = projects.firstIndex(of: project) {
             projects.remove(at: i)
         }
     }
@@ -447,7 +447,7 @@ class Storage {
     public func unload(project: Project) {
         let notes = noteList.filter({ $0.project.isArchive })
         for note in notes {
-            if let i = noteList.index(where: {$0 === note}) {
+            if let i = noteList.firstIndex(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
@@ -456,7 +456,7 @@ class Storage {
     public func reLoadTrash() {
         let notes = noteList.filter({ $0.isTrash() })
         for note in notes {
-            if let i = noteList.index(where: {$0 === note}) {
+            if let i = noteList.firstIndex(where: {$0 === note}) {
                 noteList.remove(at: i)
             }
         }
@@ -508,7 +508,7 @@ class Storage {
     }
     
     func removeBy(note: Note) {
-        if let i = noteList.index(where: {$0 === note}) {
+        if let i = noteList.firstIndex(where: {$0 === note}) {
             noteList.remove(at: i)
         }
     }
@@ -763,7 +763,7 @@ class Storage {
     
     public func removeTag(_ string: String) -> Bool {
         if noteList.filter({ $0.tagNames.contains(string) && !$0.isTrash() }).count < 2 {
-            if let i = tagNames.index(of: string) {
+            if let i = tagNames.firstIndex(of: string) {
                 tagNames.remove(at: i)
                 return true
             }
@@ -915,7 +915,7 @@ class Storage {
     }
 
     public func remove(project: Project) {
-        if let index = projects.index(of: project) {
+        if let index = projects.firstIndex(of: project) {
             projects.remove(at: index)
         }
     }

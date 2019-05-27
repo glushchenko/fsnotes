@@ -48,14 +48,14 @@ class SidebarCellView: NSTableCellView {
         if sidebarItem.type == .Tag, let note = vc.notesTableView.getSelectedNote() {
             if note.tagNames.contains(sidebarItem.name) {
                 plus.alternateTitle = sidebarItem.name
-                plus.image = NSImage.init(named: NSImage.Name.stopProgressTemplate)
+                plus.image = NSImage.init(named: NSImage.stopProgressTemplateName)
                 plus.image?.size = NSSize(width: 10, height: 10)
                 plus.isHidden = false
                 plus.target = self
                 plus.action = #selector(removeTag(sender:))
             } else {
                 plus.alternateTitle = sidebarItem.name
-                plus.image = NSImage.init(named: NSImage.Name.addTemplate)
+                plus.image = NSImage.init(named: NSImage.addTemplateName)
                 plus.image?.size = NSSize(width: 10, height: 10)
                 plus.isHidden = false
                 plus.target = self
