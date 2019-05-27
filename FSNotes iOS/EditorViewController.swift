@@ -58,7 +58,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         pageController.enableSwipe()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -117,15 +117,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func registerForKeyboardNotifications(){
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func deregisterFromKeyboardNotifications(){
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
 
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     public func getToolbar(for note: Note) -> UIToolbar {
@@ -180,8 +180,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
 
             editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
-                    NSAttributedStringKey.foregroundColor: foregroundColor,
-                    NSAttributedStringKey.font: UserDefaultsManagement.noteFont
+                    .foregroundColor: foregroundColor,
+                    .font: UserDefaultsManagement.noteFont
                 ]
             )
         } else {
@@ -222,9 +222,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
-            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = UIFont.bodySize()
+            editArea.typingAttributes[.font] = UIFont.bodySize()
         } else {
-            editArea.typingAttributes[NSAttributedStringKey.foregroundColor.rawValue] =
+            editArea.typingAttributes[.foregroundColor] =
                 UIColor.black
         }
 
@@ -333,7 +333,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .left
-            editArea.typingAttributes[NSAttributedStringKey.paragraphStyle.rawValue] = paragraphStyle
+            editArea.typingAttributes[.paragraphStyle] = paragraphStyle
         }
 
         // Tab
@@ -344,7 +344,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         if let font = self.editArea.typingFont {
-            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+            editArea.typingAttributes[.font] = font
         }
 
         return true
@@ -355,10 +355,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let paragraphRange = string.paragraphRange(for: range)
         let paragraph = editArea.textStorage.attributedSubstring(from: paragraphRange)
 
-        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
-            editArea.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 1
+        if paragraph.length > 0, let attachment = paragraph.attribute(NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo"), at: 0, effectiveRange: nil) as? Int, attachment == 1 {
+            editArea.typingAttributes[.strikethroughStyle] = 1
         } else {
-            editArea.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+            editArea.typingAttributes.removeValue(forKey: .strikethroughStyle)
         }
     }
 
@@ -367,7 +367,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let formatter = TextFormatter(textView: editArea, note: note)
 
-        self.editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = formatter.getTypingAttributes()
+        self.editArea.typingAttributes[.font] = formatter.getTypingAttributes()
     }
 
     private func getDefaultFont() -> UIFont {
@@ -435,8 +435,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 font = fontMetrics.scaledFont(for: font)
             }
 
-            editArea.typingAttributes.removeValue(forKey: NSAttributedStringKey.backgroundColor.rawValue)
-            editArea.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+            editArea.typingAttributes.removeValue(forKey: .backgroundColor)
+            editArea.typingAttributes[.font] = font
         }
         
         editArea.initUndoRedoButons()
@@ -454,7 +454,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     @objc func keyboardWillShow(notification: NSNotification) {
         let info = notification.userInfo
-        let infoNSValue = info![UIKeyboardFrameBeginUserInfoKey] as! NSValue
+        let infoNSValue = info![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue
         let kbSize = infoNSValue.cgRectValue.size
 
         if initialKeyboardHeight == 0 {
@@ -466,7 +466,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             padding = 44
         }
 
-        let contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height + padding, 0.0)
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kbSize.height + padding, right: 0.0)
         self.editArea.contentInset = contentInsets
         self.editArea.scrollIndicatorInsets = contentInsets
     }
@@ -518,8 +518,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
         toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
 
@@ -543,8 +543,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
         toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
 
@@ -564,8 +564,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(EditorViewController.donePressed))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
         toolBar.setItems([spaceButton, undoButton, redoButton, doneButton], animated: false)
 
@@ -646,7 +646,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     let options = PHImageRequestOptions.init()
                     options.deliveryMode = .highQualityFormat
 
-                    asset.fetchOriginalImage(false, completeBlock: { image, info in
+                    asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
                         processed += 1
 
                         guard var url = info?["PHImageFileURLKey"] as? URL else { return }
@@ -654,7 +654,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         let isHeic = url.pathExtension.lowercased() == "heic"
 
                         if isHeic, let imageUnwrapped = image {
-                            data = UIImageJPEGRepresentation(imageUnwrapped, 1);
+                            data = imageUnwrapped.jpegData(compressionQuality: 1);
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else {
@@ -748,13 +748,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     func initLinksColor() {
         guard let note = self.note else { return }
 
-        var linkAttributes: [String : Any] = [
-            NSAttributedStringKey.foregroundColor.rawValue: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0)
+        var linkAttributes: [NSAttributedString.Key : Any] = [
+            .foregroundColor: NightNight.theme == .night ? UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0) : UIColor(red:0.24, green:0.51, blue:0.89, alpha:1.0)
         ]
 
         if !note.isRTF() {
-            linkAttributes[NSAttributedStringKey.underlineColor.rawValue] = UIColor.lightGray
-            linkAttributes[NSAttributedStringKey.underlineStyle.rawValue] = NSUnderlineStyle.styleNone.rawValue
+            linkAttributes[.underlineColor] = UIColor.lightGray
+            linkAttributes[.underlineStyle] = 0
         }
         
         if editArea != nil {
@@ -786,7 +786,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
             }
 
-            let pathKey = NSAttributedStringKey(rawValue: "co.fluder.fsnotes.image.path")
+            let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
 
             guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
 
@@ -871,7 +871,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
         menuBtn.setImage(UIImage(named: "share"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(share), for: UIControlEvents.touchUpInside)
+        menuBtn.addTarget(self, action: #selector(share), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)

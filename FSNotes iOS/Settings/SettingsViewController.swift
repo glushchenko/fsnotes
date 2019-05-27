@@ -267,7 +267,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             let storage = Storage.sharedInstance()
             let viewController = UIApplication.getVC()
 
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             viewController.configureIndicator(indicator: indicator, view: self.tableView)
 
             self.view.isUserInteractionEnabled = false

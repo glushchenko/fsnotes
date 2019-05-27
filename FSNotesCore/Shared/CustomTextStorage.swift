@@ -14,6 +14,17 @@ import UIKit
 
 extension NSTextStorage: NSTextStorageDelegate {
 
+#if os(iOS)
+    public func textStorage(
+        _ textStorage: NSTextStorage,
+        didProcessEditing editedMask: NSTextStorage.EditActions,
+        range editedRange: NSRange,
+        changeInLength delta: Int) {
+
+        guard editedMask != .editedAttributes else { return }
+        process(textStorage, range: editedRange, changeInLength: delta)
+    }
+#else
     public func textStorage(
         _ textStorage: NSTextStorage,
         didProcessEditing editedMask: NSTextStorageEditActions,
@@ -21,15 +32,22 @@ extension NSTextStorage: NSTextStorageDelegate {
         changeInLength delta: Int) {
 
         guard editedMask != .editedAttributes else { return }
+        process(textStorage, range: editedRange, changeInLength: delta)
+    }
+#endif
+
+    private func process(_ textStorage: NSTextStorage,
+                         range editedRange: NSRange,
+                         changeInLength delta: Int) {
 
         guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
-            (editedRange.length != textStorage.length) || !note.isCached || EditTextView.isPasteOperation else { return }
+        (editedRange.length != textStorage.length) || !note.isCached || EditTextView.isPasteOperation else { return }
 
         if editedRange.length == textStorage.length {
             NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)
             let range = NSRange(0..<textStorage.length)
-            note.content =
-                NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: range))
+        note.content =
+            NSMutableAttributedString(attributedString: textStorage.attributedSubstring(from: range))
             note.isCached = true
         } else {
             let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)

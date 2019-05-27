@@ -246,7 +246,7 @@ class NotesTableView: UITableView,
         let indexPath = self.indexPathForRow(at: p)
         if indexPath == nil {
             print("Long press on table view, not row.")
-        } else if (longPressGesture.state == UIGestureRecognizerState.began) {
+        } else if (longPressGesture.state == UIGestureRecognizer.State.began) {
             let alert = UIAlertController.init(title: "Are you sure you want to remove note?", message: "This action cannot be undone.", preferredStyle: .alert)
             
             let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
@@ -297,8 +297,8 @@ class NotesTableView: UITableView,
             }
 
             guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 presentController.present(alert, animated: true, completion: nil)
                 return
             }
@@ -365,7 +365,7 @@ class NotesTableView: UITableView,
     public func shareAction(note: Note, presentController: UIViewController) {
         let objectsToShare = [note.content.string] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [UIActivityType.airDrop, UIActivityType.addToReadingList]
+        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
 
         presentController.present(activityVC, animated: true, completion: nil)
 
@@ -474,8 +474,8 @@ class NotesTableView: UITableView,
     private func invalidPasswordAlert() {
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
 
-        let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         pageController.present(alert, animated: true, completion: nil)
     }
 }

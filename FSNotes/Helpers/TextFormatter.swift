@@ -203,10 +203,10 @@ public class TextFormatter {
 
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
             #else
-                if (textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] == nil) {
-                    textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] = 1
+            if (textView.typingAttributes[.underlineStyle] == nil) {
+                textView.typingAttributes[.underlineStyle] = 1
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.underlineStyle.rawValue)
+                    textView.typingAttributes.removeValue(forKey: .underlineStyle)
                 }
             #endif
         }
@@ -254,10 +254,10 @@ public class TextFormatter {
             
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
             #else
-                if (textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] == nil) {
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 2
+                if (textView.typingAttributes[.strikethroughStyle] == nil) {
+                    textView.typingAttributes[.strikethroughStyle] = 2
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+                    textView.typingAttributes.removeValue(forKey: .strikethroughStyle)
                 }
             #endif
         }
@@ -653,7 +653,7 @@ public class TextFormatter {
                 #if os(OSX)
                     textView.typingAttributes[.strikethroughStyle] = strike
                 #else
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = strike
+                    textView.typingAttributes[.strikethroughStyle] = strike
                 #endif
             }
             
@@ -894,7 +894,7 @@ public class TextFormatter {
             textView.typingAttributes[.font] = font
         #else
             textView.typingFont = font
-            textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+            textView.typingAttributes[.font] = font
         #endif
     }
         

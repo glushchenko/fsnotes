@@ -75,7 +75,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
         notesTable.layer.zPosition = 100
-        notesTable.rowHeight = UITableViewAutomaticDimension
+        notesTable.rowHeight = UITableView.automaticDimension
         notesTable.estimatedRowHeight = 160
 
         let refreshControl = UIRefreshControl()
@@ -107,7 +107,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
-            self.indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+            self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             self.configureIndicator(indicator: self.indicator!, view: self.view)
 
             DispatchQueue.main.async {
@@ -127,15 +127,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         keyValueWatcher()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
         swipe.minimumNumberOfTouches = 1
@@ -144,7 +144,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.addGestureRecognizer(swipe)
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: NSNotification.Name.UIScreenBrightnessDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: UIScreen.brightnessDidChangeNotification, object: nil)
     }
 
     public func reloadSidebar(select project: Project? = nil) {
@@ -273,7 +273,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         indicator.layer.borderColor = UIColor.lightGray.cgColor
         indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
         view.addSubview(indicator)
-        indicator.bringSubview(toFront: view)
+        indicator.bringSubviewToFront(view)
         startAnimation(indicator: indicator)
     }
 
@@ -486,7 +486,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 48, height: 48)))
         let image = UIImage(named: "plus.png")
-        button.setImage(image, for: UIControlState.normal)
+        button.setImage(image, for: UIControl.State.normal)
         button.tag = 1
         button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
         button.addTarget(self, action: #selector(self.newButtonAction), for: .touchDown)
@@ -576,7 +576,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         if let image = pboard.image {
-            if let data = UIImageJPEGRepresentation(image, 1) {
+            if let data = image.jpegData(compressionQuality: 1) {
                 guard let fileName = ImagesProcessor.writeImage(data: data, note: note) else { return }
                 let imagePath = note.isTextBundle() ? "assets" : "/i"
                 note.content = NSMutableAttributedString(string: "![](\(imagePath)/\(fileName))\n\n")
@@ -732,7 +732,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.view.frame.size.height = UIScreen.main.bounds.height
             self.view.frame.size.height -= keyboardSize.height
             loadPlusButton()

@@ -29,7 +29,7 @@ class ShareViewController: SLComposeServiceViewController {
         navigationController?.navigationBar.backgroundColor = Colors.Header.normalResource
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = UIColor.white
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
 
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
         let font = UserDefaultsManagement.noteFont.italic().bold().withSize(16)
@@ -175,7 +175,7 @@ class ShareViewController: SLComposeServiceViewController {
                             var imageData = data as? Data
 
                             if let image = data as? UIImage {
-                                imageData = UIImageJPEGRepresentation(image, 1)
+                                imageData = image.jpegData(compressionQuality: 1)
                             } else if let url = data as? URL {
                                 imageData = try? Data.init(contentsOf: url)
                             }

@@ -104,6 +104,6 @@ extension UIImage {
     }
 
     public var jpgData: Data? {
-        return UIImageJPEGRepresentation(self, 1)
+        return self.jpegData(compressionQuality: 1)
     }
 }

@@ -10,7 +10,7 @@ end
 def ios_pods
     pod 'Solar', '~> 2.0'
     pod 'NightNight', '~> 0.5.0'
-    pod 'DKImagePickerController', '3.8.1'
+    pod 'DKImagePickerController', '4.1.4'
     pod 'GSImageViewerController'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end

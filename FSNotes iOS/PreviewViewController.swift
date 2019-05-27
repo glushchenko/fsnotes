@@ -22,9 +22,9 @@ class PreviewViewController: UIViewController {
 
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: NSNotification.Name.UIContentSizeCategoryDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIContentSizeCategory.didChangeNotification, object: nil)
     }
 
     @objc public func returnBack() {
