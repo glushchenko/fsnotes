@@ -10,7 +10,7 @@ import Foundation
 
 public extension URL {
     /// Get extended attribute.
-    public func extendedAttribute(forName name: String) throws -> Data {
+    func extendedAttribute(forName name: String) throws -> Data {
         return try self.withUnsafeFileSystemRepresentation { fileSystemPath -> Data in
 
             // Determine attribute size:
@@ -31,7 +31,7 @@ public extension URL {
     }
 
     /// Set extended attribute.
-    public func setExtendedAttribute(data: Data, forName name: String) throws {
+    func setExtendedAttribute(data: Data, forName name: String) throws {
 
         try self.withUnsafeFileSystemRepresentation { fileSystemPath in
             let result = data.withUnsafeBytes {
@@ -42,7 +42,7 @@ public extension URL {
     }
 
     /// Remove extended attribute.
-    public func removeExtendedAttribute(forName name: String) throws {
+    func removeExtendedAttribute(forName name: String) throws {
 
         try self.withUnsafeFileSystemRepresentation { fileSystemPath in
             let result = removexattr(fileSystemPath, name, 0)
@@ -51,7 +51,7 @@ public extension URL {
     }
 
     /// Get list of all extended attributes.
-    public func listExtendedAttributes() throws -> [String] {
+    func listExtendedAttributes() throws -> [String] {
 
         return try self.withUnsafeFileSystemRepresentation { fileSystemPath -> [String] in
             let length = listxattr(fileSystemPath, nil, 0, 0)
@@ -83,16 +83,16 @@ public extension URL {
 
     // Access the URL parameters eg nv://make?title=blah&txt=body like so:
     // let titleStr = myURL['title']
-    public subscript(queryParam: String) -> String? {
+    subscript(queryParam: String) -> String? {
         guard let url = URLComponents(string: self.absoluteString) else { return nil }
         return url.queryItems?.first(where: { $0.name == queryParam })?.value
     }
 
-    public func isRemote() -> Bool {
+    func isRemote() -> Bool {
         return (self.absoluteString.starts(with: "http://") || self.absoluteString.starts(with: "https://"))
     }
 
-    public var attributes: [FileAttributeKey : Any]? {
+    var attributes: [FileAttributeKey : Any]? {
         do {
             return try FileManager.default.attributesOfItem(atPath: path)
         } catch let error as NSError {
@@ -101,11 +101,11 @@ public extension URL {
         return nil
     }
 
-    public var fileSize: UInt64 {
+    var fileSize: UInt64 {
         return attributes?[.size] as? UInt64 ?? UInt64(0)
     }
 
-    public func removingFragment() -> URL {
+    func removingFragment() -> URL {
         var string = self.absoluteString
         if let query = query {
             string = string.replacingOccurrences(of: "?\(query)", with: "")

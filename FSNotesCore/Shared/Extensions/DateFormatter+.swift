@@ -9,21 +9,21 @@
 import Foundation
 
 public extension DateFormatter {
-    public func formatDateForDisplay(_ date: Date) -> String {
+    func formatDateForDisplay(_ date: Date) -> String {
         dateStyle = .short
         timeStyle = .none
         locale = NSLocale.autoupdatingCurrent
         return string(from: date)
     }
 
-    public func formatTimeForDisplay(_ date: Date) -> String {
+    func formatTimeForDisplay(_ date: Date) -> String {
         dateStyle = .none
         timeStyle = .short
         locale = NSLocale.autoupdatingCurrent
         return string(from: date)
     }
 
-    public func formatForDuplicate(_ date: Date) -> String {
+    func formatForDuplicate(_ date: Date) -> String {
         dateFormat = "yyyyMMddhhmmss"
         return string(from: date)
     }

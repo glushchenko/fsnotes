@@ -36,7 +36,7 @@ struct KeychainPasswordItem {
 
     // MARK: Keychain access
 
-    func readPassword() throws -> String  {
+    func readPassword() throws -> String {
         /*
          Build a query to find the item that matches the service, account and
          access group.

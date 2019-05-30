@@ -526,7 +526,7 @@ public class NotesTextProcessor {
     public static func getLanguage(_ code: String) -> String? {
         if code.starts(with: "```") {
             if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
-                let newLineOffset = newLinePosition.lowerBound.encodedOffset
+                let newLineOffset = newLinePosition.lowerBound.utf16Offset(in: code)
                 if newLineOffset > 3 {
                     let start = code.index(code.startIndex, offsetBy: 3)
                     let end = code.index(code.startIndex, offsetBy: newLineOffset)
