@@ -4,7 +4,7 @@ MAC_TARGET_VERSION = '10.11'
 IOS_TARGET_VERSION = '10'
 
 def mac_pods
-    pod 'MASShortcut', '~> 2.0'
+    pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
 end
 
 def ios_pods
@@ -16,7 +16,7 @@ def ios_pods
 end
 
 def common_pods
-    pod 'Highlightr', '~> 2.1.0'
+    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'Down', '~> 0.8.3'
     pod 'cmark-gfm-swift', :git => 'https://github.com/glushchenko/cmark-gfm-swift.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
@@ -35,7 +35,7 @@ end
 
 target 'FSNotesCore macOS' do
     platform :osx, MAC_TARGET_VERSION
-    pod 'MASShortcut', '~> 2.0'
+    pod 'MASShortcut', :git => 'https://github.com/glushchenko/MASShortcut.git', :branch => 'master'
     framework_pods
 end
 
@@ -70,8 +70,26 @@ end
 target 'FSNotes iOS Share Extension' do
     platform :ios, IOS_TARGET_VERSION
 
-    pod 'Highlightr', '~> 2.1.0'
+    pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == 'cmark-gfm-swift-macOS'
+      source_files = target.source_build_phase.files
+      dummy = source_files.find do |file|
+        file.file_ref.name == 'scanners.re'
+      end
+      source_files.delete dummy
+
+      dummyM = source_files.find do |file|
+        file.file_ref.name == 'module.modulemap'
+      end
+      source_files.delete dummyM
+      puts "Deleting source file #{dummy.inspect} from target #{target.inspect}."
+    end
+  end
 end

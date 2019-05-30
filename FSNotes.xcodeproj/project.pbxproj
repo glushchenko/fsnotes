@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2461A0732DF821CB48A34A3D /* Pods_FSNotes_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8745CEBAABD51AE2606791 /* Pods_FSNotes_iOS.framework */; };
 		275592971F3AE9B5006B8988 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275592961F3AE9B5006B8988 /* MainWindowController.swift */; };
 		2799407C218484C900727B20 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
-		3F1E35EE4F2E1616CF5A74F2 /* Pods_FSNotesCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9800261843B1FAE05CB64B7D /* Pods_FSNotesCore_iOS.framework */; };
-		40621FD579D2F3F3669282B2 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54C80EDBE7362429EBC5B764 /* Pods_FSNotes.framework */; };
-		48814DE023DF720AC6923D40 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4CCA51F08618FFE1D0F7592 /* Pods_FSNotes_iOS_Share_Extension.framework */; };
+		29A99252AFD7667AC8882E18 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1FD62BB4BA133434B92CAFA /* Pods_FSNotes_iOS_Share_Extension.framework */; };
+		41601C1E10E4A5EC50052E18 /* Pods_FSNotes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2EBC009F0240F232497C56 /* Pods_FSNotes.framework */; };
 		6F13BB0D20FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; };
 		6F13BB1620FEDDF50005E120 /* FSNotesCore_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F13BB0620FEDDF50005E120 /* FSNotesCore_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6F13BB1920FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; };
@@ -33,8 +33,7 @@
 		6F13BB7520FEE1E80005E120 /* String+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB4620FEDE330005E120 /* String+Tests.swift */; };
 		6F13BB7620FEE1F20005E120 /* UserDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB4120FEDE330005E120 /* UserDataServiceTests.swift */; };
 		6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76025C2204F2820000B9F59 /* UIFont+.swift */; };
-		9811FA8A3649790E750ADE41 /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F427BC6BC933E79EE95C60BA /* Pods_FSNotes__iCloud_Documents_.framework */; };
-		9AD2E9FD2B79C4E8CE683BE8 /* Pods_FSNotes__Notarized_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED99303EFBDE78A21C472857 /* Pods_FSNotes__Notarized_.framework */; };
+		AE29821E4750B1E65B616E40 /* Pods_FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B22A82E1B99B4D5148437393 /* Pods_FSNotesCore_macOS.framework */; };
 		D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
 		D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
 		D7038E2020FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
@@ -683,8 +682,9 @@
 		D7FBBC2520F151F80014EC5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7FBBC2820F151F80014EC5B /* Localizable.strings */; };
 		D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7FBBC2820F151F80014EC5B /* Localizable.strings */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
-		FB8C055706AAE154DC55B4B9 /* Pods_FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3082FC46F901D42143298E50 /* Pods_FSNotesCore_macOS.framework */; };
-		FD7BE29D5124229B3B42C491 /* Pods_FSNotes_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B818B425245BBB888DBBD4E1 /* Pods_FSNotes_iOS.framework */; };
+		E876E42EFE068A053134C163 /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20075972AA2A53C964752E5C /* Pods_FSNotes__iCloud_Documents_.framework */; };
+		FBC3804B3A152C35E4ADC257 /* Pods_FSNotes__Notarized_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CD37DA957EBBE76F7C571B5 /* Pods_FSNotes__Notarized_.framework */; };
+		FCA79A9C51AA83D26E05364A /* Pods_FSNotesCore_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51D964A002DBB29FD9DBE33F /* Pods_FSNotesCore_iOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -815,15 +815,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		05B3B2C1E540D528994D577D /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
+		15281A2CAF2CD031114BCE82 /* Pods-FSNotesCore macOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.release.xcconfig"; sourceTree = "<group>"; };
+		20075972AA2A53C964752E5C /* Pods_FSNotes__iCloud_Documents_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__iCloud_Documents_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		267C288C6285BE9A6FAE0D0F /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
 		275592961F3AE9B5006B8988 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		2799407B218484C900727B20 /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
-		3082FC46F901D42143298E50 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		30B18F95ABB80B59F6828358 /* Pods-FSNotes iOS Share Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS Share Extension.release.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS Share Extension/Pods-FSNotes iOS Share Extension.release.xcconfig"; sourceTree = "<group>"; };
-		52506B281732344FC1C00198 /* Pods-FSNotes (Notarized).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).debug.xcconfig"; sourceTree = "<group>"; };
-		54C80EDBE7362429EBC5B764 /* Pods_FSNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FF770489B7FA3449DC0CDB1 /* Pods-FSNotes (iCloud Documents).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).release.xcconfig"; sourceTree = "<group>"; };
-		6DA5C2A5FAC8885D7A1A4FA5 /* Pods-FSNotes iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.release.xcconfig"; sourceTree = "<group>"; };
+		312443807E38E0E5C6679DC9 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
+		3CD37DA957EBBE76F7C571B5 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4814DCE21024B8A59E025E8F /* Pods-FSNotes iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.release.xcconfig"; sourceTree = "<group>"; };
+		4E660BC0A8D6C2DF205438E7 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS Share Extension.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS Share Extension/Pods-FSNotes iOS Share Extension.debug.xcconfig"; sourceTree = "<group>"; };
+		51D964A002DBB29FD9DBE33F /* Pods_FSNotesCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F5CE55D61ADD91D70DAEB0D /* Pods-FSNotes (iCloud Documents).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).debug.xcconfig"; sourceTree = "<group>"; };
 		6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F13BB0620FEDDF50005E120 /* FSNotesCore_macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSNotesCore_macOS.h; sourceTree = "<group>"; };
 		6F13BB0720FEDDF50005E120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -842,16 +844,16 @@
 		6F13BB5420FEDE560005E120 /* FSNotesCore iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FSNotesCore iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F13BB5B20FEDE560005E120 /* FSNotesCore_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSNotesCore_iOSTests.swift; sourceTree = "<group>"; };
 		6F13BB5D20FEDE560005E120 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6FBB23D1B419A46985509C6D /* Pods-FSNotes iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		7072589A76DE926DDE030B82 /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
-		8D48E52ACE40D368E8465AF1 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS Share Extension.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS Share Extension/Pods-FSNotes iOS Share Extension.debug.xcconfig"; sourceTree = "<group>"; };
-		9800261843B1FAE05CB64B7D /* Pods_FSNotesCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A597FBEFCB257CA4E5BD9C9C /* Pods-FSNotesCore iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.release.xcconfig"; sourceTree = "<group>"; };
-		B4CCA51F08618FFE1D0F7592 /* Pods_FSNotes_iOS_Share_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS_Share_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B818B425245BBB888DBBD4E1 /* Pods_FSNotes_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD43F49080888F72B31171C2 /* Pods-FSNotes (iCloud Documents).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).debug.xcconfig"; sourceTree = "<group>"; };
-		BDAB8294012771C64277DAB2 /* Pods-FSNotes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.debug.xcconfig"; sourceTree = "<group>"; };
-		C36D98CEC2BAC4ED7FA580D4 /* Pods-FSNotesCore iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		71B0A68A246DC33E2BCB2CD8 /* Pods-FSNotes iOS Share Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS Share Extension.release.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS Share Extension/Pods-FSNotes iOS Share Extension.release.xcconfig"; sourceTree = "<group>"; };
+		85EA5F6B493A8464ECD14B81 /* Pods-FSNotes iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8F2EBC009F0240F232497C56 /* Pods_FSNotes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		932F95B6D89E83ED68221FE6 /* Pods-FSNotes (Notarized).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).debug.xcconfig"; sourceTree = "<group>"; };
+		9AA6F8CCDEB90F200DCC9790 /* Pods-FSNotesCore macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.debug.xcconfig"; sourceTree = "<group>"; };
+		A1FD62BB4BA133434B92CAFA /* Pods_FSNotes_iOS_Share_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS_Share_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B22A82E1B99B4D5148437393 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC8745CEBAABD51AE2606791 /* Pods_FSNotes_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1924467F1578DE60F76C854 /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
+		D3E216DE8167EBE2F6D024DC /* Pods-FSNotes (iCloud Documents).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).release.xcconfig"; sourceTree = "<group>"; };
 		D7038E1C20FA86C100A54E69 /* SharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingService.swift; sourceTree = "<group>"; };
 		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
 		D7038E2520FB24E000A54E69 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
@@ -1145,10 +1147,8 @@
 		D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTextProcessor.swift; sourceTree = "<group>"; };
 		D7FBBC2120F151530014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		D7FBBC2720F151F80014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA48B9F8922B83D1657E810D /* Pods-FSNotesCore macOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore macOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotesCore macOS/Pods-FSNotesCore macOS.debug.xcconfig"; sourceTree = "<group>"; };
-		E6B8D758648273BA0D51AF0E /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
-		ED99303EFBDE78A21C472857 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F427BC6BC933E79EE95C60BA /* Pods_FSNotes__iCloud_Documents_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__iCloud_Documents_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF5620D3409EC7EDEC355F64 /* Pods-FSNotesCore iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.release.xcconfig"; sourceTree = "<group>"; };
+		F804D5F42A7628FA442DA33B /* Pods-FSNotesCore iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1156,7 +1156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB8C055706AAE154DC55B4B9 /* Pods_FSNotesCore_macOS.framework in Frameworks */,
+				AE29821E4750B1E65B616E40 /* Pods_FSNotesCore_macOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,7 +1172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F1E35EE4F2E1616CF5A74F2 /* Pods_FSNotesCore_iOS.framework in Frameworks */,
+				FCA79A9C51AA83D26E05364A /* Pods_FSNotesCore_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1189,7 +1189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D75E33C622462442006AD1C1 /* FSNotesCore_macOS.framework in Frameworks */,
-				9AD2E9FD2B79C4E8CE683BE8 /* Pods_FSNotes__Notarized_.framework in Frameworks */,
+				FBC3804B3A152C35E4ADC257 /* Pods_FSNotes__Notarized_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1197,7 +1197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48814DE023DF720AC6923D40 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */,
+				29A99252AFD7667AC8882E18 /* Pods_FSNotes_iOS_Share_Extension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1207,7 +1207,7 @@
 			files = (
 				D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */,
 				6F13BB6120FEDE560005E120 /* FSNotesCore_iOS.framework in Frameworks */,
-				FD7BE29D5124229B3B42C491 /* Pods_FSNotes_iOS.framework in Frameworks */,
+				2461A0732DF821CB48A34A3D /* Pods_FSNotes_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1216,7 +1216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F13BB1920FEDDF50005E120 /* FSNotesCore_macOS.framework in Frameworks */,
-				40621FD579D2F3F3669282B2 /* Pods_FSNotes.framework in Frameworks */,
+				41601C1E10E4A5EC50052E18 /* Pods_FSNotes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,7 +1224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9811FA8A3649790E750ADE41 /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */,
+				E876E42EFE068A053134C163 /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1234,20 +1234,20 @@
 		32CE416A4DFCDD098D5DAF53 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BDAB8294012771C64277DAB2 /* Pods-FSNotes.debug.xcconfig */,
-				E6B8D758648273BA0D51AF0E /* Pods-FSNotes.release.xcconfig */,
-				52506B281732344FC1C00198 /* Pods-FSNotes (Notarized).debug.xcconfig */,
-				7072589A76DE926DDE030B82 /* Pods-FSNotes (Notarized).release.xcconfig */,
-				BD43F49080888F72B31171C2 /* Pods-FSNotes (iCloud Documents).debug.xcconfig */,
-				5FF770489B7FA3449DC0CDB1 /* Pods-FSNotes (iCloud Documents).release.xcconfig */,
-				6FBB23D1B419A46985509C6D /* Pods-FSNotes iOS.debug.xcconfig */,
-				6DA5C2A5FAC8885D7A1A4FA5 /* Pods-FSNotes iOS.release.xcconfig */,
-				8D48E52ACE40D368E8465AF1 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */,
-				30B18F95ABB80B59F6828358 /* Pods-FSNotes iOS Share Extension.release.xcconfig */,
-				C36D98CEC2BAC4ED7FA580D4 /* Pods-FSNotesCore iOS.debug.xcconfig */,
-				A597FBEFCB257CA4E5BD9C9C /* Pods-FSNotesCore iOS.release.xcconfig */,
-				DA48B9F8922B83D1657E810D /* Pods-FSNotesCore macOS.debug.xcconfig */,
-				05B3B2C1E540D528994D577D /* Pods-FSNotesCore macOS.release.xcconfig */,
+				267C288C6285BE9A6FAE0D0F /* Pods-FSNotes.debug.xcconfig */,
+				312443807E38E0E5C6679DC9 /* Pods-FSNotes.release.xcconfig */,
+				932F95B6D89E83ED68221FE6 /* Pods-FSNotes (Notarized).debug.xcconfig */,
+				D1924467F1578DE60F76C854 /* Pods-FSNotes (Notarized).release.xcconfig */,
+				5F5CE55D61ADD91D70DAEB0D /* Pods-FSNotes (iCloud Documents).debug.xcconfig */,
+				D3E216DE8167EBE2F6D024DC /* Pods-FSNotes (iCloud Documents).release.xcconfig */,
+				85EA5F6B493A8464ECD14B81 /* Pods-FSNotes iOS.debug.xcconfig */,
+				4814DCE21024B8A59E025E8F /* Pods-FSNotes iOS.release.xcconfig */,
+				4E660BC0A8D6C2DF205438E7 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */,
+				71B0A68A246DC33E2BCB2CD8 /* Pods-FSNotes iOS Share Extension.release.xcconfig */,
+				F804D5F42A7628FA442DA33B /* Pods-FSNotesCore iOS.debug.xcconfig */,
+				DF5620D3409EC7EDEC355F64 /* Pods-FSNotesCore iOS.release.xcconfig */,
+				9AA6F8CCDEB90F200DCC9790 /* Pods-FSNotesCore macOS.debug.xcconfig */,
+				15281A2CAF2CD031114BCE82 /* Pods-FSNotesCore macOS.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1405,13 +1405,13 @@
 				D77671B71FACEDDE00DDF28D /* MASShortcut.framework */,
 				D74922111FACE9B100C45108 /* Down.framework */,
 				D72E05861F5220D300977D02 /* Down.framework */,
-				54C80EDBE7362429EBC5B764 /* Pods_FSNotes.framework */,
-				ED99303EFBDE78A21C472857 /* Pods_FSNotes__Notarized_.framework */,
-				F427BC6BC933E79EE95C60BA /* Pods_FSNotes__iCloud_Documents_.framework */,
-				B818B425245BBB888DBBD4E1 /* Pods_FSNotes_iOS.framework */,
-				B4CCA51F08618FFE1D0F7592 /* Pods_FSNotes_iOS_Share_Extension.framework */,
-				9800261843B1FAE05CB64B7D /* Pods_FSNotesCore_iOS.framework */,
-				3082FC46F901D42143298E50 /* Pods_FSNotesCore_macOS.framework */,
+				8F2EBC009F0240F232497C56 /* Pods_FSNotes.framework */,
+				3CD37DA957EBBE76F7C571B5 /* Pods_FSNotes__Notarized_.framework */,
+				20075972AA2A53C964752E5C /* Pods_FSNotes__iCloud_Documents_.framework */,
+				CC8745CEBAABD51AE2606791 /* Pods_FSNotes_iOS.framework */,
+				A1FD62BB4BA133434B92CAFA /* Pods_FSNotes_iOS_Share_Extension.framework */,
+				51D964A002DBB29FD9DBE33F /* Pods_FSNotesCore_iOS.framework */,
+				B22A82E1B99B4D5148437393 /* Pods_FSNotesCore_macOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1878,7 +1878,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F13BB2020FEDDF50005E120 /* Build configuration list for PBXNativeTarget "FSNotesCore macOS" */;
 			buildPhases = (
-				0BC3AE5FE9CCBDCE0606D7CF /* [CP] Check Pods Manifest.lock */,
+				E455DB381CF1C8CED1820400 /* [CP] Check Pods Manifest.lock */,
 				6F13BAFF20FEDDF40005E120 /* Headers */,
 				6F13BB0020FEDDF40005E120 /* Sources */,
 				6F13BB0120FEDDF40005E120 /* Frameworks */,
@@ -1917,7 +1917,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F13BB6320FEDE560005E120 /* Build configuration list for PBXNativeTarget "FSNotesCore iOS" */;
 			buildPhases = (
-				656C7B1E984A36D994AD72A0 /* [CP] Check Pods Manifest.lock */,
+				A61203C9AFE270E84D060FE1 /* [CP] Check Pods Manifest.lock */,
 				6F13BB4720FEDE550005E120 /* Headers */,
 				6F13BB4820FEDE550005E120 /* Sources */,
 				6F13BB4920FEDE550005E120 /* Frameworks */,
@@ -1956,12 +1956,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D75E340D22462442006AD1C1 /* Build configuration list for PBXNativeTarget "FSNotes (Notarized)" */;
 			buildPhases = (
-				1D72A696A86360E51BBEB2FA /* [CP] Check Pods Manifest.lock */,
+				FFF52D0EFC962887AC16973A /* [CP] Check Pods Manifest.lock */,
 				D75E337522462442006AD1C1 /* Sources */,
 				D75E33C522462442006AD1C1 /* Frameworks */,
 				D75E33C822462442006AD1C1 /* Resources */,
 				D75E340B22462442006AD1C1 /* Embed Frameworks */,
-				A8819F243D2F599EF0F0DD9C /* [CP] Embed Pods Frameworks */,
+				9F8242D3A4071BAFE6B51DA1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1977,7 +1977,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D75F3341205EC34800CC887E /* Build configuration list for PBXNativeTarget "FSNotes iOS Share Extension" */;
 			buildPhases = (
-				9493F9613F8ABFD8492F6555 /* [CP] Check Pods Manifest.lock */,
+				38ADD869F1291F2213795DCB /* [CP] Check Pods Manifest.lock */,
 				D75F3332205EC34800CC887E /* Sources */,
 				D75F3333205EC34800CC887E /* Frameworks */,
 				D75F3334205EC34800CC887E /* Resources */,
@@ -1995,14 +1995,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7679398201F21F5000F7BBF /* Build configuration list for PBXNativeTarget "FSNotes iOS" */;
 			buildPhases = (
-				87F4DF6EA3C149BF94866880 /* [CP] Check Pods Manifest.lock */,
+				63C183EA7538C1E95939990F /* [CP] Check Pods Manifest.lock */,
 				D7679382201F21F5000F7BBF /* Sources */,
 				D7679383201F21F5000F7BBF /* Frameworks */,
 				D7679384201F21F5000F7BBF /* Resources */,
 				D713542C2042D46E00E3776F /* Embed Watch Content */,
 				D73E3DE0205D17360044FF84 /* Embed App Extensions */,
 				6F13BB6620FEDE560005E120 /* Embed Frameworks */,
-				8F9C50802288356E71AE6494 /* [CP] Embed Pods Frameworks */,
+				F4A99AC1CE7BF0CDA5EEBB50 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2019,12 +2019,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7793C951F211C6000CA39B7 /* Build configuration list for PBXNativeTarget "FSNotes" */;
 			buildPhases = (
-				235972A93B8954EADB205B36 /* [CP] Check Pods Manifest.lock */,
+				262A4AB937367FE4AA6909D2 /* [CP] Check Pods Manifest.lock */,
 				D7793C6B1F211C6000CA39B7 /* Sources */,
 				D7793C6C1F211C6000CA39B7 /* Frameworks */,
 				D7793C6D1F211C6000CA39B7 /* Resources */,
 				6F13BB1A20FEDDF50005E120 /* Embed Frameworks */,
-				69DF45AA98BB92A7AF45E363 /* [CP] Embed Pods Frameworks */,
+				87E69F0E68207EC309B3E16E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2040,12 +2040,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7E81C571F925B5F00416A91 /* Build configuration list for PBXNativeTarget "FSNotes (iCloud Documents)" */;
 			buildPhases = (
-				ED159A303025D1657CCA463C /* [CP] Check Pods Manifest.lock */,
+				AA1F81879C8BEDA7FE7A2749 /* [CP] Check Pods Manifest.lock */,
 				D7E81C2D1F925B5F00416A91 /* Sources */,
 				D7E81C471F925B5F00416A91 /* Frameworks */,
 				D7E81C491F925B5F00416A91 /* Resources */,
 				D721893F21020D3300FE3AF2 /* Embed Frameworks */,
-				09D7DF95ACC2B365E80FAEA2 /* [CP] Embed Pods Frameworks */,
+				AC5F22B1CA4B56FFBF92EF48 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2537,66 +2537,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		09D7DF95ACC2B365E80FAEA2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		0BC3AE5FE9CCBDCE0606D7CF /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotesCore macOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1D72A696A86360E51BBEB2FA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotes (Notarized)-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		235972A93B8954EADB205B36 /* [CP] Check Pods Manifest.lock */ = {
+		262A4AB937367FE4AA6909D2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2618,7 +2559,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		656C7B1E984A36D994AD72A0 /* [CP] Check Pods Manifest.lock */ = {
+		38ADD869F1291F2213795DCB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2633,26 +2574,33 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotesCore iOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-FSNotes iOS Share Extension-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		69DF45AA98BB92A7AF45E363 /* [CP] Embed Pods Frameworks */ = {
+		63C183EA7538C1E95939990F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotes iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6F13BB7720FEE3500005E120 /* SwiftLint */ = {
@@ -2683,81 +2631,85 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelif which \"${PODS_ROOT}/SwiftLint/swiftlint\" >/dev/null; then\n    \"${PODS_ROOT}/SwiftLint/swiftlint\"\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		87F4DF6EA3C149BF94866880 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotes iOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8F9C50802288356E71AE6494 /* [CP] Embed Pods Frameworks */ = {
+		87E69F0E68207EC309B3E16E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes/Pods-FSNotes-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9493F9613F8ABFD8492F6555 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-FSNotes iOS Share Extension-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A8819F243D2F599EF0F0DD9C /* [CP] Embed Pods Frameworks */ = {
+		9F8242D3A4071BAFE6B51DA1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized)-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized)-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ED159A303025D1657CCA463C /* [CP] Check Pods Manifest.lock */ = {
+		A61203C9AFE270E84D060FE1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotesCore iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA1F81879C8BEDA7FE7A2749 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2773,6 +2725,122 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-FSNotes (iCloud Documents)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC5F22B1CA4B56FFBF92EF48 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MASShortcut/MASShortcut.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-macOS/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MASShortcut.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E455DB381CF1C8CED1820400 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotesCore macOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4A99AC1CE7BF0CDA5EEBB50 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/NightNight/NightNight.framework",
+				"${BUILT_PRODUCTS_DIR}/Down-iOS/Down.framework",
+				"${BUILT_PRODUCTS_DIR}/Highlightr-iOS/Highlightr.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor-iOS/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive-iOS/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-iOS/cmark_gfm_swift.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/DKCamera/DKCamera.framework",
+				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
+				"${BUILT_PRODUCTS_DIR}/GSImageViewerController/GSImageViewerController.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/Solar/Solar.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NightNight.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Down.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKCamera.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSImageViewerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Solar.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFF52D0EFC962887AC16973A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FSNotes (Notarized)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3372,7 +3440,7 @@
 /* Begin XCBuildConfiguration section */
 		6F13BB1C20FEDDF50005E120 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA48B9F8922B83D1657E810D /* Pods-FSNotesCore macOS.debug.xcconfig */;
+			baseConfigurationReference = 9AA6F8CCDEB90F200DCC9790 /* Pods-FSNotesCore macOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
@@ -3405,7 +3473,7 @@
 		};
 		6F13BB1D20FEDDF50005E120 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 05B3B2C1E540D528994D577D /* Pods-FSNotesCore macOS.release.xcconfig */;
+			baseConfigurationReference = 15281A2CAF2CD031114BCE82 /* Pods-FSNotesCore macOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
@@ -3480,7 +3548,7 @@
 		};
 		6F13BB6420FEDE560005E120 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C36D98CEC2BAC4ED7FA580D4 /* Pods-FSNotesCore iOS.debug.xcconfig */;
+			baseConfigurationReference = F804D5F42A7628FA442DA33B /* Pods-FSNotesCore iOS.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
@@ -3513,7 +3581,7 @@
 		};
 		6F13BB6520FEDE560005E120 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A597FBEFCB257CA4E5BD9C9C /* Pods-FSNotesCore iOS.release.xcconfig */;
+			baseConfigurationReference = DF5620D3409EC7EDEC355F64 /* Pods-FSNotesCore iOS.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
@@ -3592,7 +3660,7 @@
 		};
 		D75E340E22462442006AD1C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 52506B281732344FC1C00198 /* Pods-FSNotes (Notarized).debug.xcconfig */;
+			baseConfigurationReference = 932F95B6D89E83ED68221FE6 /* Pods-FSNotes (Notarized).debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3625,7 +3693,7 @@
 		};
 		D75E340F22462442006AD1C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7072589A76DE926DDE030B82 /* Pods-FSNotes (Notarized).release.xcconfig */;
+			baseConfigurationReference = D1924467F1578DE60F76C854 /* Pods-FSNotes (Notarized).release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3660,7 +3728,7 @@
 		};
 		D75F3342205EC34800CC887E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D48E52ACE40D368E8465AF1 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */;
+			baseConfigurationReference = 4E660BC0A8D6C2DF205438E7 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Share/FSNotes iOS Share.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -3682,7 +3750,7 @@
 		};
 		D75F3343205EC34800CC887E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 30B18F95ABB80B59F6828358 /* Pods-FSNotes iOS Share Extension.release.xcconfig */;
+			baseConfigurationReference = 71B0A68A246DC33E2BCB2CD8 /* Pods-FSNotes iOS Share Extension.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "FSNotes iOS Share/FSNotes iOS Share.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -3706,7 +3774,7 @@
 		};
 		D7679399201F21F5000F7BBF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FBB23D1B419A46985509C6D /* Pods-FSNotes iOS.debug.xcconfig */;
+			baseConfigurationReference = 85EA5F6B493A8464ECD14B81 /* Pods-FSNotes iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3733,7 +3801,7 @@
 		};
 		D767939A201F21F5000F7BBF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DA5C2A5FAC8885D7A1A4FA5 /* Pods-FSNotes iOS.release.xcconfig */;
+			baseConfigurationReference = 4814DCE21024B8A59E025E8F /* Pods-FSNotes iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3878,7 +3946,7 @@
 		};
 		D7793C961F211C6000CA39B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDAB8294012771C64277DAB2 /* Pods-FSNotes.debug.xcconfig */;
+			baseConfigurationReference = 267C288C6285BE9A6FAE0D0F /* Pods-FSNotes.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3910,7 +3978,7 @@
 		};
 		D7793C971F211C6000CA39B7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6B8D758648273BA0D51AF0E /* Pods-FSNotes.release.xcconfig */;
+			baseConfigurationReference = 312443807E38E0E5C6679DC9 /* Pods-FSNotes.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -3944,7 +4012,7 @@
 		};
 		D7E81C581F925B5F00416A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD43F49080888F72B31171C2 /* Pods-FSNotes (iCloud Documents).debug.xcconfig */;
+			baseConfigurationReference = 5F5CE55D61ADD91D70DAEB0D /* Pods-FSNotes (iCloud Documents).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes/FSNotes (CloudKit).entitlements";
@@ -3976,7 +4044,7 @@
 		};
 		D7E81C591F925B5F00416A91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5FF770489B7FA3449DC0CDB1 /* Pods-FSNotes (iCloud Documents).release.xcconfig */;
+			baseConfigurationReference = D3E216DE8167EBE2F6D024DC /* Pods-FSNotes (iCloud Documents).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "FSNotes/FSNotes (CloudKit).entitlements";
