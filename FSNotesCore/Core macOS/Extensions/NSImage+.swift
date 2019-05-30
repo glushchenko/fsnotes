@@ -34,7 +34,7 @@ public extension NSImage {
     ///  - returns: The resized copy of the given image.
     func copy(size: NSSize) -> NSImage? {
         // Create a new rect with given width and height
-        let frame = NSMakeRect(0, 0, size.width, size.height)
+        let frame = NSRect(x: 0, y: 0, width: size.width, height: size.height)
 
         // Get the best representation for the given size.
         guard let rep = self.bestRepresentation(for: frame, context: nil, hints: nil) else {
@@ -93,7 +93,7 @@ public extension NSImage {
         let yCoord = floor((resized.height - size.height) / 2)
 
         // Create the cropping frame.
-        let frame = NSMakeRect(xCoord, yCoord, size.width, size.height)
+        let frame = NSRect(x: xCoord, y: yCoord, width: size.width, height: size.height)
 
         // Get the best representation of the image for the given cropping frame.
         guard let rep = resized.bestRepresentation(for: frame, context: nil, hints: nil) else {
@@ -106,12 +106,13 @@ public extension NSImage {
         img.lockFocus()
         defer { img.unlockFocus() }
 
-        if rep.draw(in: NSMakeRect(0, 0, size.width, size.height),
-                    from: frame,
-                    operation: NSCompositingOperation.copy,
-                    fraction: 1.0,
-                    respectFlipped: false,
-                    hints: [:]) {
+        if rep.draw(
+            in: NSRect(x: 0, y: 0, width: size.width, height: size.height),
+            from: frame,
+            operation: NSCompositingOperation.copy,
+            fraction: 1.0,
+            respectFlipped: false,
+            hints: [:]) {
             // Return the cropped image.
             return img
         }

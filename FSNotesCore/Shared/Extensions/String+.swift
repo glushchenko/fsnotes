@@ -23,7 +23,7 @@ public extension String {
     func trim() -> String {
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
-    
+
     func getPrefixMatchSequentially(char: String) -> String? {
         var result = String()
 
@@ -51,7 +51,7 @@ public extension String {
         if self.last == "\n" {
             return String(self.dropLast())
         }
-        
+
         return self
     }
 
