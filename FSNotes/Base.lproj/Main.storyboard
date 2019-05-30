@@ -567,19 +567,19 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Sort by" id="05n-RU-nOV">
                                                 <items>
-                                                    <menuItem title="Modification date" identifier="modificationDate" id="dCc-l5-XB2">
+                                                    <menuItem title="Modification date" identifier="SB.modificationDate" id="dCc-l5-XB2">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="UCf-WH-qOL"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Creation date" identifier="creationDate" id="eTL-dh-GvM">
+                                                    <menuItem title="Creation date" identifier="SB.creationDate" id="eTL-dh-GvM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="2Jk-Qh-1MD"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Title" identifier="title" id="1qV-pJ-ZQT">
+                                                    <menuItem title="Title" identifier="SB.title" id="1qV-pJ-ZQT">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="sortBy:" target="L4m-js-agn" id="Diu-Vl-cVb"/>

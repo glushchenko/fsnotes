@@ -320,7 +320,10 @@ class ViewController: NSViewController,
     }
 
     @IBAction func sortBy(_ sender: NSMenuItem) {
-        if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
+        if let id = sender.identifier {
+            let key = String(id.rawValue.dropFirst(3))
+            guard let sortBy = SortBy(rawValue: key) else { return }
+
             UserDefaultsManagement.sort = sortBy
             UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
             
