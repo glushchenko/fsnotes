@@ -8,14 +8,10 @@
 
 extension NSFont {
     public var lineHeight: CGFloat {
-        get {
-            return CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
-        }
+        return CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
     }
 
     public var lineHeightCustom: CGFloat {
-        get {
-            return CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
-        }
+        return CGFloat(ceilf(Float(ascender + abs(descender) + leading)))
     }
 }

@@ -23,7 +23,7 @@ extension ImageAttachment {
 
                     self.cache(data: imageData)
 
-                    if let resizedImage = self.resize(image: image, size: size), let imageData = UIImageJPEGRepresentation(resizedImage, 1) {
+                    if let resizedImage = self.resize(image: image, size: size), let imageData = resizedImage.jpegData(compressionQuality: 1) {
 
                         let fileWrapper = FileWrapper(regularFileWithContents: imageData)
                         fileWrapper.preferredFilename = "\(self.title)@::\(self.url.path)"

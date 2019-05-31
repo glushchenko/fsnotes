@@ -32,7 +32,7 @@ class PrefsViewController: NSTabViewController  {
         return toolbarItem
     }
 
-    override func changeFont(_ sender: Any?) {
+    func changeFont(_ sender: Any?) {
         // User interface tab
         if selectedTabViewItemIndex == 0x01 {
             guard let vc = ViewController.shared() else { return }
@@ -71,14 +71,14 @@ class PrefsViewController: NSTabViewController  {
     }
 
     func setFontPreview() {
-        if let ui = childViewControllers[1] as? PreferencesUserInterfaceViewController {
+        if let ui = children[1] as? PreferencesUserInterfaceViewController {
             ui.fontPreview.font = NSFont(name: UserDefaultsManagement.fontName, size: 13)
             ui.fontPreview.stringValue = "\(UserDefaultsManagement.fontName) \(UserDefaultsManagement.fontSize)pt"
         }
     }
 
     func setCodeFontPreview() {
-        if let ui = childViewControllers[2] as? PreferencesEditorViewController {
+        if let ui = children[2] as? PreferencesEditorViewController {
             ui.codeFont.font = NSFont(name: UserDefaultsManagement.codeFontName, size: 13)
 
             ui.codeFont.stringValue = "\(UserDefaultsManagement.codeFontName) \(UserDefaultsManagement.codeFontSize)pt"

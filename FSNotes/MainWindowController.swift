@@ -21,7 +21,7 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
         self.window?.titleVisibility = .hidden
         self.window?.titlebarAppearsTransparent = true
 
-        self.windowFrameAutosaveName = NSWindow.FrameAutosaveName(rawValue: "myMainWindow")
+        self.windowFrameAutosaveName = "myMainWindow"
     }
     
     func windowDidResize(_ notification: Notification) {

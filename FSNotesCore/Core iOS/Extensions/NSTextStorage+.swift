@@ -11,7 +11,7 @@ import UIKit
 extension NSTextStorage {
     public func updateFont() {
         beginEditing()
-        enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
+        enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if let font = value as? UIFont {
                 var newFont = font.withSize(CGFloat(UserDefaultsManagement.fontSize))
 

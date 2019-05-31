@@ -407,10 +407,7 @@ public class Note: NSObject  {
         if cloudSave {
             sharedStorage.saveCloudPins()
         }
-        return
-        #endif
-        
-        #if os(OSX)
+        #elseif os(OSX)
             var pin = true
             let data = Data(bytes: &pin, count: 1)
             try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
@@ -426,10 +423,7 @@ public class Note: NSObject  {
             if cloudSave {
                 sharedStorage.saveCloudPins()
             }
-            return
-            #endif
-            
-            #if os(OSX)
+            #elseif os(OSX)
                 var pin = false
                 let data = Data(bytes: &pin, count: 1)
                 try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
@@ -840,12 +834,12 @@ public class Note: NSObject  {
     public func removeTag(_ name: String) {
         guard tagNames.contains(name) else { return }
         
-        if let i = tagNames.index(of: name) {
+        if let i = tagNames.firstIndex(of: name) {
             tagNames.remove(at: i)
         }
         
         if sharedStorage.noteList.first(where: {$0.tagNames.contains(name)}) == nil {
-            if let i = sharedStorage.tagNames.index(of: name) {
+            if let i = sharedStorage.tagNames.firstIndex(of: name) {
                 sharedStorage.tagNames.remove(at: i)
             }
         }

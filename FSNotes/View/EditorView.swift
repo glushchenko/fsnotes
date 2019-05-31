@@ -13,7 +13,7 @@ class EditorView: NSView {
         super.draw(dirtyRect)
 
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            NSColor(named: NSColor.Name(rawValue: "mainBackground"))!.setFill()
+            NSColor(named: "mainBackground")!.setFill()
             __NSRectFill(dirtyRect)
         } else {
             layer?.backgroundColor = NSColor.white.cgColor

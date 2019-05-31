@@ -9,9 +9,9 @@
 import Foundation
 
 enum NoteAttribute {
-    static let highlight = NSAttributedStringKey(rawValue: "co.fluder.search.highlight")
+    static let highlight = NSAttributedString.Key(rawValue: "co.fluder.search.highlight")
     
-    static let all = Set<NSAttributedStringKey>([
+    static let all = Set<NSAttributedString.Key>([
         highlight
     ])
 }

@@ -79,9 +79,9 @@ class ViewController: NSViewController,
                 DispatchQueue.main.async {
                     if let note = EditTextView.note {
                         if note.isUnlocked() {
-                            self?.lockUnlock.image = NSImage(named: .lockUnlockedTemplate)
+                            self?.lockUnlock.image = NSImage(named: NSImage.lockUnlockedTemplateName)
                         } else {
-                            self?.lockUnlock.image = NSImage(named: .lockLockedTemplate)
+                            self?.lockUnlock.image = NSImage(named: NSImage.lockLockedTemplateName)
                         }
                     }
 
@@ -126,7 +126,7 @@ class ViewController: NSViewController,
         notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
     }
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = ViewController.shared() else { return false}
         
         if let title = menuItem.menu?.identifier?.rawValue {
@@ -215,8 +215,8 @@ class ViewController: NSViewController,
         self.setTableRowHeight()
         self.storageOutlineView.sidebarItems = Sidebar().getList()
         
-        self.sidebarSplitView.autosaveName = NSSplitView.AutosaveName(rawValue: "SidebarSplitView")
-        self.splitView.autosaveName = NSSplitView.AutosaveName(rawValue: "EditorSplitView")
+        self.sidebarSplitView.autosaveName = "SidebarSplitView"
+        self.splitView.autosaveName = "EditorSplitView"
 
         notesScrollView.scrollerStyle = .overlay
         sidebarScrollView.scrollerStyle = .overlay
@@ -262,7 +262,7 @@ class ViewController: NSViewController,
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom {
             if #available(OSX 10.13, *) {
                 self.editArea?.linkTextAttributes = [
-                    .foregroundColor:  NSColor.init(named: NSColor.Name(rawValue: "link"))!
+                    .foregroundColor:  NSColor.init(named: "link")!
                 ]
             }
         }
@@ -320,7 +320,10 @@ class ViewController: NSViewController,
     }
 
     @IBAction func sortBy(_ sender: NSMenuItem) {
-        if let id = sender.identifier, let sortBy = SortBy(rawValue: id.rawValue) {
+        if let id = sender.identifier {
+            let key = String(id.rawValue.dropFirst(3))
+            guard let sortBy = SortBy(rawValue: key) else { return }
+
             UserDefaultsManagement.sort = sortBy
             UserDefaultsManagement.sortDirection = !UserDefaultsManagement.sortDirection
             
@@ -442,8 +445,10 @@ class ViewController: NSViewController,
     }
 
     func reloadSideBar() {
+        guard let outline = storageOutlineView else { return }
+
         sidebarTimer.invalidate()
-        sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: storageOutlineView, selector: #selector(storageOutlineView.reloadSidebar), userInfo: nil, repeats: false)
+        sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: outline, selector: #selector(outline.reloadSidebar), userInfo: nil, repeats: false)
     }
     
     func reloadView(note: Note? = nil) {
@@ -850,8 +855,11 @@ class ViewController: NSViewController,
                 let md = appd.mainWindowController
             {
                 let undoManager = md.notesListUndoManager
-                undoManager.registerUndo(withTarget: vc.notesTableView, selector: #selector(vc.notesTableView.unDelete), object: urls)
-                undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+
+                if let ntv = vc.notesTableView {
+                    undoManager.registerUndo(withTarget: ntv, selector: #selector(ntv.unDelete), object: urls)
+                    undoManager.setActionName(NSLocalizedString("Delete", comment: ""))
+                }
 
                 if let i = selectedRow, i > -1 {
                     vc.notesTableView.selectRow(i)
@@ -989,7 +997,7 @@ class ViewController: NSViewController,
             _ = note.removeFile()
         }
         
-        NSSound(named: NSSound.Name(rawValue: "Pop"))?.play()
+        NSSound(named: "Pop")?.play()
     }
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
@@ -1081,12 +1089,12 @@ class ViewController: NSViewController,
             return
         }
 
-        if let controller = vc.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "ProjectSettingsViewController"))
+        if let controller = vc.storyboard?.instantiateController(withIdentifier: "ProjectSettingsViewController")
             as? ProjectSettingsViewController {
                 self.projectSettingsViewController = controller
 
             if let project = vc.getSidebarProject() {
-                vc.presentViewControllerAsSheet(controller)
+                vc.presentAsSheet(controller)
                 controller.load(project: project)
             }
         }
@@ -1104,7 +1112,7 @@ class ViewController: NSViewController,
         refillEditArea()
     }
 
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
         if titleLabel.isEditable == true {
@@ -1541,13 +1549,13 @@ class ViewController: NSViewController,
         }
 
         let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
-        let indexes = updatedNotes.compactMap({ _, note in resorted.index(where: { $0 === note }) })
+        let indexes = updatedNotes.compactMap({ _, note in resorted.firstIndex(where: { $0 === note }) })
         let newIndexes = IndexSet(indexes)
 
         notesTableView.beginUpdates()
         let nowPinned = updatedNotes.filter { _, note in note.isPinned }
         for (row, note) in nowPinned {
-            guard let newRow = resorted.index(where: { $0 === note }) else { continue }
+            guard let newRow = resorted.firstIndex(where: { $0 === note }) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
             let toMove = state.remove(at: row)
             state.insert(toMove, at: newRow)
@@ -1556,11 +1564,11 @@ class ViewController: NSViewController,
         let nowUnpinned = updatedNotes
             .filter({ (_, note) -> Bool in !note.isPinned })
             .compactMap({ (_, note) -> (Int, Note)? in
-                guard let curRow = state.index(where: { $0 === note }) else { return nil }
+                guard let curRow = state.firstIndex(where: { $0 === note }) else { return nil }
                 return (curRow, note)
             })
         for (row, note) in nowUnpinned.reversed() {
-            guard let newRow = resorted.index(where: { $0 === note }) else { continue }
+            guard let newRow = resorted.firstIndex(where: { $0 === note }) else { continue }
             notesTableView.moveRow(at: row, to: newRow)
             let toMove = state.remove(at: row)
             state.insert(toMove, at: newRow)
@@ -1585,7 +1593,7 @@ class ViewController: NSViewController,
         cell.name.stringValue = note.getTitleWithoutLabel()
 
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !UserDataService.instance.isDark, #available(OSX 10.13, *) {
-            cell.name.textColor = NSColor.init(named: NSColor.Name(rawValue: "reverseBackground"))
+            cell.name.textColor = NSColor.init(named: "reverseBackground")
         }
         
         let fileName = cell.name.currentEditor()!.string as NSString

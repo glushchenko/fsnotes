@@ -20,7 +20,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     private var storage = Storage.sharedInstance()
     public var isFirstLaunch = true
     
-    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+    func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
             if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
                 return true
@@ -91,7 +91,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         guard let sidebarItem = item as? SidebarItem else { return false }
         guard let vc = ViewController.shared() else { return false }
 
-        let board = info.draggingPasteboard()
+        let board = info.draggingPasteboard
 
         switch sidebarItem.type {
         case .Tag:
@@ -163,7 +163,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
-        let board = info.draggingPasteboard()
+        let board = info.draggingPasteboard
 
         switch sidebarItem.type {
         case .Tag, .Trash:
@@ -375,7 +375,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
                 item.isHidden = false
             }
             
-            if let project = si[selectedRow].project, let i = menu.items.index(where: {$0.title == NSLocalizedString("Notes", comment: "Rename")}) {
+            if let project = si[selectedRow].project, let i = menu.items.firstIndex(where: {$0.title == NSLocalizedString("Notes", comment: "Rename")}) {
                 if project.isRoot {
                     menu.item(at: i)?.isHidden = true
                 } else {
@@ -575,11 +575,11 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     public func deselectTags(_ list: [String]) {
         for tag in list {
             if
-                let i = sidebarItems?.index(where: {$0.type == .Tag && $0.name == tag }),
+                let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == tag }),
                 let row = self.rowView(atRow: i, makeIfNecessary: false),
                 let cell = row.view(atColumn: 0) as? SidebarCellView {
                 
-                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+                cell.icon.image = NSImage(named: "tag.png")
             }
         }
     }
@@ -587,14 +587,14 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     public func selectTag(item: SidebarItem) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag_red.png"))
+            cell.icon.image = NSImage(named: "tag_red.png")
         }
     }
     
     public func deselectTag(item: SidebarItem) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+            cell.icon.image = NSImage(named: "tag.png")
         }
     }
     
@@ -603,13 +603,13 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
         for item in items {
             let i = self.row(forItem: item)
             if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                cell.icon.image = NSImage(named: NSImage.Name(rawValue: "tag.png"))
+                cell.icon.image = NSImage(named: "tag.png")
             }
         }
     }
     
     public func remove(sidebarItem: SidebarItem) {
-        if let i = sidebarItems?.index(where: {$0.type == .Tag && $0.name == sidebarItem.name }) {
+        if let i = sidebarItems?.firstIndex(where: {$0.type == .Tag && $0.name == sidebarItem.name }) {
             sidebarItems?.remove(at: i)
             self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
         }
@@ -643,7 +643,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
     }
     
     public func selectArchive() {
-        if let i = sidebarItems?.index(where: {$0.type == .Archive }) {
+        if let i = sidebarItems?.firstIndex(where: {$0.type == .Archive }) {
             selectRowIndexes([i], byExtendingSelection: false)
         }
     }

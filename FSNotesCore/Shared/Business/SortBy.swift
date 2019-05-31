@@ -9,7 +9,7 @@
 import Foundation
 
 public enum SortBy: String {
-    case modificationDate = "modificationDate"
-    case creationDate = "creationDate"
-    case title = "title"
+    case modificationDate
+    case creationDate
+    case title
 }

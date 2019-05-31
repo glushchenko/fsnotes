@@ -23,7 +23,7 @@ class MasterPasswordViewController: NSViewController {
 
 
     @IBAction func close(_ sender: Any) {
-        dismissViewController(self)
+        dismiss(self)
     }
 
     @IBAction func change(_ sender: Any) {
@@ -60,7 +60,7 @@ class MasterPasswordViewController: NSViewController {
 
         UserDefaultsManagement.masterPasswordHint = hint.stringValue
 
-        dismissViewController(self)
+        dismiss(self)
     }
 
     private func wrongRepeatAlert() {

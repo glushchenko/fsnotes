@@ -14,7 +14,7 @@ extension NSMutableAttributedString {
         enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if let f = value as? UIFont {
                 var traits = f.fontDescriptor.symbolicTraits
-                traits.insert(UIFontDescriptorSymbolicTraits.traitBold)
+                traits.insert(UIFontDescriptor.SymbolicTraits.traitBold)
                 
                 if let descriptor = f.fontDescriptor.withSymbolicTraits(traits) {
                     let font = UIFont(descriptor: descriptor, size: 0)
@@ -31,7 +31,7 @@ extension NSMutableAttributedString {
         enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if let f = value as? UIFont {
                 var traits = f.fontDescriptor.symbolicTraits
-                traits.remove(UIFontDescriptorSymbolicTraits.traitBold)
+                traits.remove(UIFontDescriptor.SymbolicTraits.traitBold)
                 
                 if let descriptor = f.fontDescriptor.withSymbolicTraits(traits) {
                     let font = UIFont(descriptor: descriptor, size: 0)
@@ -48,7 +48,7 @@ extension NSMutableAttributedString {
         enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if let f = value as? UIFont {
                 var traits = f.fontDescriptor.symbolicTraits
-                traits.remove(UIFontDescriptorSymbolicTraits.traitItalic)
+                traits.remove(UIFontDescriptor.SymbolicTraits.traitItalic)
                 
                 if let descriptor = f.fontDescriptor.withSymbolicTraits(traits) {
                     let font = UIFont(descriptor: descriptor, size: 0)
@@ -65,7 +65,7 @@ extension NSMutableAttributedString {
         enumerateAttribute(.font, in: NSRange(location: 0, length: self.length)) { (value, range, stop) in
             if let f = value as? UIFont {
                 var traits = f.fontDescriptor.symbolicTraits
-                traits.insert(UIFontDescriptorSymbolicTraits.traitItalic)
+                traits.insert(UIFontDescriptor.SymbolicTraits.traitItalic)
                 
                 if let descriptor = f.fontDescriptor.withSymbolicTraits(traits) {
                     let font = UIFont(descriptor: descriptor, size: 0)

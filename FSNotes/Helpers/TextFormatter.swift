@@ -174,10 +174,10 @@ public class TextFormatter {
                     if underline == 1 {
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
-                        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
                     }
                 } else {
-                    attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: range)
+                    attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
                 }
 
                 #if os(iOS)
@@ -195,18 +195,18 @@ public class TextFormatter {
             
             #if os(OSX)
                 if (textView.typingAttributes[.underlineStyle] == nil) {
-                    attributedString.addAttribute(NSAttributedStringKey.underlineStyle, value: NSUnderlineStyle.styleSingle.rawValue, range: selectedRange)
+                    attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
                     textView.typingAttributes[.underlineStyle] = 1
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSUnderline"))
+                    textView.typingAttributes.removeValue(forKey: NSAttributedString.Key(rawValue: "NSUnderline"))
                 }
 
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
             #else
-                if (textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] == nil) {
-                    textView.typingAttributes[NSAttributedStringKey.underlineStyle.rawValue] = 1
+            if (textView.typingAttributes[.underlineStyle] == nil) {
+                textView.typingAttributes[.underlineStyle] = 1
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.underlineStyle.rawValue)
+                    textView.typingAttributes.removeValue(forKey: .underlineStyle)
                 }
             #endif
         }
@@ -246,18 +246,18 @@ public class TextFormatter {
             
             #if os(OSX)
                 if (textView.typingAttributes[.strikethroughStyle] == nil) {
-                    attributedString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 2, range: selectedRange)
+                    attributedString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: selectedRange)
                     textView.typingAttributes[.strikethroughStyle] = 2
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey(rawValue: "NSStrikethrough"))
+                    textView.typingAttributes.removeValue(forKey: NSAttributedString.Key(rawValue: "NSStrikethrough"))
                 }
             
                 textView.insertText(attributedString, replacementRange: textView.selectedRange)
             #else
-                if (textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] == nil) {
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = 2
+                if (textView.typingAttributes[.strikethroughStyle] == nil) {
+                    textView.typingAttributes[.strikethroughStyle] = 2
                 } else {
-                    textView.typingAttributes.removeValue(forKey: NSAttributedStringKey.strikethroughStyle.rawValue)
+                    textView.typingAttributes.removeValue(forKey: .strikethroughStyle)
                 }
             #endif
         }
@@ -653,7 +653,7 @@ public class TextFormatter {
                 #if os(OSX)
                     textView.typingAttributes[.strikethroughStyle] = strike
                 #else
-                    textView.typingAttributes[NSAttributedStringKey.strikethroughStyle.rawValue] = strike
+                    textView.typingAttributes[.strikethroughStyle] = strike
                 #endif
             }
             
@@ -708,18 +708,18 @@ public class TextFormatter {
         if let index = paragraph.string.range(of: "- [ ]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-            let attributedText = AttributedBox.getChecked()
+            if let attributedText = AttributedBox.getChecked() {
+                self.insertText(attributedText, replacementRange: range)
+            }
             
-            self.insertText(attributedText, replacementRange: range)
-
             return
 
         } else if let index = paragraph.string.range(of: "- [x]") {
             let local = paragraph.string.nsRange(from: index).location
             let range = NSMakeRange(paragraphRange.location + local, 5)
-            let attributedText = AttributedBox.getUnChecked()
-            
-            self.insertText(attributedText, replacementRange: range)
+            if let attributedText = AttributedBox.getUnChecked() {
+                self.insertText(attributedText, replacementRange: range)
+            }
             
             return
         }
@@ -732,7 +732,7 @@ public class TextFormatter {
         var color = Color.black
         #if os(OSX)
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            color = NSColor(named: NSColor.Name(rawValue: "mainText"))!
+            color = NSColor(named: "mainText")!
         }
         #endif
 
@@ -883,7 +883,7 @@ public class TextFormatter {
     private func getDefaultColor() -> NSColor {
         var color = Color.black
         if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-            color = NSColor(named: NSColor.Name(rawValue: "mainText"))!
+            color = NSColor(named: "mainText")!
         }
         return color
     }
@@ -894,7 +894,7 @@ public class TextFormatter {
             textView.typingAttributes[.font] = font
         #else
             textView.typingFont = font
-            textView.typingAttributes[NSAttributedStringKey.font.rawValue] = font
+            textView.typingAttributes[.font] = font
         #endif
     }
         
@@ -927,11 +927,11 @@ public class TextFormatter {
         return attributedText
     }
     
-    public static func getCodeBlockAttributes() -> [NSAttributedStringKey : Any] {
+    public static func getCodeBlockAttributes() -> [NSAttributedString.Key : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         
-        var attributes: [NSAttributedStringKey : Any] = [
+        var attributes: [NSAttributedString.Key : Any] = [
             .paragraphStyle: paragraphStyle
         ]
 

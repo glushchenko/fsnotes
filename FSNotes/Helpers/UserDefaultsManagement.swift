@@ -280,15 +280,13 @@ public class UserDefaultsManagement {
                 return iCloudDocumentsURL.path
             }
             
-            #if os(iOS)
-                return self.localDocumentsContainer?.path
-            #endif
-            
-            #if CLOUDKIT && os(macOS)
-                return nil
-            #endif
-
+        #if os(iOS)
             return self.localDocumentsContainer?.path
+        #elseif CLOUDKIT && os(macOS)
+            return nil
+        #else
+            return self.localDocumentsContainer?.path
+        #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
@@ -389,7 +387,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: "sortBy"), let sortBy = SortBy(rawValue: result as! String) {
                 return sortBy
             } else {
-                return SortBy(rawValue: SortBy.modificationDate.rawValue)!
+                return .modificationDate
             }
         }
         set {

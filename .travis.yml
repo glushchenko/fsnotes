@@ -1,6 +1,6 @@
 language: swift
 os: osx
-osx_image: xcode10.1
+osx_image: xcode10.2
 xcode_workspace: FSNotes.xcworkspace
 
 before_install:
@@ -10,7 +10,7 @@ env:
     - SCHEME=FSNotes SDK=macosx
     - SCHEME="FSNotes iOS" SDK=iphonesimulator
 
-script: xcodebuild -workspace FSNotes.xcworkspace -scheme "$SCHEME" build -sdk $SDK ONLY_ACTIVE_ARCH=NO
+script: xcodebuild -workspace FSNotes.xcworkspace -scheme "$SCHEME" build -sdk $SDK ONLY_ACTIVE_ARCH=NO -UseModernBuildSystem=NO -quiet
 
 branches:
     only: [master]

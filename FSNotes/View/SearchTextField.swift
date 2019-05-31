@@ -91,7 +91,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         }
     }
 
-    override func controlTextDidChange(_ obj: Notification) {
+    func controlTextDidChange(_ obj: Notification) {
         UserDataService.instance.searchTrigger = true
 
         let searchText = self.stringValue

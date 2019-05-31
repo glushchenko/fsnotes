@@ -79,7 +79,7 @@ class AttributedBox {
             if name == "checkbox" {
                 name = "checkbox_flipped"
             }
-            return NSImage(named: NSImage.Name(rawValue: name))!
+            return NSImage(named: name)!
         #else
             var night = String()
 

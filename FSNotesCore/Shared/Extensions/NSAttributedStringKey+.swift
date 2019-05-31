@@ -9,7 +9,7 @@
 import Foundation
 
 public extension NSAttributedString.Key {
-    public static var todo: NSAttributedString.Key {
+    static var todo: NSAttributedString.Key {
         return NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.todo")
     }
 }
