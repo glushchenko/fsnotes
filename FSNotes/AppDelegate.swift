@@ -204,15 +204,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
     
     @IBAction func openHelp(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues")!)
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/wiki")!)
+    }
+
+    @IBAction func openReportsAndRequests(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://github.com/glushchenko/fsnotes/issues/new/choose")!)
     }
 
     @IBAction func openSite(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://fsnot.es")!)
-    }
-
-    @IBAction func openTwitter(_ sender: Any) {
-        NSWorkspace.shared.open(URL(string: "https://twitter.com/FSNotesApp")!)
     }
     
     @IBAction func openPreferences(_ sender: Any?) {

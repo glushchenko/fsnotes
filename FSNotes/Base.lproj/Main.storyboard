@@ -638,16 +638,16 @@ CA
                                                 <action selector="openHelp:" target="Voe-Tx-rLC" id="CHO-se-CJA"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Report Bugs or Feature Requests" id="Q9n-yE-Ul0">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="openReportsAndRequests:" target="Ady-hI-5gd" id="V1D-1X-awT"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Official site" id="cfe-sv-2gm">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="openSite:" target="Voe-Tx-rLC" id="A75-hX-lIa"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Twitter" id="MGg-bI-g3A">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="openTwitter:" target="Voe-Tx-rLC" id="l5e-nB-2oA"/>
                                             </connections>
                                         </menuItem>
                                     </items>
