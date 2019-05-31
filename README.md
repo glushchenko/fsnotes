@@ -28,7 +28,7 @@ Our application respect open formats: **plain/text, markdown, rtf**, and stores 
 - markdown images preview in editor
 - images drag and drop
 
-FSNotes is written on **Swift 4**, open source (MIT license)
+FSNotes is written on **Swift 5**, open source (MIT license)
 
 <a href="https://itunes.apple.com/app/fsnotes/id1277179284">
 	<img src="https://fsnot.es/img/badge-download-on-the-mac-app-store.svg" alt="">
