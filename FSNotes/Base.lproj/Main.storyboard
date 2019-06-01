@@ -1371,7 +1371,7 @@ CA
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
-                                                                                            <rect key="frame" x="177" y="98" width="49" height="17"/>
+                                                                                            <rect key="frame" x="166" y="98" width="49" height="17"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1451,7 +1451,7 @@ CA
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="hKA-pJ-rpa"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
-                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="12" id="ngR-5z-x5I"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="23" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
                                                                                         <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="xyO-Sr-YNv"/>
