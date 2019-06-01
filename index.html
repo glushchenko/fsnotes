@@ -1,0 +1,219 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>FSNotes App</title>
+        <meta name="description" content="Modern notes manager for macOS/iOS">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <style type="text/css">
+        	header {
+        		text-align: center;
+        	}
+
+        	body {
+        		font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        		margin: 0 auto;
+                padding: 0 20px;
+        		width: 1024px;
+                max-width: 90%;
+        	}
+
+        	footer {
+        		margin: 0 0 20px 0;
+        		text-align: center;
+        	}
+
+        	a {
+        		color: #f6563a;
+        	}
+
+        	.fsnotes_logo {
+        		margin: 20px auto;
+        		width: 300px;
+        	}
+
+        	.navi {
+                list-style-type: none;
+        		margin: 0 auto;
+                padding: 0;
+        		text-align: center;
+        	}
+        		.navi li {
+        			display: inline-block;
+        			margin: 0 0 0 15px;
+        		}
+
+    		hr.s {
+    			border-top: dashed 1px #d1d3a6;
+    		}
+
+            img {
+                max-width: 90%;
+            }
+
+			.ios-screen {
+				border-radius: 5px;
+				width: 300px;
+			}
+
+            /* Large desktop */
+            @media (min-width: 1200px) { ... }
+
+            /* Portrait tablet to landscape and desktop */
+            @media (min-width: 768px) and (max-width: 979px) {
+                max-width: 100%;
+            }
+
+            /* Landscape phone to portrait tablet */
+            @media (max-width: 767px) {
+                max-width: 100%;
+            }
+
+            /* Landscape phones and down */
+            @media (max-width: 480px) { 
+                max-width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+    	<header>
+  			<a href="http://fsnot.es">
+  				<img class="fsnotes_logo" src="img/logo.png"/>
+  			</a>
+  		</header>
+
+		<ul class="navi">
+			<li>
+				<a href="#pricing">Pricing</a>
+			</li>
+			<li>
+				<a href="#features">Features</a>
+			</li>
+			<li>
+				<a href="#community">Community</a>
+			</li>
+			<li>
+				<a href="#thanks">Hall of fame</a>
+			</li>
+		</ul>
+  		<hr>
+        <p>File system notes is modern notational velocity (nvALT) on steroids for macOS and iOS</p>
+        <p>Application respects open formats: plain/text, markdown, rtf, and stores data in file system. You can view, edit, copy data in favourite external editor and see live results in FSNotes.</p>
+
+        <h2 id="pricing">Pricing</h2>
+        <p>
+        	FSNotes is an <a href="https://github.com/glushchenko/fsnotes" target="_blank">open source</a> project, and is provided for free, but you can support development by buying application in Mac App Store for symbolic price.
+        </p>
+
+        <p>No subscriptions ever.</p>
+
+        <p style="text-align: center;">
+			<a href="https://itunes.apple.com/app/fsnotes/id1277179284">
+				<img src="/img/badge-download-on-the-mac-app-store.svg" alt="">
+			</a> 
+
+			<a href="https://itunes.apple.com/app/fsnotes-manager/id1346501102">
+				<img src="/img/badge-download-on-the-app-store.svg" alt="">
+			</a> 
+        </p>
+	<p>
+		Or install using Homebrew: <pre>brew cask install fsnotes</pre>
+	</p>
+
+		<hr class="s" />
+
+		<h2 id="features">Features</h2>
+
+		<h3>macOS app</h3>
+		<p style="text-align: center;">
+			<img src="img/code.png?v=1.0" style="width: 800px; border-radius: 5px; border: 1px solid #e3e3e3;" />
+		</p>
+
+		<ul>
+			<li>keyboard centric</li>
+			<li>global shortcuts (clipboard save / search)</li>
+			<li>markdown and RTF markup (files stored on disk as plain/text and rich text)</li>
+			<li>markdown preview mode</li>
+			<li>elastic two pane view (vertical and horizontal layout)</li>
+			<li>blazing fast and lightweight (working fine with 10k+ files)</li>
+			<li>open files in finder / works with external editors (changes seamless live sync with UI)</li>
+			<li>pin/unpin important notes in top
+			<li>synchronization over iCloud Drive</li>
+			<li>multi folder storage</li>
+			<li>fast copy markdown code to clipboard</li>
+			<li>live markdown highlighting with code blocks (over 170 languages)</li>
+			<li>themes for code highlighting</li>
+			<li>markdown images preview in editor</li>
+			<li>images drag and drop</li>
+			<li>tags</li>
+		</ul>
+
+		<hr class="s" />
+		<h3>iOS app</h3>
+		<p style="text-align: center;">
+			<img src="img/ios-screen.png?v=1.0" class="ios-screen" />
+			<img src="img/ios-screen-2.png?v=1.0" class="ios-screen" style="margin: 0 0 0 10px" />
+		</p>
+
+		<ul>
+			<li>iCloud Drive support (Files.app folder available)</li>
+			<li>Fast note creation (3DTouch + configurable default keyboard)</li>
+			<li>Pin/unpin with macOS companion sync</li>
+			<li>RTF and Markdown markup</li>
+			<li>Markdown editor with highlighting (code blocks too)</li>
+			<li>Search with keywords highlighting</li>
+			<li>Sharing extension</li>
+		</ul>
+
+		<hr class="s" />
+		<h2 id="community">Community</h2>
+
+		<h3>GitHub</h3>
+	        <p><a href="https://github.com/glushchenko/fsnotes" target="_blank">Repository for macOS/iOS app</a><p>
+		<p><a href="https://github.com/glushchenko/fsnotes/issues" target="_blank">Bugs and requests</a><p>
+  	        <p><a href="https://github.com/glushchenko/glushchenko.github.io" target="_blank">This website</a><p>
+
+		<h3>Twitter</h3>
+		<a href="https://twitter.com/fsnotesapp" target="_blank">https://twitter.com/fsnotesapp</a>
+
+		<h3>Telegram group</h3>
+		<p><a href="https://t.me/joinchat/Aqckw1ZxoIGZkpmAvCh1cQ">https://t.me/joinchat/Aqckw1ZxoIGZkpmAvCh1cQ</a></p>
+
+		<hr class="s" />
+
+		<h2 id="contacts">Contacts</h2>
+		<p>E-mail: <a href="mailto: support@fsnot.es">support@fsnot.es</a></p>
+
+		<hr class="s" />
+		<h2 id="thanks">Hall of fame 🏆</h2>
+
+		<p>Special thanks for contribution to FSNotes:</p>
+
+		<a href="https://github.com/jeff-h" target="_blank">@jeff-h</a>, <a href="https://github.com/gingerbeardman" target="_blank">@gingerbeardman</a>, <a href="https://github.com/baranpirincal" target="_blank">@baranpirincal</a>, <a href="https://github.com/peavine" target="_blank">@peavine</a>, <a href="https://github.com/buddax2" target="_blank">@buddax2</a> 
+
+		<hr>
+		<footer>© 2017–2018 FSNotes</footer>
+
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>
