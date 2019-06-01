@@ -1582,7 +1582,6 @@
 				D75F3337205EC34800CC887E /* FSNotes iOS Share */,
 				D7793C701F211C6000CA39B7 /* Products */,
 				C5F4774EAA923C4003B182F8 /* Frameworks */,
-				D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */,
 				32CE416A4DFCDD098D5DAF53 /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -1626,6 +1625,7 @@
 				D7793C781F211C6000CA39B7 /* Main.storyboard */,
 				D7465F27207F2CD600E46A52 /* Images.xcassets */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
+				D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */,
 				D70FE13120FE198200813F9E /* InfoPlist.strings */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
 				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,

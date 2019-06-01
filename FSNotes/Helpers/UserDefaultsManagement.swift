@@ -860,7 +860,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.NoteContainer) as? Int, let container = NoteContainer(rawValue: result) {
                 return container
             }
-            return .textBundleV2
+            return .none
         }
         set {
             #if os(iOS)
