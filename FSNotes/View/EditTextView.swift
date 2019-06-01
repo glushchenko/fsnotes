@@ -285,6 +285,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string]
         }
     }
+
     override func writeSelection(to pboard: NSPasteboard, type: NSPasteboard.PasteboardType) -> Bool {
 
         guard let storage = textStorage else { return false }
@@ -305,6 +306,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 pboard.setData(rtfd, forType: NSPasteboard.PasteboardType.rtfd)
                 return true
             }
+        }
+
+        if type.rawValue == "NSStringPboardType" {
+            EditTextView.isPasteOperation = true
+            return super.writeSelection(to: pboard, type: type)
         }
 
         return false
@@ -344,7 +350,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                 EditTextView.isPasteOperation = true
                 self.insertText(mutable, replacementRange: currentRange)
-                EditTextView.isPasteOperation = false
 
                 self.breakUndoCoalescing()
             }
@@ -370,7 +375,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             self.breakUndoCoalescing()
 
             saveTextStorageContent(to: note)
-            EditTextView.isPasteOperation = false
             return
         }
     }

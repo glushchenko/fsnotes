@@ -55,6 +55,10 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
 
         centerImages(storage: textStorage, checkRange: editedRange)
+
+        if EditTextView.isPasteOperation {
+            EditTextView.isPasteOperation = false
+        }
     }
 
     private func getCodeRanges(string: String, length: Int) -> ([NSRange], [NSRange])? {
