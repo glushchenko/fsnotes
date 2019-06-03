@@ -674,8 +674,17 @@ class ViewController: NSViewController,
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
         }
+
+        var value = sender.stringValue
         
-        let value = sender.stringValue
+        if let editor = sender.currentEditor() {
+            let query = editor.string.prefix(editor.selectedRange.location)
+            if query.count > 0 {
+                value = String(query)
+                sender.stringValue = String(query)
+            }
+        }
+
         if (value.count > 0) {
             search.stringValue = ""
             editArea.clear()

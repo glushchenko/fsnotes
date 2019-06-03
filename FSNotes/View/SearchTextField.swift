@@ -86,6 +86,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         case "deleteWordBackward:":
             textView.deleteWordBackward(self)
             return true
+        case "noop:":
+            if let event = NSApp.currentEvent, event.modifierFlags.contains(.command) && event.keyCode == kVK_Return {
+                vcDelegate.makeNote(self)
+                return true
+            }
+            return false
         default:
             return false
         }
