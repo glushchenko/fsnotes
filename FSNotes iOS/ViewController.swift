@@ -530,10 +530,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         let note = Note(name: "", project: currentProject)
-
-        print(note.container)
-        print(note.type)
-
         if let tag = tag {
             note.tagNames.append(tag)
         }

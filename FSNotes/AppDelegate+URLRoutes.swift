@@ -63,15 +63,26 @@ extension AppDelegate {
     
     /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
+        let lastPath = url.lastPathComponent
+
+        guard nil != ViewController.shared() else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+                self.search(query: lastPath)
+            })
+            return
+        }
+
+        search(query: lastPath)
+    }
+
+    func search(query: String) {
         guard let controller = ViewController.shared() else { return }
 
-        let lastPath = url.lastPathComponent
-        
-        controller.search.stringValue = lastPath
+        controller.search.stringValue = query
         controller.updateTable(search: true) {
             if let note = controller.notesTableView.noteList.first {
                 DispatchQueue.main.async {
-                    controller.search.suggestAutocomplete(note, filter: lastPath)
+                    controller.search.suggestAutocomplete(note, filter: query)
                 }
             }
         }
