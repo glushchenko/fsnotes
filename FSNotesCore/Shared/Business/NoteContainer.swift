@@ -24,7 +24,7 @@ public enum NoteContainer: Int {
         switch self {
         case .textBundle: return "com.apple.package"
         case .textBundleV2: return "com.apple.package"
-        case .encryptedTextPack: return "org.textbundle.encrypted.package"
+        case .encryptedTextPack: return "es.fsnot.etp.package"
         case .none: return ""
         }
     }
