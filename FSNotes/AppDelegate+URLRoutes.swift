@@ -110,9 +110,20 @@ extension AppDelegate {
             body = htmlParam
         }
         
+        guard nil != ViewController.shared() else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+                self.create(name: title, content: body)
+            })
+            return
+        }
+
+        create(name: title, content: body)
+    }
+
+    func create(name: String, content: String) {
         guard let controller = ViewController.shared() else { return }
-        
-        controller.createNote(name: title, content: body)
+
+        controller.createNote(name: name, content: content)
     }
     
     
