@@ -21,6 +21,8 @@ public class UserDataService {
     fileprivate var _lastProject: URL?
     fileprivate var _lastName: String?
 
+    fileprivate var _importProgress = false
+
     public var searchTrigger: Bool {
         get {
             return _searchTrigger
@@ -30,7 +32,7 @@ public class UserDataService {
         }
     }
 
-    public var lastRenamed: URL? {
+    public var focusOnImport: URL? {
         get {
             return _lastRenamed
         }
@@ -97,5 +99,14 @@ public class UserDataService {
         _lastProject = nil
         _lastType = nil
         _lastName = nil
+    }
+
+    public var skipSidebarSelection: Bool {
+        get {
+            return _importProgress
+        }
+        set {
+            _importProgress = newValue
+        }
     }
 }

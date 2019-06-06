@@ -16,7 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var prefsWindowController: PrefsWindowController?
     var aboutWindowController: AboutWindowController?
     var statusItem: NSStatusItem?
-    
+
+    public var urls: [URL]? = nil
+    public var searchQuery: String? = nil
+    public var newName: String? = nil
+    public var newContent: String? = nil
+
     var appTitle: String {
         let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
         return name ?? Bundle.main.object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String

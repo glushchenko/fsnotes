@@ -103,10 +103,10 @@ class FileSystemEventManager {
     private func importNote(_ url: URL) {
         let n = storage.getBy(url: url)
         guard n == nil else {
-            if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.lastRenamed {
+            if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.focusOnImport {
                 self.delegate.updateTable() {
                     self.delegate.notesTableView.setSelected(note: nUnwrapped)
-                    UserDataService.instance.lastRenamed = nil
+                    UserDataService.instance.focusOnImport = nil
                 }
             }
             return
@@ -125,11 +125,10 @@ class FileSystemEventManager {
         self.storage.add(note)
         
         DispatchQueue.main.async {
-            if let url = UserDataService.instance.lastRenamed, let note = self.storage.getBy(url: url) {
-
+            if let url = UserDataService.instance.focusOnImport, let note = self.storage.getBy(url: url) {
                 self.delegate.updateTable() {
                     self.delegate.notesTableView.setSelected(note: note)
-                    UserDataService.instance.lastRenamed = nil
+                    UserDataService.instance.focusOnImport = nil
                     self.delegate.reloadSideBar()
                 }
             } else {
@@ -152,10 +151,10 @@ class FileSystemEventManager {
     }
     
     private func renameNote(note: Note) {
-        if note.url == UserDataService.instance.lastRenamed {
+        if note.url == UserDataService.instance.focusOnImport {
             self.delegate.updateTable() {
                 self.delegate.notesTableView.setSelected(note: note)
-                UserDataService.instance.lastRenamed = nil
+                UserDataService.instance.focusOnImport = nil
             }
             
         // On TextBundle import

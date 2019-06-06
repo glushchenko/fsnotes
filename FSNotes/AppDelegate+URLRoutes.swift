@@ -16,6 +16,7 @@ extension AppDelegate {
         case fsnotes = "fsnotes"
         case nv = "nv"
         case nvALT = "nvalt"
+        case file = "file"
     }
     
     enum FSNotesRoutes: String {
@@ -35,6 +36,12 @@ extension AppDelegate {
             else { return }
         
         switch scheme {
+        case HandledSchemes.file.rawValue:
+            if nil != ViewController.shared() {
+                self.importNotes(urls: urls)
+            } else {
+                self.urls = urls
+            }
         case HandledSchemes.fsnotes.rawValue:
             FSNotesRouter(url)
         case HandledSchemes.nv.rawValue,
@@ -44,7 +51,36 @@ extension AppDelegate {
             break
         }
     }
-    
+
+    func importNotes(urls: [URL]) {
+        guard let vc = ViewController.shared() else { return }
+
+        var importedNote: Note? = nil
+        var sidebarIndex: Int? = nil
+
+        for url in urls {
+            if let items = vc.storageOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
+                if let sidebarItem = items.first(where: {$0.project == note.project || $0.project?.isArchive == note.isInArchive()}) {
+                    sidebarIndex = vc.storageOutlineView.row(forItem: sidebarItem)
+                    importedNote = note
+                }
+            } else {
+                let project = Storage.sharedInstance().getMainProject()
+                let newUrl = vc.copy(project: project, url: url)
+
+                UserDataService.instance.focusOnImport = newUrl
+                UserDataService.instance.skipSidebarSelection = true
+            }
+        }
+
+        if let note = importedNote, let si = sidebarIndex {
+            vc.storageOutlineView.selectRowIndexes([si], byExtendingSelection: false)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
+                vc.notesTableView.setSelected(note: note)
+            })
+        }
+    }
     
     // MARK: - FSNotes routes
     
@@ -66,9 +102,7 @@ extension AppDelegate {
         let lastPath = url.lastPathComponent
 
         guard nil != ViewController.shared() else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
-                self.search(query: lastPath)
-            })
+            self.searchQuery = lastPath
             return
         }
 
@@ -111,9 +145,8 @@ extension AppDelegate {
         }
         
         guard nil != ViewController.shared() else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
-                self.create(name: title, content: body)
-            })
+            self.newName = title
+            self.newContent = body
             return
         }
 

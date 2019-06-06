@@ -146,10 +146,10 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
 
                     let validFiles = self.storage.readDirectory(url)
                     for file in validFiles {
-                        vc.copy(project: newProject, url: file.0)
+                        _ = vc.copy(project: newProject, url: file.0)
                     }
                 } else {
-                    vc.copy(project: project, url: url)
+                    _ = vc.copy(project: project, url: url)
                 }
             }
             
@@ -313,7 +313,15 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             }
 
             vd.editArea.clear()
-            vd.search.stringValue = ""
+
+            if !isFirstLaunch {
+                vd.search.stringValue = ""
+            }
+
+            guard !UserDataService.instance.skipSidebarSelection else {
+                UserDataService.instance.skipSidebarSelection = false
+                return
+            }
 
             vd.updateTable() {
                 if self.isFirstLaunch {

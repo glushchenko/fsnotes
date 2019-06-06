@@ -124,8 +124,32 @@ class ViewController: NSViewController,
         searchQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
+
+
     }
-    
+
+    override func viewDidAppear() {
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
+            if let urls = appDelegate.urls {
+                appDelegate.importNotes(urls: urls)
+                return
+            }
+
+            if let query = appDelegate.searchQuery {
+                appDelegate.search(query: query)
+                return
+            }
+
+            if nil != appDelegate.newName || nil != appDelegate.newContent {
+                let name = appDelegate.newName ?? ""
+                let content = appDelegate.newContent ?? ""
+                
+                appDelegate.create(name: name, content: content)
+            }
+
+        }
+    }
+
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let vc = ViewController.shared() else { return false}
         
@@ -716,7 +740,7 @@ class ViewController: NSViewController,
                 let project = self.getSidebarProject() ?? self.storage.getMainProject()
 
                 for url in urls {
-                    self.copy(project: project, url: url)
+                    _ = self.copy(project: project, url: url)
                 }
             }
         }
@@ -778,7 +802,7 @@ class ViewController: NSViewController,
         sender.isEditable = false
         
         let newUrl = note.getNewURL(name: value)
-        UserDataService.instance.lastRenamed = newUrl
+        UserDataService.instance.focusOnImport = newUrl
         
         if note.url.path == newUrl.path {
             return
@@ -1943,9 +1967,13 @@ class ViewController: NSViewController,
         return delegate.mainWindowController?.window?.contentViewController as? ViewController
     }
 
-    public func copy(project: Project, url: URL) {
+    public func copy(project: Project, url: URL) -> URL {
+        let fileName = url.lastPathComponent
+
         do {
             try FileManager.default.copyItem(at: url, to: project.url)
+
+            return project.url.appendingPathComponent(fileName)
         } catch {
             var tempUrl = url
 
@@ -1959,6 +1987,8 @@ class ViewController: NSViewController,
             let baseUrl = project.url.appendingPathComponent(name + " " + now + "." + ext)
 
             try? FileManager.default.copyItem(at: url, to: baseUrl)
+
+            return baseUrl
         }
     }
     
