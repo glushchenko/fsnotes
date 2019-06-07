@@ -1153,6 +1153,28 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         f.toggleTodo()
     }
+
+    @IBAction func pressBold(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = getSelectedNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.bold()
+    }
+
+    @IBAction func pressItalic(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = getSelectedNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.italic()
+    }
     
     @IBAction func insertMarkdownImage(_ sender: Any) {
         guard let note = EditTextView.note else { return }
@@ -1189,6 +1211,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let currentRange = selectedRange()
         insertText("```\n\n```\n", replacementRange: currentRange)
         setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+    }
+
+    @IBAction func insertLink(_ sender: Any) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = getSelectedNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.link()
     }
     
     private func getTextFormatter() -> TextFormatter? {
@@ -1456,5 +1489,126 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 print(error)
             }
         }
+    }
+
+    @available(OSX 10.12.2, *)
+    override func makeTouchBar() -> NSTouchBar? {
+        let touchBar = NSTouchBar()
+        touchBar.delegate = self
+
+        //touchBar.customizationIdentifier = NSTouchBar.CustomizationIdentifier("My First TouchBar")
+        touchBar.defaultItemIdentifiers = [
+            NSTouchBarItem.Identifier("Todo"),
+            NSTouchBarItem.Identifier("Bold"),
+            NSTouchBarItem.Identifier("Italic"),
+            .fixedSpaceSmall,
+            NSTouchBarItem.Identifier("Link"),
+            NSTouchBarItem.Identifier("Image"),
+            NSTouchBarItem.Identifier("CodeBlock"),
+            .fixedSpaceSmall,
+            NSTouchBarItem.Identifier("Indent"),
+            NSTouchBarItem.Identifier("UnIndent")
+        ]
+        //touchBar.customizationAllowedItemIdentifiers = [NSTouchBarItem.Identifier("HelloWorld")]
+        return touchBar
+    }
+
+    @available(OSX 10.12.2, *)
+    override func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+        switch identifier {
+        case NSTouchBarItem.Identifier("Todo"):
+            if let im = NSImage(named: "todo") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(toggleTodo(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        case NSTouchBarItem.Identifier("Bold"):
+            if let im = NSImage(named: "bold") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(pressBold(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        case NSTouchBarItem.Identifier("Italic"):
+            if let im = NSImage(named: "italic") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(pressItalic(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        case NSTouchBarItem.Identifier("Image"):
+            if let im = NSImage(named: "image") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(insertMarkdownImage(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+
+        case NSTouchBarItem.Identifier("Indent"):
+            if let im = NSImage(named: "indent") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(shiftRight(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+
+        case NSTouchBarItem.Identifier("UnIndent"):
+            if let im = NSImage(named: "unindent") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(shiftLeft(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        case NSTouchBarItem.Identifier("CodeBlock"):
+            if let im = NSImage(named: "codeblock") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(insertCodeBlock(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        case NSTouchBarItem.Identifier("Link"):
+            if let im = NSImage(named: "link") {
+                let image = im.tint(color: NSColor.white)
+                image.size = NSSize(width: 20, height: 20)
+                let button = NSButton(image: image, target: self, action: #selector(insertLink(_:)))
+                button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
+
+                let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+                customViewItem.view = button
+                return customViewItem
+            }
+        default: break
+        }
+
+        return super.touchBar(touchBar, makeItemForIdentifier: identifier)
     }
 }

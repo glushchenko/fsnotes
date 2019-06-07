@@ -218,4 +218,20 @@ public extension NSImage {
 
         return bitmapImage.representation(using: .jpeg, properties: [:])
     }
+
+    func tint(color: NSColor) -> NSImage {
+        if let image = self.copy() as? NSImage {
+            image.lockFocus()
+
+            color.set()
+
+            let imageRect = NSRect(origin: .zero, size: image.size)
+            imageRect.fill(using: .sourceAtop)
+            image.unlockFocus()
+
+            return image
+        }
+
+        return self
+    }
 }
