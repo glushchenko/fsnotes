@@ -80,10 +80,24 @@
 			}
 
 			.container {
-				width: 900px;
+				max-width: 900px;
 				margin: 0 auto;
 			}
 
+			.ios-screens {
+				text-align: center;
+				list-style: none;
+				padding: 0;
+			}
+				.ios-screens li {
+					display: inline-block;
+					margin-top: 10px;
+				}
+
+				table td p {
+					padding: 3px;
+					margin: 0;
+				}
             /* Portrait tablet to landscape and desktop */
             @media (min-width: 768px) and (max-width: 979px) {
                 max-width: 100%;
@@ -153,13 +167,13 @@
 
 		<hr class="s" />
 
-		<h3 style="text-align: center;">Use it on iPhone and MacBook</h3>
+		<h3 style="text-align: center;" id="features">Use it on iPhone and MacBook</h3>
 
 		<p style="text-align: center;">
 			<img src="img/macOS-and-iOS.png?v=1.0" style="width: 900px; border-radius: 5px;" />
 		</p>
 
-		<hr>
+		<hr class="s">
 		<h3 style="text-align: center; margin: 50px 0 50px 0">Use like a Pro</h3>
 
 		<table width="100%" class="pro">
@@ -170,20 +184,25 @@
 			<tr></tr>
 		</table>
 
-		<hr>
+		<hr class="s">
 
 		<h3 style="text-align: center; margin: 50px 0 50px 0">Type with TouchBar</h3>
 		<img class="center" src="img/touchbar.jpg" width="900" style="border-radius: 5px" alt="FSNotes Touch Bar on macOS"/>
-
-		<hr>
+		<p style="text-align: center">Type faster with virtual buttons on your TouchBar</p>
+		<hr class="s">
 
 		<h3 style="text-align: center; margin: 50px 0 50px 0">Encrypt with Fingerprint protected password</h3>
 		<img class="center" src="img/fingerprint.png" width="400" style="border-radius: 5px" alt="Fingerprint on macOS and iOS"/>
+		<p style="text-align: center">Encrypt and decrypt important data with one touch</p>
+		<hr class="s">
 
-		<hr>
+		<h3 style="text-align: center; margin: 50px 0 50px 0">Dark Mode</h3>
+		<img class="center" src="img/darkmode.png" width="800" style="border-radius: 5px" alt="Dark Mode on macOS and iOS"/>
+		<p style="text-align: center">Balanced and well polished dark theme</p>
+		<hr class="s">
 
 		<div class="container">
-			<h2 style="font-size: 19px" id="features">And many more:</h2>
+			<h2 style="font-size: 19px">And many more:</h2>
 
 			<ul>
 				<li>keyboard centric</li>
@@ -205,14 +224,18 @@
 			</ul>
 		</div>
 
-		<hr class="s" />
+		<hr />
 
 		<div class="container">
 			<h3>Awesome iOS app</h3>
-			<p style="text-align: center;">
-				<img src="img/ios-screen.png?v=1.0" class="ios-screen" />
-				<img src="img/ios-screen-2.png?v=1.0" class="ios-screen" style="margin: 0 0 0 10px" />
-			</p>
+			<ul class="ios-screens">
+				<li>
+					<img src="img/ios-screen.png?v=1.0" class="ios-screen" />
+				</li>
+				<li>
+					<img src="img/ios-screen-2.png?v=1.0" class="ios-screen" />
+				</li>
+			</ul>
 
 			<ul>
 				<li>iCloud Drive support (Files.app folder available)</li>
@@ -225,39 +248,53 @@
 			</ul>
 		</div>
 
-		<hr class="s" />
-		<h2 style="text-align: center" style="font-size: 25px" id="community">Community</h2>
+		<hr />
+		<h2 style="text-align: center" style="font-size: 25px" id="community">Community ⚒</h2>
 
 
 		<table width="100%" class="pro">
 			<tr>
 				<td>
 					<h3 style="font-size: 19px;">GitHub <img style="margin: -3px 0 0 0"; height="19px" src="img/github.png" /></h3>
-					<p><a href="https://github.com/glushchenko/fsnotes" target="_blank">Repository for macOS/iOS app</a><p>
-					<p><a href="https://github.com/glushchenko/fsnotes/issues" target="_blank">Bugs and requests</a><p>
+
 				</td>
 				<td>
 					<h3 style="font-size: 19px">Twitter <img style="margin: -3px 0 0 0" height="19px" src="img/twitter.png" /></h3>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p><a href="https://github.com/glushchenko/fsnotes" target="_blank">Repository for macOS/iOS app</a><p>
+				</td>
+				<td>
 					<a href="https://twitter.com/fsnotesapp" target="_blank">https://twitter.com/fsnotesapp</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p><a href="https://github.com/glushchenko/fsnotes/issues" target="_blank">Bugs and requests</a><p>
+				</td>
+				<td>
+
 				</td>
 			</tr>
 			<tr></tr>
 		</table>
 
-		<hr class="s" />
+		<br><br>
+		<p style="text-align: center">Thanks to all FSNotes <a href="https://github.com/glushchenko/fsnotes/graphs/contributors">contributors</a> who helped me. Specially to <a href="https://github.com/jeff-h" target="_blank">@jeff-h</a>, <a href="https://github.com/gingerbeardman" target="_blank">@gingerbeardman</a>, <a href="https://github.com/baranpirincal" target="_blank">@baranpirincal</a>, <a href="https://github.com/peavine" target="_blank">@peavine</a>, <a href="https://github.com/buddax2" target="_blank">@buddax2</a>, Michael Barzmann for Deutsch translation,
+			<a href="https://github.com/aonez">aonez</a> for Spanish.
+		</p>
+
+		<hr />
 
 		<h2 style="text-align: center" id="feedback">Feedback ✉</h2>
 
 		<p style="text-align: center">Please feel free to write proposals and any questions on email <a href="mailto: support@fsnot.es">support@fsnot.es</a></p>
 
-		<hr class="s" />
+		<hr style="margin-bottom: 20px">
 
-		<p>And special thanks for all FSNotes <a href="https://github.com/glushchenko/fsnotes/graphs/contributors">contributors</a>. Specially <a href="https://github.com/jeff-h" target="_blank">@jeff-h</a>, <a href="https://github.com/gingerbeardman" target="_blank">@gingerbeardman</a>, <a href="https://github.com/baranpirincal" target="_blank">@baranpirincal</a>, <a href="https://github.com/peavine" target="_blank">@peavine</a>, <a href="https://github.com/buddax2" target="_blank">@buddax2</a>, Michael Barzmann for Deutsch translation,
-			<a href="https://github.com/aonez">aonez</a> for Spanish.
-		</p>
-
-		<hr>
-		<footer>© 2017–2019 FSNotes</footer>
+		<footer>© Oleksandr Glushchenko, 2017–2019 FSNotes</footer>
 
         <script src="js/vendor/modernizr-3.5.0.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
