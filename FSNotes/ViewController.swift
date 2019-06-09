@@ -1971,9 +1971,9 @@ class ViewController: NSViewController,
         let fileName = url.lastPathComponent
 
         do {
-            try FileManager.default.copyItem(at: url, to: project.url)
-
-            return project.url.appendingPathComponent(fileName)
+            let destination = project.url.appendingPathComponent(fileName)
+            try FileManager.default.copyItem(at: url, to: destination)
+            return destination
         } catch {
             var tempUrl = url
 

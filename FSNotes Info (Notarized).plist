@@ -8,7 +8,7 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>FSNotes</string>
-<key>CFBundleDocumentTypes</key>
+	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -112,7 +112,7 @@
 				<string>public.plain-text</string>
 			</array>
 		</dict>
-	</array>	
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -124,7 +124,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.2.0</string>
+	<string>3.3.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -165,7 +165,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>261</string>
+	<string>268</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
