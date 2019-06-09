@@ -101,6 +101,8 @@ class FileSystemEventManager {
     }
     
     private func importNote(_ url: URL) {
+        let url = self.handleTextBundle(url: url)
+
         let n = storage.getBy(url: url)
         guard n == nil else {
             if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.focusOnImport {

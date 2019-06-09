@@ -135,7 +135,7 @@ class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDat
             
             for url in urls {
                 var isDirectory = ObjCBool(true)
-                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue {
+                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
 
                     let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
                     let newProject = Project(url: newSub, parent: project)
