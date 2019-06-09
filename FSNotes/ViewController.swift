@@ -1888,8 +1888,15 @@ class ViewController: NSViewController,
     
     func updateTitle(newTitle: String?) {
         let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "FSNotes"
+
         let noteTitle: String = newTitle ?? appName
-        titleLabel.stringValue = noteTitle
+        var titleString = noteTitle
+
+        if noteTitle.isValidUUID {
+            titleString = String()
+        }
+
+        titleLabel.stringValue = titleString
         
         let title = newTitle != nil ? "\(appName) - \(noteTitle)" : appName
         MainWindowController.shared()?.title = title
