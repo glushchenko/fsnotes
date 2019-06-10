@@ -8,11 +8,13 @@ This is **markdown** and **RTF** text manager. For view rendered markdown please
 
 - `command + option + shift + L` - open main window and focus search bar
 - `command + option + shift + n` - save clipboard
+- `enter` - move focus right (deeper); sidebar > note list > note
+- `command + enter` - move focus left (higher); note > note list > sidebar
 
 #### Search and create field
 
 - `down arrow` - move focus on notes list
-- `return` - make note
+- `enter` - make note
 
 #### Main window
 
