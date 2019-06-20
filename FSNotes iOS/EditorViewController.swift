@@ -398,7 +398,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
         }
         
-        vc.cloudDriveManager?.cloudDriveQuery.disableUpdates()
+        vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
         guard let note = self.note else {
             return
@@ -441,7 +441,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         editArea.initUndoRedoButons()
         
-        vc.cloudDriveManager?.cloudDriveQuery.enableUpdates()
+        vc.cloudDriveManager?.metadataQuery.enableUpdates()
         vc.notesTable.moveRowUp(note: note)
     }
     
@@ -649,14 +649,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
                         processed += 1
 
-                        guard var url = info?["PHImageFileURLKey"] as? URL else { return }
+                        var url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + ".jpg")
                         let data: Data?
-                        let isHeic = url.pathExtension.lowercased() == "heic"
 
-                        if isHeic, let imageUnwrapped = image {
+                        if let fileURL = info?["PHImageFileURLKey"] as? URL, fileURL.pathExtension.lowercased() == "heic", let imageUnwrapped = image {
                             data = imageUnwrapped.jpegData(compressionQuality: 1);
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
+                        } else if let fileData = info?["PHImageFileDataKey"] as? Data {
+                            data = fileData
                         } else {
                             do {
                                 data = try Data(contentsOf: url)
@@ -669,6 +670,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                         if UserDefaultsManagement.liveImagesPreview {
                             self.editArea.saveImageClipboard(data: imageData, note: note)
+                            note.save()
                             return
                         }
 

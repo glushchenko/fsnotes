@@ -238,17 +238,17 @@ public class UserDefaultsManagement {
     
     static var iCloudDocumentsContainer: URL? {
         get {
-            if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+            if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
                 if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                     do {
                         try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
                         
-                        return iCloudDocumentsURL
+                        return iCloudDocumentsURL.resolvingSymlinksInPath()
                     } catch {
                         print("Home directory creation: \(error)")
                     }
                 } else {
-                   return iCloudDocumentsURL
+                   return iCloudDocumentsURL.resolvingSymlinksInPath()
                 }
             }
 
@@ -298,7 +298,7 @@ public class UserDefaultsManagement {
             if let path = storagePath {
                 let expanded = NSString(string: path).expandingTildeInPath
 
-                return URL.init(fileURLWithPath: expanded)
+                return URL.init(fileURLWithPath: expanded).resolvingSymlinksInPath()
             }
             
             return nil
@@ -615,6 +615,7 @@ public class UserDefaultsManagement {
     
     static var archiveDirectory: URL? {
         get {
+            #if os(OSX)
             if let path = UserDefaults.standard.object(forKey: Constants.ArchiveDirectoryKey) as? String,
                 let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
                 let archiveURL = URL(string: "file://" + encodedPath + "/") {
@@ -628,6 +629,7 @@ public class UserDefaultsManagement {
                     print("Archive path not accessible, settings resetted to default")
                 }
             }
+            #endif
 
             if let archive = storageUrl?.appendingPathComponent("Archive") {
                 if !FileManager.default.fileExists(atPath: archive.path) {

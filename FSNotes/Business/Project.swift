@@ -10,7 +10,7 @@ import Foundation
 
 public class Project: Equatable {
     var url: URL
-    var label: String
+    public var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false
     var isRoot: Bool
@@ -24,7 +24,7 @@ public class Project: Equatable {
     public var firstLineAsTitle: Bool = false
     
     init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false) {
-        self.url = url
+        self.url = url.resolvingSymlinksInPath()
         self.isTrash = isTrash
         self.isRoot = isRoot
         self.parent = parent
@@ -60,7 +60,7 @@ public class Project: Equatable {
     }
     
     private func isCloudDriveFolder(url: URL) -> Bool {
-        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
             
             if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil), url.path.contains(iCloudDocumentsURL.path) {
                 return true
@@ -171,7 +171,7 @@ public class Project: Equatable {
     }
 
     public func getRelativePath() -> String? {
-        if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil) {
+        if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
             return url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
         }
 

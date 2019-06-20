@@ -91,16 +91,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
 
         UserDefaultsManagement.fontSize = 17
+
+        print("Before storage load")
         self.storage = Storage.sharedInstance()
 
         guard let storage = self.storage else { return }
 
-        if storage.noteList.count == 0 {
-            DispatchQueue.global().async {
-                print("CloudDrive sync started")
-                storage.initiateCloudDriveSync()
-            }
+        DispatchQueue.global().async {
+            self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
+            if let cdm = self.cloudDriveManager {
+                NotificationCenter.default.addObserver(cdm, selector: #selector(cdm.queryDidFinishGathering), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery)
 
+                DispatchQueue.main.async {
+                    self.cloudDriveManager?.metadataQuery.start()
+                }
+            }
+        }
+
+        if storage.noteList.count == 0 {
             storage.loadDocuments() {
                 DispatchQueue.main.async {
                     self.reloadSidebar()
@@ -117,7 +125,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.sidebarTableView.sidebar = Sidebar()
         self.sidebarTableView.reloadData()
-        self.maxSidebarWidth = self.calculateLabelMaxWidth()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.maxSidebarWidth = self.calculateLabelMaxWidth()
+        })
 
         guard let pageController = self.parent as? PageViewController else {
             return
@@ -292,11 +303,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func initTableData() {
-        guard let storage = self.storage else { return }
-
         self.updateTable() {
             self.stopAnimation(indicator: self.indicator)
-            self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
 
             if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first {
 
@@ -922,6 +930,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         field.becomeFirstResponder()
  */
+    }
+
+    public func updateTableOrEditor(url: URL, content: String) {
+        guard let note = Storage.sharedInstance().getBy(url: url) else { return }
+        note.content = NSMutableAttributedString(string: content)
+
+        if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url) {
+            refreshTextStorage(note: note)
+            return
+        }
+
+        note.invalidateCache()
+        notesTable.reloadRow(note: note)
     }
 }
 

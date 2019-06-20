@@ -78,7 +78,8 @@ class SidebarTableView: UITableView,
 
     func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.backgroundColor = UIColor.clear
+            let custom = UIView()
+            view.backgroundView = custom
 
             var font: UIFont = UIFont.systemFont(ofSize: 15)
 
@@ -94,7 +95,8 @@ class SidebarTableView: UITableView,
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let view = view as? UITableViewHeaderFooterView {
-            view.backgroundView?.backgroundColor = UIColor.clear
+            let custom = UIView()
+            view.backgroundView = custom
             
             var font: UIFont = UIFont.systemFont(ofSize: 15)
             

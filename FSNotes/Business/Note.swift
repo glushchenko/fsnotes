@@ -123,6 +123,13 @@ public class Note: NSObject  {
         
         return false
     }
+
+    public func forceReload() {
+        if container != .encryptedTextPack, let attributedString = getContent() {
+
+            self.content = NSMutableAttributedString(attributedString: attributedString)
+        }
+    }
     
     func loadModifiedLocalAt() {
         guard let modifiedAt = getFileModifiedDate() else {
@@ -135,6 +142,13 @@ public class Note: NSObject  {
     
     public func isTextBundle() -> Bool {
         return (container == .textBundle || container == .textBundleV2)
+    }
+
+    public func isFullLoadedTextBundle() -> Bool {
+        let ext = getExtensionForContainer()
+        let path = url.appendingPathComponent("text.\(ext)").path
+
+        return FileManager.default.fileExists(atPath: path)
     }
     
     public func getExtensionForContainer() -> String {
@@ -150,6 +164,7 @@ public class Note: NSObject  {
                 let ext = getExtensionForContainer()
                 path = url.appendingPathComponent("text.\(ext)").path
             }
+
             let attr = try FileManager.default.attributesOfItem(atPath: path)
 
             return attr[FileAttributeKey.modificationDate] as? Date
@@ -213,14 +228,16 @@ public class Note: NSObject  {
 
     #if os(iOS)
     // Return URL moved in
-    func removeFile() -> Array<URL>? {
+    func removeFile(completely: Bool = false) -> Array<URL>? {
         if FileManager.default.fileExists(atPath: url.path) {
-            if isTrash() {
+            if isTrash() || completely {
                 try? FileManager.default.removeItem(at: url)
                 return nil
             }
 
-            guard let trashUrl = getTrashURL() else {
+            guard let trashUrl = getDefaultTrashURL() else {
+                print("Trash not found")
+
                 var resultingItemUrl: NSURL?
                 if #available(iOS 11.0, *) {
                     try? FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
@@ -240,6 +257,7 @@ public class Note: NSObject  {
                 trashUrlTo = trashUrl.appendingPathComponent(reserveName)
             }
 
+            print("Note moved in custom Trash folder")
             try? FileManager.default.moveItem(at: url, to: trashUrlTo)
 
             return [trashUrlTo, url]
@@ -250,7 +268,7 @@ public class Note: NSObject  {
     #endif
 
     #if os(OSX)
-    func removeFile() -> Array<URL>? {
+    func removeFile(completely: Bool = false) -> Array<URL>? {
         if FileManager.default.fileExists(atPath: url.path) {
             if isTrash() {
                 try? FileManager.default.removeItem(at: url)
@@ -287,6 +305,14 @@ public class Note: NSObject  {
             return url
         }
         
+        return nil
+    }
+
+    private func getDefaultTrashURL() -> URL? {
+        if let url = sharedStorage.getDefaultTrash()?.url {
+            return url
+        }
+
         return nil
     }
         

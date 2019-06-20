@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,19 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="makeNote.png" translatesAutoresizingMaskIntoConstraints="NO" id="6wu-69-NIF">
-                                <rect key="frame" x="103.5" y="252" width="168" height="163"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="168" id="UiO-o9-QKc"/>
-                                    <constraint firstAttribute="height" constant="163" id="b1y-DA-aYH"/>
-                                </constraints>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon-ios-512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="F8y-Sj-1rV">
+                                <rect key="frame" x="67" y="270" width="240" height="126"/>
+                                <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
-                        <constraints>
-                            <constraint firstItem="6wu-69-NIF" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1zc-Nx-2Zt"/>
-                            <constraint firstItem="6wu-69-NIF" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ozd-w8-Fga"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -40,6 +33,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="makeNote.png" width="512" height="512"/>
+        <image name="icon-ios-512x512.png" width="198.19354248046875" height="198.19354248046875"/>
     </resources>
 </document>

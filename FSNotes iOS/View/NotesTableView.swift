@@ -231,7 +231,7 @@ class NotesTableView: UITableView,
     
     func removeByNotes(notes: [Note]) {
         for note in notes {
-            if let i = self.notes.index(where: {$0 === note}) {
+            if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
                 self.notes.remove(at: i)
                 deleteRows(at: [indexPath], with: .fade)
@@ -271,7 +271,7 @@ class NotesTableView: UITableView,
     }
     
     public func reloadRow(note: Note) {
-        if let i = self.notes.index(where: {$0 === note}) {
+        if let i = self.notes.firstIndex(where: {$0 === note}) {
             let indexPath = IndexPath(row: i, section: 0)
 
             DispatchQueue.main.async {

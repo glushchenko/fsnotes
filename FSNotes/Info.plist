@@ -37,7 +37,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>etp</string>
+				<string>textbundle</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>TextBundle</string>
