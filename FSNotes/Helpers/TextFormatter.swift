@@ -273,16 +273,17 @@ public class TextFormatter {
     
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
-        
+        let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
+
         guard range.length > 0 else {
             let text = storage.attributedSubstring(from: pRange).string
             #if os(OSX)
                 let location = textView.selectedRange().location
-                textView.insertText("\t" + text, replacementRange: pRange)
-                self.setSelectedRange(NSMakeRange(location + 1, 0))
+                textView.insertText(padding + text, replacementRange: pRange)
+                self.setSelectedRange(NSMakeRange(location + padding.count, 0))
             #else
-                replaceWith(string: "\t" + text, range: pRange)
-                setSelectedRange(NSMakeRange(range.upperBound + 1, 0))
+                replaceWith(string: padding + text, range: pRange)
+                setSelectedRange(NSMakeRange(range.upperBound + padding.count, 0))
             #endif
             
             if note.isMarkdown() {
@@ -295,7 +296,7 @@ public class TextFormatter {
         let string = storage.attributedSubstring(from: pRange).string
         var lines = [String]()
         string.enumerateLines { (line, _) in
-            lines.append("\t" + line)
+            lines.append(padding + line)
         }
         
         var result = lines.joined(separator: "\n")
@@ -320,15 +321,26 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
         
         guard range.length > 0 else {
+            var diff = 0
             var text = storage.attributedSubstring(from: pRange).string
-            guard text.count > 0, [" ", "\t"].contains(text.removeFirst()) else { return }
+            if text.starts(with: "    ") {
+                diff = 4
+                text = String(text.dropFirst(4))
+            } else if text.starts(with: "\t") {
+                diff = 0
+                text = String(text.dropFirst())
+            } else {
+                return
+            }
+
+            guard text.count > 0 else { return }
 
             #if os(OSX)
                 textView.insertText(text, replacementRange: pRange)
-                self.setSelectedRange(NSMakeRange(pRange.lowerBound - 1 + text.count, 0))
+                self.setSelectedRange(NSMakeRange(pRange.lowerBound - diff + text.count, 0))
             #else
                 self.insertText(text, replacementRange: pRange)
-                self.setSelectedRange(NSRange(location: range.location - 1, length: 0))
+                self.setSelectedRange(NSRange(location: range.location - diff, length: 0))
             #endif
         
             if note.isMarkdown() {
@@ -342,8 +354,12 @@ public class TextFormatter {
         var resultList: [String] = []
         string.enumerateLines { (line, _) in
             var line = line
-            if !line.isEmpty && [" ", "\t"].contains(line.first) {
-                line.removeFirst()
+            if !line.isEmpty {
+                if line.first == "\t" {
+                    line = String(line.dropFirst())
+                } else if line.starts(with: "    ") {
+                    line = String(line.dropFirst(4))
+                }
             }
             
             resultList.append(line)
