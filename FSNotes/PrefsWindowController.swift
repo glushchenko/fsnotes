@@ -15,24 +15,4 @@ class PrefsWindowController: NSWindowController, NSWindowDelegate {
         self.window?.delegate = self
         self.window?.title = "Preferences"
     }
-    
-    func windowDidBecomeKey(_ notification: Notification) {
-        // If the Font Panel was open, show it again.
-        let controller = self.contentViewController as! PrefsViewController
-
-        if let ui = controller.children[1] as? PreferencesUserInterfaceViewController, ui.fontPanelOpen {
-
-            NSFontManager.shared.orderFrontFontPanel(self)
-        }
-    }
-    
-    func windowDidResignKey(_ notification: Notification) {
-        // If the Font Panel is open, hide it.
-        let controller = self.contentViewController as! PrefsViewController
-
-        if let ui = controller.children[1] as? PreferencesUserInterfaceViewController, ui.fontPanelOpen {
-            NSFontManager.shared.fontPanel(false)?.orderOut(self)
-        }
-    }
-    
 }

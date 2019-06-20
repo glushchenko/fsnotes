@@ -10,8 +10,6 @@ import Cocoa
 
 class PreferencesUserInterfaceViewController: NSViewController {
 
-    public var fontPanelOpen: Bool = false
-
     @IBOutlet weak var horizontalRadio: NSButton!
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var fontPreview: NSTextField!
@@ -32,10 +30,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let parent = parent as? PrefsViewController {
-            parent.setFontPreview()
-        }
+        setFontPreview()
     }
 
     override func viewDidAppear() {
@@ -110,7 +105,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         }
 
         fontManager.orderFrontFontPanel(self)
-        fontPanelOpen = true
+        fontManager.target = self
     }
 
     @IBAction func setFontColor(_ sender: NSColorWell) {
@@ -187,5 +182,26 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.notesTableView.reloadData()
     }
 
+    @IBAction func changeFont(_ sender: Any?) {
+        guard let vc = ViewController.shared() else { return }
+
+        let fontManager = NSFontManager.shared
+        let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
+        UserDefaultsManagement.noteFont = newFont
+
+        if let note = EditTextView.note {
+            Storage.sharedInstance().fullCacheReset()
+            note.reCache()
+            vc.refillEditArea()
+        }
+
+        vc.reloadView()
+        setFontPreview()
+    }
+
+    private func setFontPreview() {
+        fontPreview.font = NSFont(name: UserDefaultsManagement.noteFont.fontName, size: 13)
+        fontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
+    }
 
 }

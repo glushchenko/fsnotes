@@ -17,10 +17,7 @@ class PreferencesEditorViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if let parent = parent as? PrefsViewController {
-            parent.setCodeFontPreview()
-        }
+        setCodeFont()
     }
 
     override func viewDidAppear() {
@@ -159,6 +156,7 @@ class PreferencesEditorViewController: NSViewController {
         }
 
         fontManager.orderFrontFontPanel(self)
+        fontManager.target = self
     }
 
     @IBAction func spacesInsteadTab(_ sender: NSButton) {
@@ -175,4 +173,25 @@ class PreferencesEditorViewController: NSViewController {
         }
     }
 
+    @IBAction func changeFont(_ sender: Any?) {
+        guard let vc = ViewController.shared() else { return }
+
+        let fontManager = NSFontManager.shared
+        let newFont = fontManager.convert(UserDefaultsManagement.codeFont!)
+        UserDefaultsManagement.codeFont = newFont
+        NotesTextProcessor.codeFont = newFont
+
+        if let note = EditTextView.note {
+            Storage.sharedInstance().fullCacheReset()
+            note.reCache()
+            vc.refillEditArea()
+        }
+
+        setCodeFont()
+    }
+
+    private func setCodeFont() {
+        codeFont.font = NSFont(name: UserDefaultsManagement.codeFont.fontName, size: 13)
+        codeFont.stringValue = "\(UserDefaultsManagement.codeFont.fontName) \(UserDefaultsManagement.codeFont.pointSize)pt"
+    }
 }
