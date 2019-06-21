@@ -327,21 +327,21 @@ public class TextFormatter {
                 diff = 4
                 text = String(text.dropFirst(4))
             } else if text.starts(with: "\t") {
-                diff = 0
+                diff = 1
                 text = String(text.dropFirst())
             } else {
                 return
             }
 
-            guard text.count > 0 else { return }
+            guard text.count >= 0 else { return }
 
             #if os(OSX)
                 textView.insertText(text, replacementRange: pRange)
-                self.setSelectedRange(NSMakeRange(pRange.lowerBound - diff + text.count, 0))
             #else
                 self.insertText(text, replacementRange: pRange)
-                self.setSelectedRange(NSRange(location: range.location - diff, length: 0))
             #endif
+
+            self.setSelectedRange(NSRange(location: range.location - diff, length: 0))
         
             if note.isMarkdown() {
                 highlight()
