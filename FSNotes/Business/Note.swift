@@ -355,12 +355,17 @@ public class Note: NSObject  {
     @objc func getDateForLabel() -> String {
         guard !UserDefaultsManagement.hideDate else { return String() }
 
+        guard let date = (project.sortBy == .creationDate || UserDefaultsManagement.sort == .creationDate)
+            ? creationDate
+            : modifiedLocalAt
+        else { return String() }
+
         let calendar = NSCalendar.current
-        if calendar.isDateInToday(modifiedLocalAt) {
-            return dateFormatter.formatTimeForDisplay(modifiedLocalAt)
+        if calendar.isDateInToday(date) {
+            return dateFormatter.formatTimeForDisplay(date)
         }
         else {
-            return dateFormatter.formatDateForDisplay(modifiedLocalAt)
+            return dateFormatter.formatDateForDisplay(date)
         }
     }
 
