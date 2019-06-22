@@ -1482,7 +1482,7 @@ CA
                                                             <rect key="frame" x="-100" y="-100" width="190" height="15"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" horizontal="NO" id="TQp-cU-heo">
+                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" horizontal="NO" id="TQp-cU-heo">
                                                             <rect key="frame" x="-100" y="-100" width="16" height="567"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
@@ -1528,7 +1528,7 @@ CA
                                                             <rect key="frame" x="-100" y="-100" width="380" height="16"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
-                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" arrowsPosition="none" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
+                                                        <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" focusRingType="none" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="TNj-kl-fKh">
                                                             <rect key="frame" x="403" y="0.0" width="14" height="20"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
@@ -2755,7 +2755,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
         <image name="editor" width="384" height="384"/>
         <image name="icon" width="512" height="512"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="1024" height="1024"/>
+        <image name="makeNoteAsset" width="512" height="512"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>

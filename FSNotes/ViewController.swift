@@ -19,7 +19,8 @@ class ViewController: NSViewController,
     NSSplitViewDelegate,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource,
-    WebFrameLoadDelegate{
+    WebFrameLoadDelegate,
+    NSMenuItemValidation {
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
     private var projectSettingsViewController: ProjectSettingsViewController?
@@ -867,6 +868,11 @@ class ViewController: NSViewController,
     @IBAction func deleteNote(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else {
+            return
+        }
+
+        if vc.editArea.hasFocus() {
+            vc.editArea.deleteToBeginningOfLine(nil)
             return
         }
 

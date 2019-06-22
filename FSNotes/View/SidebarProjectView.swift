@@ -12,7 +12,10 @@ import Carbon.HIToolbox
 
 import FSNotesCore_macOS
 
-class SidebarProjectView: NSOutlineView, NSOutlineViewDelegate, NSOutlineViewDataSource {
+class SidebarProjectView: NSOutlineView,
+    NSOutlineViewDelegate,
+    NSOutlineViewDataSource,
+    NSMenuItemValidation {
     
     var sidebarItems: [SidebarItem]? = nil
     var viewDelegate: ViewController? = nil
