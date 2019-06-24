@@ -464,7 +464,7 @@
 "nBn-aV-7mt.title" = "Bearbeiten";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
-"nCW-CZ-qC7.title" = "Drücken";
+"nCW-CZ-qC7.title" = "Drucken";
 
 /* Class = "NSViewController"; title = "General"; ObjectID = "NHv-lG-vxt"; */
 "NHv-lG-vxt.title" = "General";
@@ -491,7 +491,7 @@
 "OOL-dM-zIE.title" = "Blocksatz";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
-"OV0-om-POJ.title" = "Drücken";
+"OV0-om-POJ.title" = "Drucken";
 
 /* Class = "NSMenuItem"; title = "Find Previous"; ObjectID = "OwM-mh-QMV"; */
 "OwM-mh-QMV.title" = "Weitersuchen (rückwärts)";
