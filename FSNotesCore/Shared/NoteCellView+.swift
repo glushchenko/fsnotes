@@ -40,6 +40,13 @@ extension NoteCellView {
                         return
                     }
 
+                    if note.firstLineTitle != nil {
+                        self.preview.stringValue = note.preview
+                    } else {
+                        self.preview.stringValue = note.firstLineTitle ?? "" + note.preview
+                    }
+
+                    self.udpateSelectionHighlight()
                     self.attachImagesPreview(resizedImages: resizedImages)
                 }
             }
