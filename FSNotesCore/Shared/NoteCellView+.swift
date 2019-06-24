@@ -40,6 +40,7 @@ extension NoteCellView {
                         return
                     }
 
+                    #if os(OSX)
                     if note.firstLineTitle != nil {
                         self.preview.stringValue = note.preview
                     } else {
@@ -47,6 +48,8 @@ extension NoteCellView {
                     }
 
                     self.udpateSelectionHighlight()
+                    #endif
+                    
                     self.attachImagesPreview(resizedImages: resizedImages)
                 }
             }
