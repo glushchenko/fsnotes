@@ -1395,9 +1395,6 @@ CA
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                                <connections>
-                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getPreviewForLabel" id="Y3f-cs-Y4H"/>
-                                                                                                </connections>
                                                                                             </textFieldCell>
                                                                                         </textField>
                                                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
@@ -1430,9 +1427,6 @@ CA
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="mainText"/>
                                                                                                 <color key="backgroundColor" name="mainBackground"/>
-                                                                                                <connections>
-                                                                                                    <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getName" id="Zz0-PN-Ycc"/>
-                                                                                                </connections>
                                                                                             </textFieldCell>
                                                                                             <connections>
                                                                                                 <action selector="fileName:" target="XfG-lQ-9wD" id="ZV9-vc-kbh"/>
@@ -1445,12 +1439,12 @@ CA
                                                                                         <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="HkF-Wx-cmF"/>
                                                                                         <constraint firstItem="9h5-Ob-Nej" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="3" id="URX-w7-IXX"/>
-                                                                                        <constraint firstItem="ggY-RT-nIM" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="b8F-pV-5lI"/>
+                                                                                        <constraint firstItem="ggY-RT-nIM" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" identifier="secondImageTop" id="b8F-pV-5lI"/>
                                                                                         <constraint firstItem="EXQ-Ld-D5r" firstAttribute="top" secondItem="UvD-jB-7Ok" secondAttribute="bottom" constant="3" id="bwH-CQ-N0h"/>
                                                                                         <constraint firstItem="9h5-Ob-Nej" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="csO-oU-odf"/>
-                                                                                        <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="fKE-hI-3xN"/>
+                                                                                        <constraint firstItem="HZg-Mu-dwG" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" identifier="thirdImageTop" id="fKE-hI-3xN"/>
                                                                                         <constraint firstItem="abw-Lq-K7d" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="hKA-pJ-rpa"/>
-                                                                                        <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" id="iQt-3H-FJ4"/>
+                                                                                        <constraint firstItem="dN9-ig-hka" firstAttribute="top" secondItem="EXQ-Ld-D5r" secondAttribute="bottom" constant="6" identifier="firstImageTop" id="iQt-3H-FJ4"/>
                                                                                         <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="23" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>

@@ -239,26 +239,6 @@ class NoteCellView: NSTableCellView {
         return nil
     }
 
-    public func attachTitleAndPreview(note: Note) {
-        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
-            self.name.stringValue = firstLine
-            self.preview.stringValue = note.preview
-        } else {
-            self.preview.stringValue = note.getPreviewForLabel()
-            self.name.stringValue = note.getTitleWithoutLabel()
-        }
-
-        if let viewController = ViewController.shared(),
-            let sidebarItem = viewController.getSidebarItem(),
-            let sort = sidebarItem.project?.sortBy,
-            sort == .creationDate,
-            let date = note.getCreationDateForLabel() {
-            self.date.stringValue = date
-        } else {
-            self.date.stringValue = note.getDateForLabel()
-        }
-    }
-
     public func adjustPinPosition() {
         for constraint in self.constraints {
             if constraint.secondAttribute == .leading, let im = constraint.firstItem as? NSImageView {

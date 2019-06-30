@@ -31,7 +31,6 @@ public class Note: NSObject  {
     
     public var name: String = ""
     public var preview: String = ""
-    public var firstLineTitle: String?
 
     public var isPinned: Bool = false
     public var modifiedLocalAt = Date()
@@ -723,7 +722,7 @@ public class Note: NSObject  {
         let title = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
 
         if title.isValidUUID {
-            return "Untitled Note"
+            return ""
         }
 
         return title
@@ -1028,8 +1027,17 @@ public class Note: NSObject  {
         let components = cleanText.trim().components(separatedBy: "\n").filter({ $0 != "" })
 
         if let first = components.first {
-            self.firstLineTitle = first.trim()
-            self.preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
+            if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
+                self.title = first.trim()
+                self.preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
+            } else {
+                loadTitleFromFileName()
+                self.preview = getPreviewLabel(with: components.joined(separator: " "))
+            }
+        } else {
+            if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+                loadTitleFromFileName()
+            }
         }
 
         self.imageUrl = urls
@@ -1038,8 +1046,16 @@ public class Note: NSObject  {
         return urls
     }
 
+    private func loadTitleFromFileName() {
+        let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+
+        self.title = fileName
+    }
+
     public func invalidateCache() {
         self.imageUrl = nil
+        self.preview = String()
+        self.title = String()
         self.isParsed = false
     }
 
@@ -1082,10 +1098,6 @@ public class Note: NSObject  {
     }
 
     @objc public func getName() -> String {
-        if project.firstLineAsTitle, let title = firstLineTitle {
-            return title
-        }
-
         if title.isValidUUID {
             return "Untitled Note"
         }
@@ -1358,7 +1370,6 @@ public class Note: NSObject  {
         content = NSMutableAttributedString(string: String())
         preview = String()
         title = String()
-        firstLineTitle = nil
 
         isCached = false
         caching = false
@@ -1402,5 +1413,35 @@ public class Note: NSObject  {
     public func showIconInList() -> Bool {
         return (isPinned || isEncrypted())
     }
-    
+
+    public func getFileName() -> String {
+        let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+
+        return fileName
+    }
+
+    public func getTitle() -> String? {
+        if isEncrypted() && !isUnlocked() {
+            return getFileName()
+        }
+
+        if title.count > 0 {
+            if title.isValidUUID && (
+                UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle
+            ) {
+                return nil
+            }
+
+            return title
+        }
+
+        if getFileName().isValidUUID {
+            let previewCharsQty = preview.count
+            if previewCharsQty > 0 {
+                return "Untitled Note"
+            }
+        }
+
+        return nil
+    }
 }

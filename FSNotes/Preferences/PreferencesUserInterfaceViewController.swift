@@ -173,9 +173,14 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBAction func firstLineAsTitle(_ sender: NSButton) {
         UserDefaultsManagement.firstLineAsTitle = (sender.state == .on)
 
-        let projects = Storage.sharedInstance().getProjects()
+        let storage = Storage.sharedInstance()
+        let projects = storage.getProjects()
         for project in projects {
             project.loadSettings()
+        }
+
+        for note in storage.noteList {
+            note.invalidateCache()
         }
 
         guard let vc = ViewController.shared() else { return }
