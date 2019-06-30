@@ -111,12 +111,12 @@ class NoteCellView: UITableViewCell {
     }
 
     public func attachTitleAndPreview(note: Note) {
-        if note.project.firstLineAsTitle, let firstLine = note.firstLineTitle {
-            self.title.text = firstLine
+        if let title = note.getTitle() {
+            self.title.text = title
             self.preview.text = note.preview
         } else {
-            self.preview.text = note.getPreviewForLabel()
-            self.title.text = note.getTitleWithoutLabel()
+            self.title.text = String()
+            self.preview.text = String()
         }
     }
 

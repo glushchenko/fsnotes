@@ -1200,6 +1200,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     if self.saveImageUrl(url: url, in: note) {
                         if last != url {
                             self.insertNewline(nil)
+                            if let vc = ViewController.shared() {
+                                vc.notesTableView.reloadRow(note: note)
+                            }
                         }
                     }
                 }

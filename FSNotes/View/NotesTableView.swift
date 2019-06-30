@@ -97,12 +97,27 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             if noteList.indices.contains(row) {
                 let note = noteList[row]
+
                 if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+                    let previewCharsQty = note.preview.count
+
+                    if (previewCharsQty == 0) {
+                        if note.getTitle() != nil {
+                            // Title + image
+                            return 79 + 17
+                        }
+
+                        // Images only
+                        return 79
+                    }
+
+                    // Title + Prevew + Images
                     return (height + 58)
                 }
             }
         }
 
+        // Title + preview
         return height
     }
     
@@ -267,7 +282,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         cell.configure(note: note)
         cell.loadImagesPreview()
-        cell.attachTitleAndPreview(note: note)
+        cell.attachHeaders(note: note)
 
         return cell
     }
@@ -373,14 +388,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         DispatchQueue.main.async {
             if let i = self.noteList.firstIndex(of: note) {
                 note.invalidateCache()
-                self.noteHeightOfRows(withIndexesChanged: [i])
-
                 if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
-                    cell.attachTitleAndPreview(note: note)
+
                     cell.date.stringValue = note.getDateForLabel()
-                    cell.loadImagesPreview()
-                    cell.udpateSelectionHighlight()
+                    cell.loadImagesPreview(position: i)
+                    cell.attachHeaders(note: note)
                     cell.renderPin()
+
+                    self.noteHeightOfRows(withIndexesChanged: [i])
                 }
             }
         }
