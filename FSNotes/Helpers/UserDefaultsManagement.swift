@@ -63,6 +63,7 @@ public class UserDefaultsManagement {
         static let HidePreviewKey = "hidePreview"
         static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
+        static let ImportURLsKey = "ImportURLs"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
@@ -870,6 +871,23 @@ public class UserDefaultsManagement {
             #endif
 
             UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NoteContainer)
+        }
+    }
+
+    static var importURLs: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return [] }
+
+            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? [URL] {
+                return result
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return }
+
+            defaults.set(newValue, forKey: Constants.ImportURLsKey)
         }
     }
 

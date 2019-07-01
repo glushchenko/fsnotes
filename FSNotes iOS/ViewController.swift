@@ -933,10 +933,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func updateTableOrEditor(url: URL, content: String) {
-        guard let note = Storage.sharedInstance().getBy(url: url) else { return }
+        guard let note = Storage.sharedInstance().getBy(url: url),
+            let date = note.getFileModifiedDate()
+        else { return }
+
         note.content = NSMutableAttributedString(string: content)
 
-        if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url) {
+        if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
+            note.modifiedLocalAt = date
             refreshTextStorage(note: note)
             return
         }
