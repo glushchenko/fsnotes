@@ -42,10 +42,7 @@ extension NoteCellView {
                     }
 
                     self.attachImagesPreview(resizedImages: resizedImages)
-
-                    #if os(OSX)
-                        self.fixTopConstraint(position: position, note: note)
-                    #endif
+                    self.fixTopConstraint(position: position, note: note)
                 }
             }
         }
@@ -103,79 +100,5 @@ extension NoteCellView {
         }
 
         return resizedImages
-    }
-
-#if os(OSX)
-    private func fixTopConstraint(position: Int?, note: Note) {
-        guard let tableView = tableView else { return }
-
-        for constraint in self.constraints {
-            if ["firstImageTop", "secondImageTop", "thirdImageTop"].contains(constraint.identifier) {
-                let ident = constraint.identifier
-                let height = position != nil ? tableView.tableView(tableView, heightOfRow: position!) : self.frame.height
-
-                self.removeConstraint(constraint)
-                var con = CGFloat(0)
-
-                if note.getTitle() != nil {
-                    con += self.name.frame.height
-                }
-
-                let isPreviewExist = note.preview.trim().count > 0
-                if isPreviewExist {
-                    con += 3 + self.preview.frame.height
-                }
-
-                var diff = (height - con - 48) / 2
-                diff += con
-
-                var imageLink: NSImageView?
-                switch constraint.identifier {
-                case "firstImageTop":
-                    imageLink = self.imagePreview
-                case "secondImageTop":
-                    imageLink = self.imagePreviewSecond
-                case "thirdImageTop":
-                    imageLink = self.imagePreviewThird
-                default:
-                    imageLink = self.imagePreview
-                }
-
-                guard let firstItem = imageLink else { continue }
-
-                let secondItem = isPreviewExist ? self.preview : self
-                let secondAttribute: NSLayoutConstraint.Attribute = isPreviewExist ? .bottom : .top
-                let constant = isPreviewExist ? 6 : diff
-                let constr = NSLayoutConstraint(item: firstItem, attribute: .top, relatedBy: .equal, toItem: secondItem, attribute: secondAttribute, multiplier: 1, constant: constant)
-
-                constr.identifier = ident
-                self.addConstraint(constr)
-            }
-        }
-    }
-#endif
-
-    public func attachHeaders(note: Note) {
-        #if os(OSX)
-        if let title = note.getTitle() {
-            self.name.stringValue = title
-            self.preview.stringValue = note.preview
-        } else {
-            self.name.stringValue = ""
-            self.preview.stringValue = ""
-        }
-
-        if let viewController = ViewController.shared(),
-            let sidebarItem = viewController.getSidebarItem(),
-            let sort = sidebarItem.project?.sortBy,
-            sort == .creationDate,
-            let date = note.getCreationDateForLabel() {
-            self.date.stringValue = date
-        } else {
-            self.date.stringValue = note.getDateForLabel()
-        }
-
-        self.udpateSelectionHighlight()
-        #endif
     }
 }

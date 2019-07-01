@@ -812,6 +812,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             
             if note.type == .RichText {
                 saveTextStorageContent(to: note)
+                note.save()
             }
             
             return
@@ -942,7 +943,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let storage = self.textStorage else {
             return
         }
-        
+
         note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
     }
     

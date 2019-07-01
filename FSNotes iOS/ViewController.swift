@@ -41,6 +41,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var is3DTouchShortcut = false
     private var isActiveTableUpdating = false
 
+    override func viewWillAppear(_ animated: Bool) {
+        print(UserDefaultsManagement.importURLs)
+        
+        for url in UserDefaultsManagement.importURLs {
+            print("Import URL")
+            cloudDriveManager?.add(url: url)
+        }
+
+        UserDefaultsManagement.importURLs = []
+    }
+
     override func viewDidLoad() {
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
@@ -939,14 +950,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         note.content = NSMutableAttributedString(string: content)
 
+        note.invalidateCache()
+        notesTable.beginUpdates()
+        notesTable.reloadRow(note: note)
+        notesTable.endUpdates()
+
         if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
             note.modifiedLocalAt = date
             refreshTextStorage(note: note)
             return
         }
-
-        note.invalidateCache()
-        notesTable.reloadRow(note: note)
     }
 }
 
