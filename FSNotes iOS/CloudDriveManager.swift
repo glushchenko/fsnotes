@@ -151,10 +151,7 @@ class CloudDriveManager {
                     continue
                 }
 
-                var currentDate: Int? = nil
-                if let date = note.getFileModifiedDate() {
-                    currentDate = Int(date.timeIntervalSince1970)
-                }
+                guard let date = note.getFileModifiedDate() else { continue }
 
                 note.loadTags()
                 
@@ -163,9 +160,10 @@ class CloudDriveManager {
                     coreNote.open()
                 }
 
-                _ = note.forceReload()
+                note.forceReload()
 
-                if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), let curDate = currentDate, curDate > Int(note.modifiedLocalAt.timeIntervalSince1970) {
+                if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
+                    note.modifiedLocalAt = date
                     self.delegate.refreshTextStorage(note: note)
                 }
 
