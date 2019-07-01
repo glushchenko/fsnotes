@@ -165,6 +165,10 @@ class ShareViewController: SLComposeServiceViewController {
         var started = 0
         var finished = 0
 
+        var urls = UserDefaultsManagement.importURLs
+        urls.insert(note.url, at: 0)
+        UserDefaultsManagement.importURLs = urls
+
         for item in input {
             if let a = item.attachments as? [NSItemProvider] {
                 for provider in a {

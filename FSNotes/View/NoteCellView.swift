@@ -310,7 +310,7 @@ class NoteCellView: NSTableCellView {
         return nil
     }
 
-    private func fixTopConstraint(position: Int?, note: Note) {
+    public func fixTopConstraint(position: Int?, note: Note) {
         guard let tableView = tableView else { return }
 
         for constraint in self.constraints {
