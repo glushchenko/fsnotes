@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14766.15"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="iOS 13.0 system colors" minToolsVersion="11.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -35,7 +36,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cn1-Y0-0eh">
-                                                    <rect key="frame" x="23" y="17" width="33.5" height="21"/>
+                                                    <rect key="frame" x="23" y="11" width="33.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -75,21 +76,21 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="AbV-ot-mEE" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="0OO-Nd-PCc"/>
+                                                <constraint firstItem="AbV-ot-mEE" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="0OO-Nd-PCc"/>
                                                 <constraint firstItem="Cn1-Y0-0eh" firstAttribute="leading" secondItem="Ng0-bb-ENq" secondAttribute="trailing" id="0qP-JS-kYp"/>
                                                 <constraint firstItem="AbV-ot-mEE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Cn1-Y0-0eh" secondAttribute="trailing" priority="999" constant="5" id="7Uy-aY-372"/>
                                                 <constraint firstItem="L4T-lK-1pA" firstAttribute="leading" secondItem="t6a-FH-UHM" secondAttribute="trailing" constant="8" id="K3H-Qz-btY"/>
                                                 <constraint firstAttribute="trailing" secondItem="LAf-Rz-QFy" secondAttribute="trailing" constant="14" id="LJ9-2z-vAD"/>
                                                 <constraint firstItem="rsi-Av-qh2" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leadingMargin" constant="5" id="MB0-DS-pMG"/>
                                                 <constraint firstItem="AbV-ot-mEE" firstAttribute="trailing" secondItem="De0-QG-drV" secondAttribute="trailingMargin" id="ONj-Ke-bYc"/>
-                                                <constraint firstItem="L4T-lK-1pA" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="XPp-HF-VEk"/>
-                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="YY9-pB-9Qe"/>
-                                                <constraint firstItem="t6a-FH-UHM" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="Yvb-AC-CP7"/>
+                                                <constraint firstItem="L4T-lK-1pA" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" identifier="thirdImageTop" id="XPp-HF-VEk"/>
+                                                <constraint firstItem="Ng0-bb-ENq" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="YY9-pB-9Qe"/>
+                                                <constraint firstItem="t6a-FH-UHM" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" identifier="secondImageTop" id="Yvb-AC-CP7"/>
                                                 <constraint firstItem="LAf-Rz-QFy" firstAttribute="top" secondItem="Ng0-bb-ENq" secondAttribute="bottom" constant="5" id="d2V-lD-g3R"/>
                                                 <constraint firstItem="Ng0-bb-ENq" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leading" id="fM2-85-PwK"/>
-                                                <constraint firstItem="Cn1-Y0-0eh" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" constant="6" id="iho-nX-yyl"/>
-                                                <constraint firstItem="LAf-Rz-QFy" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leading" constant="22" id="lRD-NL-mfR"/>
-                                                <constraint firstItem="rsi-Av-qh2" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" id="uw7-pW-b3V"/>
+                                                <constraint firstItem="Cn1-Y0-0eh" firstAttribute="top" secondItem="De0-QG-drV" secondAttribute="topMargin" id="iho-nX-yyl"/>
+                                                <constraint firstItem="LAf-Rz-QFy" firstAttribute="leading" secondItem="De0-QG-drV" secondAttribute="leading" constant="23" id="lRD-NL-mfR"/>
+                                                <constraint firstItem="rsi-Av-qh2" firstAttribute="top" secondItem="LAf-Rz-QFy" secondAttribute="bottom" constant="12" identifier="firstImageTop" id="uw7-pW-b3V"/>
                                                 <constraint firstItem="t6a-FH-UHM" firstAttribute="leading" secondItem="rsi-Av-qh2" secondAttribute="trailing" constant="8" id="zr3-db-Dgc"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -359,6 +360,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="U2G-Fk-LZv">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="General" id="ZKo-hy-393">
                                 <cells>
@@ -620,6 +622,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ngK-1d-578">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection headerTitle="Section-1" id="Qe6-HW-ixo">
                                 <cells>

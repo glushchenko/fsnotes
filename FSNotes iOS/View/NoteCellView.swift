@@ -94,10 +94,11 @@ class NoteCellView: UITableViewCell {
     }
 
     public func updateView() {
-        if let note = self.note {
-            attachTitleAndPreview(note: note)
-        }
         loadImagesPreview()
+        if let note = self.note {
+            attachHeaders(note: note)
+        }
+
         reloadDate()
         layoutIfNeeded()
     }
@@ -110,7 +111,7 @@ class NoteCellView: UITableViewCell {
         imageView.clipsToBounds = true
     }
 
-    public func attachTitleAndPreview(note: Note) {
+    public func attachHeaders(note: Note) {
         if let title = note.getTitle() {
             self.title.text = title
             self.preview.text = note.preview
@@ -148,5 +149,54 @@ class NoteCellView: UITableViewCell {
         }
 
         return nil
+    }
+
+    public func fixTopConstraint(position: Int?, note: Note) {
+        guard let tableView = tableView else { return }
+
+        for constraint in self.contentView.constraints {
+            if ["firstImageTop", "secondImageTop", "thirdImageTop"].contains(constraint.identifier) {
+                let ident = constraint.identifier
+
+                let height = position != nil ? tableView.cellHeights[IndexPath(row: position!, section: 0)]! : self.frame.height
+
+                self.contentView.removeConstraint(constraint)
+                var con = CGFloat(0)
+
+                if note.getTitle() != nil {
+                    con += self.title.frame.height
+                }
+
+                let isPreviewExist = note.preview.trim().count > 0
+                if isPreviewExist {
+                    con += 5 + self.preview.frame.height
+                }
+
+                var diff = (height - con - 70) / 2
+                diff += con
+
+                var imageLink: UIImageView?
+                switch constraint.identifier {
+                case "firstImageTop":
+                    imageLink = self.imagePreview
+                case "secondImageTop":
+                    imageLink = self.imagePreviewSecond
+                case "thirdImageTop":
+                    imageLink = self.imagePreviewThird
+                default:
+                    imageLink = self.imagePreview
+                }
+
+                guard let firstItem = imageLink else { continue }
+
+                let secondItem = isPreviewExist ? self.preview : self.contentView
+                let secondAttribute: NSLayoutConstraint.Attribute = isPreviewExist ? .bottom : .top
+                let constant = isPreviewExist ? 12 : diff
+                let constr = NSLayoutConstraint(item: firstItem, attribute: .top, relatedBy: .equal, toItem: secondItem, attribute: secondAttribute, multiplier: 1, constant: constant)
+
+                constr.identifier = ident
+                self.contentView.addConstraint(constr)
+            }
+        }
     }
 }
