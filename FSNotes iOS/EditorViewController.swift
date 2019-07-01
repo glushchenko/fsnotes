@@ -29,6 +29,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private var initialKeyboardHeight: CGFloat = 0
 
     @IBOutlet weak var editArea: EditTextView!
+
+    var rowUpdaterTimer = Timer()
     
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -425,6 +427,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             DispatchQueue.main.async {
                 note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
                 note.save()
+
+                self.rowUpdaterTimer.invalidate()
+                self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
             }
         }
         self.storageQueue.addOperation(operation)
@@ -443,6 +448,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         vc.cloudDriveManager?.metadataQuery.enableUpdates()
         vc.notesTable.moveRowUp(note: note)
+    }
+
+    @objc private func updateCurrentRow() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController,
+            let note = self.note
+        else {
+            return
+        }
+
+        note.invalidateCache()
+        vc.notesTable.beginUpdates()
+        vc.notesTable.reloadRow(note: note)
+        vc.notesTable.endUpdates()
     }
     
     func getSearchText() -> String {

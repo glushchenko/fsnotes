@@ -29,6 +29,19 @@ class NotesTableView: UITableView,
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
             if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+
+                let previewCharsQty = note.preview.count
+                if (previewCharsQty == 0) {
+                    if note.getTitle() != nil {
+                        // Title + image
+                        return 130
+                    }
+
+                    // Images only
+                    return 110
+                }
+
+                // Title + Prevew + Images
                 return 160
             }
         }
@@ -36,9 +49,11 @@ class NotesTableView: UITableView,
         return 75
     }
 
+    /*
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return self.cellHeights[indexPath] ?? 75
-    }
+    }*/
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
@@ -55,8 +70,8 @@ class NotesTableView: UITableView,
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
 
-        cell.loadImagesPreview()
-        cell.attachTitleAndPreview(note: note)
+        cell.loadImagesPreview(position: indexPath.row)
+        cell.attachHeaders(note: note)
 
         return cell
     }
@@ -382,7 +397,7 @@ class NotesTableView: UITableView,
     }
 
     public func moveRowUp(note: Note) {
-        if let i = self.notes.index(where: {$0 === note}) {
+        if let i = self.notes.firstIndex(where: {$0 === note}) {
             let position = note.isPinned ? 0 : self.getInsertPosition()
 
             if i == position {
