@@ -878,8 +878,8 @@ public class UserDefaultsManagement {
         get {
             guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return [] }
 
-            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? [URL] {
-                return result
+            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? Data, let urls = NSKeyedUnarchiver.unarchiveObject(with: result) as? [URL] {
+                return urls
             }
 
             return []
@@ -887,7 +887,8 @@ public class UserDefaultsManagement {
         set {
             guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return }
 
-            defaults.set(newValue, forKey: Constants.ImportURLsKey)
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
+            defaults.set(data, forKey: Constants.ImportURLsKey)
         }
     }
 
