@@ -41,7 +41,9 @@ public class Note: NSObject  {
 
     private var decryptedTemporarySrc: URL?
     public var ciphertextWriter = OperationQueue.init()
-    
+
+    private var firstLineAsTitle = false
+
     // Load exist
     
     init(url: URL, with project: Project) {
@@ -78,6 +80,10 @@ public class Note: NSObject  {
 
         super.init()
         self.parseURL()
+    }
+
+    public func hasTitle() -> Bool {
+        return !firstLineAsTitle
     }
 
     /// Important for decrypted temporary containers
@@ -673,13 +679,16 @@ public class Note: NSObject  {
         let wrapper = FileWrapper.init(directoryWithFileWrappers: [:])
         wrapper.preferredFilename = "assets"
 
-        let assets = url.appendingPathComponent("assets")
-
         do {
-            let files = try FileManager.default.contentsOfDirectory(atPath: assets.path)
-            for file in files {
-                let fileData = try Data(contentsOf: assets.appendingPathComponent(file))
-                wrapper.addRegularFile(withContents: fileData, preferredFilename: file)
+            let assets = url.appendingPathComponent("assets")
+
+            var isDir = ObjCBool(false)
+            if FileManager.default.fileExists(atPath: assets.path, isDirectory: &isDir) && isDir.boolValue {
+                let files = try FileManager.default.contentsOfDirectory(atPath: assets.path)
+                for file in files {
+                    let fileData = try Data(contentsOf: assets.appendingPathComponent(file))
+                    wrapper.addRegularFile(withContents: fileData, preferredFilename: file)
+                }
             }
         } catch {
             print(error)
@@ -1030,6 +1039,7 @@ public class Note: NSObject  {
             if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
                 self.title = first.trim()
                 self.preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
+                firstLineAsTitle = true
             } else {
                 loadTitleFromFileName()
                 self.preview = getPreviewLabel(with: components.joined(separator: " "))
@@ -1037,6 +1047,8 @@ public class Note: NSObject  {
         } else {
             if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
                 loadTitleFromFileName()
+            } else {
+                firstLineAsTitle = false
             }
         }
 
@@ -1050,6 +1062,8 @@ public class Note: NSObject  {
         let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
 
         self.title = fileName
+
+        firstLineAsTitle = false
     }
 
     public func invalidateCache() {

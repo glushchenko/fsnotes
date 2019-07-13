@@ -991,7 +991,15 @@ class ViewController: NSViewController,
             ? vc.splitView.subviews[0].frame.height
             : vc.splitView.subviews[0].frame.width
 
-        if vc.splitView.shouldHideDivider {
+        if size == 0 {
+            var size = UserDefaultsManagement.sidebarSize
+            if UserDefaultsManagement.sidebarSize == 0 {
+                size = 250
+            }
+
+            vc.splitView.shouldHideDivider = false
+            vc.splitView.setPosition(size, ofDividerAt: 0)
+        } else if vc.splitView.shouldHideDivider {
             vc.splitView.shouldHideDivider = false
             vc.splitView.setPosition(UserDefaultsManagement.sidebarSize, ofDividerAt: 0)
         } else {

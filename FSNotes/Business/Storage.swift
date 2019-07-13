@@ -676,7 +676,9 @@ class Storage {
 
                 if note.url == currentNote.url {
                 #if os(OSX)
-                    ViewController.shared()?.refillEditArea()
+                    DispatchQueue.main.async {
+                        ViewController.shared()?.refillEditArea()
+                    }
                 #else
                     DispatchQueue.main.async {
                         guard
