@@ -871,7 +871,8 @@ class ViewController: NSViewController,
             return
         }
 
-        if vc.editArea.hasFocus() {
+        let menuItem = sender as? NSMenuItem
+        if vc.editArea.hasFocus() && menuItem?.tag != 555 {
             vc.editArea.deleteToBeginningOfLine(nil)
             return
         }
@@ -1724,6 +1725,7 @@ class ViewController: NSViewController,
             let trashMenu = NSMenuItem()
             trashMenu.title = NSLocalizedString("Trash", comment: "Sidebar label")
             trashMenu.action = #selector(vc.deleteNote(_:))
+            trashMenu.tag = 555
             moveMenu.addItem(trashMenu)
             moveMenu.addItem(NSMenuItem.separator())
         }
