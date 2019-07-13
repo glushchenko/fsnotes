@@ -466,7 +466,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         downView?.removeFromSuperview()
 
-        viewController.updateTitle(newTitle: note.title)
+        viewController.updateTitle(newTitle: note.hasTitle() ? note.title : "")
 
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {

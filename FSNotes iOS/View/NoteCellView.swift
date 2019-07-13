@@ -95,12 +95,12 @@ class NoteCellView: UITableViewCell {
 
     public func updateView() {
         loadImagesPreview()
+
         if let note = self.note {
             attachHeaders(note: note)
         }
 
         reloadDate()
-        layoutIfNeeded()
     }
 
     public func styleImageView(imageView: ImageView) {

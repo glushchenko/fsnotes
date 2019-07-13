@@ -599,6 +599,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         note.save()
+        note.write()
     }
 
     @objc func preferredContentSizeChanged() {
