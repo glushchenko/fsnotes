@@ -470,6 +470,11 @@
 		D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BDFE6B201F6DC200897A58 /* EditTextView.swift */; };
 		D7BDFE6D201F6E8F00897A58 /* Initial in Resources */ = {isa = PBXBuildFile; fileRef = D7ED6891200F87BD00FF975A /* Initial */; };
 		D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BDFE6F201F788D00897A58 /* NoteCellView.swift */; };
+		D7BE112422DA2FE200435866 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112322DA2FE200435866 /* launch.png */; };
+		D7BE112522DB168C00435866 /* lock-closed.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD472238365700E69C93 /* lock-closed.png */; };
+		D7BE112622DB168C00435866 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
+		D7BE112922DB1C8600435866 /* padlock-unlocked-ios.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */; };
+		D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112822DB1C8600435866 /* padlock-locked-ios.png */; };
 		D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */; };
 		D7C2AB0721E116CE00B1AC0E /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C2AB0621E116CE00B1AC0E /* share.png */; };
 		D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C221F31E5F0041627F /* ImageAttachment+.swift */; };
@@ -1118,6 +1123,9 @@
 		D7BDFE69201F68B700897A58 /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7BDFE6B201F6DC200897A58 /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D7BDFE6F201F788D00897A58 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
+		D7BE112322DA2FE200435866 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
+		D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-unlocked-ios.png"; sourceTree = "<group>"; };
+		D7BE112822DB1C8600435866 /* padlock-locked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-locked-ios.png"; sourceTree = "<group>"; };
 		D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		D7C2AB0621E116CE00B1AC0E /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D7C302C221F31E5F0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
@@ -1518,6 +1526,8 @@
 		D73CEC6D2278ECA500D549F7 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7BE112822DB1C8600435866 /* padlock-locked-ios.png */,
+				D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */,
 				D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */,
 				D73CEC6E2278ECA500D549F7 /* checkbox_flipped_white.png */,
 				D73CEC6F2278ECA500D549F7 /* checkbox_empty@3x.png */,
@@ -1814,6 +1824,7 @@
 				D730BD56223AB54E00E69C93 /* new-note.png */,
 				D759D1F92276D25C00961E90 /* icon_alt.png */,
 				D759D1FD2276D4C200961E90 /* icon.png */,
+				D7BE112322DA2FE200435866 /* launch.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2421,6 +2432,7 @@
 				D7735B13213D06C500FACB12 /* underline@3x.png in Resources */,
 				D73CEC882278ECA500D549F7 /* checkbox_white@2x.png in Resources */,
 				D73CEC812278ECA500D549F7 /* checkbox_empty@3x.png in Resources */,
+				D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
 				D7D95042209D8B40001FB60B /* home.png in Resources */,
@@ -2433,6 +2445,7 @@
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D73CEC8C2278ECA500D549F7 /* checkbox_flipped.png in Resources */,
 				D75DF64221319994003C3059 /* todo.png in Resources */,
+				D7BE112622DB168C00435866 /* lock-open.png in Resources */,
 				D73CEC912278ECA500D549F7 /* checkbox_empty_white.png in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
 				D71AA01E21439A8C004AFD2A /* archive_white.png in Resources */,
@@ -2463,6 +2476,7 @@
 				D7735B10213D06C500FACB12 /* strike.png in Resources */,
 				D7EA59EF213EAD8800582BD9 /* image@3x.png in Resources */,
 				D7271FAF2052803500033D0C /* indent@3x.png in Resources */,
+				D7BE112922DB1C8600435866 /* padlock-unlocked-ios.png in Resources */,
 				D73CEC8F2278ECA500D549F7 /* checkbox_flipped_white@3x.png in Resources */,
 				D76C87422136AA7100F82952 /* trash_white.png in Resources */,
 				D7735B11213D06C500FACB12 /* underline@2x.png in Resources */,
@@ -2489,6 +2503,7 @@
 				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */,
 				D7271FAA2052803500033D0C /* unindent.png in Resources */,
+				D7BE112522DB168C00435866 /* lock-closed.png in Resources */,
 				D73CEC862278ECA500D549F7 /* checkbox_empty@2x.png in Resources */,
 				D79802802137C3D6008D6200 /* uncheckedbox@2x.png in Resources */,
 				D7F6CFF82056F1BF008C584A /* plus.png in Resources */,
@@ -2504,6 +2519,7 @@
 				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D73CEC802278ECA500D549F7 /* checkbox_flipped_white.png in Resources */,
 				D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */,
+				D7BE112422DA2FE200435866 /* launch.png in Resources */,
 				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */,

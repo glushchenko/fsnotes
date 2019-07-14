@@ -292,6 +292,7 @@ class NotesTableView: UITableView,
             DispatchQueue.main.async {
                 if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
                     cell.updateView()
+                    self.reloadRows(at: [indexPath], with: .none)
                 }
             }
         }

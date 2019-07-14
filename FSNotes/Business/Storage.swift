@@ -65,9 +65,16 @@ class Storage {
         }
 
         let project = Project(url: url, label: name, isRoot: true, isDefault: true)
-        _ = add(project: project)
+
+        #if os(iOS)
+            projects.append(project)
+            checkTrashForVolume(url: project.url)
+        #endif
+
 
         #if os(OSX)
+        _ = add(project: project)
+
         for url in bookmarks {
             if url.pathExtension == "css" {
                 continue
@@ -84,7 +91,6 @@ class Storage {
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
             _ = add(project: project)
         }
-        #endif
 
         let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
 
@@ -92,6 +98,8 @@ class Storage {
             let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
             _ = add(project: project)
         }
+
+        #endif
     }
 
     public func makeTempEncryptionDirectory() -> URL? {
@@ -225,21 +233,24 @@ class Storage {
             projects.remove(at: i)
         }
     }
-    
+
     public func add(project: Project) -> [Project] {
         var added = [Project]()
-        projects.append(project)
-        added.append(project)
-        
+
+        if !projects.contains(project) {
+            projects.append(project)
+            added.append(project)
+        }
+
         if project.isRoot && project.url != UserDefaultsManagement.archiveDirectory {
             let addedSubProjects = chechSub(url: project.url, parent: project)
             added = added + addedSubProjects
             checkTrashForVolume(url: project.url)
         }
-        
+
         return added
     }
-    
+
     public func getArchive() -> Project? {
         if let project = projects.first(where: { $0.isArchive }) {
             return project
@@ -272,11 +283,17 @@ class Storage {
         return storage
     }
 
-    public func loadProjects(withTrash: Bool = true) {
-        noteList.removeAll()
+    public func loadProjects(withTrash: Bool = true, skipRoot: Bool = false) {
+        if !skipRoot {
+            noteList.removeAll()
+        }
 
         for project in projects {
             if project.isTrash && !withTrash {
+                continue
+            }
+
+            if project.isRoot && skipRoot {
                 continue
             }
 
@@ -285,22 +302,18 @@ class Storage {
     }
 
     func loadDocuments(tryCount: Int = 0, completion: @escaping () -> Void) {
-        loadProjects()
-        
         _ = restoreCloudPins()
 
         let count = self.noteList.count
         var i = 0
 
         #if os(iOS)
-        DispatchQueue.global().async {
-            for note in self.noteList {
-                note.load()
-                i += 1
-                if i == count {
-                    print("Loaded notes: \(count)")
-                    completion()
-                }
+        for note in self.noteList {
+            note.load()
+            i += 1
+            if i == count {
+                print("Loaded notes: \(count)")
+                completion()
             }
         }
         #endif
@@ -309,6 +322,7 @@ class Storage {
 
         guard !checkFirstRun() else {
             if tryCount == 0 {
+                loadProjects()
                 loadDocuments(tryCount: 1) {}
                 return
             }

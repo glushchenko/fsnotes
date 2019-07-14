@@ -28,7 +28,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ng0-bb-ENq">
-                                                    <rect key="frame" x="0.0" y="17" width="23" height="23"/>
+                                                    <rect key="frame" x="0.0" y="11" width="23" height="23"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="23" id="KlO-n1-B2e"/>
                                                         <constraint firstAttribute="width" constant="23" id="k71-lI-ai0"/>
@@ -41,34 +41,34 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preview" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAf-Rz-QFy">
-                                                    <rect key="frame" x="22" y="45" width="339" height="18"/>
+                                                    <rect key="frame" x="23" y="39" width="338" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rsi-Av-qh2">
-                                                    <rect key="frame" x="20" y="75" width="70" height="70"/>
+                                                    <rect key="frame" x="20" y="69" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="0iB-an-r6e"/>
                                                         <constraint firstAttribute="height" constant="70" id="3EZ-N8-htb"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="t6a-FH-UHM">
-                                                    <rect key="frame" x="98" y="75" width="70" height="70"/>
+                                                    <rect key="frame" x="98" y="69" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="dd7-Po-Gye"/>
                                                         <constraint firstAttribute="height" constant="70" id="eUw-LF-zQI"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="L4T-lK-1pA">
-                                                    <rect key="frame" x="176" y="75" width="70" height="70"/>
+                                                    <rect key="frame" x="176" y="69" width="70" height="70"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="Qry-XG-kOl"/>
                                                         <constraint firstAttribute="width" constant="70" id="mUL-BK-kWo"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AbV-ot-mEE">
-                                                    <rect key="frame" x="324" y="17" width="36" height="21"/>
+                                                    <rect key="frame" x="324" y="11" width="36" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>

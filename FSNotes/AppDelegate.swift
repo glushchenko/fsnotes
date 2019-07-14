@@ -43,6 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         let storage = Storage.sharedInstance()
+        storage.loadProjects()
         storage.loadDocuments() {}
     }
 

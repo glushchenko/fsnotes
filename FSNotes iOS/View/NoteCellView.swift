@@ -54,15 +54,20 @@ class NoteCellView: UITableViewCell {
         title.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
         preview.mixedTextColor = MixedColor(normal: 0x7f8ea7, night: 0xd9dee5)
         
-        pin.isHidden = !note.isPinned
-        
-        var imageName = ""
-        if NightNight.theme == .night {
-            imageName = "_white"
+        if note.isEncrypted() {
+            let name = note.isUnlocked() ? "padlock-unlocked-ios" : "padlock-locked-ios"
+            pin.image = UIImage(named: name)
+            pin.isHidden = false
+        } else {
+            var imageName = ""
+            if NightNight.theme == .night {
+                imageName = "_white"
+            }
+
+            pin.image = UIImage(named: "pin\(imageName).png" )
+            pin.isHidden = !note.isPinned
         }
-        
-        pin.image = UIImage(named: "pin\(imageName).png" )
-        
+
         if let font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
                 let fontMetrics = UIFontMetrics(forTextStyle: .headline)

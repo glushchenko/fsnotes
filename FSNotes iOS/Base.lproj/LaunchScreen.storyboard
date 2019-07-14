@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="icon-ios-512x512.png" translatesAutoresizingMaskIntoConstraints="NO" id="F8y-Sj-1rV">
-                                <rect key="frame" x="67" y="270" width="240" height="126"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="launch.png" translatesAutoresizingMaskIntoConstraints="NO" id="F8y-Sj-1rV">
+                                <rect key="frame" x="0.0" y="232" width="375" height="203"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -31,6 +31,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon-ios-512x512.png" width="198.19354248046875" height="198.19354248046875"/>
+        <image name="launch.png" width="96.774192810058594" height="96.774192810058594"/>
     </resources>
 </document>

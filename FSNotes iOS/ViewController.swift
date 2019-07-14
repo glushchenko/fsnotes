@@ -53,6 +53,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+        self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        self.configureIndicator(indicator: self.indicator!, view: self.view)
+
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
 
@@ -108,7 +111,40 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         guard let storage = self.storage else { return }
 
-        DispatchQueue.global().async {
+        DispatchQueue.global(qos: .userInteractive).async {
+            storage.loadDocuments(completion: {})
+
+            DispatchQueue.main.async {
+                self.reloadSidebar()
+                self.initTableData()
+
+                self.stopAnimation(indicator: self.indicator)
+            }
+
+            // Load all and skip root
+
+            if let project = storage.getRootProject() {
+
+                // Add archive
+                let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
+                if let archive = UserDefaultsManagement.archiveDirectory {
+                    let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
+                    _ = storage.add(project: project)
+                }
+
+                // And another all
+                _ = storage.add(project: project)
+            }
+
+            storage.loadProjects(withTrash: false, skipRoot: true)
+            storage.loadDocuments() {
+                DispatchQueue.main.async {
+                    self.reloadSidebar()
+                }
+            }
+
+            // Start CloudDrive manager
+
             self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
             if let cdm = self.cloudDriveManager {
                 NotificationCenter.default.addObserver(cdm, selector: #selector(cdm.queryDidFinishGathering), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery)
@@ -116,21 +152,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 DispatchQueue.main.async {
                     self.cloudDriveManager?.metadataQuery.start()
                 }
-            }
-        }
-
-        if storage.noteList.count == 0 {
-            storage.loadDocuments() {
-                DispatchQueue.main.async {
-                    self.reloadSidebar()
-                }
-            }
-
-            self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-            self.configureIndicator(indicator: self.indicator!, view: self.view)
-
-            DispatchQueue.main.async {
-                self.initTableData()
             }
         }
 
@@ -803,6 +824,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if note.unLock(password: password) {
                     success?.append(note)
                 }
+                self.notesTable.reloadRow(note: note)
                 completion(success)
             }
         }
