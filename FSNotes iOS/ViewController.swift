@@ -112,6 +112,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         guard let storage = self.storage else { return }
 
         DispatchQueue.global(qos: .userInteractive).async {
+            storage.loadProjects()
             storage.loadDocuments(completion: {})
 
             DispatchQueue.main.async {
