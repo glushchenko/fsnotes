@@ -31,6 +31,11 @@ class Sidebar {
 
         var system = [SidebarItem]()
 
+        #if os(iOS)
+        let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), type: .Inbox, icon: getImage(named: "inbox\(night).png"))
+        system.append(inbox)
+        #endif
+
         let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
         system.append(notes)
 

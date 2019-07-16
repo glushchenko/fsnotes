@@ -467,7 +467,7 @@ class NotesTableView: UITableView,
     private func openPopover() {
         let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
 
-        guard type == nil || type == .Category || type == .All else { return }
+        guard type == nil || type == .Category || type == .All || type == .Inbox else { return }
 
         let vc = FolderPopoverViewControler()
         let height = Int(vc.tableView.rowHeight) * vc.actions.count
