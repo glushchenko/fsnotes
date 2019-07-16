@@ -132,7 +132,7 @@ class SidebarTableView: UITableView,
         AudioServicesPlaySystemSound(1519)
 
         var name = sidebarItem.name
-        if sidebarItem.type == .Category || sidebarItem.type == .All {
+        if sidebarItem.type == .Category || sidebarItem.type == .Inbox || sidebarItem.type == .All {
             name += " ✦"
         }
 

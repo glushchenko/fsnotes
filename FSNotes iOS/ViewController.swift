@@ -467,7 +467,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             || [.Category, .Label].contains(type) && project != nil && note.project == project
             || project != nil && project!.isRoot && note.project.parent == project
             || type == .Archive && note.project.isArchive
-            || type == .Todo && !note.project.isArchive {
+            || type == .Todo && !note.project.isArchive
+            || type == .Inbox && note.project.isRoot && note.project.isDefault
+        {
 
             return true
         }
