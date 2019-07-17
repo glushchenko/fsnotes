@@ -367,7 +367,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let filter = self.search.text!
         var terms = filter.split(separator: " ")
         let sidebarItem = self.sidebarTableView.getSidebarItem()
-        let type: SidebarItemType = sidebarItem?.type ?? .All
+        let type: SidebarItemType = sidebarItem?.type ?? .Inbox
 
         if type == .Todo {
             terms.append("- [ ]")
@@ -453,7 +453,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
-        let type: SidebarItemType = sidebarItem?.type ?? .All
+        let type: SidebarItemType = sidebarItem?.type ?? .Inbox
         var project: Project? = nil
         var sidebarName = ""
 

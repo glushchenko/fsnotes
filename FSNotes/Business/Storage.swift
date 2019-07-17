@@ -993,4 +993,8 @@ class Storage {
             projects.remove(at: index)
         }
     }
+
+    public func getNotesBy(project: Project) -> [Note] {
+        return noteList.filter({ $0.project == project })
+    }
 }

@@ -1029,7 +1029,11 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.FirstLineAsTitle) as? Bool {
                 return result
             }
-            return true
+            #if os(iOS)
+                return false
+            #else
+                return true
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.FirstLineAsTitle)
