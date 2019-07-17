@@ -21,7 +21,12 @@ public class Project: Equatable {
     public var sortBy: SortBy = UserDefaultsManagement.sort
     public var showInCommon: Bool
     public var showInSidebar: Bool = true
+
+    #if os(iOS)
+    public var firstLineAsTitle: Bool = true
+    #else
     public var firstLineAsTitle: Bool = false
+    #endif
     
     init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false) {
         self.url = url.resolvingSymlinksInPath()
@@ -108,7 +113,9 @@ public class Project: Equatable {
 
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
-            keyStore.set(data, forKey: relativePath)
+            let key = relativePath.count == 0 ? "root-directory" : relativePath
+
+            keyStore.set(data, forKey: key)
             keyStore.synchronize()
             return
         }
@@ -119,7 +126,9 @@ public class Project: Equatable {
     public func loadSettings() {
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
-            if let settings = keyStore.dictionary(forKey: relativePath) {
+            let key = relativePath.count == 0 ? "root-directory" : relativePath
+
+            if let settings = keyStore.dictionary(forKey: key) {
                 if let common = settings["showInCommon"] as? Bool {
                     self.showInCommon = common
                 }
@@ -132,9 +141,7 @@ public class Project: Equatable {
                     self.sortBy = sort
                 }
 
-                if isRoot {
-                    self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-                } else if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
+                if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
                     self.firstLineAsTitle = firstLineAsTitle
                 } else {
                     self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle

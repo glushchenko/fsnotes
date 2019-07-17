@@ -466,7 +466,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             || type == .All && note.project.showInCommon
             || type == .Tag && note.tagNames.contains(sidebarName)
             || [.Category, .Label].contains(type) && project != nil && note.project == project
-            || project != nil && project!.isRoot && note.project.parent == project
+            || project != nil && project!.isRoot && note.project.parent == project && type != .Inbox
             || type == .Archive && note.project.isArchive
             || type == .Todo && !note.project.isArchive
             || type == .Inbox && note.project.isRoot && note.project.isDefault
