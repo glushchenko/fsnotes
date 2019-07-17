@@ -72,6 +72,14 @@ class ProjectSettingsViewController: UITableViewController {
                 }
             } else {
                 self.project.firstLineAsTitle = cell.accessoryType == .none
+
+                let notes = Storage.sharedInstance().getNotesBy(project: self.project)
+
+                for note in notes {
+                    note.invalidateCache()
+                }
+
+                vc.updateTable {}
             }
 
             if cell.accessoryType == .none {
