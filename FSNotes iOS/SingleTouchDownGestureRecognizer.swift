@@ -22,7 +22,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
 
                 if view.isTodo(at: glyphIndex) {
-                    self.state = .recognized
+                    self.state = .possible
                     return
                 }
 
@@ -40,7 +40,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
 
                 if !isImage && glyphRect.contains(point) && view.isLink(at: glyphIndex) && !view.isFirstResponder {
-                    self.state = .recognized
+                    self.state = .possible
                     return
                 }
             }
@@ -61,6 +61,19 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
                 if view.isImage(at: characterIndex) {
+                    self.state = .recognized
+                    return
+                }
+
+                let point = touch.location(in: view)
+                let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
+                if view.isTodo(at: glyphIndex) {
+                    self.state = .recognized
+                    return
+                }
+
+                let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
+                if glyphRect.contains(point) && view.isLink(at: glyphIndex) && !view.isFirstResponder {
                     self.state = .recognized
                     return
                 }

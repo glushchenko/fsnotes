@@ -129,6 +129,8 @@ class NotesTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        guard UIApplication.getVC().sidebarTableView.frame.width == 0 else { return nil }
+
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]

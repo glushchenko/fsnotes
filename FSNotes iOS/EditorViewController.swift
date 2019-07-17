@@ -473,25 +473,28 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
-        let info = notification.userInfo
-        let infoNSValue = info![UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue
-        let kbSize = infoNSValue.cgRectValue.size
+        guard let userInfo = notification.userInfo else { return }
+        guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        let keyboardHeight = keyboardFrame.height
 
         if initialKeyboardHeight == 0 {
-            initialKeyboardHeight = kbSize.height + 44
+            initialKeyboardHeight = keyboardHeight + 44
         }
 
         var padding: CGFloat = 0
-        if kbSize.height < initialKeyboardHeight - 44 && !UIDevice.current.orientation.isLandscape {
+        if keyboardHeight < initialKeyboardHeight - 44 {
             padding = 44
         }
 
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kbSize.height + padding, right: 0.0)
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + padding, right: 0.0)
         self.editArea.contentInset = contentInsets
         self.editArea.scrollIndicatorInsets = contentInsets
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
+        initialKeyboardHeight = 0
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
@@ -794,6 +797,22 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
+        let char = Array(myTextView.textStorage.string)[characterIndex]
+
+        // Toggle todo on click
+        if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
+            self.editArea.isAllowedScrollRect = false
+            let textFormatter = TextFormatter(textView: self.editArea!, note: note)
+            textFormatter.toggleTodo(characterIndex)
+
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
+                self.editArea.isAllowedScrollRect = true
+            }
+
+            AudioServicesPlaySystemSound(1519)
+            return
+        }
+        
         // Image preview/selection on click
         if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
             // Select and show menu
@@ -837,21 +856,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
 
-        let char = Array(myTextView.textStorage.string)[characterIndex]
 
-        // Toggle todo on click
-        if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
-            self.editArea.isAllowedScrollRect = false
-            let textFormatter = TextFormatter(textView: self.editArea!, note: note)
-            textFormatter.toggleTodo(characterIndex)
-
-            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: false) { _ in
-                self.editArea.isAllowedScrollRect = true
-            }
-
-            AudioServicesPlaySystemSound(1519)
-            return
-        }
 
         DispatchQueue.main.async {
             self.editArea.becomeFirstResponder()

@@ -65,6 +65,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.search.mixedBackgroundColor = Colors.Header
         self.search.mixedBarTintColor = Colors.Header
+        self.search.returnKeyType = .go
 
         self.folderCapacity.mixedTextColor = Colors.titleText
         self.currentFolder.mixedTextColor = Colors.titleText
