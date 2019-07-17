@@ -1029,6 +1029,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.FirstLineAsTitle) as? Bool {
                 return result
             }
+
             #if os(iOS)
                 return false
             #else
