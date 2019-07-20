@@ -206,16 +206,12 @@ private extension MarkdownView {
         }
 
         let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
-
-#if os(iOS)
-        loadHTMLString(pageHTMLString, baseURL: baseURL)
-#elseif os(macOS)
         let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString)
+        
         if let i = indexURL {
             let accessURL = i.deletingLastPathComponent()
             loadFileURL(i, allowingReadAccessTo: accessURL)
         }
-#endif
     }
     
     private func loadImages(imagesStorage: URL, html: String) -> String {
@@ -240,12 +236,7 @@ private extension MarkdownView {
 
                 let fullImageURL = imagesStorage
                 let imageURL = fullImageURL.appendingPathComponent(localPathClean)
-#if os(iOS)
-                let imageData = try Data(contentsOf: imageURL)
-                let base64prefix = "<img class=\"center\" src=\"data:image;base64," + imageData.base64EncodedString() + "\""
 
-                htmlString = htmlString.replacingOccurrences(of: image, with: base64prefix)
-#else
                 let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
 
                 let create = webkitPreview
@@ -273,7 +264,6 @@ private extension MarkdownView {
                 let imPath = "<img data-orientation=\"\(orientation)\" class=\"fsnotes-preview\" src=\"" + localPath + "\""
 
                 htmlString = htmlString.replacingOccurrences(of: image, with: imPath)
-#endif
             }
         } catch let error {
             print("Images regex: \(error.localizedDescription)")

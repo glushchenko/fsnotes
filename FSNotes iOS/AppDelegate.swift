@@ -64,8 +64,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let encryption = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Encryption")
+        let temp = NSTemporaryDirectory()
+
+        let encryption = URL(fileURLWithPath: temp).appendingPathComponent("Encryption")
         try? FileManager.default.removeItem(at: encryption)
+
+        let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
+        try? FileManager.default.removeItem(at: webkitPreview)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

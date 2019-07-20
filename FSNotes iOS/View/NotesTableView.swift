@@ -110,6 +110,8 @@ class NotesTableView: UITableView,
                         }
 
                         self.reloadRow(note: note)
+                        NotesTextProcessor.scanBasicSyntax(note: note)
+
                         evc.fill(note: note)
                         pageController.switchToEditor()
 

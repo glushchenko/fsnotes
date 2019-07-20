@@ -42,9 +42,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.navigationItem.rightBarButtonItem = self.getShareButton()
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-        
+
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
+
+        let up = UISwipeGestureRecognizer(target: self, action: #selector(tapUp(_:)))
+        up.direction = .up
+
+        self.editArea.addGestureRecognizer(up)
+
         self.editArea.textStorage.delegate = self.editArea.textStorage
 
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
@@ -307,6 +313,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.restoreRTFTypingAttributes(note: note)
 
         if note.isMarkdown() {
+            deleteUnusedImages(checkRange: range)
+
             self.applyStrikeTypingAttribute(range: range)
         }
 
@@ -350,6 +358,55 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         return true
+    }
+
+    private func deleteUnusedImages(checkRange: NSRange) {
+        let storage = editArea.textStorage
+        var removedImages = [URL: URL]()
+
+        storage.enumerateAttribute(.attachment, in: checkRange) { (value, range, _) in
+            if let _ = value as? NSTextAttachment, storage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+
+                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+
+                if let filePath = storage.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
+
+                    if let note = EditTextView.note {
+                        guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
+
+                        guard let trashURL = Storage.sharedInstance().getDefaultTrash()?.url.appendingPathComponent(imageURL.lastPathComponent) else { return }
+
+                        do {
+                            try FileManager.default.moveItem(at: imageURL, to: trashURL)
+
+                            removedImages[trashURL] = imageURL
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
+
+        if removedImages.count > 0 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.editArea.undoManager?.registerUndo(withTarget: self, handler: { (targetSelf) in
+                    targetSelf.unDeleteImages(removedImages)
+                })
+
+                self.editArea.undoManager?.setActionName("Delete image")
+            }
+        }
+    }
+
+    @objc public func unDeleteImages(_ urls: [URL: URL]) {
+        for (src, dst) in urls {
+            do {
+                try FileManager.default.moveItem(at: src, to: dst)
+            } catch {
+                print(error)
+            }
+        }
     }
 
     private func applyStrikeTypingAttribute(range: NSRange) {
@@ -672,15 +729,28 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     asset.fetchOriginalImage(options: nil, completeBlock: { image, info in
                         processed += 1
 
-                        var url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + ".jpg")
+                        var imageExt = "jpg"
+                        if let uti = info?["PHImageFileUTIKey"] as? String, let ext = UTTypeCopyPreferredTagWithClass(uti as CFString, kUTTagClassFilenameExtension)?.takeRetainedValue() {
+                            imageExt = String(ext)
+                        }
+
+                        var url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
                         let data: Data?
 
-                        if let fileURL = info?["PHImageFileURLKey"] as? URL, fileURL.pathExtension.lowercased() == "heic", let imageUnwrapped = image {
+                        if let fileURL = info?["PHImageFileURLKey"] as? URL,
+                            fileURL.pathExtension.lowercased() == "heic",
+                            let imageUnwrapped = image
+                        {
                             data = imageUnwrapped.jpegData(compressionQuality: 1);
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else if let fileData = info?["PHImageFileDataKey"] as? Data {
-                            data = fileData
+                            if imageExt == "heic" {
+                                data = UIImage(data: fileData)?.jpegData(compressionQuality: 1)
+                                imageExt = "jpg"
+                            } else {
+                                data = fileData
+                            }
                         } else {
                             do {
                                 data = try Data(contentsOf: url)
@@ -692,12 +762,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         guard let imageData = data else { return }
 
                         if UserDefaultsManagement.liveImagesPreview {
-                            self.editArea.saveImageClipboard(data: imageData, note: note)
+                            self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
                             note.save()
                             return
                         }
 
-                        guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note) else { return }
+                        guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note, ext: imageExt) else { return }
 
                         if note.isTextBundle() {
                             markup += "![](assets/\(fileName))"
@@ -752,7 +822,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         self.isUndo = true
+
+        if um.undoActionName == "Delete image" {
+            um.undo()
+        }
+
         um.undo()
+
         ea.initUndoRedoButons()
     }
     
@@ -784,6 +860,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
+        }
+    }
+
+    @objc private func tapUp(_ sender: UITapGestureRecognizer) {
+        DispatchQueue.main.async {
+            self.editArea.becomeFirstResponder()
         }
     }
 
