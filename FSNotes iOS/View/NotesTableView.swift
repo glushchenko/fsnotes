@@ -13,7 +13,8 @@ import AudioToolbox
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
-    UITableViewDataSource {
+    UITableViewDataSource,
+    UITableViewDragDelegate {
 
     var notes = [Note]()
     var storage = Storage.sharedInstance()
@@ -497,5 +498,18 @@ class NotesTableView: UITableView,
         let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         pageController.present(alert, animated: true, completion: nil)
+    }
+
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+
+        guard let cell = tableView.cellForRow(at: indexPath) as? NoteCellView,
+            let string = cell.note?.url.path
+        else { return [] }
+
+        guard let data = string.data(using: .utf8) else { return [] }
+        let itemProvider = NSItemProvider(item: data as NSData, typeIdentifier: kUTTypePlainText as String)
+
+        return [UIDragItem(itemProvider: itemProvider)]
     }
 }

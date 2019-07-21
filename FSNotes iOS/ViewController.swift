@@ -87,6 +87,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         search.autocapitalizationType = .none
 
         notesTable.viewDelegate = self
+
+        if #available(iOS 11.0, *) {
+            notesTable.dragInteractionEnabled = true
+            notesTable.dragDelegate = notesTable
+
+            sidebarTableView.dropDelegate = sidebarTableView
+        }
+
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
         notesTable.layer.zPosition = 100

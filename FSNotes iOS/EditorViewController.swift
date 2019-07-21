@@ -374,7 +374,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     if let note = EditTextView.note {
                         guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
 
-                        guard let trashURL = Storage.sharedInstance().getDefaultTrash()?.url.appendingPathComponent(imageURL.lastPathComponent) else { return }
+                        let trashURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageURL.lastPathComponent)
 
                         do {
                             try FileManager.default.moveItem(at: imageURL, to: trashURL)

@@ -427,7 +427,7 @@ class Storage {
         return note.isPinned && !next.isPinned
     }
 
-    func loadLabel(_ item: Project, shouldScanCache: Bool = false) {
+    func loadLabel(_ item: Project, shouldScanCache: Bool = false, loadContent: Bool = false) {
         let documents = readDirectory(item.url)
 
         for document in documents {
@@ -468,6 +468,10 @@ class Storage {
                 note.load()
             #endif
 
+            if loadContent {
+                note.load()
+            }
+
             if note.isPinned {
                 pinned += 1
             }
@@ -498,16 +502,11 @@ class Storage {
     }
 
     public func reLoadTrash() {
-        let notes = noteList.filter({ $0.isTrash() })
-        for note in notes {
-            if let i = noteList.firstIndex(where: {$0 === note}) {
-                noteList.remove(at: i)
-            }
-        }
+        noteList.removeAll(where: { $0.isTrash() })
 
         for project in projects {
             if project.isTrash {
-                self.loadLabel(project)
+                self.loadLabel(project, loadContent: true)
             }
         }
     }

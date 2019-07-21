@@ -15,7 +15,8 @@ import AudioToolbox
 @IBDesignable
 class SidebarTableView: UITableView,
     UITableViewDelegate,
-    UITableViewDataSource  {
+    UITableViewDataSource,
+    UITableViewDropDelegate {
 
     @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
     @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
@@ -26,6 +27,8 @@ class SidebarTableView: UITableView,
 
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     var sidebar: Sidebar?
+
+    private var busyTrashReloading = false
 
     public var viewController: ViewController?
 
@@ -50,7 +53,6 @@ class SidebarTableView: UITableView,
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "sidebarCell", for: indexPath) as! SidebarTableCellView
 
-        
         guard let sidebar = sidebar else { return cell }
 
         guard sidebar.items.indices.contains(indexPath.section), sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return cell }
@@ -139,14 +141,23 @@ class SidebarTableView: UITableView,
         view.currentFolder.text = name
 
         if sidebarItem.isTrash() {
+            if !busyTrashReloading {
+                busyTrashReloading = true
+            } else {
+                return
+            }
+
             let storage = Storage.sharedInstance()
             DispatchQueue.global().async {
                 storage.reLoadTrash()
 
                 DispatchQueue.main.async {
-                    view.updateTable() {}
+                    view.updateTable() {
+                        self.busyTrashReloading = false
+                    }
                 }
             }
+
             return
         }
 
@@ -211,6 +222,78 @@ class SidebarTableView: UITableView,
         let item = sidebar.items[indexPath.section][indexPath.row]
 
         return item
+    }
+
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+
+        guard let vc = viewController else { return }
+        guard let indexPath = coordinator.destinationIndexPath, let cell = tableView.cellForRow(at: indexPath) as? SidebarTableCellView else { return }
+
+        guard let sidebarItem = cell.sidebarItem else { return }
+
+        _ = coordinator.session.loadObjects(ofClass: String.self) { item in
+            let pathList = item as [String]
+
+            for path in pathList {
+                let url = URL(fileURLWithPath: path)
+                
+                guard let note = Storage.sharedInstance().getBy(url: url) else { continue }
+
+                switch sidebarItem.type {
+                case .Category, .Archive, .Inbox:
+                    guard let project = sidebarItem.project else { break }
+                    self.move(note: note, in: project)
+                case .Trash:
+                    note.remove()
+                    vc.notesTable.removeByNotes(notes: [note])
+                case .Tag:
+                    note.addTag(sidebarItem.name)
+                default:
+                    break
+                }
+            }
+
+            vc.notesTable.isEditing = false
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+
+        guard let indexPath = destinationIndexPath,
+            let cell = tableView.cellForRow(at: indexPath) as? SidebarTableCellView,
+            let sidebarItem = cell.sidebarItem
+        else { return UITableViewDropProposal(operation: .cancel) }
+
+        if sidebarItem.project != nil || sidebarItem.type == .Trash || sidebarItem.type == .Tag {
+            return UITableViewDropProposal(operation: .copy)
+        }
+
+        return UITableViewDropProposal(operation: .cancel)
+    }
+
+    private func move(note: Note, in project: Project) {
+        guard let vc = viewController else { return }
+
+        let dstURL = project.url.appendingPathComponent(note.name)
+
+        if note.project != project {
+            guard note.move(to: dstURL) else {
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                vc.present(alert, animated: true, completion: nil)
+                return
+            }
+
+            note.url = dstURL
+            note.invalidateCache()
+            note.parseURL()
+            note.project = project
+
+            vc.notesTable.removeByNotes(notes: [note])
+            vc.notesTable.insertRow(note: note)
+        }
     }
     
 }
