@@ -10,6 +10,7 @@ import UIKit
 import MobileCoreServices
 import Social
 import NightNight
+import Kanna
 
 @objc(ShareViewController)
 
@@ -18,6 +19,7 @@ class ShareViewController: SLComposeServiceViewController {
     private var projects: [Project]?
     private var imagesFound = false
     private var urlPreview: String?
+    private var instagram: Data?
     
     public var currentProject: Project?
     public let projectItem = SLComposeSheetConfigurationItem()
@@ -78,13 +80,15 @@ class ShareViewController: SLComposeServiceViewController {
                         if attachRow.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
                             attachRow.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
                                 if let data = url as? NSURL, let textLink = data.absoluteString {
+                                    self.checkInstagram(data: data)
+
                                     DispatchQueue.main.async {
                                         let preview = self.urlPreview ?? String()
                                         self.textView.text = "\(preview)\n\n\(textLink)".trimmingCharacters(in: .whitespacesAndNewlines)
+
                                     }
                                 }
                             })
-
                         }
                     }
                 }
@@ -118,7 +122,7 @@ class ShareViewController: SLComposeServiceViewController {
         DispatchQueue.global().async {
             let storage = Storage.sharedInstance()
             storage.loadProjects(withTrash: false)
-            self.projects = storage.getProjects()
+            self.projects = storage.getProjects().filter({ !$0.isTrash })
 
             let element = UserDefaultsManagement.lastProject
             if let project = storage.getProjectBy(element: element) {
@@ -168,6 +172,14 @@ class ShareViewController: SLComposeServiceViewController {
         var urls = UserDefaultsManagement.importURLs
         urls.insert(note.url, at: 0)
         UserDefaultsManagement.importURLs = urls
+
+        if let instagram = self.instagram {
+            note.append(image: instagram)
+            note.append(string: NSMutableAttributedString(string: "\n\n" + self.textView.text))
+            note.write()
+            self.close()
+            return
+        }
 
         for item in input {
             if let a = item.attachments as? [NSItemProvider] {
@@ -235,6 +247,37 @@ class ShareViewController: SLComposeServiceViewController {
         if let notes = self.notes {
             DispatchQueue.main.async {
                 self.appendItem?.value = notes.first?.title
+            }
+        }
+    }
+
+    private func checkInstagram(data: NSURL) {
+        if let path = data.absoluteString,  path.starts(with: "https://www.instagram.com") {
+            let html = try? String(contentsOf: data as URL)
+
+            if let doc = try? Kanna.HTML(html: html!, encoding: String.Encoding.utf8) {
+                if let metaSet = doc.head?.css("meta") {
+                    for meta in metaSet {
+                        if let property = meta["property"]?.lowercased {
+                            if property().hasPrefix("og:image"), let imagePath = meta["content"] as? String {
+
+                                if let imURL = URL(string: imagePath), let instaData = try? Data(contentsOf: imURL) {
+
+                                    print(imURL)
+                                    print(instaData)
+
+                                    self.instagram = instaData
+
+                                    DispatchQueue.main.async {
+                                        self.textView.text = imURL.path
+                                    }
+                                }
+
+                                break
+                            }
+                        }
+                    }
+                }
             }
         }
     }
