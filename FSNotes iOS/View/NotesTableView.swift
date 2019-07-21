@@ -27,6 +27,14 @@ class NotesTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return calcHeight(indexPath: indexPath)
+    }
+
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return calcHeight(indexPath: indexPath)
+    }
+
+    private func calcHeight(indexPath: IndexPath) -> CGFloat {
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
             if let urls = note.getImagePreviewUrl(), urls.count > 0 {
@@ -49,12 +57,6 @@ class NotesTableView: UITableView,
 
         return 75
     }
-
-    /*
-
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.cellHeights[indexPath] ?? 75
-    }*/
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
