@@ -68,7 +68,10 @@ class Storage {
 
         #if os(iOS)
             projects.append(project)
-            checkTrashForVolume(url: project.url)
+
+            #if NOT_EXTENSION
+                checkTrashForVolume(url: project.url)
+            #endif
         #endif
 
 
@@ -995,5 +998,22 @@ class Storage {
 
     public func getNotesBy(project: Project) -> [Note] {
         return noteList.filter({ $0.project == project })
+    }
+
+    public func loadProjects(from urls: [URL]) {
+        let projects =
+            urls
+                .filter({ FileManager.default.fileExists(atPath: $0.path) })
+                .compactMap({ Project(url: $0)})
+
+        guard projects.count > 0 else {
+            return
+        }
+
+        self.projects.removeAll()
+
+        for project in projects {
+            self.projects.append(project)
+        }
     }
 }

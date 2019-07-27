@@ -217,7 +217,7 @@ public class Note: NSObject  {
     }
 
     public func remove() {
-        if !isTrash() {
+        if !isTrash() && !isEmpty() {
             if let trashURLs = removeFile() {
                 self.url = trashURLs[0]
                 parseURL()
@@ -231,11 +231,15 @@ public class Note: NSObject  {
         }
     }
 
+    public func isEmpty() -> Bool {
+        return content.length == 0 && !isEncrypted()
+    }
+
     #if os(iOS)
     // Return URL moved in
     func removeFile(completely: Bool = false) -> Array<URL>? {
         if FileManager.default.fileExists(atPath: url.path) {
-            if isTrash() || completely {
+            if isTrash() || completely || isEmpty() {
                 try? FileManager.default.removeItem(at: url)
                 return nil
             }
@@ -1430,6 +1434,16 @@ public class Note: NSObject  {
 
     public func getFileName() -> String {
         let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
+
+        return fileName
+    }
+
+    public func getShortTitle() -> String {
+        let fileName = getFileName()
+
+        if fileName.isValidUUID {
+            return "~ § ~"
+        }
 
         return fileName
     }

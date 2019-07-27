@@ -30,7 +30,7 @@ class ProjectListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = self.projects[indexPath.row].getFullLabel()
+        cell.textLabel?.text = self.projects[indexPath.row].label
 
         return cell
     }
@@ -45,7 +45,7 @@ class ProjectListController: UITableViewController {
 
             delegate?.loadNotesFrom(project: project)
             delegate?.currentProject = self.projects[indexPath.row]
-            delegate?.projectItem?.value = project.getFullLabel()
+            delegate?.projectItem?.value = project.label
 
             self.navigationController?.popViewController(animated: true)
         }

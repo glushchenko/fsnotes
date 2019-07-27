@@ -33,9 +33,8 @@ class NotesListController: UITableViewController {
         let note = self.notes[indexPath.row]
 
         note.load(tags: false)
-        note.parseURL()
-
-        let title = note.getName()
+        _ = note.getImagePreviewUrl()
+        let title = note.title
 
         cell.textLabel?.text = title
         cell.detailTextLabel?.text = note.getPreviewForLabel()

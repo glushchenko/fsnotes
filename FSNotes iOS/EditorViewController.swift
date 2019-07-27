@@ -169,7 +169,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
-        setTitle(text: note.title)
+        setTitle(text: note.getShortTitle())
         _ = view
 
         guard editArea != nil else { return }

@@ -53,6 +53,17 @@ public class Project: Equatable {
         isCloudDrive = isCloudDriveFolder(url: url)
         loadSettings()
     }
+
+    public func loadLabel(relate: URL)
+    {
+        var label = url.path.replacingOccurrences(of: relate.path, with: "")
+
+        if label.first == "/" {
+            label = String(label.dropFirst())
+        }
+
+        self.label = label.replacingOccurrences(of: "/", with: " -> ")
+    }
     
     func fileExist(fileName: String, ext: String) -> Bool {        
         let fileURL = url.appendingPathComponent(fileName + "." + ext)
