@@ -52,10 +52,8 @@ class Storage {
     private var bookmarks = [URL]()
 
     init() {
-        #if os(OSX)
-            let bookmark = SandboxBookmark.sharedInstance()
-            bookmarks = bookmark.load()
-        #endif
+        let bookmark = SandboxBookmark.sharedInstance()
+        bookmarks = bookmark.load()
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
 
@@ -68,6 +66,12 @@ class Storage {
 
         #if os(iOS)
             projects.append(project)
+
+            for bookmark in bookmarks {
+                let externalProject = Project(url: bookmark, label: bookmark.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+                
+                projects.append(externalProject)
+            }
 
             #if NOT_EXTENSION
                 checkTrashForVolume(url: project.url)

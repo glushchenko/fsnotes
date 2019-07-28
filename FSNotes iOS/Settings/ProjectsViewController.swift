@@ -8,8 +8,9 @@
 
 import UIKit
 import NightNight
+import CoreServices
 
-class ProjectsViewController: UITableViewController {
+class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     private var projects: [Project]
 
     init() {
@@ -31,7 +32,18 @@ class ProjectsViewController: UITableViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
-        self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
+        let addProject = Buttons.getAdd(target: self, selector: #selector(newAlert))
+
+        var buttons = [UIBarButtonItem]()
+        buttons.append(addProject)
+
+        if #available(iOS 13.0, *) {
+            let external = Buttons.getAttach(target: self, selector: #selector(attachExternal))
+
+            buttons.append(external)
+        }
+
+        self.navigationItem.rightBarButtonItems = buttons
 
         self.projects = Storage.sharedInstance().getProjects()
         self.title = "Projects"
@@ -80,8 +92,13 @@ class ProjectsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let project = self.projects[indexPath.row]
 
-        guard !project.isRoot else { return nil }
+        if project.isRoot && project.isDefault {
+            return nil
+        }
 
+        if project.isTrash {
+            return nil
+        }
 
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
             self.delete(project: project)
@@ -147,6 +164,15 @@ class ProjectsViewController: UITableViewController {
 
     }
 
+    @objc func attachExternal() {
+        let documentPicker =
+            UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String], in: .open)
+
+
+        documentPicker.delegate = self
+        present(documentPicker, animated: true, completion: nil)
+    }
+
     public func getMainVC() -> ViewController? {
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let mvc = pageController.mainViewController
         else { return nil }
@@ -155,26 +181,20 @@ class ProjectsViewController: UITableViewController {
     }
 
     private func delete(project: Project) {
+        if project.isExternal {
+            self.removeProject(project: project)
+
+            SandboxBookmark.sharedInstance().remove(url: project.url)
+            return
+        }
+
         let message = "Are you sure you want to remove project \"\(project.getFullLabel())\" and all files inside?"
 
         let alertController = UIAlertController(title: "Project removing ❌", message: message, preferredStyle: .alert)
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
             project.remove()
-
-            if let i = self.projects.index(of: project) {
-                self.projects.remove(at: i)
-            }
-
-            self.tableView.reloadData()
-            Storage.sharedInstance().removeBy(project: project)
-
-            if let mvc = self.getMainVC() {
-                mvc.updateTable {
-                    mvc.sidebarTableView.sidebar = Sidebar()
-                    mvc.sidebarTableView.reloadData()
-                }
-            }
+            self.removeProject(project: project)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
@@ -183,5 +203,51 @@ class ProjectsViewController: UITableViewController {
         alertController.addAction(cancelAction)
 
         self.present(alertController, animated: true, completion: nil)
+    }
+
+    private func removeProject(project: Project) {
+        if let i = self.projects.firstIndex(of: project) {
+            self.projects.remove(at: i)
+        }
+
+        self.tableView.reloadData()
+        Storage.sharedInstance().removeBy(project: project)
+
+        if let mvc = self.getMainVC() {
+            mvc.updateTable {
+                mvc.sidebarTableView.sidebar = Sidebar()
+                mvc.sidebarTableView.reloadData()
+            }
+        }
+    }
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+
+        guard urls.count == 1, let url = urls.first, url.hasDirectoryPath else { return }
+
+        guard url.startAccessingSecurityScopedResource() else {
+            return
+        }
+
+        do {
+            let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
+
+            SandboxBookmark.sharedInstance().save(data: bookmarkData)
+
+            let storage = Storage.sharedInstance()
+            let project = Project(url: url, label: url.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+
+            _ = storage.add(project: project)
+            storage.loadLabel(project)
+
+            let vc = UIApplication.getVC()
+            vc.sidebarTableView.sidebar = Sidebar()
+            vc.sidebarTableView.reloadData()
+
+            self.projects.append(project)
+            self.tableView.reloadData()
+        } catch {
+            print(error)
+        }
     }
 }
