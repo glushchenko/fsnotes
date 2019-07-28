@@ -52,10 +52,8 @@ class Storage {
     private var bookmarks = [URL]()
 
     init() {
-        #if os(OSX)
-            let bookmark = SandboxBookmark.sharedInstance()
-            bookmarks = bookmark.load()
-        #endif
+        let bookmark = SandboxBookmark.sharedInstance()
+        bookmarks = bookmark.load()
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
 
@@ -68,7 +66,16 @@ class Storage {
 
         #if os(iOS)
             projects.append(project)
-            checkTrashForVolume(url: project.url)
+
+            for bookmark in bookmarks {
+                let externalProject = Project(url: bookmark, label: bookmark.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+                
+                projects.append(externalProject)
+            }
+
+            #if NOT_EXTENSION
+                checkTrashForVolume(url: project.url)
+            #endif
         #endif
 
 
@@ -995,5 +1002,22 @@ class Storage {
 
     public func getNotesBy(project: Project) -> [Note] {
         return noteList.filter({ $0.project == project })
+    }
+
+    public func loadProjects(from urls: [URL]) {
+        let projects =
+            urls
+                .filter({ FileManager.default.fileExists(atPath: $0.path) })
+                .compactMap({ Project(url: $0)})
+
+        guard projects.count > 0 else {
+            return
+        }
+
+        self.projects.removeAll()
+
+        for project in projects {
+            self.projects.append(project)
+        }
     }
 }

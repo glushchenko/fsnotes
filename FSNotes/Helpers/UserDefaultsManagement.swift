@@ -83,6 +83,7 @@ public class UserDefaultsManagement {
         static let PinListKey = "pinList"
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
+        static let ProjectsKey = "projects"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
         static let SharedContainerKey = "sharedContainer"
@@ -871,6 +872,24 @@ public class UserDefaultsManagement {
             #endif
 
             UserDefaults.standard.set(newValue.rawValue, forKey: Constants.NoteContainer)
+        }
+    }
+
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return [] }
+
+            if let result = defaults.object(forKey: Constants.ProjectsKey) as? Data, let urls = NSKeyedUnarchiver.unarchiveObject(with: result) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.fsnotes-manager") else { return }
+
+            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
+            defaults.set(data, forKey: Constants.ProjectsKey)
         }
     }
 

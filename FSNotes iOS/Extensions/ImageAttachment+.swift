@@ -11,9 +11,11 @@ import MobileCoreServices
 
 extension ImageAttachment {
     public func load() -> NSTextAttachment? {
-        let attachment = NSTextAttachment()
-
         let imageSize = getSize(url: self.url)
+
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage.emptyImage(with: imageSize)
+
         if let size = getImageSize(imageSize: imageSize) {
             attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
@@ -23,7 +25,7 @@ extension ImageAttachment {
 
                     self.cache(data: imageData)
 
-                    if let resizedImage = self.resize(image: image, size: size), let imageData = resizedImage.jpegData(compressionQuality: 1) {
+                    if let resizedImage = self.resize(image: image, size: size)?.rounded(radius: 5), let imageData = resizedImage.jpegData(compressionQuality: 1) {
 
                         let fileWrapper = FileWrapper(regularFileWithContents: imageData)
                         fileWrapper.preferredFilename = "\(self.title)@::\(self.url.path)"
@@ -58,9 +60,8 @@ extension ImageAttachment {
     }
 
     private func getImageSize(imageSize: CGSize) -> CGSize? {
-        guard let view = self.getEditorView() else { return nil }
-
-        let maxWidth = view.frame.width - 10
+        let controller = UIApplication.getVC()
+        let maxWidth = controller.view.frame.width - 10
 
         guard imageSize.width > maxWidth else {
             return imageSize

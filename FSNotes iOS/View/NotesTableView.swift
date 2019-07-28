@@ -141,6 +141,10 @@ class NotesTableView: UITableView,
             let note = self.notes[indexPath.row]
             note.remove()
             self.removeByNotes(notes: [note])
+
+            if note.isEmpty() {
+                self.storage.removeBy(note: note)
+            }
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 
@@ -184,7 +188,7 @@ class NotesTableView: UITableView,
 
     public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController) {
         let note = notes.first!
-        let actionSheet = UIAlertController(title: note.title, message: nil, preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: note.getShortTitle(), message: nil, preferredStyle: .actionSheet)
 
         if showAll {
             let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
@@ -311,7 +315,7 @@ class NotesTableView: UITableView,
         alertController.addTextField(configurationHandler: {
             [] (textField: UITextField) in
             textField.placeholder = "Enter note name"
-            textField.attributedText = NSAttributedString(string: note.title)
+            textField.attributedText = NSAttributedString(string: note.getFileName())
         })
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
@@ -342,7 +346,7 @@ class NotesTableView: UITableView,
             self.reloadRow(note: note)
 
             if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
-                evc.setTitle(text: note.title)
+                evc.setTitle(text: note.getShortTitle())
             }
         }
 

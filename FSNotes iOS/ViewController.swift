@@ -147,6 +147,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
 
             storage.loadProjects(withTrash: false, skipRoot: true)
+
+            UserDefaultsManagement.projects =
+                storage.getProjects()
+                    .filter({ !$0.isTrash })
+                    .compactMap({ $0.url })
+
             storage.loadDocuments() {
                 DispatchQueue.main.async {
                     self.reloadSidebar()

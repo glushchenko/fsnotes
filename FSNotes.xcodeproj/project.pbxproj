@@ -432,6 +432,10 @@
 		D790641D1FCB4E5F005677E7 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
 		D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
+		D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
+		D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
+		D7958A3C22EDA35700EDBDDC /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = D7958A3B22EDA35700EDBDDC /* attach.png */; };
+		D7958A3D22EDA35700EDBDDC /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = D7958A3B22EDA35700EDBDDC /* attach.png */; };
 		D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
 		D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D798027D2137C3D5008D6200 /* uncheckedbox.png */; };
 		D79802802137C3D6008D6200 /* uncheckedbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */; };
@@ -446,7 +450,6 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
-		D7B03AFC2085D4E5008FC097 /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D773DE7F1F36F45900A39C9F /* SandboxBookmark.swift */; };
 		D7B3391520DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B3391620DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
@@ -1107,6 +1110,8 @@
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
 		D792297421A845B4005F468F /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
+		D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxBookmark.swift; sourceTree = "<group>"; };
+		D7958A3B22EDA35700EDBDDC /* attach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach.png; sourceTree = "<group>"; };
 		D797004B1F3DD10700BAD94D /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D798027D2137C3D5008D6200 /* uncheckedbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheckedbox.png; sourceTree = "<group>"; };
 		D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheckedbox@2x.png"; sourceTree = "<group>"; };
@@ -1553,6 +1558,7 @@
 				D73CEC7F2278ECA500D549F7 /* checkbox_empty_white.png */,
 				D7FAE29922DDDCF2003874D1 /* inbox_white.png */,
 				D7FAE29A22DDDCF2003874D1 /* inbox.png */,
+				D7958A3B22EDA35700EDBDDC /* attach.png */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -1673,6 +1679,7 @@
 				D70FE12B20FE198200813F9E /* Localizable.strings */,
 				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
 				D76E10C2215A96080017F4A3 /* DayOneImportHelper.swift */,
+				D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -2419,6 +2426,7 @@
 			files = (
 				D75F333C205EC34800CC887E /* MainInterface.storyboard in Resources */,
 				D70FE13620FE198200813F9E /* InfoPlist.strings in Resources */,
+				D7958A3D22EDA35700EDBDDC /* attach.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2499,6 +2507,7 @@
 				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
 				D73CEC822278ECA500D549F7 /* checkbox@3x.png in Resources */,
+				D7958A3C22EDA35700EDBDDC /* attach.png in Resources */,
 				D78115602153AE89004FA1CA /* back.png in Resources */,
 				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
@@ -3210,6 +3219,7 @@
 				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
 				D7CD5CDF218330100009D63B /* Note+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
+				D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D7CD5CCE21820C9D0009D63B /* DateFormatter+.swift in Sources */,
 				D7F2F1C821C68B5700E41811 /* ProjectListController.swift in Sources */,
 				D7CD5CC42181F7530009D63B /* Storage.swift in Sources */,
@@ -3233,10 +3243,10 @@
 				D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
-				D7B03AFC2085D4E5008FC097 /* SandboxBookmark.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
+				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,

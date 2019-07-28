@@ -45,7 +45,7 @@ class PreviewViewController: UIViewController {
             let note = evc.note
         else { return }
 
-        setTitle(text: note.title)
+        setTitle(text: note.getShortTitle())
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)

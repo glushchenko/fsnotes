@@ -70,7 +70,7 @@ class ShareViewController: SLComposeServiceViewController {
         if let context = self.extensionContext,
             let input = context.inputItems as? [NSExtensionItem] {
             for row in input {
-                if let attach = row.attachments as? [NSItemProvider] {
+                if let attach = row.attachments {
                     for attachRow in attach {
                         if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) || attachRow.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String){
                             imagesFound = true
@@ -107,36 +107,37 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [Any]! {
+        let storage = Storage.sharedInstance()
+        let urls = UserDefaultsManagement.projects
+        storage.loadProjects(from: urls)
+
         projectItem?.title = "Project"
         projectItem?.tapHandler = {
-            if let projects = self.projects {
-                let controller = ProjectListController()
-                controller.delegate = self
-                controller.setProjects(projects: projects)
-                self.pushConfigurationViewController(controller)
-            }
+            let projects = storage.getProjects()
+            let controller = ProjectListController()
+            controller.delegate = self
+            controller.setProjects(projects: projects)
+            self.pushConfigurationViewController(controller)
+
         }
 
         appendItem?.title = "Append to"
 
         DispatchQueue.global().async {
-            let storage = Storage.sharedInstance()
-            storage.loadProjects(withTrash: false)
-            self.projects = storage.getProjects().filter({ !$0.isTrash })
-
             let element = UserDefaultsManagement.lastProject
+
             if let project = storage.getProjectBy(element: element) {
                 self.currentProject = project
                 self.loadNotesFrom(project: project)
             }
 
             DispatchQueue.main.async {
-                self.projectItem?.value = self.currentProject?.getFullLabel()
+                self.projectItem?.value = self.currentProject?.label
             }
 
             if let note = self.notes?.first {
                 note.load(tags: false)
-                note.parseURL()
+                _ = note.getImagePreviewUrl()
 
                 DispatchQueue.main.async {
                     self.appendItem?.value = note.getName()
@@ -182,7 +183,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         for item in input {
-            if let a = item.attachments as? [NSItemProvider] {
+            if let a = item.attachments {
                 for provider in a {
                     if provider.hasItemConformingToTypeIdentifier(kUTTypeImage as String) {
                         started = started + 1
@@ -241,18 +242,27 @@ class ShareViewController: SLComposeServiceViewController {
 
     public func loadNotesFrom(project: Project) {
         let storage = Storage.sharedInstance()
+
+        if storage.getNotesBy(project: project).count == 0 {
+            storage.loadLabel(project)
+        }
+
         let notes = storage.noteList.filter({$0.project == project })
         self.notes = storage.sortNotes(noteList: notes, filter: "")
 
         if let notes = self.notes {
             DispatchQueue.main.async {
-                self.appendItem?.value = notes.first?.title
+                if let note = notes.first {
+                    note.load()
+                    _ = note.getImagePreviewUrl()
+                    self.appendItem?.value = note.title
+                }
             }
         }
     }
 
     private func checkInstagram(data: NSURL) {
-        if let path = data.absoluteString,  path.starts(with: "https://www.instagram.com") {
+        if let path = data.absoluteString, path.starts(with: "https://www.instagram.com") {
             let html = try? String(contentsOf: data as URL)
 
             if let doc = try? Kanna.HTML(html: html!, encoding: String.Encoding.utf8) {

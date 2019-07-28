@@ -169,7 +169,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
-        setTitle(text: note.title)
+        setTitle(text: note.getShortTitle())
         _ = view
 
         guard editArea != nil else { return }
@@ -216,8 +216,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if UserDefaultsManagement.liveImagesPreview {
             EditTextView.isBusyProcessing = true
             let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
-            processor.load()
-            EditTextView.isBusyProcessing = false
+            //DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                processor.load()
+                EditTextView.isBusyProcessing = false
+            //}
+
         }
 
         let search = getSearchText()
