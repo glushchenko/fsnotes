@@ -238,7 +238,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             let project = Project(url: url, label: url.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
 
             _ = storage.add(project: project)
-            storage.loadLabel(project)
+            storage.loadLabel(project, loadContent: true)
 
             let vc = UIApplication.getVC()
             vc.sidebarTableView.sidebar = Sidebar()

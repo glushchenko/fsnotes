@@ -61,7 +61,7 @@ extension ImageAttachment {
 
     private func getImageSize(imageSize: CGSize) -> CGSize? {
         let controller = UIApplication.getVC()
-        let maxWidth = controller.view.frame.width - 10
+        let maxWidth = controller.view.frame.width - 15
 
         guard imageSize.width > maxWidth else {
             return imageSize

@@ -1005,10 +1005,18 @@ class Storage {
     }
 
     public func loadProjects(from urls: [URL]) {
+        var result = [URL]()
+        for url in urls {
+            do {
+                _ = try FileManager.default.contentsOfDirectory(atPath: url.path)
+                result.append(url)
+            } catch {
+                print(error)
+            }
+        }
+
         let projects =
-            urls
-                .filter({ FileManager.default.fileExists(atPath: $0.path) })
-                .compactMap({ Project(url: $0)})
+            result.compactMap({ Project(url: $0)})
 
         guard projects.count > 0 else {
             return

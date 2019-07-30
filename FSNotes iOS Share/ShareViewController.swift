@@ -272,10 +272,6 @@ class ShareViewController: SLComposeServiceViewController {
                             if property().hasPrefix("og:image"), let imagePath = meta["content"] as? String {
 
                                 if let imURL = URL(string: imagePath), let instaData = try? Data(contentsOf: imURL) {
-
-                                    print(imURL)
-                                    print(instaData)
-
                                     self.instagram = instaData
 
                                     DispatchQueue.main.async {

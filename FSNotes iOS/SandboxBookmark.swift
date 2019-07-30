@@ -11,7 +11,7 @@ import Foundation
 class SandboxBookmark {
     static var instance: SandboxBookmark? = nil
 
-    private let bookmarksKey = "SecurityBookmarks"
+    private let bookmarksKey = "SecurityBookmarksKey"
     private var defaults = UserDefaults.init(suiteName: "group.fsnotes-manager")
     private var bookmarks = [URL: Data]()
 
@@ -29,11 +29,14 @@ class SandboxBookmark {
             for bookmarkData in bookmarks {
                 do {
                     var isStale = false
-                    let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale).resolvingSymlinksInPath()
+                    let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
 
+                    let resolvedURL = url.resolvingSymlinksInPath()
                     if !isStale {
-                        self.bookmarks[url] = bookmarkData
-                        print("URL loaded from security scope: \(url)")
+                        if url.startAccessingSecurityScopedResource() {
+                            self.bookmarks[resolvedURL] = bookmarkData
+                            print("URL loaded from security scope: \(url)")
+                        }
                     } else {
                         remove(url: url)
                     }
@@ -60,15 +63,11 @@ class SandboxBookmark {
 
     public func save(data: [Data]) {
         defaults?.set(data, forKey: bookmarksKey)
+        defaults?.synchronize()
     }
 
     public func remove(url: URL) {
         self.bookmarks.removeValue(forKey: url)
-
-        print(url)
-        print(url.resolvingSymlinksInPath())
-
-        print(self.bookmarks)
 
         let values = bookmarks.map({ $0.value })
         save(data: values)
