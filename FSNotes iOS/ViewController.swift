@@ -992,9 +992,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         note.content = NSMutableAttributedString(string: content)
 
         note.invalidateCache()
-        notesTable.beginUpdates()
         notesTable.reloadRow(note: note)
-        notesTable.endUpdates()
 
         if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
             note.modifiedLocalAt = date

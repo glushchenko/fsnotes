@@ -297,13 +297,12 @@ class NotesTableView: UITableView,
     }
     
     public func reloadRow(note: Note) {
-        if let i = self.notes.firstIndex(where: {$0 === note}) {
-            let indexPath = IndexPath(row: i, section: 0)
+        DispatchQueue.main.async {
+            if let i = self.notes.firstIndex(where: {$0 === note}) {
+                let indexPath = IndexPath(row: i, section: 0)
 
-            DispatchQueue.main.async {
                 if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
                     cell.updateView()
-                    self.reloadRows(at: [indexPath], with: .none)
                 }
             }
         }
