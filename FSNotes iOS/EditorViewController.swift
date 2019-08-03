@@ -14,6 +14,7 @@ import DKImagePickerController
 import MobileCoreServices
 import Photos
 import GSImageViewerController
+import AudioToolbox
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -46,10 +47,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
 
-        let up = UISwipeGestureRecognizer(target: self, action: #selector(tapUp(_:)))
-        up.direction = .up
+        //let up = UISwipeGestureRecognizer(target: self, action: #selector(tapUp(_:)))
+        //up.direction = .up
 
-        self.editArea.addGestureRecognizer(up)
+        //self.editArea.addGestureRecognizer(up)
 
         self.editArea.textStorage.delegate = self.editArea.textStorage
 
@@ -173,7 +174,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         _ = view
 
         guard editArea != nil else { return }
-        
+
         editArea.initUndoRedoButons()
         
         if note.isRTF() {
@@ -872,7 +873,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    @objc private func tapHandler(_ sender: UITapGestureRecognizer) {
+    @objc private func tapHandler(_ sender: SingleTouchDownGestureRecognizer) {
         let myTextView = sender.view as! UITextView
         let layoutManager = myTextView.layoutManager
         
@@ -880,7 +881,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         location.x -= myTextView.textContainerInset.left;
         location.y -= myTextView.textContainerInset.top;
 
-        var characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        let characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
         let char = Array(myTextView.textStorage.string)[characterIndex]
 
@@ -897,9 +898,31 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             AudioServicesPlaySystemSound(1519)
             return
         }
-        
+
         // Image preview/selection on click
         if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
+
+            // Long tap on image
+            if sender.isLongPress {
+                sender.isLongPress = false
+                let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+
+                guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
+
+                if let pvc = UIApplication.getPresentedViewController() as? PageViewController, let nav = pvc.viewControllers?[0] as? UINavigationController, let _ = nav.viewControllers[0] as? EditorViewController {
+
+                    AudioServicesPlaySystemSound(1519)
+
+                    let objectsToShare = [url] as [Any]
+                    let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+                    activityVC.excludedActivityTypes = [UIActivity.ActivityType.addToReadingList]
+
+                    present(activityVC, animated: true, completion: nil)
+                }
+
+                return
+            }
+
             // Select and show menu
             guard !self.editArea.isFirstResponder else {
                 self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
@@ -940,20 +963,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
             return
         }
-
-
-
-        DispatchQueue.main.async {
-            self.editArea.becomeFirstResponder()
-            
-            if myTextView.textStorage.length > 0 && characterIndex == myTextView.textStorage.length - 1 {
-                characterIndex += 1
-            }
-            
-            self.editArea.selectedRange = NSMakeRange(characterIndex, 0)
-        }
     }
-    
+
     private func isTodo(location: Int, textView: UITextView) -> Bool {
         let storage = textView.textStorage
 
@@ -1012,4 +1023,51 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         mvc.notesTable.shareAction(note: note, presentController: evc)
     }
 
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+
+        if textView.isFirstResponder {
+            return false
+        }
+
+        return true
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if let recognizers = editArea.gestureRecognizers {
+            for recognizer in recognizers {
+                if recognizer.isKind(of: UIGestureRecognizer.self) {
+                    if #available(iOS 11.0, *) {
+                        if [
+                            "com.apple.UIKit.longPressClickDriverPrimary",
+                            "com.apple.UIKit.clickPresentationExclusion",
+                            "com.apple.UIKit.clickPresentationFailure",
+                            "dragFailureRelationships",
+                            "dragExclusionRelationships",
+                            "dragInitiation"
+                        ].contains(recognizer.name) {
+                            recognizer.isEnabled = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if let recognizers = editArea.gestureRecognizers {
+            for recognizer in recognizers {
+                if recognizer.isKind(of: UIGestureRecognizer.self) {
+                    if #available(iOS 11.0, *) {
+                        if ["com.apple.UIKit.longPressClickDriverPrimary", "com.apple.UIKit.clickPresentationExclusion", "com.apple.UIKit.clickPresentationFailure", "dragFailureRelationships", "dragExclusionRelationships", "dragInitiation"].contains(recognizer.name) {
+                            recognizer.isEnabled = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return false
+    }
 }

@@ -38,6 +38,10 @@ extension NSMutableAttributedString {
                     let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
 
                     path = note.getMdImagePath(name: fileName)
+                } else if let note = note,
+                    let imageData = textAttachment.contents,
+                    let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
+                    path = note.getMdImagePath(name: fileName)
                 }
 
                 let newRange = NSRange(location: range.location + offset, length: range.length)

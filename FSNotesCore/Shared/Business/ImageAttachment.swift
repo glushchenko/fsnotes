@@ -67,7 +67,13 @@ class ImageAttachment {
         paragraphStyle.alignment = .center
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
 
-        let attributes = [titleKey: self.title, pathKey: self.path, .link: String(), .attachment: attachment, .paragraphStyle: paragraphStyle] as [NSAttributedString.Key: Any]
+        let attributes = [
+            titleKey: self.title,
+            pathKey: self.path,
+            .link: String(),
+            .attachment: attachment,
+            .paragraphStyle: paragraphStyle
+        ] as [NSAttributedString.Key: Any]
 
         mutableAttributedString.addAttributes(attributes, range: NSRange(0..<1))
 

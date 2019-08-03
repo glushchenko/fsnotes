@@ -14,7 +14,7 @@ extension ImageAttachment {
         let imageSize = getSize(url: self.url)
 
         let attachment = NSTextAttachment()
-        attachment.image = UIImage.emptyImage(with: imageSize)
+        attachment.image = UIImage.emptyImage(with: imageSize)!
 
         if let size = getImageSize(imageSize: imageSize) {
             attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -27,10 +27,8 @@ extension ImageAttachment {
 
                     if let resizedImage = self.resize(image: image, size: size)?.rounded(radius: 5), let imageData = resizedImage.jpegData(compressionQuality: 1) {
 
-                        let fileWrapper = FileWrapper(regularFileWithContents: imageData)
-                        fileWrapper.preferredFilename = "\(self.title)@::\(self.url.path)"
-                        attachment.fileType = kUTTypeJPEG as String
-                        attachment.fileWrapper = fileWrapper
+                        attachment.contents = imageData
+                        attachment.image = resizedImage
 
                         DispatchQueue.main.async {
                             if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange, self.note == EditTextView.note {
