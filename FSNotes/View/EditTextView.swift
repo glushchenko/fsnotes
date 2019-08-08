@@ -978,7 +978,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     override var textContainerOrigin: NSPoint {
         let origin = super.textContainerOrigin
-        return NSPoint(x: origin.x, y: origin.y - 15)
+        return NSPoint(x: origin.x, y: origin.y - 7)
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
