@@ -169,12 +169,6 @@ class ViewController: NSViewController,
                         UserDefaultsManagement.focusInEditorOnNoteSelect
                         ? [.command, .option]
                         : [.command]
-
-                    if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                        return true
-                    } else if vc.editArea.hasFocus() {
-                        return false
-                    }
                 }
 
                 if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate", "fileMenu.import"].contains(menuItem.identifier?.rawValue) {
@@ -533,6 +527,11 @@ class ViewController: NSViewController,
             self.alert = nil
             return true
         }
+
+        if event.keyCode == kVK_Delete && event.modifierFlags.contains(.command) && editArea.hasFocus() {
+            editArea.deleteToBeginningOfLine(nil)
+            return false
+        }
         
         // Return / Cmd + Return navigation
         if event.keyCode == kVK_Return {
@@ -871,12 +870,6 @@ class ViewController: NSViewController,
             return
         }
 
-        let menuItem = sender as? NSMenuItem
-        if vc.editArea.hasFocus() && menuItem?.tag != 555 {
-            vc.editArea.deleteToBeginningOfLine(nil)
-            return
-        }
-
         if let si = vc.getSidebarItem(), si.isTrash() {
             removeForever()
             return
@@ -914,6 +907,8 @@ class ViewController: NSViewController,
 
             vc.editArea.clear()
         }
+
+        NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
     }
     
     @IBAction func archiveNote(_ sender: Any) {
