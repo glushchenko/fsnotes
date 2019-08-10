@@ -125,8 +125,6 @@ class ViewController: NSViewController,
         searchQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
-
-
     }
 
     override func viewDidAppear() {
@@ -1388,7 +1386,7 @@ class ViewController: NSViewController,
 
         var sidebarName = sidebarItem?.name ?? ""
         var selectedProject = sidebarItem?.project
-        var type = sidebarItem?.type ?? .All
+        var type = sidebarItem?.type ?? .Inbox
 
         if shouldLoadMain {
             filter = search.stringValue
@@ -1397,7 +1395,7 @@ class ViewController: NSViewController,
 
             sidebarName = sidebarItem?.name ?? ""
             selectedProject = sidebarItem?.project
-            type = sidebarItem?.type ?? .All
+            type = sidebarItem?.type ?? .Inbox
 
             if type == .Todo {
                 terms!.append("- [ ]")
@@ -1416,10 +1414,11 @@ class ViewController: NSViewController,
                 type == .All && !note.project.isArchive && note.project.showInCommon
                     || type == .Tag && note.tagNames.contains(sidebarName)
                     || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                    || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject
+                    || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject && type != .Inbox
                     || type == .Trash
                     || type == .Todo
                     || type == .Archive && note.project.isArchive
+                    || type == .Inbox && note.project.isRoot && note.project.isDefault
             ) && (
                 type == .Trash && note.isTrash()
                     || type != .Trash && !note.isTrash()
@@ -1938,8 +1937,7 @@ class ViewController: NSViewController,
     public func saveHtmlAtClipboard() {
         if let note = notesTableView.getSelectedNote() {
             if let node = Node(markdown: note.content.string) {
-                guard let render = try? node.html else { return }
-
+                let render = node.html
                 let pasteboard = NSPasteboard.general
                 pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
                 pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)

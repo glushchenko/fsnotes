@@ -22,7 +22,10 @@ class Sidebar {
     
     init() {
         var night = ""
+        var inboxName = "sidebarInbox"
+
         #if os(iOS)
+        inboxName = "inbox\(night).png"
         night = "_white"
         if NightNight.theme == .night {
                 night = "_white"
@@ -31,12 +34,10 @@ class Sidebar {
 
         var system = [SidebarItem]()
 
-        #if os(iOS)
         if let project = Storage.sharedInstance().getDefault() {
-            let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), project: project, type: .Inbox, icon: getImage(named: "inbox\(night).png"))
+            let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), project: project, type: .Inbox, icon: getImage(named: inboxName))
             system.append(inbox)
         }
-        #endif
 
         let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
         system.append(notes)

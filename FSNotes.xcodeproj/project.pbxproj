@@ -167,6 +167,12 @@
 		D739955E2051D1AB009017EE /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
 		D739955F2051D1AB009017EE /* italic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955C2051D1AA009017EE /* italic@2x.png */; };
 		D73995602051D1AB009017EE /* italic.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955D2051D1AB009017EE /* italic.png */; };
+		D73A996B22FEC788002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
+		D73A996C22FEC788002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
+		D73A996D22FEC789002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
+		D73A996E22FEC789002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
+		D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
+		D73A997022FEC78A002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D73CEC6B2278EC4200D549F7 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D73CEC802278ECA500D549F7 /* checkbox_flipped_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D73CEC6E2278ECA500D549F7 /* checkbox_flipped_white.png */; };
 		D73CEC812278ECA500D549F7 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D73CEC6F2278ECA500D549F7 /* checkbox_empty@3x.png */; };
@@ -2367,6 +2373,7 @@
 				D75E33DC22462442006AD1C1 /* home.png in Resources */,
 				D75E33DD22462442006AD1C1 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D75E33DE22462442006AD1C1 /* SourceCodePro-Regular.ttf in Resources */,
+				D73A996C22FEC788002A7006 /* inbox.png in Resources */,
 				D75E33DF22462442006AD1C1 /* lock-open.png in Resources */,
 				D75E33E022462442006AD1C1 /* ui.png in Resources */,
 				D75E33E122462442006AD1C1 /* AvenirNext-DemiItalic.ttf in Resources */,
@@ -2403,6 +2410,7 @@
 				D7C690C222AAE16200BFBBD1 /* unindent@3x.png in Resources */,
 				D75E33FA22462442006AD1C1 /* lock-closed.png in Resources */,
 				D75E33FB22462442006AD1C1 /* repository.png in Resources */,
+				D73A996B22FEC788002A7006 /* inbox_white.png in Resources */,
 				D7C690D722AB075F00BFBBD1 /* bold.png in Resources */,
 				D75E33FD22462442006AD1C1 /* AvenirNext-LightItalic.ttf in Resources */,
 				D75E340122462442006AD1C1 /* AvenirNext-UltraLightIt.ttf in Resources */,
@@ -2592,6 +2600,7 @@
 				D7E6D9CB207F9878003ECAFC /* home.png in Resources */,
 				D7F2F1A621C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
+				D73A997022FEC78A002A7006 /* inbox.png in Resources */,
 				D730BD4B223837F300E69C93 /* lock-open.png in Resources */,
 				D7F5C0EC223EC5670038F172 /* ui.png in Resources */,
 				D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
@@ -2628,6 +2637,7 @@
 				D7C690CE22AAE16500BFBBD1 /* unindent@3x.png in Resources */,
 				D730BD482238365800E69C93 /* lock-closed.png in Resources */,
 				D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */,
+				D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */,
 				D7C690DD22AB076000BFBBD1 /* bold.png in Resources */,
 				D7F2F1C121C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
 				D7F2F1C421C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
@@ -2661,6 +2671,7 @@
 				D7C690AE22AA4B1E00BFBBD1 /* italic.png in Resources */,
 				D730BD58223AB54F00E69C93 /* new-note.png in Resources */,
 				D77B9E9C20DE53E1003FAA27 /* archive.png in Resources */,
+				D73A996D22FEC789002A7006 /* inbox_white.png in Resources */,
 				D7C690B322AA4B2900BFBBD1 /* todo@3x.png in Resources */,
 				D73FABDA207F2EB600A98483 /* Images.xcassets in Resources */,
 				D7C690B022AA4B1E00BFBBD1 /* italic@3x.png in Resources */,
@@ -2704,6 +2715,7 @@
 				D7C690B122AA4B2900BFBBD1 /* todo.png in Resources */,
 				D7C690B522AAE0D400BFBBD1 /* image@2x.png in Resources */,
 				D7F2F1B621C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
+				D73A996E22FEC789002A7006 /* inbox.png in Resources */,
 				D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D75C903B223EDAFD002A9CAD /* padlock.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,

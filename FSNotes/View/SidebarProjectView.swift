@@ -24,31 +24,41 @@ class SidebarProjectView: NSOutlineView,
     public var isFirstLaunch = true
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if let sidebarItem = getSidebarItem(), let project = sidebarItem.project, project.isArchive {
-            if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
-                return true
-            }
-            
-            return false
-        }
-        
         if menuItem.title == NSLocalizedString("Attach storage", comment: "") {
             return true
         }
-        
-        if
-            let sidebarItem = getSidebarItem(),
-            let project = sidebarItem.project, project.isDefault,
-            ![
-                NSLocalizedString("New folder", comment: ""),
-                NSLocalizedString("Reveal folder", comment: "")
-            ].contains(menuItem.title) {
-            return false
+
+        guard let sidebarItem = getSidebarItem() else { return false }
+
+        if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
+            if let sidebarItem = getSidebarItem() {
+                return sidebarItem.project != nil
+            }
         }
-        
-        guard let sidebarItem = getSidebarItem(), sidebarItem.project != nil else { return false }
-        
-        return true
+
+        if menuItem.title == NSLocalizedString("Rename folder", comment: "") {
+            if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
+                return true
+            }
+        }
+
+        if menuItem.title == NSLocalizedString("Delete folder", comment: "") {
+            if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
+                return true
+            }
+        }
+
+        if menuItem.title == NSLocalizedString("View settings", comment: "") {
+            return nil != sidebarItem.project
+        }
+
+        if menuItem.title == NSLocalizedString("New folder", comment: "") {
+            if let project = sidebarItem.project, !project.isArchive {
+                return true
+            }
+        }
+
+        return false
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -109,7 +119,7 @@ class SidebarProjectView: NSOutlineView,
                 return true
             }
             break
-        case .Label, .Category, .Trash, .Archive:
+        case .Label, .Category, .Trash, .Archive, .Inbox:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
 
                 var notes = [Note]()
@@ -174,7 +184,7 @@ class SidebarProjectView: NSOutlineView,
                 return .copy
             }
             break
-        case .Category, .Label, .Archive:
+        case .Category, .Label, .Archive, .Inbox:
             guard sidebarItem.isSelectable() else { break }
             
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
@@ -266,6 +276,11 @@ class SidebarProjectView: NSOutlineView,
                 cell.icon.image = NSImage(imageLiteralResourceName: "todo_sidebar.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
+
+            case .Inbox:
+                cell.icon.image = NSImage(imageLiteralResourceName: "sidebarInbox")
+                cell.icon.isHidden = false
+                cell.label.frame.origin.x = 25
             }
         }
         return cell
@@ -349,49 +364,9 @@ class SidebarProjectView: NSOutlineView,
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         if (clickedRow > -1) {
             selectRowIndexes([clickedRow], byExtendingSelection: false)
-            
-            guard let si = sidebarItems, si.indices.contains(selectedRow) else { return }
-            let sidebarItem = si[selectedRow]
-            
-            if let p = sidebarItem.project, p.isArchive {
-                return
-            }
-            
-            if let p = sidebarItem.project, p.isDefault {
-                for item in menu.items {
-                    if ![
-                            NSLocalizedString("New folder", comment: ""),
-                            NSLocalizedString("Reveal folder", comment: "")
-                        ].contains(item.title) {
-                        item.isHidden = true
-                    } else {
-                        item.isHidden = false
-                    }
-                }
-                return
-            }
 
-            let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
-            let notesLabel = NSLocalizedString("Notes", comment: "Sidebar label")
-            let trashLabel = NSLocalizedString("Notes", comment: "Sidebar label")
-            
-            if ([notesLabel, trashLabel].contains(sidebarItem.name) && sidebarItem.project == nil) || sidebarItem.type == .Tag || sidebarItem.name == "# \(tagsLabel)" {
-                for item in menu.items {
-                    item.isHidden = true
-                }
-                return
-            }
-            
             for item in menu.items {
-                item.isHidden = false
-            }
-            
-            if let project = si[selectedRow].project, let i = menu.items.firstIndex(where: {$0.title == NSLocalizedString("Notes", comment: "Rename")}) {
-                if project.isRoot {
-                    menu.item(at: i)?.isHidden = true
-                } else {
-                    menu.item(at: i)?.isHidden = false
-                }
+                item.isHidden = !validateMenuItem(item)
             }
         }
     }
@@ -500,7 +475,13 @@ class SidebarProjectView: NSOutlineView,
         
         field.becomeFirstResponder()
     }
-    
+
+    @IBAction func openSettings(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+
+        vc.openProjectViewSettings(sender)
+    }
+
     private func removeProject(project: Project) {
         self.storage.removeBy(project: project)
         

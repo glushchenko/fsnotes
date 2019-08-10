@@ -14,7 +14,5 @@ enum SidebarItemType: Int {
     case Tag = 0x04
     case Archive = 0x05
     case Todo = 0x06
-    #if os(iOS)
     case Inbox = 0x07
-    #endif
 }
