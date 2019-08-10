@@ -1499,8 +1499,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func makeTouchBar() -> NSTouchBar? {
         let touchBar = NSTouchBar()
         touchBar.delegate = self
-
-        //touchBar.customizationIdentifier = NSTouchBar.CustomizationIdentifier("My First TouchBar")
         touchBar.defaultItemIdentifiers = [
             NSTouchBarItem.Identifier("Todo"),
             NSTouchBarItem.Identifier("Bold"),
@@ -1513,7 +1511,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NSTouchBarItem.Identifier("Indent"),
             NSTouchBarItem.Identifier("UnIndent")
         ]
-        //touchBar.customizationAllowedItemIdentifiers = [NSTouchBarItem.Identifier("HelloWorld")]
         return touchBar
     }
 
@@ -1521,7 +1518,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         switch identifier {
         case NSTouchBarItem.Identifier("Todo"):
-            if let im = NSImage(named: "todo") {
+            if let im = NSImage(named: "todo"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(toggleTodo(_:)))
@@ -1532,7 +1529,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return customViewItem
             }
         case NSTouchBarItem.Identifier("Bold"):
-            if let im = NSImage(named: "bold") {
+            if let im = NSImage(named: "bold"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(pressBold(_:)))
@@ -1543,7 +1540,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return customViewItem
             }
         case NSTouchBarItem.Identifier("Italic"):
-            if let im = NSImage(named: "italic") {
+            if let im = NSImage(named: "italic"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(pressItalic(_:)))
@@ -1554,7 +1551,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return customViewItem
             }
         case NSTouchBarItem.Identifier("Image"):
-            if let im = NSImage(named: "image") {
+            if let im = NSImage(named: "image"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(insertMarkdownImage(_:)))
@@ -1566,7 +1563,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
         case NSTouchBarItem.Identifier("Indent"):
-            if let im = NSImage(named: "indent") {
+            if let im = NSImage(named: "indent"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(shiftRight(_:)))
@@ -1578,7 +1575,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
         case NSTouchBarItem.Identifier("UnIndent"):
-            if let im = NSImage(named: "unindent") {
+            if let im = NSImage(named: "unindent"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(shiftLeft(_:)))
@@ -1589,7 +1586,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return customViewItem
             }
         case NSTouchBarItem.Identifier("CodeBlock"):
-            if let im = NSImage(named: "codeblock") {
+            if let im = NSImage(named: "codeblock"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(insertCodeBlock(_:)))
@@ -1600,7 +1597,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return customViewItem
             }
         case NSTouchBarItem.Identifier("Link"):
-            if let im = NSImage(named: "link") {
+            if let im = NSImage(named: "tb_link"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
                 let button = NSButton(image: image, target: self, action: #selector(insertLink(_:)))
