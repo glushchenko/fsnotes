@@ -51,20 +51,15 @@ public class Project: Equatable {
         } else {
             self.label = url.lastPathComponent
         }
+
+        var localizedName: AnyObject?
+        try? (url as NSURL).getResourceValue(&localizedName, forKey: URLResourceKey.localizedNameKey)
+        if let name = localizedName as? String, name.count > 0 {
+            self.label = name
+        }
         
         isCloudDrive = isCloudDriveFolder(url: url)
         loadSettings()
-    }
-
-    public func loadLabel(relate: URL)
-    {
-        var label = url.path.replacingOccurrences(of: relate.path, with: "")
-
-        if label.first == "/" {
-            label = String(label.dropFirst())
-        }
-
-        self.label = label.replacingOccurrences(of: "/", with: " -> ")
     }
     
     func fileExist(fileName: String, ext: String) -> Bool {        

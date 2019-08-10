@@ -30,10 +30,10 @@ class SandboxBookmark {
     
     func load() -> [URL] {
         let path = bookmarkPath()
-        
+
         if FileManager.default.fileExists(atPath: path), let bookmarks = NSKeyedUnarchiver.unarchiveObject(withFile: path) as? [URL: Data] {
             self.bookmarks = bookmarks
-            
+
             for bookmark in bookmarks {
                 _ = restore(bookmark)
             }
@@ -53,6 +53,7 @@ class SandboxBookmark {
             let data = try url.bookmarkData(options: NSURL.BookmarkCreationOptions.withSecurityScope, includingResourceValuesForKeys: nil, relativeTo: nil)
             bookmarks[url] = data
         } catch {
+            Swift.print(error)
             Swift.print("Error storing bookmarks")
         }
         #endif
