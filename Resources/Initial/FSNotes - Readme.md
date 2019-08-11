@@ -23,11 +23,15 @@ Key features:
 - code highlighting themes
 - markdown images preview in editor
 
-Default storage directory:
+Default storage directory (Notarized):
 
 ```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
 
-Of course you can change the directory (i.e. Dropbox or iCloud) for synchronization
+Default storage directory (iCloud Drive):
+
+```~/Library/Mobile Documents/iCloud~co~fluder~fsnotes/Documents```
+
+Of course you can change the directory (i.e. Dropbox or iCloud Drive) for synchronization
 
 ![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png)
 
