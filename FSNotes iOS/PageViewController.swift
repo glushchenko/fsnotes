@@ -127,12 +127,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
 
         guard completed, let current = self.viewControllers?.first else { return }
 
-        if let nav = current as? UINavigationController, let preview = nav.viewControllers.first as? PreviewViewController {
-            preview.loadPreview()
-            return
-        } else {
-            previewViewController?.clear()
+        if let nav = current as? UINavigationController {
+            if let preview = nav.viewControllers.first as? PreviewViewController {
+                preview.loadPreview()
+                return
+            }
         }
+
+        previewViewController?.clear()
 
         if current.isKind(of: UINavigationController.self) {
             DispatchQueue.main.async {

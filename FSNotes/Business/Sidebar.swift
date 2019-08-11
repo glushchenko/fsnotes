@@ -24,13 +24,10 @@ class Sidebar {
         var night = ""
         var inboxName = "sidebarInbox"
 
-        #if os(iOS)
-        inboxName = "inbox\(night).png"
+#if os(iOS)
         night = "_white"
-        if NightNight.theme == .night {
-                night = "_white"
-        }
-        #endif
+        inboxName = "inbox\(night).png"
+#endif
 
         var system = [SidebarItem]()
 

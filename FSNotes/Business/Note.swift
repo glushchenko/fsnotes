@@ -43,6 +43,7 @@ public class Note: NSObject  {
     public var ciphertextWriter = OperationQueue.init()
 
     private var firstLineAsTitle = false
+    private var lastSelectedRange: NSRange?
 
     // Load exist
     
@@ -80,6 +81,15 @@ public class Note: NSObject  {
 
         super.init()
         self.parseURL()
+    }
+
+    public func setLastSelectedRange(value: NSRange)
+    {
+        lastSelectedRange = value
+    }
+
+    public func getLastSelectedRange() -> NSRange? {
+        return lastSelectedRange
     }
 
     public func hasTitle() -> Bool {

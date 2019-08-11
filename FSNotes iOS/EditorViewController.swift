@@ -32,6 +32,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: EditTextView!
 
     var rowUpdaterTimer = Timer()
+    private var isEditingLastState = false
     
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -105,6 +106,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         initLinksColor()
+
+        restoreKeyboardState()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -453,7 +456,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         return false
     }
-    
+
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        guard let note = self.note else { return }
+
+        if textView.isFirstResponder {
+            note.setLastSelectedRange(value: textView.selectedRange)
+        }
+    }
+
     func textViewDidChange(_ textView: UITextView) {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
@@ -463,9 +474,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
-        guard let note = self.note else {
-            return
-        }
+        guard let note = self.note else { return }
         
         if isHighlighted {
             let search = getSearchText()
@@ -552,6 +561,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + padding, right: 0.0)
         self.editArea.contentInset = contentInsets
         self.editArea.scrollIndicatorInsets = contentInsets
+
+        guard let note = self.note else { return }
+        note.setLastSelectedRange(value: editArea.selectedRange)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -802,13 +814,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func donePressed(){
+        isEditingLastState = false
         view.endEditing(true)
     }
-    
-    @objc func cancelPressed(){
-        view.endEditing(true)
-    }
-    
+
     @objc func preferredContentSizeChanged() {
         if let n = note {
             self.fill(note: n)
@@ -1033,6 +1042,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
+        isEditingLastState = true
+
         if let recognizers = editArea.gestureRecognizers {
             for recognizer in recognizers {
                 if recognizer.isKind(of: UIGestureRecognizer.self) {
@@ -1069,5 +1080,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         return false
+    }
+
+    public func shouldRestoreKeyboardState() -> Bool {
+        return isEditingLastState
+    }
+
+    public func restoreKeyboardState() {
+        if shouldRestoreKeyboardState() {
+            if let range = self.note?.getLastSelectedRange(), range.upperBound <= self.editArea.textStorage.length {
+                DispatchQueue.main.async {
+                    self.editArea.becomeFirstResponder()
+
+                    self.editArea.selectedRange = range
+                }
+            }
+        }
     }
 }
