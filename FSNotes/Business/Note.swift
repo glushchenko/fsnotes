@@ -319,14 +319,6 @@ public class Note: NSObject  {
     }
     #endif
     
-    private func getTrashURL() -> URL? {
-        if let url = sharedStorage.getTrash(url: url) {
-            return url
-        }
-        
-        return nil
-    }
-
     private func getDefaultTrashURL() -> URL? {
         if let url = sharedStorage.getDefaultTrash()?.url {
             return url

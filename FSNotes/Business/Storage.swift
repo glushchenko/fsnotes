@@ -76,10 +76,12 @@ class Storage {
             #if NOT_EXTENSION
                 checkTrashForVolume(url: project.url)
             #endif
+
+            return
         #endif
 
+        checkTrashForVolume(url: project.url)
 
-        #if os(OSX)
         _ = add(project: project)
 
         for url in bookmarks {
@@ -105,8 +107,6 @@ class Storage {
             let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
             _ = add(project: project)
         }
-
-        #endif
     }
 
     public func makeTempEncryptionDirectory() -> URL? {
@@ -183,10 +183,14 @@ class Storage {
     }
     
     private func checkTrashForVolume(url: URL) {
-        guard var trashURL = getTrash(url: url) else { return }
+        var trashURL = getTrash(url: url)
 
         do {
-            try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
+            if let trashURL = trashURL {
+                try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
+            } else {
+                throw "Trash not found"
+            }
         } catch {
             guard let trash = getDefault()?.url.appendingPathComponent("Trash") else { return }
 
@@ -195,7 +199,7 @@ class Storage {
                 do {
                     try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: false, attributes: nil)
 
-                    print("New trash created: \(trashURL)")
+                    print("New trash created: \(trash)")
                 } catch {
                     print("Trash dir error: \(error)")
                 }
@@ -204,10 +208,12 @@ class Storage {
             trashURL = trash
         }
 
-        guard !projectExist(url: trashURL) else { return }
+        if let trashURL = trashURL {
+            guard !projectExist(url: trashURL) else { return }
         
-        let project = Project(url: trashURL, isTrash: true)
-        projects.append(project)
+            let project = Project(url: trashURL, isTrash: true)
+            projects.append(project)
+        }
     }
     
     private func getCloudDrive() -> URL? {
@@ -252,7 +258,6 @@ class Storage {
         if project.isRoot && project.url != UserDefaultsManagement.archiveDirectory {
             let addedSubProjects = chechSub(url: project.url, parent: project)
             added = added + addedSubProjects
-            checkTrashForVolume(url: project.url)
         }
 
         return added
@@ -1029,3 +1034,5 @@ class Storage {
         }
     }
 }
+
+extension String: Error {}
