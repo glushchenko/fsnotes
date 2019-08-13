@@ -37,8 +37,18 @@ class ProjectSettingsViewController: NSViewController {
     }
 
     @IBAction func firstLineAsTitle(_ sender: NSButton) {
-        project?.firstLineAsTitle = sender.state == .on
-        project?.saveSettings()
+        guard let project = self.project else { return }
+
+        project.firstLineAsTitle = sender.state == .on
+        project.saveSettings()
+
+        let notes = Storage.sharedInstance().getNotesBy(project: project)
+        for note in notes {
+            note.invalidateCache()
+        }
+
+        guard let vc = ViewController.shared() else { return }
+        vc.notesTableView.reloadData()
     }
 
     @IBAction func close(_ sender: Any) {
