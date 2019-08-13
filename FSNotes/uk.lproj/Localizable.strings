@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы впевнені що хочете видалити директорію \"%@\"?";
 
 /* No comment provided by engineer. */
-"Attach storage" = "Підключити сховище";
+"Attach storage..." = "Підключити сховище...";
 
 /* Delete menu */
 "Cancel" = "Відміна";

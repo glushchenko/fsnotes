@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?";
 
 /* No comment provided by engineer. */
-"Attach storage" = "Adjuntar almacenamiento";
+"Attach storage..." = "Adjuntar almacenamiento...";
 
 /* Delete menu */
 "Cancel" = "Cancelar";

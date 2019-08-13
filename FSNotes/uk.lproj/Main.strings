@@ -538,8 +538,8 @@
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "s6A-tQ-Sbe"; */
 "s6A-tQ-Sbe.title" = "Перемістити все на передній план";
 
-/* Class = "NSMenuItem"; title = "Attach storage"; ObjectID = "S8Z-Js-fwB"; */
-"S8Z-Js-fwB.title" = "Підключити сховище";
+/* Class = "NSMenuItem"; title = "Attach storage..."; ObjectID = "S8Z-Js-fwB"; */
+"S8Z-Js-fwB.title" = "Підключити сховище...";
 
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Лист нотаток:";

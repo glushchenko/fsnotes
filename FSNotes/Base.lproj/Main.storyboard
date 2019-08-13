@@ -188,7 +188,7 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Folder" identifier="folderMenu" id="BYI-2F-BJo">
                                     <items>
-                                        <menuItem title="Attach storage" identifier="folderMenu.attachStorage" id="S8Z-Js-fwB">
+                                        <menuItem title="Attach storage..." identifier="folderMenu.attachStorage" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
@@ -2749,10 +2749,10 @@ Olena Glushchenko aonez (aone@keka.io)</string>
         <image name="editor" width="384" height="384"/>
         <image name="icon" width="512" height="512"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="512" height="512"/>
+        <image name="makeNoteAsset" width="1024" height="1024"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
-        <image name="repository" width="40" height="40"/>
+        <image name="repository" width="409.60000610351562" height="409.60000610351562"/>
         <image name="ui" width="512" height="512"/>
         <namedColor name="mainBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

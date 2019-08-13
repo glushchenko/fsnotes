@@ -24,7 +24,7 @@ class SidebarProjectView: NSOutlineView,
     public var isFirstLaunch = true
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if menuItem.title == NSLocalizedString("Attach storage", comment: "") {
+        if menuItem.title == NSLocalizedString("Attach storage...", comment: "") {
             return true
         }
 
@@ -439,7 +439,7 @@ class SidebarProjectView: NSOutlineView,
         
         if sender is NSMenuItem,
             let mi = sender as? NSMenuItem,
-            mi.title == NSLocalizedString("Attach storage", comment: "") {
+            mi.title == NSLocalizedString("Attach storage...", comment: "") {
             unwrappedProject = nil
         }
         
