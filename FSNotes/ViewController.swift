@@ -579,7 +579,7 @@ class ViewController: NSViewController,
             (
                 event.keyCode == kVK_Escape
                 || (
-                    event.keyCode == kVK_ANSI_Period &&
+                    event.characters == "." &&
                     event.modifierFlags.contains(.command)
                 )
             )
