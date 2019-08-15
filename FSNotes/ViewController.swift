@@ -1386,7 +1386,13 @@ class ViewController: NSViewController,
 
         var sidebarName = sidebarItem?.name ?? ""
         var selectedProject = sidebarItem?.project
+
         var type = sidebarItem?.type ?? .Inbox
+
+        // Global search if sidebar not checked
+        if filter.count > 0 && sidebarItem == nil {
+            type = .All
+        }
 
         if shouldLoadMain {
             filter = search.stringValue
