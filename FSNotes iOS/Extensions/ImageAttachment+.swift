@@ -8,6 +8,7 @@
 
 import UIKit
 import MobileCoreServices
+import AVKit
 
 extension ImageAttachment {
     public func load() -> NSTextAttachment? {
@@ -21,20 +22,30 @@ extension ImageAttachment {
 
             let operation = BlockOperation()
             operation.addExecutionBlock {
-                if let imageData = try? Data(contentsOf: self.url), let image = Image(data: imageData) {
+                let imageData = try? Data(contentsOf: self.url)
+                var finalImage: UIImage?
 
-                    self.cache(data: imageData)
+                if self.url.isVideo {
+                    let asset = AVURLAsset(url: self.url, options: nil)
+                    let imgGenerator = AVAssetImageGenerator(asset: asset)
+                    if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
+                        finalImage = UIImage(cgImage: cgImage)
+                    }
+                } else if let imageData = imageData {
+                    finalImage = UIImage(data: imageData)
+                }
 
-                    if let resizedImage = self.resize(image: image, size: size)?.rounded(radius: 5), let imageData = resizedImage.jpegData(compressionQuality: 1) {
+                guard let image = finalImage else { return }
 
-                        attachment.contents = imageData
-                        attachment.image = resizedImage
+                if let resizedImage = self.resize(image: image, size: size)?.rounded(radius: 5), let imageData = imageData {
 
-                        DispatchQueue.main.async {
-                            if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange, self.note == EditTextView.note {
-                                view.layoutManager.invalidateLayout(forCharacterRange: invalidateRange, actualCharacterRange: nil)
-                                view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
-                            }
+                    attachment.contents = imageData
+                    attachment.image = resizedImage
+
+                    DispatchQueue.main.async {
+                        if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange, self.note == EditTextView.note {
+                            view.layoutManager.invalidateLayout(forCharacterRange: invalidateRange, actualCharacterRange: nil)
+                            view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
                         }
                     }
                 }

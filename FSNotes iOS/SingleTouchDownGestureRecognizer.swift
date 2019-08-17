@@ -36,31 +36,35 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
 
                 let location = touch.location(in: view)
-                let maxX = Int(view.frame.width - 13)
-                let minX = Int(13)
+                let maxX = Int(view.frame.width - 25)
+                let minX = Int(25)
 
                 let isImage = view.isImage(at: glyphIndex)
                 let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
 
-                if Int(location.x) > minX && Int(location.x) < maxX, isImage, glyphIndex < view.textStorage.length, glyphRect.contains(point) {
+                if isImage, glyphIndex < view.textStorage.length, glyphRect.contains(point) {
+                    if Int(location.x) > minX && Int(location.x) < maxX {
+                        if !view.isFirstResponder {
+                            beginTimer?.invalidate()
+                            beginTimer = Timer.scheduledTimer(timeInterval: 0.4,
+                                                              target: self,
+                                                              selector: #selector(endTimer),
+                                                              userInfo: nil,
+                                                              repeats: false)
 
-                    if !view.isFirstResponder {
-                        beginTimer?.invalidate()
-                        beginTimer = Timer.scheduledTimer(timeInterval: 0.4,
-                                                          target: self,
-                                                          selector: #selector(endTimer),
-                                                          userInfo: nil,
-                                                          repeats: false)
+                            beginTime = Date.init()
+                        }
 
-                        beginTime = Date.init()
+                        view.lasTouchPoint = touch.location(in: view.superview)
+                        self.state = .possible
+                        return
+                    } else {
+                        self.state = .failed
+                        return
                     }
-
-                    view.lasTouchPoint = touch.location(in: view.superview)
-                    self.state = .possible
-                    return
                 }
 
-                if !isImage && glyphRect.contains(point) && view.isLink(at: glyphIndex) && !view.isFirstResponder {
+                if !isImage && glyphRect.contains(point) && view.isLink(at: glyphIndex) {
                     self.state = .possible
                     return
                 }
@@ -94,7 +98,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
 
                 let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
-                if glyphRect.contains(point) && view.isLink(at: glyphIndex) && !view.isFirstResponder {
+                if glyphRect.contains(point) && view.isLink(at: glyphIndex) {
                     self.state = .recognized
                     return
                 }

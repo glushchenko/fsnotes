@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVKit
 
 #if os(OSX)
     import Cocoa
@@ -101,6 +102,15 @@ class ImageAttachment {
         var width = 0
         var height = 0
         var orientation = 0
+
+        if url.isVideo {
+            guard let track = AVURLAsset(url: url).tracks(withMediaType: AVMediaType.video).first else {
+                return CGSize(width: width, height: height)
+            }
+
+            let size = track.naturalSize.applying(track.preferredTransform)
+            return CGSize(width: abs(size.width), height: abs(size.height))
+        }
 
         let url = NSURL(fileURLWithPath: url.path)
         if let imageSource = CGImageSourceCreateWithURL(url, nil) {

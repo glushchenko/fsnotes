@@ -490,8 +490,8 @@ class NotesTableView: UITableView,
 
         viewDelegate?.present(vc, animated: true)
         if let pop = vc.popoverPresentationController {
-            pop.sourceView = (viewDelegate?.currentFolder as! UIView)
-            pop.sourceRect = (viewDelegate?.currentFolder as! UIView).bounds
+            pop.sourceView = (viewDelegate?.currentFolder!)
+            pop.sourceRect = (viewDelegate?.currentFolder!)!.bounds
         }
 
         AudioServicesPlaySystemSound(1519)

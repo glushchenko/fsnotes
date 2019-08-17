@@ -8,6 +8,12 @@
 
 import Foundation
 
+#if os(iOS)
+    import MobileCoreServices
+#else
+    import CoreServices
+#endif
+
 public extension URL {
     /// Get extended attribute.
     func extendedAttribute(forName name: String) throws -> Data {
@@ -121,5 +127,24 @@ public extension URL {
 
     var typeIdentifier: String? {
         return (try? resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier
+    }
+
+    var fileUTType: CFString? {
+        let unmanagedFileUTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension as CFString, nil)
+        return unmanagedFileUTI?.takeRetainedValue()
+    }
+
+    var isVideo: Bool {
+        guard let fileUTI = fileUTType else { return false }
+
+        return UTTypeConformsTo(fileUTI, kUTTypeMovie)
+            || UTTypeConformsTo(fileUTI, kUTTypeVideo)
+            || UTTypeConformsTo(fileUTI, kUTTypeQuickTimeMovie)
+            || UTTypeConformsTo(fileUTI, kUTTypeMPEG)
+            || UTTypeConformsTo(fileUTI, kUTTypeMPEG2Video)
+            || UTTypeConformsTo(fileUTI, kUTTypeMPEG2TransportStream)
+            || UTTypeConformsTo(fileUTI, kUTTypeMPEG4)
+            || UTTypeConformsTo(fileUTI, kUTTypeAppleProtectedMPEG4Video)
+            || UTTypeConformsTo(fileUTI, kUTTypeAVIMovie)
     }
 }

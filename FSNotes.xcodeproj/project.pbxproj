@@ -41,6 +41,7 @@
 		D7038E2620FB24E000A54E69 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
 		D7038E2720FB24E000A54E69 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
 		D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7063969202230BB00BC8446 /* EditorViewController.swift */; };
+		D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */; };
 		D708AC672000EF5800A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D708AC682000F0E100A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
 		D70BA87720599D1300875E9C /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87420599D1200875E9C /* header.png */; };
@@ -942,6 +943,7 @@
 		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
 		D7038E2520FB24E000A54E69 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
 		D7063969202230BB00BC8446 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
+		D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
 		D70BA87420599D1200875E9C /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		D70BA87520599D1300875E9C /* header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@3x.png"; sourceTree = "<group>"; };
@@ -1668,6 +1670,7 @@
 				D7ED3FFB20CD0AA3001438EE /* View */,
 				D7BDFE66201F679B00897A58 /* FSNotes iOS.entitlements */,
 				D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */,
+				D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */,
 				D7679388201F21F5000F7BBF /* AppDelegate.swift */,
 				D73673A720D10CF2000BA61D /* CloudDriveManager.swift */,
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
@@ -3286,6 +3289,7 @@
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
+				D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */,
 				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,
 				D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */,

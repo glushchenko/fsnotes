@@ -42,10 +42,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var isActiveTableUpdating = false
 
     override func viewWillAppear(_ animated: Bool) {
-        print(UserDefaultsManagement.importURLs)
-        
         for url in UserDefaultsManagement.importURLs {
-            print("Import URL")
             cloudDriveManager?.add(url: url)
         }
 

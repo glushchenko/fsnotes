@@ -45,13 +45,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.rightBarButtonItem = self.getShareButton()
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
+        let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
+        self.editArea.addGestureRecognizer(imageTap)
+
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         self.editArea.addGestureRecognizer(tap)
-
-        //let up = UISwipeGestureRecognizer(target: self, action: #selector(tapUp(_:)))
-        //up.direction = .up
-
-        //self.editArea.addGestureRecognizer(up)
 
         self.editArea.textStorage.delegate = self.editArea.textStorage
 
@@ -886,9 +884,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let myTextView = sender.view as! UITextView
         let layoutManager = myTextView.layoutManager
         
-        var location = sender.location(in: myTextView)
-        location.x -= myTextView.textContainerInset.left;
-        location.y -= myTextView.textContainerInset.top;
+        let location = sender.location(in: myTextView)
 
         let characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
@@ -959,7 +955,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         // Links
-        if self.editArea.isLink(at: characterIndex), !self.editArea.isFirstResponder {
+        if self.editArea.isLink(at: characterIndex) {
+            if self.editArea.isFirstResponder {
+                DispatchQueue.main.async {
+                    self.editArea.selectedRange = NSRange(location: characterIndex, length: 0)
+                }
+                return
+            }
+
             guard let path = self.editArea.textStorage.attribute(.link, at: characterIndex, effectiveRange: nil) as? String else { return }
 
             if path.starts(with: "fsnotes://find/") {
@@ -971,6 +974,25 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
             return
+        }
+    }
+
+    @objc private func imageTapHandler(_ sender: SingleImageTouchDownGestureRecognizer) {
+        guard let view = sender.view as? UITextView else { return }
+
+        let layoutManager = view.layoutManager
+        let location = sender.location(in: view)
+
+        var characterIndex = layoutManager.characterIndex(for: location, in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+
+        DispatchQueue.main.async {
+            view.becomeFirstResponder()
+
+            if sender.isRightBorderTap {
+                characterIndex += 1
+            }
+
+            view.selectedRange = NSRange(location: characterIndex, length: 0)
         }
     }
 
@@ -1035,10 +1057,25 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         if textView.isFirstResponder {
+            DispatchQueue.main.async {
+                textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
+            }
+            return false
+        }
+
+        // Skip images (fixes glitch bug)
+        let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+        let attr = textView.textStorage.attribute(pathKey, at: characterRange.location, effectiveRange: nil)
+        
+        if attr != nil && !textView.isFirstResponder {
             return false
         }
 
         return true
+    }
+
+    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        return false
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -1055,7 +1092,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             "dragFailureRelationships",
                             "dragExclusionRelationships",
                             "dragInitiation"
-                        ].contains(recognizer.name) {
+                            ].contains(recognizer.name) {
                             recognizer.isEnabled = true
                         }
                     }
@@ -1076,10 +1113,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
-    }
-
-    func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        return false
     }
 
     public func shouldRestoreKeyboardState() -> Bool {
