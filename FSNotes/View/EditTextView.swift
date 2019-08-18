@@ -24,6 +24,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     let caretWidth: CGFloat = 2
     var downView: MarkdownView?
     var timer: Timer?
+    public var markdownView: MPreviewView?
 
     public static var imagesLoaderQueue = OperationQueue.init()
     
@@ -464,7 +465,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
         
-        downView?.removeFromSuperview()
+        markdownView?.removeFromSuperview()
 
         viewController.updateTitle(newTitle: note.hasTitle() ? note.title : "")
 
@@ -487,27 +488,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
             textStorage?.setAttributedString(NSAttributedString())
             EditTextView.note = note
 
-            let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
-            let url = NSURL.fileURL(withPath: path!)
-            let bundle = Bundle(url: url)
-
-            let markdownString = note.getPrettifiedContent()
-            let css = getPreviewStyle()
-
-            do {
-                var imagesStorage = note.project.url
-
-                if note.isTextBundle() {
-                    imagesStorage = note.getURL()
+            let frame = viewController.editAreaScroll.bounds
+            markdownView = MPreviewView(frame: frame, note: note, closure: {
+                if let view = self.markdownView, EditTextView.note == note {
+                    viewController.editAreaScroll.addSubview(view)
                 }
+            })
 
-                downView = try? MarkdownView(imagesStorage: imagesStorage, frame: (viewController.editAreaScroll.bounds), markdownString: markdownString, css: css, templateBundle: bundle, didLoadSuccessfully: {
-
-                    if EditTextView.note != nil {
-                        viewController.editAreaScroll.addSubview(self.downView!)
-                    }
-                })
-            }
             return
         }
 
@@ -598,7 +585,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     public func clear() {
         textStorage?.setAttributedString(NSAttributedString())
-        downView?.removeFromSuperview()
+        markdownView?.removeFromSuperview()
         isEditable = false
         
         let appDelegate = NSApplication.shared.delegate as! AppDelegate

@@ -80,9 +80,9 @@ class Storage {
             return
         #endif
 
-        checkTrashForVolume(url: project.url)
-
         _ = add(project: project)
+        
+        checkTrashForVolume(url: project.url)
 
         for url in bookmarks {
             if url.pathExtension == "css" {

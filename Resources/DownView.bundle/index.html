@@ -23,12 +23,26 @@
     <script src="js/mermaid.min.js"></script>
     <title></title>
     <style>DOWN_CSS</style>
+    <style>
+        #MathJax_Message + * {
+            margin-top: 0 !important;
+        }
+    </style>
 </head>
 <body>
 
     DOWN_HTML
 
     <script>
+        function getSelectionAndSendMessage()
+        {
+            var txt = document.getSelection().toString() ;
+            window.webkit.messageHandlers.newSelectionDetected.postMessage(txt) ;
+        }
+        document.onmouseup = getSelectionAndSendMessage ;
+        document.onkeyup = getSelectionAndSendMessage ;
+        document.oncontextmenu = getSelectionAndSendMessage ;
+
         hljs.initHighlightingOnLoad();
 
         var darkModeStylesNodeID = "darkModeStyles";

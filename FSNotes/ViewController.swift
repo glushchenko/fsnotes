@@ -1253,6 +1253,10 @@ class ViewController: NSViewController,
     }
     
     func getSidebarProject() -> Project? {
+        if storageOutlineView.selectedRow < 0 {
+            return nil
+        }
+
         let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
         
         if let project = sidebarItem?.project {
@@ -1679,12 +1683,9 @@ class ViewController: NSViewController,
         self.view.window!.title = NSLocalizedString("FSNotes [edit]", comment: "")
         UserDefaultsManagement.preview = false
 
+        editArea.markdownView?.removeFromSuperview()
         guard let editor = editArea else { return }
-        for (i, view) in editor.subviews.enumerated() {
-            if view.isKind(of: MarkdownView.self) {
-                editArea.subviews.remove(at: i)
-            }
-        }
+        editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
         self.refillEditArea()
     }
