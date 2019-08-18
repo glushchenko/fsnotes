@@ -854,49 +854,7 @@ public class NotesTextProcessor {
                 hideSyntaxIfNecessary(range: innerRange)
             }
         }
-        
-        // We detect and process strict italics
-        NotesTextProcessor.strictItalicRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            styleApplier.addAttribute(.font, value: italicFont, range: range)
-            styleApplier.fixAttributes(in: range)
-
-            let substring = styleApplier.mutableString.substring(with: NSMakeRange(range.location, 1))
-            var start = 0
-            if substring == " " {
-                start = 1
-            }
-            
-            let preRange = NSMakeRange(range.location + start, 1)
-            hideSyntaxIfNecessary(range: preRange)
-            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-            
-            let postRange = NSMakeRange(range.location + range.length - 1, 1)
-            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-            hideSyntaxIfNecessary(range: postRange)
-        }
-        
-        // We detect and process strict bolds
-        NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            styleApplier.addAttribute(.font, value: boldFont, range: range)
-            styleApplier.fixAttributes(in: range)
-
-            let substring = styleApplier.mutableString.substring(with: NSMakeRange(range.location, 1))
-            var start = 0
-            if substring == " " {
-                start = 1
-            }
-            
-            let preRange = NSMakeRange(range.location + start, 2)
-            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
-            hideSyntaxIfNecessary(range: preRange)
-            
-            let postRange = NSMakeRange(range.location + range.length - 2, 2)
-            styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
-            hideSyntaxIfNecessary(range: postRange)
-        }
-        
+                
         // We detect and process italics
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
