@@ -2,33 +2,33 @@
 
 ## Notes manager for macOS/iOS
 
-File system notes is modern notational velocity (nvALT) on steroids. 
+File System notes (FSNotes): is modern notational velocity (nvALT) on steroids. 
 
 ### macOS app
 
-Our application respect open formats: **plain/text, markdown, rtf**, and stores data in file system. You can view, edit, copy data in favourite external editor and see live result in FSNotes. 
+Our application respect open formats: **Plaintext, Markdown, RTF**, and stores data in the file system. You can view, edit, copy data in a favorite external editor and see the live result in FSNotes. 
 
 <img src="https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png" alt="macOS FSNotes" style="max-width:100%;">
 
 #### Key features
 
-- keyboard centric
-- global shortcuts (clipboard save / search)
-- markdown and RTF markup (files stored on disk as plain/text and rich text)
-- markdown preview mode
-- elastic two pane view (vertical and horizontal layout)
-- blazing fast and lightweight (working fine with 10k+ files)
-- open files in finder / works with external editors (changes seamless live sync with UI)
-- pin/unpin important notes in top
-- synchronization over iCloud Drive
-- multi folder storage
-- fast copy markdown code to clipboard
-- live markdown highlighting with code blocks (over 170 languages)
-- themes for code highlighting
-- markdown images preview in editor
-- images drag and drop
+- Keyboard centric.
+- Global shortcuts (clipboard save/search).
+- Markdown and RTF markup (files stored on disk as Plaintext and Rich Text).
+- Markdown preview mode.
+- Elastic two-pane view (vertical and horizontal layout).
+- Blazing fast and lightweight (working fine with 10k+ files)
+- Open files in finder work with external editors (changes seamless live sync with UI).
+- Pin/Unpin important notes on the top.
+- Synchronization over iCloud Drive.
+- Multi-folder storage.
+- Fast copy Markdown code to clipboard.
+- Live Markdown highlighting with code blocks (over 170 languages).
+- Themes for code highlighting.
+- Markdown images preview in the editor.
+- Images drag and drop or copy & paste.
 
-FSNotes is written on **Swift 5**, open source (MIT license)
+FSNotes is written on **Swift 5**, open-source (MIT license)
 
 <a href="https://itunes.apple.com/app/fsnotes/id1277179284">
 	<img src="https://fsnot.es/img/badge-download-on-the-mac-app-store.svg" alt="">
@@ -42,13 +42,13 @@ FSNotes is written on **Swift 5**, open source (MIT license)
 
 #### Key features
 
-- iCloud Drive support (Files.app folder available)
-- Fast note creation (3DTouch + configurable default keyboard)
-- Pin/unpin with macOS companion sync
-- RTF and Markdown markup
-- Markdown editor with highlighting (code blocks too)
-- Search with keywords highlighting
-- Sharing extension
+- iCloud Drive support (Files.app folder available).
+- Fast note creation (3DTouch + configurable default keyboard).
+- Pin/Unpin with macOS companion sync.
+- RTF and Markdown markup.
+- Markdown editor with highlighting (code blocks too).
+- Search with keywords highlighting.
+- Sharing extension.
 
 <a href="https://itunes.apple.com/app/fsnotes-manager/id1346501102">
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
