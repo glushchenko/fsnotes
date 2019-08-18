@@ -643,18 +643,7 @@ class Storage {
     func getDemoSubdirURL() -> URL? {
 #if os(OSX)
         if let project = projects.first {
-            let pURL = project.url.appendingPathComponent("FSNotes")
-            
-            do {
-                try FileManager.default.createDirectory(at: pURL, withIntermediateDirectories: false, attributes: nil)
-            } catch {
-                return nil
-            }
-            
-            let childProject = Project(url: pURL, parent: project)
-            _ = add(project: childProject)
-            
-            return pURL
+            return project.url
         }
         
         return nil

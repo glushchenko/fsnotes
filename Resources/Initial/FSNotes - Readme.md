@@ -1,6 +1,6 @@
 ## File system notes manager
 
-[[FSNotes - Shortcuts]]
+[[Shortcuts]]
 
 File system notes is modern notational velocity (nvALT) on steroids.
 
