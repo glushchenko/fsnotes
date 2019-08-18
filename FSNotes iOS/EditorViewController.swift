@@ -106,6 +106,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         initLinksColor()
 
         restoreKeyboardState()
+
+        editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
+
+        editArea.flashScrollIndicators()
     }
 
     override func viewWillAppear(_ animated: Bool) {

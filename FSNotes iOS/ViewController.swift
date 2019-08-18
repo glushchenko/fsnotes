@@ -672,6 +672,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             if evc.editArea != nil {
                 evc.editArea.keyboardAppearance = .default
+                evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
             }
             
             vc.search.keyboardAppearance = .default
@@ -697,6 +698,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             if evc.editArea != nil {
                 evc.editArea.keyboardAppearance = .dark
+                evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
             }
             
             vc.search.keyboardAppearance = .dark
