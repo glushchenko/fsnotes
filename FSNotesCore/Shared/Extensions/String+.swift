@@ -58,6 +58,10 @@ public extension String {
     var isValidUUID: Bool {
         return UUID(uuidString: self) != nil
     }
+
+    func escapePlus() -> String {
+        return self.replacingOccurrences(of: "+", with: "%20")
+    }
 }
 
 extension StringProtocol where Index == String.Index {

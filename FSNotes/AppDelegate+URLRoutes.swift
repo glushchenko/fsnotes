@@ -31,10 +31,15 @@ extension AppDelegate {
     }
     
     func application(_ application: NSApplication, open urls: [URL]) {
-        guard let url = urls.first,
+        guard var url = urls.first,
             let scheme = url.scheme
             else { return }
-        
+
+        let path = url.absoluteString.escapePlus()
+        if let escaped = URL(string: path) {
+            url = escaped
+        }
+
         switch scheme {
         case HandledSchemes.file.rawValue:
             if nil != ViewController.shared() {
