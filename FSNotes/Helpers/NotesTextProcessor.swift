@@ -1439,7 +1439,7 @@ public class NotesTextProcessor {
             range: range,
             using: { (result, matchingFlags, stop) -> Void in
                 if let range = result?.range {
-                    guard storage.length > range.location + range.length else {
+                    guard storage.length >= range.location + range.length else {
                         return
                     }
                     
