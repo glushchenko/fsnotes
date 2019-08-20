@@ -420,19 +420,19 @@ class Storage {
     }
     
     private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
-        let sortDirection = UserDefaultsManagement.sortDirection
+        let sortDirection = project?.sortDirection ?? (UserDefaultsManagement.sortDirection ? .desc : .asc)
         let sort = project?.sortBy ?? UserDefaultsManagement.sort
 
         if note.isPinned == next.isPinned {
             switch sort {
             case .creationDate:
                 if let prevDate = note.creationDate, let nextDate = next.creationDate {
-                    return sortDirection && prevDate > nextDate || !sortDirection && prevDate < nextDate
+                    return sortDirection == .asc && prevDate < nextDate || sortDirection == .desc && prevDate > nextDate
                 }
-            case .modificationDate:
-                return sortDirection && note.modifiedLocalAt > next.modifiedLocalAt || !sortDirection && note.modifiedLocalAt < next.modifiedLocalAt
+            case .modificationDate, .none:
+                return sortDirection == .asc && note.modifiedLocalAt < next.modifiedLocalAt || sortDirection == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
-                return sortDirection && note.title.lowercased() < next.title.lowercased() || !sortDirection && note.title.lowercased() > next.title.lowercased()
+                return sortDirection == .asc && note.title.lowercased() < next.title.lowercased() || sortDirection == .desc && note.title.lowercased() > next.title.lowercased()
             }
         }
         

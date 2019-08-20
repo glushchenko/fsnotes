@@ -1764,8 +1764,8 @@ class ViewController: NSViewController,
 
     func loadSortBySetting() {
         let viewLabel = NSLocalizedString("View", comment: "Menu")
-        let sortByLabel = NSLocalizedString("Sort By", comment: "View menu")
-        
+        let sortByLabel = NSLocalizedString("Sort by", comment: "View menu")
+
         guard
             let menu = NSApp.menu,
             let view = menu.item(withTitle: viewLabel),
@@ -1778,7 +1778,7 @@ class ViewController: NSViewController,
         let sort = UserDefaultsManagement.sort
         
         for item in sortItems.items {
-            if let id = item.identifier, id.rawValue ==  sort.rawValue {
+            if let id = item.identifier, id.rawValue ==  "SB.\(sort.rawValue)" {
                 item.state = NSControl.StateValue.on
             }
         }
@@ -1832,7 +1832,7 @@ class ViewController: NSViewController,
         
         searchTopConstraint.constant = 8
     }
-    
+
     @IBAction func duplicate(_ sender: Any) {
         if let notes = notesTableView.getSelectedNotes() {
             for note in notes {

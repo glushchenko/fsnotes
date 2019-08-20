@@ -20,6 +20,11 @@ public class Project: Equatable {
     public var isExternal: Bool = false
 
     public var sortBy: SortBy = UserDefaultsManagement.sort
+    public var sortDirection: SortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
+
+    public var sortBySettings: SortBy = .none
+    public var sortDirectionSettings: SortDirection = .desc
+
     public var showInCommon: Bool
     public var showInSidebar: Bool = true
 
@@ -117,7 +122,8 @@ public class Project: Equatable {
 
     public func saveSettings() {
         let data = [
-            "sortBy": sortBy.rawValue,
+            "sortBy": sortBySettings.rawValue,
+            "sortDirection": sortDirectionSettings.rawValue,
             "showInCommon": showInCommon,
             "showInSidebar": showInSidebar,
             "firstLineAsTitle": firstLineAsTitle
@@ -150,7 +156,15 @@ public class Project: Equatable {
                 }
 
                 if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
-                    self.sortBy = sort
+                    if sort != .none {
+                        sortBy = sort
+                        sortBySettings = sort
+
+                        if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
+                            sortDirection = direction
+                            sortDirectionSettings = direction
+                        }
+                    }
                 }
 
                 if let firstLineAsTitle = settings["firstLineAsTitle"] as? Bool {
@@ -172,7 +186,15 @@ public class Project: Equatable {
             }
 
             if let sortString = settings.value(forKey: "sortBy") as? String, let sort = SortBy(rawValue: sortString) {
-                self.sortBy = sort
+                if sort != .none {
+                    sortBy = sort
+                    sortBySettings = sort
+
+                    if let directionString = settings.value(forKey: "sortDirection") as? String, let direction = SortDirection(rawValue: directionString) {
+                        sortDirection = direction
+                        sortDirectionSettings = direction
+                    }
+                }
             }
 
             if isRoot {
