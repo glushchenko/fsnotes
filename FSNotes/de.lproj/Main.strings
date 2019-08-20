@@ -241,6 +241,9 @@
 /* Class = "NSMenuItem"; title = "Creation date"; ObjectID = "eTL-dh-GvM"; */
 "eTL-dh-GvM.title" = "Erstellungsdatum";
 
+/* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
+"EYG-WM-BFN.title" = "Aufsteigend";
+
 /* Class = "NSMenuItem"; title = "Tags"; ObjectID = "f2h-Tl-AHi"; */
 "f2h-Tl-AHi.title" = "Tags";
 
@@ -442,9 +445,6 @@
 /* Class = "NSMenuItem"; title = "atom-one-light"; ObjectID = "ME1-My-h4q"; */
 "ME1-My-h4q.title" = "atom-one-light";
 
-/* Class = "NSMenuItem"; title = "Twitter"; ObjectID = "MGg-bI-g3A"; */
-"MGg-bI-g3A.title" = "Twitter";
-
 /* Class = "NSMenuItem"; title = "Check Grammar With Spelling"; ObjectID = "mK6-2p-4JG"; */
 "mK6-2p-4JG.title" = "Grammatik und Rechtschreibung prüfen";
 
@@ -483,6 +483,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Title"; ObjectID = "O9K-a1-3eu"; */
 "O9K-a1-3eu.title" = "Title";
+
+/* Class = "NSButtonCell"; title = "None (Use global settings)"; ObjectID = "oer-ZB-VOx"; */
+"oer-ZB-VOx.title" = "Globale einstellungen";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "FSNotes ausblenden";
@@ -534,6 +537,9 @@
 
 /* Class = "NSMenuItem"; title = "View settings"; ObjectID = "qs2-5J-Q3n"; */
 "qs2-5J-Q3n.title" = "Einstellungen anzeigen";
+
+/* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
+"QxK-39-9yF.title" = "Richtung:";
 
 /* Class = "NSMenuItem"; title = "Main Window"; ObjectID = "qZf-Xp-kDW"; */
 "qZf-Xp-kDW.title" = "Hauptfenster";
@@ -612,6 +618,9 @@
 
 /* Class = "NSMenuItem"; title = "View settings"; ObjectID = "Tcg-83-bZN"; */
 "Tcg-83-bZN.title" = "Einstellungen anzeigen";
+
+/* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
+"TCI-Xs-mwm.title" = "Absteigend";
 
 /* Class = "NSTextFieldCell"; title = "Appearance:"; ObjectID = "Tjy-Pz-wrj"; */
 "Tjy-Pz-wrj.title" = "Design:";

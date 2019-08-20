@@ -2119,7 +2119,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-Hj-7Bf">
-                                <rect key="frame" x="36" y="197" width="63" height="17"/>
+                                <rect key="frame" x="36" y="197" width="110" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Direction:" id="QxK-39-9yF">
                                     <font key="font" metaFont="system"/>
@@ -2128,7 +2128,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </textFieldCell>
                             </textField>
                             <button identifier="asc" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-mW-iPi">
-                                <rect key="frame" x="152" y="197" width="86" height="18"/>
+                                <rect key="frame" x="152" y="197" width="258" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Ascending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="EYG-WM-BFN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2139,7 +2139,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
                                 </connections>
                             </button>
                             <button identifier="desc" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HIU-aj-0cI">
-                                <rect key="frame" x="153" y="175" width="94" height="18"/>
+                                <rect key="frame" x="153" y="175" width="253" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Descending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="TCI-Xs-mwm">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2798,7 +2798,7 @@ Olena Glushchenko aonez (aone@keka.io)</string>
         <image name="editor" width="384" height="384"/>
         <image name="icon" width="512" height="512"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="1024" height="1024"/>
+        <image name="makeNoteAsset" width="512" height="512"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>

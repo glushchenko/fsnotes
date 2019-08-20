@@ -47,6 +47,9 @@
 "Delete" = "Löschen";
 
 /* No comment provided by engineer. */
+"Delete folder" = "Ordner löschen";
+
+/* No comment provided by engineer. */
 "Empty password" = "Passwort leer";
 
 /* No comment provided by engineer. */
@@ -63,6 +66,9 @@
 
 /* Edit area */
 "Image title" = "Bildbezeichnung";
+
+/* No comment provided by engineer. */
+"Inbox" = "Posteingang";
 
 /* No comment provided by engineer. */
 "Link" = "Link";
@@ -88,8 +94,7 @@
 /* No comment provided by engineer. */
 "New RTF" = "Neu RTF";
 
-/* Rename
-   Sidebar label */
+/* Sidebar label */
 "Notes" = "Notizen";
 
 /* Edit area */
@@ -120,6 +125,9 @@
 "Remove note(s)" = "Notiz (en) entfernen";
 
 /* No comment provided by engineer. */
+"Rename folder" = "Ordner umbenennen";
+
+/* No comment provided by engineer. */
 "Reveal folder" = "Ordner anzeigen";
 
 /* No comment provided by engineer. */
@@ -138,7 +146,7 @@
 "Smart Quotes" = "Intelligente Anführungszeichen";
 
 /* View menu */
-"Sort By" = "Sortieren nach";
+"Sort by" = "Sortiere nach";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Rechtschreibung und Grammatik";
@@ -176,6 +184,9 @@
 
 /* Menu */
 "View" = "Ansicht";
+
+/* No comment provided by engineer. */
+"View settings" = "Einstellungen anzeigen";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Passwort stimmt nicht überein";

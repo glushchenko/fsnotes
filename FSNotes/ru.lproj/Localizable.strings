@@ -47,6 +47,9 @@
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
+"Delete folder" = "Удалить директорию";
+
+/* No comment provided by engineer. */
 "Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
@@ -65,6 +68,9 @@
 "Image title" = "Заголовок";
 
 /* No comment provided by engineer. */
+"Inbox" = "Входящие";
+
+/* No comment provided by engineer. */
 "Link" = "Ссылка";
 
 /* No comment provided by engineer. */
@@ -80,7 +86,7 @@
 "New" = "Создать";
 
 /* No comment provided by engineer. */
-"New folder" = "Новая директория";
+"New folder" = "Создать директорию";
 
 /* No comment provided by engineer. */
 "New project" = "Новая директория";
@@ -88,8 +94,7 @@
 /* No comment provided by engineer. */
 "New RTF" = "Создать RTF";
 
-/* Rename
-   Sidebar label */
+/* Sidebar label */
 "Notes" = "Заметки";
 
 /* Edit area */
@@ -120,6 +125,9 @@
 "Remove note(s)" = "Удалить";
 
 /* No comment provided by engineer. */
+"Rename folder" = "Переименовать директорию";
+
+/* No comment provided by engineer. */
 "Reveal folder" = "Открыть директорию";
 
 /* No comment provided by engineer. */
@@ -138,7 +146,7 @@
 "Smart Quotes" = "Смарт-кавычки";
 
 /* View menu */
-"Sort By" = "Упорядочить по";
+"Sort by" = "Сортировать по";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Орфография и грамматика";
@@ -176,6 +184,9 @@
 
 /* Menu */
 "View" = "Вид";
+
+/* No comment provided by engineer. */
+"View settings" = "Настроить вид";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Несоответствие паролей";

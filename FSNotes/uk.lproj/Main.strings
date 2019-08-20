@@ -217,6 +217,9 @@
 /* Class = "NSMenuItem"; title = "Creation date"; ObjectID = "eTL-dh-GvM"; */
 "eTL-dh-GvM.title" = "Датою створення";
 
+/* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
+"EYG-WM-BFN.title" = "Висхідний";
+
 /* Class = "NSMenuItem"; title = "Tags"; ObjectID = "f2h-Tl-AHi"; */
 "f2h-Tl-AHi.title" = "Теги";
 
@@ -442,6 +445,9 @@
 /* Class = "NSTextFieldCell"; title = "Title"; ObjectID = "O9K-a1-3eu"; */
 "O9K-a1-3eu.title" = "Заголовок";
 
+/* Class = "NSButtonCell"; title = "None (Use global settings)"; ObjectID = "oer-ZB-VOx"; */
+"oer-ZB-VOx.title" = "Глобальні налаштування";
+
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "Сховати FSNotes";
 
@@ -491,7 +497,10 @@
 "q09-fT-Sye.title" = "Знайти далі";
 
 /* Class = "NSMenuItem"; title = "View settings"; ObjectID = "qs2-5J-Q3n"; */
-"qs2-5J-Q3n.title" = "Переглянути налаштування";
+"qs2-5J-Q3n.title" = "Налаштування вигляду";
+
+/* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
+"QxK-39-9yF.title" = "Напрямок:";
 
 /* Class = "NSMenuItem"; title = "Main Window"; ObjectID = "qZf-Xp-kDW"; */
 "qZf-Xp-kDW.title" = "Головне Вікно";
@@ -567,6 +576,9 @@
 
 /* Class = "NSMenuItem"; title = "View settings"; ObjectID = "Tcg-83-bZN"; */
 "Tcg-83-bZN.title" = "Налаштування вигляду";
+
+/* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
+"TCI-Xs-mwm.title" = "Низхідний";
 
 /* Class = "NSTextFieldCell"; title = "Appearance:"; ObjectID = "Tjy-Pz-wrj"; */
 "Tjy-Pz-wrj.title" = "Тема:";

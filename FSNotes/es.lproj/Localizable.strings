@@ -47,6 +47,9 @@
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
+"Delete folder" = "Eliminar carpeta";
+
+/* No comment provided by engineer. */
 "Empty password" = "Contraseña vacía";
 
 /* No comment provided by engineer. */
@@ -88,8 +91,7 @@
 /* No comment provided by engineer. */
 "New RTF" = "Nuevo RTF";
 
-/* Rename
-   Sidebar label */
+/* Sidebar label */
 "Notes" = "Notas";
 
 /* Edit area */
@@ -120,6 +122,9 @@
 "Remove note(s)" = "Eliminar nota(s)";
 
 /* No comment provided by engineer. */
+"Rename folder" = "Renombar carpeta";
+
+/* No comment provided by engineer. */
 "Reveal folder" = "Mostrar carpeta";
 
 /* No comment provided by engineer. */
@@ -138,7 +143,7 @@
 "Smart Quotes" = "Comillas tipográficas";
 
 /* View menu */
-"Sort By" = "Ordenar por";
+"Sort by" = "Ordenar por";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Ortografía y gramática";
@@ -176,6 +181,9 @@
 
 /* Menu */
 "View" = "Visualización";
+
+/* No comment provided by engineer. */
+"View settings" = "Ver configuración";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Repetición de contraseña incorrecta";

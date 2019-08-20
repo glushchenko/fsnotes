@@ -47,6 +47,9 @@
 "Delete" = "Видалити";
 
 /* No comment provided by engineer. */
+"Delete folder" = "Видалити директорію";
+
+/* No comment provided by engineer. */
 "Empty password" = "Введіть пароль";
 
 /* No comment provided by engineer. */
@@ -83,6 +86,9 @@
 "Image title" = "Заголовок зображення";
 
 /* No comment provided by engineer. */
+"Inbox" = "Вхідні";
+
+/* No comment provided by engineer. */
 "Link" = "Посилання";
 
 /* No comment provided by engineer. */
@@ -106,8 +112,7 @@
 /* No comment provided by engineer. */
 "New RTF" = "Новий RTF";
 
-/* Rename
-   Sidebar label */
+/* Sidebar label */
 "Notes" = "Нотатки";
 
 /* Edit area */
@@ -138,6 +143,9 @@
 "Remove note(s)" = "Видалити нотатку(ок)";
 
 /* No comment provided by engineer. */
+"Rename folder" = "Перейменувати директорію";
+
+/* No comment provided by engineer. */
 "Reveal folder" = "Показати директорію";
 
 /* No comment provided by engineer. */
@@ -156,7 +164,7 @@
 "Smart Quotes" = "Розумні лапки";
 
 /* View menu */
-"Sort By" = "Сортувати за";
+"Sort by" = "Сортувати за";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Орфографія і граматика";
@@ -197,6 +205,9 @@
 
 /* Menu */
 "View" = "Вид";
+
+/* No comment provided by engineer. */
+"View settings" = "Налаштування вигляду";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Паролі не співпадають";
