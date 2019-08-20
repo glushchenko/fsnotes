@@ -2,50 +2,40 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "todo-2.png",
+      "filename" : "icons8-checklist-64.png",
       "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "todo_sidebar_white-1.png",
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "todo-1.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "todo_sidebar_white.png",
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "scale" : "2x"
     },
     {
       "idiom" : "universal",
       "filename" : "todo.png",
-      "scale" : "3x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "dark"
         }
-      ]
+      ],
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "icons8-checklist-65.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "todo-1.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "icons8-checklist-66.png",
+      "scale" : "3x"
     }
   ],
   "info" : {

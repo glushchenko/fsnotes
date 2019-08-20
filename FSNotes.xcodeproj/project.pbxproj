@@ -228,6 +228,8 @@
 		D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7487FEC2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
 		D7487FED2174E62B00D09383 /* NSAttributedStringKey+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */; };
+		D74B56C5230C0A8700A07AF5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D74B56C3230C0A8700A07AF5 /* InfoPlist.strings */; };
+		D74B56CB230C0A8700A07AF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D74B56C9230C0A8700A07AF5 /* Localizable.strings */; };
 		D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */; };
 		D74DFBAC21661BA300F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
@@ -1053,6 +1055,16 @@
 		D7487FD5217389F800D09383 /* NSImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+.swift"; sourceTree = "<group>"; };
 		D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedStringKey+.swift"; sourceTree = "<group>"; };
 		D74922111FACE9B100C45108 /* Down.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Down.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D74B56C2230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/InfoPlist.strings"; sourceTree = SOURCE_ROOT; };
+		D74B56C4230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D74B56C6230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D74B56C7230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D74B56C8230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D74B56CA230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D74B56CC230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D74B56CD230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Localizable.strings"; sourceTree = SOURCE_ROOT; };
+		D74B56CE230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Main.strings"; sourceTree = "<group>"; };
+		D74B56CF230C0A8700A07AF5 /* ar-IQ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "ar-IQ"; path = "ar-IQ.lproj/Main.strings"; sourceTree = "<group>"; };
 		D74B7B642137D3A1007F5331 /* AttributedBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedBox.swift; sourceTree = "<group>"; };
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
@@ -1410,6 +1422,7 @@
 				D75FC5C521021C9400C516A7 /* Business */,
 				6F13BB4E20FEDE560005E120 /* FSNotesCore_iOS.h */,
 				6F13BB4F20FEDE560005E120 /* Info.plist */,
+				D74B56C3230C0A8700A07AF5 /* InfoPlist.strings */,
 				D7D88191214AACF40054586C /* UINote.swift */,
 			);
 			path = "Core iOS";
@@ -1606,6 +1619,7 @@
 				D7F2F1C721C68B5700E41811 /* ProjectListController.swift */,
 				D75F333A205EC34800CC887E /* MainInterface.storyboard */,
 				D75F333D205EC34800CC887E /* Info.plist */,
+				D74B56C9230C0A8700A07AF5 /* Localizable.strings */,
 				D70FE13420FE198200813F9E /* InfoPlist.strings */,
 			);
 			path = "FSNotes iOS Share";
@@ -2311,6 +2325,7 @@
 				ru,
 				de,
 				es,
+				"ar-IQ",
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -2350,6 +2365,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D74B56C5230C0A8700A07AF5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2450,6 +2466,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D75F333C205EC34800CC887E /* MainInterface.storyboard in Resources */,
+				D74B56CB230C0A8700A07AF5 /* Localizable.strings in Resources */,
 				D70FE13620FE198200813F9E /* InfoPlist.strings in Resources */,
 				D7958A3D22EDA35700EDBDDC /* attach.png in Resources */,
 			);
@@ -3579,6 +3596,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D70FE12C20FE198200813F9E /* ru */,
+				D74B56C8230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3587,6 +3605,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D70FE12F20FE198200813F9E /* ru */,
+				D74B56C7230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3598,6 +3617,7 @@
 				D77F181D220F47FB00716DE3 /* uk */,
 				D735BF2F227EC4C8004C0B31 /* de */,
 				D7F272FA228C96C400974FE2 /* es */,
+				D74B56C2230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3606,8 +3626,25 @@
 			isa = PBXVariantGroup;
 			children = (
 				D70FE13520FE198200813F9E /* ru */,
+				D74B56C6230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D74B56C3230C0A8700A07AF5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D74B56C4230C0A8700A07AF5 /* ar-IQ */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D74B56C9230C0A8700A07AF5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D74B56CA230C0A8700A07AF5 /* ar-IQ */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		D75F333A205EC34800CC887E /* MainInterface.storyboard */ = {
@@ -3624,6 +3661,7 @@
 				D767938D201F21F5000F7BBF /* Base */,
 				D70FE13720FE198200813F9E /* ru */,
 				D77F1821221015F200716DE3 /* uk */,
+				D74B56CE230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3644,6 +3682,7 @@
 				D77F181C220E234D00716DE3 /* uk */,
 				D735BF2C227EC4C8004C0B31 /* de */,
 				D7F272F7228C96C300974FE2 /* es */,
+				D74B56CF230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3654,6 +3693,7 @@
 				D77F181F220F47FB00716DE3 /* uk */,
 				D735BF2D227EC4C8004C0B31 /* de */,
 				D7F272F8228C96C300974FE2 /* es */,
+				D74B56CC230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3665,6 +3705,7 @@
 				D77F181B220E234D00716DE3 /* uk */,
 				D735BF2E227EC4C8004C0B31 /* de */,
 				D7F272F9228C96C300974FE2 /* es */,
+				D74B56CD230C0A8700A07AF5 /* ar-IQ */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

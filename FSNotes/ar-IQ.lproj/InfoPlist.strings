@@ -1,0 +1,24 @@
+/* Bundle display name */
+"CFBundleDisplayName" = "FSNotes";
+
+/* Bundle name */
+"CFBundleName" = "FSNotes";
+
+/* (No Comment) */
+"Encrypted Text Pack" = "حزمة النص المشفر";
+
+/* (No Comment) */
+"Markdwon" = "Markdown";
+
+/* Copyright (human-readable) */
+"NSHumanReadableCopyright" = "حقوق الطبع والنشر © 2017-2018 أوليكساندر غلوشينكو. كل الحقوق محفوظة.";
+
+/* (No Comment) */
+"Plain Text" = "نص عادي";
+
+/* (No Comment) */
+"Rich Text" = "نص منسق";
+
+/* (No Comment) */
+"TextBundle" = "حزمة النص";
+

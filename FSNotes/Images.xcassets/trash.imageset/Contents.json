@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "trash-2.png",
+      "filename" : "garbage-3.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "trash_white-1.png",
+      "filename" : "garbage-2 копіювати.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -18,12 +18,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "trash-1.png",
+      "filename" : "garbage-4.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "trash_white.png",
+      "filename" : "garbage-2 копіювати-1.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -34,18 +34,8 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "trash.png",
+      "filename" : "garbage-2.png",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x",
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ]
     }
   ],
   "info" : {
