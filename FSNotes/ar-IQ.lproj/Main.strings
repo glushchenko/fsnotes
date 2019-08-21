@@ -260,7 +260,7 @@
 "F2S-fz-NVQ.title" = "مساعدة";
 
 /* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "F5A-zs-zwP"; */
-"F5A-zs-zwP.title" = "فتح مجلد  ";
+"F5A-zs-zwP.title" = "فتح المجلد";
 
 /* Class = "NSButtonCell"; title = "Hide preview"; ObjectID = "F6G-ua-MNX"; */
 "F6G-ua-MNX.title" = "اخفاء المعاينة";
@@ -398,7 +398,7 @@
 "j8S-CW-gCM.title" = "مخصص";
 
 /* Class = "NSMenuItem"; title = "Pin/unpin"; ObjectID = "jFN-Dp-LON"; */
-"jFN-Dp-LON.title" = "Pin/unpin";
+"jFN-Dp-LON.title" = "دبوس / إلغاء التثبيت";
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "jLq-8F-n0X"; */
 "jLq-8F-n0X.title" = "اعادة تسمية";
@@ -635,7 +635,7 @@
 "SSY-US-gmJ.title" = "عرض الايقونة في شريط القوائم";
 
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "Tap-iY-hyA"; */
-"Tap-iY-hyA.title" = "اعادة تسمية المجلد";
+"Tap-iY-hyA.title" = "تسمية المجلد";
 
 /* Class = "NSMenuItem"; title = "View settings"; ObjectID = "Tcg-83-bZN"; */
 "Tcg-83-bZN.title" = "عرض الاعدادات";
@@ -698,7 +698,7 @@
 "wG8-3A-BMJ.title" = "معاينة حية للصور";
 
 /* Class = "NSMenuItem"; title = "Hide/show note list"; ObjectID = "WHt-T4-l9c"; */
-"WHt-T4-l9c.title" = "Hide/show note list";
+"WHt-T4-l9c.title" = "إخفاء / إظهار قائمة الملاحظات";
 
 /* Class = "NSButtonCell"; title = "Save Master Password in Keychain"; ObjectID = "wM5-nS-jjt"; */
 "wM5-nS-jjt.title" = "حفظ ماستر كلمة المرور في Keychain ";

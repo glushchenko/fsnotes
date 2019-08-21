@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "هل انت متأكد من حذف المشروع \"%@\" وكل المفات التي بداخله";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "ارفاق تخزين";
+"Attach storage..." = "ارفاق تخزين...";
 
 /* Delete menu */
 "Cancel" = "الغاء";
@@ -149,7 +149,7 @@
 "Remove note(s)" = "حذف ملاحظة/ملاحظات";
 
 /* No comment provided by engineer. */
-"Rename folder" = "حذف مجلد";
+"Rename folder" = "تسمية المجلد";
 
 /* No comment provided by engineer. */
 "Reveal folder" = "فتح المجلد";
