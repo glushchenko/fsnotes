@@ -30,7 +30,7 @@ extension ImageAttachment {
                 let fileWrapper = FileWrapper.init(regularFileWithContents: imageData)
                 fileWrapper.preferredFilename = "\(self.title)@::\(self.url.path)"
 
-                let resizedImage = image?.resized(to: size)
+                let resizedImage = image?.resized(to: size)?.roundCorners(withRadius: 3)
                 if self.note != EditTextView.note { return }
 
                 DispatchQueue.main.async {
