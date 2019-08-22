@@ -408,7 +408,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                                 )
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
-                            self.isFit(note: note, sidebarItem: sidebarItem)
+                            self.isFit(note: note, sidebarItem: sidebarItem, filter: filter)
                     )
                 ) {
                     notes.append(note)
@@ -463,8 +463,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func isFit(note: Note, sidebarItem: SidebarItem? = nil) -> Bool {
-        let type: SidebarItemType = sidebarItem?.type ?? .Inbox
+    public func isFit(note: Note, sidebarItem: SidebarItem? = nil, filter: String? = nil) -> Bool {
+        var type: SidebarItemType = sidebarItem?.type ?? .Inbox
+
+        // Global search if sidebar not checked
+        if let filter = filter, filter.count > 0 && sidebarItem?.type == nil {
+            type = .All
+        }
+
         var project: Project? = nil
         var sidebarName = ""
 
