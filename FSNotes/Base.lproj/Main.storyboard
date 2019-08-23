@@ -1164,6 +1164,7 @@ CA
                     </view>
                     <connections>
                         <outlet property="backgroundColor" destination="OZO-BG-4Lc" id="a17-CJ-njp"/>
+                        <outlet property="backgroundLabel" destination="Fes-ue-brx" id="bBK-oZ-D7e"/>
                         <outlet property="cellSpacing" destination="X4v-hO-tFb" id="r4Y-4Z-kV3"/>
                         <outlet property="firstLineAsTitle" destination="Yn6-yP-tkd" id="Ap9-EI-2Tb"/>
                         <outlet property="fontPreview" destination="7Az-gx-yGL" id="nDv-ud-PZh"/>

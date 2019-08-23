@@ -20,7 +20,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
-    public static var isPasteOperation: Bool = false
+    public static var shouldForceRescan: Bool = false
 
     public var lasTouchPoint: CGPoint?
 

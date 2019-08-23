@@ -15,7 +15,8 @@ import FSNotesCore_macOS
 class EditTextView: NSTextView, NSTextFinderClient {
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
-    public static var isPasteOperation: Bool = false
+    public static var shouldForceRescan: Bool = false
+    public static var lastRemoved: String?
 
     public var viewDelegate: ViewController?
     
@@ -25,6 +26,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var downView: MarkdownView?
     var timer: Timer?
     public var markdownView: MPreviewView?
+
 
     public static var imagesLoaderQueue = OperationQueue.init()
     
@@ -310,7 +312,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if type.rawValue == "NSStringPboardType" {
-            EditTextView.isPasteOperation = true
+            EditTextView.shouldForceRescan = true
             return super.writeSelection(to: pboard, type: type)
         }
 
@@ -349,7 +351,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                 self.breakUndoCoalescing()
 
-                EditTextView.isPasteOperation = true
+                EditTextView.shouldForceRescan = true
                 self.insertText(mutable, replacementRange: currentRange)
 
                 self.breakUndoCoalescing()
@@ -367,7 +369,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
-            EditTextView.isPasteOperation = true
+            EditTextView.shouldForceRescan = true
 
             let currentRange = selectedRange()
 
@@ -814,6 +816,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
         }
 
+        if replacementString == "", let storage = textStorage {
+            let lastChar = storage.attributedSubstring(from: affectedCharRange).string
+            if lastChar.count == 1 {
+                EditTextView.lastRemoved = lastChar
+            }
+        }
+
         if note.isMarkdown() {
             deleteUnusedImages(checkRange: affectedCharRange)
 
@@ -1132,7 +1141,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     @IBAction func shiftRight(_ sender: Any) {
         guard let f = self.getTextFormatter() else { return }
-        
+
         f.tab()
     }
     
@@ -1200,6 +1209,26 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     @IBAction func insertCodeBlock(_ sender: NSButton) {
         let currentRange = selectedRange()
+
+        if currentRange.length > 0 {
+            let mutable = NSMutableAttributedString(string: "```\n")
+            if let substring = attributedSubstring(forProposedRange: currentRange, actualRange: nil) {
+                mutable.append(substring)
+
+                if substring.string.last != "\n" {
+                    mutable.append(NSAttributedString(string: "\n"))
+                }
+            }
+
+            mutable.append(NSAttributedString(string: "```\n"))
+
+            EditTextView.shouldForceRescan = true
+            insertText(mutable, replacementRange: currentRange)
+            setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
+            
+            return
+        }
+
         insertText("```\n\n```\n", replacementRange: currentRange)
         setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
     }

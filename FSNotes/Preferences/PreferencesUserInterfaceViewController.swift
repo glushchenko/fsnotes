@@ -16,6 +16,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var cellSpacing: NSSlider!
     @IBOutlet weak var noteFontColor: NSColorWell!
     @IBOutlet weak var backgroundColor: NSColorWell!
+    @IBOutlet weak var backgroundLabel: NSTextField!
     @IBOutlet weak var textMatchAutoSelection: NSButton!
     @IBOutlet weak var previewFontSize: NSPopUpButton!
     @IBOutlet weak var hideImagesPreview: NSButton!
@@ -31,6 +32,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setFontPreview()
+
+        let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
+
+        backgroundColor.isHidden = hideBackgroundOption
+        backgroundLabel.isHidden = hideBackgroundOption
     }
 
     override func viewDidAppear() {
@@ -58,6 +64,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
         hideDate.state = UserDefaultsManagement.hideDate ? .on : .off
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
+
+        let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
+
+        backgroundColor.isHidden = hideBackgroundOption
+        backgroundLabel.isHidden = hideBackgroundOption
     }
 
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {

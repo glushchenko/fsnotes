@@ -33,7 +33,9 @@ class PreferencesAdvancedViewController: NSViewController {
                 UserDefaultsManagement.codeTheme = "monokai-sublime"
             } else if type == .System {
                 if #available(OSX 10.14, *) {
-                    if let appearance = NSApp.appearance, appearance.isDark {
+                    let mode = UserDefaults.standard.string(forKey: "AppleInterfaceStyle")
+
+                    if mode == "Dark" {
                         UserDefaultsManagement.codeTheme = "monokai-sublime"
                     }
                 }

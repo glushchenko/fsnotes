@@ -41,9 +41,11 @@ extension NSTextStorage: NSTextStorageDelegate {
                          changeInLength delta: Int) {
 
         guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
-        (editedRange.length != textStorage.length) || !note.isCached || EditTextView.isPasteOperation else { return }
+        (editedRange.length != textStorage.length) || !note.isCached || EditTextView.shouldForceRescan else { return }
 
-        if editedRange.length == textStorage.length {
+        if editedRange.length == textStorage.length || hasCodeBlock(textStorage: textStorage, editedRange: editedRange) {
+            EditTextView.lastRemoved = nil
+
             NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)
             let range = NSRange(0..<textStorage.length)
         note.content =
@@ -56,9 +58,19 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         centerImages(storage: textStorage, checkRange: editedRange)
 
-        if EditTextView.isPasteOperation {
-            EditTextView.isPasteOperation = false
+        if EditTextView.shouldForceRescan {
+            EditTextView.shouldForceRescan = false
         }
+    }
+
+    private func hasCodeBlock(textStorage: NSTextStorage, editedRange: NSRange) -> Bool {
+        return
+            (editedRange.length == 1 && textStorage.attributedSubstring(from: editedRange).string == "`")
+            || EditTextView.lastRemoved == "`"
+            || (
+                EditTextView.shouldForceRescan
+                    && textStorage.attributedSubstring(from: editedRange).string.contains("```")
+            )
     }
 
     private func getCodeRanges(string: String, length: Int) -> ([NSRange], [NSRange])? {
