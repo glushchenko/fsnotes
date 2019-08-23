@@ -238,6 +238,12 @@ class ViewController: NSViewController,
         notesScrollView.scrollerStyle = .overlay
         sidebarScrollView.scrollerStyle = .overlay
 
+        if UserDefaultsManagement.appearanceType == .Custom {
+            titleBarView.wantsLayer = true
+            titleBarView.layer?.backgroundColor = UserDefaultsManagement.bgColor.cgColor
+            titleLabel.backgroundColor = UserDefaultsManagement.bgColor
+        }
+
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
             name: NSWorkspace.willSleepNotification, object: nil)
