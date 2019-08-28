@@ -466,7 +466,6 @@
 		D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A41C9D2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
-		D7A41C9E2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
@@ -1567,7 +1566,6 @@
 				D730BD59223BFEB200E69C93 /* RuntimeError.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
 				D7104A63230BD8C500B6D8EE /* SortDirection.swift */,
-				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -1804,6 +1802,7 @@
 				D7B3391420DE0FB100B36460 /* TagList.swift */,
 				D7A65C5820F11C38003E5ADC /* LanguageType.swift */,
 				D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */,
+				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3305,7 +3304,6 @@
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
-				D7A41C9E2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,

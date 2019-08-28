@@ -274,9 +274,14 @@ extension NSTextStorage: NSTextStorageDelegate {
                         }
                     }
 
+                    #if os(OSX)
                     let style = TextFormatter.getCodeParagraphStyle()
                     textStorage.addAttribute(.paragraphStyle, value: style, range: range)
                     textStorage.fixAttributes(in: range)
+                    #else
+                    textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
+                    textStorage.fixAttributes(in: range)
+                    #endif
                 }
             }
         }

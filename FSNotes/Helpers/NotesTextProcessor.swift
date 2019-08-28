@@ -368,7 +368,12 @@ public class NotesTextProcessor {
 
             if let font = NotesTextProcessor.codeFont {
                 let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.textBlocks = [CodeBlock()]
+                #if os(OSX)
+                    paragraphStyle.textBlocks = [CodeBlock()]
+                #else
+                    attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
+                #endif
+                
                 paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
                 attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
                 attributedString.addAttribute(.font, value: font, range: range)
@@ -498,11 +503,13 @@ public class NotesTextProcessor {
             }
         }
 
+        #if os(OSX)
         styleApplier.enumerateAttribute(.paragraphStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
             if let value = value as? NSMutableParagraphStyle  {
                 value.textBlocks = []
             }
         }
+        #endif
 
         styleApplier.enumerateAttribute(.strikethroughStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
             if value != nil {

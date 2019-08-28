@@ -421,9 +421,15 @@ public class TextFormatter {
         
         // First & Last
         if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 && self.note.isMarkdown() {
+            #if os(OSX)
             if textView.textStorage?.length == 0 {
                 EditTextView.shouldForceRescan = true
             }
+            #else
+            if textView.textStorage.length == 0 {
+                EditTextView.shouldForceRescan = true
+            }
+            #endif
             
             self.insertText("\t\n", replacementRange: sRange)
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
@@ -868,7 +874,9 @@ public class TextFormatter {
     public static func getCodeParagraphStyle() -> NSMutableParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        #if os(OSX)
         paragraphStyle.textBlocks = [CodeBlock()]
+        #endif
 
         return paragraphStyle
     }
