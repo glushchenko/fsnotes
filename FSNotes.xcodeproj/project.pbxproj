@@ -463,6 +463,10 @@
 		D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */; };
 		D7A216F92131A52C00AAFE11 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
 		D7A415141F2FBDA00099B82C /* NotesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A415131F2FBDA00099B82C /* NotesTableView.swift */; };
+		D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
+		D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
+		D7A41C9D2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
+		D7A41C9E2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A9FD311FCB4873008ED23C /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
@@ -1150,6 +1154,7 @@
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ios-512x512@2x.png"; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
+		D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlock.swift; sourceTree = "<group>"; };
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A9FD301FCB4873008ED23C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
@@ -1562,6 +1567,7 @@
 				D730BD59223BFEB200E69C93 /* RuntimeError.swift */,
 				D7679375201F0BFD000F7BBF /* SortBy.swift */,
 				D7104A63230BD8C500B6D8EE /* SortDirection.swift */,
+				D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3242,6 +3248,7 @@
 				D75E33C122462442006AD1C1 /* NoteContainer.swift in Sources */,
 				D75E33C222462442006AD1C1 /* TextBundleInfo.swift in Sources */,
 				D75E33C322462442006AD1C1 /* Note.swift in Sources */,
+				D7A41C9D2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D7153E0B2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D75E33C422462442006AD1C1 /* SidebarNotesView.swift in Sources */,
 			);
@@ -3298,6 +3305,7 @@
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
+				D7A41C9E2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
@@ -3450,6 +3458,7 @@
 				D730BD2E222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD35222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D79FE8A21F77D04A00113CFD /* Note.swift in Sources */,
+				D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D7153E092285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F4207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);
@@ -3541,6 +3550,7 @@
 				D730BD2F222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D730BD36222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7E81C461F925B5F00416A91 /* Note.swift in Sources */,
+				D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */,
 				D7153E0A2285EC6100A2C20F /* TitleTextField.swift in Sources */,
 				D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */,
 			);

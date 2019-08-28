@@ -175,8 +175,7 @@ public class NotesTextProcessor {
                     return
                 }
                 
-                if r.range.upperBound >= paragraphRange.location && r.range.lowerBound <= paragraphRange.location {
-                    
+                if r.range.intersection(paragraphRange) != nil {
                     if r.range.upperBound < string.length {
                         foundRange = NSRange(location: r.range.location, length: r.range.length)
                     } else {
@@ -191,144 +190,6 @@ public class NotesTextProcessor {
         return foundRange
     }
 
-    public static func getFencedCodeBlock(at location: Int, string: NSMutableAttributedString) -> NSRange? {
-        let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeQuoteBlockPattern, options: [
-                NSRegularExpression.Options.allowCommentsAndWhitespace,
-                NSRegularExpression.Options.anchorsMatchLines
-            ])
-
-        var foundRange: NSRange? = nil
-        regex.enumerateMatches(
-            in: string.string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<string.length),
-            using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else { return }
-                if r.range.contains(location) {
-                    foundRange = r.range
-                    stop.pointee = true
-                }
-
-                if r.range.upperBound > location {
-                    stop.pointee = true
-                }
-        })
-
-        return foundRange
-    }
-
-    public static func getAllFencedCodeBlockRanges(string: String, length: Int) -> [NSRange]? {
-        let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeQuoteBlockPattern, options: [
-            NSRegularExpression.Options.allowCommentsAndWhitespace,
-            NSRegularExpression.Options.anchorsMatchLines
-        ])
-
-        var ranges = [NSRange]()
-
-        regex.enumerateMatches(
-            in: string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<length),
-            using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else { return }
-                ranges.append(r.range)
-            }
-        )
-
-        return ranges
-    }
-
-    public static func getAllIndentedCodeBlockRanges(string: String, length: Int) -> [NSRange]? {
-        let regex = try! NSRegularExpression(pattern: NotesTextProcessor._codeBlockPattern, options: [
-            .allowCommentsAndWhitespace,
-            .anchorsMatchLines
-            ])
-
-        var ranges = [NSRange]()
-
-        regex.enumerateMatches(
-            in: string,
-            options: NSRegularExpression.MatchingOptions(),
-            range: NSRange(0..<length),
-            using: { (result, matchingFlags, stop) -> Void in
-                guard let r = result else { return }
-                ranges.append(r.range)
-            }
-        )
-
-        return ranges
-    }
-    
-    public static func getCodeBlockRange(paragraphRange: NSRange, content: NSAttributedString) -> NSRange? {
-
-        let string = content.string as NSString
-        let paragraph = string.substring(with: paragraphRange)
-        guard isCodeBlockParagraph(paragraph) else {
-            return nil
-        }
-        
-        let start = NotesTextProcessor.scanPrevParagraph(string: string, location: paragraphRange.lowerBound - 1)!
-        let end = NotesTextProcessor.scanNextParagraph(string: string, location: paragraphRange.upperBound + 1)!
-        
-        NotesTextProcessor.i = 0
-        NotesTextProcessor.j = 0
-
-        let resultRange = NSRange(start..<end)
-        var hasTodoBlock = false
-
-        content.enumerateAttribute(.todo, in: resultRange, options: []) { (value, range, stop) -> Void in
-            guard value != nil else { return }
-
-            hasTodoBlock = true
-            stop.pointee = true
-        }
-
-        if hasTodoBlock {
-            return nil
-        }
-
-        return resultRange
-    }
-    
-    public static var j = 0
-    public static func scanPrevParagraph(string: NSString, location: Int) -> Int? {
-        NotesTextProcessor.j = NotesTextProcessor.j + 1
-        guard NotesTextProcessor.j < 100 else {
-            return location + 1
-        }
-        guard location > 0 else {
-            return location + 1
-        }
-        
-        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
-        let substring = string.substring(with: range)
-        if NotesTextProcessor.isCodeBlockParagraph(substring) {
-            return NotesTextProcessor.scanPrevParagraph(string: string, location: range.lowerBound - 1)
-        }
-        
-        return location + 1
-    }
-    
-    public static var i = 0
-    public static func scanNextParagraph(string: NSString, location: Int) -> Int? {
-        NotesTextProcessor.i = NotesTextProcessor.i + 1
-
-        guard NotesTextProcessor.i < 100 else {
-            return location - 1
-        }
-        guard location < string.length + 1 else {
-            return location - 1
-        }
-    
-        let range = string.paragraphRange(for: NSRange(location: location, length: 0))
-        let substring = string.substring(with: range)
-        if NotesTextProcessor.isCodeBlockParagraph(substring) {
-            return NotesTextProcessor.scanNextParagraph(string: string, location: range.upperBound + 1)
-        }
-        
-        return location - 2
-    }
-    
     public static var hl: Highlightr? = nil
     
     public static func getHighlighter() -> Highlightr? {
@@ -356,19 +217,11 @@ public class NotesTextProcessor {
             let string = content.string
             let range = NSMakeRange(0, content.length)
 
-            let regex = try! NSRegularExpression(pattern: self._codeBlockPattern, options: [
-                .allowCommentsAndWhitespace,
-                .anchorsMatchLines
-            ])
-
-            regex.enumerateMatches(
-                in: string,
-                options: NSRegularExpression.MatchingOptions(),
-                range: range,
-                using: { (result, matchingFlags, stop) -> Void in
-                    guard let r = result else { return }
-                    NotesTextProcessor.highlight(range: r.range, storage: storage ?? content, note: note)
-            })
+            if let codeBlockRanges = scanCodeBlocks(content: content) {
+                for range in codeBlockRanges {
+                    NotesTextProcessor.highlight(range: range, attributedString: content)
+                }
+            }
 
             let regexFencedCodeBlock = try! NSRegularExpression(pattern: self._codeQuoteBlockPattern, options: [
                 .allowCommentsAndWhitespace,
@@ -381,9 +234,80 @@ public class NotesTextProcessor {
                 range: range,
                 using: { (result, matchingFlags, stop) -> Void in
                     guard let r = result else { return }
-                    NotesTextProcessor.highlight(range: r.range, storage: storage ?? content, note: note)
+                    NotesTextProcessor.highlight(range: r.range, attributedString: content)
             })
         }
+    }
+
+    public static func scanCodeBlocks(content: NSMutableAttributedString) -> [NSRange]? {
+        var paragraphRanges = [NSRange]()
+        var paragraphList = [String]()
+
+        var string = ""
+        var prevNewLine = 0
+        var i = 0
+
+        for char in content.string {
+            if char == "\n" {
+                string.append(char)
+                paragraphList.append(string)
+                paragraphRanges.append(NSRange(prevNewLine..<i + 1))
+                prevNewLine = i + 1
+
+                string = ""
+                i += 1
+                continue
+            }
+
+            string.append(char)
+            i += 1
+        }
+
+        if string.count > 0 {
+            paragraphList.append(string)
+            paragraphRanges.append(NSRange(prevNewLine..<i - 1))
+        }
+
+
+        return getBlockRanges(ranges: paragraphRanges, paragraphs: paragraphList)
+    }
+
+    public static func getBlockRanges(ranges: [NSRange], paragraphs: [String]) -> [NSRange]? {
+        var codeBlocks = [NSRange]()
+        var j = 0
+        var start: Int?
+        var finish: Int?
+
+        for paragraph in paragraphs {
+            if isCodeBlockParagraph(paragraph) {
+                if start != nil {
+                    finish = ranges[j].upperBound
+                } else {
+                    start = ranges[j].location
+                    finish = ranges[j].upperBound
+                }
+
+                j += 1
+                continue
+            } else if paragraph.trim() == "\n" {
+                j += 1
+                continue
+            } else if let startPos = start, let finishPos = finish {
+                codeBlocks.append(NSRange(startPos..<finishPos))
+                start = nil
+                finish = nil
+            }
+
+            j += 1
+        }
+
+        if let startPos = start, let finishPos = finish {
+            codeBlocks.append(NSRange(startPos..<finishPos))
+            start = nil
+            finish = nil
+        }
+
+        return codeBlocks
     }
 
     public static func scanBasicSyntax(note: Note, storage: NSTextStorage? = nil, range: NSRange? = nil) {
@@ -415,106 +339,44 @@ public class NotesTextProcessor {
     }
     #endif
 
-    public static func highlightCode(range: NSRange, storage: NSTextStorage, note: Note) {
-        let codeRange = storage.mutableString.substring(with: range)
-        let preDefinedLanguage = self.getLanguage(codeRange)
-
-        DispatchQueue.global().async {
-            if let code = self.highlight(codeRange, language: preDefinedLanguage) {
-                DispatchQueue.main.async(execute: {
-                    let codeM = NotesTextProcessor.updateParagraphStyle(code: code)
-                    NotesTextProcessor.updateStorage(range: range, code: codeM, storage: storage, note: note)
-                })
-            }
-        }
-    }
-
-    public static func updateStorage(range: NSRange, code: NSAttributedString, storage: NSTextStorage, note: Note) {
-        let length = storage.length
-
-        if ((range.location + range.length) > storage.length) {
-            return
-        }
-
-        if storage.length >= range.upperBound && (code.string != storage.attributedSubstring(from: range).string) {
-            return
-        }
-
-        code.enumerateAttributes(
-            in: NSMakeRange(0, code.length),
-            options: [],
-            using: { (attrs, locRange, stop) in
-                var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                fixedRange.length = (fixedRange.location + fixedRange.length < length) ? fixedRange.length : length-fixedRange.location
-                fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-
-                storage.setAttributes(attrs, range: fixedRange)
-        })
-
-        if let font = NotesTextProcessor.codeFont {
-            storage.addAttributes([.font: font], range: range)
-            storage.fixAttributes(in: range)
-        }
-
-        storage.addAttributes([
-                .backgroundColor: NotesTextProcessor.codeBackground
-                ], range: range)
-    }
-
-    public static func highlight(range: NSRange, storage: NSMutableAttributedString, note: Note) {
-        let codeRange = storage.attributedSubstring(from: range).string
+    public static func highlight(range: NSRange, attributedString: NSMutableAttributedString) {
+        let codeRange = attributedString.attributedSubstring(from: range).string
 
         let preDefinedLanguage = self.getLanguage(codeRange)
         if let code = NotesTextProcessor.highlight(codeRange, language: preDefinedLanguage) {
-            let codeM = NotesTextProcessor.updateParagraphStyle(code: code)
-
-            NotesTextProcessor.update(storage: storage, range: range, code: codeM, note: note)
-        }
-    }
-
-    public static func update(storage: NSMutableAttributedString, range: NSRange, code: NSAttributedString, note: Note) {
-        let content: NSAttributedString = storage
-
-        if ((range.location + range.length) > content.length) {
-            return
-        }
-
-        if content.length >= range.upperBound && (code.string != content.attributedSubstring(from: range).string) {
-            return
-        }
-
-        //guard (EditTextView.note === note) else { return }
-
-        code.enumerateAttributes(
-            in: NSMakeRange(0, code.length),
-            options: [],
-            using: { (attrs, locRange, stop) in
-                var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                fixedRange.length = (fixedRange.location + fixedRange.length < storage.length) ? fixedRange.length : storage.length-fixedRange.location
-                fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-
-                for (key, value) in attrs {
-                    storage.addAttribute(key, value: value, range: fixedRange)
-                }
+            if ((range.location + range.length) > attributedString.length) {
+                return
             }
-        )
 
-        if let font = NotesTextProcessor.codeFont {
-            storage.addAttribute(.font, value: font, range: range)
-            storage.fixAttributes(in: range)
+            if attributedString.length >= range.upperBound && (code.string != attributedString.attributedSubstring(from: range).string) {
+                return
+            }
+
+            code.enumerateAttributes(
+                in: NSMakeRange(0, code.length),
+                options: [],
+                using: { (attrs, locRange, stop) in
+                    var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
+                    fixedRange.length = (fixedRange.location + fixedRange.length < attributedString.length) ? fixedRange.length : attributedString.length-fixedRange.location
+                    fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
+
+                    for (key, value) in attrs {
+                        attributedString.addAttribute(key, value: value, range: fixedRange)
+                    }
+                }
+            )
+
+            if let font = NotesTextProcessor.codeFont {
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.textBlocks = [CodeBlock()]
+                paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
+                attributedString.addAttribute(.font, value: font, range: range)
+                attributedString.fixAttributes(in: range)
+            }
         }
+    }
 
-        storage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
-    }
-    
-    public static func updateParagraphStyle(code: NSAttributedString) -> NSMutableAttributedString {
-        let codeM = NSMutableAttributedString(attributedString: code)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        codeM.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(0..<codeM.length))
-        return codeM
-    }
-    
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -525,19 +387,20 @@ public class NotesTextProcessor {
     
     public static func getLanguage(_ code: String) -> String? {
         if code.starts(with: "```") {
-            if let newLinePosition = code.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines) {
-                let newLineOffset = newLinePosition.lowerBound.utf16Offset(in: code)
-                if newLineOffset > 3 {
-                    let start = code.index(code.startIndex, offsetBy: 3)
-                    let end = code.index(code.startIndex, offsetBy: newLineOffset)
-                    let range = start..<end
-                    
-                    self.languages = self.getHighlighter()?.supportedLanguages()
-                    
-                    if let lang = self.languages, lang.contains(String(code[range])) {
-                        return String(code[range])
-                    }
-                }
+            let start = code.index(code.startIndex, offsetBy: 0)
+            let end = code.index(code.startIndex, offsetBy: 3)
+            let range = start..<end
+
+            let paragraphRange = code.paragraphRange(for: range)
+            let detectedLang =
+                code[paragraphRange]
+                    .replacingOccurrences(of: "```", with: "")
+                    .trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+
+            self.languages = self.getHighlighter()?.supportedLanguages()
+
+            if let lang = self.languages, lang.contains(detectedLang) {
+                return detectedLang
             }
         }
         
@@ -635,9 +498,9 @@ public class NotesTextProcessor {
             }
         }
 
-        styleApplier.enumerateAttribute(.backgroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
-            if value != nil {
-                styleApplier.removeAttribute(.backgroundColor, range: range)
+        styleApplier.enumerateAttribute(.paragraphStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if let value = value as? NSMutableParagraphStyle  {
+                value.textBlocks = []
             }
         }
 
@@ -1206,25 +1069,9 @@ public class NotesTextProcessor {
      
      Code
      */
-    
-    public static let _codeBlockPattern = [
-        "(?<=\\n|\\A)",
-        "(",
-        "   (?:",
-        "       (?:\\p{Z}{4}|\\t+)                 # Lines must start with a tab-width of spaces",
-        "       (",
-        "            (?!\\-\\ \\[(?:\\ |x)\\])          # Exclude todo lists - [ ] and - [x]",
-        "            (?!(?:[\\+\\-\\*]|[1-9]{1}\\.)\\ ) # Exclude ordered/unordered lists",
-        "            .*",
-        "       )",
-        "       (?:\\n|\\Z)",
-        "   )+",
-        ")",
-        ].joined(separator: "\n")
-    
     public static let _codeQuoteBlockPattern = [
         "(?<=\\n|\\A)",
-        "(^```[a-zA-Z0-9\\(\\)]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
+        "(^```[a-zA-Z0-9\\ \\(\\)]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
         ].joined(separator: "\n")
             
     fileprivate static let codeSpanPattern = [
@@ -1489,14 +1336,10 @@ public class NotesTextProcessor {
         if UserDefaultsManagement.codeBlockHighlight,
             let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: paragraphRange, string: storage) {
 
-            NotesTextProcessor.highlight(range: fencedRange, storage: storage, note: note)
-        } else if UserDefaultsManagement.codeBlockHighlight,
-            let codeBlockRange = NotesTextProcessor.getCodeBlockRange(storage: storage, range: paragraphRange) {
-
-            NotesTextProcessor.highlight(range: codeBlockRange, storage: storage, note: note)
+            NotesTextProcessor.highlight(range: fencedRange, attributedString: storage)
         } else {
             NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
-            
+
             if UserDefaultsManagement.liveImagesPreview && loadImages {
                 let processor = ImagesProcessor(styleApplier: storage, range: paragraphRange, note: note)
                 processor.load()
@@ -1504,77 +1347,6 @@ public class NotesTextProcessor {
         }
     }
 
-    public static func getCodeBlockRange(storage: NSTextStorage, range: NSRange) -> NSRange? {
-        let mutable = storage.mutableString
-        let paragraph = storage.mutableString.substring(with: range)
-
-        guard NotesTextProcessor.isCodeBlockParagraph(paragraph) else {
-            return nil
-        }
-
-        let start = NotesTextProcessor.scanPrevParagraphFast(stringMutable: mutable, location: range.lowerBound - 1)!
-        let end = NotesTextProcessor.scanNextParagraphFast(stringMutable: mutable, location: range.upperBound + 1)!
-
-        NotesTextProcessor.iii = 0
-        NotesTextProcessor.jjj = 0
-
-        let resultRange = NSRange(start..<end)
-        var hasTodoBlock = false
-
-        //storage.enumera
-        storage.enumerateAttribute(.todo, in: resultRange, options: []) { (value, range, stop) -> Void in
-            guard value != nil else { return }
-
-            hasTodoBlock = true
-            stop.pointee = true
-        }
-
-        if hasTodoBlock {
-            return nil
-        }
-
-        return resultRange
-    }
-
-    public static var jjj = 0
-    public static func scanPrevParagraphFast(stringMutable: NSMutableString, location: Int) -> Int? {
-        NotesTextProcessor.jjj = NotesTextProcessor.jjj + 1
-        guard NotesTextProcessor.jjj < 100 else {
-            return location + 1
-        }
-        guard location > 0 else {
-            return location + 1
-        }
-
-        let range = stringMutable.paragraphRange(for: NSRange(location: location, length: 0))
-        let substring = stringMutable.substring(with: range)
-        if NotesTextProcessor.isCodeBlockParagraph(substring) {
-            return NotesTextProcessor.scanPrevParagraphFast(stringMutable: stringMutable, location: range.lowerBound - 1)
-        }
-
-        return location + 1
-    }
-
-    public static var iii = 0
-    public static func scanNextParagraphFast(stringMutable: NSMutableString, location: Int) -> Int? {
-        NotesTextProcessor.iii = NotesTextProcessor.iii + 1
-
-        guard NotesTextProcessor.iii < 100 else {
-            return location - 1
-        }
-        guard location < stringMutable.length + 1 else {
-            return location - 1
-        }
-
-        let range = stringMutable.paragraphRange(for: NSRange(location: location, length: 0))
-        let substring = stringMutable.substring(with: range)
-        if NotesTextProcessor.isCodeBlockParagraph(substring) {
-            return NotesTextProcessor.scanNextParagraphFast(stringMutable: stringMutable, location: range.upperBound + 1)
-        }
-
-        return location - 2
-    }
-    
     func highlightKeyword(search: String = "", remove: Bool = false) {
         guard let storage = self.storage, search.count > 0 else { return }
 

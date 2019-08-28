@@ -708,8 +708,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func keyDown(with event: NSEvent) {
-        guard let storage = self.textStorage else { return }
-
         guard !(
             event.modifierFlags.contains(.shift) &&
             [
@@ -723,9 +721,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
         
-        guard let note = EditTextView.note else {
-            return
-        }
+        guard let note = EditTextView.note else { return }
         
         let brackets = [
             "(" : ")",
@@ -734,26 +730,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
             "\"" : "\"",
         ]
         
-        let sRange = selectedRange()
-        
         if UserDefaultsManagement.autocloseBrackets,
             let openingBracket = event.characters,
             let closingBracket = brackets[openingBracket] {
             if selectedRange().length > 0 {
                 let before = NSMakeRange(selectedRange().lowerBound, 0)
-                self.insertText(self.applyStyle(openingBracket), replacementRange: before)
+                self.insertText(openingBracket, replacementRange: before)
                 let after = NSMakeRange(selectedRange().upperBound, 0)
-                self.insertText(self.applyStyle(closingBracket), replacementRange: after)
+                self.insertText(closingBracket, replacementRange: after)
             } else {
                 super.keyDown(with: event)
-                self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
-                
-                let paragraphRange = (storage.string as NSString).paragraphRange(for: sRange)
-                if self.isCodeBlock(range: paragraphRange) && note.isMarkdown() {
-                    let attributes = getCodeBlockAttributes()
-                    storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
-                }
-                
+                self.insertText(closingBracket, replacementRange: selectedRange())
                 self.moveBackward(self)
             }
             return
@@ -827,9 +814,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
             deleteUnusedImages(checkRange: affectedCharRange)
 
             typingAttributes.removeValue(forKey: .todo)
-            typingAttributes.removeValue(forKey: .backgroundColor)
 
-            if replacementString != "\n", let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+            if let mpStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+                mpStyle.textBlocks = []
+            }
+
+            if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
                 paragraphStyle.alignment = .left
             }
 
@@ -841,63 +831,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
     }
 
-    public func isCodeBlock(paragraph: String) -> Bool {
-        if paragraph.starts(with: "\t") || paragraph.starts(with: "    ") {
-            guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
-                return false
-            }
-
-            return true
-        }
-
-        return false
-    }
-    
-    public func applyStyle(_ text: String) -> NSMutableAttributedString {
-        let attributedText = NSMutableAttributedString(string: text)
-
-        guard attributedText.length > 0, let note = EditTextView.note, note.isMarkdown() else { return attributedText }
-        
-        if let paragraphRange = getParagraphRange(), self.isCodeBlock(range: paragraphRange) {
-            let range = NSRange(0..<text.count)
-            attributedText.addAttributes(getCodeBlockAttributes(), range: range)
-        }
-        
-        return attributedText
-    }
-
-    public func getCodeBlockAttributes() -> [NSAttributedString.Key : Any] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        
-        var attributes: [NSAttributedString.Key : Any] = [
-            .backgroundColor: NotesTextProcessor.codeBackground,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        if let font = NotesTextProcessor.codeFont {
-            attributes[.font] = font
-        }
-        
-        return attributes
-    }
-    
-    private func isCodeBlock(range: NSRange) -> Bool {
-        guard let storage = textStorage else { return false }
-        
-        let string = storage.attributedSubstring(from: range).string
-        
-        if string.starts(with: "\t") || string.starts(with: "    ") {
-            return true
-        }
-        
-        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: storage) {
-            return true
-        }
-        
-        return false
-    }
-    
     func saveCursorPosition() {
         guard let note = EditTextView.note, let range = selectedRanges[0] as? NSRange, UserDefaultsManagement.restoreCursorPosition else {
             return
@@ -1134,14 +1067,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     @IBAction func shiftLeft(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
-        
+        guard let note = EditTextView.note else { return }
+        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
         f.unTab()
     }
     
     @IBAction func shiftRight(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
-
+        guard let note = EditTextView.note else { return }
+        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
         f.tab()
     }
     
@@ -1288,7 +1221,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         paragraphStyle.alignment = .left
         typingAttributes[.paragraphStyle] = paragraphStyle
         defaultParagraphStyle = paragraphStyle
-        textStorage?.updateParagraphStyle()
+        //textStorage?.updateParagraphStyle()
     }
     
     override func clicked(onLink link: Any, at charIndex: Int) {
