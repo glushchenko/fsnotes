@@ -319,6 +319,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return true
         }
 
+        if text == "" {
+            let lastChar = textView.textStorage.attributedSubstring(from: range).string
+            if lastChar.count == 1 {
+                EditTextView.lastRemoved = lastChar
+            }
+        }
+
         self.restoreRTFTypingAttributes(note: note)
 
         if note.isMarkdown() {
