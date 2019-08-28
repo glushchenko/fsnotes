@@ -813,6 +813,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if note.isMarkdown() {
             deleteUnusedImages(checkRange: affectedCharRange)
 
+            typingAttributes.removeValue(forKey: .backgroundColor)
             typingAttributes.removeValue(forKey: .todo)
 
             if let mpStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
@@ -1164,6 +1165,26 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         insertText("```\n\n```\n", replacementRange: currentRange)
         setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+    }
+
+    @IBAction func insertCodeSpan(_ sender: NSMenuItem) {
+        let currentRange = selectedRange()
+
+        if currentRange.length > 0 {
+            let mutable = NSMutableAttributedString(string: "`")
+            if let substring = attributedSubstring(forProposedRange: currentRange, actualRange: nil) {
+                mutable.append(substring)
+            }
+
+            mutable.append(NSAttributedString(string: "`"))
+
+            EditTextView.shouldForceRescan = true
+            insertText(mutable, replacementRange: currentRange)
+            return
+        }
+
+        insertText("``", replacementRange: currentRange)
+        setSelectedRange(NSRange(location: currentRange.location + 1, length: 0))
     }
 
     @IBAction func insertLink(_ sender: Any) {

@@ -679,6 +679,27 @@ public class TextFormatter {
             return
         }
     }
+
+    public func backTick() {
+        let selectedRange = textView.selectedRange
+
+        if selectedRange.length > 0 {
+            let text = storage.attributedSubstring(from: selectedRange).string
+            let string = "`\(text)`"
+
+            if let codeFont = UserDefaultsManagement.codeFont {
+                let mutableString = NSMutableAttributedString(string: string)
+                mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
+
+                EditTextView.shouldForceRescan = true
+                insertText(mutableString, replacementRange: selectedRange)
+                return
+            }
+        }
+
+        insertText("``")
+        setSelectedRange(NSRange(location: selectedRange.location, length: selectedRange.length + 1))
+    }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)

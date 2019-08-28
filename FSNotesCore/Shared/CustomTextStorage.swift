@@ -44,8 +44,6 @@ extension NSTextStorage: NSTextStorageDelegate {
         (editedRange.length != textStorage.length) || !note.isCached || EditTextView.shouldForceRescan else { return }
 
         if editedRange.length == textStorage.length || hasCodeBlock(textStorage: textStorage, editedRange: editedRange) {
-            EditTextView.lastRemoved = nil
-
             NotesTextProcessor.fullScan(note: note, storage: textStorage, range: nil)
             let range = NSRange(0..<textStorage.length)
         note.content =
@@ -54,6 +52,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         } else {
             let processor = NotesTextProcessor(note: note, storage: textStorage, range: editedRange)
             processor.scanParagraph(loadImages: false)
+            NotesTextProcessor.checkBackTick(styleApplier: textStorage)
         }
 
         if UserDefaultsManagement.codeBlockHighlight, note.isMarkdown() {
@@ -65,6 +64,8 @@ extension NSTextStorage: NSTextStorageDelegate {
         if EditTextView.shouldForceRescan {
             EditTextView.shouldForceRescan = false
         }
+
+        EditTextView.lastRemoved = nil
     }
 
     private func hasCodeBlock(textStorage: NSTextStorage, editedRange: NSRange) -> Bool {

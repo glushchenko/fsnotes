@@ -789,6 +789,39 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.strikethroughStyle, value: todo, range: strikeRange)
             }
         }
+
+
+        if isFullScan {
+            checkBackTick(styleApplier: styleApplier)
+        }
+    }
+
+    public static func checkBackTick(styleApplier: NSMutableAttributedString) {
+        let range = NSRange(0..<styleApplier.length)
+        styleApplier.enumerateAttribute(.backgroundColor, in: range) { (value, innerRange, _) in
+            if value != nil, let font = UserDefaultsManagement.noteFont {
+                styleApplier.removeAttribute(.backgroundColor, range: innerRange)
+                styleApplier.addAttribute(.font, value: font, range: innerRange)
+                styleApplier.fixAttributes(in: innerRange)
+            }
+        }
+
+        if let codeFont = NotesTextProcessor.codeFont {
+            NotesTextProcessor.codeSpanRegex.matches(styleApplier.string, range: range) { (result) -> Void in
+                guard let range = result?.range else { return }
+                styleApplier.addAttribute(.font, value: codeFont, range: range)
+                styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
+
+                NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+                NotesTextProcessor.codeSpanClosingRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+            }
+        }
     }
     
     /// Tabs are automatically converted to spaces as part of the transform
