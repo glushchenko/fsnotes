@@ -21,6 +21,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
     public static var shouldForceRescan: Bool = false
+    public static var lastRemoved: String?
 
     public var lasTouchPoint: CGPoint?
 
