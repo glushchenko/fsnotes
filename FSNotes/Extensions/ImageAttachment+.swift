@@ -42,6 +42,7 @@ extension ImageAttachment {
                     if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange, self.note == EditTextView.note {
                         view.layoutManager?.invalidateLayout(forCharacterRange: invalidateRange, actualCharacterRange: nil)
                         view.layoutManager?.invalidateDisplay(forCharacterRange: invalidateRange)
+                        view.display()
                     }
                 }
             }
