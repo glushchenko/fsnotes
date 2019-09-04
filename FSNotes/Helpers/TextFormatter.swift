@@ -593,7 +593,8 @@ public class TextFormatter {
         if selectedRange.location + 1 <= storage.length && selectedRange.length == 0 {
             let checkRange = NSRange(location: selectedRange.location, length: 1)
             if storage.attributedSubstring(from: checkRange).string == "\n" {
-                textView.insertText("\n", replacementRange: NSRange(location: selectedRange.location + 1, length: 0))
+                let replacementRange = NSRange(location: selectedRange.location + 1, length: 0)
+                insertText("\n", replacementRange: replacementRange)
                 textView.selectedRange = NSRange(location: selectedRange.location + 1, length: 0)
                 return
             }
