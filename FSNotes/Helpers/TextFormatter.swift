@@ -507,6 +507,7 @@ public class TextFormatter {
         // Autocomplete todo lists
 
         if selectedRange.location != currentParagraphRange.location && currentParagraphRange.upperBound - 2 < selectedRange.location, currentParagraph.length >= 2 {
+
             if textView.selectedRange.upperBound > 2 {
                 let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
@@ -588,16 +589,6 @@ public class TextFormatter {
             let string = TextFormatter.getAttributedCode(string: newLine)
             self.insertText(string)
             return
-        }
-
-        if selectedRange.location + 1 <= storage.length && selectedRange.length == 0 {
-            let checkRange = NSRange(location: selectedRange.location, length: 1)
-            if storage.attributedSubstring(from: checkRange).string == "\n" {
-                let replacementRange = NSRange(location: selectedRange.location + 1, length: 0)
-                insertText("\n", replacementRange: replacementRange)
-                textView.selectedRange = NSRange(location: selectedRange.location + 1, length: 0)
-                return
-            }
         }
 
         #if os(iOS)

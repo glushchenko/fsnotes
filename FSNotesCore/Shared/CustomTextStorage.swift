@@ -22,7 +22,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         changeInLength delta: Int) {
 
         guard editedMask != .editedAttributes else { return }
-        process(range: editedRange, changeInLength: delta)
+        process(textStorage: textStorage, range: editedRange, changeInLength: delta)
     }
 #else
     public func textStorage(
@@ -32,28 +32,28 @@ extension NSTextStorage: NSTextStorageDelegate {
         changeInLength delta: Int) {
 
         guard editedMask != .editedAttributes else { return }
-        process(range: editedRange, changeInLength: delta)
+        process(textStorage: textStorage, range: editedRange, changeInLength: delta)
     }
 #endif
 
-    private func process(range editedRange: NSRange, changeInLength delta: Int) {
+    private func process(textStorage: NSTextStorage, range editedRange: NSRange, changeInLength delta: Int) {
         guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
-        (editedRange.length != self.length) || !note.isCached || EditTextView.shouldForceRescan else { return }
+        (editedRange.length != textStorage.length) || !note.isCached || EditTextView.shouldForceRescan else { return }
 
-        if shouldScanСompletely(textStorage: self, editedRange: editedRange) {
-            rescanAll()
+        if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
+            rescanAll(textStorage: textStorage)
         } else {
-            rescanPartial(delta: delta)
+            rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
         }
 
-        centerImages()
+        centerImages(textStorage: textStorage, checkRange: editedRange)
 
         EditTextView.shouldForceRescan = false
         EditTextView.lastRemoved = nil
     }
 
     private func shouldScanСompletely(textStorage: NSTextStorage, editedRange: NSRange) -> Bool {
-        if editedRange.length == self.length {
+        if editedRange.length == textStorage.length {
             return true
         }
 
@@ -68,129 +68,128 @@ extension NSTextStorage: NSTextStorageDelegate {
             )
     }
 
-    private func rescanAll() {
+    private func rescanAll(textStorage: NSTextStorage) {
         guard let note = EditTextView.note else { return }
 
-        removeAttribute(.backgroundColor, range: NSRange(0..<self.length))
+        removeAttribute(.backgroundColor, range: NSRange(0..<textStorage.length))
 
-        NotesTextProcessor.highlightMarkdown(attributedString: self)
-        NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: self)
+        NotesTextProcessor.highlightMarkdown(attributedString: textStorage)
+        NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: textStorage)
 
-        let range = NSRange(0..<self.length)
-        let content = attributedSubstring(from: range)
+        let range = NSRange(0..<textStorage.length)
+        let content = textStorage.attributedSubstring(from: range)
 
         note.content = NSMutableAttributedString(attributedString: content)
         note.isCached = true
     }
 
-    private func rescanPartial(delta: Int) {
+    private func rescanPartial(textStorage: NSTextStorage, delta: Int, editedRange: NSRange) {
         guard delta == 1 || delta == -1 else {
-            highlightMultiline()
+            highlightMultiline(textStorage: textStorage, editedRange: editedRange)
             return
         }
 
-        let codeTextProcessor = CodeTextProcessor(textStorage: self)
-        let parRange = self.mutableString.paragraphRange(for: editedRange)
+        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
+        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
 
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: self) {
-            highlight(fencedRange: fencedRange, parRange: parRange, delta: delta)
+        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
+            textStorage.removeAttribute(.backgroundColor, range: parRange)
+            highlight(textStorage: textStorage, fencedRange: fencedRange, parRange: parRange, delta: delta, editedRange: editedRange)
+
+            if delta == 1,
+                textStorage.attributedSubstring(from: editedRange).string == "\n",
+                textStorage.length >= fencedRange.upperBound + 1,
+                textStorage.attribute(.backgroundColor, at: fencedRange.upperBound, effectiveRange: nil) != nil {
+
+                textStorage.removeAttribute(.backgroundColor, range: NSRange(location: fencedRange.upperBound, length: 1))
+            }
+
         } else if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(), let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
-            highlight(indentedRange: codeBlockRanges, intersectedRange: intersectedRange)
+            highlight(textStorage: textStorage, indentedRange: codeBlockRanges, intersectedRange: intersectedRange, editedRange: editedRange)
         } else {
-            highlightParagraph()
+            highlightParagraph(textStorage: textStorage, editedRange: editedRange)
         }
     }
 
-    private func highlight(fencedRange: NSRange, parRange: NSRange, delta: Int) {
-        let code = attributedSubstring(from: fencedRange).string
+    private func highlight(textStorage: NSTextStorage, fencedRange: NSRange, parRange: NSRange, delta: Int, editedRange: NSRange) {
+        let code = textStorage.attributedSubstring(from: fencedRange).string
         let language = NotesTextProcessor.getLanguage(code)
 
-        NotesTextProcessor.highlightCode(attributedString: self, range: parRange, language: language)
+        NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
 
         if delta == 1 {
-            let newChar = self.attributedSubstring(from: editedRange).string
+            let newChar = textStorage.attributedSubstring(from: editedRange).string
             let isNewLine = newChar == "\n"
 
             let backgroundRange =
-                isNewLine && parRange.upperBound + 1 <= self.length
+                isNewLine && parRange.upperBound + 1 <= textStorage.length
                     ? NSRange(parRange.location..<parRange.upperBound + 1)
                     : parRange
 
-            addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: backgroundRange)
+            textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: backgroundRange)
         }
     }
 
-    private func highlight(indentedRange: [NSRange], intersectedRange: NSRange) {
-        let parRange = mutableString.paragraphRange(for: editedRange)
-        let paragraph = attributedSubstring(from: parRange).string
-        let codeTextProcessor = CodeTextProcessor(textStorage: self)
-
-        if !codeTextProcessor.isCodeBlockParagraph(paragraph) {
-            removeAttribute(.backgroundColor, range: NSRange(0..<self.length))
-            NotesTextProcessor.highlightMarkdown(attributedString: self)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: self)
-        }
-
+    private func highlight(textStorage: NSTextStorage, indentedRange: [NSRange], intersectedRange: NSRange, editedRange: NSRange) {
+        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
         let checkRange = intersectedRange.length < 500 ? intersectedRange : parRange
 
-        NotesTextProcessor.highlightCode(attributedString: self, range: checkRange)
+        NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
     }
 
-    private func highlightParagraph() {
-        let codeTextProcessor = CodeTextProcessor(textStorage: self)
-        var parRange = mutableString.paragraphRange(for: editedRange)
-        let paragraph = attributedSubstring(from: parRange).string
+    private func highlightParagraph(textStorage: NSTextStorage, editedRange: NSRange) {
+        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
+        var parRange = textStorage.mutableString.paragraphRange(for: editedRange)
+        let paragraph = textStorage.attributedSubstring(from: parRange).string
 
-        if paragraph.count == 2, attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
+        if paragraph.count == 2, textStorage.attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
             if let ranges = codeTextProcessor.getCodeBlockRanges(parRange: parRange) {
                 let invalidateBackgroundRange =
                     ranges.count == 2
                         ? NSRange(ranges.first!.upperBound..<ranges.last!.location)
                         : parRange
 
-                removeAttribute(.backgroundColor, range: invalidateBackgroundRange)
+                textStorage.removeAttribute(.backgroundColor, range: invalidateBackgroundRange)
 
                 for range in ranges {
-                    NotesTextProcessor.highlightCode(attributedString: self, range: range)
+                    NotesTextProcessor.highlightCode(attributedString: textStorage, range: range)
                 }
             }
         } else {
-            removeAttribute(.backgroundColor, range: parRange)
+            textStorage.removeAttribute(.backgroundColor, range: parRange)
         }
 
         // Proper paragraph scan for two line markup "==" and "--"
         let prevParagraphLocation = parRange.lowerBound - 1
         if prevParagraphLocation > 0 && (paragraph.starts(with: "==") || paragraph.starts(with: "--")) {
-            let prev = mutableString.paragraphRange(for: NSRange(location: prevParagraphLocation, length: 0))
+            let prev = textStorage.mutableString.paragraphRange(for: NSRange(location: prevParagraphLocation, length: 0))
             parRange = NSRange(location: prev.lowerBound, length: parRange.upperBound - prev.lowerBound)
         }
 
-        NotesTextProcessor.highlightMarkdown(attributedString: self, paragraphRange: parRange)
-        NotesTextProcessor.checkBackTick(styleApplier: self, paragraphRange: parRange)
+        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange)
+        NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
     }
 
-    private func highlightMultiline() {
-        let parRange = self.mutableString.paragraphRange(for: editedRange)
-        let codeTextProcessor = CodeTextProcessor(textStorage: self)
+    private func highlightMultiline(textStorage: NSTextStorage, editedRange: NSRange) {
+        let parRange = textStorage.mutableString.paragraphRange(for: editedRange)
+        let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
 
-        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: self) {
-            let code = attributedSubstring(from: fencedRange).string
+        if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
+            let code = textStorage.attributedSubstring(from: fencedRange).string
             let language = NotesTextProcessor.getLanguage(code)
-
-            NotesTextProcessor.highlightCode(attributedString: self, range: parRange, language: language)
-            addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)
+            NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
+            textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)
         } else if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
-            NotesTextProcessor.highlightCode(attributedString: self, range: intersectedRange)
+            let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
+            NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
         } else {
-            NotesTextProcessor.highlightMarkdown(attributedString: self, paragraphRange: parRange)
-            NotesTextProcessor.checkBackTick(styleApplier: self, paragraphRange: parRange)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: self)
+            NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange)
+            NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
         }
     }
 
-    private func centerImages() {
-        let checkRange = editedRange
+    private func centerImages(textStorage: NSTextStorage, checkRange: NSRange) {
         var start = checkRange.lowerBound
         var finish = checkRange.upperBound
 
@@ -203,12 +202,12 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
 
         let affectedRange = NSRange(start..<finish)
-        enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
-            if nil != value as? NSTextAttachment, attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+        textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
+            if nil != value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.alignment = .center
 
-                addAttribute(.paragraphStyle, value: paragraph, range: range)
+                textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
             }
         }
     }

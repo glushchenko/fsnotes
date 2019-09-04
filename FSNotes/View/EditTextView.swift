@@ -788,7 +788,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
         }
-        
+
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             saveCursorPosition()
@@ -1077,12 +1077,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
     @IBAction func shiftLeft(_ sender: Any) {
         guard let note = EditTextView.note else { return }
         let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+
+        EditTextView.shouldForceRescan = true
         f.unTab()
     }
     
     @IBAction func shiftRight(_ sender: Any) {
         guard let note = EditTextView.note else { return }
         let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+
+        EditTextView.shouldForceRescan = true
         f.tab()
     }
     
