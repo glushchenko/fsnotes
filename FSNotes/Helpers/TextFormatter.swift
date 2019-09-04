@@ -491,6 +491,13 @@ public class TextFormatter {
         }
     }
 
+    public func removeChar() {
+        let position = textView.selectedRange.location - 1
+        guard position >= 0 else { return }
+
+        insertText("", replacementRange: NSRange(location: position, length: 1))
+    }
+
     public func newLine() {
         guard let currentParagraphRange = self.getParagraphRange() else { return }
 
@@ -567,17 +574,29 @@ public class TextFormatter {
                 newLine += prefix
             }
 
-            self.insertText(newLine)
+            let string = TextFormatter.getAttributedCode(string: newLine)
+            self.insertText(string)
             return
         }
 
-        if currentParagraph.string.starts(with: "    "), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
+        if currentParagraph.string.starts(with: "    "),
+            let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
             if selectedRange.location != currentParagraphRange.location {
                 newLine += prefix
             }
 
-            self.insertText(newLine)
+            let string = TextFormatter.getAttributedCode(string: newLine)
+            self.insertText(string)
             return
+        }
+
+        if selectedRange.location + 1 <= storage.length && selectedRange.length == 0 {
+            let checkRange = NSRange(location: selectedRange.location, length: 1)
+            if storage.attributedSubstring(from: checkRange).string == "\n" {
+                textView.insertText("\n", replacementRange: NSRange(location: selectedRange.location + 1, length: 0))
+                textView.selectedRange = NSRange(location: selectedRange.location + 1, length: 0)
+                return
+            }
         }
 
         #if os(iOS)
@@ -762,7 +781,7 @@ public class TextFormatter {
         }
         
         if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
+            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange)
         }
         
         if note.isMarkdown() || note.type == .RichText {
@@ -931,5 +950,13 @@ public class TextFormatter {
         if let select = selectRange {
             setSelectedRange(select)
         }
+    }
+
+    public static func getAttributedCode(string: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: string)
+        let range = NSRange(0..<attributedString.length)
+
+        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: range)
+        return attributedString
     }
 }

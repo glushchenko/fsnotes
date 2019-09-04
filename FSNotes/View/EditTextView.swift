@@ -759,7 +759,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if event.keyCode == kVK_Tab && !hasMarkedText(){
             breakUndoCoalescing()
             if UserDefaultsManagement.spacesInsteadTabs {
-                insertText("    ", replacementRange: selectedRange())
+                let tab = TextFormatter.getAttributedCode(string: "    ")
+                insertText(tab, replacementRange: selectedRange())
                 breakUndoCoalescing()
                 return
             }
@@ -776,6 +777,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
             formatter.newLine()
             breakUndoCoalescing()
             return
+        }
+
+        if event.keyCode == kVK_Delete {
+            if selectedRange.length == 0 {
+                breakUndoCoalescing()
+                let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+                formatter.removeChar()
+                breakUndoCoalescing()
+                return
+            }
         }
         
         if note.type == .PlainText || note.type == .RichText {
@@ -813,12 +824,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if note.isMarkdown() {
             deleteUnusedImages(checkRange: affectedCharRange)
 
-            typingAttributes.removeValue(forKey: .backgroundColor)
             typingAttributes.removeValue(forKey: .todo)
-
-            if let mpStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
-                mpStyle.textBlocks = []
-            }
 
             if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
                 paragraphStyle.alignment = .left
@@ -916,7 +922,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let range = selectedRange
         var data: Data
 
-        guard let note = getSelectedNote(), let storage = textStorage else { return false }
+        guard let note = EditTextView.note, let storage = textStorage else { return false }
 
         if let data = board.data(forType: .rtfd),
             let text = NSAttributedString(rtfd: data, documentAttributes: nil),
@@ -1023,11 +1029,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
             }
 
-            NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
-            saveTextStorageContent(to: note)
-            note.save()
-
-            applyLeftParagraphStyle()
+            if let storage = textStorage {
+                NotesTextProcessor.highlightMarkdown(attributedString: storage)
+                saveTextStorageContent(to: note)
+                note.save()
+                applyLeftParagraphStyle()
+            }
             self.viewDelegate?.notesTableView.reloadRow(note: note)
 
             return true
@@ -1316,7 +1323,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         NotesTextProcessor.hl = nil
-        NotesTextProcessor.fullScan(note: note)
+        NotesTextProcessor.highlight(attributedString: note.content)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
         let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"

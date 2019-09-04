@@ -75,7 +75,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
 
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
-            NotesTextProcessor.fullScan(note: note)
+            NotesTextProcessor.highlight(attributedString: note.content)
             vc.refillEditArea()
         }
     }
@@ -124,7 +124,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.imagesWidth = sender.floatValue
 
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
-            NotesTextProcessor.fullScan(note: note)
+            NotesTextProcessor.highlight(attributedString: note.content)
             vc.refillEditArea()
         }
     }
