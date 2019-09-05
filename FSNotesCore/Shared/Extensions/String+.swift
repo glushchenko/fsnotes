@@ -62,6 +62,24 @@ public extension String {
     func escapePlus() -> String {
         return self.replacingOccurrences(of: "+", with: "%20")
     }
+
+    subscript(_ ind: Int) -> String {
+        let idx1 = index(startIndex, offsetBy: ind)
+        let idx2 = index(idx1, offsetBy: 1)
+        return String(self[idx1..<idx2])
+    }
+
+    subscript (rind: Range<Int>) -> String {
+        let start = index(startIndex, offsetBy: rind.lowerBound)
+        let end = index(startIndex, offsetBy: rind.upperBound)
+        return String(self[start ..< end])
+    }
+
+    subscript (rind: CountableClosedRange<Int>) -> String {
+        let startIndex =  self.index(self.startIndex, offsetBy: rind.lowerBound)
+        let endIndex = self.index(startIndex, offsetBy: rind.upperBound - rind.lowerBound)
+        return String(self[startIndex...endIndex])
+    }
 }
 
 extension StringProtocol where Index == String.Index {

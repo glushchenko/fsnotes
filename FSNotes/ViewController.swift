@@ -1200,7 +1200,7 @@ class ViewController: NSViewController,
         }
 
         // Fixes glitch when make/delete code block paragraph
-        editArea.setSelectedRange(editArea.selectedRange())
+        //editArea.setSelectedRange(editArea.selectedRange())
     }
 
     private func removeForever() {

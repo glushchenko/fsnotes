@@ -196,24 +196,6 @@ public class NotesTextProcessor {
         return highlightr
     }
 
-    public static func trim(range: NSRange, paragraphRange: NSRange) -> NSRange {
-        var max = range.upperBound
-        var min = range.location
-
-        if paragraphRange.upperBound + 3 < range.upperBound {
-            max = paragraphRange.upperBound + 3
-        }
-
-        if paragraphRange.location - 3 > range.location {
-            min = paragraphRange.location - 3
-        }
-
-        //print(paragraphRange)
-        return paragraphRange
-        return NSRange(min..<max)
-    }
-
-
     #if os(iOS)
     public static func updateFont(note: Note) {
         if var font = UserDefaultsManagement.noteFont {
@@ -229,12 +211,12 @@ public class NotesTextProcessor {
 
     public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil) {
         guard let highlighter = NotesTextProcessor.getHighlighter() else { return }
+        let codeString = attributedString.string[range.location..<range.upperBound]
 
-        let codeRange = attributedString.attributedSubstring(from: range).string
-        let preDefinedLanguage = language ?? getLanguage(codeRange)
+        let preDefinedLanguage = language ?? getLanguage(codeString)
 
-        if let code = highlighter.highlight(codeRange, as: preDefinedLanguage) {
-            if ((range.location + range.length) > attributedString.length) {
+        if let code = highlighter.highlight(codeString, as: preDefinedLanguage) {
+            if (range.location + range.length) > attributedString.length {
                 return
             }
 
@@ -262,27 +244,8 @@ public class NotesTextProcessor {
                 }
             )
 
-            //let range = NSRange(0..<attributedString.length)
-
-            let bodyParagraphStyle = TextFormatter.getCodeParagraphStyle()
-
-            var isFirst = true
             attributedString.mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { string, range, _, _ in
-
-                //print("range \(range)")
                 let rangeNewline = range.upperBound == attributedString.length ? range : NSRange(range.location..<range.upperBound + 1)
-
-//                if isFirst {
-//                    attributedString.addAttribute(.paragraphStyle, value: bodyParagraphStyle, range: rangeNewline)
-//                    isFirst = false
-//                    return
-//                }
-//
-//                if range.upperBound == attributedString.length {
-//                    attributedString.addAttribute(.paragraphStyle, value: bodyParagraphStyle, range: rangeNewline)
-//                    return
-//                }
-
                 attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: rangeNewline)
             }
         }

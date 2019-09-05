@@ -1175,7 +1175,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         insertText("```\n\n```\n", replacementRange: currentRange)
-        setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+        setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
     }
 
     @IBAction func insertCodeSpan(_ sender: NSMenuItem) {
