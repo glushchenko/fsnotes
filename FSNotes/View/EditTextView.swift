@@ -780,6 +780,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if event.keyCode == kVK_Delete {
+            if event.modifierFlags.contains(.option) {
+                deleteWordBackward(nil)
+                return
+            }
+            
             if selectedRange.length == 0 {
                 breakUndoCoalescing()
                 let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
