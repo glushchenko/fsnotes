@@ -1253,7 +1253,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         paragraphStyle.alignment = .left
         typingAttributes[.paragraphStyle] = paragraphStyle
         defaultParagraphStyle = paragraphStyle
-        //textStorage?.updateParagraphStyle()
+        textStorage?.updateParagraphStyle()
     }
     
     override func clicked(onLink link: Any, at charIndex: Int) {
