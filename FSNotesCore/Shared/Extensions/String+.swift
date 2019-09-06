@@ -64,20 +64,20 @@ public extension String {
     }
 
     subscript(_ ind: Int) -> String {
-        let idx1 = index(startIndex, offsetBy: ind)
-        let idx2 = index(idx1, offsetBy: 1)
+        let idx1 = utf16.index(startIndex, offsetBy: ind)
+        let idx2 = utf16.index(idx1, offsetBy: 1)
         return String(self[idx1..<idx2])
     }
 
     subscript (rind: Range<Int>) -> String {
-        let start = index(startIndex, offsetBy: rind.lowerBound)
-        let end = index(startIndex, offsetBy: rind.upperBound)
-        return String(self[start ..< end])
+        let start = utf16.index(startIndex, offsetBy: rind.lowerBound)
+        let end = utf16.index(startIndex, offsetBy: rind.upperBound)
+        return String(self[start..<end])
     }
 
     subscript (rind: CountableClosedRange<Int>) -> String {
-        let startIndex =  self.index(self.startIndex, offsetBy: rind.lowerBound)
-        let endIndex = self.index(startIndex, offsetBy: rind.upperBound - rind.lowerBound)
+        let startIndex = utf16.index(self.startIndex, offsetBy: rind.lowerBound)
+        let endIndex = utf16.index(startIndex, offsetBy: rind.upperBound - rind.lowerBound)
         return String(self[startIndex...endIndex])
     }
 }

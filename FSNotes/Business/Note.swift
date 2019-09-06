@@ -1022,7 +1022,7 @@ public class Note: NSObject  {
                 }
             }
 
-            if mdImages.count == 3 {
+            if mdImages.count == 20 {
                 stop.pointee = true
             }
         })

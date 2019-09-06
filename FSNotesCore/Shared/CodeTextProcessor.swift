@@ -165,7 +165,8 @@ class CodeTextProcessor {
                 if let char = prevParagraph.unicodeScalars.first,
                     (digitSet.contains(char) && prevParagraph.starts(with: "\(char). "))
                     || prevParagraph.starts(with: "- ")
-                    || prevParagraph.starts(with: " - ") {
+                    || prevParagraph.starts(with: " - ")
+                    || prevParagraph.starts(with: "*") {
 
                     skipFlag = true
                     index += 1
