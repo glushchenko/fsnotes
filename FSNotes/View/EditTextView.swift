@@ -74,7 +74,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let note = EditTextView.note else { return false }
-        
+
+        menuItem.isHidden = false
+
         if menuItem.menu?.identifier?.rawValue == "editMenu" {
             validateSubmenu(menuItem.menu!)
         }
@@ -94,8 +96,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Link", comment: ""),
                 NSLocalizedString("Image", comment: ""),
                 NSLocalizedString("Toggle preview", comment: ""),
-                NSLocalizedString("Code Block", comment: "")
+                NSLocalizedString("Code Block", comment: ""),
+                NSLocalizedString("Code Span", comment: ""),
+                NSLocalizedString("Todo", comment: "")
             ]
+
+            if disableRTF.contains(menuItem.title) {
+                menuItem.isHidden = true
+            }
             
             return !disableRTF.contains(menuItem.title)
         } else {
@@ -103,7 +111,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Underline", comment: ""),
                 NSLocalizedString("Strikethrough", comment: "")
             ]
-            
+
+            if disable.contains(menuItem.title) {
+                menuItem.isHidden = true
+            }
+
             return !disable.contains(menuItem.title)
         }
     }
@@ -455,7 +467,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
-        
+
         if note.container == .encryptedTextPack {
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
             viewController.emptyEditAreaImage.isHidden = false
@@ -784,7 +796,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 deleteWordBackward(nil)
                 return
             }
-            
+
             if selectedRange.length == 0 {
                 breakUndoCoalescing()
                 let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
