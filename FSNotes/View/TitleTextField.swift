@@ -11,7 +11,11 @@ import Carbon.HIToolbox
 
 class TitleTextField: NSTextField {
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_C {
+        if event.modifierFlags.contains(.command)
+            && event.keyCode == kVK_ANSI_C
+            && !event.modifierFlags.contains(.shift)
+            && !event.modifierFlags.contains(.control)
+            && !event.modifierFlags.contains(.option) {
             let pasteboard = NSPasteboard.general
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
             pasteboard.setString(self.stringValue, forType: NSPasteboard.PasteboardType.string)

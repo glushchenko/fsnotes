@@ -285,11 +285,6 @@ public class TextFormatter {
                 replaceWith(string: padding + text, range: pRange)
                 setSelectedRange(NSMakeRange(range.upperBound + padding.count, 0))
             #endif
-            
-            if note.isMarkdown() {
-                highlight()
-            }
-            
             return
         }
         
@@ -305,16 +300,16 @@ public class TextFormatter {
         }
         
         #if os(OSX)
+            if textView.textStorage?.length == 0 {
+                EditTextView.shouldForceRescan = true
+            }
+
             textView.insertText(result, replacementRange: pRange)
         #else
             replaceWith(string: result)
         #endif
         
         setSelectedRange(NSRange(location: pRange.lowerBound, length: result.count))
-        
-        if note.isMarkdown() {
-            highlight()
-        }
     }
     
     func unTab() {
@@ -342,11 +337,6 @@ public class TextFormatter {
             #endif
 
             self.setSelectedRange(NSRange(location: range.location - diff, length: 0))
-        
-            if note.isMarkdown() {
-                highlight()
-            }
-            
             return
         }
         
@@ -378,11 +368,6 @@ public class TextFormatter {
 
         let finalRange = NSRange(location: pRange.lowerBound, length: result.count)
         setSelectedRange(finalRange)
-        
-        if note.isMarkdown() {
-            NotesTextProcessor.scanBasicSyntax(note: note, storage: storage, range: finalRange)
-            highlight()
-        }
     }
     
     public func header(_ string: String) {
@@ -419,35 +404,7 @@ public class TextFormatter {
             setSelectedRange(NSMakeRange(range.upperBound + 4, 0))
         }
     }
-    
-    func highlight() {
-        if let paragraphRange = getParagraphRange(), let codeBlockRange = NotesTextProcessor.getCodeBlockRange(paragraphRange: paragraphRange, content: storage),
-            codeBlockRange.upperBound <= storage.length,
-            UserDefaultsManagement.codeBlockHighlight {
 
-            NotesTextProcessor.highlightCode(range: codeBlockRange, storage: storage, note: note)
-        }
-    }
-    
-    public func deleteKey() {
-        let sRange = self.textView.selectedRange
-        
-        guard sRange.location > 0,
-            let pr = self.getParagraphRange(for: sRange.location),
-            let currentPR = getParagraphRange(),
-            self.note.isMarkdown()
-        else { return }
-        
-        // This is code block and not first position
-        
-        if isCodeBlock(range: pr) {
-            if pr.lowerBound != sRange.location {
-                let attributes = TextFormatter.getCodeBlockAttributes()
-                storage.addAttributes(attributes, range: currentPR)
-            }
-        }
-    }
-    
     public func tabKey() {
         guard let currentPR = getParagraphRange() else { return }
         let paragraph = storage.attributedSubstring(from: currentPR).string
@@ -459,36 +416,26 @@ public class TextFormatter {
             && self.note.isMarkdown()
         {
             self.insertText("\t", replacementRange: sRange)
-            let attributes = TextFormatter.getCodeBlockAttributes()
-            let attributeRange = NSRange(location: sRange.location, length: 1)
-            self.storage.addAttributes(attributes, range: attributeRange)
             return
         }
         
         // First & Last
         if (sRange.location == 0 || sRange.location == self.storage.length) && paragraph.count == 0 && self.note.isMarkdown() {
-            let codeStyle = self.addCodeBlockStyle("\t\n")
-            self.insertText(codeStyle, replacementRange: sRange)
+            #if os(OSX)
+            if textView.textStorage?.length == 0 {
+                EditTextView.shouldForceRescan = true
+            }
+            #else
+            if textView.textStorage.length == 0 {
+                EditTextView.shouldForceRescan = true
+            }
+            #endif
             
-            let attributes = TextFormatter.getCodeBlockAttributes()
-            let attributeRange = NSRange(location: sRange.location, length: 2)
-            self.storage.addAttributes(attributes, range: attributeRange)
-            
+            self.insertText("\t\n", replacementRange: sRange)
             self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
             return
         }
         
-        if self.isCodeBlock(range: currentPR), note.isMarkdown() {
-            self.insertText("\t", replacementRange: sRange)
-            
-            let attributes = TextFormatter.getCodeBlockAttributes()
-            let attributeRange = NSRange(location: sRange.location, length: 1)
-            self.storage.addAttributes(attributes, range: attributeRange)
-            
-            self.setSelectedRange(NSRange(location: sRange.location + 1, length: 0))
-            return
-        }
-
         self.insertText("\t")
     }
 
@@ -544,6 +491,13 @@ public class TextFormatter {
         }
     }
 
+    public func removeChar() {
+        let position = textView.selectedRange.location - 1
+        guard position >= 0 else { return }
+
+        insertText("", replacementRange: NSRange(location: position, length: 1))
+    }
+
     public func newLine() {
         guard let currentParagraphRange = self.getParagraphRange() else { return }
 
@@ -553,6 +507,7 @@ public class TextFormatter {
         // Autocomplete todo lists
 
         if selectedRange.location != currentParagraphRange.location && currentParagraphRange.upperBound - 2 < selectedRange.location, currentParagraph.length >= 2 {
+
             if textView.selectedRange.upperBound > 2 {
                 let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
@@ -620,16 +575,19 @@ public class TextFormatter {
                 newLine += prefix
             }
 
-            self.insertText(addCodeBlockStyle(newLine))
+            let string = TextFormatter.getAttributedCode(string: newLine)
+            self.insertText(string)
             return
         }
 
-        if currentParagraph.string.starts(with: "    "), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
+        if currentParagraph.string.starts(with: "    "),
+            let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
             if selectedRange.location != currentParagraphRange.location {
                 newLine += prefix
             }
 
-            self.insertText(addCodeBlockStyle(newLine))
+            let string = TextFormatter.getAttributedCode(string: newLine)
+            self.insertText(string)
             return
         }
 
@@ -638,14 +596,6 @@ public class TextFormatter {
         #else
             self.textView.insertNewline(nil)
         #endif
-
-        // Fenced code block style handler
-
-        if UserDefaultsManagement.codeBlockHighlight, self.note.isMarkdown() {
-            if NotesTextProcessor.getFencedCodeBlock(at: selectedRange.location + 1, string: storage) == nil, storage.length >= selectedRange.location + 2 {
-                storage.removeAttribute(.backgroundColor, range: NSRange(location: selectedRange.location + 1, length: 1))
-            }
-        }
     }
 
     public func toggleTodo(_ location: Int? = nil) {
@@ -740,6 +690,27 @@ public class TextFormatter {
             return
         }
     }
+
+    public func backTick() {
+        let selectedRange = textView.selectedRange
+
+        if selectedRange.length > 0 {
+            let text = storage.attributedSubstring(from: selectedRange).string
+            let string = "`\(text)`"
+
+            if let codeFont = UserDefaultsManagement.codeFont {
+                let mutableString = NSMutableAttributedString(string: string)
+                mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
+
+                EditTextView.shouldForceRescan = true
+                insertText(mutableString, replacementRange: selectedRange)
+                return
+            }
+        }
+
+        insertText("``")
+        setSelectedRange(NSRange(location: selectedRange.location, length: selectedRange.length + 1))
+    }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)
@@ -802,7 +773,7 @@ public class TextFormatter {
         }
         
         if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.scanMarkdownSyntax(storage, paragraphRange: paragraphRange, note: note)
+            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange)
         }
         
         if note.isMarkdown() || note.type == .RichText {
@@ -932,36 +903,16 @@ public class TextFormatter {
         #endif
     }
     
-    private func addCodeBlockStyle(_ text: String) -> NSMutableAttributedString {
-        let attributedText = NSMutableAttributedString(string: text)
-        
-        guard attributedText.length > 0, self.note.isMarkdown() else { return attributedText }
-        
-        let range = NSRange(0..<text.count)
-        attributedText.addAttributes(TextFormatter.getCodeBlockAttributes(), range: range)
-        
-        return attributedText
-    }
-    
-    public static func getCodeBlockAttributes() -> [NSAttributedString.Key : Any] {
+    public static func getCodeParagraphStyle() -> NSMutableParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        
-        var attributes: [NSAttributedString.Key : Any] = [
-            .paragraphStyle: paragraphStyle
-        ]
+        #if os(OSX)
+        paragraphStyle.textBlocks = [CodeBlock()]
+        #endif
 
-        if UserDefaultsManagement.codeBlockHighlight {
-            attributes[.backgroundColor] = NotesTextProcessor.codeBackground
-        }
-        
-        if let font = NotesTextProcessor.codeFont {
-            attributes[.font] = font
-        }
-        
-        return attributes
+        return paragraphStyle
     }
-    
+
     private func insertText(_ string: Any, replacementRange: NSRange? = nil, selectRange: NSRange? = nil) {
         let range = replacementRange ?? self.textView.selectedRange
         
@@ -992,22 +943,12 @@ public class TextFormatter {
             setSelectedRange(select)
         }
     }
-    
-    private func isCodeBlock(range: NSRange) -> Bool {
-        let string = self.storage.attributedSubstring(from: range).string
-        
-        if string.starts(with: "\t") || string.starts(with: "    ") {
-            guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
-                return false
-            }
 
-            return true
-        }
-        
-        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: self.storage) {
-            return true
-        }
-        
-        return false
+    public static func getAttributedCode(string: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: string)
+        let range = NSRange(0..<attributedString.length)
+
+        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: range)
+        return attributedString
     }
 }

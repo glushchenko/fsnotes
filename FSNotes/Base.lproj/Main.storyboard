@@ -523,6 +523,11 @@ CA
                                                 <action selector="insertCodeBlock:" target="Ady-hI-5gd" id="dB1-yF-DnW"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Code Span" keyEquivalent="C" id="Ukg-MO-eaB">
+                                            <connections>
+                                                <action selector="insertCodeSpan:" target="Ady-hI-5gd" id="zP1-Kg-gh9"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="iDC-du-8d9"/>
                                         <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
                                             <connections>
@@ -2801,7 +2806,7 @@ Ayad (Twitter: @ayad0net)</string>
         <image name="editor" width="384" height="384"/>
         <image name="icon" width="512" height="512"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="1024" height="1024"/>
+        <image name="makeNoteAsset" width="512" height="512"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>

@@ -211,7 +211,7 @@
 /* Class = "NSTextFieldCell"; title = "v2.9.0"; ObjectID = "dgD-xe-DVG"; */
 "dgD-xe-DVG.title" = "v2.9.0";
 
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)"; ObjectID = "dPf-CP-fuZ"; */
+/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (Twitter: @ayad0net)"; ObjectID = "dPf-CP-fuZ"; */
 "dPf-CP-fuZ.title" = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
@@ -367,7 +367,7 @@
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "معاينة Markdown CSS ";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -663,6 +663,9 @@
 
 /* Class = "NSMenuItem"; title = "Light"; ObjectID = "UFh-mf-ZKG"; */
 "UFh-mf-ZKG.title" = "مشمس";
+
+/* Class = "NSMenuItem"; title = "Code Span"; ObjectID = "Ukg-MO-eaB"; */
+"Ukg-MO-eaB.title" = "امتداد الرمز";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "uMZ-sI-7ja"; */
 "uMZ-sI-7ja.title" = "ملف";

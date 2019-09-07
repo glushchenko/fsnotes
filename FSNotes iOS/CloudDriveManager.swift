@@ -202,7 +202,6 @@ class CloudDriveManager {
 
         if resultsDict[index] != url {
             if let note = storage.getBy(url: prevURL) {
-                print("old note \(prevURL.absoluteString)")
                 return note
             }
         }
@@ -212,14 +211,10 @@ class CloudDriveManager {
     
     private func download(notification: NSNotification) {
         if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
-
-            print("down \(addedMetadataItems.count)")
             for item in addedMetadataItems {
                 guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.resolvingSymlinksInPath() else { continue }
 
                 if isDownloaded(url: url), storage.allowedExtensions.contains(url.pathExtension) {
-
-                    print("added me")
                     self.add(url: url)
                     continue
                 }

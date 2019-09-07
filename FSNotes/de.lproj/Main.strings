@@ -646,6 +646,9 @@
 /* Class = "NSMenuItem"; title = "Light"; ObjectID = "UFh-mf-ZKG"; */
 "UFh-mf-ZKG.title" = "Hell";
 
+/* Class = "NSMenuItem"; title = "Code Span"; ObjectID = "Ukg-MO-eaB"; */
+"Ukg-MO-eaB.title" = "Codespanne";
+
 /* Class = "NSMenu"; title = "File"; ObjectID = "uMZ-sI-7ja"; */
 "uMZ-sI-7ja.title" = "Datei";
 

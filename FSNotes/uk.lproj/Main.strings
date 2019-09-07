@@ -95,7 +95,7 @@
 "8oP-79-BAN.title" = "Колір нотатки:";
 
 /* Class = "NSMenuItem"; title = "Markdown"; ObjectID = "8yn-cx-Rtm"; */
-"8yn-cx-Rtm.title" = "";
+"8yn-cx-Rtm.title" = "Markdown";
 
 /* Class = "NSMenuItem"; title = "Substitutions"; ObjectID = "9ic-FL-obx"; */
 "9ic-FL-obx.title" = "Заміни";
@@ -603,6 +603,9 @@
 
 /* Class = "NSMenuItem"; title = "Light"; ObjectID = "UFh-mf-ZKG"; */
 "UFh-mf-ZKG.title" = "Світла";
+
+/* Class = "NSMenuItem"; title = "Code Span"; ObjectID = "Ukg-MO-eaB"; */
+"Ukg-MO-eaB.title" = "Проміжок коду";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "uMZ-sI-7ja"; */
 "uMZ-sI-7ja.title" = "Файл";

@@ -208,8 +208,9 @@ class ViewController: NSViewController,
             self.editArea.updateTextContainerInset()
         }
 
-        self.editArea.textContainerInset.height = 10
-        self.editArea.isEditable = false
+        editArea.textContainerInset.height = 10
+        editArea.isEditable = false
+        editArea.layoutManager?.allowsNonContiguousLayout = false
 
         if #available(OSX 10.13, *) {} else {
             self.editArea.backgroundColor = UserDefaultsManagement.bgColor
@@ -1199,7 +1200,7 @@ class ViewController: NSViewController,
         }
 
         // Fixes glitch when make/delete code block paragraph
-        self.editArea.setSelectedRange(self.editArea.selectedRange())
+        //editArea.setSelectedRange(editArea.selectedRange())
     }
 
     private func removeForever() {

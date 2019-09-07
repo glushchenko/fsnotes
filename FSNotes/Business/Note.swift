@@ -749,7 +749,7 @@ public class Note: NSObject  {
         self.caching = true
 
         #if NOT_EXTENSION || os(OSX)
-        NotesTextProcessor.fullScan(note: self)
+        NotesTextProcessor.highlight(attributedString: content)
         #endif
 
         self.caching = false
@@ -1022,7 +1022,7 @@ public class Note: NSObject  {
                 }
             }
 
-            if mdImages.count == 3 {
+            if mdImages.count == 20 {
                 stop.pointee = true
             }
         })

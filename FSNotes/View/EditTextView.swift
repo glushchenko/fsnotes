@@ -74,7 +74,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         guard let note = EditTextView.note else { return false }
-        
+
+        menuItem.isHidden = false
+
         if menuItem.menu?.identifier?.rawValue == "editMenu" {
             validateSubmenu(menuItem.menu!)
         }
@@ -94,8 +96,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Link", comment: ""),
                 NSLocalizedString("Image", comment: ""),
                 NSLocalizedString("Toggle preview", comment: ""),
-                NSLocalizedString("Code Block", comment: "")
+                NSLocalizedString("Code Block", comment: ""),
+                NSLocalizedString("Code Span", comment: ""),
+                NSLocalizedString("Todo", comment: "")
             ]
+
+            if disableRTF.contains(menuItem.title) {
+                menuItem.isHidden = true
+            }
             
             return !disableRTF.contains(menuItem.title)
         } else {
@@ -103,7 +111,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Underline", comment: ""),
                 NSLocalizedString("Strikethrough", comment: "")
             ]
-            
+
+            if disable.contains(menuItem.title) {
+                menuItem.isHidden = true
+            }
+
             return !disable.contains(menuItem.title)
         }
     }
@@ -455,7 +467,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
-        
+
         if note.container == .encryptedTextPack {
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
             viewController.emptyEditAreaImage.isHidden = false
@@ -708,8 +720,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func keyDown(with event: NSEvent) {
-        guard let storage = self.textStorage else { return }
-
         guard !(
             event.modifierFlags.contains(.shift) &&
             [
@@ -723,9 +733,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
         
-        guard let note = EditTextView.note else {
-            return
-        }
+        guard let note = EditTextView.note else { return }
         
         let brackets = [
             "(" : ")",
@@ -734,26 +742,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
             "\"" : "\"",
         ]
         
-        let sRange = selectedRange()
-        
         if UserDefaultsManagement.autocloseBrackets,
             let openingBracket = event.characters,
             let closingBracket = brackets[openingBracket] {
             if selectedRange().length > 0 {
                 let before = NSMakeRange(selectedRange().lowerBound, 0)
-                self.insertText(self.applyStyle(openingBracket), replacementRange: before)
+                self.insertText(openingBracket, replacementRange: before)
                 let after = NSMakeRange(selectedRange().upperBound, 0)
-                self.insertText(self.applyStyle(closingBracket), replacementRange: after)
+                self.insertText(closingBracket, replacementRange: after)
             } else {
                 super.keyDown(with: event)
-                self.insertText(self.applyStyle(closingBracket), replacementRange: selectedRange())
-                
-                let paragraphRange = (storage.string as NSString).paragraphRange(for: sRange)
-                if self.isCodeBlock(range: paragraphRange) && note.isMarkdown() {
-                    let attributes = getCodeBlockAttributes()
-                    storage.addAttributes(attributes, range: NSRange(location: sRange.location, length: 1))
-                }
-                
+                self.insertText(closingBracket, replacementRange: selectedRange())
                 self.moveBackward(self)
             }
             return
@@ -772,7 +771,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if event.keyCode == kVK_Tab && !hasMarkedText(){
             breakUndoCoalescing()
             if UserDefaultsManagement.spacesInsteadTabs {
-                insertText("    ", replacementRange: selectedRange())
+                let tab = TextFormatter.getAttributedCode(string: "    ")
+                insertText(tab, replacementRange: selectedRange())
                 breakUndoCoalescing()
                 return
             }
@@ -790,7 +790,22 @@ class EditTextView: NSTextView, NSTextFinderClient {
             breakUndoCoalescing()
             return
         }
-        
+
+        if event.keyCode == kVK_Delete {
+            if event.modifierFlags.contains(.option) {
+                deleteWordBackward(nil)
+                return
+            }
+
+            if selectedRange.length == 0 {
+                breakUndoCoalescing()
+                let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+                formatter.removeChar()
+                breakUndoCoalescing()
+                return
+            }
+        }
+
         if note.type == .PlainText || note.type == .RichText {
             super.keyDown(with: event)
             saveCursorPosition()
@@ -827,9 +842,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             deleteUnusedImages(checkRange: affectedCharRange)
 
             typingAttributes.removeValue(forKey: .todo)
-            typingAttributes.removeValue(forKey: .backgroundColor)
 
-            if replacementString != "\n", let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
+            if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
                 paragraphStyle.alignment = .left
             }
 
@@ -841,63 +855,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
     }
 
-    public func isCodeBlock(paragraph: String) -> Bool {
-        if paragraph.starts(with: "\t") || paragraph.starts(with: "    ") {
-            guard TextFormatter.getAutocompleteCharsMatch(string: string) == nil && TextFormatter.getAutocompleteDigitsMatch(string: string) == nil else {
-                return false
-            }
-
-            return true
-        }
-
-        return false
-    }
-    
-    public func applyStyle(_ text: String) -> NSMutableAttributedString {
-        let attributedText = NSMutableAttributedString(string: text)
-
-        guard attributedText.length > 0, let note = EditTextView.note, note.isMarkdown() else { return attributedText }
-        
-        if let paragraphRange = getParagraphRange(), self.isCodeBlock(range: paragraphRange) {
-            let range = NSRange(0..<text.count)
-            attributedText.addAttributes(getCodeBlockAttributes(), range: range)
-        }
-        
-        return attributedText
-    }
-
-    public func getCodeBlockAttributes() -> [NSAttributedString.Key : Any] {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        
-        var attributes: [NSAttributedString.Key : Any] = [
-            .backgroundColor: NotesTextProcessor.codeBackground,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        if let font = NotesTextProcessor.codeFont {
-            attributes[.font] = font
-        }
-        
-        return attributes
-    }
-    
-    private func isCodeBlock(range: NSRange) -> Bool {
-        guard let storage = textStorage else { return false }
-        
-        let string = storage.attributedSubstring(from: range).string
-        
-        if string.starts(with: "\t") || string.starts(with: "    ") {
-            return true
-        }
-        
-        if nil != NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: storage) {
-            return true
-        }
-        
-        return false
-    }
-    
     func saveCursorPosition() {
         guard let note = EditTextView.note, let range = selectedRanges[0] as? NSRange, UserDefaultsManagement.restoreCursorPosition else {
             return
@@ -982,7 +939,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let range = selectedRange
         var data: Data
 
-        guard let note = getSelectedNote(), let storage = textStorage else { return false }
+        guard let note = EditTextView.note, let storage = textStorage else { return false }
 
         if let data = board.data(forType: .rtfd),
             let text = NSAttributedString(rtfd: data, documentAttributes: nil),
@@ -1089,11 +1046,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
             }
 
-            NotesTextProcessor.scanBasicSyntax(note: note, storage: textStorage, range: NSRange(0..<storage.length))
-            saveTextStorageContent(to: note)
-            note.save()
-
-            applyLeftParagraphStyle()
+            if let storage = textStorage {
+                NotesTextProcessor.highlightMarkdown(attributedString: storage)
+                saveTextStorageContent(to: note)
+                note.save()
+                applyLeftParagraphStyle()
+            }
             self.viewDelegate?.notesTableView.reloadRow(note: note)
 
             return true
@@ -1134,14 +1092,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     @IBAction func shiftLeft(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
-        
+        guard let note = EditTextView.note else { return }
+        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
+
+        EditTextView.shouldForceRescan = true
         f.unTab()
     }
     
     @IBAction func shiftRight(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
+        guard let note = EditTextView.note else { return }
+        let f = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
 
+        EditTextView.shouldForceRescan = true
         f.tab()
     }
     
@@ -1230,7 +1192,27 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         insertText("```\n\n```\n", replacementRange: currentRange)
-        setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+        setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
+    }
+
+    @IBAction func insertCodeSpan(_ sender: NSMenuItem) {
+        let currentRange = selectedRange()
+
+        if currentRange.length > 0 {
+            let mutable = NSMutableAttributedString(string: "`")
+            if let substring = attributedSubstring(forProposedRange: currentRange, actualRange: nil) {
+                mutable.append(substring)
+            }
+
+            mutable.append(NSAttributedString(string: "`"))
+
+            EditTextView.shouldForceRescan = true
+            insertText(mutable, replacementRange: currentRange)
+            return
+        }
+
+        insertText("``", replacementRange: currentRange)
+        setSelectedRange(NSRange(location: currentRange.location + 1, length: 0))
     }
 
     @IBAction func insertLink(_ sender: Any) {
@@ -1362,7 +1344,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         NotesTextProcessor.hl = nil
-        NotesTextProcessor.fullScan(note: note)
+        NotesTextProcessor.highlight(attributedString: note.content)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
         let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"
