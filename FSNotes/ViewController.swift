@@ -733,6 +733,27 @@ class ViewController: NSViewController,
         vc.createNote()
     }
 
+    @IBAction func saveRevision(_ sender: NSMenuItem) {
+        guard let note = EditTextView.note else { return }
+
+        let repository = Git.sharedInstance().getRepository(with: note.project.label, workTree: note.project.url)
+
+        repository.initialize()
+        repository.commitAll()
+    }
+
+    @IBAction func checkoutRevision(_ sender: NSMenuItem) {
+        guard let commit = sender.representedObject as? Commit else { return }
+        guard let note = EditTextView.note else { return }
+
+        let repository = Git.sharedInstance().getRepository(with: note.project.label, workTree: note.project.url)
+        repository.checkout(commit: commit, fileName: note.name)
+
+        _ = note.reload()
+        NotesTextProcessor.highlight(attributedString: note.content)
+        refillEditArea()
+    }
+
     @IBAction func importNote(_ sender: NSMenuItem) {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = true
@@ -766,7 +787,7 @@ class ViewController: NSViewController,
         
         if vc.notesTableView.selectedRow >= 0 {
             vc.loadMoveMenu()
-            
+
             let moveTitle = NSLocalizedString("Move", comment: "Menu")
             let moveMenu = vc.noteMenu.item(withTitle: moveTitle)
             let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
@@ -1706,9 +1727,7 @@ class ViewController: NSViewController,
     }
     
     func loadMoveMenu() {
-        guard
-            let vc = ViewController.shared(),
-            let note = vc.notesTableView.getSelectedNote() else { return }
+        guard let vc = ViewController.shared(), let note = vc.notesTableView.getSelectedNote() else { return }
         
         let moveTitle = NSLocalizedString("Move", comment: "Menu")
         if let prevMenu = noteMenu.item(withTitle: moveTitle) {
@@ -1767,6 +1786,41 @@ class ViewController: NSViewController,
         }
 
         noteMenu.setSubmenu(moveMenu, for: moveMenuItem)
+        loadHistory()
+    }
+
+    public func loadHistory() {
+        guard let vc = ViewController.shared(),
+            let note = vc.notesTableView.getSelectedNote()
+        else { return }
+
+        let git = Git.sharedInstance()
+        let repository = git.getRepository(with: "Archive", workTree: note.project.url)
+
+        repository.initialize()
+        let commits = repository.commits(for: note.name)
+
+        let title = NSLocalizedString("History", comment: "")
+        let historyMenu = noteMenu.item(withTitle: title)
+        historyMenu?.submenu?.removeAllItems()
+
+        guard commits.count > 0 else {
+            historyMenu?.isHidden = true
+            return
+        }
+
+        for commit in commits {
+            let menuItem = NSMenuItem()
+            if let date = commit.getDate() {
+                menuItem.title = date
+            }
+
+            menuItem.representedObject = commit
+            menuItem.action = #selector(vc.checkoutRevision(_:))
+            historyMenu?.submenu?.addItem(menuItem)
+        }
+
+        historyMenu?.isHidden = false
     }
 
     func loadSortBySetting() {
