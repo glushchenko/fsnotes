@@ -100,6 +100,11 @@ CA
                                                 <action selector="fileMenuNewRTF:" target="L4m-js-agn" id="7O9-Gp-1o1"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Save Revision" keyEquivalent="s" id="o8V-Wi-IWO">
+                                            <connections>
+                                                <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pvu-vt-MCq"/>
                                         <menuItem title="Search and create" keyEquivalent="l" identifier="fileMenu.searchAndCreate" id="hPY-aY-QOE">
                                             <connections>
@@ -1741,6 +1746,9 @@ CA
                             <connections>
                                 <action selector="moveMenu:" target="XfG-lQ-9wD" id="ZMV-Y3-u3t"/>
                             </connections>
+                        </menuItem>
+                        <menuItem title="History" id="xPh-BC-Xxl">
+                            <menu key="submenu" title="History" id="auW-wa-jbc"/>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>
                         <menuItem title="Copy URL" identifier="noteMove.copyUrl" id="uQ1-ej-ufE">

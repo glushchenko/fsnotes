@@ -292,7 +292,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             selectRowIndexes([clickedRow], byExtendingSelection: false)
         }
 
-        if selectedRow < 1 {
+        if selectedRow < 0 {
             return
         }
 
