@@ -219,6 +219,27 @@ public class Project: Equatable {
         return nil
     }
 
+    public func getGitPath() -> String? {
+        guard let ubiq = FileManager.default.url(forUbiquityContainerIdentifier: nil) else { return nil }
+
+        if isArchive || parent == nil {
+            return nil
+        }
+
+        let iCloudRoot = ubiq.appendingPathComponent("Documents").resolvingSymlinksInPath()
+        let rel = url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
+
+        if rel.first == "/" {
+            return String(rel.dropFirst())
+        }
+
+        if rel == "" {
+            return nil
+        }
+
+        return rel
+    }
+
     public func createDirectory() {
         do {
             try FileManager.default.createDirectory(at: url.appendingPathComponent("i"), withIntermediateDirectories: true, attributes: nil)
@@ -241,5 +262,9 @@ public class Project: Equatable {
         } catch {
             print(error)
         }
+    }
+
+    public func getShortSign() -> String {
+        return String(getParent().url.path.md5.prefix(4))
     }
 }

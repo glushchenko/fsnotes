@@ -35,6 +35,10 @@ class ViewController: NSViewController,
     let searchQueue = OperationQueue()
     var printWebView: WebView?
 
+    /* Git */
+    public var snapshotsTimer = Timer()
+    public var lastSnapshot: Int = 0
+
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
     }
@@ -105,12 +109,13 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
+        scheduleSnapshots()
         self.configureShortcuts()
         self.configureDelegates()
         self.configureLayout()
         self.configureNotesList()
         self.configureEditor()
-        
+
         self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
         self.fsManager?.start()
 
@@ -731,27 +736,6 @@ class ViewController: NSViewController,
         }
         
         vc.createNote()
-    }
-
-    @IBAction func saveRevision(_ sender: NSMenuItem) {
-        guard let note = EditTextView.note else { return }
-
-        let repository = Git.sharedInstance().getRepository(with: note.project.label, workTree: note.project.url)
-
-        repository.initialize()
-        repository.commitAll()
-    }
-
-    @IBAction func checkoutRevision(_ sender: NSMenuItem) {
-        guard let commit = sender.representedObject as? Commit else { return }
-        guard let note = EditTextView.note else { return }
-
-        let repository = Git.sharedInstance().getRepository(with: note.project.label, workTree: note.project.url)
-        repository.checkout(commit: commit, fileName: note.name)
-
-        _ = note.reload()
-        NotesTextProcessor.highlight(attributedString: note.content)
-        refillEditArea()
     }
 
     @IBAction func importNote(_ sender: NSMenuItem) {
@@ -1789,40 +1773,6 @@ class ViewController: NSViewController,
         loadHistory()
     }
 
-    public func loadHistory() {
-        guard let vc = ViewController.shared(),
-            let note = vc.notesTableView.getSelectedNote()
-        else { return }
-
-        let git = Git.sharedInstance()
-        let repository = git.getRepository(with: "Archive", workTree: note.project.url)
-
-        repository.initialize()
-        let commits = repository.commits(for: note.name)
-
-        let title = NSLocalizedString("History", comment: "")
-        let historyMenu = noteMenu.item(withTitle: title)
-        historyMenu?.submenu?.removeAllItems()
-
-        guard commits.count > 0 else {
-            historyMenu?.isHidden = true
-            return
-        }
-
-        for commit in commits {
-            let menuItem = NSMenuItem()
-            if let date = commit.getDate() {
-                menuItem.title = date
-            }
-
-            menuItem.representedObject = commit
-            menuItem.action = #selector(vc.checkoutRevision(_:))
-            historyMenu?.submenu?.addItem(menuItem)
-        }
-
-        historyMenu?.isHidden = false
-    }
-
     func loadSortBySetting() {
         let viewLabel = NSLocalizedString("View", comment: "Menu")
         let sortByLabel = NSLocalizedString("Sort by", comment: "View menu")
@@ -2225,6 +2175,4 @@ class ViewController: NSViewController,
             lockAll(self)
         }
     }
-
-
 }

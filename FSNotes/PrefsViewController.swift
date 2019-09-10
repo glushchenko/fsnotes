@@ -25,6 +25,11 @@ class PrefsViewController: NSTabViewController  {
             let toolbarItem = toolbarItem,
             let tabViewItem = tabViewItems.first(where: { ($0.identifier as? String) == itemIdentifier.rawValue })
         {
+            if let name = tabViewItem.identifier as? String, name == "git" {
+                toolbarItem.label = "\(tabViewItem.label)          "
+                return toolbarItem
+            }
+
             if let name = tabViewItem.identifier as? String, !["advanced", "security"].contains(name)  {
                 toolbarItem.label = "\(tabViewItem.label)    "
             }

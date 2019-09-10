@@ -28,6 +28,8 @@ public class UserDefaultsManagement {
     
     static var DefaultFont = ".AppleSystemUIFont"
     static var DefaultFontSize = 14
+    static var DefaultSnapshotsInterval = 1
+    static var DefaultSnapshotsIntervalMinutes = 5
     
     static var DefaultFontColor = Color.black
     static var DefaultBgColor = Color.white
@@ -42,6 +44,7 @@ public class UserDefaultsManagement {
         static let AutomaticLinkDetection = "automaticLinkDetection"
         static let AutomaticTextReplacement = "automaticTextReplacement"
         static let AutomaticDashSubstitution = "automaticDashSubstitution"
+        static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
@@ -57,6 +60,7 @@ public class UserDefaultsManagement {
         static let FirstLineAsTitle = "firstLineAsTitle"
         static let NoteType = "noteType"
         static let GrammarChecking = "grammarChecking"
+        static let GitStorage = "gitStorage"
         static let HideDate = "hideDate"
         static let HideOnDeactivate = "hideOnDeactivate"
         static let HideSidebar = "hideSidebar"
@@ -90,6 +94,8 @@ public class UserDefaultsManagement {
         static let ShowDockIcon = "showDockIcon"
         static let ShowInMenuBar = "showInMenuBar"
         static let SmartInsertDelete = "smartInsertDelete"
+        static let SnapshotsInterval = "snapshotsInterval"
+        static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
         static let SortBy = "sortBy"
         static let SpacesInsteadTabs = "spacesInsteadTabs"
         static let StoragePathKey = "storageUrl"
@@ -1090,6 +1096,69 @@ public class UserDefaultsManagement {
             } else {
                 UserDefaults.standard.set(nil, forKey: Constants.MarkdownPreviewCSS)
             }
+        }
+    }
+
+    static var gitStorage: URL {
+        get {
+            if let repositories = UserDefaults.standard.url(forKey: Constants.GitStorage) {
+                if !FileManager.default.fileExists(atPath: repositories.path) {
+                    try? FileManager.default.createDirectory(at: repositories, withIntermediateDirectories: true, attributes: nil)
+                }
+
+                return repositories
+            }
+
+            let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+            let repositories = applicationSupport.appendingPathComponent("Repositories")
+
+            if !FileManager.default.fileExists(atPath: repositories.path) {
+                try? FileManager.default.createDirectory(at: repositories, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            return repositories
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.GitStorage)
+        }
+    }
+
+    static var snapshotsInterval: Int {
+        get {
+            if let interval = UserDefaults.standard.object(forKey: Constants.SnapshotsInterval) as? Int {
+                return interval
+            }
+
+            return self.DefaultSnapshotsInterval
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.SnapshotsInterval)
+        }
+    }
+
+    static var snapshotsIntervalMinutes: Int {
+        get {
+            if let interval = UserDefaults.standard.object(forKey: Constants.SnapshotsIntervalMinutes) as? Int {
+                return interval
+            }
+
+            return self.DefaultSnapshotsIntervalMinutes
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.SnapshotsIntervalMinutes)
+        }
+    }
+
+    static var backupManually: Bool {
+        get {
+            if let returnMode = UserDefaults.standard.object(forKey: Constants.BackupManually) as? Bool {
+                return returnMode
+            } else {
+                return true
+            }
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.BackupManually)
         }
     }
 }

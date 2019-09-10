@@ -93,7 +93,8 @@ class Storage {
                 continue
             }
             
-            if url == UserDefaultsManagement.archiveDirectory {
+            if url == UserDefaultsManagement.archiveDirectory
+                || url == UserDefaultsManagement.gitStorage {
                 continue
             }
             
