@@ -16,6 +16,9 @@
 /* Class = "NSMenuItem"; title = "New"; ObjectID = "2Ci-Yj-aWK"; */
 "2Ci-Yj-aWK.title" = "Создать";
 
+/* Class = "NSTextFieldCell"; title = "hour at"; ObjectID = "2Iq-vN-V2w"; */
+"2Iq-vN-V2w.title" = "час(а) в";
+
 /* Class = "NSMenuItem"; title = "Transformations"; ObjectID = "2oI-Rn-ZJC"; */
 "2oI-Rn-ZJC.title" = "Трансформация";
 
@@ -91,6 +94,9 @@
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
 "7od-TM-cUB.title" = "Установить";
 
+/* Class = "NSButtonCell"; title = "Change"; ObjectID = "7xA-9l-dja"; */
+"7xA-9l-dja.title" = "Изменить";
+
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "Маленький";
 
@@ -112,6 +118,9 @@
 /* Class = "NSMenuItem"; title = "Smart Copy/Paste"; ObjectID = "9yt-4B-nSM"; */
 "9yt-4B-nSM.title" = "Смарт-копирование/вставка";
 
+/* Class = "NSTextFieldCell"; title = "Translators:"; ObjectID = "13t-eQ-kOr"; */
+"13t-eQ-kOr.title" = "Переводчики:";
+
 /* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
 "54i-GK-spQ.title" = "Расположение заметок:";
 
@@ -127,6 +136,12 @@
 /* Class = "NSTextFieldCell"; title = "Search shortcut:"; ObjectID = "a6n-hz-V8D"; */
 "a6n-hz-V8D.title" = "Поиск:";
 
+/* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
+"ASf-hd-2fT.title" = "Репозитории:";
+
+/* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
+"auW-wa-jbc.title" = "История";
+
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Основное Меню";
 
@@ -141,6 +156,9 @@
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "BOF-NM-1cW"; */
 "BOF-NM-1cW.title" = "Настройки…";
+
+/* Class = "NSTextFieldCell"; title = "minutes"; ObjectID = "Bri-cl-z86"; */
+"Bri-cl-z86.title" = "минуту часа";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Использовать выбранное для поиска";
@@ -238,8 +256,8 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "Помощь";
 
-/* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "F5A-zs-zwP"; */
-"F5A-zs-zwP.title" = "Открыть директорию";
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
+"F5A-zs-zwP.title" = "Показать в Finder";
 
 /* Class = "NSButtonCell"; title = "Hide preview"; ObjectID = "F6G-ua-MNX"; */
 "F6G-ua-MNX.title" = "Отключить предпросмотр";
@@ -298,8 +316,11 @@
 /* Class = "NSMenuItem"; title = "Header 4"; ObjectID = "GhL-6I-558"; */
 "GhL-6I-558.title" = "Заголовок 4";
 
-/* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "goN-LO-L7l"; */
-"goN-LO-L7l.title" = "Открыть директорию";
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "goN-LO-L7l"; */
+"goN-LO-L7l.title" = "Показать в Finder";
+
+/* Class = "NSButtonCell"; title = "Show in Finder"; ObjectID = "gra-E2-dYh"; */
+"gra-E2-dYh.title" = "Показать в Finder";
 
 /* Class = "NSMenuItem"; title = "Lock All Encrypted"; ObjectID = "GrP-W1-7ZQ"; */
 "GrP-W1-7ZQ.title" = "Заблокировать все секретные";
@@ -342,6 +363,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "Стиль превью:";
+
+/* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
+"iIP-wI-OaZ.title" = "Создать резервную копию";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "Заблокировать при включении скринсейвера";
@@ -451,6 +475,9 @@
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
 "nCW-CZ-qC7.title" = "Печать";
 
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "Nhf-c1-VJ6"; */
+"Nhf-c1-VJ6.title" = "Сохранить версию";
+
 /* Class = "NSViewController"; title = "General"; ObjectID = "NHv-lG-vxt"; */
 "NHv-lG-vxt.title" = "Главные";
 
@@ -459,6 +486,12 @@
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
 "NMo-om-nkz.title" = "Сервисы";
+
+/* Class = "NSButtonCell"; title = "Show in Terminal"; ObjectID = "o6a-px-wp7"; */
+"o6a-px-wp7.title" = "Показать в терминале";
+
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "o8V-Wi-IWO"; */
+"o8V-Wi-IWO.title" = "Сохранить версию";
 
 /* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
 "O8Z-cg-XnH.title" = "Импортировать";
@@ -487,6 +520,9 @@
 /* Class = "NSViewController"; title = "Layout"; ObjectID = "P2a-yk-5Rx"; */
 "P2a-yk-5Rx.title" = "Интерфейс";
 
+/* Class = "NSTextFieldCell"; title = "Automatic snapshots:"; ObjectID = "P31-Ka-9HV"; */
+"P31-Ka-9HV.title" = "Стратегия резервного копирования:";
+
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
 "pa3-QI-u2k.title" = "Удалить";
 
@@ -505,6 +541,9 @@
 /* Class = "NSTextFieldCell"; title = "Background:"; ObjectID = "Psk-r4-JT5"; */
 "Psk-r4-JT5.title" = "Фон:";
 
+/* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "PvQ-Pd-zsZ"; */
+"PvQ-Pd-zsZ.title" = "Создать резервную копию";
+
 /* Class = "NSViewController"; title = "Security"; ObjectID = "PXw-YJ-q6A"; */
 "PXw-YJ-q6A.title" = "Безопасность";
 
@@ -517,7 +556,10 @@
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Найти следующий";
 
-/* Class = "NSMenuItem"; title = "View settings"; ObjectID = "qs2-5J-Q3n"; */
+/* Class = "NSTextFieldCell"; title = "GIT version:"; ObjectID = "qiO-vb-B9L"; */
+"qiO-vb-B9L.title" = "Версия Git:";
+
+/* Class = "NSMenuItem"; title = "Show view options"; ObjectID = "qs2-5J-Q3n"; */
 "qs2-5J-Q3n.title" = "Настроить вид";
 
 /* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
@@ -560,7 +602,7 @@
 "RwR-P0-ycK.title" = "Удалить директорию";
 
 /* Class = "NSMenuItem"; title = "Reveal in Finder"; ObjectID = "rXU-X3-UjC"; */
-"rXU-X3-UjC.title" = "Открыть директорию";
+"rXU-X3-UjC.title" = "Показать в Finder";
 
 /* Class = "NSMenuItem"; title = "Jump to Selection"; ObjectID = "S0p-oC-mLd"; */
 "S0p-oC-mLd.title" = "Перейти к выбранному";
@@ -570,6 +612,9 @@
 
 /* Class = "NSMenuItem"; title = "Attach storage..."; ObjectID = "S8Z-Js-fwB"; */
 "S8Z-Js-fwB.title" = "Подключить хранилище...";
+
+/* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
+"sAn-Wm-FfY.title" = "Копия каждый";
 
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Список заметок:";
@@ -582,6 +627,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "SFY-jB-hva"; */
 "SFY-jB-hva.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Code Font"; ObjectID = "Shc-VO-eTc"; */
+"Shc-VO-eTc.title" = "Шрифт кода";
 
 /* Class = "NSMenuItem"; title = "solarized-light"; ObjectID = "SpX-N8-9td"; */
 "SpX-N8-9td.title" = "solarized-light";
@@ -598,7 +646,7 @@
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "Tap-iY-hyA"; */
 "Tap-iY-hyA.title" = "Переименовать директорию";
 
-/* Class = "NSMenuItem"; title = "View settings"; ObjectID = "Tcg-83-bZN"; */
+/* Class = "NSMenuItem"; title = "Show view options"; ObjectID = "Tcg-83-bZN"; */
 "Tcg-83-bZN.title" = "Настроить вид";
 
 /* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
@@ -688,11 +736,14 @@
 /* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
 "xJQ-ch-Xlp.title" = "Шрифт предпросмотра:";
 
+/* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
+"xPh-BC-Xxl.title" = "История";
+
 /* Class = "NSMenuItem"; title = "Speech"; ObjectID = "xrE-MZ-jX0"; */
 "xrE-MZ-jX0.title" = "Диктовка";
 
 /* Class = "NSMenuItem"; title = "Reveal in Finder"; ObjectID = "xSO-lW-k8f"; */
-"xSO-lW-k8f.title" = "Открыть директорию";
+"xSO-lW-k8f.title" = "Показать в Finder";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
 "xX0-9b-KDq.title" = "Живая подсветка кода (необходим перезапуск)";
@@ -724,6 +775,9 @@
 /* Class = "NSButtonCell"; title = "Automatically insert closing braces and close quotes"; ObjectID = "ypO-g0-1Xo"; */
 "ypO-g0-1Xo.title" = "Автоматически закрывать скобки и кавычки";
 
+/* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
+"Yum-W4-OUy.title" = "Изменить";
+
 /* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "Изображение";
 
@@ -732,6 +786,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Open in external editor:"; ObjectID = "zcY-e5-gKs"; */
 "zcY-e5-gKs.title" = "Внешний редактор:";
+
+/* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
+"Ze0-SZ-STw.title" = "Резервные копии вручную";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "Выбирать заметку, если тело соответствует запросу";

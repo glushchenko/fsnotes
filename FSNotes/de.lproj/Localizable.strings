@@ -13,6 +13,9 @@
 /* No comment provided by engineer. */
 "Attach storage..." = "Speicher anschließen...";
 
+/* No comment provided by engineer. */
+"Back up storage" = "Speicher sichern";
+
 /* Delete menu */
 "Cancel" = "Abbrechen";
 
@@ -51,6 +54,9 @@
 
 /* No comment provided by engineer. */
 "Delete folder" = "Ordner löschen";
+
+/* No comment provided by engineer. */
+"Detach storage" = "Speicher abnehmen";
 
 /* No comment provided by engineer. */
 "Empty password" = "Passwort leer";
@@ -131,10 +137,13 @@
 "Rename folder" = "Ordner umbenennen";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "Ordner anzeigen";
+"Search and create" = "Suchen und ersetzen";
 
 /* No comment provided by engineer. */
-"Search and create" = "Suchen und ersetzen";
+"Show in Finder" = "Ordner anzeigen";
+
+/* No comment provided by engineer. */
+"Show view options" = "Einstellungen anzeigen";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Intelligente Kopieren / Einfügen";
@@ -187,9 +196,6 @@
 
 /* Menu */
 "View" = "Ansicht";
-
-/* No comment provided by engineer. */
-"View settings" = "Einstellungen anzeigen";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Passwort stimmt nicht überein";

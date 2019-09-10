@@ -13,6 +13,9 @@
 /* No comment provided by engineer. */
 "Attach storage..." = "Adjuntar almacenamiento...";
 
+/* No comment provided by engineer. */
+"Back up storage" = "Almacenamiento de respaldo";
+
 /* Delete menu */
 "Cancel" = "Cancelar";
 
@@ -53,6 +56,9 @@
 "Delete folder" = "Eliminar carpeta";
 
 /* No comment provided by engineer. */
+"Detach storage" = "Separar el almacenamiento";
+
+/* No comment provided by engineer. */
 "Empty password" = "Contraseña vacía";
 
 /* No comment provided by engineer. */
@@ -63,6 +69,9 @@
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [previsualización]";
+
+/* No comment provided by engineer. */
+"History" = "Historia";
 
 /* No comment provided by engineer. */
 "Image" = "Imagen";
@@ -128,10 +137,13 @@
 "Rename folder" = "Renombar carpeta";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "Mostrar carpeta";
+"Search and create" = "Buscar y crear";
 
 /* No comment provided by engineer. */
-"Search and create" = "Buscar y crear";
+"Show in Finder" = "Mostrar carpeta";
+
+/* No comment provided by engineer. */
+"Show view options" = "Ver configuración";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Copiado/pegado Inteligente";
@@ -184,9 +196,6 @@
 
 /* Menu */
 "View" = "Visualización";
-
-/* No comment provided by engineer. */
-"View settings" = "Ver configuración";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Repetición de contraseña incorrecta";

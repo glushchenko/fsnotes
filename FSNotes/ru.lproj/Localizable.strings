@@ -13,6 +13,9 @@
 /* No comment provided by engineer. */
 "Attach storage..." = "Подключить хранилище...";
 
+/* No comment provided by engineer. */
+"Back up storage" = "Создать резервную копию";
+
 /* Delete menu */
 "Cancel" = "Отмена";
 
@@ -53,6 +56,9 @@
 "Delete folder" = "Удалить директорию";
 
 /* No comment provided by engineer. */
+"Detach storage" = "Отключить хранилище";
+
+/* No comment provided by engineer. */
 "Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
@@ -63,6 +69,9 @@
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
+
+/* No comment provided by engineer. */
+"History" = "История";
 
 /* No comment provided by engineer. */
 "Image" = "Изображение";
@@ -131,10 +140,13 @@
 "Rename folder" = "Переименовать директорию";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "Открыть директорию";
+"Search and create" = "Найти и создать";
 
 /* No comment provided by engineer. */
-"Search and create" = "Найти и создать";
+"Show in Finder" = "Показать в Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Настроить вид";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Смарт-копирование/вставка";
@@ -187,9 +199,6 @@
 
 /* Menu */
 "View" = "Вид";
-
-/* No comment provided by engineer. */
-"View settings" = "Настроить вид";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Несоответствие паролей";

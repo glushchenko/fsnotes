@@ -155,10 +155,13 @@
 "Rename folder" = "تسمية المجلد";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "فتح المجلد";
+"Search and create" = "بحث و انشاء";
 
 /* No comment provided by engineer. */
-"Search and create" = "بحث و انشاء";
+"Show in Finder" = "فتح المجلد";
+
+/* No comment provided by engineer. */
+"Show view options" = "عرض الاعدادات";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "نسخ/لصق الذكي";
@@ -211,9 +214,6 @@
 
 /* Menu */
 "View" = "عرض";
-
-/* No comment provided by engineer. */
-"View settings" = "عرض الاعدادات";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "كلمة مرور المتكررة خاطئة";

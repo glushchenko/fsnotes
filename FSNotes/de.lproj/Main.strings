@@ -16,6 +16,9 @@
 /* Class = "NSMenuItem"; title = "New"; ObjectID = "2Ci-Yj-aWK"; */
 "2Ci-Yj-aWK.title" = "Neu";
 
+/* Class = "NSTextFieldCell"; title = "hour at"; ObjectID = "2Iq-vN-V2w"; */
+"2Iq-vN-V2w.title" = "stunde um";
+
 /* Class = "NSMenuItem"; title = "Transformations"; ObjectID = "2oI-Rn-ZJC"; */
 "2oI-Rn-ZJC.title" = "Transformationen";
 
@@ -91,6 +94,9 @@
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
 "7od-TM-cUB.title" = "Setzen";
 
+/* Class = "NSButtonCell"; title = "Change"; ObjectID = "7xA-9l-dja"; */
+"7xA-9l-dja.title" = "Ändern";
+
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "Klein";
 
@@ -135,6 +141,9 @@
 
 /* Class = "NSMenuItem"; title = "monokai-sublime"; ObjectID = "AaQ-hp-VpR"; */
 "AaQ-hp-VpR.title" = "monokai-sublime";
+
+/* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
+"auW-wa-jbc.title" = "Die geschichte";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Hauptmenü";
@@ -250,7 +259,7 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "Hilfe";
 
-/* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "F5A-zs-zwP"; */
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "Ordner anzeigen";
 
 /* Class = "NSButtonCell"; title = "Hide preview"; ObjectID = "F6G-ua-MNX"; */
@@ -310,8 +319,11 @@
 /* Class = "NSMenuItem"; title = "Header 4"; ObjectID = "GhL-6I-558"; */
 "GhL-6I-558.title" = "Header 4";
 
-/* Class = "NSMenuItem"; title = "Reveal folder"; ObjectID = "goN-LO-L7l"; */
+/* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "goN-LO-L7l"; */
 "goN-LO-L7l.title" = "Ordner anzeigen";
+
+/* Class = "NSButtonCell"; title = "Show in Finder"; ObjectID = "gra-E2-dYh"; */
+"gra-E2-dYh.title" = "Ordner anzeigen";
 
 /* Class = "NSMenuItem"; title = "Lock All Encrypted"; ObjectID = "GrP-W1-7ZQ"; */
 "GrP-W1-7ZQ.title" = "Alle verschlüsselte sperren";
@@ -354,6 +366,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "Vorschau CSS:";
+
+/* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
+"iIP-wI-OaZ.title" = "Speicher sichern";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "Sperren, wenn der Bildschirmschoner aktiv";
@@ -466,6 +481,9 @@
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
 "nCW-CZ-qC7.title" = "Drucken";
 
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "Nhf-c1-VJ6"; */
+"Nhf-c1-VJ6.title" = "Revision speichern";
+
 /* Class = "NSViewController"; title = "General"; ObjectID = "NHv-lG-vxt"; */
 "NHv-lG-vxt.title" = "General";
 
@@ -477,6 +495,12 @@
 
 /* Class = "NSTextFieldCell"; title = "Touch ID:"; ObjectID = "Nw2-km-iDW"; */
 "Nw2-km-iDW.title" = "Touch ID:";
+
+/* Class = "NSButtonCell"; title = "Show in Terminal"; ObjectID = "o6a-px-wp7"; */
+"o6a-px-wp7.title" = "Zeigen in Terminal";
+
+/* Class = "NSMenuItem"; title = "Save Revision"; ObjectID = "o8V-Wi-IWO"; */
+"o8V-Wi-IWO.title" = "Revision speichern";
 
 /* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
 "O8Z-cg-XnH.title" = "Importieren";
@@ -505,6 +529,9 @@
 /* Class = "NSViewController"; title = "Layout"; ObjectID = "P2a-yk-5Rx"; */
 "P2a-yk-5Rx.title" = "Layout";
 
+/* Class = "NSTextFieldCell"; title = "Automatic snapshots:"; ObjectID = "P31-Ka-9HV"; */
+"P31-Ka-9HV.title" = "Automatisches Backup:";
+
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
 "pa3-QI-u2k.title" = "Löschen";
 
@@ -523,6 +550,9 @@
 /* Class = "NSTextFieldCell"; title = "Background:"; ObjectID = "Psk-r4-JT5"; */
 "Psk-r4-JT5.title" = "Hintergrund:";
 
+/* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "PvQ-Pd-zsZ"; */
+"PvQ-Pd-zsZ.title" = "Speicher sichern";
+
 /* Class = "NSViewController"; title = "Security"; ObjectID = "PXw-YJ-q6A"; */
 "PXw-YJ-q6A.title" = "Sicherheit";
 
@@ -535,7 +565,10 @@
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Weitersuchen (vorwärts)";
 
-/* Class = "NSMenuItem"; title = "View settings"; ObjectID = "qs2-5J-Q3n"; */
+/* Class = "NSTextFieldCell"; title = "GIT version:"; ObjectID = "qiO-vb-B9L"; */
+"qiO-vb-B9L.title" = "Git ausführung:";
+
+/* Class = "NSMenuItem"; title = "Show view options"; ObjectID = "qs2-5J-Q3n"; */
 "qs2-5J-Q3n.title" = "Einstellungen anzeigen";
 
 /* Class = "NSTextFieldCell"; title = "Direction:"; ObjectID = "QxK-39-9yF"; */
@@ -589,6 +622,9 @@
 /* Class = "NSMenuItem"; title = "Attach storage..."; ObjectID = "S8Z-Js-fwB"; */
 "S8Z-Js-fwB.title" = "Speicher anschließen...";
 
+/* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
+"sAn-Wm-FfY.title" = "Sichern Sie jeden";
+
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Notizlist:";
 
@@ -616,7 +652,7 @@
 /* Class = "NSMenuItem"; title = "Rename folder"; ObjectID = "Tap-iY-hyA"; */
 "Tap-iY-hyA.title" = "Ordner umbenennen";
 
-/* Class = "NSMenuItem"; title = "View settings"; ObjectID = "Tcg-83-bZN"; */
+/* Class = "NSMenuItem"; title = "Show view options"; ObjectID = "Tcg-83-bZN"; */
 "Tcg-83-bZN.title" = "Einstellungen anzeigen";
 
 /* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
@@ -706,6 +742,9 @@
 /* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
 "xJQ-ch-Xlp.title" = "Vorschauschrift:";
 
+/* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
+"xPh-BC-Xxl.title" = "Die geschichte";
+
 /* Class = "NSMenuItem"; title = "Speech"; ObjectID = "xrE-MZ-jX0"; */
 "xrE-MZ-jX0.title" = "Sprachausgabe";
 
@@ -742,6 +781,9 @@
 /* Class = "NSButtonCell"; title = "Automatically insert closing braces and close quotes"; ObjectID = "ypO-g0-1Xo"; */
 "ypO-g0-1Xo.title" = "Klammern und Anführungszeichen automatisch einfügen";
 
+/* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
+"Yum-W4-OUy.title" = "Ändern";
+
 /* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "Bild";
 
@@ -750,6 +792,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Open in external editor:"; ObjectID = "zcY-e5-gKs"; */
 "zcY-e5-gKs.title" = "In externem Editor öffnen:";
+
+/* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
+"Ze0-SZ-STw.title" = "Manuell sichern";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "Notiz automatisch wählen, wenn der Text übereinstimmt";

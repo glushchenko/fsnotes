@@ -2,8 +2,20 @@
 "Code Span" = "Диапазон кода";
 
 /* No comment provided by engineer. */
+"Detach storage" = "Отключить хранилище";
+
+/* No comment provided by engineer. */
+"History" = "История";
+
+/* No comment provided by engineer. */
 "New folder" = "Создать директорию";
 
 /* No comment provided by engineer. */
-"View settings" = "Настроить вид";
+"Show in Finder" = "Показать в Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Настроить вид";
+
+/* Delete menu */
+"This action cannot be undone." = "Это действие не может быть отменено.";
 
