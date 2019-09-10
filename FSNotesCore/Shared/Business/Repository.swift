@@ -12,53 +12,60 @@ class Repository {
     private var git: Git
     private var name: String
     private var workTree: URL
+    private var debug: Bool
 
-    init(git: Git, name: String, workTree: URL) {
+    init(git: Git, debug: Bool, project: Project, workTree: URL) {
         self.git = git
-        self.name = name
+        self.debug = debug
         self.workTree = workTree
+        self.name = project.getShortSign() + " - " + project.label + ".git"
+    }
+
+    private func exec(args: [String]) -> String? {
+        let env = getEnvironment()
+
+        return git.exec(args: args, env: env)
     }
 
     public func getEnvironment() -> [String: String] {
-        let repoName = "\(name).git"
-        let repo = git.getRepositoriesHome().appendingPathComponent(repoName)
+        let repo = git.getRepositoriesHome().appendingPathComponent(name)
         return ["GIT_DIR": repo.path, "GIT_WORK_TREE": workTree.path]
     }
 
-    public func initialize() {
-        let repoName = "\(name).git"
-        let repo = git.getRepositoriesHome().appendingPathComponent(repoName)
+    public func initialize(from: Project) {
+        let repo = git.getRepositoriesHome().appendingPathComponent(name)
+        guard !FileManager.default.fileExists(atPath: repo.path) else { return }
 
-        if FileManager.default.fileExists(atPath: repo.path) {
-            print("Repository at this path already exist!")
-            return
+        let output = exec(args: ["init"])
+
+        if debug {
+            print("Repo init: \(String(describing: output))")
         }
+    }
 
-        let env = getEnvironment()
-        let output = git.exec(args: ["init"], env: env)
+    public func commit(fileName: String) {
+        let add = exec(args: ["add", "\(fileName)"])
+        let commit = exec(args: ["commit", "-m", "'\(fileName) update'"])
 
-        print(output)
+        if debug {
+            print("Add file: \(String(describing: add))")
+            print("Commit file: \(String(describing: commit))")
+        }
     }
 
     public func commitAll() {
-        let env = getEnvironment()
-        let add = git.exec(args: ["add", "."], env: env)
-        let commit = git.exec(args: ["commit", "-m", "'Note update'"], env: env)
+        let add = exec(args: ["add", "."])
+        let commit = exec(args: ["commit", "-m", "'Scheduled snapshot'"])
 
-        print(add)
-        print(commit)
+        if debug {
+            print("Add files: \(String(describing: add))")
+            print("Commit files: \(String(describing: commit))")
+        }
     }
 
-    public func commits(for fileName: String) -> [Commit] {
-        let repoName = "\(name).git"
-        let repo = git.getRepositoriesHome().appendingPathComponent(repoName)
-        let env = ["GIT_DIR": repo.path]
-
+    public func getCommits(by fileName: String) -> [Commit] {
         var commits = [Commit]()
-        if let log = git.exec(args: ["log", "--follow", "--", "\(fileName)"], env: env) {
-            print("LOG:")
-            print(log)
-
+        if let log = exec(args: ["log", "--follow", "--", "\(fileName)"]) {
             let commitsList = log.matchingStrings(regex: "(?:commit) ([0-9a-z]{32})")
 
             for commit in commitsList {
@@ -81,8 +88,10 @@ class Repository {
     }
 
     public func checkout(commit: Commit, fileName: String) {
-        let env = getEnvironment()
-        let log = git.exec(args: ["checkout", commit.getId(), "\(fileName)"], env: env)
-        print(log)
+        let output = exec(args: ["checkout", commit.getId(), "\(fileName)"])
+
+        if debug {
+            print("Checkout file: \(String(describing: output))")
+        }
     }
 }

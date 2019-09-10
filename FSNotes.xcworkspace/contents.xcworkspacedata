@@ -4,6 +4,13 @@
    <FileRef
       location = "group:FSNotes.xcodeproj">
    </FileRef>
+   <Group
+      location = "group:bin"
+      name = "bin">
+      <FileRef
+         location = "group:git">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
