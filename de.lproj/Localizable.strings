@@ -1,8 +1,17 @@
 /* No comment provided by engineer. */
+"Back up storage" = "Speicher sichern";
+
+/* No comment provided by engineer. */
 "Code Span" = "Codespanne";
 
 /* No comment provided by engineer. */
 "Delete folder" = "Ordner löschen";
+
+/* No comment provided by engineer. */
+"Detach storage" = "Speicher abnehmen";
+
+/* No comment provided by engineer. */
+"History" = "Die geschichte";
 
 /* No comment provided by engineer. */
 "Inbox" = "Posteingang";
@@ -11,5 +20,8 @@
 "Rename folder" = "Ordner umbenennen";
 
 /* No comment provided by engineer. */
-"View settings" = "Einstellungen anzeigen";
+"Show in Finder" = "Ordner anzeigen";
+
+/* No comment provided by engineer. */
+"Show view options" = "Einstellungen anzeigen";
 

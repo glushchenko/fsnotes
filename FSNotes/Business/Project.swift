@@ -220,24 +220,22 @@ public class Project: Equatable {
     }
 
     public func getGitPath() -> String? {
-        guard let ubiq = FileManager.default.url(forUbiquityContainerIdentifier: nil) else { return nil }
-
         if isArchive || parent == nil {
             return nil
         }
 
-        let iCloudRoot = ubiq.appendingPathComponent("Documents").resolvingSymlinksInPath()
-        let rel = url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
-
-        if rel.first == "/" {
-            return String(rel.dropFirst())
+        let parentURL = getParent().url
+        let relative = url.path.replacingOccurrences(of: parentURL.path, with: "")
+        
+        if relative.first == "/" {
+            return String(relative.dropFirst())
         }
 
-        if rel == "" {
+        if relative == "" {
             return nil
         }
 
-        return rel
+        return relative
     }
 
     public func createDirectory() {

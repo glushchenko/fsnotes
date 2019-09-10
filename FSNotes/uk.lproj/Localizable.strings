@@ -13,6 +13,9 @@
 /* No comment provided by engineer. */
 "Attach storage..." = "Підключити сховище...";
 
+/* No comment provided by engineer. */
+"Back up storage" = "Зробити резервну копію";
+
 /* Delete menu */
 "Cancel" = "Відміна";
 
@@ -53,6 +56,9 @@
 "Delete folder" = "Видалити директорію";
 
 /* No comment provided by engineer. */
+"Detach storage" = "Відключити сховище";
+
+/* No comment provided by engineer. */
 "Empty password" = "Введіть пароль";
 
 /* No comment provided by engineer. */
@@ -81,6 +87,9 @@
 
 /* No comment provided by engineer. */
 "Header 6" = "Заголовок 6";
+
+/* No comment provided by engineer. */
+"History" = "Історія";
 
 /* No comment provided by engineer. */
 "Image" = "Зображення";
@@ -149,10 +158,13 @@
 "Rename folder" = "Перейменувати директорію";
 
 /* No comment provided by engineer. */
-"Reveal folder" = "Показати директорію";
+"Search and create" = "Знайти або створити";
 
 /* No comment provided by engineer. */
-"Search and create" = "Знайти або створити";
+"Show in Finder" = "Показати в Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Налаштування вигляду";
 
 /* No comment provided by engineer. */
 "Smart Copy/Paste" = "Розумне копіювання/вставка";
@@ -208,9 +220,6 @@
 
 /* Menu */
 "View" = "Вид";
-
-/* No comment provided by engineer. */
-"View settings" = "Налаштування вигляду";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Паролі не співпадають";

@@ -13,17 +13,18 @@ extension ViewController {
     @IBAction func saveRevision(_ sender: NSMenuItem) {
         guard let note = EditTextView.note else { return }
 
-        let repository = Git.sharedInstance().getRepository(by: note.project.getParent())
+        let project = note.project.getParent()
+        let repository = Git.sharedInstance().getRepository(by: project)
+        let gitPath = note.getGitPath()
 
-        repository.initialize(from: note.project)
-        repository.commit(fileName: note.getGitPath())
+        repository.initialize(from: project)
+        repository.commit(fileName: gitPath)
     }
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
         let repository = Git.sharedInstance().getRepository(by: project.getParent())
-
         repository.initialize(from: project.getParent())
         repository.commitAll()
     }

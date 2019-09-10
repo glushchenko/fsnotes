@@ -199,25 +199,7 @@ CA
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New" keyEquivalent="N" id="SrH-fe-Hog">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                                            <connections>
-                                                <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="R" id="Tap-iY-hyA">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                                            <connections>
-                                                <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="F5A-zs-zwP">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Delete" id="RuM-sf-kcZ">
+                                        <menuItem title="Delete folder" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -226,9 +208,27 @@ CA
                                                 <action selector="deleteMenu:" target="yxb-XH-bXh" id="FWV-BA-fcU"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Back up" keyEquivalent="S" id="iIP-wI-OaZ">
+                                        <menuItem title="Back up storage" keyEquivalent="S" id="iIP-wI-OaZ">
                                             <connections>
                                                 <action selector="makeSnapshot:" target="Ady-hI-5gd" id="DiC-Cc-5X3"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Show in Finder" keyEquivalent="R" id="F5A-zs-zwP">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="New folder" keyEquivalent="N" id="SrH-fe-Hog">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Rename folder" keyEquivalent="R" id="Tap-iY-hyA">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Show view options" keyEquivalent="," id="Tcg-83-bZN">
@@ -1785,36 +1785,36 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="New" keyEquivalent="N" id="3zv-SD-lSX">
+                        <menuItem title="Back up storage" keyEquivalent="S" id="PvQ-Pd-zsZ">
+                            <connections>
+                                <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="New folder" keyEquivalent="N" id="3zv-SD-lSX">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename" keyEquivalent="R" id="fzU-ZR-Ubv">
+                        <menuItem title="Rename folder" keyEquivalent="R" id="fzU-ZR-Ubv">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="renameMenu:" target="urA-eK-bWB" id="Jh4-4H-wc0"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Reveal in Finder" keyEquivalent="R" id="goN-LO-L7l">
+                        <menuItem title="Show in Finder" keyEquivalent="R" id="goN-LO-L7l">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
                                 <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete" id="RwR-P0-ycK">
+                        <menuItem title="Delete folder" id="RwR-P0-ycK">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                             <connections>
                                 <action selector="deleteMenu:" target="urA-eK-bWB" id="AFb-ct-LdH"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Back up" keyEquivalent="S" id="PvQ-Pd-zsZ">
-                            <connections>
-                                <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Show view options" keyEquivalent="," id="qs2-5J-Q3n">
@@ -2256,7 +2256,7 @@ Ayad (Twitter: @ayad0net)</string>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <pathControl verticalHuggingPriority="750" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Su7-am-ZzF">
-                                <rect key="frame" x="52" y="263" width="288" height="22"/>
+                                <rect key="frame" x="52" y="263" width="268" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <pathCell key="cell" selectable="YES" editable="YES" alignment="left" id="JDg-Kg-pSb">
                                     <font key="font" metaFont="system"/>
@@ -2264,7 +2264,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </pathCell>
                             </pathControl>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nxs-E7-HiW">
-                                <rect key="frame" x="342" y="257" width="87" height="32"/>
+                                <rect key="frame" x="322" y="257" width="107" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7xA-9l-dja">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2275,7 +2275,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MJR-Nj-qpL">
-                                <rect key="frame" x="46" y="216" width="130" height="32"/>
+                                <rect key="frame" x="46" y="216" width="188" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Show in Finder" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="gra-E2-dYh">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2286,7 +2286,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j6S-7D-dXz">
-                                <rect key="frame" x="189" y="216" width="143" height="32"/>
+                                <rect key="frame" x="241" y="216" width="188" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Show in Terminal" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="o6a-px-wp7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2301,7 +2301,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jg2-oT-Bcf">
-                                <rect key="frame" x="52" y="167" width="136" height="17"/>
+                                <rect key="frame" x="52" y="167" width="375" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Automatic snapshots:" id="P31-Ka-9HV">
                                     <font key="font" metaFont="system"/>
@@ -2322,7 +2322,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H46-qe-euU">
-                                <rect key="frame" x="275" y="105" width="47" height="17"/>
+                                <rect key="frame" x="275" y="105" width="57" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="hour at" id="2Iq-vN-V2w">
                                     <font key="font" metaFont="system"/>
@@ -2335,7 +2335,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rYS-6l-toX">
-                                <rect key="frame" x="52" y="41" width="77" height="17"/>
+                                <rect key="frame" x="52" y="41" width="100" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="GIT version:" id="qiO-vb-B9L">
                                     <font key="font" metaFont="system"/>
@@ -2343,17 +2343,8 @@ Ayad (Twitter: @ayad0net)</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-ff-KY3">
-                                <rect key="frame" x="136" y="41" width="167" height="17"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="2.3.2" id="GxH-ZH-Hvr">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8Z-se-hEF">
-                                <rect key="frame" x="52" y="293" width="83" height="17"/>
+                                <rect key="frame" x="52" y="293" width="373" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Repositories:" id="ASf-hd-2fT">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -2362,7 +2353,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </textFieldCell>
                             </textField>
                             <button identifier="manual" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dRB-iE-HKk">
-                                <rect key="frame" x="53" y="126" width="129" height="18"/>
+                                <rect key="frame" x="53" y="126" width="374" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Back up manually" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Ze0-SZ-STw">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2373,7 +2364,7 @@ Ayad (Twitter: @ayad0net)</string>
                                 </connections>
                             </button>
                             <button identifier="schedule" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lK7-QU-fN2">
-                                <rect key="frame" x="53" y="104" width="108" height="18"/>
+                                <rect key="frame" x="53" y="104" width="161" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Back up every" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sAn-Wm-FfY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2399,6 +2390,15 @@ Ayad (Twitter: @ayad0net)</string>
                                 <rect key="frame" x="391" y="105" width="53" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="minutes" id="Bri-cl-z86">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oSP-ff-KY3">
+                                <rect key="frame" x="156" y="41" width="167" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="2.3.2" id="GxH-ZH-Hvr">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

@@ -30,25 +30,40 @@ class SidebarProjectView: NSOutlineView,
 
         guard let sidebarItem = getSidebarItem() else { return false }
 
-        if menuItem.title == NSLocalizedString("Reveal folder", comment: "") {
+        if menuItem.title == NSLocalizedString("Back up storage", comment: "") {
+            return true
+        }
+
+        if menuItem.title == NSLocalizedString("Show in Finder", comment: "") {
             if let sidebarItem = getSidebarItem() {
                 return sidebarItem.project != nil
             }
         }
 
         if menuItem.title == NSLocalizedString("Rename folder", comment: "") {
+            if let project = sidebarItem.project {
+                menuItem.isHidden = project.isRoot
+            }
+
             if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
                 return true
             }
         }
 
-        if menuItem.title == NSLocalizedString("Delete folder", comment: "") {
+        if menuItem.title == NSLocalizedString("Delete folder", comment: "")
+            || menuItem.title == NSLocalizedString("Detach storage", comment: "") {
+            if let project = sidebarItem.project {
+                menuItem.title = project.isRoot
+                    ? NSLocalizedString("Detach storage", comment: "")
+                    : NSLocalizedString("Delete folder", comment: "")
+            }
+
             if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
                 return true
             }
         }
 
-        if menuItem.title == NSLocalizedString("View settings", comment: "") {
+        if menuItem.title == NSLocalizedString("Show view options", comment: "") {
             return nil != sidebarItem.project
         }
 
