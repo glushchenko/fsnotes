@@ -174,6 +174,12 @@ class ViewController: NSViewController,
                         : [.command]
                 }
 
+                if menuItem.identifier?.rawValue == "fileMenu.history" {
+                    if EditTextView.note != nil {
+                        return true
+                    }
+                }
+
                 if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate", "fileMenu.import"].contains(menuItem.identifier?.rawValue) {
                     return true
                 }
@@ -181,6 +187,7 @@ class ViewController: NSViewController,
                 if vc.notesTableView.selectedRow == -1 {
                     return false
                 }
+
                 break
             case "folderMenu":
                 if ["folderMenu.attachStorage"].contains(menuItem.identifier?.rawValue) {
@@ -779,6 +786,22 @@ class ViewController: NSViewController,
             let general = moveMenu?.submenu?.item(at: 0)
             
             moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+        }
+    }
+
+    @IBAction func historyMenu(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+
+        if vc.notesTableView.selectedRow >= 0 {
+            vc.loadHistory()
+
+            let historyTitle = NSLocalizedString("History", comment: "Menu")
+            let historyMenu = vc.noteMenu.item(withTitle: historyTitle)
+            let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
+            let x = vc.splitView.subviews[0].frame.width + 5
+            let general = historyMenu?.submenu?.item(at: 0)
+
+            historyMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
         }
     }
     
