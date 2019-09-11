@@ -85,7 +85,12 @@ extension ViewController {
 
         lastSnapshot = minute
 
-        guard UserDefaultsManagement.snapshotsInterval % hour == 0 else { return }
+        guard hour == UserDefaultsManagement.snapshotsInterval
+            || (
+                hour != 0 && UserDefaultsManagement.snapshotsInterval % hour == 0
+            )
+        else { return }
+
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
 
         let storage = Storage.sharedInstance()

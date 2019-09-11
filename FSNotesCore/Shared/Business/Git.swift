@@ -60,7 +60,7 @@ class Git {
     }
 
     public func getBinary() -> URL {
-        let url = Bundle.main.bundleURL.appendingPathComponent("Contents/Resources/git")
+        let url = Bundle.main.bundleURL.appendingPathComponent("Contents/MacOS/git")
 
         return url
     }

@@ -400,6 +400,9 @@
 		D76025C0204F078A000B9F59 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D76025C1204F078A000B9F59 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
 		D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
+		D76769292328D1F500304E15 /* git in Resources */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
+		D767692C2328D23000304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
+		D767692D2328D9B500304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D7679376201F0BFD000F7BBF /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
 		D7679377201F0BFD000F7BBF /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
 		D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679388201F21F5000F7BBF /* AppDelegate.swift */; };
@@ -651,9 +654,6 @@
 		D7D7CD5023278A2F0016AC15 /* Git.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D7CD4F23278A2F0016AC15 /* Git.bundle */; };
 		D7D7CD5123278A2F0016AC15 /* Git.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D7CD4F23278A2F0016AC15 /* Git.bundle */; };
 		D7D7CD5223278A2F0016AC15 /* Git.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D7CD4F23278A2F0016AC15 /* Git.bundle */; };
-		D7D7CD552327915A0016AC15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D7D7CD49232783940016AC15 /* git */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		D7D7CD572327916E0016AC15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D7D7CD49232783940016AC15 /* git */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		D7D7CD592327919C0016AC15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D7D7CD49232783940016AC15 /* git */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D7D88192214AACF40054586C /* UINote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D88191214AACF40054586C /* UINote.swift */; };
 		D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D9503C209D806F001FB60B /* SidebarTableView.swift */; };
@@ -944,9 +944,9 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 7;
+			dstSubfolderSpec = 6;
 			files = (
-				D7D7CD552327915A0016AC15 /* git in CopyFiles */,
+				D767692D2328D9B500304E15 /* git in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -954,9 +954,9 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 7;
+			dstSubfolderSpec = 6;
 			files = (
-				D7D7CD572327916E0016AC15 /* git in CopyFiles */,
+				D767692C2328D23000304E15 /* git in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,7 +966,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				D7D7CD592327919C0016AC15 /* git in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1153,6 +1152,7 @@
 		D76025BE204F078A000B9F59 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D76025C2204F2820000B9F59 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIFont+.swift"; path = "../../FSNotes/Extensions/UIFont+.swift"; sourceTree = "<group>"; };
 		D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagement.swift; sourceTree = "<group>"; };
+		D76769282328D1F400304E15 /* git */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = git; sourceTree = "<group>"; };
 		D7679375201F0BFD000F7BBF /* SortBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
 		D7679386201F21F5000F7BBF /* FSNotes iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FSNotes iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7679388201F21F5000F7BBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1273,7 +1273,6 @@
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
 		D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Git.swift"; sourceTree = "<group>"; };
-		D7D7CD49232783940016AC15 /* git */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = git; sourceTree = "<group>"; };
 		D7D7CD4F23278A2F0016AC15 /* Git.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Git.bundle; sourceTree = "<group>"; };
 		D7D88191214AACF40054586C /* UINote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINote.swift; sourceTree = "<group>"; };
 		D7D9503C209D806F001FB60B /* SidebarTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableView.swift; sourceTree = "<group>"; };
@@ -1962,7 +1961,7 @@
 		D7D7CD48232783940016AC15 /* bin */ = {
 			isa = PBXGroup;
 			children = (
-				D7D7CD49232783940016AC15 /* git */,
+				D76769282328D1F400304E15 /* git */,
 			);
 			path = bin;
 			sourceTree = "<group>";
@@ -2702,6 +2701,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D76769292328D1F500304E15 /* git in Resources */,
 				D7C690CB22AAE16500BFBBD1 /* indent@3x.png in Resources */,
 				D7CDE9D6215FEC6B00DC5978 /* copy_white.png in Resources */,
 				D7C690D022AB025800BFBBD1 /* codeblock.png in Resources */,
@@ -2978,7 +2978,6 @@
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
-				"${BUILT_PRODUCTS_DIR}/Schedule/Schedule.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -2988,7 +2987,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Schedule.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3008,7 +3006,6 @@
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
-				"${BUILT_PRODUCTS_DIR}/Schedule/Schedule.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3018,7 +3015,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Schedule.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3082,7 +3078,6 @@
 				"${BUILT_PRODUCTS_DIR}/Highlightr-macOS/Highlightr.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor-macOS/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive-macOS/SSZipArchive.framework",
-				"${BUILT_PRODUCTS_DIR}/Schedule/Schedule.framework",
 				"${BUILT_PRODUCTS_DIR}/cmark-gfm-swift-macOS/cmark_gfm_swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3092,7 +3087,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Highlightr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Schedule.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/cmark_gfm_swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4433,6 +4427,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 302;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4465,6 +4460,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 302;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
