@@ -387,7 +387,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchQueue.cancelAllOperations()
 
         let operation = BlockOperation()
-        operation.addExecutionBlock {
+        operation.addExecutionBlock { [weak self] in
+            guard let self = self else {return}
 
             self.accessTime = DispatchTime.now()
 

@@ -12,7 +12,7 @@ class CloudDriveManager {
 
     private var cloudDriveResults = [URL]()
     
-    private var delegate: ViewController
+    private weak var delegate: ViewController
     private var storage: Storage
 
     private var currentDownloadingList = [URL]()

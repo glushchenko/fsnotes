@@ -13,7 +13,10 @@ extension ImageAttachment {
         let attachment = NSTextAttachment()
         
         let operation = BlockOperation()
-        operation.addExecutionBlock {
+        operation.addExecutionBlock { [weak self] in
+            guard let self = self else {return}
+
+            
             guard self.note == EditTextView.note else { return }
             usleep(useconds_t(80000))
             guard self.note == EditTextView.note else { return }
