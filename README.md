@@ -27,6 +27,8 @@ Our application respect open formats: **Plaintext, Markdown, RTF**, and stores d
 - Themes for code highlighting.
 - Markdown images preview in the editor.
 - Images drag and drop or copy & paste.
+- Tags.
+- Git versioning and scheduled backups.
 
 FSNotes is written on **Swift 5**, open-source (MIT license)
 
