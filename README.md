@@ -28,6 +28,9 @@ Our application respect open formats: **Plaintext, Markdown, RTF**, and stores d
 - Markdown images preview in the editor.
 - Images drag and drop or copy & paste.
 - Tags.
+- Dark mode (macOS Mojave and higher).
+- Encryption AES-256.
+- Mermaid and MathJax support.
 - Git versioning and scheduled backups.
 
 FSNotes is written on **Swift 5**, open-source (MIT license)
