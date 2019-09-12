@@ -9,7 +9,7 @@
 import UIKit
 
 class NotesListController: UITableViewController {
-    public var delegate: ShareViewController?
+    public weak var delegate: ShareViewController?
     private var notes = [Note]()
 
     override func viewDidLoad() {

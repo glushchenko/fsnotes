@@ -9,7 +9,7 @@
 import UIKit
 
 class ProjectListController: UITableViewController {
-    public var delegate: ShareViewController?
+    public weak var delegate: ShareViewController?
     private var projects = [Project]()
 
     override func viewDidLoad() {

@@ -11,7 +11,7 @@ import FSNotesCore_macOS
 
 class FileSystemEventManager {
     private var storage: Storage
-    private var delegate: ViewController
+    private weak var delegate: ViewController?
     private var watcher: FileWatcher?
     private var observedFolders: [String]
     
@@ -106,8 +106,8 @@ class FileSystemEventManager {
         let n = storage.getBy(url: url)
         guard n == nil else {
             if let nUnwrapped = n, nUnwrapped.url == UserDataService.instance.focusOnImport {
-                self.delegate.updateTable() {
-                    self.delegate.notesTableView.setSelected(note: nUnwrapped)
+                self.delegate?.updateTable() {
+                    self.delegate?.notesTableView.setSelected(note: nUnwrapped)
                     UserDataService.instance.focusOnImport = nil
                 }
             }
@@ -128,34 +128,34 @@ class FileSystemEventManager {
         
         DispatchQueue.main.async {
             if let url = UserDataService.instance.focusOnImport, let note = self.storage.getBy(url: url) {
-                self.delegate.updateTable() {
-                    self.delegate.notesTableView.setSelected(note: note)
+                self.delegate?.updateTable() {
+                    self.delegate?.notesTableView.setSelected(note: note)
                     UserDataService.instance.focusOnImport = nil
-                    self.delegate.reloadSideBar()
+                    self.delegate?.reloadSideBar()
                 }
             } else {
                 if !note.isTrash() {
-                    self.delegate.notesTableView.insertNew(note: note)
+                    self.delegate?.notesTableView.insertNew(note: note)
                 }
 
-                self.delegate.reloadSideBar()
+                self.delegate?.reloadSideBar()
             }
         }
         
         if note.name == "FSNotes - Readme.md" {
-            self.delegate.updateTable() {
-                self.delegate.notesTableView.selectRow(0)
+            self.delegate?.updateTable() {
+                self.delegate?.notesTableView.selectRow(0)
                 note.addPin()
 
-                self.delegate.reloadSideBar()
+                self.delegate?.reloadSideBar()
             }
         }
     }
     
     private func renameNote(note: Note) {
         if note.url == UserDataService.instance.focusOnImport {
-            self.delegate.updateTable() {
-                self.delegate.notesTableView.setSelected(note: note)
+            self.delegate?.updateTable() {
+                self.delegate?.notesTableView.setSelected(note: note)
                 UserDataService.instance.focusOnImport = nil
             }
             
@@ -170,8 +170,8 @@ class FileSystemEventManager {
         
         self.storage.removeNotes(notes: [note], fsRemove: false) { _ in
             DispatchQueue.main.async {
-                if self.delegate.notesTableView.numberOfRows > 0 {
-                    self.delegate.notesTableView.removeByNotes(notes: [note])
+                if self.delegate?.notesTableView.numberOfRows ?? 0 > 0 {
+                    self.delegate?.notesTableView.removeByNotes(notes: [note])
                 }
             }
         }
@@ -188,10 +188,10 @@ class FileSystemEventManager {
             note.content = NSMutableAttributedString(attributedString: fsContent)
             note.isCached = false
 
-            self.delegate.notesTableView.reloadRow(note: note)
+            self.delegate?.notesTableView.reloadRow(note: note)
 
             if EditTextView.note == note {
-                self.delegate.refillEditArea()
+                self.delegate?.refillEditArea()
             }
         }
     }

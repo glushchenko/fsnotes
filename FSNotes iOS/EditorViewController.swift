@@ -502,7 +502,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         self.storageQueue.cancelAllOperations()
         let operation = BlockOperation()
-        operation.addExecutionBlock {
+        operation.addExecutionBlock { [weak self] in
+            guard let self = self else {return}
+            
             DispatchQueue.main.async {
                 note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
                 note.save()

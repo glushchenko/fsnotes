@@ -161,11 +161,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
             self.loadingQueue.cancelAllOperations()
             let operation = BlockOperation()
-            operation.addExecutionBlock {
+            operation.addExecutionBlock { [weak self] in
                 note.markdownCache()
         
                 DispatchQueue.main.async {
-                    guard !operation.isCancelled, self.fillTimestamp == timestamp else { return }
+                    guard !operation.isCancelled, self?.fillTimestamp == timestamp else { return }
 
                     vc.editArea.fill(note: note, highlight: true)
                     if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {

@@ -1344,7 +1344,8 @@ class ViewController: NSViewController,
         filter = originalFilter.lowercased()
 
         let operation = BlockOperation()
-        operation.addExecutionBlock {
+        operation.addExecutionBlock { [weak self] in
+            guard let self = self else {return}
             
             var terms = filter.split(separator: " ")
             let source = self.storage.noteList

@@ -27,7 +27,7 @@ class NoteCellView: NSTableCellView {
     private var previewMaximumLineHeight: CGFloat = 12
     private let previewLineSpacing: CGFloat = 3
 
-    public var tableView: NotesTableView? {
+    public weak var tableView: NotesTableView? {
         get {
             guard let vc = ViewController.shared() else { return nil }
             
