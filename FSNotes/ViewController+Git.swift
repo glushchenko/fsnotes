@@ -24,9 +24,11 @@ extension ViewController {
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
-        let repository = Git.sharedInstance().getRepository(by: project.getParent())
-        repository.initialize(from: project.getParent())
-        repository.commitAll()
+        DispatchQueue.global(qos: .background).async {
+            let repository = Git.sharedInstance().getRepository(by: project.getParent())
+            repository.initialize(from: project.getParent())
+            repository.commitAll()
+        }
     }
 
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {

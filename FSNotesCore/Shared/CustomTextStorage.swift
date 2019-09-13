@@ -57,14 +57,15 @@ extension NSTextStorage: NSTextStorageDelegate {
             return true
         }
 
-        let string = textStorage.string[editedRange.location..<editedRange.upperBound]
+        let string = textStorage.mutableString.substring(with: editedRange)
+
         return
             string == "`"
             || string == "`\n"
             || EditTextView.lastRemoved == "`"
             || (
                 EditTextView.shouldForceRescan
-                && textStorage.string[editedRange.location..<editedRange.upperBound].contains("```")
+                && string.contains("```")
             )
     }
 
@@ -97,7 +98,7 @@ extension NSTextStorage: NSTextStorageDelegate {
             highlight(textStorage: textStorage, fencedRange: fencedRange, parRange: parRange, delta: delta, editedRange: editedRange)
 
             if delta == 1,
-                textStorage.string[editedRange.location..<editedRange.upperBound] == "\n",
+                textStorage.mutableString.substring(with: editedRange) == "\n",
                 textStorage.length >= fencedRange.upperBound + 1,
                 textStorage.attribute(.backgroundColor, at: fencedRange.upperBound, effectiveRange: nil) != nil {
 
@@ -112,13 +113,13 @@ extension NSTextStorage: NSTextStorageDelegate {
     }
 
     private func highlight(textStorage: NSTextStorage, fencedRange: NSRange, parRange: NSRange, delta: Int, editedRange: NSRange) {
-        let code = textStorage.string[fencedRange.location..<fencedRange.upperBound]
+        let code = textStorage.mutableString.substring(with: fencedRange)
         let language = NotesTextProcessor.getLanguage(code)
 
         NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
 
         if delta == 1 {
-            let newChar = textStorage.string[editedRange.location..<editedRange.upperBound]
+            let newChar = textStorage.mutableString.substring(with: editedRange)
             let isNewLine = newChar == "\n"
 
             let backgroundRange =
@@ -140,7 +141,7 @@ extension NSTextStorage: NSTextStorageDelegate {
     private func highlightParagraph(textStorage: NSTextStorage, editedRange: NSRange) {
         let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
         var parRange = textStorage.mutableString.paragraphRange(for: editedRange)
-        let paragraph = textStorage.string[parRange.location..<parRange.upperBound]
+        let paragraph = textStorage.mutableString.substring(with: parRange)
 
         if paragraph.count == 2, textStorage.attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
             if let ranges = codeTextProcessor.getCodeBlockRanges(parRange: parRange) {
@@ -175,7 +176,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
 
         if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
-            let code = textStorage.string[fencedRange.location..<fencedRange.upperBound]
+            let code = textStorage.mutableString.substring(with: fencedRange)
             let language = NotesTextProcessor.getLanguage(code)
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
             textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)

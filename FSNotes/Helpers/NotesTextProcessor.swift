@@ -211,7 +211,7 @@ public class NotesTextProcessor {
 
     public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil) {
         guard let highlighter = NotesTextProcessor.getHighlighter() else { return }
-        let codeString = attributedString.string[range.location..<range.upperBound]
+        let codeString = attributedString.mutableString.substring(with: range)
 
         let preDefinedLanguage = language ?? getLanguage(codeString)
 
@@ -220,7 +220,7 @@ public class NotesTextProcessor {
                 return
             }
 
-            if attributedString.length >= range.upperBound && (code.string != attributedString.attributedSubstring(from: range).string) {
+            if attributedString.length >= range.upperBound && (code.string != attributedString.mutableString.substring(with: range)) {
                 return
             }
 

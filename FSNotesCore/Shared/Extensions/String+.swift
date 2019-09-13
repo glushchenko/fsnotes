@@ -64,24 +64,6 @@ public extension String {
         return self.replacingOccurrences(of: "+", with: "%20")
     }
 
-    subscript(_ ind: Int) -> String {
-        let idx1 = utf16.index(startIndex, offsetBy: ind)
-        let idx2 = utf16.index(idx1, offsetBy: 1)
-        return String(self[idx1..<idx2])
-    }
-
-    subscript (rind: Range<Int>) -> String {
-        let start = utf16.index(startIndex, offsetBy: rind.lowerBound)
-        let end = utf16.index(startIndex, offsetBy: rind.upperBound)
-        return String(self[start..<end])
-    }
-
-    subscript (rind: CountableClosedRange<Int>) -> String {
-        let startIndex = utf16.index(self.startIndex, offsetBy: rind.lowerBound)
-        let endIndex = utf16.index(startIndex, offsetBy: rind.upperBound - rind.lowerBound)
-        return String(self[startIndex...endIndex])
-    }
-
     func matchingStrings(regex: String) -> [[String]] {
         guard let regex = try? NSRegularExpression(pattern: regex, options: [.dotMatchesLineSeparators]) else { return [] }
 
