@@ -8,10 +8,10 @@
 "Are you sure you want to irretrievably delete %d note(s)?" = "确定要永久删除%d个笔记？此操作无法恢复！";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove project \"%@\" and all files inside?" = "确定要删除项目\"%@\"吗 ？";
+"Are you sure you want to remove project \"%@\" and all files inside?" = "您确定要删除项目\"%@\"和它下面的所有文件吗？";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "附加存储…";
+"Attach storage..." = "附件存储";
 
 /* No comment provided by engineer. */
 "Back up storage" = "备份存储";
@@ -41,7 +41,7 @@
 "Copy Plain Text" = "拷贝纯文本";
 
 /* No comment provided by engineer. */
-"Correct Spelling Automatically" = "自动纠正拼写";
+"Correct Spelling Automatically" = "拼写正确";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "当前密码与钥匙串中的密码不匹配";
@@ -72,6 +72,24 @@
 
 /* No comment provided by engineer. */
 "FSNotes [preview]" = "FSNotes [预览]";
+
+/* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
 
 /* Menu */
 "History" = "历史";
@@ -116,7 +134,7 @@
 "OK" = "好的";
 
 /* Edit area */
-"Please enter image title:" = "请输入图像标题：";
+"Please enter image title:" = "请输入图片标题：";
 
 /* No comment provided by engineer. */
 "Please enter password for current note" = "请输入当前笔记的密码";
@@ -201,7 +219,7 @@
 "Underline" = "下划线";
 
 /* Untitled Note */
-"Untitled Note" = "未命名笔记";
+"Untitled Note" = "无标题";
 
 /* No comment provided by engineer. */
 "URL has been copied to clipboard" = "URL已复制到剪贴板";
@@ -210,5 +228,5 @@
 "View" = "视图";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "重复密码输入错误";
+"Wrong repeated password" = "重复密码输入不正确";
 
