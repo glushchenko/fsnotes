@@ -1,0 +1,205 @@
+/* No comment provided by engineer. */
+"Add" = "Hinzufügen";
+
+/* Sidebar label */
+"Archive" = "Archiv";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "Sind Sie sicher, dass Sie %d Notiz(en) unwiderruflich löschen möchten?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Sind Sie sicher, dass Sie Projekt \"%@\" löschen möchten?";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "Speicher anschließen...";
+
+/* No comment provided by engineer. */
+"Back up storage" = "Speicher sichern";
+
+/* Delete menu */
+"Cancel" = "Abbrechen";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Grammatik und Rechtschreibung prüfen";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Während der Texteingabe prüfen";
+
+/* No comment provided by engineer. */
+"Code Block" = "Blocksatz";
+
+/* No comment provided by engineer. */
+"Code Span" = "Codespanne";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "HTML kopieren";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Link kopieren";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Plain Text kopieren";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Rechtschreibung automatisch korrigieren";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "Das aktuelle Passwort stimmt nicht mit dem Passwort im Schlüsselbund überein";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Datendetektoren";
+
+/* No comment provided by engineer. */
+"Delete" = "Löschen";
+
+/* No comment provided by engineer. */
+"Delete folder" = "Ordner löschen";
+
+/* No comment provided by engineer. */
+"Detach storage" = "Speicher abnehmen";
+
+/* No comment provided by engineer. */
+"Empty password" = "Passwort leer";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Geben Sie das Master Passwort ein";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [bearbeiten]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [Vorschau]";
+
+/* Menu */
+"History" = "Die geschichte";
+
+/* No comment provided by engineer. */
+"Image" = "Bild";
+
+/* Edit area */
+"Image title" = "Bildbezeichnung";
+
+/* No comment provided by engineer. */
+"Inbox" = "Posteingang";
+
+/* No comment provided by engineer. */
+"Link" = "Link";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "Alle verschlüsselte sperren";
+
+/* No comment provided by engineer. */
+"Master password:" = "Master Passwort:";
+
+/* Menu */
+"Move" = "Verschieben";
+
+/* No comment provided by engineer. */
+"New" = "Neu";
+
+/* No comment provided by engineer. */
+"New folder" = "Neuer Ordner";
+
+/* No comment provided by engineer. */
+"New project" = "Neues Projekt";
+
+/* No comment provided by engineer. */
+"New RTF" = "Neu RTF";
+
+/* Sidebar label */
+"Notes" = "Notizen";
+
+/* Edit area */
+"Please enter image title:" = "Geben Sie die Bildbezeichnung ein:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Geben Sie das Passwort für die aktuelle Notiz ein";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Geben Sie den Projektname ein:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Geben Sie Tags ein (durch Kommas getrennt):";
+
+/* No comment provided by engineer. */
+"Please try again" = "Versuchen Sie bitte nochmal";
+
+/* No comment provided by engineer. */
+"Preferences" = "Einstellungen";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "FSNotes beenden";
+
+/* Delete menu */
+"Remove" = "Löschen";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Notiz (en) entfernen";
+
+/* No comment provided by engineer. */
+"Rename folder" = "Ordner umbenennen";
+
+/* No comment provided by engineer. */
+"Search and create" = "Suchen und ersetzen";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Ordner anzeigen";
+
+/* No comment provided by engineer. */
+"Show view options" = "Einstellungen anzeigen";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Intelligente Kopieren / Einfügen";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Intelligente Bindestriche";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Intelligente Links";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Intelligente Anführungszeichen";
+
+/* View menu */
+"Sort by" = "Sortiere nach";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Rechtschreibung und Grammatik";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Durchgestrichen";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Ersetzungen";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Tags";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Text ersetzen";
+
+/* Delete menu */
+"This action cannot be undone." = "Diese Aktion kann nicht rückgängig gemacht werden";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Vorschau umschalten";
+
+/* Sidebar label */
+"Trash" = "Papierkorb";
+
+/* No comment provided by engineer. */
+"Underline" = "Unterstrichen";
+
+/* Untitled Note */
+"Untitled Note" = "Unbenannte Notiz";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "URL wurde in die Zwischenablage kopiert";
+
+/* Menu */
+"View" = "Ansicht";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Passwort stimmt nicht überein";
+

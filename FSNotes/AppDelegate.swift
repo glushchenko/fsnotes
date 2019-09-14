@@ -172,7 +172,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func constructMenu() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         
-        if let button = statusItem?.button, let image = NSImage(named: "blackWhite") {
+        if let button = statusItem?.button, let image = NSImage(named: "menuBar") {
             image.size.width = 20
             image.size.height = 20
             button.image = image
