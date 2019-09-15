@@ -1294,7 +1294,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let event = NSApp.currentEvent,
             !event.modifierFlags.contains(.command),
             let note = EditTextView.note,
-            !note.isEncrypted(),
             let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
             let url = note.getImageUrl(imageName: path) {
 
@@ -1313,8 +1312,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             field.stringValue = title
         }
         
-        vc.alert?.messageText = NSLocalizedString("Image title", comment: "Edit area")
-        vc.alert?.informativeText = NSLocalizedString("Please enter image title:", comment: "Edit area")
+        vc.alert?.messageText = NSLocalizedString("Please enter image title:", comment: "Edit area")
         vc.alert?.accessoryView = field
         vc.alert?.alertStyle = .informational
         vc.alert?.addButton(withTitle: "OK")

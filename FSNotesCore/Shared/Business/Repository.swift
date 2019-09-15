@@ -69,8 +69,8 @@ class Repository {
             let commitsList = log.matchingStrings(regex: "(?:commit) ([0-9a-z]{32})")
 
             for commit in commitsList {
-                if let ident = commit.last {
-                    commits.append(Commit(id: ident))
+                if let hash = commit.last {
+                    commits.append(Commit(hash: hash))
                 }
             }
 
@@ -88,7 +88,7 @@ class Repository {
     }
 
     public func checkout(commit: Commit, fileName: String) {
-        let output = exec(args: ["checkout", commit.getId(), "\(fileName)"])
+        let output = exec(args: ["checkout", commit.getHash(), "\(fileName)"])
 
         if debug {
             print("Checkout file: \(String(describing: output))")

@@ -10,10 +10,10 @@ import Foundation
 
 class Commit {
     private var date: String?
-    private var id: String
+    private var hash: String
 
-    init(id: String) {
-        self.id = id
+    init(hash: String) {
+        self.hash = hash
     }
 
     public func setDate(date: String) {
@@ -24,7 +24,7 @@ class Commit {
         return date
     }
 
-    public func getId() -> String {
-        return id
+    public func getHash() -> String {
+        return hash
     }
 }

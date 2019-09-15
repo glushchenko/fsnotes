@@ -143,10 +143,10 @@ class CodeTextProcessor {
             paragraphList.append(value!)
         }
 
-        return getBlockRanges(ranges: paragraphRanges, paragraphs: paragraphList)
+        return getBlockRanges(ranges: paragraphRanges, pars: paragraphList)
     }
 
-    public func getBlockRanges(ranges: [NSRange], paragraphs: [String]) -> [NSRange]? {
+    public func getBlockRanges(ranges: [NSRange], pars: [String]) -> [NSRange]? {
         let digitSet = CharacterSet.decimalDigits
         var codeBlocks = [NSRange]()
         var index = 0
@@ -155,7 +155,7 @@ class CodeTextProcessor {
         var prevParagraph = ""
         var skipFlag = false
 
-        for paragraph in paragraphs {
+        for paragraph in pars {
             if isCodeBlockParagraph(paragraph) {
                 if skipFlag {
                     index += 1
