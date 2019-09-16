@@ -36,7 +36,7 @@ enum LanguageType: Int {
             case 0x03: return "Deutsch"
             case 0x04: return "Spanish"
             case 0x05: return "Arabic"
-            case 0x06: return "Chinese"
+            case 0x06: return "Chinese (Simplified)"
             default: return ""
             }
         }
@@ -51,7 +51,7 @@ enum LanguageType: Int {
             case 0x03: return "de"
             case 0x04: return "es"
             case 0x05: return "ar"
-            case 0x06: return "zh-Hans-CN"
+            case 0x06: return "zh-Hans"
             default: return "en"
             }
         }
@@ -65,7 +65,7 @@ enum LanguageType: Int {
         case "Deutsch": return LanguageType.Deutsch
         case "Spanish": return LanguageType.Spanish
         case "Arabic": return LanguageType.Arabic
-        case "Chinese": return LanguageType.Chinese
+        case "Chinese (Simplified)": return LanguageType.Chinese
         default: return LanguageType.English
         }
     }

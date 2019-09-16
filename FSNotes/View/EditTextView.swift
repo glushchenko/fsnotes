@@ -605,10 +605,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         self.window?.title = appDelegate.appTitle
         
-        let viewController = self.window?.contentViewController as! ViewController
-        viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
-        viewController.emptyEditAreaImage.isHidden = false
-        viewController.updateTitle(newTitle: nil)
+        if let viewController = self.window?.contentViewController as? ViewController {
+            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
+            viewController.emptyEditAreaImage.isHidden = false
+            viewController.updateTitle(newTitle: nil)
+        }
         
         EditTextView.note = nil
     }

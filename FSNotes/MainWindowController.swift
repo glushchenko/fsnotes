@@ -71,4 +71,12 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
 
         return nil
     }
+
+    func windowDidEnterFullScreen(_ notification: Notification) {
+        UserDefaultsManagement.fullScreen = true
+    }
+
+    func windowDidExitFullScreen(_ notification: Notification) {
+        UserDefaultsManagement.fullScreen = false
+    }
 }

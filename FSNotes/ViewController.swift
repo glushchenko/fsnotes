@@ -133,6 +133,10 @@ class ViewController: NSViewController,
     }
 
     override func viewDidAppear() {
+        if UserDefaultsManagement.fullScreen {
+            view.window?.toggleFullScreen(nil)
+        }
+
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
             if let urls = appDelegate.urls {
                 appDelegate.importNotes(urls: urls)
@@ -150,7 +154,6 @@ class ViewController: NSViewController,
                 
                 appDelegate.create(name: name, content: content)
             }
-
         }
     }
 

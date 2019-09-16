@@ -57,6 +57,7 @@ public class UserDefaultsManagement {
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
         static let FontColorKey = "fontColorKeyed"
+        static let FullScreen = "fullScreen"
         static let FirstLineAsTitle = "firstLineAsTitle"
         static let NoteType = "noteType"
         static let GrammarChecking = "grammarChecking"
@@ -1159,6 +1160,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.BackupManually)
+        }
+    }
+
+    static var fullScreen: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.FullScreen) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.FullScreen)
         }
     }
 }
