@@ -98,7 +98,7 @@
 "7MT-fy-lXN.title" = "打开外部";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
-"7od-TM-cUB.title" = "Set";
+"7od-TM-cUB.title" = "设置字体";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "7xA-9l-dja"; */
 "7xA-9l-dja.title" = "更改";
@@ -257,7 +257,7 @@
 "EC3-YF-sGZ.title" = "预览";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "Ehk-CU-fbX"; */
-"Ehk-CU-fbX.title" = "Set";
+"Ehk-CU-fbX.title" = "设置字体";
 
 /* Class = "NSMenuItem"; title = "Strikethrough"; ObjectID = "EK1-kN-kK3"; */
 "EK1-kN-kK3.title" = "删除线";
@@ -638,7 +638,7 @@
 "RSs-wb-GNg.title" = "锁定/解锁";
 
 /* Class = "NSMenuItem"; title = "System"; ObjectID = "rSZ-Wo-Rtj"; */
-"rSZ-Wo-Rtj.title" = "系统";
+"rSZ-Wo-Rtj.title" = "跟随系统";
 
 /* Class = "NSMenuItem"; title = "Delete folder"; ObjectID = "RuM-sf-kcZ"; */
 "RuM-sf-kcZ.title" = "删除文件夹";
@@ -728,7 +728,7 @@
 "UFh-mf-ZKG.title" = "Light";
 
 /* Class = "NSMenuItem"; title = "Code Span"; ObjectID = "Ukg-MO-eaB"; */
-"Ukg-MO-eaB.title" = "代码缩进";
+"Ukg-MO-eaB.title" = "单行代码";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "uMZ-sI-7ja"; */
 "uMZ-sI-7ja.title" = "文件";

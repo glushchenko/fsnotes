@@ -11,10 +11,10 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "您确定要删除项目\"%@\"和它下面的所有文件吗？";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "附件存储";
+"Attach storage..." = "添加多个文件夹";
 
 /* No comment provided by engineer. */
-"Back up storage" = "备份存储";
+"Back up storage" = "提交git的存储库中的所有文件";
 
 /* Delete menu */
 "Cancel" = "取消";
@@ -59,7 +59,7 @@
 "Delete Images" = "删除图像";
 
 /* No comment provided by engineer. */
-"Detach storage" = "Detach storage";
+"Detach storage" = "分离存储";
 
 /* No comment provided by engineer. */
 "Empty password" = "空密码";

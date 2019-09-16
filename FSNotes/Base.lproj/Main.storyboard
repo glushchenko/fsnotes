@@ -1983,16 +1983,16 @@ Gw
             <objects>
                 <viewController id="6OZ-zZ-7EL" customClass="AboutViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="stc-Pf-K3l">
-                        <rect key="frame" x="0.0" y="0.0" width="352" height="387"/>
+                        <rect key="frame" x="0.0" y="0.0" width="417" height="454"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-yB-wPs">
-                                <rect key="frame" x="141" y="297" width="67" height="70"/>
+                                <rect key="frame" x="177" y="370" width="67" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="FCd-Ar-efh"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-Wq-Zsn">
-                                <rect key="frame" x="101" y="266" width="151" height="17"/>
+                                <rect key="frame" x="139" y="345" width="151" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="FSNotes" id="gWb-su-EdI">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -2001,7 +2001,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gR1-Um-ivy">
-                                <rect key="frame" x="79" y="241" width="207" height="17"/>
+                                <rect key="frame" x="111" y="293" width="207" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Version" id="ELw-Y4-DV0">
                                     <font key="font" metaFont="system"/>
@@ -2010,7 +2010,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
-                                <rect key="frame" x="18" y="198" width="316" height="35"/>
+                                <rect key="frame" x="54" y="250" width="316" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" title="Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved." id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
@@ -2019,7 +2019,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FPM-RD-i0c">
-                                <rect key="frame" x="93" y="164" width="163" height="26"/>
+                                <rect key="frame" x="131" y="310" width="163" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="bevel" title="🔗fsnotes/contributors" bezelStyle="regularSquare" alignment="center" focusRingType="none" imageScaling="proportionallyDown" inset="2" id="jQ1-6K-9ar">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2030,11 +2030,11 @@ Gw
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2QL-BH-sCT">
-                                <rect key="frame" x="20" y="147" width="312" height="5"/>
+                                <rect key="frame" x="24" y="231" width="369" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Md6-vL-c1a">
-                                <rect key="frame" x="136" y="117" width="76" height="17"/>
+                                <rect key="frame" x="172" y="208" width="76" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Translators:" id="13t-eQ-kOr">
                                     <font key="font" metaFont="system"/>
@@ -2043,26 +2043,52 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7js-bf-o2N">
-                                <rect key="frame" x="30" y="41" width="138" height="68"/>
+                                <rect key="frame" x="32" y="104" width="150" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="iKE-bp-SFG">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Deutsch 🇩🇪
-Українська 🇺🇦
+Ukrainian🇺🇦
 Spanish 🇪🇸
-Arabic 🇮🇶</string>
+Arabic 🇮🇶
+Chinese (Simplified) 🇨🇳</string>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kDk-iM-GuK">
-                                <rect key="frame" x="172" y="41" width="173" height="68"/>
+                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7I7-hE-gq3">
+                                <rect key="frame" x="193" y="104" width="202" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" selectable="YES" id="dPf-CP-fuZ">
+                                <textFieldCell key="cell" selectable="YES" id="thj-Sx-DxC">
                                     <font key="font" metaFont="systemThin" size="13"/>
                                     <string key="title">Michael Barzmann
 Olena Glushchenko aonez (aone@keka.io)
-Ayad (Twitter: @ayad0net)</string>
+Ayad (@ayad0net)
+Pertim (macwk.com@gmail.com)</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JMy-4k-NeF">
+                                <rect key="frame" x="88" y="26" width="253" height="39"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" id="sWS-bo-99f">
+                                    <font key="font" metaFont="system"/>
+                                    <string key="title">Роман Крючкович — kmstrr@gmail.com
+Baran Pirinçal – baranpirincal@gmail.com</string>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="CcK-Vj-IPV">
+                                <rect key="frame" x="20" y="102" width="377" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jxd-6e-5CJ">
+                                <rect key="frame" x="139" y="73" width="152" height="16"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Thanks for icons design:" id="FKf-Ph-LiA">
+                                    <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -2075,7 +2101,7 @@ Ayad (Twitter: @ayad0net)</string>
                 </viewController>
                 <customObject id="1bs-mz-4PY" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-860" y="778.5"/>
+            <point key="canvasLocation" x="-827.5" y="812"/>
         </scene>
         <!--Project Settings View Controller-->
         <scene sceneID="dYK-AI-vld">
@@ -3006,7 +3032,7 @@ Ayad (Twitter: @ayad0net)</string>
         <image name="git" width="270" height="270"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="512" height="512"/>
+        <image name="makeNoteAsset" width="1024" height="1024"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
