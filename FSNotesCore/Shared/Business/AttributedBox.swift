@@ -30,7 +30,7 @@ class AttributedBox {
 
     public static func getCleanUnchecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
-        let height = font.lineHeight + 5
+        let height = font.lineHeight
         let image = getImage(name: "checkbox_empty")
 
         let attachment = NSTextAttachment()
@@ -52,7 +52,7 @@ class AttributedBox {
 
     public static func getCleanChecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
-        let height = font.lineHeight + 5
+        let height = font.lineHeight
         let image = getImage(name: "checkbox")
 
         let attachment = NSTextAttachment()

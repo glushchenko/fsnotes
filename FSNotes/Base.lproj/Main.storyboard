@@ -2789,7 +2789,7 @@ Baran Pirinçal – baranpirincal@gmail.com</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZXG-8N-Rny">
-                                <rect key="frame" x="50" y="144" width="68" height="17"/>
+                                <rect key="frame" x="50" y="144" width="108" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Dock icon:" id="2CI-mu-aiB">
                                     <font key="font" usesAppearanceFont="YES"/>

@@ -539,9 +539,9 @@ class ViewController: NSViewController,
         guard self.alert == nil else {
             if event.keyCode == kVK_Escape, let unwrapped = alert {
                 mw.endSheet(unwrapped.window)
+                self.alert = nil
             }
 
-            self.alert = nil
             return true
         }
 
