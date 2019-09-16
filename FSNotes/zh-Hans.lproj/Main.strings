@@ -229,9 +229,6 @@
 /* Class = "NSTextFieldCell"; title = "v2.9.0"; ObjectID = "dgD-xe-DVG"; */
 "dgD-xe-DVG.title" = "v2.9.0";
 
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (Twitter: @ayad0net)"; ObjectID = "dPf-CP-fuZ"; */
-"dPf-CP-fuZ.title" = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (Twitter: @ayad0net)";
-
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
 "dRJ-4n-Yzg.title" = "撤销";
 
@@ -394,7 +391,7 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "备份存储";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\n简体中文 🇨🇳";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -485,7 +482,7 @@
 "LTw-w4-tEo.title" = "粗体";
 
 /* Class = "NSButtonCell"; title = "Hide FSNotes when activating another application"; ObjectID = "M29-fW-FJa"; */
-"M29-fW-FJa.title" = "激活其他应用时自动隐藏fsnotes";
+"M29-fW-FJa.title" = "激活其他应用时自动隐藏FSNotes";
 
 /* Class = "NSMenuItem"; title = "TextBundle"; ObjectID = "MCR-1v-3Wc"; */
 "MCR-1v-3Wc.title" = "TextBundle";
@@ -621,6 +618,9 @@
 
 /* Class = "NSButtonCell"; title = "Focus in editor when selecting note"; ObjectID = "r2R-xe-eCA"; */
 "r2R-xe-eCA.title" = "当选中笔记时编辑器自动聚焦（笔记内容区处于编辑状态）";
+
+/* Class = "NSTextFieldCell"; title = "Margin size: "; ObjectID = "r69-B6-vT3"; */
+"r69-B6-vT3.title" = "保证金规模:";
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
 "rbD-Rh-wIN.title" = "键入时检查拼写";
