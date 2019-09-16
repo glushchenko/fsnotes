@@ -47,6 +47,10 @@ class AttributedBox {
 
         checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
 
+        let parStyle = NSMutableParagraphStyle()
+        parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        checkboxText.addAttribute(.paragraphStyle, value: parStyle, range: NSRange(0..<1))
+
         return checkboxText
     }
 
@@ -68,6 +72,10 @@ class AttributedBox {
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
         checkboxText.addAttribute(.todo, value: 1, range: NSRange(0..<1))
+
+        let parStyle = NSMutableParagraphStyle()
+        parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        checkboxText.addAttribute(.paragraphStyle, value: parStyle, range: NSRange(0..<1))
 
         return checkboxText
     }
