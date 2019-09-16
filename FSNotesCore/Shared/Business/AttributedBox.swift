@@ -30,18 +30,12 @@ class AttributedBox {
 
     public static func getCleanUnchecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
-        let height = font.lineHeight
+        let size = font.pointSize + font.pointSize / 2
         let image = getImage(name: "checkbox_empty")
 
         let attachment = NSTextAttachment()
         attachment.image = image
-        let mid = font.descender + font.capHeight
-        attachment.bounds = CGRect(
-            x: 0,
-            y: font.descender - height / 2 + mid + 2,
-            width: height,
-            height: height
-            ).integral
+        attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
@@ -56,18 +50,12 @@ class AttributedBox {
 
     public static func getCleanChecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
-        let height = font.lineHeight
         let image = getImage(name: "checkbox")
+        let size = font.pointSize + font.pointSize / 2
 
         let attachment = NSTextAttachment()
         attachment.image = image
-        let mid = font.descender + font.capHeight
-        attachment.bounds = CGRect(
-            x: 0,
-            y: font.descender - height / 2 + mid + 2,
-            width: height,
-            height: height
-            ).integral
+        attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
