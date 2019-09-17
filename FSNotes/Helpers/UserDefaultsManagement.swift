@@ -1168,7 +1168,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.FullScreen) as? Bool {
                 return result
             }
-            return true
+            return false
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.FullScreen)
