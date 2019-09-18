@@ -8,7 +8,6 @@
 
 import UIKit
 import NightNight
-import Solar
 import LocalAuthentication
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
