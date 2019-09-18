@@ -8,10 +8,7 @@
 
 import UIKit
 import CoreData
-import Solar
 import NightNight
-import CoreLocation
-
 import FSNotesCore_iOS
 
 @UIApplicationMain
@@ -77,28 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        let locationManager = CLLocationManager()
-        if UserDefaultsManagement.nightModeAuto,
-            let location = locationManager.location,
-            let solar = Solar.init(coordinate: location.coordinate) {
-
-            NightNight.theme = solar.isNighttime ? .night : .normal
-
-            guard
-                let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                let evc = viewController.viewControllers[0] as? EditorViewController,
-                let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                    return
-            }
-
-            evc.refill()
-            vc.sidebarTableView.sidebar = Sidebar()
-            vc.sidebarTableView.reloadData()
-            vc.notesTable.reloadData()
-        }
-        
+    func applicationDidBecomeActive(_ application: UIApplication) {        
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         guard let shortcut = launchedShortcutItem else { return }

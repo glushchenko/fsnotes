@@ -89,8 +89,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Needs for attach photo in notes</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Night Mode needs coordinate for calculate sunset/sunrise time</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Needs for attach images in notes</string>
 	<key>NSUbiquitousContainers</key>

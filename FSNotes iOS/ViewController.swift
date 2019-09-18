@@ -50,6 +50,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+
+        if UserDefaultsManagement.nightModeType == .system {
+            if #available(iOS 12.0, *) {
+                if traitCollection.userInterfaceStyle == .dark {
+                    NightNight.theme = .night
+                } else {
+                    NightNight.theme = .normal
+                }
+            }
+        }
+
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
         self.configureIndicator(indicator: self.indicator!, view: self.view)
 
@@ -660,6 +671,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             return
         }
 
+        let brightness = Float(UIScreen.screens[0].brightness)
+
+        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
+            disableNightMode()
+            return
+        }
+
+        if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
+            enableNightMode()
+        }
+    }
+
+    private func enableNightMode() {
+        NightNight.theme = .night
+
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
@@ -668,60 +694,61 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 return
         }
 
-        let brightness = Float(UIScreen.screens[0].brightness)
+        UserDefaultsManagement.codeTheme = "monokai-sublime"
+        NotesTextProcessor.hl = nil
+        evc.refill()
 
-        if (UserDefaultsManagement.maxNightModeBrightnessLevel < brightness && NightNight.theme == .night) {
-            NightNight.theme = .normal
-
-            UserDefaultsManagement.codeTheme = "atom-one-light"
-            NotesTextProcessor.hl = nil
-            evc.refill()
-
-            if evc.editArea != nil {
-                evc.editArea.keyboardAppearance = .default
-                evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
-            }
-            
-            vc.search.keyboardAppearance = .default
-
-            vc.sidebarTableView.sidebar = Sidebar()
-            vc.sidebarTableView.reloadData()
-            vc.notesTable.reloadData()
-
-            if vc.search.isFirstResponder {
-                vc.search.endEditing(true)
-                vc.search.becomeFirstResponder()
-            }
-
-            return
+        if evc.editArea != nil {
+            evc.editArea.keyboardAppearance = .dark
+            evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
         }
 
-        if (UserDefaultsManagement.maxNightModeBrightnessLevel > brightness && NightNight.theme == .normal) {
-            NightNight.theme = .night
+        vc.search.keyboardAppearance = .dark
 
-            UserDefaultsManagement.codeTheme = "monokai-sublime"
-            NotesTextProcessor.hl = nil
-            evc.refill()
+        vc.sidebarTableView.sidebar = Sidebar()
+        vc.sidebarTableView.reloadData()
 
-            if evc.editArea != nil {
-                evc.editArea.keyboardAppearance = .dark
-                evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
-            }
-            
-            vc.search.keyboardAppearance = .dark
+        vc.sidebarTableView.backgroundColor = UIColor(red:0.19, green:0.21, blue:0.21, alpha:1.0)
+        vc.sidebarTableView.updateColors()
+        vc.sidebarTableView.layoutSubviews()
+        vc.notesTable.reloadData()
 
-            vc.sidebarTableView.sidebar = Sidebar()
-            vc.sidebarTableView.reloadData()
+        if vc.search.isFirstResponder {
+            vc.search.endEditing(true)
+            vc.search.becomeFirstResponder()
+        }
+    }
 
-            vc.sidebarTableView.backgroundColor = UIColor(red:0.19, green:0.21, blue:0.21, alpha:1.0)
-            vc.sidebarTableView.updateColors()
-            vc.sidebarTableView.layoutSubviews()
-            vc.notesTable.reloadData()
+    private func disableNightMode()
+    {
+        NightNight.theme = .normal
 
-            if vc.search.isFirstResponder {
-                vc.search.endEditing(true)
-                vc.search.becomeFirstResponder()
-            }
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
+            let evc = viewController.viewControllers[0] as? EditorViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                return
+        }
+
+        UserDefaultsManagement.codeTheme = "atom-one-light"
+        NotesTextProcessor.hl = nil
+        evc.refill()
+
+        if evc.editArea != nil {
+            evc.editArea.keyboardAppearance = .default
+            evc.editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
+        }
+
+        vc.search.keyboardAppearance = .default
+
+        vc.sidebarTableView.sidebar = Sidebar()
+        vc.sidebarTableView.reloadData()
+        vc.notesTable.reloadData()
+
+        if vc.search.isFirstResponder {
+            vc.search.endEditing(true)
+            vc.search.becomeFirstResponder()
         }
     }
 
@@ -1003,6 +1030,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             note.modifiedLocalAt = date
             refreshTextStorage(note: note)
             return
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                enableNightMode()
+            } else {
+                disableNightMode()
+            }
         }
     }
 }

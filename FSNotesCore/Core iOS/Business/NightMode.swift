@@ -9,6 +9,6 @@
 enum NightMode: Int {
     case disabled = 0x00
     case enabled = 0x01
-    case location = 0x02
+    case system = 0x02
     case brightness = 0x03
 }

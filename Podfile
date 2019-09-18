@@ -8,7 +8,6 @@ def mac_pods
 end
 
 def ios_pods
-    pod 'Solar', '~> 2.0'
     pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
     pod 'DKImagePickerController', '4.1.4'
     pod 'GSImageViewerController'
