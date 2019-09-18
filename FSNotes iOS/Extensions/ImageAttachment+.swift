@@ -21,8 +21,7 @@ extension ImageAttachment {
             attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
             let operation = BlockOperation()
-            operation.addExecutionBlock { [weak self] in
-                guard let self = self else {return}
+            operation.addExecutionBlock {
                 
                 let imageData = try? Data(contentsOf: self.url)
                 var finalImage: UIImage?
