@@ -711,6 +711,30 @@ public class TextFormatter {
         insertText("``")
         setSelectedRange(NSRange(location: selectedRange.location, length: selectedRange.length + 1))
     }
+
+    public func codeBlock() {
+        let currentRange = textView.selectedRange
+
+        if currentRange.length > 0 {
+            let substring = storage.attributedSubstring(from: currentRange)
+            let mutable = NSMutableAttributedString(string: "```\n")
+            mutable.append(substring)
+
+            if substring.string.last != "\n" {
+                mutable.append(NSAttributedString(string: "\n"))
+            }
+            
+            mutable.append(NSAttributedString(string: "```\n"))
+
+            EditTextView.shouldForceRescan = true
+            insertText(mutable, replacementRange: currentRange)
+            setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
+            return
+        }
+
+        insertText("```\n\n```\n")
+        setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
+    }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)

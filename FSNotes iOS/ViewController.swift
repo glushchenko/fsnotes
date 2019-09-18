@@ -870,7 +870,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         DispatchQueue.main.async {
                             UIApplication.getEVC().fill(note: note)
                             pageController.switchToEditor()
-
                         }
                     }
                 } else {

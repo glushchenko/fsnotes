@@ -239,8 +239,6 @@ public class NotesTextProcessor {
                     guard let font = NotesTextProcessor.codeFont else { return }
                     attributedString.addAttribute(.font, value: font, range: fixedRange)
                     attributedString.fixAttributes(in: fixedRange)
-
-                    //print(fixedRange)
                 }
             )
 
@@ -353,7 +351,6 @@ public class NotesTextProcessor {
                     }
 
                     NotesTextProcessor.highlightCode(attributedString: attributedString, range: range)
-                    NotesTextProcessor.applyCodeBlockStyle(attributedString: attributedString, range: range)
                 }
             }
         }
@@ -1047,7 +1044,7 @@ public class NotesTextProcessor {
      */
     public static let _codeQuoteBlockPattern = [
         "(?<=\\n|\\A)",
-        "(^```[a-zA-Z0-9\\ \\(\\)]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
+        "(^```[\\S\\ \\(\\)]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
         ].joined(separator: "\n")
             
     fileprivate static let codeSpanPattern = [

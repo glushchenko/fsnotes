@@ -67,6 +67,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        editArea.keyboardDismissMode = .interactive
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -104,7 +106,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         initLinksColor()
-
         restoreKeyboardState()
 
         editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
@@ -282,6 +283,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if self.toolbar != .markdown {
             self.toolbar = .markdown
             self.addToolBar(textField: editArea, toolbar: getMarkdownToolbar())
+        }
+
+        if let scroll = editArea.inputAccessoryView as? UIScrollView {
+            scroll.contentOffset = .zero
         }
     }
     
@@ -578,6 +583,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
+
+        print("hide")
         initialKeyboardHeight = 0
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
@@ -586,11 +593,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
-
-        scroll.mixedBackgroundColor = MixedColor(normal: 0xe9e9e9, night: 0x535059)
+        scroll.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x272829)
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
+
+        let color = NightNight.theme == .night ? UIColor.black.cgColor : UIColor(red:0.82, green:0.82, blue:0.85, alpha:1.0).cgColor
+
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
+        topBorder.backgroundColor = color
+        scroll.layer.addSublayer(topBorder)
 
         let isFirst = textField.isFirstResponder
         if isFirst {
@@ -609,27 +622,40 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func getMarkdownToolbar() -> UIToolbar {
-        let width = self.editArea.superview!.frame.width
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
-
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xe9e9e9, night: 0x47444e)
-        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-
         let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        italicButton.tag = 0x03
+
         let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+
+        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 30)
+        let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
         let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let items = [todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, codeblockButton, undoButton, redoButton]
 
-        toolBar.setItems([todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+        var width = CGFloat(0)
+        for item in items {
+            if item.tag == 0x03 {
+                item.width = 30
+                width += 30
+            } else {
+                item.width = 50
+                width += 50
+            }
+        }
 
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
+        toolBar.isTranslucent = false
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
+        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
+        toolBar.setItems(items, animated: false)
         toolBar.isUserInteractionEnabled = true
 
         return toolBar
@@ -650,10 +676,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
-        toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton, doneButton], animated: false)
+        toolBar.setItems([boldButton, italicButton, strikeButton, underlineButton, spaceButton, undoButton, redoButton], animated: false)
 
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
@@ -671,10 +696,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(EditorViewController.donePressed))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
 
-        toolBar.setItems([spaceButton, undoButton, redoButton, doneButton], animated: false)
+        toolBar.setItems([spaceButton, undoButton, redoButton], animated: false)
 
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
@@ -728,6 +752,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.header("#")
+        }
+    }
+
+    @objc func codeBlockButton() {
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            formatter.codeBlock()
         }
     }
     
@@ -884,12 +915,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         if editArea != nil {
             editArea.linkTextAttributes = linkAttributes
-        }
-    }
-
-    @objc private func tapUp(_ sender: UITapGestureRecognizer) {
-        DispatchQueue.main.async {
-            self.editArea.becomeFirstResponder()
         }
     }
 
@@ -1115,6 +1140,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
+        initialKeyboardHeight = 0
+
         if let recognizers = editArea.gestureRecognizers {
             for recognizer in recognizers {
                 if recognizer.isKind(of: UIGestureRecognizer.self) {
@@ -1136,8 +1163,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if shouldRestoreKeyboardState() {
             if let range = self.note?.getLastSelectedRange(), range.upperBound <= self.editArea.textStorage.length {
                 DispatchQueue.main.async {
-                    self.editArea.becomeFirstResponder()
-
                     self.editArea.selectedRange = range
                 }
             }
