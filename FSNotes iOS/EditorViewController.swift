@@ -32,7 +32,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: EditTextView!
 
     var rowUpdaterTimer = Timer()
-    private var isEditingLastState = false
     
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -106,10 +105,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         initLinksColor()
-        restoreKeyboardState()
 
         editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
-
         editArea.flashScrollIndicators()
     }
 
@@ -200,13 +197,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 ]
             )
         } else {
+            EditTextView.shouldForceRescan = true
             editArea.attributedText = note.content
         }
 
         self.configureToolbar()
 
         editArea.textStorage.updateFont()
-        
+
         if note.isMarkdown() {
             note.isCached = false
             EditTextView.isBusyProcessing = true
@@ -583,8 +581,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-
-        print("hide")
         initialKeyboardHeight = 0
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
@@ -854,11 +850,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             present(pickerController, animated: true) {}
         }
     }
-    
-    @objc func donePressed(){
-        isEditingLastState = false
-        view.endEditing(true)
-    }
 
     @objc func preferredContentSizeChanged() {
         if let n = note {
@@ -920,13 +911,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     @objc private func tapHandler(_ sender: SingleTouchDownGestureRecognizer) {
         let myTextView = sender.view as! UITextView
-        let layoutManager = myTextView.layoutManager
-        
-        let location = sender.location(in: myTextView)
-
-        let characterIndex = layoutManager.characterIndex(for: location, in: myTextView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
-
-        let char = Array(myTextView.textStorage.string)[characterIndex]
+        guard let characterIndex = sender.touchCharIndex else { return}
+        let char = myTextView.textStorage.mutableString.substring(with: NSRange(location: characterIndex, length: 1))
 
         // Toggle todo on click
         if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
@@ -1117,8 +1103,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        isEditingLastState = true
-
         if let recognizers = editArea.gestureRecognizers {
             for recognizer in recognizers {
                 if recognizer.isKind(of: UIGestureRecognizer.self) {
@@ -1150,20 +1134,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             recognizer.isEnabled = false
                         }
                     }
-                }
-            }
-        }
-    }
-
-    public func shouldRestoreKeyboardState() -> Bool {
-        return isEditingLastState
-    }
-
-    public func restoreKeyboardState() {
-        if shouldRestoreKeyboardState() {
-            if let range = self.note?.getLastSelectedRange(), range.upperBound <= self.editArea.textStorage.length {
-                DispatchQueue.main.async {
-                    self.editArea.selectedRange = range
                 }
             }
         }

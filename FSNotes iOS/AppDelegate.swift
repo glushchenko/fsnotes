@@ -120,8 +120,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
+            guard let navigationViewController = pageViewController.orderedViewControllers[1] as? UINavigationController,
+                let evc = navigationViewController.viewControllers[0] as? EditorViewController
+            else { return false }
+
             viewController.is3DTouchShortcut = true
             viewController.createNote()
+            evc.editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.1)
+
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:

@@ -12,6 +12,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
     private var beginTimer: Timer?
     private var beginTime: Date?
     public var isLongPress: Bool = false
+    public var touchCharIndex: Int?
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         if touches.count > 1 {
@@ -22,6 +23,9 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
         if self.state == .possible {
             for touch in touches {
                 guard let view = self.view as? EditTextView else { continue }
+
+                let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+                self.touchCharIndex = characterIndex
 
                 if UIMenuController.shared.isMenuVisible {
                     UIMenuController.shared.setMenuVisible(false, animated: false)
@@ -75,6 +79,18 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
         }
     }
 
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        guard let view = self.view as? EditTextView else { return }
+
+        for touch in touches {
+            if touch.location(in: view.superview) == view.lasTouchPoint {
+                return
+            }
+        }
+
+        invalidateTimer()
+    }
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
         invalidateTimer()
         isLongPress = false
@@ -84,6 +100,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 guard let view = self.view as? EditTextView else { continue }
 
                 let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+                self.touchCharIndex = characterIndex
 
                 if view.isImage(at: characterIndex) {
                     self.state = .recognized
@@ -91,14 +108,16 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
 
                 let point = touch.location(in: view)
-                let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
-                if view.isTodo(at: glyphIndex) {
+                //let glyphIndex = view.layoutManager.glyphIndex(for: point, in: view.textContainer)
+                //self.glyphIndex = glyphIndex
+
+                if view.isTodo(at: characterIndex) {
                     self.state = .recognized
                     return
                 }
 
-                let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
-                if glyphRect.contains(point) && view.isLink(at: glyphIndex) {
+                let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: characterIndex, length: 1), in: view.textContainer)
+                if glyphRect.contains(point) && view.isLink(at: characterIndex) {
                     self.state = .recognized
                     return
                 }

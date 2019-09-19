@@ -463,7 +463,9 @@ public class TextFormatter {
         }
 
         if found.count + newLine == string.length {
-            insertText("", replacementRange: storage.mutableString.paragraphRange(for: textView.selectedRange))
+            let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
+            let selectRange = NSRange(location: range.location, length: 0)
+            insertText("\n", replacementRange: range, selectRange: selectRange)
             return
         }
 
@@ -481,7 +483,9 @@ public class TextFormatter {
         }
 
         if found.count + newLine == string.length {
-            insertText("", replacementRange: storage.mutableString.paragraphRange(for: textView.selectedRange))
+            let range = storage.mutableString.paragraphRange(for: textView.selectedRange)
+            let selectRange = NSRange(location: range.location, length: 0)
+            insertText("\n", replacementRange: range, selectRange: selectRange)
             return
         }
 
@@ -512,7 +516,8 @@ public class TextFormatter {
                 let char = storage.attributedSubstring(from: NSRange(location: textView.selectedRange.upperBound - 2, length: 1))
 
                 if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
-                    insertText("", replacementRange: currentParagraphRange)
+                    let selectRange = NSRange(location: currentParagraphRange.location, length: 0)
+                    insertText("\n", replacementRange: currentParagraphRange, selectRange: selectRange)
                     return
                 }
             }
@@ -713,8 +718,9 @@ public class TextFormatter {
     }
 
     public func codeBlock() {
-        let currentRange = textView.selectedRange
+        EditTextView.shouldForceRescan = true
 
+        let currentRange = textView.selectedRange
         if currentRange.length > 0 {
             let substring = storage.attributedSubstring(from: currentRange)
             let mutable = NSMutableAttributedString(string: "```\n")
@@ -726,7 +732,6 @@ public class TextFormatter {
             
             mutable.append(NSAttributedString(string: "```\n"))
 
-            EditTextView.shouldForceRescan = true
             insertText(mutable, replacementRange: currentRange)
             setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
             return
