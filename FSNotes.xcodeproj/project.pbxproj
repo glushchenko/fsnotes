@@ -36,6 +36,7 @@
 		AE29821E4750B1E65B616E40 /* Pods_FSNotesCore_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B22A82E1B99B4D5148437393 /* Pods_FSNotesCore_macOS.framework */; };
 		D70255FC23326130003857AF /* codeblock.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C690CF22AB025700BFBBD1 /* codeblock.png */; };
 		D70255FD23326130003857AF /* codeblock.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C690CF22AB025700BFBBD1 /* codeblock.png */; };
+		D70255FF2333CFA0003857AF /* quote.png in Resources */ = {isa = PBXBuildFile; fileRef = D70255FE2333CFA0003857AF /* quote.png */; };
 		D7038E1D20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
 		D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
 		D7038E2020FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
@@ -1010,6 +1011,7 @@
 		CC8745CEBAABD51AE2606791 /* Pods_FSNotes_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1924467F1578DE60F76C854 /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
 		D3E216DE8167EBE2F6D024DC /* Pods-FSNotes (iCloud Documents).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).release.xcconfig"; sourceTree = "<group>"; };
+		D70255FE2333CFA0003857AF /* quote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quote.png; sourceTree = "<group>"; };
 		D7038E1C20FA86C100A54E69 /* SharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingService.swift; sourceTree = "<group>"; };
 		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
 		D7038E2520FB24E000A54E69 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
@@ -1768,6 +1770,7 @@
 				D7EA59EC213EAD8700582BD9 /* image@3x.png */,
 				D7C690CF22AB025700BFBBD1 /* codeblock.png */,
 				D7C690D322AB033A00BFBBD1 /* tb_link.png */,
+				D70255FE2333CFA0003857AF /* quote.png */,
 			);
 			path = Toolbar;
 			sourceTree = "<group>";
@@ -2672,6 +2675,7 @@
 				D75DF64121319994003C3059 /* todo@2x.png in Resources */,
 				D7ECE68A22B6B481006A14C6 /* TextBundle.icns in Resources */,
 				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
+				D70255FF2333CFA0003857AF /* quote.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,

@@ -631,10 +631,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 30)
         let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
         let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
+
+        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 25)
+        let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
+
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let items = [todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, codeblockButton, undoButton, redoButton]
+        let items = [todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, codeblockButton, quoteButton, undoButton, redoButton]
 
         var width = CGFloat(0)
         for item in items {
@@ -755,6 +759,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
             formatter.codeBlock()
+        }
+    }
+
+    @objc func quotePressed() {
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            formatter.quote()
+
+            AudioServicesPlaySystemSound(1519)
         }
     }
     

@@ -740,6 +740,18 @@ public class TextFormatter {
         insertText("```\n\n```\n")
         setSelectedRange(NSRange(location: currentRange.location + 4, length: 0))
     }
+
+    public func quote() {
+        EditTextView.shouldForceRescan = true
+
+        let currentRange = textView.selectedRange
+        if currentRange.length > 0 {
+
+        }
+
+        insertText("> ")
+        setSelectedRange(NSRange(location: currentRange.location + 2, length: 0))
+    }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
         let string = NSMutableAttributedString(string: string)
