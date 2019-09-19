@@ -373,14 +373,14 @@ public class TextFormatter {
     public func header(_ string: String) {
         #if os(OSX)
             let prefix = string + " "
-            let length = string.count + 1
         #else
             let prefix = string
-            let length = 1
         #endif
-        
-        let select = NSMakeRange(range.location + length, 0)
-        self.insertText(prefix, replacementRange: range, selectRange: select)
+
+        guard let pRange = getParagraphRange() else { return }
+
+        let string = storage.attributedSubstring(from: pRange).string
+        insertText(prefix + string, replacementRange: pRange)
     }
     
     public func link() {
@@ -441,7 +441,7 @@ public class TextFormatter {
 
     public static func getAutocompleteCharsMatch(string: String) -> NSTextCheckingResult? {
         guard let regex = try? NSRegularExpression(pattern:
-            "^(( |\t)*\\- \\[[x| ]*\\] )|^(( |\t)*[-|–|—|*|•|\\+]{1} )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
+            "^(( |\t)*\\- \\[[x| ]*\\] )|^(( |\t)*[-|–|—|*|•|>|\\+]{1} )"), let result = regex.firstMatch(in: string, range: NSRange(0..<string.count)) else { return nil }
 
         return result
     }
@@ -746,7 +746,17 @@ public class TextFormatter {
 
         let currentRange = textView.selectedRange
         if currentRange.length > 0 {
+            guard let pRange = getParagraphRange() else { return }
 
+            let string = storage.attributedSubstring(from: pRange).string
+            var lines = [String]()
+            string.enumerateLines { (line, _) in
+                lines.append("> " + line)
+            }
+
+            let result = lines.joined(separator: "\n")
+            insertText(result, replacementRange: pRange)
+            return
         }
 
         insertText("> ")

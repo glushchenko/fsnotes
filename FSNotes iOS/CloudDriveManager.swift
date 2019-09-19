@@ -275,7 +275,7 @@ class CloudDriveManager {
         self.delegate.notesTable.insertRow(note: note)
     }
     
-    private func resolveConflict(url: URL) {
+    public func resolveConflict(url: URL) {
         if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
             for conflict in conflicts {
                 guard let localizedName = conflict.localizedName else {
@@ -299,16 +299,18 @@ class CloudDriveManager {
                 
                 let to = url.deletingLastPathComponent().appendingPathComponent(conflictName)
 
-                guard
-                    let note = Storage.sharedInstance().initNote(url: conflict.url),
-                    let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
+
+                let project = Storage.sharedInstance().getMainProject()
+                let note = Note(url: conflict.url, with: project)
+
+                guard let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
 
                 note.load(tags: false)
 
-                conflictNote.content = note.content
-                conflictNote.write()
-
-                self.storage.add(conflictNote)
+                if note.content.length > 0 {
+                    conflictNote.content = note.content
+                    conflictNote.write()
+                }
 
                 conflict.isResolved = true
             }

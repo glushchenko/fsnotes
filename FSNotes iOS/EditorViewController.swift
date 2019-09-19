@@ -594,11 +594,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
 
-        let color = NightNight.theme == .night ? UIColor.black.cgColor : UIColor(red:0.82, green:0.82, blue:0.85, alpha:1.0).cgColor
-
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
-        topBorder.backgroundColor = color
+        topBorder.mixedBackgroundColor = MixedColor(normal: 0x989898, night: 0x000000)
         scroll.layer.addSublayer(topBorder)
 
         let isFirst = textField.isFirstResponder
@@ -638,7 +636,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
         let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
 
-        let items = [todoButton, boldButton, italicButton, indentButton, unindentButton, headerButton, imageButton, codeblockButton, quoteButton, undoButton, redoButton]
+        let items = [todoButton, boldButton, italicButton, headerButton, imageButton, codeblockButton, quoteButton, indentButton, unindentButton, undoButton, redoButton]
 
         var width = CGFloat(0)
         for item in items {

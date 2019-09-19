@@ -17,6 +17,11 @@ public class CoreNote: UIDocument {
     }
 
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+
+        DispatchQueue.main.async {
+            UIApplication.getVC().cloudDriveManager?.resolveConflict(url: self.fileURL)
+        }
+
         if typeName == "public.rtf" {
             /**
              TODO: Implement RTF reloading

@@ -93,6 +93,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Needs for attach photo in notes</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Requested when photo attached</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Needs for attach images in notes</string>
 	<key>NSUbiquitousContainers</key>
