@@ -74,8 +74,6 @@ class PreviewViewController: UIViewController {
             let note = evc.note
         else { return }
 
-        setTitleButton(note: note)
-
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
@@ -105,14 +103,6 @@ class PreviewViewController: UIViewController {
         evc.clickOnButton()
     }
 
-    public func setTitleButton(note: Note) {
-        let button =  UIButton(type: .custom)
-        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        button.setTitle(note.getShortTitle(), for: .normal)
-        button.addTarget(self, action: #selector(clickOnButton), for: .touchUpInside)
-        navigationItem.titleView = button
-    }
-
     public func reloadPreview() {
         guard view.subviews.count > 0 else { return }
 
@@ -131,13 +121,12 @@ class PreviewViewController: UIViewController {
         let button =  UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         button.setTitle(text, for: .normal)
+        button.addTarget(self, action: #selector(clickOnButton), for: .touchUpInside)
         navigationItem.titleView = button
         navigationItem.title = text
     }
 
     public func clear() {
-        setTitle(text: "")
-
         for sub in self.view.subviews {
             if sub.isKind(of: MarkdownView.self) {
                 sub.removeFromSuperview()
