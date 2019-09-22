@@ -718,6 +718,47 @@
             </objects>
             <point key="canvasLocation" x="3241" y="134"/>
         </scene>
+        <!--Image Preview View Controller-->
+        <scene sceneID="OOK-4o-43g">
+            <objects>
+                <viewController storyboardIdentifier="imagePreviewViewController" id="gXA-UP-nPE" customClass="ImagePreviewViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Hcy-mV-Ewd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T1T-1l-93q" customClass="ImageScrollView" customModule="FSNotes_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="DhD-eG-bY6"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="WhA-2t-GEb"/>
+                            </scrollView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYe-LF-KuA">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <navigationItem id="nkb-GO-G7U"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gYe-LF-KuA" secondAttribute="trailing" id="YAG-UM-ijf"/>
+                            <constraint firstItem="gYe-LF-KuA" firstAttribute="leading" secondItem="Hcy-mV-Ewd" secondAttribute="leading" id="ate-Ff-XmV"/>
+                            <constraint firstAttribute="bottom" secondItem="gYe-LF-KuA" secondAttribute="bottom" id="rlq-M4-xPb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="DVk-Fs-Jhg"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="imageScrollView" destination="T1T-1l-93q" id="sHb-Vp-jwF"/>
+                        <outlet property="navigation" destination="gYe-LF-KuA" id="P4L-eh-YMx"/>
+                        <outlet property="navigationBar" destination="nkb-GO-G7U" id="DJ1-0k-0oR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mXN-5G-zCr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4164" y="78.710644677661179"/>
+        </scene>
         <!--Page View Controller-->
         <scene sceneID="EAd-xk-AdJ">
             <objects>

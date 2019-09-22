@@ -17,7 +17,6 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         if touches.count > 1 {
             self.state = .failed
-            invalidateTimer()
         }
 
         if self.state == .possible {
@@ -48,17 +47,6 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
 
                 if isImage, glyphIndex < view.textStorage.length, glyphRect.contains(point) {
                     if Int(location.x) > minX && Int(location.x) < maxX {
-                        if !view.isFirstResponder {
-                            beginTimer?.invalidate()
-                            beginTimer = Timer.scheduledTimer(timeInterval: 0.4,
-                                                              target: self,
-                                                              selector: #selector(endTimer),
-                                                              userInfo: nil,
-                                                              repeats: false)
-
-                            beginTime = Date.init()
-                        }
-
                         view.lasTouchPoint = touch.location(in: view.superview)
                         self.state = .possible
                         return
@@ -75,26 +63,10 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
             }
 
             self.state = .failed
-            invalidateTimer()
         }
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        guard let view = self.view as? EditTextView else { return }
-
-        for touch in touches {
-            if touch.location(in: view.superview) == view.lasTouchPoint {
-                return
-            }
-        }
-
-        invalidateTimer()
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        invalidateTimer()
-        isLongPress = false
-
         if self.state == .possible {
             for touch in touches {
                 guard let view = self.view as? EditTextView else { continue }
@@ -126,22 +98,4 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
             self.state = .failed
         }
     }
-
-    @objc private func endTimer() {
-        invalidateTimer()
-        isLongPress = true
-
-        if Date.init().timeIntervalSince(beginTime!) > 0.5 {
-            self.state = .failed
-            return
-        }
-        
-        self.state = .recognized
-    }
-
-    private func invalidateTimer() {
-        beginTimer?.invalidate()
-        beginTimer = nil
-    }
-
 }

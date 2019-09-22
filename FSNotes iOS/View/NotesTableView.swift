@@ -389,6 +389,8 @@ class NotesTableView: UITableView,
     }
 
     public func shareAction(note: Note, presentController: UIViewController) {
+        AudioServicesPlaySystemSound(1519)
+        
         let objectsToShare = [note.content.string] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]

@@ -13,8 +13,6 @@ import AudioToolbox
 import DKImagePickerController
 import MobileCoreServices
 import Photos
-import GSImageViewerController
-import AudioToolbox
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -52,7 +50,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.editArea.textStorage.delegate = self.editArea.textStorage
 
-        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
+        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
 
         super.viewDidLoad()
@@ -168,6 +166,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     public func fill(note: Note, preview: Bool = false) {
+
         self.note = note
         EditTextView.note = note
         
@@ -191,14 +190,26 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .PlainText {
             let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
 
-            editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
-                    .foregroundColor: foregroundColor,
-                    .font: UserDefaultsManagement.noteFont
-                ]
-            )
+            if let font = UserDefaultsManagement.noteFont {
+                editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
+                        .foregroundColor: foregroundColor,
+                        .font: font
+                    ]
+                )
+            }
         } else {
             EditTextView.shouldForceRescan = true
-            editArea.attributedText = note.content
+
+            if UserDefaultsManagement.liveImagesPreview {
+                if let content = note.content.mutableCopy() as? NSMutableAttributedString {
+                    let processor = ImagesProcessor(styleApplier: content, range: NSRange(0..<content.length), note: note)
+                    processor.load()
+
+                    editArea.attributedText = content
+                }
+            } else {
+                editArea.attributedText = note.content
+            }
         }
 
         self.configureToolbar()
@@ -213,20 +224,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
         
         editArea.delegate = self
-        
+
         let cursor = editArea.selectedTextRange
         let storage = editArea.textStorage
-        let range = NSRange(0..<storage.length)
-
-        if UserDefaultsManagement.liveImagesPreview {
-            EditTextView.isBusyProcessing = true
-            let processor = ImagesProcessor(styleApplier: storage, range: range, note: note)
-            //DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                processor.load()
-                EditTextView.isBusyProcessing = false
-            //}
-
-        }
 
         let search = getSearchText()
         if search.count > 0 {
@@ -337,23 +337,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             self.applyStrikeTypingAttribute(range: range)
         }
 
-        /*
-        // Paste in UITextView
-        if note.isMarkdown() && text == UIPasteboard.general.string {
-            self.editArea.insertText(text)
-            NotesTextProcessor.fullScan(note: note, storage: editArea.textStorage, range: NSRange(0..<editArea.textStorage.length), async: true)
-            return false
-        }
-        
-        // Delete backward pressed
-        if self.deleteBackwardPressed(text: text) {
-            self.editArea.deleteBackward()
-            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
-            formatter.deleteKey()
-            return false
-        }
-        */
-        
         // New line
         if text == "\n" {
             let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
@@ -828,7 +811,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                         if UserDefaultsManagement.liveImagesPreview {
                             self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
-                            note.save()
+
+
+
+                            if processed == assets.count {
+                                note.save()
+                                return
+                            }
+
+                            if assets.count != 1 {
+                                self.editArea.insertText("\n\n")
+                            }
+
                             return
                         }
 
@@ -942,27 +936,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         // Image preview/selection on click
         if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
 
-            // Long tap on image
-            if sender.isLongPress {
-                sender.isLongPress = false
-                let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-
-                guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
-
-                if let pvc = UIApplication.getPresentedViewController() as? PageViewController, let nav = pvc.viewControllers?[0] as? UINavigationController, let _ = nav.viewControllers[0] as? EditorViewController {
-
-                    AudioServicesPlaySystemSound(1519)
-
-                    let objectsToShare = [url] as [Any]
-                    let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-                    activityVC.excludedActivityTypes = [UIActivity.ActivityType.addToReadingList]
-
-                    present(activityVC, animated: true, completion: nil)
-                }
-
-                return
-            }
-
             // Select and show menu
             guard !self.editArea.isFirstResponder else {
                 self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
@@ -980,10 +953,12 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             guard let path = myTextView.textStorage.attribute(pathKey, at: characterIndex, effectiveRange: nil) as? String, let note = self.note, let url = note.getImageUrl(imageName: path) else { return }
 
             if let data = try? Data(contentsOf: url), let someImage = UIImage(data: data) {
-                let imageInfo   = GSImageInfo(image: someImage, imageMode: .aspectFit)
-                let transitiionInfo = GSTransitionInfo(fromRect: CGRect.init())
-                let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitiionInfo)
-                present(imageViewer, animated: true, completion: nil)
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let imagePreviewViewController = storyBoard.instantiateViewController(withIdentifier: "imagePreviewViewController") as! ImagePreviewViewController
+
+                imagePreviewViewController.image = someImage
+                imagePreviewViewController.url = url
+                present(imagePreviewViewController, animated: true, completion: nil)
             }
 
             return

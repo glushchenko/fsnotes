@@ -46,7 +46,7 @@ extension NSTextStorage: NSTextStorageDelegate {
             rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
         }
 
-        centerImages(textStorage: textStorage, checkRange: editedRange)
+        loadImages(textStorage: textStorage, checkRange: editedRange)
 
         EditTextView.shouldForceRescan = false
         EditTextView.lastRemoved = nil
@@ -190,7 +190,7 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
     }
 
-    private func centerImages(textStorage: NSTextStorage, checkRange: NSRange) {
+    private func loadImages(textStorage: NSTextStorage, checkRange: NSRange) {
         var start = checkRange.lowerBound
         var finish = checkRange.upperBound
 
@@ -204,11 +204,20 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
-            if nil != value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+            if let value = value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
                 let paragraph = NSMutableParagraphStyle()
                 paragraph.alignment = .center
 
                 textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
+
+                #if os(iOS)
+                let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
+                if let url = textStorage.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL {
+                    print("LOAD URL:")
+                    print(url)
+                    loadImage(attachment: value, url: url, range: range)
+                }
+                #endif
             }
         }
     }

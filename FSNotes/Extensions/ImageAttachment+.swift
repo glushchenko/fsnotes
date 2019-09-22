@@ -9,7 +9,7 @@
 import Cocoa
 
 extension ImageAttachment {
-    public func load() -> NSTextAttachment? {
+    public func load(lazy: Bool = true) -> NSTextAttachment? {
         let attachment = NSTextAttachment()
         
         let operation = BlockOperation()

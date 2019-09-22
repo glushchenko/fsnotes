@@ -371,16 +371,24 @@ public class TextFormatter {
     }
     
     public func header(_ string: String) {
-        #if os(OSX)
-            let prefix = string + " "
-        #else
-            let prefix = string
-        #endif
-
         guard let pRange = getParagraphRange() else { return }
 
-        let string = storage.attributedSubstring(from: pRange).string
-        insertText(prefix + string, replacementRange: pRange)
+        var prefix = String()
+        let selected = self.textView.selectedRange
+        let paragraph = storage.mutableString.substring(with: pRange)
+
+        #if os(OSX)
+            prefix = string + " "
+        #else
+            if paragraph.starts(with: "#") {
+                prefix = string
+            } else {
+                prefix = string + " "
+            }
+        #endif
+
+        let selectRange = NSRange(location: selected.location + selected.length + paragraph.count, length: 0)
+        insertText(prefix + paragraph, replacementRange: pRange, selectRange: selectRange)
     }
     
     public func link() {
@@ -759,7 +767,10 @@ public class TextFormatter {
             return
         }
 
-        insertText("> ")
+        guard let pRange = getParagraphRange() else { return }
+        let paragraph = storage.mutableString.substring(with: pRange)
+
+        insertText("> " + paragraph, replacementRange: pRange)
         setSelectedRange(NSRange(location: currentRange.location + 2, length: 0))
     }
     
