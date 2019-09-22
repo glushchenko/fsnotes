@@ -429,14 +429,6 @@ public class NotesTextProcessor {
             }
         }
 
-        #if os(OSX)
-        attributedString.enumerateAttribute(.paragraphStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
-            if let value = value as? NSMutableParagraphStyle  {
-                //value.textBlocks = []
-            }
-        }
-        #endif
-
         attributedString.enumerateAttribute(.strikethroughStyle, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
             if value != nil {
                 attributedString.removeAttribute(.strikethroughStyle, range: range)
