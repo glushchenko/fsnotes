@@ -163,6 +163,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
         self.navigationItem.titleView = button
         self.navigationItem.title = text
+
+        UIApplication.getPVC()?.setTitle(text: text)
     }
 
     public func fill(note: Note, preview: Bool = false) {

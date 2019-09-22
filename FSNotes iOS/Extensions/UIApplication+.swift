@@ -23,6 +23,16 @@ extension UIApplication {
         return evc
     }
 
+    static func getPVC() -> PreviewViewController? {
+        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let viewController = pageController.orderedViewControllers[2] as? UINavigationController,
+            let pvc = viewController.viewControllers[0] as? PreviewViewController {
+            return pvc
+        }
+
+        return nil
+    }
+
     class func getPresentedViewController() -> UIViewController? {
         var presentViewController = UIApplication.shared.keyWindow?.rootViewController
         while let pVC = presentViewController?.presentedViewController
