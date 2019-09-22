@@ -247,7 +247,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.applyLeftParagraphStyle()
     }
 
-    @objc private func clickOnButton() {
+    @objc public func clickOnButton() {
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageController.orderedViewControllers[0] as? ViewController else {
@@ -1031,7 +1031,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
 
-    private func getShareButton() -> UIBarButtonItem {
+    public func getShareButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
         menuBtn.setImage(UIImage(named: "share"), for: .normal)

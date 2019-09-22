@@ -18,6 +18,8 @@ class PreviewViewController: UIViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(returnBack))
 
+        self.navigationItem.rightBarButtonItem = getShareButton()
+
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
 
         super.viewDidLoad()
@@ -25,6 +27,33 @@ class PreviewViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    }
+
+    public func getShareButton() -> UIBarButtonItem {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        menuBtn.setImage(UIImage(named: "share"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(share), for: UIControl.Event.touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+
+        menuBarItem.tintColor = UIColor.white
+        return menuBarItem
+    }
+
+    @IBAction func share() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let mvc = pageController.mainViewController,
+            let evc = pageController.editorViewController,
+            let note = evc.note
+        else { return }
+
+        mvc.notesTable.shareAction(note: note, presentController: evc, isHTML: true)
     }
 
     @objc public func returnBack() {
@@ -45,7 +74,7 @@ class PreviewViewController: UIViewController {
             let note = evc.note
         else { return }
 
-        setTitle(text: note.getShortTitle())
+        setTitleButton(note: note)
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
@@ -65,6 +94,23 @@ class PreviewViewController: UIViewController {
             }
         }
         return
+    }
+
+    @IBAction func clickOnButton() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let evc = pageController.editorViewController
+        else { return }
+
+        evc.clickOnButton()
+    }
+
+    public func setTitleButton(note: Note) {
+        let button =  UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        button.setTitle(note.getShortTitle(), for: .normal)
+        button.addTarget(self, action: #selector(clickOnButton), for: .touchUpInside)
+        navigationItem.titleView = button
     }
 
     public func reloadPreview() {
