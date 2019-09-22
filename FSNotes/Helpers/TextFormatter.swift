@@ -387,7 +387,7 @@ public class TextFormatter {
             }
         #endif
 
-        let selectRange = NSRange(location: selected.location + selected.length + paragraph.count, length: 0)
+        let selectRange = NSRange(location: selected.location + selected.length + prefix.count, length: 0)
         insertText(prefix + paragraph, replacementRange: pRange, selectRange: selectRange)
     }
     
