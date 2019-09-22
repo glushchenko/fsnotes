@@ -47,7 +47,8 @@ class ImageAttachment {
 
     weak var weakTimer: Timer?
 
-    public func getAttributedString() -> NSMutableAttributedString? {
+    public func getAttributedString(lazy: Bool = true) -> NSMutableAttributedString? {
+        let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
 
@@ -60,7 +61,7 @@ class ImageAttachment {
         }
 
         guard FileManager.default.fileExists(atPath: self.url.path) else { return nil }
-        guard let attachment = load() else { return nil }
+        guard let attachment = load(lazy: lazy) else { return nil }
 
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
@@ -71,6 +72,7 @@ class ImageAttachment {
         let attributes = [
             titleKey: self.title,
             pathKey: self.path,
+            imageKey: self.url,
             .link: String(),
             .attachment: attachment,
             .paragraphStyle: paragraphStyle
@@ -128,9 +130,9 @@ class ImageAttachment {
         return CGSize(width: width, height: height)
     }
 
-    public func getCacheUrl(from url: URL) -> URL? {
+    public func getCacheUrl(from url: URL, prefix: String = "Preview") -> URL? {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent("Preview")
+        temporary.appendPathComponent(prefix)
 
         if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
 
@@ -140,15 +142,15 @@ class ImageAttachment {
         return nil
     }
 
-    public func savePreviewImage(url: URL, image: Image) {
+    public func savePreviewImage(url: URL, image: Image, prefix: String = "Preview") {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent("Preview")
+        temporary.appendPathComponent(prefix)
 
         if !FileManager.default.fileExists(atPath: temporary.path) {
-            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: false, attributes: nil)
+            try? FileManager.default.createDirectory(at: temporary, withIntermediateDirectories: true, attributes: nil)
         }
 
-        if let url = self.getCacheUrl(from: url) {
+        if let url = self.getCacheUrl(from: url, prefix: prefix) {
             if let data = image.jpgData {
                 try? data.write(to: url)
             }

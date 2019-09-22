@@ -11,48 +11,17 @@ import MobileCoreServices
 import AVKit
 
 extension ImageAttachment {
-    public func load() -> NSTextAttachment? {
+    public func load(lazy: Bool = true) -> NSTextAttachment? {
         let imageSize = getSize(url: self.url)
+        guard let size = getImageSize(imageSize: imageSize) else { return nil }
 
         let attachment = NSTextAttachment()
-        attachment.image = UIImage.emptyImage(with: imageSize)!
+        attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
-        if let size = getImageSize(imageSize: imageSize) {
-            attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-
-            let operation = BlockOperation()
-            operation.addExecutionBlock {
-                
-                let imageData = try? Data(contentsOf: self.url)
-                var finalImage: UIImage?
-
-                if self.url.isVideo {
-                    let asset = AVURLAsset(url: self.url, options: nil)
-                    let imgGenerator = AVAssetImageGenerator(asset: asset)
-                    if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
-                        finalImage = UIImage(cgImage: cgImage)
-                    }
-                } else if let imageData = imageData {
-                    finalImage = UIImage(data: imageData)
-                }
-
-                guard let image = finalImage else { return }
-
-                if let resizedImage = self.resize(image: image, size: size)?.rounded(radius: 5), let imageData = imageData {
-
-                    attachment.contents = imageData
-                    attachment.image = resizedImage
-
-                    DispatchQueue.main.async {
-                        if let view = self.getEditorView(), let invalidateRange =  self.invalidateRange, self.note == EditTextView.note {
-                            view.layoutManager.invalidateLayout(forCharacterRange: invalidateRange, actualCharacterRange: nil)
-                            view.layoutManager.invalidateDisplay(forCharacterRange: invalidateRange)
-                        }
-                    }
-                }
-            }
-
-            EditTextView.imagesLoaderQueue.addOperation(operation)
+        if lazy {
+            attachment.image = UIImage.emptyImage(with: size)
+        } else {
+            attachment.image = getImage(url: self.url, size: size)
         }
 
         return attachment
@@ -91,5 +60,33 @@ extension ImageAttachment {
         UIGraphicsEndImageContext()
 
         return newImage
+    }
+
+    public func getImage(url: URL, size: CGSize) -> UIImage? {
+        let imageData = try? Data(contentsOf: url)
+        var finalImage: UIImage?
+
+        if url.isVideo {
+            let asset = AVURLAsset(url: url, options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            if let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil) {
+                finalImage = UIImage(cgImage: cgImage)
+            }
+        } else if let imageData = imageData {
+            finalImage = UIImage(data: imageData)
+        }
+
+        guard let image = finalImage else { return nil }
+        var thumbImage: UIImage?
+
+        if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBig"), FileManager.default.fileExists(atPath: cacheURL.path) {
+            thumbImage = UIImage(contentsOfFile: cacheURL.path)
+        } else if
+            let resizedImage = self.resize(image: image, size: size) {
+            thumbImage = resizedImage
+            self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBig")
+        }
+
+        return thumbImage
     }
 }

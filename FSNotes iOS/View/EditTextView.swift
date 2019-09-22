@@ -111,17 +111,28 @@ class EditTextView: UITextView, UITextViewDelegate {
                     note.content = NSMutableAttributedString(attributedString: self.attributedText)
                     note.save()
 
+                    UIApplication.getVC().notesTable.reloadData()
                     return
                 }
             }
 
             if let image = item["public.jpeg"] as? UIImage, let data = image.jpegData(compressionQuality: 1) {
                 saveImageClipboard(data: data, note: note)
+
+                note.content = NSMutableAttributedString(attributedString: self.attributedText)
+                note.save()
+
+                UIApplication.getVC().notesTable.reloadData()
                 return
             }
 
             if let image = item["public.png"] as? UIImage, let data = image.pngData() {
                 saveImageClipboard(data: data, note: note)
+
+                note.content = NSMutableAttributedString(attributedString: self.attributedText)
+                note.save()
+
+                UIApplication.getVC().notesTable.reloadData()
                 return
             }
         }
@@ -211,22 +222,53 @@ class EditTextView: UITextView, UITextViewDelegate {
                 let range = NSRange(location: selectedRange.location, length: 1)
                 let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
 
-                if let attributedString = attachment.getAttributedString() {
-                    let newLineImage = NSMutableAttributedString(attributedString: attributedString)
-                    newLineImage.append(NSAttributedString(string: "\n"))
+                if let attributedString = attachment.getAttributedString(lazy: false) {
 
-                    self.undoManager?.beginUndoGrouping()
-                    self.replace(selectedTextRange!, withText: newLineImage.string)
+                    undoManager?.beginUndoGrouping()
+                    textStorage.replaceCharacters(in: selectedRange, with: attributedString)
+                    selectedRange = NSRange(location: selectedRange.location + attributedString.length, length: 0)
+                    undoManager?.endUndoGrouping()
 
-                    let newRange = NSRange(location: selectedRange.location - newLineImage.length, length: newLineImage.length)
-                    self.textStorage.replaceCharacters(in: newRange, with: newLineImage)
-                    self.undoManager?.endUndoGrouping()
+                    let undo = Undo(range: range, string: attributedString)
+                    undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
 
+                    initUndoRedoButons()
                     applyLeftParagraphStyle()
                     return
                 }
             }
         }
+    }
+
+    @IBAction func undoImage(_ object: Any) {
+        guard let undo = object as? Undo else { return }
+
+        undoManager?.beginUndoGrouping()
+        textStorage.replaceCharacters(in: undo.range, with: "")
+        undoManager?.endUndoGrouping()
+
+        let range = NSRange(location: undo.range.location, length: 0)
+        let redo = Undo(range: range, string: undo.string)
+
+        undoManager?.registerUndo(withTarget: self, selector: #selector(redoImage), object: redo)
+
+        initUndoRedoButons()
+    }
+
+    @IBAction func redoImage(_ object: Any) {
+        guard let redo = object as? Undo else { return }
+
+        undoManager?.beginUndoGrouping()
+        textStorage.replaceCharacters(in: redo.range, with: redo.string)
+        selectedRange = NSRange(location: selectedRange.location + redo.string.length, length: 0)
+        undoManager?.endUndoGrouping()
+
+        let range = NSRange(location: redo.range.location, length: redo.string.length)
+        let undo = Undo(range: range, string: redo.string)
+
+        undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
+
+        initUndoRedoButons()
     }
     
     public func isTodo(at location: Int) -> Bool {
@@ -275,4 +317,9 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         return false
     }
+}
+
+struct Undo {
+    var range: NSRange
+    var string: NSAttributedString
 }
