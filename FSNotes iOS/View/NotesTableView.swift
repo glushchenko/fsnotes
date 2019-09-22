@@ -10,6 +10,7 @@ import UIKit
 import NightNight
 import MobileCoreServices
 import AudioToolbox
+import cmark_gfm_swift
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
@@ -388,10 +389,15 @@ class NotesTableView: UITableView,
         UIPasteboard.general.items = [item]
     }
 
-    public func shareAction(note: Note, presentController: UIViewController) {
+    public func shareAction(note: Note, presentController: UIViewController, isHTML: Bool = false) {
         AudioServicesPlaySystemSound(1519)
-        
-        let objectsToShare = [note.content.string] as [Any]
+
+        var string = note.content.string
+        if isHTML {
+            string = Node(markdown: note.content.unLoadImages().string)!.html
+        }
+
+        let objectsToShare = [string] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
 
