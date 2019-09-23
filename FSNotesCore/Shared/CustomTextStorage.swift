@@ -213,8 +213,6 @@ extension NSTextStorage: NSTextStorageDelegate {
                 #if os(iOS)
                 let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
                 if let url = textStorage.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL {
-                    print("LOAD URL:")
-                    print(url)
                     loadImage(attachment: value, url: url, range: range)
                 }
                 #endif

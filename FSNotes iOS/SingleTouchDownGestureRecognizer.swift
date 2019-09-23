@@ -56,7 +56,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                     }
                 }
 
-                if !isImage && glyphRect.contains(point) && view.isLink(at: glyphIndex) {
+                if !isImage && glyphRect.contains(point) && view.isLink(at: characterIndex) {
                     self.state = .possible
                     return
                 }
