@@ -21,7 +21,7 @@ extension ImageAttachment {
         if lazy {
             attachment.image = UIImage.emptyImage(with: size)
         } else {
-            attachment.image = getImage(url: self.url, size: size)
+            attachment.image = ImageAttachment.getImage(url: self.url, size: size)
         }
 
         return attachment
@@ -52,7 +52,7 @@ extension ImageAttachment {
         return CGSize(width: maxWidth, height: newHeight)
     }
 
-    private func resize(image: UIImage, size: CGSize) -> UIImage? {
+    public static func resize(image: UIImage, size: CGSize) -> UIImage? {
         UIGraphicsBeginImageContext(size)
         image.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
 
@@ -62,7 +62,7 @@ extension ImageAttachment {
         return newImage
     }
 
-    public func getImage(url: URL, size: CGSize) -> UIImage? {
+    public static func getImage(url: URL, size: CGSize) -> UIImage? {
         let imageData = try? Data(contentsOf: url)
         var finalImage: UIImage?
 
