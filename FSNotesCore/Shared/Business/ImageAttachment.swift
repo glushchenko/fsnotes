@@ -130,7 +130,7 @@ class ImageAttachment {
         return CGSize(width: width, height: height)
     }
 
-    public func getCacheUrl(from url: URL, prefix: String = "Preview") -> URL? {
+    public static func getCacheUrl(from url: URL, prefix: String = "Preview") -> URL? {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent(prefix)
 
@@ -142,7 +142,7 @@ class ImageAttachment {
         return nil
     }
 
-    public func savePreviewImage(url: URL, image: Image, prefix: String = "Preview") {
+    public static func savePreviewImage(url: URL, image: Image, prefix: String = "Preview") {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent(prefix)
 

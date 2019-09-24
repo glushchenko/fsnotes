@@ -34,7 +34,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         navigationDelegate = self
         
 #if os(OSX)
-        setValue(false, forKey: "drawsBackground")
+        if #available(macOS 10.13, *) {
+              setValue(false, forKey: "drawsBackground")
+        }
 #else
         isOpaque = false
         backgroundColor = UIColor.clear
