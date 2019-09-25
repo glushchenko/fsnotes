@@ -24,11 +24,10 @@ class PreferencesSecurityViewController: NSViewController {
         lockWhenFastUser.state = UserDefaultsManagement.lockOnUserSwitch ? .on : .off
         allowTouchID.state = UserDefaultsManagement.allowTouchID ? .on : .off
         saveInKeychain.state = UserDefaultsManagement.savePasswordInKeychain ? .on : .off
-
         masterPassword.isEnabled = UserDefaultsManagement.allowTouchID
 
-        let context = LAContext()
-        if #available(OSX 10.12.2, *) {
+        if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
+            let context = LAContext()
             if !context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
                 disableTouchID()
                 return

@@ -1536,7 +1536,8 @@ class ViewController: NSViewController,
     func makeNoteShortcut() {
         let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string)
         if (clipboard != nil) {
-            createNote(content: clipboard!)
+            let project = Storage.sharedInstance().getMainProject()
+            createNote(content: clipboard!, project: project)
             
             let notification = NSUserNotification()
             notification.title = "FSNotes"
@@ -1579,10 +1580,10 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "", type: NoteType? = nil) {
+    func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil) {
         guard let vc = ViewController.shared() else { return }
         
-        var sidebarProject = getSidebarProject()
+        var sidebarProject = project ?? getSidebarProject()
         var text = content
         
         if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
@@ -2076,10 +2077,10 @@ class ViewController: NSViewController,
     }
 
     private func getMasterPassword(completion: @escaping (String, Bool) -> ()) {
-        let context = LAContext()
-        context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
-        
         if #available(OSX 10.12.2, *), UserDefaultsManagement.allowTouchID {
+            let context = LAContext()
+            context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
+
             guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) else {
                 masterPasswordPrompt(completion: completion)
                 return
@@ -2117,7 +2118,7 @@ class ViewController: NSViewController,
             self.alert = NSAlert()
             guard let alert = self.alert else { return }
 
-            let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+            let field = NSSecureTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
             alert.messageText = NSLocalizedString("Master password:", comment: "")
             alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
             alert.accessoryView = field

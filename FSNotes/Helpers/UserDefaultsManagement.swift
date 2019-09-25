@@ -1004,6 +1004,10 @@ public class UserDefaultsManagement {
 
     static var allowTouchID: Bool {
         get {
+            if NSClassFromString("NSTouchBar") == nil {
+                return false
+            }
+
             if let result = UserDefaults.standard.object(forKey: Constants.AllowTouchID) as? Bool {
                 return result
             }
