@@ -75,6 +75,10 @@ class PreferencesUserInterfaceViewController: NSViewController {
         // We don't need to set the user defaults value here as the checkbox is
         // bound to it. We do need to update each window's hideOnDeactivate.
         for window in NSApplication.shared.windows {
+            if window.className == "NSStatusBarWindow" {
+                continue
+            }
+
             window.hidesOnDeactivate = UserDefaultsManagement.hideOnDeactivate
         }
     }
