@@ -1637,7 +1637,7 @@ CA
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
                                                         <rect key="frame" x="249" y="250" width="70" height="99"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="makeNoteAsset" id="WpA-pT-SDs"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="WpA-pT-SDs"/>
                                                         <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </imageView>
                                                 </subviews>
@@ -3032,7 +3032,6 @@ Baran Pirinçal – baranpirincal@gmail.com</string>
         <image name="git" width="270" height="270"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="makeNoteAsset" width="512" height="512"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
