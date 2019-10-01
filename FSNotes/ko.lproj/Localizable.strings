@@ -1,0 +1,229 @@
+/* No comment provided by engineer. */
+"Add" = "추가";
+
+/* Sidebar label */
+"Archive" = "아카이브";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "%d개의 노트를 영구적으로 지우겠습니까?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "프로젝트 \"%@\"를 영구적으로 지우겠습니까？";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "저장소 추가";
+
+/* No comment provided by engineer. */
+"Back up storage" = "저장소 백업";
+
+/* Delete menu */
+"Cancel" = "취소";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "맞춤법 및 문법 검사";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "입력하는 동안 맞춤법 검사";
+
+/* No comment provided by engineer. */
+"Code Block" = "코드 블록";
+
+/* No comment provided by engineer. */
+"Code Span" = "코드 들여쓰기";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "HTML 복사하기";
+
+/* No comment provided by engineer. */
+"Copy Link" = "링크 복사하기";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "일반 텍스트 복사하기";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "맞춤법 자동 수정";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "암호가 키체인과 다릅니다";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "데이터 탐색기";
+
+/* No comment provided by engineer. */
+"Delete" = "삭제";
+
+/* No comment provided by engineer. */
+"Delete folder" = "폴더 삭제";
+
+/* No comment provided by engineer. */
+"Delete Images" = "이미지 삭제";
+
+/* No comment provided by engineer. */
+"Detach storage" = "저장소 분리";
+
+/* No comment provided by engineer. */
+"Empty password" = "빈 암호";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "마스터 암호 입력";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [수정]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [미리보기]";
+
+/* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
+
+/* Menu */
+"History" = "변경 이력";
+
+/* No comment provided by engineer. */
+"Image" = "이미지";
+
+/* No comment provided by engineer. */
+"Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Link" = "링크";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "모든 암호화 된 노트 잠금";
+
+/* No comment provided by engineer. */
+"Master password:" = "마스터 암호:";
+
+/* Menu */
+"Move" = "이동";
+
+/* No comment provided by engineer. */
+"New" = "새로운 노트";
+
+/* No comment provided by engineer. */
+"New folder" = "새로운 폴더";
+
+/* No comment provided by engineer. */
+"New project" = "새로운 프로젝트";
+
+/* No comment provided by engineer. */
+"New RTF" = "새로운 RTF파일";
+
+/* Sidebar label */
+"Notes" = "모든 노트";
+
+/* No comment provided by engineer. */
+"OK" = "확인";
+
+/* Edit area */
+"Please enter image title:" = "이미지 제목을 입력하십시오：";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "노트 암호를 입력하십시오";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "프로젝트 이름을 입력하십시오：";
+
+/* Menu */
+"Please enter tags (comma separated):" = "태그를 입력하십시오（콤마로 구분）：";
+
+/* No comment provided by engineer. */
+"Please try again" = "다시 시도하십시오";
+
+/* No comment provided by engineer. */
+"Preferences" = "환경설정";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "FSNotes 종료";
+
+/* Delete menu */
+"Remove" = "삭제";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "노트 삭제";
+
+/* No comment provided by engineer. */
+"Rename folder" = "노트 이름 변경";
+
+/* No comment provided by engineer. */
+"Search and create" = "검색 및 추가";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Finder에서 보기";
+
+/* No comment provided by engineer. */
+"Show view options" = "보기 옵션";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "스마트 복사하기/붙여넣기";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "스마트 대시";
+
+/* No comment provided by engineer. */
+"Smart Links" = "스마트 링크";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "스마트 인용";
+
+/* View menu */
+"Sort by" = "다음으로 정렬";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "맞춤법 및 문법";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "취소선";
+
+/* No comment provided by engineer. */
+"Substitutions" = "대체";
+
+/* Menu
+   Sidebar label */
+"Tags" = "태그";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "텍스트 대치";
+
+/* Delete menu */
+"This action cannot be undone." = "이 작업은 취소할 수 없습니다.";
+
+/* No comment provided by engineer. */
+"Todo" = "할 일";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "미리보기 토글";
+
+/* Sidebar label */
+"Trash" = "휴지통";
+
+/* No comment provided by engineer. */
+"Underline" = "밑줄체";
+
+/* Untitled Note */
+"Untitled Note" = "무제";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "URL이 클립보드에 복사되었습니다";
+
+/* Menu */
+"View" = "보기";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "틀린 암호가 반복되었습니다.";
+
