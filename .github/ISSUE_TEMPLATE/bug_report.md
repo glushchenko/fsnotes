@@ -32,9 +32,9 @@ A clear and concise description of any workarounds.
 If applicable, add screenshots or files to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. macOS, iOS]
- - OS version: [e.g. 10.13.6]
- - FSNotes version [e.g. 3.2.0]
+ - OS: macOS or iOS
+ - OS version: 10.14.6
+ - FSNotes version 3.8.2
 
 **Additional context**
 Add any other context about the problem here.
