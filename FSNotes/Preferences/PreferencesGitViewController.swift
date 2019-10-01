@@ -22,12 +22,16 @@ class PreferencesGitViewController: NSViewController {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 476, height: 352)
 
-        if let version = Git.sharedInstance().getVersion() {
-            let allowedCharset = CharacterSet
-                .decimalDigits
-                .union(CharacterSet(charactersIn: "."))
+        DispatchQueue.global().async {
+            if let version = Git.sharedInstance().getVersion() {
+                let allowedCharset = CharacterSet
+                    .decimalDigits
+                    .union(CharacterSet(charactersIn: "."))
 
-            gitVersion.stringValue = String(version.unicodeScalars.filter(allowedCharset.contains))
+                DispatchQueue.main.async {
+                    self.gitVersion.stringValue = String(version.unicodeScalars.filter(allowedCharset.contains))
+                }
+            }
         }
 
         repositoriesPath.url = UserDefaultsManagement.gitStorage

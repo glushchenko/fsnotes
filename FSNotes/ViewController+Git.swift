@@ -49,28 +49,32 @@ extension ViewController {
             let note = vc.notesTableView.getSelectedNote()
             else { return }
 
-        let git = Git.sharedInstance()
-        let repository = git.getRepository(by: note.project.getParent())
-        let commits = repository.getCommits(by: note.getGitPath())
-
         let title = NSLocalizedString("History", comment: "")
         let historyMenu = noteMenu.item(withTitle: title)
         historyMenu?.submenu?.removeAllItems()
 
-        guard commits.count > 0 else {
-            historyMenu?.isHidden = true
-            return
-        }
+        DispatchQueue.global().async {
+            let git = Git.sharedInstance()
+            let repository = git.getRepository(by: note.project.getParent())
+            let commits = repository.getCommits(by: note.getGitPath())
 
-        for commit in commits {
-            let menuItem = NSMenuItem()
-            if let date = commit.getDate() {
-                menuItem.title = date
+            DispatchQueue.main.async {
+                guard commits.count > 0 else {
+                    historyMenu?.isHidden = true
+                    return
+                }
+
+                for commit in commits {
+                    let menuItem = NSMenuItem()
+                    if let date = commit.getDate() {
+                        menuItem.title = date
+                    }
+
+                    menuItem.representedObject = commit
+                    menuItem.action = #selector(vc.checkoutRevision(_:))
+                    historyMenu?.submenu?.addItem(menuItem)
+                }
             }
-
-            menuItem.representedObject = commit
-            menuItem.action = #selector(vc.checkoutRevision(_:))
-            historyMenu?.submenu?.addItem(menuItem)
         }
 
         historyMenu?.isHidden = false
