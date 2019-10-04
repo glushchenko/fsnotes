@@ -579,7 +579,7 @@ public class Note: NSObject  {
     public func save(content: NSMutableAttributedString) {
         self.content = content.unLoad()
 
-        save(attributedString: content)
+        save(attributedString: self.content)
     }
         
     public func save(globalStorage: Bool = true) {

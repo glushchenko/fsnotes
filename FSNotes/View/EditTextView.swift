@@ -394,7 +394,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
                 let path = note.getMdImagePath(name: fileName)
 
-                storage.attribute(filePathKey, at: range.location, effectiveRange: nil)
                 storage.addAttribute(filePathKey, value: path, range: range)
             }
         }
