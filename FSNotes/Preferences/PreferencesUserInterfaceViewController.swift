@@ -128,12 +128,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         UserDefaultsManagement.fontColor = sender.color
         vc.editArea.setEditorTextColor(sender.color)
-
-        if let note = EditTextView.note {
-            Storage.sharedInstance().fullCacheReset()
-            note.reCache()
-            vc.refillEditArea()
-        }
+        vc.refillEditArea()
     }
 
     @IBAction func setBgColor(_ sender: NSColorWell) {
@@ -209,13 +204,9 @@ class PreferencesUserInterfaceViewController: NSViewController {
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont
 
-        if let note = EditTextView.note {
-            Storage.sharedInstance().fullCacheReset()
-            note.reCache()
-            vc.refillEditArea()
-        }
-
+        vc.refillEditArea()
         vc.reloadView()
+
         setFontPreview()
     }
 

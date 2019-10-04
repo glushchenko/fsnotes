@@ -330,7 +330,9 @@ class ViewController: NSViewController,
             if self.keyDown(with: $0) {
                 return $0
             }
-            return NSEvent()
+            //return NSEvent()
+
+            return nil
         }
     }
     
@@ -1223,15 +1225,11 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[index]
             editArea.saveImages()
 
-            note.content = NSMutableAttributedString(attributedString: editArea.attributedString())
-            note.save()
+            note.save(attributed: editArea.attributedString())
 
             rowUpdaterTimer.invalidate()
             rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateCurrentRow), userInfo: nil, repeats: false)
         }
-
-        // Fixes glitch when make/delete code block paragraph
-        //editArea.setSelectedRange(editArea.selectedRange())
     }
 
     private func removeForever() {
@@ -1605,7 +1603,6 @@ class ViewController: NSViewController,
         
         let note = Note(name: name, project: project, type: type)
         note.content = NSMutableAttributedString(string: text)
-        note.isCached = false
         note.save()
 
         if let si = getSidebarItem(), si.type == .Tag {
@@ -1897,7 +1894,6 @@ class ViewController: NSViewController,
                     }
                 }
 
-                noteDupe.isCached = false
                 noteDupe.save()
 
                 storage.add(noteDupe)

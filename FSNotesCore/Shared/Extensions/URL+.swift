@@ -147,4 +147,10 @@ public extension URL {
             || UTTypeConformsTo(fileUTI, kUTTypeAppleProtectedMPEG4Video)
             || UTTypeConformsTo(fileUTI, kUTTypeAVIMovie)
     }
+
+    var isImage: Bool {
+        guard let fileUTI = fileUTType else { return false }
+
+        return UTTypeConformsTo(fileUTI, kUTTypeImage)
+    }
 }

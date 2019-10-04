@@ -66,14 +66,15 @@ class ImageAttachment {
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
+
+        paragraphStyle.alignment = url.isImage ? .center : .left
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
 
         let attributes = [
             titleKey: self.title,
             pathKey: self.path,
             imageKey: self.url,
-            .link: String(),
+            .link: self.url,
             .attachment: attachment,
             .paragraphStyle: paragraphStyle
         ] as [NSAttributedString.Key: Any]

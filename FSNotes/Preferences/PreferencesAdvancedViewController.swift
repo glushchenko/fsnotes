@@ -129,7 +129,6 @@ class PreferencesAdvancedViewController: NSViewController {
                     archive.url = url
                     storage.unload(project: archive)
                     storage.loadLabel(archive)
-                    storage.cacheMarkdown(project: archive)
 
                     vc.fsManager?.restart()
                     vc.notesTableView.reloadData()

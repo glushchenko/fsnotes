@@ -313,9 +313,9 @@ public class NotesTextProcessor {
         return resultString
     }
 
-    public static func highlight(attributedString: NSMutableAttributedString) {
-        highlightMarkdown(attributedString: attributedString)
-        highlightFencedAndIndentCodeBlocks(attributedString: attributedString)
+    public static func highlight(note: Note) {
+        highlightMarkdown(attributedString: note.content, note: note)
+        highlightFencedAndIndentCodeBlocks(attributedString: note.content)
     }
 
     public static func highlightFencedAndIndentCodeBlocks(attributedString: NSMutableAttributedString) {
@@ -366,7 +366,7 @@ public class NotesTextProcessor {
         return false
     }
 
-    public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil) {
+    public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {
         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
         let isFullScan = attributedString.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         let string = attributedString.string
@@ -423,8 +423,7 @@ public class NotesTextProcessor {
         }
 
         attributedString.enumerateAttribute(.link, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
-
-            if value != nil && attributedString.attribute(.attachment, at: paragraphRange.location, effectiveRange: nil) == nil {
+            if value != nil && attributedString.attribute(.attachment, at: range.location, effectiveRange: nil) == nil {
                 attributedString.removeAttribute(.link, range: range)
             }
         }
@@ -698,6 +697,35 @@ public class NotesTextProcessor {
             if substring.contains("- [x]") {
                 let strikeRange = attributedString.mutableString.paragraphRange(for: range)
                 attributedString.addAttribute(.strikethroughStyle, value: 1, range: strikeRange)
+            }
+        }
+
+        if !UserDefaultsManagement.liveImagesPreview {
+            
+            // We detect and process inline images
+            NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+                guard let range = result?.range else { return }
+
+                if let linkRange = result?.range(at: 3) {
+                    let link = attributedString.mutableString.substring(with: linkRange)
+                    if let url = note.getImageUrl(imageName: link) {
+                        attributedString.addAttribute(.link, value: url, range: linkRange)
+                    }
+                }
+
+                attributedString.addAttribute(.font, value: codeFont, range: range)
+                NotesTextProcessor.imageOpeningSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+                NotesTextProcessor.imageClosingSquareRegex.matches(string, range: paragraphRange) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
+                NotesTextProcessor.parenRegex.matches(string, range: range) { (innerResult) -> Void in
+                    guard let innerRange = innerResult?.range else { return }
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+                }
             }
         }
 

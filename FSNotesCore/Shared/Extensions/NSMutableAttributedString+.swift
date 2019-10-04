@@ -85,6 +85,10 @@ extension NSMutableAttributedString {
         return content!
     }
 
+    public func unLoad() -> NSMutableAttributedString {
+        return unLoadCheckboxes().unLoadImages()
+    }
+
     #if os(OSX)
     public func loadCheckboxes() {
         while mutableString.contains("- [ ] ") {
@@ -109,26 +113,19 @@ extension NSMutableAttributedString {
     }
     #endif
 
-    public func updateParagraph() {
-        beginEditing()
-
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-
-        let attachmentParagraph = NSMutableParagraphStyle()
-        attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        attachmentParagraph.alignment = .center
-
-        addAttribute(.paragraphStyle, value: paragraph, range: NSRange(0..<length))
-
-        enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
-
-            if value as? NSTextAttachment != nil,
-                self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-                addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
+    public func replaceCheckboxes() {
+        while mutableString.contains("- [ ] ") {
+            let range = mutableString.range(of: "- [ ] ")
+            if length >= range.upperBound, let unChecked = AttributedBox.getUnChecked() {
+                replaceCharacters(in: range, with: unChecked)
             }
         }
 
-        endEditing()
+        while mutableString.contains("- [x] ") {
+            let range = mutableString.range(of: "- [x] ")
+            if length >= range.upperBound, let checked = AttributedBox.getChecked() {
+                replaceCharacters(in: range, with: checked)
+            }
+        }
     }
 }

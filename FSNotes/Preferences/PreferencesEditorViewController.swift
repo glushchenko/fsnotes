@@ -66,8 +66,6 @@ class PreferencesEditorViewController: NSViewController {
 
         if UserDefaultsManagement.liveImagesPreview {
             if let note = EditTextView.note, let storage = vc.editArea.textStorage, storage.length > 0 {
-                let processor = ImagesProcessor(styleApplier: storage, note: note)
-                processor.unLoad()
                 storage.setAttributedString(note.content)
             }
         }
@@ -75,7 +73,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
 
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
-            NotesTextProcessor.highlight(attributedString: note.content)
+            NotesTextProcessor.highlight(note: note)
             vc.refillEditArea()
         }
     }
@@ -95,7 +93,6 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeTheme = item.title
 
         NotesTextProcessor.hl = nil
-        self.storage.fullCacheReset()
         vc.refillEditArea()
     }
 
@@ -124,7 +121,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.imagesWidth = sender.floatValue
 
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
-            NotesTextProcessor.highlight(attributedString: note.content)
+            NotesTextProcessor.highlight(note: note)
             vc.refillEditArea()
         }
     }
@@ -181,11 +178,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
 
-        if let note = EditTextView.note {
-            Storage.sharedInstance().fullCacheReset()
-            note.reCache()
-            vc.refillEditArea()
-        }
+        vc.refillEditArea()
 
         setCodeFont()
     }

@@ -199,32 +199,27 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     ]
                 )
             }
-        } else {
+        } else if note.isMarkdown() {
             EditTextView.shouldForceRescan = true
 
-            if UserDefaultsManagement.liveImagesPreview {
-                if let content = note.content.mutableCopy() as? NSMutableAttributedString {
+            if let content = note.content.mutableCopy() as? NSMutableAttributedString {
+                content.replaceCheckboxes()
+
+                if UserDefaultsManagement.liveImagesPreview {
                     let processor = ImagesProcessor(styleApplier: content, range: NSRange(0..<content.length), note: note)
                     processor.load()
 
                     editArea.attributedText = content
                 }
-            } else {
-                editArea.attributedText = note.content
             }
+        } else {
+            editArea.attributedText = note.content
         }
+
 
         self.configureToolbar()
 
         editArea.textStorage.updateFont()
-
-        if note.isMarkdown() {
-            note.isCached = false
-            EditTextView.isBusyProcessing = true
-            editArea.textStorage.replaceCheckboxes()
-            EditTextView.isBusyProcessing = false
-        }
-        
         editArea.delegate = self
 
         let cursor = editArea.selectedTextRange
@@ -494,8 +489,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             guard let self = self else {return}
             
             DispatchQueue.main.async {
-                note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
-                note.save()
+                note.save(attributed: self.editArea.attributedText)
 
                 self.rowUpdaterTimer.invalidate()
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
@@ -843,8 +837,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         DispatchQueue.main.async {
                             self.editArea.insertText(markup)
 
-                            note.content = NSMutableAttributedString(attributedString: self.editArea.attributedText)
-                            note.save()
+                            note.save(attributed: self.editArea.attributedText)
                             note.isParsed = false
 
                             self.editArea.undoManager?.removeAllActions()

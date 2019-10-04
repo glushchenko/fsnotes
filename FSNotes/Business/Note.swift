@@ -21,7 +21,6 @@ public class Note: NSObject  {
 
     var content: NSMutableAttributedString = NSMutableAttributedString()
     var creationDate: Date? = Date()
-    var isCached = false
     var sharedStorage = Storage.sharedInstance()
     var tagNames = [String]()
     let dateFormatter = DateFormatter()
@@ -37,7 +36,6 @@ public class Note: NSObject  {
 
     public var imageUrl: [URL]?
     public var isParsed = false
-    private var caching = false
 
     private var decryptedTemporarySrc: URL?
     public var ciphertextWriter = OperationQueue.init()
@@ -571,16 +569,28 @@ public class Note: NSObject  {
             .last!
             .replacingOccurrences(of: ":", with: "/")
     }
+
+    public func save(attributed: NSAttributedString) {
+        let mutable = NSMutableAttributedString(attributedString: attributed)
+        
+        save(content: mutable)
+    }
+
+    public func save(content: NSMutableAttributedString) {
+        self.content = content.unLoad()
+
+        save(attributedString: content)
+    }
         
     public func save(globalStorage: Bool = true) {
         if self.isMarkdown() {
             self.content = self.content.unLoadCheckboxes()
-            
+
             if UserDefaultsManagement.liveImagesPreview {
                 self.content = self.content.unLoadImages(note: self)
             }
         }
-        
+
         self.save(attributedString: self.content, globalStorage: globalStorage)
     }
 
@@ -742,26 +752,7 @@ public class Note: NSObject  {
 
         return title
     }
-    
-    func markdownCache() {
-        guard isMarkdown() && !self.caching && !self.isCached else { return }
-
-        self.caching = true
-
-        #if NOT_EXTENSION || os(OSX)
-        NotesTextProcessor.highlight(attributedString: content)
-        #endif
-
-        self.caching = false
-        self.isCached = true
-    }
-
-    public func reCache() {
-        self.isCached = false
-
-        markdownCache()
-    }
-    
+        
     func getDocOptions(with encoding: String.Encoding = .utf8) -> [NSAttributedString.DocumentReadingOptionKey: Any]  {
         if type == .RichText {
             return [.documentType : NSAttributedString.DocumentType.rtf]
@@ -1261,7 +1252,6 @@ public class Note: NSObject  {
             loadTitle()
             
             invalidateCache()
-            reCache()
 
             return true
         } catch {
@@ -1300,7 +1290,6 @@ public class Note: NSObject  {
             self.decryptedTemporarySrc = nil
 
             load()
-            reCache()
 
             return true
 
@@ -1330,7 +1319,6 @@ public class Note: NSObject  {
             convertTextBundleToFlat(name: name)
 
             load()
-            reCache()
 
             return true
 
@@ -1386,13 +1374,9 @@ public class Note: NSObject  {
 
     private func cleanOut() {
         imageUrl = nil
-
         content = NSMutableAttributedString(string: String())
         preview = String()
         title = String()
-
-        isCached = false
-        caching = false
     }
 
     private func removeTempContainer() {
