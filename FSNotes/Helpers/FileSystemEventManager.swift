@@ -121,7 +121,6 @@ class FileSystemEventManager {
         guard let note = storage.initNote(url: url) else { return }
         note.load()
         note.loadModifiedLocalAt()
-        note.markdownCache()
         
         print("FSWatcher import note: \"\(note.name)\"")
         self.storage.add(note)
@@ -186,7 +185,6 @@ class FileSystemEventManager {
         if (note.isRTF() && fsContent != memoryContent)
             || (!note.isRTF() && fsContent.string != memoryContent.string) {
             note.content = NSMutableAttributedString(attributedString: fsContent)
-            note.isCached = false
 
             self.delegate.notesTableView.reloadRow(note: note)
 

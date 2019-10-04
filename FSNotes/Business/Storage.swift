@@ -339,16 +339,8 @@ class Storage {
                 loadDocuments(tryCount: 1) {}
                 return
             }
-            
-            #if os(OSX)
-                cacheMarkdown()
-            #endif
             return
         }
-        
-        #if os(OSX)
-            cacheMarkdown()
-        #endif
     }
 
     public func getMainProject() -> Project {
@@ -440,7 +432,7 @@ class Storage {
         return note.isPinned && !next.isPinned
     }
 
-    func loadLabel(_ item: Project, shouldScanCache: Bool = false, loadContent: Bool = false) {
+    func loadLabel(_ item: Project, loadContent: Bool = false) {
         let documents = readDirectory(item.url)
 
         for document in documents {
@@ -498,10 +490,6 @@ class Storage {
             }
 
             noteList.append(note)
-
-            if shouldScanCache {
-                note.markdownCache()
-            }
         }
     }
     
@@ -655,71 +643,6 @@ class Storage {
 
         return UserDefaultsManagement.storageUrl
 #endif
-    }
-            
-    var isActiveCaching = false
-    var terminateBusyQueue = false
-    
-    func cacheMarkdown(project: Project? = nil) {
-        guard !self.isActiveCaching else {
-            self.terminateBusyQueue = true
-            return
-        }
-        
-        DispatchQueue.global(qos: .background).async {
-            self.isActiveCaching = true
-            
-            var markdownDocuments = [Note]()
-            
-            if let project = project {
-                markdownDocuments = self.noteList.filter{
-                    $0.isMarkdown() && $0.project == project
-                }
-            } else {
-                markdownDocuments = self.noteList.filter{
-                    $0.isMarkdown()
-                }
-            }
-
-            #if NOT_EXTENSION || os(OSX)
-            for note in markdownDocuments {
-                note.markdownCache()
-
-                guard let currentNote = EditTextView.note else {
-                    continue
-                }
-
-                if note.url == currentNote.url {
-                #if os(OSX)
-                    DispatchQueue.main.async {
-                        ViewController.shared()?.refillEditArea()
-                    }
-                #else
-                    DispatchQueue.main.async {
-                        guard
-                            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                            let evc = viewController.viewControllers[0] as? EditorViewController else {
-                            return
-                        }
-                        
-                        evc.fill(note: note)
-                    }
-                #endif
-                }
-                
-                if self.terminateBusyQueue {
-                    print("Caching data obsolete, restart caching initiated.")
-                    self.terminateBusyQueue = false
-                    self.isActiveCaching = false
-                    self.loadDocuments() {}
-                    break
-                }
-            }
-            #endif
-            
-            self.isActiveCaching = false
-        }
     }
     
     func removeNotes(notes: [Note], fsRemove: Bool = true, completely: Bool = false, completion: @escaping ([URL: URL]?) -> ()) {
@@ -929,12 +852,6 @@ class Storage {
                     try FileManager.default.removeItem(at: fileURL)
                 }
             } catch  { print(error) }
-        }
-    }
-
-    public func fullCacheReset() {
-        for note in noteList {
-            note.isCached = false
         }
     }
 

@@ -50,13 +50,8 @@ public class ImagesProcessor {
         var offset = 0
 
         #if NOT_EXTENSION || os(OSX)
-
-        EditTextView.isBusyProcessing = true
         NotesTextProcessor.imageInlineRegex.matches(self.styleApplier.string, range: paragraphRange) { (result) -> Void in
-            guard var range = result?.range else {
-                EditTextView.isBusyProcessing = false
-                return
-            }
+            guard var range = result?.range else { return }
             
             range = NSRange(location: range.location - offset, length: range.length)
             let mdLink = self.styleApplier.attributedSubstring(from: range).string
@@ -76,7 +71,6 @@ public class ImagesProcessor {
             if !UserDefaultsManagement.liveImagesPreview {
                 NotesTextProcessor.imageOpeningSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else {
-                        EditTextView.isBusyProcessing = false
                         return
                     }
 
@@ -85,7 +79,6 @@ public class ImagesProcessor {
                 
                 NotesTextProcessor.imageClosingSquareRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else {
-                        EditTextView.isBusyProcessing = false
                         return
                     }
                     self.styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -94,7 +87,6 @@ public class ImagesProcessor {
             
             NotesTextProcessor.parenRegex.matches(self.styleApplier.string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else {
-                    EditTextView.isBusyProcessing = false
                     return
                 }
 
@@ -108,16 +100,12 @@ public class ImagesProcessor {
                     url = fs
                 }
                 
-                guard let imageUrl = url else {
-                    EditTextView.isBusyProcessing = false
-                    return
-                }
+                guard let imageUrl = url else { return }
 
                 let invalidateRange = NSRange(location: range.location, length: 1)
                 let cacheUrl = self.note.project.url.appendingPathComponent("/.cache/")
 
                 if EditTextView.note?.url.absoluteString != self.note.url.absoluteString {
-                    EditTextView.isBusyProcessing = false
                     return
                 }
 
@@ -129,35 +117,7 @@ public class ImagesProcessor {
                 }
             }
         }
-        EditTextView.isBusyProcessing = false
-
         #endif
-    }
-    
-    public func unLoad() {
-        guard note.container != .encryptedTextPack else { return }
-        
-        note.content = NSMutableAttributedString(attributedString: styleApplier.attributedSubstring(from: NSRange(0..<styleApplier.length)))
-        
-        var offset = 0
-
-        self.styleApplier.enumerateAttribute(.attachment, in: NSRange(location: 0, length: self.styleApplier.length)) { (value, range, stop) in
-
-            if value != nil, self.styleApplier.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-                let newRange = NSRange(location: range.location + offset, length: range.length)
-                let filePathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
-                let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
-                
-                guard
-                    let path = self.styleApplier.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String,
-                    let title = self.styleApplier.attribute(titleKey, at: range.location, effectiveRange: nil) as? String else { return }
-                
-                if let pathEncoded = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                    self.note.content.replaceCharacters(in: newRange, with: "![\(title)](\(pathEncoded))")
-                    offset += 4 + path.count + title.count
-                }
-            }
-        }
     }
     
     func computeMarkdownTitleLength(mdLink: String) -> Int {

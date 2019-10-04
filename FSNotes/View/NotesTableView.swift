@@ -161,9 +161,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
             self.loadingQueue.cancelAllOperations()
             let operation = BlockOperation()
-            operation.addExecutionBlock { [weak self] in
-                note.markdownCache()
-        
+            operation.addExecutionBlock { [weak self] in        
                 DispatchQueue.main.async {
                     guard !operation.isCancelled, self?.fillTimestamp == timestamp else { return }
 

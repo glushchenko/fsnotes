@@ -835,7 +835,7 @@ public class TextFormatter {
         }
         
         if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
-            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange)
+            NotesTextProcessor.highlightMarkdown(attributedString: storage, paragraphRange: paragraphRange, note: note)
         }
         
         if note.isMarkdown() || note.type == .RichText {
@@ -847,9 +847,8 @@ public class TextFormatter {
                 text = textView.attributedText
             #endif
             
-            if let t = text {
-                note.content = NSMutableAttributedString(attributedString: t)
-                note.save()
+            if let attributed = text {
+                note.save(attributed: attributed)
             }
         }
         

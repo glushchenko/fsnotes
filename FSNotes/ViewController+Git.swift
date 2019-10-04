@@ -39,7 +39,7 @@ extension ViewController {
         repository.checkout(commit: commit, fileName: note.getGitPath())
 
         _ = note.reload()
-        NotesTextProcessor.highlight(attributedString: note.content)
+        NotesTextProcessor.highlight(note: note)
         refillEditArea()
         notesTableView.reloadRow(note: note)
     }

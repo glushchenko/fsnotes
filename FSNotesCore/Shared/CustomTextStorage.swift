@@ -37,8 +37,8 @@ extension NSTextStorage: NSTextStorageDelegate {
 #endif
 
     private func process(textStorage: NSTextStorage, range editedRange: NSRange, changeInLength delta: Int) {
-        guard !EditTextView.isBusyProcessing, let note = EditTextView.note, note.isMarkdown(),
-        (editedRange.length != textStorage.length) || !note.isCached || EditTextView.shouldForceRescan else { return }
+        guard let note = EditTextView.note, note.isMarkdown() else { return }
+        guard editedRange.length != textStorage.length || EditTextView.shouldForceRescan else { return }
 
         if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
             rescanAll(textStorage: textStorage)
@@ -74,14 +74,8 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         removeAttribute(.backgroundColor, range: NSRange(0..<textStorage.length))
 
-        NotesTextProcessor.highlightMarkdown(attributedString: textStorage)
+        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, note: note)
         NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: textStorage)
-
-        let range = NSRange(0..<textStorage.length)
-        let content = textStorage.attributedSubstring(from: range)
-
-        note.content = NSMutableAttributedString(attributedString: content)
-        note.isCached = true
     }
 
     private func rescanPartial(textStorage: NSTextStorage, delta: Int, editedRange: NSRange) {
@@ -167,7 +161,8 @@ extension NSTextStorage: NSTextStorageDelegate {
             parRange = NSRange(location: prev.lowerBound, length: parRange.upperBound - prev.lowerBound)
         }
 
-        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange)
+        guard let note = EditTextView.note else { return }
+        NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange, note: note)
         NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
     }
 
@@ -185,7 +180,8 @@ extension NSTextStorage: NSTextStorageDelegate {
             let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
         } else {
-            NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange)
+            guard let note = EditTextView.note else { return }
+            NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: parRange, note: note)
             NotesTextProcessor.checkBackTick(styleApplier: textStorage, paragraphRange: parRange)
         }
     }
@@ -205,17 +201,15 @@ extension NSTextStorage: NSTextStorageDelegate {
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
             if let value = value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-                let paragraph = NSMutableParagraphStyle()
-                paragraph.alignment = .center
 
+                let paragraph = NSMutableParagraphStyle()
+                paragraph.alignment = value.isFile() ? .left : .center
                 textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
 
-                #if os(iOS)
                 let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
                 if let url = textStorage.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL {
                     loadImage(attachment: value, url: url, range: range)
                 }
-                #endif
             }
         }
     }

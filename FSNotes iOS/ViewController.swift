@@ -838,7 +838,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 let evc = viewController.viewControllers[0] as? EditorViewController
                 else { return }
 
-            note.isCached = false
             evc.fill(note: note)
         }
     }

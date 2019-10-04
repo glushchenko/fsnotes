@@ -549,7 +549,7 @@ class SidebarProjectView: NSOutlineView,
                 let newProject = Project(url: url, isRoot: true)
                 let projects = self.storage.add(project: newProject)
                 for project in projects {
-                    self.storage.loadLabel(project, shouldScanCache: true)
+                    self.storage.loadLabel(project)
                 }
                 
                 self.reloadSidebar()

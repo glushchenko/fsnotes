@@ -176,7 +176,6 @@
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
-		D73794BD233625FB00E75A28 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
 		D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */; };
 		D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794C023366F5200E75A28 /* ImageScrollView.swift */; };
 		D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
@@ -218,9 +217,6 @@
 		D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
-		D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
-		D7487F9021734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
-		D7487F9121734FCD00D09383 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
 		D7487F922173503C00D09383 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D7487F932173503C00D09383 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D7487F952173535200D09383 /* NSFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F942173535200D09383 /* NSFont+.swift */; };
@@ -240,6 +236,16 @@
 		D74DFBAD21661BA400F67D64 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76E10C0215A55CE0017F4A3 /* Date+.swift */; };
 		D7508FC81F337E850047AB76 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FC71F337E850047AB76 /* SearchTextField.swift */; };
 		D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7508FCD1F3438540047AB76 /* PrefsViewController.swift */; };
+		D752D80823454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80923454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80A23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80C23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80D23454750006842F9 /* NSTextAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80723454750006842F9 /* NSTextAttachment+.swift */; };
+		D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
+		D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
+		D752D81123463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
+		D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */; };
 		D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FB2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
 		D759D1FC2276D25C00961E90 /* icon_alt.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1F92276D25C00961E90 /* icon_alt.png */; };
@@ -268,7 +274,6 @@
 		D75E338422462442006AD1C1 /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D75E338522462442006AD1C1 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D75E338622462442006AD1C1 /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
-		D75E338722462442006AD1C1 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */; };
 		D75E338822462442006AD1C1 /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
 		D75E338922462442006AD1C1 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D75E338A22462442006AD1C1 /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
@@ -798,6 +803,10 @@
 		D7F5C0F9223ED57D0038F172 /* PreferencesSecurityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */; };
 		D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
 		D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */; };
+		D7F681B42344F4BF00F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
+		D7F681B52344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
+		D7F681B62344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
+		D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */; };
 		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
 		D7F6CFF62056F1BF008C584A /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF32056F1BC008C584A /* plus@2x.png */; };
 		D7F6CFF72056F1BF008C584A /* plus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F6CFF42056F1BE008C584A /* plus@3x.png */; };
@@ -1120,7 +1129,6 @@
 		D74112271FABA21B00AB619A /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		D7465F27207F2CD600E46A52 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D7470D062170E890006B2A92 /* CustomTextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextStorage.swift; sourceTree = "<group>"; };
-		D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
 		D7487F942173535200D09383 /* NSFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+.swift"; sourceTree = "<group>"; };
 		D7487FD5217389F800D09383 /* NSImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+.swift"; sourceTree = "<group>"; };
 		D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedStringKey+.swift"; sourceTree = "<group>"; };
@@ -1139,6 +1147,8 @@
 		D74B7B682137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D7508FC71F337E850047AB76 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
+		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
+		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
 		D759D1F92276D25C00961E90 /* icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alt.png; sourceTree = "<group>"; };
 		D759D1FD2276D4C200961E90 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		D75C9039223EDAFD002A9CAD /* padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padlock.png; sourceTree = "<group>"; };
@@ -1342,6 +1352,7 @@
 		D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesEditorViewController.swift; sourceTree = "<group>"; };
 		D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSecurityViewController.swift; sourceTree = "<group>"; };
 		D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAdvancedViewController.swift; sourceTree = "<group>"; };
+		D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextStorage+Images.swift"; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F6CFF32056F1BC008C584A /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		D7F6CFF42056F1BE008C584A /* plus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@3x.png"; sourceTree = "<group>"; };
@@ -1482,13 +1493,12 @@
 				D7218944210211B800FE3AF2 /* Business */,
 				6F13BB2720FEDE230005E120 /* Extensions */,
 				D7470D062170E890006B2A92 /* CustomTextStorage.swift */,
-				D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */,
-				D7487F8E21734FCD00D09383 /* NSTextStorage+.swift */,
 				D7EDEDFA219203C9000B8C1A /* NoteCellView+.swift */,
 				D730BD26222BF30700E69C93 /* KeychainConfiguration.swift */,
 				D730BD29222BF32A00E69C93 /* KeychainPasswordItem.swift */,
 				D730BD3B222DB9FC00E69C93 /* NameHelper.swift */,
 				D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */,
+				D752D80723454750006842F9 /* NSTextAttachment+.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1503,6 +1513,7 @@
 				D76E10C0215A55CE0017F4A3 /* Date+.swift */,
 				D7487FE82174E5CB00D09383 /* NSAttributedStringKey+.swift */,
 				D7E51712220D814D00A9CAD9 /* UTI.swift */,
+				D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1907,6 +1918,7 @@
 		D7CD5F6A1F51184A006AA35D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */,
 				D7CD5F6B1F51185F006AA35D /* NSFont+.swift */,
 				D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */,
 				D7C302C421F320FD0041627F /* ImageAttachment+.swift */,
@@ -2054,6 +2066,7 @@
 				D73FAE9E21553CAA0058BE61 /* UIApplication+.swift */,
 				D7C302C221F31E5F0041627F /* ImageAttachment+.swift */,
 				D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */,
+				D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3224,6 +3237,7 @@
 				6F13BB6C20FEE04A0005E120 /* String+.swift in Sources */,
 				D7487F952173535200D09383 /* NSFont+.swift in Sources */,
 				D7487FE92174E5CB00D09383 /* NSAttributedStringKey+.swift in Sources */,
+				D752D80C23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D730BD39222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				6F13BB7120FEE0DD0005E120 /* UserDataService.swift in Sources */,
 				D730BD42222EFFF900E69C93 /* Date+.swift in Sources */,
@@ -3250,6 +3264,7 @@
 			files = (
 				D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */,
 				D75FC5C621021CC000C516A7 /* NightMode.swift in Sources */,
+				D752D80D23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D730BD4422305DC200E69C93 /* NoteType.swift in Sources */,
 				D721894721021BB700FE3AF2 /* SortBy.swift in Sources */,
 				D730BD43222EFFFA00E69C93 /* Date+.swift in Sources */,
@@ -3283,6 +3298,8 @@
 				D75E337722462442006AD1C1 /* UserDataService.swift in Sources */,
 				D75E337822462442006AD1C1 /* SidebarSplitView.swift in Sources */,
 				D75E337922462442006AD1C1 /* AppDelegate+URLRoutes.swift in Sources */,
+				D7F681B42344F4BF00F8F971 /* CustomTextStorage+Images.swift in Sources */,
+				D752D80A23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D75E337A22462442006AD1C1 /* FileSystemEventManager.swift in Sources */,
 				D75E337B22462442006AD1C1 /* PrefsWindowController.swift in Sources */,
 				D7CAD81D231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -3291,13 +3308,13 @@
 				D75E337E22462442006AD1C1 /* NotesTextProcessor.swift in Sources */,
 				D75E337F22462442006AD1C1 /* RuntimeError.swift in Sources */,
 				D75E338022462442006AD1C1 /* Project.swift in Sources */,
+				D752D81123463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D75E338122462442006AD1C1 /* ImagesProcessor.swift in Sources */,
 				D75E338222462442006AD1C1 /* NoteType.swift in Sources */,
 				D75E338322462442006AD1C1 /* PrefsViewController.swift in Sources */,
 				D75E338422462442006AD1C1 /* ProjectSettingsViewController.swift in Sources */,
 				D75E338522462442006AD1C1 /* NSAppearance+.swift in Sources */,
 				D75E338622462442006AD1C1 /* NSMutableAttributedString+.swift in Sources */,
-				D75E338722462442006AD1C1 /* NSTextStorage+.swift in Sources */,
 				D75E338822462442006AD1C1 /* ImageAttachment+.swift in Sources */,
 				D75E338922462442006AD1C1 /* UserDefaultsManagement.swift in Sources */,
 				D75E338A22462442006AD1C1 /* TitleBarView.swift in Sources */,
@@ -3419,10 +3436,12 @@
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
 				D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
+				D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D75F1DF0206D643600F70B28 /* MarkdownView.swift in Sources */,
+				D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
@@ -3469,13 +3488,12 @@
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D7CD5CDE218330100009D63B /* Note+.swift in Sources */,
-				D73794BD233625FB00E75A28 /* CustomTextStorage+Images.swift in Sources */,
+				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
-				D7487F9121734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
 				D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */,
@@ -3502,6 +3520,8 @@
 				D7B3FE7121027A6D00764C39 /* UserDataService.swift in Sources */,
 				D7315ED2215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				D7E6ACE920832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
+				D7F681B62344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */,
+				D752D80823454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -3510,13 +3530,13 @@
 				D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */,
 				D730BD5A223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B6E59A207912E300FE0E20 /* Project.swift in Sources */,
+				D752D80F23463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D777D7812009115C00D86B33 /* ImagesProcessor.swift in Sources */,
 				D708AC672000EF5800A1760F /* NoteType.swift in Sources */,
 				D7508FCE1F3438540047AB76 /* PrefsViewController.swift in Sources */,
 				D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
 				D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
-				D7487F8F21734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */,
 				2799407C218484C900727B20 /* TitleBarView.swift in Sources */,
@@ -3600,6 +3620,8 @@
 				D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */,
 				D7315ED3215ED15500AB49D4 /* SidebarSplitView.swift in Sources */,
 				D7E6ACEA20832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
+				D7F681B52344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */,
+				D752D80923454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,
 				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -3608,13 +3630,13 @@
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
 				D730BD5B223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */,
+				D752D81023463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D75EE7FE2078C5460055F159 /* SidebarCellView.swift in Sources */,
 				D74112291FABA29100AB619A /* MainWindow.swift in Sources */,
 				D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */,
 				D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */,
 				D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */,
 				D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */,
-				D7487F9021734FCD00D09383 /* NSTextStorage+.swift in Sources */,
 				D7C302C621F320FD0041627F /* ImageAttachment+.swift in Sources */,
 				D7CB9906207E5AE300037E91 /* SidebarTableRowView.swift in Sources */,
 				D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */,

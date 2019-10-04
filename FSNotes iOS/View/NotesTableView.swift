@@ -114,7 +114,7 @@ class NotesTableView: UITableView,
                         }
 
                         self.reloadRow(note: note)
-                        NotesTextProcessor.highlight(attributedString: note.content)
+                        NotesTextProcessor.highlight(note: note)
 
                         evc.fill(note: note)
                         pageController.switchToEditor()

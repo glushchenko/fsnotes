@@ -344,35 +344,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func paste(_ sender: Any?) {
-        guard let note = EditTextView.note, let storage = textStorage else { return }
+        guard let note = EditTextView.note else { return }
 
         guard note.isMarkdown() else {
             super.paste(sender)
 
             fillPlainAndRTFStyle(note: note, saveTyping: false)
-            return
-        }
-
-        if let clipboard = NSPasteboard.general.data(forType: .rtfd) {
-            let currentRange = selectedRange()
-
-            if let string = NSAttributedString(rtfd: clipboard, documentAttributes: nil) {
-                let mutable = NSMutableAttributedString(attributedString: string)
-                mutable.loadCheckboxes()
-                mutable.updateParagraph()
-
-                self.breakUndoCoalescing()
-
-                EditTextView.shouldForceRescan = true
-                self.insertText(mutable, replacementRange: currentRange)
-
-                self.breakUndoCoalescing()
-            }
-
-            saveTextStorageContent(to: note)
-
-            // Set image size and .link after storage full scan (cleaned)
-            storage.sizeAttachmentImages()
             return
         }
 
@@ -392,6 +369,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             saveTextStorageContent(to: note)
             return
         }
+
+        super.paste(sender)
     }
 
     public func saveImages() {
@@ -513,7 +492,19 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         guard let storage = textStorage else { return }
-        storage.setAttributedString(note.content)
+
+        if note.isMarkdown(), let content = note.content.mutableCopy() as? NSMutableAttributedString {
+            if UserDefaultsManagement.liveImagesPreview {
+                content.loadImages(note: note)
+            }
+
+            content.replaceCheckboxes()
+
+            EditTextView.shouldForceRescan = true
+            storage.setAttributedString(content)
+        } else {
+            storage.setAttributedString(note.content)
+        }
 
         if !note.isMarkdown()  {
             fillPlainAndRTFStyle(note: note, saveTyping: saveTyping)
@@ -524,18 +515,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let processor = NotesTextProcessor(storage: storage)
             processor.highlightKeyword(search: search)
             isHighlighted = true
-        }
-        
-        if note.isMarkdown() {
-            EditTextView.isBusyProcessing = true
-            textStorage?.replaceCheckboxes()
-
-            if UserDefaultsManagement.liveImagesPreview {
-                EditTextView.imagesLoaderQueue.cancelAllOperations()
-                loadImages()
-            }
-            
-            EditTextView.isBusyProcessing = false
         }
 
         restoreCursorPosition()
@@ -569,13 +548,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             textColor = NSColor.init(named: "mainText")
         } else {
             textColor = UserDefaultsManagement.fontColor
-        }
-    }
-
-    @objc func loadImages() {
-        if let note = self.getSelectedNote(), UserDefaultsManagement.liveImagesPreview {
-            let processor = ImagesProcessor(styleApplier: textStorage!, note: note)
-            processor.load()
         }
     }
 
@@ -892,13 +864,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     func saveTextStorageContent(to note: Note) {
-        guard note.container != .encryptedTextPack else { return }
-        
-        guard let storage = self.textStorage else {
-            return
-        }
+        guard note.container != .encryptedTextPack, let storage = self.textStorage else { return }
 
-        note.content = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: NSRange(0..<storage.length)))
+        let string = storage.attributedSubstring(from: NSRange(0..<storage.length))
+
+        note.content =
+            NSMutableAttributedString(attributedString: string)
+                .unLoadImages()
+                .unLoadCheckboxes()
     }
     
     func setEditorTextColor(_ color: NSColor) {
@@ -926,7 +899,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NSPasteboard.PasteboardType(kUTTypeFileURL as String)
         ])
 
-        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 2
+        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
 
@@ -1048,7 +1021,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             if let storage = textStorage {
-                NotesTextProcessor.highlightMarkdown(attributedString: storage)
+                NotesTextProcessor.highlightMarkdown(attributedString: storage, note: note)
                 saveTextStorageContent(to: note)
                 note.save()
                 applyLeftParagraphStyle()
@@ -1065,8 +1038,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let note = getSelectedNote() else { return }
         guard note.container != .encryptedTextPack else { return }
         
-        note.content = NSMutableAttributedString(attributedString:  attributedString())
-        note.save()
+        note.save(attributed: attributedString())
     }
     
     func getSearchText() -> String {
@@ -1298,7 +1270,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
             let url = note.getImageUrl(imageName: path) {
 
-            NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
+            let isOpened = NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
+
+            if isOpened {
+                return
+            }
+
+            let url = URL(fileURLWithPath: url.path)
+            NSWorkspace.shared.open(url)
             return
         }
 
@@ -1322,8 +1301,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 self.textStorage?.addAttribute(titleKey, value: field.stringValue, range: range)
                 
                 if let note = vc.notesTableView.getSelectedNote(), note.container != .encryptedTextPack {
-                    note.content = NSMutableAttributedString(attributedString: self.attributedString())
-                    note.save()
+                    note.save(attributed: self.attributedString())
                 }
             }
             
@@ -1334,16 +1312,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
         field.becomeFirstResponder()
     }
 
-    override func viewDidChangeEffectiveAppearance() {
-        self.storage.fullCacheReset()
 
+
+    override func viewDidChangeEffectiveAppearance() {
         guard let note = EditTextView.note else { return }
         
         UserDataService.instance.isDark = effectiveAppearance.isDark
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         NotesTextProcessor.hl = nil
-        NotesTextProcessor.highlight(attributedString: note.content)
+        NotesTextProcessor.highlight(note: note)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"
         let switchScript = "if (typeof(\(funcName)) == 'function') { \(funcName)(); }"

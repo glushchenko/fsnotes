@@ -108,8 +108,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
                     NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: newRange)
 
-                    note.content = NSMutableAttributedString(attributedString: self.attributedText)
-                    note.save()
+                    note.save(attributed: attributedText)
 
                     UIApplication.getVC().notesTable.reloadData()
                     return
@@ -119,8 +118,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let image = item["public.jpeg"] as? UIImage, let data = image.jpegData(compressionQuality: 1) {
                 saveImageClipboard(data: data, note: note)
 
-                note.content = NSMutableAttributedString(attributedString: self.attributedText)
-                note.save()
+                note.save(attributed: attributedText)
 
                 UIApplication.getVC().notesTable.reloadData()
                 return
@@ -129,8 +127,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let image = item["public.png"] as? UIImage, let data = image.pngData() {
                 saveImageClipboard(data: data, note: note)
 
-                note.content = NSMutableAttributedString(attributedString: self.attributedText)
-                note.save()
+                note.save(attributed: attributedText)
 
                 UIApplication.getVC().notesTable.reloadData()
                 return
