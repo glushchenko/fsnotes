@@ -1216,6 +1216,13 @@
 		D78115662153D4D9004FA1CA /* ProjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsViewController.swift; sourceTree = "<group>"; };
 		D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
 		D783B504208A1BFD00328A41 /* EditorSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSplitView.swift; sourceTree = "<group>"; };
+		D7855EDD23486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7855EDE23486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7855EDF23486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7855EE023486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7855EE123486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		D7855EE223486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		D7855EE323486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
 		D792297421A845B4005F468F /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
@@ -2450,6 +2457,7 @@
 				es,
 				"ar-IQ",
 				"zh-Hans",
+				ko,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -3759,6 +3767,7 @@
 				D70FE12C20FE198200813F9E /* ru */,
 				D74B56C8230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C48232D648D00E8D8BA /* zh-Hans */,
+				D7855EE023486FF8000E96C3 /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3769,6 +3778,7 @@
 				D70FE12F20FE198200813F9E /* ru */,
 				D74B56C7230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C47232D648D00E8D8BA /* zh-Hans */,
+				D7855EDE23486FF8000E96C3 /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3782,6 +3792,7 @@
 				D7F272FA228C96C400974FE2 /* es */,
 				D74B56C2230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C46232D648D00E8D8BA /* zh-Hans */,
+				D7855EDF23486FF8000E96C3 /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3810,6 +3821,7 @@
 			children = (
 				D74B56CA230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C44232D648D00E8D8BA /* zh-Hans */,
+				D7855EDD23486FF8000E96C3 /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3830,6 +3842,7 @@
 				D77F1821221015F200716DE3 /* uk */,
 				D74B56CE230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C4A232D648D00E8D8BA /* zh-Hans */,
+				D7855EE223486FF8000E96C3 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3852,6 +3865,7 @@
 				D7F272F7228C96C300974FE2 /* es */,
 				D74B56CF230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C4B232D648D00E8D8BA /* zh-Hans */,
+				D7855EE323486FF8000E96C3 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3877,6 +3891,7 @@
 				D7F272F9228C96C300974FE2 /* es */,
 				D74B56CD230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C49232D648D00E8D8BA /* zh-Hans */,
+				D7855EE123486FF8000E96C3 /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
