@@ -106,7 +106,7 @@ class EditTextView: UITextView, UITextViewDelegate {
 
                     self.layoutManager.invalidateDisplay(forCharacterRange: NSRange(location: 0, length: self.textStorage.length))
 
-                    NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: newRange)
+                    NotesTextProcessor.highlightMarkdown(attributedString: textStorage, paragraphRange: newRange, note: note)
 
                     note.save(attributed: attributedText)
 

@@ -14,6 +14,12 @@ import UIKit
 
 extension NSTextAttachment {
     func isFile() -> Bool {
-        return (attachmentCell?.cellSize().height == 40)
+        #if os(iOS)
+            return false
+        #endif
+
+        #if os(OSX)
+            return (attachmentCell?.cellSize().height == 40)
+        #endif
     }
 }
