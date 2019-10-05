@@ -940,6 +940,25 @@ class Storage {
             self.projects.append(project)
         }
     }
+
+    public func trashItem(url: URL) -> URL? {
+        guard let trashURL = Storage.sharedInstance().getDefaultTrash()?.url else { return nil }
+
+        let fileName = url.deletingPathExtension().lastPathComponent
+        let fileExtension = url.pathExtension
+
+        var destination = trashURL.appendingPathComponent(url.lastPathComponent)
+
+        var i = 0
+
+        while FileManager.default.fileExists(atPath: destination.path) {
+            let nextName = "\(fileName)_\(i).\(fileExtension)"
+            destination = trashURL.appendingPathComponent(nextName)
+            i += 1
+        }
+
+        return destination
+    }
 }
 
 extension String: Error {}

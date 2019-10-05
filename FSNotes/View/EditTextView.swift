@@ -1269,11 +1269,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
             let url = note.getImageUrl(imageName: path) {
 
-            let isOpened = NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
-
-            if isOpened {
+            if !url.isImage {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
                 return
             }
+
+            let isOpened = NSWorkspace.shared.openFile(url.path, withApplication: "Preview", andDeactivate: true)
+
+            if isOpened { return }
 
             let url = URL(fileURLWithPath: url.path)
             NSWorkspace.shared.open(url)
@@ -1360,6 +1363,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
             }
 
+            EditTextView.shouldForceRescan = true
+
             saveImageClipboard(data: data, note: note, ext: ext)
             saveTextStorageContent(to: note)
             note.save()
@@ -1441,12 +1446,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                         guard let imageURL = note.getImageUrl(imageName: filePath) else { return }
 
                         do {
-                            var resultingItemUrl: NSURL?
-                            try FileManager.default.trashItem(at: imageURL, resultingItemURL: &resultingItemUrl)
+                            guard let resultingItemUrl = Storage.sharedInstance().trashItem(url: imageURL) else { return }
 
-                            if let result = resultingItemUrl {
-                                removedImages[result as URL] = imageURL
-                            }
+                            try FileManager.default.moveItem(at: imageURL, to: resultingItemUrl)
+
+                            removedImages[resultingItemUrl] = imageURL
                         } catch {
                             print(error)
                         }

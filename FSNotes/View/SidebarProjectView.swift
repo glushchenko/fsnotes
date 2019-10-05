@@ -31,16 +31,25 @@ class SidebarProjectView: NSOutlineView,
         guard let sidebarItem = getSidebarItem() else { return false }
 
         if menuItem.title == NSLocalizedString("Back up storage", comment: "") {
+
+            if sidebarItem.isTrash() {
+                return false
+            }
+
             return true
         }
 
         if menuItem.title == NSLocalizedString("Show in Finder", comment: "") {
             if let sidebarItem = getSidebarItem() {
-                return sidebarItem.project != nil
+                return sidebarItem.project != nil || sidebarItem.isTrash()
             }
         }
 
         if menuItem.title == NSLocalizedString("Rename folder", comment: "") {
+            if sidebarItem.isTrash() {
+                return false
+            }
+
             if let project = sidebarItem.project {
                 menuItem.isHidden = project.isRoot
             }
@@ -52,6 +61,11 @@ class SidebarProjectView: NSOutlineView,
 
         if menuItem.title == NSLocalizedString("Delete folder", comment: "")
             || menuItem.title == NSLocalizedString("Detach storage", comment: "") {
+
+            if sidebarItem.isTrash() {
+                return false
+            }
+
             if let project = sidebarItem.project {
                 menuItem.title = project.isRoot
                     ? NSLocalizedString("Detach storage", comment: "")
@@ -64,10 +78,18 @@ class SidebarProjectView: NSOutlineView,
         }
 
         if menuItem.title == NSLocalizedString("Show view options", comment: "") {
+            if sidebarItem.isTrash() {
+                return false
+            }
+
             return nil != sidebarItem.project
         }
 
         if menuItem.title == NSLocalizedString("New folder", comment: "") {
+            if sidebarItem.isTrash() {
+                return false
+            }
+            
             if let project = sidebarItem.project, !project.isArchive {
                 return true
             }
@@ -432,8 +454,16 @@ class SidebarProjectView: NSOutlineView,
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Delete menu"))
             alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                    try? FileManager.default.trashItem(at: project.url, resultingItemURL: nil)
-                    v.removeProject(project: project)
+
+                    guard let resultingItemUrl = Storage.sharedInstance().trashItem(url: project.url) else { return }
+
+                    do {
+                        try FileManager.default.moveItem(at: project.url, to: resultingItemUrl)
+
+                        v.removeProject(project: project)
+                    } catch {
+                        print(error)
+                    }
                 }
             }
             return
