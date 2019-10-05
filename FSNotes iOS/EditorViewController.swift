@@ -8,7 +8,6 @@
 
 import UIKit
 import NightNight
-import Down
 import AudioToolbox
 import DKImagePickerController
 import MobileCoreServices

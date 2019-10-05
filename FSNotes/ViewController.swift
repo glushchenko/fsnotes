@@ -8,7 +8,6 @@
 
 import Cocoa
 import MASShortcut
-import cmark_gfm_swift
 import FSNotesCore_macOS
 import WebKit
 import LocalAuthentication
@@ -1979,8 +1978,7 @@ class ViewController: NSViewController,
     
     public func saveHtmlAtClipboard() {
         if let note = notesTableView.getSelectedNote() {
-            if let node = Node(markdown: note.content.string) {
-                let render = node.html
+            if let render = renderMarkdownHTML(markdown: note.content.string) {
                 let pasteboard = NSPasteboard.general
                 pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
                 pasteboard.setString(render, forType: NSPasteboard.PasteboardType.string)

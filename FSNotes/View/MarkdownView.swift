@@ -8,7 +8,6 @@
 
 import WebKit
 import Highlightr
-import cmark_gfm_swift
 
 #if os(iOS)
 import NightNight
@@ -198,8 +197,7 @@ private extension MarkdownView {
     
     func loadHTMLView(_ markdownString: String, css: String, imagesStorage: URL? = nil) throws {
 
-        let node = Node(markdown: markdownString)
-        var htmlString = node!.html
+        var htmlString = renderMarkdownHTML(markdown: markdownString)!
 
         if let imagesStorage = imagesStorage {
             htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)

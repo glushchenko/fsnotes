@@ -10,7 +10,6 @@ import UIKit
 import NightNight
 import MobileCoreServices
 import AudioToolbox
-import cmark_gfm_swift
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
@@ -394,7 +393,7 @@ class NotesTableView: UITableView,
 
         var string = note.content.string
         if isHTML {
-            string = Node(markdown: note.content.unLoadImages().string)!.html
+            string = renderMarkdownHTML(markdown:  note.content.unLoadImages().string)!
         }
 
         let objectsToShare = [string] as [Any]
