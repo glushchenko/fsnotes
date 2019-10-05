@@ -7,7 +7,6 @@
 //
 
 import WebKit
-import cmark_gfm_swift
 
 extension ViewController {
 
@@ -41,7 +40,7 @@ extension ViewController {
         var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
-        let html = Node(markdown: markdownString)!.html
+        let html = renderMarkdownHTML(markdown: markdownString)!
         var htmlString = template.replacingOccurrences(of: "DOWN_HTML", with: html)
         var imagesStorage = note.project.url
 

@@ -7,7 +7,6 @@
 //
 
 import WebKit
-import cmark_gfm_swift
 import Carbon.HIToolbox
 
 #if os(iOS)
@@ -94,8 +93,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     func loadHTMLView(_ markdownString: String, css: String, imagesStorage: URL? = nil) throws {
-        let node = Node(markdown: markdownString)
-        var htmlString = node!.html
+        var htmlString = renderMarkdownHTML(markdown: markdownString)!
 
         if let imagesStorage = imagesStorage {
             htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)
