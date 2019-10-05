@@ -1060,11 +1060,7 @@ public class UserDefaultsManagement {
                 return result
             }
 
-            #if os(iOS)
-                return false
-            #else
-                return true
-            #endif
+            return true
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.FirstLineAsTitle)
