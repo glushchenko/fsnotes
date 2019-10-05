@@ -286,31 +286,33 @@ public class Note: NSObject  {
 
     #if os(OSX)
     func removeFile(completely: Bool = false) -> Array<URL>? {
-        if FileManager.default.fileExists(atPath: url.path) {
-            if isTrash() {
-                try? FileManager.default.removeItem(at: url)
-                return nil
-            }
+        guard FileManager.default.fileExists(atPath: url.path) else { return nil }
 
-            var resultingItemUrl: NSURL?
+        if isTrash() {
+            try? FileManager.default.removeItem(at: url)
+            return nil
+        }
 
-            do {
+        do {
+            guard let dst = Storage.sharedInstance().trashItem(url: url) else {
+                var resultingItemUrl: NSURL?
                 try FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
 
-                if let dst = resultingItemUrl, let path = dst.path {
+                guard let dst = resultingItemUrl else { return nil }
 
-                    let originalURL = url
-                    let destination = URL(fileURLWithPath: path)
-
-                    overwrite(url: destination)
-
-                    NSLog("Note moved to trash: \(name)")
-
-                    return [self.url, originalURL]
-                }
-            } catch {
-                return nil
+                let originalURL = url
+                overwrite(url: dst as URL)
+                return [self.url, originalURL]
             }
+
+            try FileManager.default.moveItem(at: url, to: dst)
+
+            let originalURL = url
+            overwrite(url: dst)
+            return [self.url, originalURL]
+
+        } catch {
+            print("Trash error: \(error)")
         }
 
         return nil
@@ -1005,7 +1007,7 @@ public class Note: NSObject  {
                 if url.isRemote() {
                     urls.append(url)
                     i += 1
-                } else if
+                } else if url.isImage || url.isVideo,
                     let cleanPath = url.path.removingPercentEncoding,
                     FileManager.default.fileExists(atPath: cleanPath) {
                         urls.append(URL(fileURLWithPath: cleanPath))

@@ -47,7 +47,9 @@ class Sidebar {
             system.append(archive)
         }
 
-        let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), type: .Trash, icon: getImage(named: "trash\(night)"))
+        let trashProject = Storage.sharedInstance().getDefaultTrash()
+        let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash, icon: getImage(named: "trash\(night)"))
+        
         system.append(trash)
 
         #if os(iOS)
