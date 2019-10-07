@@ -560,7 +560,7 @@ public class NotesTextProcessor {
                 guard substring.count > 0 else { return }
                 guard let note = EditTextView.note else { return }
 
-                if substring.starts(with: "/i/"), let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding {
+                if substring.starts(with: "/i/") || substring.starts(with: "/files/"), let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
                 } else if note.isTextBundle() && substring.starts(with: "assets/"), let path = note.getURL().appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
@@ -568,7 +568,7 @@ public class NotesTextProcessor {
                 
                 destinationLink = substring
                 attributedString.addAttribute(.link, value: substring, range: linkRange)
-                
+
                 hideSyntaxIfNecessary(range: innerRange)
             }
             
@@ -707,8 +707,9 @@ public class NotesTextProcessor {
                 guard let range = result?.range else { return }
 
                 if let linkRange = result?.range(at: 3) {
-                    let link = attributedString.mutableString.substring(with: linkRange)
-                    if let url = note.getImageUrl(imageName: link) {
+                    let link = attributedString.mutableString.substring(with: linkRange).removingPercentEncoding
+
+                    if let link = link, let url = note.getImageUrl(imageName: link) {
                         attributedString.addAttribute(.link, value: url, range: linkRange)
                     }
                 }
@@ -775,6 +776,14 @@ public class NotesTextProcessor {
                 }
             }
         }
+    }
+
+    public static func getAttachPrefix(url: URL? = nil) -> String {
+        if let url = url, !url.isImage {
+            return "/files/"
+        }
+
+        return "/i/"
     }
     
     /// Tabs are automatically converted to spaces as part of the transform

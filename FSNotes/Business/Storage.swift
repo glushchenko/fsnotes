@@ -146,6 +146,7 @@ class Storage {
     private func chechSub(url: URL, parent: Project) -> [Project] {
         var added = [Project]()
         let parentPath = url.path + "/i/"
+        let filesPath = url.path + "/files/"
         
         if let subFolders = getSubFolders(url: url) {
             for subFolder in subFolders {
@@ -170,6 +171,7 @@ class Storage {
                     !surl.path.contains("Trash"),
                     !surl.path.contains("/."),
                     !surl.path.contains(parentPath),
+                    !surl.path.contains(filesPath),
                     !surl.path.contains(".textbundle") else {
                     continue
                 }

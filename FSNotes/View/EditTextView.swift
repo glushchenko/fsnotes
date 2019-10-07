@@ -991,15 +991,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     return false
                 }
 
-                var imagePath = "/i/\(name)"
-                if note.isTextBundle() {
-                    imagePath = "assets/\(name)"
+                var filePath = "assets/\(name)"
+                if !note.isTextBundle() {
+                    filePath = url.isImage
+                        ? "/i/\(name)"
+                        : "/files/\(name)"
                 }
 
                 let insertRange = NSRange(location: caretLocation + offset, length: 0)
 
                 if UserDefaultsManagement.liveImagesPreview {
-                    let cleanPath = imagePath.removingPercentEncoding ?? imagePath
+                    let cleanPath = filePath.removingPercentEncoding ?? filePath
                     guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
 
                     let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
@@ -1013,7 +1015,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                         offset += 3
                     }
                 } else {
-                    insertText("![](\(imagePath))", replacementRange: insertRange)
+                    insertText("![](\(filePath))", replacementRange: insertRange)
                     insertNewline(nil)
                     insertNewline(nil)
                 }
@@ -1266,7 +1268,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let event = NSApp.currentEvent,
             !event.modifierFlags.contains(.command),
             let note = EditTextView.note,
-            let path = char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String,
+            let path = (char?.attribute(pathKey, at: 0, effectiveRange: nil) as? String)?.removingPercentEncoding,
             let url = note.getImageUrl(imageName: path) {
 
             if !url.isImage {

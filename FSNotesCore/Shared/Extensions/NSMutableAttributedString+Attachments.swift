@@ -41,33 +41,4 @@ extension NSMutableAttributedString {
             }
         }
     }
-
-    func getLocalNotePath(path: String, innerRange: NSRange, note: Note) -> String? {
-        let noteStorage = note.project
-        var notePath: String
-        let storagePath = noteStorage.url.path
-
-        if path.starts(with: "/i/") {
-            //let path = getFilePath(innerRange: innerRange)
-            let path = ""
-            return note.project.url.path + path
-        }
-
-        if path.starts(with: "http://") || path.starts(with: "https://"), let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-            notePath = storagePath + "/i/" + encodedPath
-            return notePath
-        }
-
-        if note.isTextBundle() {
-            if let name = path.removingPercentEncoding {
-                return "\(note.getURL().path)/\(name)"
-            }
-        }
-
-        //let path = getFilePath(innerRange: innerRange)
-        let path = ""
-        notePath = storagePath + "/" + path
-
-        return notePath
-    }
 }

@@ -945,9 +945,9 @@ public class Note: NSObject  {
 
                 guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
 
-                let imagePath = self.content.attributedSubstring(from: range).string
+                let imagePath = self.content.attributedSubstring(from: range).string.removingPercentEncoding
 
-                if let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
+                if let imagePath = imagePath, let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
                     res.append((url: url, path: imagePath))
                 }
         })

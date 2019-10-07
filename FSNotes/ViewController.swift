@@ -433,7 +433,8 @@ class ViewController: NSViewController,
     }
 
     private func move(note: Note, from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
-        let dest = project.url.appendingPathComponent("i")
+        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: imageURL)
+        let dest = project.url.appendingPathComponent(dstPrefix)
 
         if !FileManager.default.fileExists(atPath: dest.path) {
             try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
@@ -460,7 +461,7 @@ class ViewController: NSViewController,
                 let postfix = ")"
 
                 let find = prefix + imagePath + postfix
-                let replace = prefix + "/i/" + fileName + postfix
+                let replace = prefix + dstPrefix + fileName + postfix
 
                 guard find != replace else { return }
 
