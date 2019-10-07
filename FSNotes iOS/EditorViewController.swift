@@ -822,7 +822,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             return
                         }
 
-                        guard let path = ImagesProcessor.writeImage(data: imageData, url: url, note: note, ext: imageExt) else { return }
+                        guard let path = ImagesProcessor.writeFile(data: imageData, url: url, note: note, ext: imageExt) else { return }
 
                         markup += "![](\(path))\n\n"
 

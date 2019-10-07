@@ -14,7 +14,7 @@ extension NSTextStorage {
         EditTextView.imagesLoaderQueue.addOperation {
             guard let size = attachment.image?.size else { return }
 
-            attachment.image = ImageAttachment.getImage(url: url, size: size)
+            attachment.image = NoteAttachment.getImage(url: url, size: size)
             
             DispatchQueue.main.async {
                 let manager = UIApplication.getEVC().editArea.layoutManager as NSLayoutManager

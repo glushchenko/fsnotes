@@ -10,7 +10,7 @@ import UIKit
 import MobileCoreServices
 import AVKit
 
-extension ImageAttachment {
+extension NoteAttachment {
     public func load(lazy: Bool = true) -> NSTextAttachment? {
         let imageSize = getSize(url: self.url)
         guard let size = getImageSize(imageSize: imageSize) else { return nil }
@@ -21,7 +21,7 @@ extension ImageAttachment {
         if lazy {
             attachment.image = UIImage.emptyImage(with: size)
         } else {
-            attachment.image = ImageAttachment.getImage(url: self.url, size: size)
+            attachment.image = NoteAttachment.getImage(url: self.url, size: size)
         }
 
         return attachment

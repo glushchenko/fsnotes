@@ -645,9 +645,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if let image = pboard.image {
             if let data = image.jpegData(compressionQuality: 1) {
-                guard let imagePath = ImagesProcessor.writeImage(data: data, note: note) else { return }
+                guard let imagePath = ImagesProcessor.writeFile(data: data, note: note) else { return }
 
-                note.content = NSMutableAttributedString(string: "![](\(imagePath)/\(fileName))\n\n")
+                note.content = NSMutableAttributedString(string: "![](\(imagePath))\n\n")
             }
         }
 
