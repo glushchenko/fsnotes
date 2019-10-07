@@ -14,7 +14,7 @@ extension NSTextStorage {
         EditTextView.imagesLoaderQueue.addOperation {
             guard url.isImage, let size = attachment.image?.size else { return }
 
-            let image = ImageAttachment.getImage(url: url, size: size)?.resize(to: size)?.roundCorners(withRadius: 3)
+            let image = NoteAttachment.getImage(url: url, size: size)?.resize(to: size)?.roundCorners(withRadius: 3)
 
             DispatchQueue.main.async {
                 let cell = NSTextAttachmentCell(imageCell: image)

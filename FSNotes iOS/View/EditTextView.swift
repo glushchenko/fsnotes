@@ -212,8 +212,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     public func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
-        if let string = ImagesProcessor.writeImage(data: data, note: note, ext: ext) {
-            let path = note.getMdImagePath(name: string)
+        if let path = ImagesProcessor.writeImage(data: data, note: note, ext: ext) {
             if let imageUrl = note.getImageUrl(imageName: path) {
 
                 let range = NSRange(location: selectedRange.location, length: 1)

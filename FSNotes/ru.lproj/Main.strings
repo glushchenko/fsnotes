@@ -779,7 +779,7 @@
 "Yum-W4-OUy.title" = "Изменить";
 
 /* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
-"yx6-SW-3vn.title" = "Изображение";
+"yx6-SW-3vn.title" = "Изображение или файл";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */
 "z6F-FW-3nz.title" = "Показать замены";

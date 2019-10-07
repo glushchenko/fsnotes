@@ -9,7 +9,7 @@
 import Cocoa
 import AVKit
 
-extension ImageAttachment {
+extension NoteAttachment {
     public func load(lazy: Bool = true) -> NSTextAttachment? {
         let attachment = NSTextAttachment()
 

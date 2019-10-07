@@ -822,15 +822,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             return
                         }
 
-                        guard let fileName = ImagesProcessor.writeImage(data: imageData, url: url, note: note, ext: imageExt) else { return }
+                        guard let path = ImagesProcessor.writeImage(data: imageData, url: url, note: note, ext: imageExt) else { return }
 
-                        if note.isTextBundle() {
-                            markup += "![](assets/\(fileName))"
-                        } else {
-                            markup += "![](/i/\(fileName))"
-                        }
-
-                        markup += "\n\n"
+                        markup += "![](\(path))\n\n"
 
                         guard processed == assets.count else { return }
 

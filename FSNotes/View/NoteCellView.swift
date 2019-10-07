@@ -226,7 +226,7 @@ class NoteCellView: NSTableCellView {
             return image
         } else {
             guard let image =
-                ImageAttachment.getImageAndCacheData(url: imageUrl, note: note)
+                NoteAttachment.getImageAndCacheData(url: imageUrl, note: note)
                 else { return nil }
 
             let size = CGSize(width: 70, height: 70)

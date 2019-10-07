@@ -31,17 +31,14 @@ extension NSMutableAttributedString {
 
                 if let filePath = self.attribute(filePathKey, at: range.location, effectiveRange: nil) as? String {
 
-                    path = filePath
+                    path = filePath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                     title = self.attribute(titleKey, at: range.location, effectiveRange: nil) as? String
                 } else if let note = note,
-                    let imageData = textAttachment.fileWrapper?.regularFileContents,
-                    let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
-
-                    path = note.getMdImagePath(name: fileName)
+                    let imageData = textAttachment.fileWrapper?.regularFileContents {
+                    path = ImagesProcessor.writeFile(data: imageData, note: note)
                 } else if let note = note,
-                    let imageData = textAttachment.contents,
-                    let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
-                    path = note.getMdImagePath(name: fileName)
+                    let imageData = textAttachment.contents {
+                    path = ImagesProcessor.writeFile(data: imageData, note: note)
                 }
 
                 let newRange = NSRange(location: range.location + offset, length: range.length)

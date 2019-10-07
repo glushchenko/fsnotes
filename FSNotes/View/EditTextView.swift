@@ -94,7 +94,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NSLocalizedString("Header 5", comment: ""),
                 NSLocalizedString("Header 6", comment: ""),
                 NSLocalizedString("Link", comment: ""),
-                NSLocalizedString("Image", comment: ""),
+                NSLocalizedString("Image or file", comment: ""),
                 NSLocalizedString("Toggle preview", comment: ""),
                 NSLocalizedString("Code Block", comment: ""),
                 NSLocalizedString("Code Span", comment: ""),
@@ -391,8 +391,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             if let note = EditTextView.note,
                 let imageData = textAttachment.fileWrapper?.regularFileContents,
-                let fileName = ImagesProcessor.writeImage(data: imageData, note: note) {
-                let path = note.getMdImagePath(name: fileName)
+                let path = ImagesProcessor.writeFile(data: imageData, note: note) {
 
                 storage.addAttribute(filePathKey, value: path, range: range)
             }
@@ -400,7 +399,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     @IBAction func editorMenuItem(_ sender: NSMenuItem) {
-        if sender.title == NSLocalizedString("Image", comment: "") {
+        if sender.title == NSLocalizedString("Image or file", comment: "") {
             sender.keyEquivalentModifierMask = [.shift, .command]
         }
 
@@ -955,7 +954,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let cacheUrl = note.getImageCacheUrl()
 
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
-            let attachment = ImageAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
+            let attachment = NoteAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
 
             guard let attachmentText = attachment.getAttributedString() else { return false }
             guard locationDiff < storage.length else { return false }
@@ -985,18 +984,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     return false
                 }
                 
-                guard let fileName = ImagesProcessor.writeImage(data: data, url: url, note: note),
-                      let name = fileName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else
-                {
-                    return false
-                }
-
-                var filePath = "assets/\(name)"
-                if !note.isTextBundle() {
-                    filePath = url.isImage
-                        ? "/i/\(name)"
-                        : "/files/\(name)"
-                }
+                guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return false }
 
                 let insertRange = NSRange(location: caretLocation + offset, length: 0)
 
@@ -1005,7 +993,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
 
                     let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
-                    let attachment = ImageAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+                    let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
 
                     if let string = attachment.getAttributedString() {
                         insertText(string, replacementRange: insertRange)
@@ -1109,15 +1097,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         formatter.italic()
     }
     
-    @IBAction func insertMarkdownImage(_ sender: Any) {
+    @IBAction func insertFileOrImage(_ sender: Any) {
         guard let note = EditTextView.note else { return }
-
-        if !UserDefaultsManagement.liveImagesPreview {
-            guard let f = self.getTextFormatter() else { return }
-            f.image()
-
-            return
-        }
 
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = true
@@ -1130,7 +1111,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                 let last = urls.last
                 for url in urls {
-                    if self.saveImageUrl(url: url, in: note) {
+
+                    if self.saveFile(url: url, in: note) {
                         if last != url {
                             self.insertNewline(nil)
                             if let vc = ViewController.shared() {
@@ -1338,11 +1320,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     private func pasteImageFromClipboard(in note: Note) -> Bool {
         if let url = NSURL(from: NSPasteboard.general) {
-            return saveImageUrl(url: url as URL, in: note)
+            return saveFile(url: url as URL, in: note)
         }
 
         if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
-            saveImageClipboard(data: jpgData, note: note)
+            saveClipboard(data: jpgData, note: note)
             saveTextStorageContent(to: note)
             note.save()
 
@@ -1353,21 +1335,24 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
 
-    private func saveImageUrl(url: URL, in note: Note) -> Bool {
-        if let data = try? Data(contentsOf: url), let _ = NSImage(data: data) {
+    private func saveFile(url: URL, in note: Note) -> Bool {
+        if let data = try? Data(contentsOf: url) {
+            var ext: String?
 
-            var ext = "jpg"
-            if let source = CGImageSourceCreateWithData(data as CFData, nil) {
-                let uti = CGImageSourceGetType(source)
+            if let _ = NSImage(data: data) {
+                ext = "jpg"
+                if let source = CGImageSourceCreateWithData(data as CFData, nil) {
+                    let uti = CGImageSourceGetType(source)
 
-                if let fileExtension = (uti as String?)?.utiFileExtension {
-                    ext = fileExtension
+                    if let fileExtension = (uti as String?)?.utiFileExtension {
+                        ext = fileExtension
+                    }
                 }
             }
 
             EditTextView.shouldForceRescan = true
 
-            saveImageClipboard(data: data, note: note, ext: ext)
+            saveClipboard(data: data, note: note, ext: ext, url: url)
             saveTextStorageContent(to: note)
             note.save()
 
@@ -1379,9 +1364,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
 
-    private func saveImageClipboard(data: Data, note: Note, ext: String? = nil) {
-        if let string = ImagesProcessor.writeImage(data: data, note: note, ext: ext) {
-            let path = note.getMdImagePath(name: string)
+    private func saveClipboard(data: Data, note: Note, ext: String? = nil, url: URL? = nil) {
+        if let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: ext) {
 
             guard UserDefaultsManagement.liveImagesPreview else {
                 let newLineImage = NSAttributedString(string: "![](\(path))")
@@ -1391,9 +1375,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
 
+            guard let path = path.removingPercentEncoding else { return }
+            
             if let imageUrl = note.getImageUrl(imageName: path) {
                 let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = ImageAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
+                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
 
                 if let attributedString = attachment.getAttributedString() {
                     let newLineImage = NSMutableAttributedString(attributedString: attributedString)
@@ -1402,9 +1388,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())
                     self.breakUndoCoalescing()
-
-                    applyLeftParagraphStyle()
-
                     return
                 }
             }
@@ -1485,7 +1468,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NSTouchBarItem.Identifier("Italic"),
             .fixedSpaceSmall,
             NSTouchBarItem.Identifier("Link"),
-            NSTouchBarItem.Identifier("Image"),
+            NSTouchBarItem.Identifier("Image or file"),
             NSTouchBarItem.Identifier("CodeBlock"),
             .fixedSpaceSmall,
             NSTouchBarItem.Identifier("Indent"),
@@ -1530,11 +1513,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 customViewItem.view = button
                 return customViewItem
             }
-        case NSTouchBarItem.Identifier("Image"):
+        case NSTouchBarItem.Identifier("Image or file"):
             if let im = NSImage(named: "image"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
-                let button = NSButton(image: image, target: self, action: #selector(insertMarkdownImage(_:)))
+                let button = NSButton(image: image, target: self, action: #selector(insertFileOrImage(_:)))
                 button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
 
                 let customViewItem = NSCustomTouchBarItem(identifier: identifier)

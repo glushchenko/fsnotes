@@ -33,7 +33,7 @@ extension NSMutableAttributedString {
             guard let imageURL = note.getImageUrl(imageName: path) else { return }
 
             let cacheUrl = note.project.url.appendingPathComponent("/.cache/")
-            let imageAttachment = ImageAttachment(title: title, path: path, url: imageURL, cache: cacheUrl, note: note)
+            let imageAttachment = NoteAttachment(title: title, path: path, url: imageURL, cache: cacheUrl, note: note)
 
             if let attributedStringWithImage = imageAttachment.getAttributedString() {
                 offset += mdLink.count - 1

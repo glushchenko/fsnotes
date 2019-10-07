@@ -15,7 +15,7 @@ import AVKit
     import UIKit
 #endif
 
-class ImageAttachment {
+class NoteAttachment {
     public var title: String
     public var invalidateRange: NSRange?
 

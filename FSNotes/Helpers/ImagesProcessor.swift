@@ -109,7 +109,7 @@ public class ImagesProcessor {
                     return
                 }
 
-                let imageAttachment = ImageAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange, note: self.note)
+                let imageAttachment = NoteAttachment(title: title, path: filePath, url: imageUrl, cache: cacheUrl, invalidateRange: invalidateRange, note: self.note)
 
                 if let attributedStringWithImage = imageAttachment.getAttributedString() {
                     offset += mdLink.count - 1
@@ -207,7 +207,7 @@ public class ImagesProcessor {
         return name
     }
     
-    public static func writeImage(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
+    public static func writeFile(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
         if note.isTextBundle() {
             let assetsUrl = note.getURL().appendingPathComponent("assets")
             
@@ -216,9 +216,7 @@ public class ImagesProcessor {
             }
 
             let destination = URL(fileURLWithPath: assetsUrl.path)
-            guard let fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else {
-                return nil
-            }
+            guard var fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else { return nil }
             
             let to = destination.appendingPathComponent(fileName)
             do {
@@ -226,27 +224,33 @@ public class ImagesProcessor {
             } catch {
                 print(error)
             }
-            
-            return fileName
+
+            fileName = fileName
+                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? fileName
+
+            return "assets/\(fileName)"
         }
-        
+
+        var prefix = "/i/"
+        if let url = url, !url.isImage {
+            prefix = "/files/"
+        }
+
         let project = note.project
-        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: url)
-        let destination = URL(fileURLWithPath: project.url.path + dstPrefix)
+        let destination = URL(fileURLWithPath: project.url.path + prefix)
 
         do {
             try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: false, attributes: nil)
-        } catch {
-        }
+        } catch {}
 
-        guard let fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else {
-            return nil
-        }
+        guard var fileName = ImagesProcessor.getFileName(from: url, to: destination, ext: ext) else { return nil }
 
         let to = destination.appendingPathComponent(fileName)
         try? data.write(to: to, options: .atomic)
 
-        return fileName
+        fileName = fileName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? fileName
+
+        return "\(prefix)\(fileName)"
     }
 
     func isContainAttachment(innerRange: NSRange, mdTitleLength: Int) -> Bool {

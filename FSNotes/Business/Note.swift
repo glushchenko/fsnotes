@@ -1083,12 +1083,6 @@ public class Note: NSObject  {
         return "/i/\(name)"
     }
 
-    public func getMdImageURL(name: String) -> URL? {
-        let appendingPath = getMdImagePath(name: name)
-
-        return getImageUrl(imageName: appendingPath)
-    }
-
     public func isEqualURL(url: URL) -> Bool {
         return url.path == self.url.path
     }
@@ -1098,9 +1092,8 @@ public class Note: NSObject  {
     }
 
     public func append(image data: Data, url: URL? = nil) {
-        guard let fileName = ImagesProcessor.writeImage(data: data, url: url, note: self) else { return }
+        guard let path = ImagesProcessor.writeFile(data: data, url: url, note: self) else { return }
 
-        let path = getMdImagePath(name: fileName)
         var prefix = "\n\n"
         if content.length == 0 {
             prefix = String()

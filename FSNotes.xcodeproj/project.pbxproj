@@ -41,8 +41,8 @@
 		D7038E1E20FA86C100A54E69 /* SharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E1C20FA86C100A54E69 /* SharingService.swift */; };
 		D7038E2020FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
 		D7038E2120FA957400A54E69 /* copy.png in Resources */ = {isa = PBXBuildFile; fileRef = D7038E1F20FA957300A54E69 /* copy.png */; };
-		D7038E2620FB24E000A54E69 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
-		D7038E2720FB24E000A54E69 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
+		D7038E2620FB24E000A54E69 /* NoteAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* NoteAttachment.swift */; };
+		D7038E2720FB24E000A54E69 /* NoteAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* NoteAttachment.swift */; };
 		D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7063969202230BB00BC8446 /* EditorViewController.swift */; };
 		D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */; };
 		D708AC672000EF5800A1760F /* NoteType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D708AC662000EF5800A1760F /* NoteType.swift */; };
@@ -94,7 +94,7 @@
 		D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
-		D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
+		D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* NoteAttachment.swift */; };
 		D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71FD2242101CFD0008BEFA1 /* UITextView+.swift */; };
 		D720240C22A9412B000A7691 /* RTF.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240822A9412B000A7691 /* RTF.icns */; };
 		D720240D22A9412B000A7691 /* RTF.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720240822A9412B000A7691 /* RTF.icns */; };
@@ -300,7 +300,7 @@
 		D75E339F22462442006AD1C1 /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECE2108CAC90059B37B /* CoreNote.swift */; };
 		D75E33A022462442006AD1C1 /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CCA21820A380009D63B /* UserDefaultsManagement+.swift */; };
 		D75E33A122462442006AD1C1 /* TextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76025B1204EEF64000B9F59 /* TextFormatter.swift */; };
-		D75E33A222462442006AD1C1 /* ImageAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* ImageAttachment.swift */; };
+		D75E33A222462442006AD1C1 /* NoteAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7038E2520FB24E000A54E69 /* NoteAttachment.swift */; };
 		D75E33A322462442006AD1C1 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D75E33A422462442006AD1C1 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D75E33A522462442006AD1C1 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E025071F3B6DDB00EDDA32 /* Storage.swift */; };
@@ -1026,7 +1026,7 @@
 		D70255FE2333CFA0003857AF /* quote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quote.png; sourceTree = "<group>"; };
 		D7038E1C20FA86C100A54E69 /* SharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingService.swift; sourceTree = "<group>"; };
 		D7038E1F20FA957300A54E69 /* copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copy.png; sourceTree = "<group>"; };
-		D7038E2520FB24E000A54E69 /* ImageAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAttachment.swift; sourceTree = "<group>"; };
+		D7038E2520FB24E000A54E69 /* NoteAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttachment.swift; sourceTree = "<group>"; };
 		D7063969202230BB00BC8446 /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		D70716DB2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageTouchDownGestureRecognizer.swift; sourceTree = "<group>"; };
 		D708AC662000EF5800A1760F /* NoteType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteType.swift; sourceTree = "<group>"; };
@@ -1661,7 +1661,7 @@
 		D7218944210211B800FE3AF2 /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				D7038E2520FB24E000A54E69 /* ImageAttachment.swift */,
+				D7038E2520FB24E000A54E69 /* NoteAttachment.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
 				D730BD2D222DABA100E69C93 /* NoteContainer.swift */,
 				D730BD34222DB11E00E69C93 /* TextBundleInfo.swift */,
@@ -3346,7 +3346,7 @@
 				D7CA7FD6232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D75E33A022462442006AD1C1 /* UserDefaultsManagement+.swift in Sources */,
 				D75E33A122462442006AD1C1 /* TextFormatter.swift in Sources */,
-				D75E33A222462442006AD1C1 /* ImageAttachment.swift in Sources */,
+				D75E33A222462442006AD1C1 /* NoteAttachment.swift in Sources */,
 				D75E33A322462442006AD1C1 /* MainWindow.swift in Sources */,
 				D75E33A422462442006AD1C1 /* AppearanceType.swift in Sources */,
 				D75E33A522462442006AD1C1 /* Storage.swift in Sources */,
@@ -3437,7 +3437,7 @@
 				D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */,
 				D73FAE9F21553CAA0058BE61 /* UIApplication+.swift in Sources */,
 				D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */,
-				D71FD21F2101B2D5008BEFA1 /* ImageAttachment.swift in Sources */,
+				D71FD21F2101B2D5008BEFA1 /* NoteAttachment.swift in Sources */,
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
@@ -3568,7 +3568,7 @@
 				D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D7CD5CCD21820B7B0009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D76025B2204EEF64000B9F59 /* TextFormatter.swift in Sources */,
-				D7038E2620FB24E000A54E69 /* ImageAttachment.swift in Sources */,
+				D7038E2620FB24E000A54E69 /* NoteAttachment.swift in Sources */,
 				D74112281FABA21B00AB619A /* MainWindow.swift in Sources */,
 				D7CDE9DC2161767A00DC5978 /* AppearanceType.swift in Sources */,
 				D7E025081F3B6DDB00EDDA32 /* Storage.swift in Sources */,
@@ -3663,7 +3663,7 @@
 				D7E81C321F925B5F00416A91 /* PrefsViewController.swift in Sources */,
 				D76025B3204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D7D1DE69216D05A800AC1845 /* NameTextField.swift in Sources */,
-				D7038E2720FB24E000A54E69 /* ImageAttachment.swift in Sources */,
+				D7038E2720FB24E000A54E69 /* NoteAttachment.swift in Sources */,
 				D7DCFED02108CAC90059B37B /* CoreNote.swift in Sources */,
 				D7CA7FD5232652E300E9717A /* PreferencesGitViewController.swift in Sources */,
 				D7CD5CCC21820B7A0009D63B /* UserDefaultsManagement+.swift in Sources */,
