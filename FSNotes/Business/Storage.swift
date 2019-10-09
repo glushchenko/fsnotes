@@ -167,6 +167,7 @@ class Storage {
                 
                 guard !projectExist(url: surl),
                     surl.lastPathComponent != "i",
+                    surl.lastPathComponent != "files",
                     !surl.path.contains(".Trash"),
                     !surl.path.contains("Trash"),
                     !surl.path.contains("/."),
