@@ -725,7 +725,7 @@
 "xX0-9b-KDq.title" = "코드 영역 실시간 강조 (앱 재시작 필요)";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
-"xxB-ic-LFu.title" = "";
+"xxB-ic-LFu.title" = "없음";
 
 /* Class = "NSMenuItem"; title = "Find…"; ObjectID = "Xz5-n4-O0W"; */
 "Xz5-n4-O0W.title" = "찾기...";
