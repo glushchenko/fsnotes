@@ -82,6 +82,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         switch navigationAction.navigationType {
         case .linkActivated:
             decisionHandler(.cancel)
+
+            if isFootNotes(url: url) {
+                return
+            }
+
 #if os(iOS)
             UIApplication.shared.openURL(url)
 #elseif os(OSX)
@@ -90,6 +95,28 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         default:
             decisionHandler(.allow)
         }
+    }
+
+    private func isFootNotes(url: URL) -> Bool {
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent("wkPreview")
+            .appendingPathComponent("index.html")
+            .absoluteString
+
+        let link = url.absoluteString.replacingOccurrences(of: webkitPreview, with: "")
+        if link.starts(with: "#") {
+            let anchor = link.dropFirst()
+            let javascript = "document.getElementById('\(anchor)').offsetTop"
+            evaluateJavaScript(javascript) { [weak self] (result, error) in
+                if let offset = result as? CGFloat {
+                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+                }
+            }
+
+            return true
+        }
+
+        return false
     }
 
     func loadHTMLView(_ markdownString: String, css: String, imagesStorage: URL? = nil) throws {
@@ -104,7 +131,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         if let i = indexURL {
             let accessURL = i.deletingLastPathComponent()
-            print(accessURL)
             loadFileURL(i, allowingReadAccessTo: accessURL)
         }
     }
