@@ -27,12 +27,8 @@ func renderMarkdownHTML(markdown: String) -> String? {
     if let ext = cmark_find_syntax_extension("strikethrough") {
         cmark_parser_attach_syntax_extension(parser, ext)
     }
-
-    if let ext = cmark_find_syntax_extension("mention") {
-        cmark_parser_attach_syntax_extension(parser, ext)
-    }
-
-    if let ext = cmark_find_syntax_extension("checkbox") {
+    
+    if let ext = cmark_find_syntax_extension("tasklist") {
         cmark_parser_attach_syntax_extension(parser, ext)
     }
 
