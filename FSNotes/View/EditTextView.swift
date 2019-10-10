@@ -761,19 +761,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if event.keyCode == kVK_Delete {
-            if event.modifierFlags.contains(.option) {
-                deleteWordBackward(nil)
-                return
-            }
-
-            if selectedRange.length == 0 {
-                breakUndoCoalescing()
-                let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-                formatter.removeChar()
-                breakUndoCoalescing()
-                return
-            }
+        if event.keyCode == kVK_Delete && event.modifierFlags.contains(.option) {
+            deleteWordBackward(nil)
+            return
         }
 
         if note.type == .PlainText || note.type == .RichText {

@@ -503,13 +503,6 @@ public class TextFormatter {
         }
     }
 
-    public func removeChar() {
-        let position = textView.selectedRange.location - 1
-        guard position >= 0 else { return }
-
-        insertText("", replacementRange: NSRange(location: position, length: 1))
-    }
-
     public func newLine() {
         guard let currentParagraphRange = self.getParagraphRange() else { return }
 
