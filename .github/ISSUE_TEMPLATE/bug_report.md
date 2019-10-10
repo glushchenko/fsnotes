@@ -34,7 +34,7 @@ If applicable, add screenshots or files to help explain your problem.
 **Desktop (please complete the following information):**
  - OS: macOS or iOS
  - OS version: 10.14.6
- - FSNotes version 3.8.2
+ - FSNotes version: 3.8.2
 
 **Additional context**
 Add any other context about the problem here.
