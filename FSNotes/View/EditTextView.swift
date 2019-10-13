@@ -23,7 +23,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
     var downView: MarkdownView?
-    var timer: Timer?
+    public var timer: Timer?
+    public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
 
 
@@ -282,15 +283,29 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         return false
     }
-    
+
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
-        
+
+        if (string as NSString).substring(with: charRange) == "#" {
+            let tags = Storage.sharedInstance().getTags()
+            return tags.compactMap({ "#\($0)"})
+        } else if charRange.location > 0 {
+            let hashRange = NSRange(location: charRange.location - 1, length: 1)
+            if (string as NSString).substring(with: hashRange) == "#" {
+                let partialWord = (string as NSString).substring(with: charRange)
+                let tags = Storage.sharedInstance().getTags()
+
+                return tags.filter({ $0.starts(with: partialWord )}).filter({ $0 != partialWord })
+            }
+        }
+
         let nsString = string as NSString
         let chars = nsString.substring(with: charRange)
         if let notes = storage.getBy(startWith: chars) {
             let titles = notes.map{ $0.title }
             return titles
         }
+
         return nil
     }
 
@@ -787,6 +802,35 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
+
+        if replacementString == "#" {
+            DispatchQueue.main.async {
+                self.complete(nil)
+            }
+        } else if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
+
+            textStorage?.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
+
+                if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
+                    return
+                }
+
+                let hashRange = NSRange(location: range.location - 1, length: 1)
+
+                if (self.string as NSString).substring(with: hashRange) == "#" {
+                    DispatchQueue.main.async {
+                        self.complete(nil)
+                    }
+
+                    stop.pointee = true
+                    return
+                }
+            })
+        }
+
+        tagsTimer?.invalidate()
+        tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(scanTags), userInfo: nil, repeats: false)
+
         guard let note = EditTextView.note else {
             return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
         }
@@ -813,6 +857,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+    }
+
+    @objc public func scanTags() {
+        guard let note = EditTextView.note else { return }
+        note.scanContentTags()
+
+        guard let outline = ViewController.shared()?.storageOutlineView else { return }
+        outline.reloadSidebar()
     }
 
     func saveCursorPosition() {

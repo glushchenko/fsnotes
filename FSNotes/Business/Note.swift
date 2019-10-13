@@ -914,6 +914,40 @@ public class Note: NSObject  {
                 }
             }
         #endif
+
+        scanContentTags()
+    }
+
+    public func scanContentTags() {
+        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([0-9a-z]+)(?:\\s|\\Z)")
+
+        var tags = [String]()
+        for tag in inlineTags {
+            guard let tag = tag.last else { continue }
+            tags.append(tag)
+        }
+
+        if tags.contains("notags") {
+            return
+        }
+
+        for tag in tags {
+            if !self.tagNames.contains(tag) {
+                tagNames.append(tag)
+            }
+
+            if !project.isTrash {
+                sharedStorage.addTag(tag)
+            }
+        }
+
+        for noteTag in tagNames {
+            if !tags.contains(noteTag) {
+                tagNames.removeAll(where: { $0 == noteTag})
+
+                _ = sharedStorage.removeTag(noteTag)
+            }
+        }
     }
     
     public func getImageUrl(imageName: String) -> URL? {
