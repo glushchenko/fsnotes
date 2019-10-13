@@ -825,7 +825,7 @@ public class NotesTextProcessor {
      */
     
     fileprivate static let headerAtxPattern = [
-        "^(\\#{1,6})  # $1 = string of #'s",
+        "^(\\#{1,6}\\  )  # $1 = string of #'s",
         "\\p{Z}*",
         "(.+?)        # $2 = Header text",
         "\\p{Z}*",
@@ -836,13 +836,13 @@ public class NotesTextProcessor {
     public static let headersAtxRegex = MarklightRegex(pattern: headerAtxPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxOpeningPattern = [
-        "^(\\#{1,6})"
+        "^(\\#{1,6}\\ )"
         ].joined(separator: "\n")
     
     public static let headersAtxOpeningRegex = MarklightRegex(pattern: headersAtxOpeningPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let headersAtxClosingPattern = [
-        "\\#{1,6}\\n+"
+        "\\#{1,6}\\ \\n+"
         ].joined(separator: "\n")
     
     public static let headersAtxClosingRegex = MarklightRegex(pattern: headersAtxClosingPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
