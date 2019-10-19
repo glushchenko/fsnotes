@@ -44,14 +44,12 @@ extension NSMutableAttributedString {
                 let newRange = NSRange(location: range.location + offset, length: range.length)
 
                 guard let unwrappedPath = path, unwrappedPath.count > 0 else { return }
+
                 let unrappedTitle = title ?? ""
 
-                if let pathEncoded = unwrappedPath.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-
-                    content?.removeAttribute(.attachment, range: newRange)
-                    content?.replaceCharacters(in: newRange, with: "![\(unrappedTitle)](\(pathEncoded))")
-                    offset += 4 + pathEncoded.count + unrappedTitle.count
-                }
+                content?.removeAttribute(.attachment, range: newRange)
+                content?.replaceCharacters(in: newRange, with: "![\(unrappedTitle)](\(unwrappedPath))")
+                offset += 4 + unwrappedPath.count + unrappedTitle.count
             }
         }
 
