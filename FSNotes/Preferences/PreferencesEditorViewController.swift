@@ -12,7 +12,7 @@ class PreferencesEditorViewController: NSViewController {
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 474, height: 440)
+        preferredContentSize = NSSize(width: 474, height: 469)
     }
 
     override func viewDidLoad() {
@@ -42,6 +42,8 @@ class PreferencesEditorViewController: NSViewController {
         spacesInsteadTab.state = UserDefaultsManagement.spacesInsteadTabs ? .on : .off
 
         marginSize.floatValue = UserDefaultsManagement.marginSize
+
+        inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
     }
     
     @IBOutlet weak var codeFont: NSTextField!
@@ -56,6 +58,7 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var lineWidth: NSSlider!
     @IBOutlet weak var spacesInsteadTab: NSButton!
     @IBOutlet weak var marginSize: NSSlider!
+    @IBOutlet weak var inlineTags: NSButton!
 
     //MARK: global variables
 
@@ -186,5 +189,23 @@ class PreferencesEditorViewController: NSViewController {
     private func setCodeFont() {
         codeFont.font = NSFont(name: UserDefaultsManagement.codeFont.fontName, size: 13)
         codeFont.stringValue = "\(UserDefaultsManagement.codeFont.fontName) \(UserDefaultsManagement.codeFont.pointSize)pt"
+    }
+
+    @IBAction func inlineTags(_ sender: NSButton) {
+        UserDefaultsManagement.inlineTags = (sender.state == .on)
+
+        guard let vc = ViewController.shared() else { return }
+
+        Storage.sharedInstance().tags = []
+        
+        for note in Storage.sharedInstance().noteList {
+            note.tags = []
+
+            if UserDefaultsManagement.inlineTags {
+                note.scanContentTags()
+            }
+        }
+
+        vc.storageOutlineView.reloadSidebar()
     }
 }

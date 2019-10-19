@@ -178,10 +178,6 @@ class SidebarTableView: UITableView,
         }
     }
 
-    private func hasTags() -> Bool {
-        return Storage.sharedInstance().hasTags()
-    }
-
     private func hasProjects() -> Bool {
         if let projects = self.sidebar?.getProjects(), projects.count > 0 {
             return true

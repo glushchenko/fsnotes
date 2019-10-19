@@ -21,7 +21,9 @@ class Storage {
     var noteList = [Note]()
     private var projects = [Project]()
     private var imageFolders = [URL]()
+
     public var tagNames = [String]()
+    public var tags = [String]()
 
     var notesDict: [String: Note] = [:]
 
@@ -730,17 +732,13 @@ class Storage {
     public func getTags() -> [String] {
         return tagNames.sorted { $0 < $1 }
     }
-    
-    public func hasTags() -> Bool {
-        return !self.tagNames.isEmpty
-    }
-    
+
     public func addTag(_ string: String) {
         if !tagNames.contains(string) {
             tagNames.append(string)
         }
     }
-    
+
     public func removeTag(_ string: String) -> Bool {
         if noteList.filter({ $0.tagNames.contains(string) && !$0.isTrash() }).count < 2 {
             if let i = tagNames.firstIndex(of: string) {
@@ -751,7 +749,30 @@ class Storage {
         
         return false
     }
-    
+
+    public func removeTagV2(_ string: String) -> Bool {
+        if noteList.filter({ $0.tags.contains(string) && !$0.isTrash() }).count < 2 {
+            if let i = tags.firstIndex(of: string) {
+                tags.remove(at: i)
+                return true
+            }
+        }
+
+        return false
+    }
+
+    public func addTagV2(_ string: String) {
+        if !tags.contains(string) {
+            tags.append(string)
+        }
+    }
+
+    public func getTagsV2() -> [String] {
+        let tags = self.tags + self.tagNames
+        
+        return tags.sorted { $0 < $1 }
+    }
+
     public func getAllTrash() -> [Note] {
         return
             noteList.filter {
