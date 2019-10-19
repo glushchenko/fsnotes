@@ -22,6 +22,10 @@ class SidebarProjectView: NSOutlineView,
     
     private var storage = Storage.sharedInstance()
     public var isFirstLaunch = true
+
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+    }
     
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.title == NSLocalizedString("Attach storage...", comment: "") {
@@ -32,7 +36,7 @@ class SidebarProjectView: NSOutlineView,
 
         if menuItem.title == NSLocalizedString("Back up storage", comment: "") {
 
-            if sidebarItem.isTrash() {
+            if sidebarItem.isTrash() || sidebarItem.tag != nil {
                 return false
             }
 
@@ -240,9 +244,15 @@ class SidebarProjectView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
-        guard let sidebar = sidebarItems else { return 0 }
-        
-        if item == nil {
+        if let tag = item as? Tag {
+            return tag.getChild().count
+        }
+
+        if let item = item as? SidebarItem, let tag = item.tag {
+            return tag.getChild().count
+        }
+
+        if let sidebar = sidebarItems, item == nil {
             return sidebar.count
         }
         
@@ -251,19 +261,34 @@ class SidebarProjectView: NSOutlineView,
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if let si = item as? SidebarItem, si.type == .Label {
-            return 30
+            return 45
         }
         return 25
     }
     
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
+        if let tag = item as? Tag {
+            return tag.isExpandable()
+        }
+
+        if let item = item as? SidebarItem, item.type == .Tag, let tag = item.tag {
+            return tag.isExpandable()
+        }
+
         return false
     }
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
-        guard let sidebar = sidebarItems else { return "" }
-        
-        if item == nil {
+
+        if let tag = item as? Tag {
+            return tag.getChild()[index]
+        }
+
+        if let si = item as? SidebarItem, si.type == .Tag, let tag = si.tag {
+            return tag.getChild()[index]
+        }
+
+        if let sidebar = sidebarItems, item == nil {
             return sidebar[index]
         }
         
@@ -273,12 +298,21 @@ class SidebarProjectView: NSOutlineView,
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
         return item
     }
-    
+
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
+
         let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! SidebarCellView
-        if let si = item as? SidebarItem {
-            cell.textField?.stringValue = si.name
+
+        if let tag = item as? Tag {
             
+            cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
+            cell.icon.isHidden = false
+            cell.label.frame.origin.x = 25
+            cell.textField?.stringValue = tag.getName()
+
+        } else if let si = item as? SidebarItem {
+            cell.textField?.stringValue = si.name
+
             switch si.type {
             case .All:
                 cell.icon.image = NSImage(imageLiteralResourceName: "home.png")
@@ -291,9 +325,10 @@ class SidebarProjectView: NSOutlineView,
                 cell.label.frame.origin.x = 25
                 
             case .Label:
-                cell.icon.isHidden = true
-                cell.label.frame.origin.x = 5
-                
+                if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self) as? SidebarHeaderCellView {
+                    cell.title.stringValue = si.name
+                    return cell
+                }
             case .Category:
                 cell.icon.image = NSImage(imageLiteralResourceName: "repository.png")
                 cell.icon.isHidden = false
@@ -303,7 +338,7 @@ class SidebarProjectView: NSOutlineView,
                 cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
-                
+
             case .Archive:
                 cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
                 cell.icon.isHidden = false
@@ -324,20 +359,21 @@ class SidebarProjectView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
-        if let x = item as? SidebarItem, x.type == .Label {
-            return true
-        }
         return false
     }
-        
+
     func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
+        if nil != item as? Tag {
+            return true
+        }
+
         guard let sidebarItem = item as? SidebarItem else {
             return false
         }
         
         return sidebarItem.isSelectable()
     }
-    
+
     func outlineView(_ outlineView: NSOutlineView, rowViewForItem item: Any) -> NSTableRowView? {
         return SidebarTableRowView(frame: NSZeroRect)
     }
@@ -602,7 +638,7 @@ class SidebarProjectView: NSOutlineView,
         guard let vc = ViewController.shared() else { return }
         vc.fsManager?.restart()
         vc.loadMoveMenu()
-        
+
         let selected = vc.storageOutlineView.selectedRow
         vc.storageOutlineView.sidebarItems = Sidebar().getList()
         vc.storageOutlineView.reloadData()

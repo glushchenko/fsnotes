@@ -46,6 +46,11 @@ class SidebarCellView: NSTableCellView {
         }
 
         if sidebarItem.type == .Tag, let note = vc.notesTableView.getSelectedNote() {
+            if !note.tagNames.contains(sidebarItem.name) {
+                plus.isHidden = true
+                return
+            }
+
             if note.tagNames.contains(sidebarItem.name) {
                 plus.alternateTitle = sidebarItem.name
                 plus.image = NSImage.init(named: NSImage.stopProgressTemplateName)

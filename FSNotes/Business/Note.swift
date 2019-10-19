@@ -26,6 +26,7 @@ public class Note: NSObject  {
     let dateFormatter = DateFormatter()
     let undoManager = UndoManager()
 
+    public var tags = [String]()
     public var originalExtension: String?
     
     public var name: String = ""
@@ -915,11 +916,13 @@ public class Note: NSObject  {
             }
         #endif
 
-        scanContentTags()
+        if UserDefaultsManagement.inlineTags {
+            scanContentTags()
+        }
     }
 
     public func scanContentTags() {
-        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([0-9a-z]+)(?:\\s|\\Z)")
+        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([0-9a-z\\/]+)(?:\\s|\\Z)")
 
         var tags = [String]()
         for tag in inlineTags {
@@ -928,24 +931,31 @@ public class Note: NSObject  {
         }
 
         if tags.contains("notags") {
+            for tag in self.tags {
+                _ = sharedStorage.removeTagV2(tag)
+            }
+
+            self.tags.removeAll()
             return
         }
 
         for tag in tags {
-            if !self.tagNames.contains(tag) {
-                tagNames.append(tag)
-            }
-
             if !project.isTrash {
-                sharedStorage.addTag(tag)
+                sharedStorage.addTagV2(tag)
             }
         }
 
-        for noteTag in tagNames {
+        for noteTag in self.tags {
             if !tags.contains(noteTag) {
-                tagNames.removeAll(where: { $0 == noteTag})
+                _ = sharedStorage.removeTagV2(noteTag)
+            }
+        }
 
-                _ = sharedStorage.removeTag(noteTag)
+        self.tags.removeAll()
+        
+        for tag in tags {
+            if !self.tags.contains(tag) {
+                self.tags.append(tag)
             }
         }
     }

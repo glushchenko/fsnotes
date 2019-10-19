@@ -17,12 +17,22 @@ class SidebarItem {
     var project: Project?
     var type: SidebarItemType
     public var icon: Image?
+    public var tag: Tag?
     
-    init(name: String, project: Project? = nil, type: SidebarItemType, icon: Image? = nil) {
+    init(name: String, project: Project? = nil, type: SidebarItemType, icon: Image? = nil, tag: Tag? = nil) {
         self.name = name
         self.project = project
         self.type = type
         self.icon = icon
+        self.tag = tag
+    }
+
+    public func getName() -> String {
+        if type == .Tag, let tag = tag {
+            return tag.getFullName()
+        }
+
+        return name
     }
         
     public func isSelectable() -> Bool {

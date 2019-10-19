@@ -69,6 +69,7 @@ public class UserDefaultsManagement {
         static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
         static let ImportURLsKey = "ImportURLs"
+        static let InlineTags = "inlineTags"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
@@ -1172,6 +1173,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.FullScreen)
+        }
+    }
+
+    static var inlineTags: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.InlineTags) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.InlineTags)
         }
     }
 }

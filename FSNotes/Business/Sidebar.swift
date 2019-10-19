@@ -87,8 +87,13 @@ class Sidebar {
                 items.append(projects)
             }
         #endif
-        
-        let tags = storage.getTags()
+
+        let rootTag = Tag(name: "# Tags")
+        for tag in Storage.sharedInstance().getTagsV2() {
+            rootTag.addChild(name: tag)
+        }
+        let tags = rootTag.getChild()
+
         if tags.count > 0 {
             var icon: Image? = nil
 
@@ -108,7 +113,7 @@ class Sidebar {
                 list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
 
                 for tag in tags {
-                    list.append(SidebarItem(name: tag, type: .Tag, icon: icon))
+                    list.append(SidebarItem(name: tag.getName(), type: .Tag, icon: icon, tag: tag))
                 }
             #endif
         }

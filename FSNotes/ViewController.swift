@@ -53,6 +53,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var storageOutlineView: SidebarProjectView!
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
+    @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet private weak var titleLabel: TitleTextField! {
         didSet {
@@ -246,6 +247,8 @@ class ViewController: NSViewController,
         self.shareButton.sendAction(on: .leftMouseDown)
         self.setTableRowHeight()
         self.storageOutlineView.sidebarItems = Sidebar().getList()
+
+        storageOutlineView.selectionHighlightStyle = .regular
         
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
@@ -1317,6 +1320,10 @@ class ViewController: NSViewController,
         
             return sidebarItem
         }
+
+        if let tag = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? Tag {
+            return SidebarItem(name: "", type: .Tag, icon: nil, tag: tag)
+        }
         
         return nil
     }
@@ -1425,7 +1432,7 @@ class ViewController: NSViewController,
         var sidebarItem = sidebarItem
         var terms = terms
 
-        var sidebarName = sidebarItem?.name ?? ""
+        var sidebarName = sidebarItem?.getName() ?? ""
         var selectedProject = sidebarItem?.project
 
         var type = sidebarItem?.type ?? .Inbox
@@ -1440,7 +1447,7 @@ class ViewController: NSViewController,
             sidebarItem = getSidebarItem()
             terms = search.stringValue.split(separator: " ")
 
-            sidebarName = sidebarItem?.name ?? ""
+            sidebarName = sidebarItem?.getName()  ?? ""
             selectedProject = sidebarItem?.project
             type = sidebarItem?.type ?? .Inbox
 
@@ -1460,6 +1467,7 @@ class ViewController: NSViewController,
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
                     || type == .Tag && note.tagNames.contains(sidebarName)
+                    || UserDefaultsManagement.inlineTags && type == .Tag && note.tags.filter({ $0 == sidebarName || $0.starts(with: sidebarName + "/") }).count > 0
                     || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
                     || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject && type != .Inbox
                     || type == .Trash
