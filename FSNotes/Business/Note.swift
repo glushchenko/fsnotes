@@ -922,7 +922,7 @@ public class Note: NSObject  {
     }
 
     public func scanContentTags() {
-        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([0-9a-z\\/]+)(?:\\s|\\Z)")
+        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)")
 
         var tags = [String]()
         for tag in inlineTags {

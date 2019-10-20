@@ -806,11 +806,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
 
         if UserDefaultsManagement.inlineTags {
-            if replacementString == "#" {
-                DispatchQueue.main.async {
-                    self.complete(nil)
+            if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
+
+                if affectedCharRange.location - 1 >= 0 {
+                    let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+
+                    if (self.string as NSString).substring(with: hashRange) == "#" {
+                        DispatchQueue.main.async {
+                            self.complete(nil)
+                            return
+                        }
+                    }
                 }
-            } else if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
 
                 textStorage?.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
 
