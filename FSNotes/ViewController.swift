@@ -1729,6 +1729,8 @@ class ViewController: NSViewController,
         UserDefaultsManagement.preview = false
 
         editArea.markdownView?.removeFromSuperview()
+        editArea.markdownView = nil
+        
         guard let editor = editArea else { return }
         editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 

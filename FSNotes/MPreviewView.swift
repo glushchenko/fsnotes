@@ -18,6 +18,7 @@ public typealias MPreviewViewClosure = () -> ()
 class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
     private var closure: MPreviewViewClosure?
+    public static var template: String?
 
     init(frame: CGRect, note: Note, closure: MPreviewViewClosure?) {
         self.closure = closure
@@ -42,15 +43,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         scrollView.backgroundColor = UIColor.clear
 #endif
 
-        let markdownString = note.getPrettifiedContent()
-        let css = MarkdownView.getPreviewStyle()
-
-        var imagesStorage = note.project.url
-        if note.isTextBundle() {
-            imagesStorage = note.getURL()
-        }
-
-        try? loadHTMLView(markdownString, css: css, imagesStorage: imagesStorage)
+        load(note: note)
     }
 
     required init?(coder: NSCoder) {
@@ -95,6 +88,64 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         default:
             decisionHandler(.allow)
         }
+    }
+
+    public func load(note: Note) {
+        let markdownString = note.getPrettifiedContent()
+        let css = MarkdownView.getPreviewStyle()
+
+        var imagesStorage = note.project.url
+        if note.isTextBundle() {
+            imagesStorage = note.getURL()
+        }
+
+        if let urls = note.imageUrl, urls.isEmpty {
+            fastLoading(note: note, markdown: markdownString, css: css)
+        } else {
+            try? loadHTMLView(markdownString, css: css, imagesStorage: imagesStorage)
+        }
+    }
+
+    public func fastLoading(note: Note, markdown: String, css: String) {
+        if MPreviewView.template == nil {
+            MPreviewView.template = getTemplate(css: css)
+        }
+
+        let template = MPreviewView.template
+        let htmlString = renderMarkdownHTML(markdown: markdown)!
+        guard let pageHTMLString = template?.replacingOccurrences(of: "DOWN_HTML", with: htmlString) else { return }
+
+        var baseURL: URL?
+        if let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle") {
+            let url = NSURL.fileURL(withPath: path)
+            if let bundle = Bundle(url: url) {
+                baseURL = bundle.url(forResource: "index", withExtension: "html")
+            }
+        }
+
+        loadHTMLString(pageHTMLString, baseURL: baseURL)
+    }
+
+    private func getTemplate(css: String) -> String? {
+        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
+        let url = NSURL.fileURL(withPath: path!)
+        let bundle = Bundle(url: url)
+        let baseURL = bundle!.url(forResource: "index", withExtension: "html")!
+
+        guard var template = try? NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue) else { return nil }
+        template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
+
+#if os(iOS)
+        if NightNight.theme == .night {
+            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+        }
+#else
+        if UserDataService.instance.isDark {
+            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+        }
+#endif
+
+        return template as String
     }
 
     private func isFootNotes(url: URL) -> Bool {
