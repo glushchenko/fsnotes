@@ -123,6 +123,10 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.imagesWidth = sender.floatValue
 
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("ThumbnailsBig")
+        try? FileManager.default.removeItem(at: temporary)
+
         if let note = EditTextView.note, !UserDefaultsManagement.preview {
             NotesTextProcessor.highlight(note: note)
             vc.refillEditArea()
@@ -197,7 +201,7 @@ class PreferencesEditorViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
 
         Storage.sharedInstance().tags = []
-        
+
         for note in Storage.sharedInstance().noteList {
             note.tags = []
 

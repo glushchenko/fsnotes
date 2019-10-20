@@ -99,6 +99,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let encryption = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Encryption")
         try? FileManager.default.removeItem(at: encryption)
+
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("ThumbnailsBig")
+
+        try? FileManager.default.removeItem(at: temporary)
     }
     
     private func applyAppearance() {

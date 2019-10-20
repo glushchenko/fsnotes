@@ -471,8 +471,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
-        
-        markdownView?.removeFromSuperview()
 
         viewController.updateTitle(newTitle: note.hasTitle() ? note.title : "")
 
@@ -495,15 +493,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
             textStorage?.setAttributedString(NSAttributedString())
             EditTextView.note = note
 
-            let frame = viewController.editAreaScroll.bounds
-            markdownView = MPreviewView(frame: frame, note: note, closure: {
+            if markdownView == nil {
+                let frame = viewController.editAreaScroll.bounds
+                markdownView = MPreviewView(frame: frame, note: note, closure: {})
                 if let view = self.markdownView, EditTextView.note == note {
                     viewController.editAreaScroll.addSubview(view)
                 }
-            })
-
+            } else {
+                markdownView!.load(note: note)
+            }
             return
         }
+
+        markdownView?.removeFromSuperview()
+        markdownView = nil
 
         guard let storage = textStorage else { return }
 
@@ -586,6 +589,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
     public func clear() {
         textStorage?.setAttributedString(NSAttributedString())
         markdownView?.removeFromSuperview()
+        markdownView = nil
+
         isEditable = false
         
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
