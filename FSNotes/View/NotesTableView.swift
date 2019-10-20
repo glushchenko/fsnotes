@@ -68,13 +68,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         
         if self.noteList.indices.contains(i) {
             DispatchQueue.main.async {
-                var selectedRows = self.selectedRowIndexes
+                let selectedRows = self.selectedRowIndexes
                 if !selectedRows.contains(i) {
-                    selectedRows.insert(i)
+                    self.selectRowIndexes(IndexSet(integer: i), byExtendingSelection: false)
+                    self.scrollRowToVisible(i)
+                    return
                 }
-
-                self.selectRowIndexes(selectedRows, byExtendingSelection: false)
-                self.scrollRowToVisible(i)
             }
 
             super.rightMouseDown(with: event)
