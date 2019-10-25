@@ -102,7 +102,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         let searchText = self.stringValue
         let currentTextLength = searchText.count
-        let sidebarItem = self.vcDelegate.getSidebarItem()
+        var sidebarItem: SidebarItem? = nil
 
         if currentTextLength > self.lastQueryLength {
             self.skipAutocomplete = false
@@ -110,9 +110,16 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         self.lastQueryLength = searchText.count
 
+        let projects = vcDelegate.storageOutlineView.getSidebarProjects()
+        let tags = vcDelegate.storageOutlineView.getSidebarTags()
+
+        if projects == nil && tags == nil {
+            sidebarItem = self.vcDelegate.getSidebarItem()
+        }
+
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
-            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem) {
+            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
                 if !UserDefaultsManagement.focusInEditorOnNoteSelect {
                     UserDataService.instance.searchTrigger = false
                 }

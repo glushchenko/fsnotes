@@ -16,7 +16,7 @@
 #endif
 
 class Sidebar {
-    var list = [SidebarItem]()
+    var list = [Any]()
     let storage = Storage.sharedInstance()
     public var items = [[SidebarItem]]()
     
@@ -88,35 +88,37 @@ class Sidebar {
             }
         #endif
 
-        let rootTag = Tag(name: "# Tags")
-        for tag in Storage.sharedInstance().getTagsV2() {
-            rootTag.addChild(name: tag)
-        }
-        let tags = rootTag.getChild()
+#if os(iOS)
+        let tags = storage.getTags()
 
         if tags.count > 0 {
             var icon: Image? = nil
+            var tagsSidebarItems = [SidebarItem]()
 
-            #if os(iOS)
-                var tagsSidebarItems = [SidebarItem]()
+            for tag in tags {
+                tagsSidebarItems.append(SidebarItem(name: tag, type: .Tag, icon: icon))
+            }
 
-                for tag in tags {
-                    tagsSidebarItems.append(SidebarItem(name: tag, type: .Tag, icon: icon))
-                }
-
-                if tagsSidebarItems.count > 0 {
-                    items.append(tagsSidebarItems)
-                }
-            #else
-                icon = getImage(named: "tag\(night).png")
-                let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
-                list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
-
-                for tag in tags {
-                    list.append(SidebarItem(name: tag.getName(), type: .Tag, icon: icon, tag: tag))
-                }
-            #endif
+            if tagsSidebarItems.count > 0 {
+                items.append(tagsSidebarItems)
+            }
         }
+#else
+        let icon = getImage(named: "tag\(night).png")
+        let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
+
+        list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
+
+        if !UserDefaultsManagement.inlineTags {
+            let tags = storage.getTags()
+
+            if tags.count > 0 {
+                for tag in tags {
+                    list.append(Tag(name: tag))
+                }
+            }
+        }
+#endif
 
         #if os(iOS)
             let icon = getImage(named: "settings\(night).png")
@@ -124,19 +126,19 @@ class Sidebar {
         #endif
     }
     
-    public func getList() -> [SidebarItem] {
+    public func getList() -> [Any] {
         return list
     }
     
-    public func getTags() -> [SidebarItem] {
-        return list.filter({ $0.type == .Tag })
+    public func getTags() -> [Tag] {
+        return list.filter({ ($0 as? Tag) != nil }) as! [Tag]
     }
     
     public func getProjects() -> [SidebarItem] {
-        return list.filter({ $0.type == .Category && $0.type != .Archive && $0.project != nil && $0.project!.showInSidebar })
+        return list.filter({ ($0 as? SidebarItem)?.type == .Category && ($0 as? SidebarItem)?.type != .Archive && ($0 as? SidebarItem)?.project != nil && ($0 as? SidebarItem)!.project!.showInSidebar }) as! [SidebarItem]
     }
     
-    public func getByIndexPath(path: IndexPath) -> SidebarItem? {
+    public func getByIndexPath(path: IndexPath) -> Any? {
         #if os(OSX)
             let i = path.item
         #else

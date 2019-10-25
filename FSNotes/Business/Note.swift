@@ -917,11 +917,14 @@ public class Note: NSObject  {
         #endif
 
         if UserDefaultsManagement.inlineTags {
-            scanContentTags()
+            _ = scanContentTags()
         }
     }
 
-    public func scanContentTags() {
+    public func scanContentTags() -> ([String], [String]) {
+        var added = [String]()
+        var removed = [String]()
+
         let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)")
 
         var tags = [String]()
@@ -931,38 +934,37 @@ public class Note: NSObject  {
         }
 
         if tags.contains("notags") {
-            for tag in self.tags {
-                _ = sharedStorage.removeTagV2(tag)
-            }
+            removed = self.tags
 
             self.tags.removeAll()
-            return
-        }
-
-        for tag in tags {
-            if !project.isTrash {
-                sharedStorage.addTagV2(tag)
-            }
+            return (added, removed)
         }
 
         for noteTag in self.tags {
             if !tags.contains(noteTag) {
-                _ = sharedStorage.removeTagV2(noteTag)
+                removed.append(noteTag)
             }
         }
-
-        self.tags.removeAll()
         
         for tag in tags {
             if !self.tags.contains(tag) {
-                self.tags.append(tag)
+                added.append(tag)
             }
         }
+
+
+        self.tags = tags
+
+        return (added, removed)
     }
     
     public func getImageUrl(imageName: String) -> URL? {
         if imageName.starts(with: "http://") || imageName.starts(with: "https://") {
             return URL(string: imageName)
+        }
+
+        if isEncrypted() && imageName.starts(with: "/i/") {
+            return project.url.appendingPathComponent(imageName)
         }
         
         if isTextBundle() {

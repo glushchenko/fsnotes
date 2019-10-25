@@ -285,18 +285,22 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
-
         if UserDefaultsManagement.inlineTags {
             if (string as NSString).substring(with: charRange) == "#" {
-                let tags = Storage.sharedInstance().getTagsV2()
-                return tags.compactMap({ "#\($0)"})
+                if let tags = viewDelegate?.storageOutlineView.getAllTags() {
+                    return tags.compactMap({ "#\($0)"})
+                }
+
+                return nil
             } else if charRange.location > 0 {
                 let hashRange = NSRange(location: charRange.location - 1, length: 1)
                 if (string as NSString).substring(with: hashRange) == "#" {
                     let partialWord = (string as NSString).substring(with: charRange)
-                    let tags = Storage.sharedInstance().getTagsV2()
+                    if let tags = viewDelegate?.storageOutlineView.getAllTags() {
+                        return tags.filter({ $0.starts(with: partialWord )}).filter({ $0 != partialWord })
+                    }
 
-                    return tags.filter({ $0.starts(with: partialWord )}).filter({ $0 != partialWord })
+                    return nil
                 }
             }
         }
@@ -462,6 +466,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         viewController.emptyEditAreaImage.isHidden = true
 
         if note.container == .encryptedTextPack {
+            if note.isEncrypted() {
+                viewController.disablePreview()
+            }
+
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
             viewController.emptyEditAreaImage.isHidden = false
         } else {
@@ -877,10 +885,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     @objc public func scanTags() {
         guard let note = EditTextView.note else { return }
-        note.scanContentTags()
+        let result = note.scanContentTags()
 
         guard let outline = ViewController.shared()?.storageOutlineView else { return }
-        outline.reloadSidebar()
+
+        let added = result.0
+        let removed = result.1
+
+        if removed.count > 0 {
+            outline.removeTags(removed)
+        }
+
+        if added.count > 0 {
+            outline.addTags(added)
+        }
     }
 
     func saveCursorPosition() {
@@ -1053,6 +1071,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
 
                     if let string = attachment.getAttributedString() {
+                        EditTextView.shouldForceRescan = true
+
                         insertText(string, replacementRange: insertRange)
                         insertNewline(nil)
                         insertNewline(nil)
@@ -1204,6 +1224,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
+        if textStorage?.length == 0 {
+            EditTextView.shouldForceRescan = true
+        }
+        
         insertText("```\n\n```\n", replacementRange: currentRange)
         setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
     }
