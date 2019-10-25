@@ -806,8 +806,8 @@ class SidebarProjectView: NSOutlineView,
 
         if let tag = sidebarItems?.first(where: {($0 as? Tag)?.getName() == parent }) as? Tag {
             if tags.count == 1 {
-                let allTags = getSidebarTags()
-                let count = allTags?.filter({ $0.starts(with: parent) }).count ?? 0
+                let allTags = ViewController.shared()?.storageOutlineView.getAllTags()
+                let count = allTags?.filter({ $0.starts(with: parent + "/") || $0 == parent }).count ?? 0
 
                 if count == 0 {
                     let i = row(forItem: tag)
@@ -871,8 +871,9 @@ class SidebarProjectView: NSOutlineView,
     
     public func removeTags(_ tags: [String]) {
         var removeTags = [String]()
+
         for tag in tags {
-            if isAllowRemoveTag(tag) {
+            if isAllowTagRemoving(tag) {
                 removeTags.append(tag)
             }
         }
@@ -882,13 +883,13 @@ class SidebarProjectView: NSOutlineView,
         }
     }
 
-    public func isAllowRemoveTag(_ name: String) -> Bool {
+    public func isAllowTagRemoving(_ name: String) -> Bool {
         guard let vc = ViewController.shared() else { return false }
 
         var allow = true
         for note in vc.notesTableView.noteList {
             for tag in note.tags {
-                if tag.starts(with: name) {
+                if tag.starts(with: name + "/") {
                     allow = false
                 }
             }
