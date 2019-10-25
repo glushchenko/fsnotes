@@ -73,7 +73,11 @@ class AttributedBox {
 
         #if os(OSX)
             if name == "checkbox" {
-                name = "checkbox_new"
+                if #available(OSX 10.15, *) {
+                    name = "checkbox_new"
+                } else {
+                    name = "checkbox_flipped"
+                }
             }
             return NSImage(named: name)!
         #else
