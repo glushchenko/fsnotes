@@ -795,8 +795,8 @@ class SidebarProjectView: NSOutlineView,
     
     public func remove(sidebarItem: SidebarItem) {
         if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == sidebarItem.name }) {
-            sidebarItems?.remove(at: i)
             self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+            sidebarItems?.remove(at: i)
         }
     }
 
@@ -812,15 +812,15 @@ class SidebarProjectView: NSOutlineView,
                 if count == 0 {
                     let i = row(forItem: tag)
                     if let ind = sidebarItems?.indices, ind.contains(i) {
-                        sidebarItems?.remove(at: i)
                         removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+                        sidebarItems?.remove(at: i)
                     }
                 }
             } else if var foundTag = tag.find(name: tagName) {
                 while let parent = foundTag.getParent() {
                     if let i = parent.indexOf(child: foundTag) {
-                        parent.remove(by: i)
                         removeItems(at: [i], inParent: parent, withAnimation: .effectFade)
+                        parent.remove(by: i)
                     }
 
                     if
@@ -911,7 +911,7 @@ class SidebarProjectView: NSOutlineView,
             for i in (firstIndex...count).reversed() {
                 if let item = sidebarItems?[i] as? Tag {
                     let index = row(forItem: item)
-                    sidebarItems?.remove(at: i)
+                    sidebarItems?.remove(at: index)
                     removeItems(at: [index], inParent: nil, withAnimation: .slideDown)
                 }
             }

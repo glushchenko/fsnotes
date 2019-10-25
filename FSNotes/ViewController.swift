@@ -1469,7 +1469,7 @@ class ViewController: NSViewController,
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                    || projects != nil && (
+                    || type != .Inbox && projects != nil && (
                         projects!.contains(note.project)
                         || (note.project.parent != nil && projects!.contains(note.project.parent!))
                     )
