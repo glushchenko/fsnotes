@@ -1361,8 +1361,9 @@ class ViewController: NSViewController,
         filter = originalFilter.lowercased()
 
         var type = sidebarItem?.type
-        if type == nil && projects == nil && tags == nil {
-            // Global search if sidebar not checked
+
+        // Global search if sidebar not checked
+        if type == nil {
             type = filter.count > 0 ? .All : .Inbox
         }
 

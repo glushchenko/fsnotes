@@ -42,6 +42,8 @@ extension ViewController {
         NotesTextProcessor.highlight(note: note)
         refillEditArea()
         notesTableView.reloadRow(note: note)
+
+        editArea.scanTags()
     }
 
     public func loadHistory() {
