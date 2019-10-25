@@ -265,4 +265,19 @@ public class Project: Equatable {
     public func getShortSign() -> String {
         return String(getParent().url.path.md5.prefix(4))
     }
+
+    public func getAllTags() -> [String] {
+        let notes = Storage.sharedInstance().noteList.filter({ $0.project == self })
+
+        var tags = [String]()
+        for note in notes {
+            for tag in note.tags {
+                if !tags.contains(tag) {
+                    tags.append(tag)
+                }
+            }
+        }
+
+        return tags
+    }
 }

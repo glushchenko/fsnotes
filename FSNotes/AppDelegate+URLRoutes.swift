@@ -65,7 +65,7 @@ extension AppDelegate {
 
         for url in urls {
             if let items = vc.storageOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
-                if let sidebarItem = items.first(where: {$0.project == note.project || $0.project?.isArchive == note.isInArchive()}) {
+                if let sidebarItem = items.first(where: { ($0 as? SidebarItem)?.project == note.project || ($0 as? SidebarItem)?.project?.isArchive == note.isInArchive()}) {
                     sidebarIndex = vc.storageOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }

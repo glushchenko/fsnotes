@@ -734,12 +734,14 @@ class ViewController: NSViewController,
             }
         }
 
+        let inlineTags = vc.storageOutlineView.getSelectedInlineTags()
+
         if (value.count > 0) {
-            search.stringValue = ""
+            search.stringValue = String()
             editArea.clear()
-            createNote(name: value)
+            createNote(name: value, content: inlineTags)
         } else {
-            createNote()
+            createNote(content: inlineTags)
         }
     }
     
@@ -749,8 +751,10 @@ class ViewController: NSViewController,
         if let type = vc.getSidebarType(), type == .Trash {
             vc.storageOutlineView.deselectAll(nil)
         }
-        
-        vc.createNote()
+
+        let inlineTags = vc.storageOutlineView.getSelectedInlineTags()
+
+        vc.createNote(content: inlineTags)
     }
 
     @IBAction func importNote(_ sender: NSMenuItem) {
@@ -1330,23 +1334,37 @@ class ViewController: NSViewController,
 
     private var selectRowTimer = Timer()
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, completion: @escaping () -> Void = {}) {
+    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
+
+        var sidebarItem: SidebarItem? = sidebarItem
+        var projects: [Project]? = projects
+        var tags: [String]? = tags
+        var sidebarName: String? = nil
+
         let timestamp = Date().toMillis()
 
         self.search.timestamp = timestamp
         self.searchQueue.cancelAllOperations()
 
-        var sidebarItem = sidebarItem
         if searchText == nil {
-            sidebarItem = self.getSidebarItem()
-        }
+            projects = storageOutlineView.getSidebarProjects()
+            tags = storageOutlineView.getSidebarTags()
+            sidebarItem = getSidebarItem()
 
-        let project = sidebarItem?.project
-        let type = sidebarItem?.type
+            if !UserDefaultsManagement.inlineTags {
+                sidebarName = getSidebarItem()?.getName()
+            }
+        }
 
         var filter = searchText ?? self.search.stringValue
         let originalFilter = searchText ?? self.search.stringValue
         filter = originalFilter.lowercased()
+
+        var type = sidebarItem?.type
+        if type == nil && projects == nil && tags == nil {
+            // Global search if sidebar not checked
+            type = filter.count > 0 ? .All : .Inbox
+        }
 
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
@@ -1365,13 +1383,13 @@ class ViewController: NSViewController,
                     return
                 }
 
-                if (self.isFit(note: note, sidebarItem: sidebarItem, filter: filter, terms: terms)) {
+                if (self.isFit(note: note, filter: filter, terms: terms, projects: projects, tags: tags, type: type, sidebarName: sidebarName)) {
                     notes.append(note)
                 }
             }
 
             self.filteredNoteList = notes
-            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, project: project, operation: operation)
+            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
 
             if operation.isCancelled {
                 completion()
@@ -1427,29 +1445,13 @@ class ViewController: NSViewController,
         return true
     }
 
-    public func isFit(note: Note, sidebarItem: SidebarItem? = nil, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false) -> Bool {
+    public func isFit(note: Note, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false, projects: [Project]? = nil, tags: [String]? = nil, type: SidebarItemType? = nil, sidebarName: String? = nil) -> Bool {
         var filter = filter
-        var sidebarItem = sidebarItem
         var terms = terms
-
-        var sidebarName = sidebarItem?.getName() ?? ""
-        var selectedProject = sidebarItem?.project
-
-        var type = sidebarItem?.type ?? .Inbox
-
-        // Global search if sidebar not checked
-        if filter.count > 0 && sidebarItem == nil {
-            type = .All
-        }
 
         if shouldLoadMain {
             filter = search.stringValue
-            sidebarItem = getSidebarItem()
             terms = search.stringValue.split(separator: " ")
-
-            sidebarName = sidebarItem?.getName()  ?? ""
-            selectedProject = sidebarItem?.project
-            type = sidebarItem?.type ?? .Inbox
 
             if type == .Todo {
                 terms!.append("- [ ]")
@@ -1466,18 +1468,34 @@ class ViewController: NSViewController,
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                    || type == .Tag && note.tagNames.contains(sidebarName)
-                    || UserDefaultsManagement.inlineTags && type == .Tag && note.tags.filter({ $0 == sidebarName || $0.starts(with: sidebarName + "/") }).count > 0
-                    || [.Category, .Label].contains(type) && selectedProject != nil && note.project == selectedProject
-                    || selectedProject != nil && selectedProject!.isRoot && note.project.parent == selectedProject && type != .Inbox
+                    || projects != nil && (
+                        projects!.contains(note.project)
+                        || (note.project.parent != nil && projects!.contains(note.project.parent!))
+                    )
                     || type == .Trash
                     || type == .Todo
                     || type == .Archive && note.project.isArchive
                     || type == .Inbox && note.project.isRoot && note.project.isDefault
+                    || !UserDefaultsManagement.inlineTags && tags != nil
             ) && (
                 type == .Trash && note.isTrash()
                     || type != .Trash && !note.isTrash()
-        )
+            ) && (
+                tags == nil
+                || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
+                || !UserDefaultsManagement.inlineTags && tags != nil && note.tagNames.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
+            )
+    }
+
+    public func contains(tag name: String, in tags: [String]) -> Bool {
+        var found = false
+        for tag in tags {
+            if name == tag || name.starts(with: tag + "/") {
+                found = true
+                break
+            }
+        }
+        return found
     }
     
     @objc func selectNullTableRow(timer: Bool = false) {
@@ -1588,8 +1606,9 @@ class ViewController: NSViewController,
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil) {
         guard let vc = ViewController.shared() else { return }
-        
-        var sidebarProject = project ?? getSidebarProject()
+
+        let selectedProjects = vc.storageOutlineView.getSidebarProjects()
+        var sidebarProject = project ?? selectedProjects?.first
         var text = content
         
         if let type = vc.getSidebarType(), type == .Todo, content.count == 0 {
@@ -1601,7 +1620,15 @@ class ViewController: NSViewController,
             sidebarProject = projects.first
         }
         
-        guard let project = sidebarProject else {
+        guard let project = sidebarProject else { return }
+
+        let note = Note(name: name, project: project, type: type)
+        note.content = NSMutableAttributedString(string: text)
+        note.save()
+
+        _ = note.scanContentTags()
+
+        if let selectedProjects = selectedProjects, !selectedProjects.contains(project) {
             return
         }
 
@@ -1609,15 +1636,12 @@ class ViewController: NSViewController,
         notesTableView.deselectNotes()
         editArea.string = text
         
-        let note = Note(name: name, project: project, type: type)
-        note.content = NSMutableAttributedString(string: text)
-        note.save()
-
         if let si = getSidebarItem(), si.type == .Tag {
             note.addTag(si.name)
         }
-                
-        self.search.stringValue.removeAll()
+
+        search.stringValue.removeAll()
+
         updateTable() {
             DispatchQueue.main.async {
                 if let index = self.notesTableView.getIndex(note) {

@@ -750,23 +750,6 @@ class Storage {
         return false
     }
 
-    public func removeTagV2(_ string: String) -> Bool {
-        if noteList.filter({ $0.tags.contains(string) && !$0.isTrash() }).count < 2 {
-            if let i = tags.firstIndex(of: string) {
-                tags.remove(at: i)
-                return true
-            }
-        }
-
-        return false
-    }
-
-    public func addTagV2(_ string: String) {
-        if !tags.contains(string) {
-            tags.append(string)
-        }
-    }
-
     public func getTagsV2() -> [String] {
         let tags = self.tags + self.tagNames
         

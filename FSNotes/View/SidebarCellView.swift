@@ -114,7 +114,7 @@ class SidebarCellView: NSTableCellView {
             let tag = button.alternateTitle
             note.removeTag(tag)
 
-            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
+            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == tag}) as? SidebarItem {
                 vc.storageOutlineView.deselectTag(item: sidebarItem)
                 
                 if !vc.storage.tagNames.contains(tag) {
@@ -132,7 +132,7 @@ class SidebarCellView: NSTableCellView {
             let tag = button.alternateTitle
             note.addTag(tag)
 
-            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {$0.type == .Tag && $0.name == tag}) {
+            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == tag}) as? SidebarItem {
                 vc.storageOutlineView.selectTag(item: sidebarItem)
             }
         }

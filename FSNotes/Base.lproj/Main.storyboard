@@ -734,7 +734,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="menuBar"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>
@@ -1248,7 +1248,7 @@ CA
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
+                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="14" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="0.0"/>
@@ -1292,8 +1292,8 @@ CA
                                                                                         <action selector="projectName:" target="I0q-sX-uBq" id="Mx3-zh-Tac"/>
                                                                                     </connections>
                                                                                 </textField>
-                                                                                <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNt-mn-bYH">
-                                                                                    <rect key="frame" x="117" y="15" width="21" height="19"/>
+                                                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gNt-mn-bYH">
+                                                                                    <rect key="frame" x="117" y="16" width="21" height="18"/>
                                                                                     <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="b1m-o5-TLn">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                                                                         <font key="font" metaFont="systemBold" size="12"/>
@@ -1305,9 +1305,11 @@ CA
                                                                             </subviews>
                                                                             <constraints>
                                                                                 <constraint firstItem="gNt-mn-bYH" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="1I3-WJ-8IJ"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="gNt-mn-bYH" secondAttribute="trailing" constant="3" id="5F2-Dz-EWs"/>
                                                                                 <constraint firstItem="1dd-W4-MiY" firstAttribute="leading" secondItem="I0q-sX-uBq" secondAttribute="leading" constant="3" id="KTq-ca-aXt"/>
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="leading" secondItem="1dd-W4-MiY" secondAttribute="trailing" constant="5" id="bav-Au-PqY"/>
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="fox-W9-Kiy"/>
+                                                                                <constraint firstItem="gNt-mn-bYH" firstAttribute="top" secondItem="1dd-W4-MiY" secondAttribute="top" id="iFi-pd-z2i"/>
                                                                                 <constraint firstItem="1dd-W4-MiY" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="slG-ke-sdb"/>
                                                                             </constraints>
                                                                             <connections>

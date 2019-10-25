@@ -206,7 +206,7 @@ class PreferencesEditorViewController: NSViewController {
             note.tags = []
 
             if UserDefaultsManagement.inlineTags {
-                note.scanContentTags()
+                _ = note.scanContentTags()
             }
         }
 

@@ -17,7 +17,7 @@ class Tag {
 
         let tags = name.components(separatedBy: "/")
         if tags.count > 1, let parent = tags.first {
-            addChild(name: tags.dropFirst().joined(separator: "/"))
+            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_) in })
             self.name = parent
             return
         }
@@ -31,16 +31,20 @@ class Tag {
         return child.count > 0
     }
 
-    public func addChild(name: String) {
+    public func addChild(name: String, completion: (Tag) -> Void) {
         let tags = name.components(separatedBy: "/")
 
         if tags.count > 1, let parent = tags.first {
             if let tag = child.first(where: { $0.name == parent }) {
                 let newTag = tags.dropFirst().joined(separator: "/")
 
-                tag.appendChild(tag: Tag(name: newTag, parent: tag))
+                let tagObject = Tag(name: newTag, parent: tag)
+                tag.appendChild(tag: tagObject)
+                completion(tagObject)
             } else {
-                appendChild(tag: Tag(name: name, parent: self))
+                let tagObject = Tag(name: name, parent: self)
+                appendChild(tag: tagObject)
+                completion(tagObject)
             }
             return
         }
@@ -49,14 +53,39 @@ class Tag {
 
         let tag = Tag(name: name, parent: self)
         child.append(tag)
+        completion(tag)
+    }
+
+    public func indexOf(child tag: Tag) -> Int? {
+        return child.firstIndex(where: { $0 === tag })
+    }
+
+    public func remove(by index: Int) {
+        child.remove(at: index)
+    }
+
+    public func removeChild(tag: Tag) {
+        child.removeAll(where: { $0 === tag })
     }
 
     public func getChild() -> [Tag] {
         return child
     }
 
+    public func removeParent() {
+        parent = nil
+    }
+
     public func get(name: String) -> Tag? {
+        var name = name
+        let tags = name.components(separatedBy: "/")
+
+        if tags.count > 1, let parent = tags.first {
+            name = parent
+        }
+
         return child.first(where: { $0.name == name })
+
     }
 
     public func getName() -> String {
@@ -73,5 +102,44 @@ class Tag {
         }
 
         return "\(name)"
+    }
+
+    public func find(name: String) -> Tag? {
+        let tags = name.components(separatedBy: "/")
+        let trimmed = tags.dropFirst().joined(separator: "/")
+
+        if let child = get(name: trimmed) {
+            if child.name == trimmed {
+                return child
+            }
+
+            return child.find(name: trimmed)
+        }
+
+        return nil
+    }
+
+    public func isAlone() -> Bool {
+        guard let parent = parent else { return false }
+
+        if parent.child.count == 1 {
+            return true
+        }
+
+        return false
+    }
+
+    public func getParent() -> Tag? {
+        return parent
+    }
+
+    public func hasOneChild() -> Bool {
+        return child.count < 2
+    }
+
+    public func removeAllChild() {
+        if child.count < 2 {
+            child.removeAll()
+        }
     }
 }
