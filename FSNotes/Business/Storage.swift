@@ -750,12 +750,6 @@ class Storage {
         return false
     }
 
-    public func getTagsV2() -> [String] {
-        let tags = self.tags + self.tagNames
-        
-        return tags.sorted { $0 < $1 }
-    }
-
     public func getAllTrash() -> [Note] {
         return
             noteList.filter {
