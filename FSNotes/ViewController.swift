@@ -1449,8 +1449,13 @@ class ViewController: NSViewController,
     public func isFit(note: Note, filter: String = "", terms: [Substring]? = nil, shouldLoadMain: Bool = false, projects: [Project]? = nil, tags: [String]? = nil, type: SidebarItemType? = nil, sidebarName: String? = nil) -> Bool {
         var filter = filter
         var terms = terms
+        var projects = projects
+        var tags = tags
 
         if shouldLoadMain {
+            projects = storageOutlineView.getSidebarProjects()
+            tags = storageOutlineView.getSidebarTags()
+            
             filter = search.stringValue
             terms = search.stringValue.split(separator: " ")
 
