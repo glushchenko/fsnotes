@@ -873,6 +873,8 @@ class SidebarProjectView: NSOutlineView,
             }
         }
         self.endUpdates()
+
+        checkTagsHeaderState()
     }
     
     public func removeTags(_ tags: [String]) {
@@ -887,6 +889,8 @@ class SidebarProjectView: NSOutlineView,
         for tag in removeTags {
             remove(tagName: tag)
         }
+
+        checkTagsHeaderState()
     }
 
     public func isAllowTagRemoving(_ name: String) -> Bool {
@@ -910,7 +914,8 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func unloadAllTags() {
-        if let firstIndex = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.name == "# Tags"}) {
+        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
+        if let firstIndex = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) {
             beginUpdates()
 
             let count = (sidebarItems?.count ?? 0) - 1
@@ -946,6 +951,44 @@ class SidebarProjectView: NSOutlineView,
     private func loadAllTags() {
         let tags = getAllTags()
 
+        if tags.count > 0 {
+            showTagsHeader()
+        } else {
+            hideTagsHeader()
+        }
+
         addTags(tags.sorted())
+    }
+
+    private func checkTagsHeaderState() {
+        let qty = sidebarItems?.filter({ ($0 as? Tag) != nil }).count ?? 0
+
+        if qty > 0 {
+            showTagsHeader()
+        } else {
+            hideTagsHeader()
+        }
+    }
+
+    private func showTagsHeader() {
+        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
+
+        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) as? SidebarItem {
+            let index = self.row(forItem: item)
+            if let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
+                cell.isHidden = false
+            }
+        }
+    }
+
+    public func hideTagsHeader() {
+        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
+
+        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) as? SidebarItem {
+            let index = self.row(forItem: item)
+            if let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
+                cell.isHidden = true
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@
 //  Copyright © 2019 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Foundation
+
 class Tag {
     private var name: String
     private var child = [Tag]()
@@ -97,7 +99,7 @@ class Tag {
             return "\(parentTag)/\(name)"
         }
 
-        if name == "# Tags" {
+        if name == "# \(NSLocalizedString("Tags", comment: "Sidebar label")))" {
             return String()
         }
 
