@@ -94,16 +94,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-
         try? FileManager.default.removeItem(at: webkitPreview)
 
         let encryption = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Encryption")
         try? FileManager.default.removeItem(at: encryption)
-
-        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent("ThumbnailsBig")
-
-        try? FileManager.default.removeItem(at: temporary)
     }
     
     private func applyAppearance() {
