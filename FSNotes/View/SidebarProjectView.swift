@@ -145,24 +145,24 @@ class SidebarProjectView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
-        guard let sidebarItem = item as? SidebarItem else { return false }
         guard let vc = ViewController.shared() else { return false }
-
         let board = info.draggingPasteboard
 
-        switch sidebarItem.type {
-        case .Tag:
-            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+        if !UserDefaultsManagement.inlineTags, let sidebarItem = item as? Tag, let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
 
-                for row in rows {
-                    let note = vc.notesTableView.noteList[row]
-                    note.addTag(sidebarItem.name)
-                    selectTag(item: sidebarItem)
-                }
-                
-                return true
+            for row in rows {
+                let note = vc.notesTableView.noteList[row]
+                note.addTag(sidebarItem.getName())
+                selectTag(item: sidebarItem)
             }
-            break
+
+            return true
+        }
+
+        guard let sidebarItem = item as? SidebarItem else { return false }
+
+
+        switch sidebarItem.type {
         case .Label, .Category, .Trash, .Archive, .Inbox:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
 
@@ -219,11 +219,17 @@ class SidebarProjectView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
-        guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
         let board = info.draggingPasteboard
 
+        if !UserDefaultsManagement.inlineTags, nil != item as? Tag {
+            if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
+                return .copy
+            }
+        }
+
+        guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
         switch sidebarItem.type {
-        case .Tag, .Trash:
+        case .Trash:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), !data.isEmpty {
                 return .copy
             }
@@ -763,14 +769,14 @@ class SidebarProjectView: NSOutlineView,
         }
     }
     
-    public func selectTag(item: SidebarItem) {
+    public func selectTag(item: Tag) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {
             cell.icon.image = NSImage(named: "tag_red.png")
         }
     }
     
-    public func deselectTag(item: SidebarItem) {
+    public func deselectTag(item: Tag) {
         let i = self.row(forItem: item)
         if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
             cell.icon.image = NSImage(named: "tag.png")
@@ -778,7 +784,7 @@ class SidebarProjectView: NSOutlineView,
     }
     
     public func deselectAllTags() {
-        guard let items = self.sidebarItems?.filter({($0 as? SidebarItem)?.type == .Tag}) else { return }
+        guard let items = self.sidebarItems?.filter({($0 as? Tag) != nil}) else { return }
         for item in items {
             let i = self.row(forItem: item)
             if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
@@ -793,8 +799,8 @@ class SidebarProjectView: NSOutlineView,
         }
     }
     
-    public func remove(sidebarItem: SidebarItem) {
-        if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == sidebarItem.name }) {
+    public func remove(tag: Tag) {
+        if let i = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
             self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
             sidebarItems?.remove(at: i)
         }

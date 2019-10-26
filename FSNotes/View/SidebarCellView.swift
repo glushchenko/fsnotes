@@ -35,31 +35,23 @@ class SidebarCellView: NSTableCellView {
     
     override func mouseEntered(with event: NSEvent) {
         guard let vc = ViewController.shared() else { return }
-        guard let sidebarItem = objectValue as? SidebarItem else { return }
-        
-        let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
-        
-        if sidebarItem.type == .Label && sidebarItem.name != "# \(tagsLabel)" {
-            plus.isHidden = false
-            
-            return
-        }
+        guard let tag = objectValue as? Tag else { return }
 
-        if sidebarItem.type == .Tag, let note = vc.notesTableView.getSelectedNote() {
-            if !note.tagNames.contains(sidebarItem.name) {
+        if let note = vc.notesTableView.getSelectedNote() {
+            if !note.tagNames.contains(tag.getName()) {
                 plus.isHidden = true
                 return
             }
 
-            if note.tagNames.contains(sidebarItem.name) {
-                plus.alternateTitle = sidebarItem.name
+            if note.tagNames.contains(tag.getName()) {
+                plus.alternateTitle = tag.getName()
                 plus.image = NSImage.init(named: NSImage.stopProgressTemplateName)
                 plus.image?.size = NSSize(width: 10, height: 10)
                 plus.isHidden = false
                 plus.target = self
                 plus.action = #selector(removeTag(sender:))
             } else {
-                plus.alternateTitle = sidebarItem.name
+                plus.alternateTitle = tag.getName()
                 plus.image = NSImage.init(named: NSImage.addTemplateName)
                 plus.image?.size = NSSize(width: 10, height: 10)
                 plus.isHidden = false
@@ -70,9 +62,7 @@ class SidebarCellView: NSTableCellView {
     }
     
     override func mouseExited(with event: NSEvent) {
-        guard let sidebarItem = objectValue as? SidebarItem else { return }
-        
-        if sidebarItem.type == .Label || sidebarItem.type == .Tag {
+        if objectValue as? Tag != nil {
             plus.isHidden = true
         }
     }
@@ -114,11 +104,11 @@ class SidebarCellView: NSTableCellView {
             let tag = button.alternateTitle
             note.removeTag(tag)
 
-            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == tag}) as? SidebarItem {
-                vc.storageOutlineView.deselectTag(item: sidebarItem)
+            if let tagItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? Tag)?.getName() == tag }) as? Tag {
+                vc.storageOutlineView.deselectTag(item: tagItem)
                 
                 if !vc.storage.tagNames.contains(tag) {
-                    vc.storageOutlineView.remove(sidebarItem: sidebarItem)
+                    vc.storageOutlineView.remove(tag: tagItem)
                 }
             }
         }
@@ -132,7 +122,7 @@ class SidebarCellView: NSTableCellView {
             let tag = button.alternateTitle
             note.addTag(tag)
 
-            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == tag}) as? SidebarItem {
+            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? Tag)?.getName() == tag}) as? Tag {
                 vc.storageOutlineView.selectTag(item: sidebarItem)
             }
         }
