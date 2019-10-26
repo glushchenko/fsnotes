@@ -146,6 +146,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
 
+            if !UserDefaultsManagement.inlineTags, let items = vc.storageOutlineView.sidebarItems {
+                for item in items {
+                    if let tag = item as? Tag {
+                        if note.tagNames.contains(tag.getName()) {
+                            vc.storageOutlineView.selectTag(item: tag)
+                        } else {
+                            vc.storageOutlineView.deselectTag(item: tag)
+                        }
+                    }
+                }
+            }
+
             self.loadingQueue.cancelAllOperations()
             let operation = BlockOperation()
             operation.addExecutionBlock { [weak self] in        
@@ -162,6 +174,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         } else {
             vc.editArea.clear()
+
+            if !UserDefaultsManagement.inlineTags {
+                vc.storageOutlineView.deselectAllTags()
+            }
         }
     }
     
