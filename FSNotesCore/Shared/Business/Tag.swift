@@ -19,7 +19,7 @@ class Tag {
 
         let tags = name.components(separatedBy: "/")
         if tags.count > 1, let parent = tags.first {
-            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_) in })
+            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_, _) in })
             self.name = parent
             return
         }
@@ -33,29 +33,28 @@ class Tag {
         return child.count > 0
     }
 
-    public func addChild(name: String, completion: (Tag) -> Void) {
+    public func addChild(name: String, completion: (_ tag: Tag, _ isExist: Bool) -> Void) {
         let tags = name.components(separatedBy: "/")
 
         if tags.count > 1, let parent = tags.first {
             if let tag = child.first(where: { $0.name == parent }) {
-                let newTag = tags.dropFirst().joined(separator: "/")
-
-                let tagObject = Tag(name: newTag, parent: tag)
-                tag.appendChild(tag: tagObject)
-                completion(tagObject)
+                completion(tag, true)
             } else {
                 let tagObject = Tag(name: name, parent: self)
                 appendChild(tag: tagObject)
-                completion(tagObject)
+                completion(tagObject, false)
             }
             return
         }
 
-        guard nil == child.first(where: { $0.name == name }) else { return }
+        if let first = child.first(where: { $0.name == name }) {
+            completion(first, true)
+            return
+        }
 
         let tag = Tag(name: name, parent: self)
         child.append(tag)
-        completion(tag)
+        completion(tag, false)
     }
 
     public func indexOf(child tag: Tag) -> Int? {

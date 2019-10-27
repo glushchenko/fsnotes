@@ -848,23 +848,28 @@ class SidebarProjectView: NSOutlineView,
     public func addTags(_ tags: [String]) {
         self.beginUpdates()
         for tag in tags {
-            let subtags = tag.components(separatedBy: "/")
 
-            if
-                let first = subtags.first,
-                let tag = sidebarItems?.first(where: { ($0 as? Tag)?.getName() == first }) as? Tag {
+            var subtags = tag.components(separatedBy: "/")
 
-                if subtags.count == 1 {
-                    continue
-                }
+            if let first = subtags.first,
+                var tag = sidebarItems?.first(where: { ($0 as? Tag)?.getName() == first }) as? Tag {
 
-                let sub = subtags.dropFirst().joined(separator: "/")
-                tag.addChild(name: sub, completion: { (tag) in
-                    if let parent = tag.getParent() {
-                        let count = parent.getChild().count
-                        self.insertItems(at: [count], inParent: tag.getParent(), withAnimation: .slideDown)
+                while subtags.count > 0 {
+                    subtags = Array(subtags.dropFirst())
+                    
+                    tag.addChild(name: subtags.joined(separator: "/"), completion: { (tagItem, isExist) in
+                        tag = tagItem
+
+                        if !isExist, let parent = tagItem.getParent() {
+                            let count = parent.getChild().count - 1
+                            self.insertItems(at: [count], inParent: tagItem.getParent(), withAnimation: .slideDown)
+                        }
+                    })
+
+                    if subtags.count == 1 {
+                        break
                     }
-                })
+                }
             } else {
                 let position = sidebarItems?.count ?? 0
                 let rootTag = Tag(name: tag)
@@ -922,8 +927,8 @@ class SidebarProjectView: NSOutlineView,
             for i in (firstIndex...count).reversed() {
                 if let item = sidebarItems?[i] as? Tag {
                     let index = row(forItem: item)
-                    sidebarItems?.remove(at: index)
                     removeItems(at: [index], inParent: nil, withAnimation: .slideDown)
+                    sidebarItems?.remove(at: i)
                 }
             }
 
