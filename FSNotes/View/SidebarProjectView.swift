@@ -834,8 +834,11 @@ class SidebarProjectView: NSOutlineView,
                         && parent.getChild().count == 0,
                         let i = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent.getName() })
                     {
-                        removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
-                        sidebarItems?.remove(at: i)
+                        if isAllowTagRemoving(parent.getName()) {
+                            removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+                            sidebarItems?.remove(at: i)
+                        }
+
                         break
                     }
 
@@ -899,14 +902,12 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func isAllowTagRemoving(_ name: String) -> Bool {
-        guard let vc = ViewController.shared() else { return false }
-
+        let tags = getAllTags()
         var allow = true
-        for note in vc.notesTableView.noteList {
-            for tag in note.tags {
-                if tag.starts(with: name + "/") {
-                    allow = false
-                }
+
+        for tag in tags {
+            if tag.starts(with: name + "/") || tag == name {
+                allow = false
             }
         }
 
@@ -919,19 +920,15 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func unloadAllTags() {
-        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
-        if let firstIndex = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) {
+        if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil }) as? [Tag] {
             beginUpdates()
 
-            let count = (sidebarItems?.count ?? 0) - 1
-            for i in (firstIndex...count).reversed() {
-                if let item = sidebarItems?[i] as? Tag {
-                    let index = row(forItem: item)
-                    removeItems(at: [index], inParent: nil, withAnimation: .slideDown)
-                    sidebarItems?.remove(at: i)
-                }
+            for tag in tags {
+                let i = row(forItem: tag)
+                self.removeItems(at: [i], inParent: nil, withAnimation: .slideDown)
             }
 
+            sidebarItems?.removeAll(where: { ($0 as? Tag) != nil })
             endUpdates()
         }
     }

@@ -930,7 +930,12 @@ public class Note: NSObject  {
         var tags = [String]()
         for tag in inlineTags {
             guard let tag = tag.last else { continue }
-            tags.append(tag)
+
+            if tag.last == "/" {
+                tags.append(String(tag.dropLast()))
+            } else {
+                tags.append(tag)
+            }
         }
 
         if tags.contains("notags") {

@@ -821,10 +821,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if UserDefaultsManagement.inlineTags {
             if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
 
+                var nextChar = " "
+                let nextCharLocation = affectedCharRange.location + 1
+                if selectedRange().length == 0, let textStorage = textStorage, nextCharLocation <= textStorage.length {
+                    let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
+                    nextChar = textStorage.mutableString.substring(with: nextCharRange)
+                }
+
                 if affectedCharRange.location - 1 >= 0 {
                     let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
 
-                    if (self.string as NSString).substring(with: hashRange) == "#" && replacementString != "#" {
+                    if (self.string as NSString).substring(with: hashRange) == "#" && replacementString != "#" && nextChar.isWhitespace {
                         DispatchQueue.main.async {
                             self.complete(nil)
                             return
@@ -833,14 +840,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
 
                 textStorage?.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
-
                     if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
                         return
                     }
 
                     let hashRange = NSRange(location: range.location - 1, length: 1)
 
-                    if (self.string as NSString).substring(with: hashRange) == "#" {
+                    if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
                         DispatchQueue.main.async {
                             self.complete(nil)
                         }

@@ -87,6 +87,16 @@ public extension String {
         }
         return hash.map { String(format: "%02x", $0) }.joined()
     }
+
+    var isWhitespace: Bool {
+        guard !isEmpty else { return true }
+
+        let whitespaceChars = NSCharacterSet.whitespacesAndNewlines
+
+        return self.unicodeScalars
+            .filter { (unicodeScalar: UnicodeScalar) -> Bool in !whitespaceChars.contains(unicodeScalar) }
+            .count == 0
+    }
 }
 
 extension StringProtocol where Index == String.Index {
