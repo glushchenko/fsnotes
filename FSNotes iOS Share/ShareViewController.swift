@@ -269,7 +269,7 @@ class ShareViewController: SLComposeServiceViewController {
                 if let metaSet = doc.head?.css("meta") {
                     for meta in metaSet {
                         if let property = meta["property"]?.lowercased {
-                            if property().hasPrefix("og:image"), let imagePath = meta["content"] as? String {
+                            if property().hasPrefix("og:image"), let imagePath = meta["content"] {
 
                                 if let imURL = URL(string: imagePath), let instaData = try? Data(contentsOf: imURL) {
                                     self.instagram = instaData

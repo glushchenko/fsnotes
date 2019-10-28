@@ -192,6 +192,8 @@
 		D73A996E22FEC789002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D73A996F22FEC78A002A7006 /* inbox_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29922DDDCF2003874D1 /* inbox_white.png */; };
 		D73A997022FEC78A002A7006 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
+		D73B120F23659C9900AAE610 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
+		D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */; };
 		D73CEC6B2278EC4200D549F7 /* AttributedBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74B7B642137D3A1007F5331 /* AttributedBox.swift */; };
 		D73CEC802278ECA500D549F7 /* checkbox_flipped_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D73CEC6E2278ECA500D549F7 /* checkbox_flipped_white.png */; };
 		D73CEC812278ECA500D549F7 /* checkbox_empty@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D73CEC6F2278ECA500D549F7 /* checkbox_empty@3x.png */; };
@@ -3421,11 +3423,13 @@
 				D7CD5CCF21820CAD0009D63B /* String+.swift in Sources */,
 				D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */,
 				D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */,
+				D73B120F23659C9900AAE610 /* NotesTextProcessor.swift in Sources */,
 				D7CD5CD321820D4E0009D63B /* UINote.swift in Sources */,
 				D7CD5CE221834E9D0009D63B /* Colors.swift in Sources */,
 				D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */,
 				D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
+				D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */,
 				D7CD5CDF218330100009D63B /* Note+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,
 				D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
@@ -4150,7 +4154,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 327;
+				CURRENT_PROJECT_VERSION = 329;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4185,7 +4189,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 327;
+				CURRENT_PROJECT_VERSION = 329;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4513,7 +4517,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 326;
+				CURRENT_PROJECT_VERSION = 328;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4547,7 +4551,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 326;
+				CURRENT_PROJECT_VERSION = 328;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;

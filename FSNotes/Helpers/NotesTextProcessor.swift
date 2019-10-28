@@ -540,7 +540,8 @@ public class NotesTextProcessor {
                 hideSyntaxIfNecessary(range: finalSyntaxRange)
             }
         }
-        
+
+        #if NOT_EXTENSION || os(OSX)
         // We detect and process inline anchors (links)
         NotesTextProcessor.anchorInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
@@ -598,6 +599,7 @@ public class NotesTextProcessor {
                 attributedString.addAttribute(.link, value: destinationLinkString, range: _range)
             }
         }
+        #endif
 
         NotesTextProcessor.imageRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }

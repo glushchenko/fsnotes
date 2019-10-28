@@ -824,7 +824,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 if affectedCharRange.location - 1 >= 0 {
                     let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
 
-                    if (self.string as NSString).substring(with: hashRange) == "#" {
+                    if (self.string as NSString).substring(with: hashRange) == "#" && replacementString != "#" {
                         DispatchQueue.main.async {
                             self.complete(nil)
                             return
@@ -1405,6 +1405,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
+            EditTextView.shouldForceRescan = true
+
             saveClipboard(data: jpgData, note: note)
             saveTextStorageContent(to: note)
             note.save()
@@ -1464,7 +1466,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                 if let attributedString = attachment.getAttributedString() {
                     let newLineImage = NSMutableAttributedString(attributedString: attributedString)
-                    newLineImage.append(NSAttributedString(string: "\n"))
 
                     self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())

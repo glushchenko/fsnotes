@@ -1037,7 +1037,6 @@ public class Note: NSObject  {
         var urls: [URL] = []
         var mdImages: [String] = []
 
-        #if NOT_EXTENSION || os(OSX)
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
         {(result, flags, stop) -> Void in
 
@@ -1060,12 +1059,7 @@ public class Note: NSObject  {
                         i += 1
                 }
             }
-
-            if mdImages.count == 20 {
-                stop.pointee = true
-            }
         })
-        #endif
 
         var cleanText = content.string
         for image in mdImages {
