@@ -135,8 +135,8 @@ class SidebarProjectView: NSOutlineView,
             return
         }
         
-        // Tab or right arrow to search
-        if event.keyCode == 48 || event.keyCode == 124 {
+        // Tab to search
+        if event.keyCode == 48 {
             self.viewDelegate?.search.becomeFirstResponder()
             return
         }

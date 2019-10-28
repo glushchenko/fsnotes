@@ -280,6 +280,17 @@ class ViewController: NSViewController,
 
     private func configureNotesList() {
         self.updateTable() {
+            if UserDefaultsManagement.copyWelcome {
+                if let index = self.storageOutlineView.sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.getName() == "Welcome" }) {
+                    DispatchQueue.main.async {
+                        self.storageOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                    }
+                }
+
+                UserDefaultsManagement.copyWelcome = false
+                return
+            }
+
             let lastSidebarItem = UserDefaultsManagement.lastProject
             if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
                 DispatchQueue.main.async {

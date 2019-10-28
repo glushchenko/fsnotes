@@ -209,6 +209,11 @@ public class Project: Equatable {
         }
 
         self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
+
+        if label == "Welcome" {
+            sortBy = .title
+            sortDirection = .asc
+        }
     }
 
     public func getRelativePath() -> String? {

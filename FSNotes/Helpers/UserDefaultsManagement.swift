@@ -105,6 +105,7 @@ public class UserDefaultsManagement {
         static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let TxtAsMarkdown = "txtAsMarkdown"
         static let AutocloseBrackets = "autocloseBrackets"
+        static let Welcome = "welcome"
     }
 
     static var codeFontName: String {
@@ -1185,6 +1186,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.InlineTags)
+        }
+    }
+
+    static var copyWelcome: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.Welcome) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.Welcome)
         }
     }
 }

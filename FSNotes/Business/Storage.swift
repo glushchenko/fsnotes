@@ -58,6 +58,7 @@ class Storage {
         bookmarks = bookmark.load()
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
+        initWelcome(storage: url)
 
         var name = url.lastPathComponent
         if let iCloudURL = getCloudDrive(), iCloudURL == url {
@@ -959,6 +960,26 @@ class Storage {
         }
 
         return destination
+    }
+
+    public func initWelcome(storage: URL) {
+        guard UserDefaultsManagement.copyWelcome else { return }
+
+        guard let bundlePath = Bundle.main.path(forResource: "Welcome", ofType: ".bundle") else { return }
+
+        let bundle = URL(fileURLWithPath: bundlePath)
+        let url = storage.appendingPathComponent("Welcome")
+
+        try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+
+        do {
+            let files = try FileManager.default.contentsOfDirectory(atPath: bundle.path)
+            for file in files {
+                try FileManager.default.copyItem(atPath: "\(bundle.path)/\(file)", toPath: "\(url.path)/\(file)")
+            }
+        } catch {
+            print("Initial copy error: \(error)")
+        }
     }
 }
 
