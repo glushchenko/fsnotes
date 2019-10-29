@@ -857,6 +857,10 @@ class SidebarProjectView: NSOutlineView,
             if let first = subtags.first,
                 var tag = sidebarItems?.first(where: { ($0 as? Tag)?.getName() == first }) as? Tag {
 
+                if subtags.count == 1 {
+                    continue
+                }
+                
                 while subtags.count > 0 {
                     subtags = Array(subtags.dropFirst())
                     

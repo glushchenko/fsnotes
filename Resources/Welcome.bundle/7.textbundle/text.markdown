@@ -2,7 +2,7 @@
 
 ### Mermaid  example
 
-Documentations: https://mermaidjs.github.io
+Documentation: https://mermaidjs.github.io
 
 ```mermaid
 sequenceDiagram
@@ -20,7 +20,7 @@ sequenceDiagram
 
 ### MathJax example
 
-Documentations: https://www.mathjax.org
+Documentation: https://www.mathjax.org
 
 When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
 $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
