@@ -1203,6 +1203,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
                             }
                         }
                     }
+
+                    if url != urls.last {
+                        self.insertNewline(nil)
+                    }
                 }
             }
         }
