@@ -938,7 +938,9 @@ class ViewController: NSViewController,
         vc.notesTableView.removeByNotes(notes: notes)
 
         vc.storage.removeNotes(notes: notes) { urls in
-            vc.storageOutlineView.reloadSidebar()
+            if !UserDefaultsManagement.inlineTags {
+                vc.storageOutlineView.reloadSidebar()
+            }
 
             if let appd = NSApplication.shared.delegate as? AppDelegate,
                 let md = appd.mainWindowController

@@ -161,7 +161,6 @@ class SidebarProjectView: NSOutlineView,
 
         guard let sidebarItem = item as? SidebarItem else { return false }
 
-
         switch sidebarItem.type {
         case .Label, .Category, .Trash, .Archive, .Inbox:
             if let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {

@@ -1064,6 +1064,12 @@ public class Note: NSObject  {
                         i += 1
                 }
             }
+
+            #if os(OSX)
+            if mdImages.count > 3 {
+                stop.pointee = true
+            }
+            #endif
         })
 
         var cleanText = content.string
