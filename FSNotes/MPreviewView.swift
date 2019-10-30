@@ -91,8 +91,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public func load(note: Note) {
-        cleanCache()
-
         let markdownString = note.getPrettifiedContent()
         let css = MarkdownView.getPreviewStyle()
 
@@ -101,10 +99,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             imagesStorage = note.getURL()
         }
 
-        if let urls = note.imageUrl, urls.isEmpty {
-            fastLoading(note: note, markdown: markdownString, css: css)
-        } else {
+        if note.imageUrl != nil {
+            cleanCache()
             try? loadHTMLView(markdownString, css: css, imagesStorage: imagesStorage)
+        } else {
+            fastLoading(note: note, markdown: markdownString, css: css)
         }
     }
 
