@@ -91,6 +91,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public func load(note: Note) {
+        cleanCache()
+
         let markdownString = note.getPrettifiedContent()
         let css = MarkdownView.getPreviewStyle()
 
@@ -103,6 +105,18 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             fastLoading(note: note, markdown: markdownString, css: css)
         } else {
             try? loadHTMLView(markdownString, css: css, imagesStorage: imagesStorage)
+        }
+    }
+
+    public func cleanCache() {
+        URLCache.shared.removeAllCachedResponses()
+
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
         }
     }
 

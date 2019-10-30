@@ -112,6 +112,7 @@ class SidebarProjectView: NSOutlineView,
             NSPasteboard.PasteboardType(rawValue: "public.data"),
             NSPasteboard.PasteboardType.init(rawValue: "notesTable")
         ])
+        super.draw(dirtyRect)
     }
     
     override func keyDown(with event: NSEvent) {
