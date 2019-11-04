@@ -1,6 +1,6 @@
 ##  2. Welcome to FSNotes 4.0
 
-### File System Notes (FSNotes) – is modern notes manager written on Swift from professionals and for professionals
+### File System Notes (FSNotes) – is modern note manager written in Swift by professionals and for professionals
 
 FSNotes respects open formats: **plain/text, markdown, rtf**, and stores data in the file system. You can view, edit, and copy data in your favourite external editor and see live results in FSNotes.
 
@@ -30,7 +30,7 @@ FSNotes respects open formats: **plain/text, markdown, rtf**, and stores data in
 - Themes for code highlighting.
 - Markdown images preview in the editor.
 - Images drag and drop or copy & paste.
-- Tags.
+- Tags, sub-tags and tag autocompletion.
 - Dark mode (macOS Mojave and higher).
 - Encryption AES-256.
 - Mermaid and MathJax support.
