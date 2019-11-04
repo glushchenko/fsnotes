@@ -1,6 +1,6 @@
 ## 3. Code highlighting
 
-FSNotes implements https://highlightjs.org, and supported at this momemnt 176 languages. This is perfect solution for programmers.
+FSNotes uses https://highlightjs.org, and currently supports code highlighting for 176 languages. This is perfect solution for programmers.
 
 ## Declaration examples
 
