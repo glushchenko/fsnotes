@@ -12,6 +12,7 @@ import AudioToolbox
 import DKImagePickerController
 import MobileCoreServices
 import Photos
+import DropDown
 
 class EditorViewController: UIViewController, UITextViewDelegate {
     public var note: Note?
@@ -29,7 +30,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editArea: EditTextView!
 
     var rowUpdaterTimer = Timer()
-    
+
+    public var tagsTimer: Timer?
+    private let dropDown = DropDown()
+
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         
@@ -314,9 +318,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
-        guard let note = self.note else {
-            return true
-        }
+        guard let note = self.note else { return true }
+
+        tagsHandler(affectedCharRange: range, text: text)
 
         if text == "" {
             let lastChar = textView.textStorage.attributedSubstring(from: range).string
@@ -356,6 +360,121 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         return true
+    }
+
+    private func tagsHandler(affectedCharRange: NSRange, text: String) {
+        guard UserDefaultsManagement.inlineTags else { return }
+
+        let textStorage = editArea.textStorage
+
+        if text.count == 1, !["", " ", "\t", "\n"].contains(text) {
+            let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0))
+
+            var nextChar = " "
+            let nextCharLocation = affectedCharRange.location + 1
+            if editArea.selectedRange.length == 0, nextCharLocation <= textStorage.length {
+                let nextCharRange = NSRange(location: affectedCharRange.location, length: 1)
+                nextChar = textStorage.mutableString.substring(with: nextCharRange)
+            }
+
+            if affectedCharRange.location - 1 >= 0 {
+                let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
+
+                if (textStorage.string as NSString).substring(with: hashRange) == "#" && text != "#" && nextChar.isWhitespace {
+
+                    let vc = UIApplication.getVC()
+                    let projects = vc.sidebarTableView.getSelectedProjects()
+                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
+
+                    self.complete(offset: hashRange.location, text: text)
+                }
+            }
+
+            textStorage.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
+                if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
+                    return
+                }
+
+                let hashRange = NSRange(location: range.location - 1, length: 1)
+
+                if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
+
+                    let vc = UIApplication.getVC()
+                    let projects = vc.sidebarTableView.getSelectedProjects()
+                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+
+                    if let word = word {
+                        self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
+                    }
+
+                    self.complete(offset: hashRange.location, range: range, text: text)
+                    stop.pointee = true
+                    return
+                }
+            })
+
+            if text == "#" {
+                let vc = UIApplication.getVC()
+                let projects = vc.sidebarTableView.getSelectedProjects()
+                let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                self.dropDown.dataSource = tags
+
+                self.complete(offset: self.editArea.selectedRange.location)
+            }
+        }
+
+        if ["", " ", "\t", "\n"].contains(text), !dropDown.isHidden {
+            dropDown.hide()
+        }
+    }
+
+    private func complete(offset: Int? = nil, range: NSRange? = nil, text: String? = nil) {
+        var endPosition: UITextPosition = editArea.endOfDocument
+        if let offset = offset, let position = editArea.position(from: editArea.beginningOfDocument, offset: offset) {
+            endPosition = position
+        }
+
+        let rect = editArea.caretRect(for: endPosition)
+
+        let customView = UIView(frame: CGRect(x: rect.origin.x, y: rect.origin.y + 30, width: 200, height: 0))
+        editArea.addSubview(customView)
+
+        dropDown.cellHeight = 40
+        dropDown.textFont = UIFont.boldSystemFont(ofSize: 15)
+        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        dropDown.textColor = NightNight.theme == .night ? UIColor.white : UIColor.gray
+        dropDown.anchorView = customView
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            customView.removeFromSuperview()
+
+            if let range = range, let text = text {
+                let string = self.editArea.textStorage.mutableString.substring(with: range) + text
+
+                let addText = item.replacingOccurrences(of: string, with: "")
+                self.editArea.insertText(addText + " ")
+            } else if text != nil {
+                let addText = String(item.dropFirst())
+
+                self.editArea.insertText(addText + " ")
+            } else {
+                self.editArea.insertText(item + " ")
+            }
+        }
+
+        dropDown.show()
+    }
+
+    @objc public func scanTags() {
+        guard UserDefaultsManagement.inlineTags else { return }
+
+        guard let note = EditTextView.note else { return }
+        let vc = UIApplication.getVC()
+
+        let result = note.scanContentTags()
+        if result.0.count > 0 || result.1.count > 0 {
+            vc.sidebarTableView.loadAllTags()
+        }
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
@@ -492,6 +611,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                 self.rowUpdaterTimer.invalidate()
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
+
+                self.tagsTimer?.invalidate()
+                self.tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
             }
         }
         self.storageQueue.addOperation(operation)
@@ -565,6 +687,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.scrollIndicatorInsets = contentInsets
     }
 
+    public func resetToolbar() {
+        toolbar = .none
+    }
+
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
         let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
         scroll.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x272829)
@@ -594,27 +720,49 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func getMarkdownToolbar() -> UIToolbar {
-        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
+        var items = [UIBarButtonItem]()
+
+        let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
+        items.append(todoButton)
+
+        if UserDefaultsManagement.inlineTags {
+            let tagImage = UIImage(named: "tag2")
+            let tagButton = UIBarButtonItem(image: tagImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.tagPressed))
+            items.append(tagButton)
+        }
+
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        items.append(boldButton)
 
         let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
         italicButton.tag = 0x03
+        items.append(italicButton)
 
-        let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
-        let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+        items.append(headerButton)
+
+        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
+        items.append(imageButton)
 
         let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 30)
         let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
-        let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
+        items.append(codeblockButton)
 
         let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 25)
         let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
+        items.append(quoteButton)
+
+        let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
+        items.append(indentButton)
+
+        let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
+        items.append(unindentButton)
 
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
-        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+        items.append(undoButton)
 
-        let items = [todoButton, boldButton, italicButton, headerButton, imageButton, codeblockButton, quoteButton, indentButton, unindentButton, undoButton, redoButton]
+        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
+        items.append(redoButton)
 
         var width = CGFloat(0)
         for item in items {
@@ -687,6 +835,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.bold()
         }
+    }
+
+    @objc func tagPressed(){
+        editArea.insertText("#")
+
+        let location = editArea.selectedRange.location
+
+        let vc = UIApplication.getVC()
+        let projects = vc.sidebarTableView.getSelectedProjects()
+        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+        self.dropDown.dataSource = tags
+
+        self.complete(offset: location)
     }
     
     @objc func italicPressed(){

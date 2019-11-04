@@ -916,9 +916,11 @@ public class Note: NSObject  {
             }
         #endif
 
+        #if os(OSX)
         if UserDefaultsManagement.inlineTags {
             _ = scanContentTags()
         }
+        #endif
     }
 
     public func scanContentTags() -> ([String], [String]) {

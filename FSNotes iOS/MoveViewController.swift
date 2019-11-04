@@ -145,10 +145,9 @@ class MoveViewController: UITableViewController {
             self.projects?.append(project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().add(project: project)
+            _ = Storage.sharedInstance().add(project: project)
 
-            self.notesTableView.viewDelegate?.sidebarTableView.sidebar = Sidebar()
-            self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
+            self.notesTableView.viewDelegate?.sidebarTableView.reloadProjectsSection()
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }

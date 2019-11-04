@@ -121,8 +121,7 @@ class NightModeViewController: UITableViewController {
                 return
             }
             
-            vc.sidebarTableView.sidebar = Sidebar()
-            vc.sidebarTableView.reloadData()
+            vc.sidebarTableView.reloadProjectsSection()
             vc.notesTable.reloadData()
         }
     }

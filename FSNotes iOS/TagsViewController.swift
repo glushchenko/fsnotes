@@ -58,6 +58,9 @@ class TagsViewController: UITableViewController {
                     }
                     cell.accessoryType = .none
                 }
+
+                self.notesTableView.viewDelegate?.sidebarTableView.sidebar = Sidebar()
+                self.notesTableView.viewDelegate?.sidebarTableView.reloadData()
             }
         }
     }

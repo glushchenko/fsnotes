@@ -14,13 +14,13 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
     var rows = [
         ["Default Extension", "Default Container", "Default Keyboard In Editor"],
-        ["Code block live highlighting", "Live images preview"],
+        ["Code block live highlighting", "Live images preview", "Use inline tags"],
         ["Font", "Night Mode"],
         ["Projects", "Import notes"],
         ["Support", "Homepage", "Twitter"]
     ]
 
-    var rowsInSection = [3, 2, 2, 2, 3]
+    var rowsInSection = [3, 3, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -84,6 +84,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 cell.accessoryType = UserDefaultsManagement.codeBlockHighlight ? .checkmark : .none
             case 1:
                 cell.accessoryType = UserDefaultsManagement.liveImagesPreview ? .checkmark : .none
+            case 2:
+                cell.accessoryType = UserDefaultsManagement.inlineTags ? .checkmark : .none
             default:
                 return cell
             }
@@ -139,6 +141,18 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 
                 if indexPath.row == 1 {
                     UserDefaultsManagement.liveImagesPreview = (cell.accessoryType == .checkmark)
+                } else if indexPath.row == 2 {
+                    UserDefaultsManagement.inlineTags = (cell.accessoryType == .checkmark)
+
+                    let vc = UIApplication.getVC()
+                    if UserDefaultsManagement.inlineTags {
+                        vc.sidebarTableView.loadAllTags()
+                    } else {
+                        vc.reloadSidebar()
+                    }
+
+                    UIApplication.getEVC().resetToolbar()
+
                 } else {
                     UserDefaultsManagement.codeBlockHighlight = (cell.accessoryType == .checkmark)
                 }

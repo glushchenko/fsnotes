@@ -10,4 +10,5 @@ enum Toolbar: Int {
     case markdown = 0x00
     case rich = 0x01
     case plain = 0x02
+    case none = 0x04
 }
