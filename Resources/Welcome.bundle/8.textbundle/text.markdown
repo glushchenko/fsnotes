@@ -1,6 +1,6 @@
 ## 8. Git powered history
 
-Save revisions with `cmd-s` shortcut :
+Save note revisions with `cmd-s`:
 
 ![](assets/3d1952d0-88bb-472f-9ba2-ca57fafec9c9.jpg)
 
