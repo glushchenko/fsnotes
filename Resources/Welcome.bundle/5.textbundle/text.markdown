@@ -1,12 +1,12 @@
 ## 5. Sidebar
 
-`control + cmd + shift + b` - for hide/show projects and tags sidebar.
+To toggle projects and tags sidebar press `control + cmd + shift + b`
 
 You can select and filter unlimited projects and tags.
 
-### Each subfolder is you project
+### Each subfolder is a project
 
-You can make unlimited folders inside your storage. Right click on root folder and click "New folder" `cmd + shift + n`.
+Make unlimited folders inside your storage. Right click on root folder and click "New folder" `cmd + shift + n`.
 
 Each project has its own settings, right click on the project - "Show view options" `cmd + shift + ,`.
 
