@@ -115,7 +115,6 @@ class ProjectSettingsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
-        let vc = UIApplication.getVC()
 
         if indexPath.section == 0x00 {
             switch indexPath.row {
@@ -180,8 +179,7 @@ class ProjectSettingsViewController: UITableViewController {
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let vc = pageController.mainViewController
             else { return }
 
-        vc.sidebarTableView.sidebar = Sidebar()
-        vc.sidebarTableView.reloadData()
+        vc.sidebarTableView.reloadProjectsSection()
         vc.notesTable.reloadData()
 
         self.dismiss(animated: true, completion: nil)

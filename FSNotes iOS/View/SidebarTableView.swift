@@ -28,6 +28,7 @@ class SidebarTableView: UITableView,
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
     var sidebar: Sidebar?
 
+    private var selectedProjects: [Project]?
     private var busyTrashReloading = false
 
     public var viewController: ViewController?
@@ -138,6 +139,10 @@ class SidebarTableView: UITableView,
             name += " ✦"
         }
 
+        if let project = sidebarItem.project {
+            selectedProjects = [project]
+        }
+
         view.currentFolder.text = name
 
         if sidebarItem.isTrash() {
@@ -161,7 +166,11 @@ class SidebarTableView: UITableView,
             return
         }
 
-        view.updateTable() {}
+        view.updateTable() {
+            if sidebarItem.type != .Tag {
+                self.loadAllTags()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -291,5 +300,115 @@ class SidebarTableView: UITableView,
             vc.notesTable.insertRow(note: note)
         }
     }
-    
+
+    public func getSidebarProjects() -> [Project]? {
+        guard let indexPaths = UIApplication.getVC().sidebarTableView?.indexPathsForSelectedRows else { return nil }
+
+        var projects = [Project]()
+        for indexPath in indexPaths {
+            if let item = sidebar?.items[indexPath.section][indexPath.row], let project = item.project {
+                projects.append(project)
+            }
+        }
+
+        if projects.count > 0 {
+            return projects
+        }
+
+        if let root = Storage.sharedInstance().getRootProject() {
+            return [root]
+        }
+
+        return nil
+    }
+
+    public func getAllTags(projects: [Project]? = nil) -> [String] {
+        var tags = [String]()
+
+        if let projects = projects {
+            for project in projects {
+                let projectTags = project.getAllTags()
+                for tag in projectTags {
+                    if !tags.contains(tag) {
+                        tags.append(tag)
+                    }
+                }
+            }
+        }
+
+        return tags
+    }
+
+    public func loadAllTags() {
+        guard UserDefaultsManagement.inlineTags else { return }
+        
+        unloadAllTags()
+
+        let projects = getSelectedProjects()
+        let tags = getAllTags(projects: projects)
+
+        DispatchQueue.main.async {
+            self.beginUpdates()
+            for tag in tags {
+                let position = self.sidebar?.items[2].count ?? 0
+                self.sidebar?.items[2].append(SidebarItem(name: tag, type: .Tag))
+                self.insertRows(at: [IndexPath(item: position, section: 2)], with: .fade)
+            }
+            
+            self.endUpdates()
+        }
+    }
+
+    public func unloadAllTags() {
+        let rows = numberOfRows(inSection: 2)
+
+        if rows > 0 {
+            self.sidebar?.items[2].removeAll()
+
+            self.beginUpdates()
+            for index in stride(from: rows - 1, to: -1, by: -1) {
+                self.deleteRows(at: [IndexPath(item: index, section: 2)], with: .automatic)
+            }
+            self.endUpdates()
+        }
+    }
+
+    public func reloadProjectsSection() {
+        sidebar?.items[1].removeAll()
+
+        let projects = Storage.sharedInstance().getProjects()
+        for project in projects {
+            if project.isDefault || project.isTrash {
+                continue
+            }
+
+            let sidebarItem = SidebarItem(name: project.label, project: project, type: .Category, icon: nil, tag: nil)
+
+            sidebar?.items[1].append(sidebarItem)
+        }
+
+        reloadSections(IndexSet(integer: 1), with: .automatic)
+    }
+
+    public func addTags(_ tags: [String]) {
+        beginUpdates()
+        for tag in tags {
+            if let si = sidebar?.items[2], si.first(where: { $0.name == tag }) == nil {
+                let sidebarItem = SidebarItem(name: tag, type: .Tag)
+                sidebar?.items[2].append(sidebarItem)
+
+                let position = self.sidebar?.items[2].count ?? 0
+                insertRows(at: [IndexPath(item: position, section: 2)], with: .fade)
+            }
+        }
+        endUpdates()
+    }
+
+    public func removeTags(_ tags: [String]) {
+
+    }
+
+    public func getSelectedProjects() -> [Project] {
+        return selectedProjects ?? [Storage.sharedInstance().getDefault()!]
+    }
 }

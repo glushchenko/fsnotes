@@ -1,22 +1,27 @@
 //
-//  Sidebar.swift
-//  FSNotes
+//  Sideabr.swift
+//  FSNotes iOS
 //
-//  Created by Oleksandr Glushchenko on 4/7/18.
-//  Copyright © 2018 Oleksandr Glushchenko. All rights reserved.
+//  Created by Олександр Глущенко on 02.11.2019.
+//  Copyright © 2019 Oleksandr Glushchenko. All rights reserved.
 //
 
-import Cocoa
-typealias Image = NSImage
+import UIKit
+import NightNight
+typealias Image = UIImage
 
 class Sidebar {
     var list = [Any]()
     let storage = Storage.sharedInstance()
     public var items = [[SidebarItem]]()
-    
+
     init() {
         var night = ""
         var inboxName = "sidebarInbox"
+
+        night = "_white"
+        inboxName = "inbox\(night).png"
+
         var system = [SidebarItem]()
 
         if let project = Storage.sharedInstance().getDefault() {
@@ -37,58 +42,67 @@ class Sidebar {
 
         let trashProject = Storage.sharedInstance().getDefaultTrash()
         let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash, icon: getImage(named: "trash\(night)"))
-        
+
         system.append(trash)
-        list = system
+        items.append(system)
 
         let rootProjects = storage.getRootProjects()
 
         for project in rootProjects {
             let icon = getImage(named: "repository\(night).png")
-            let type: SidebarItemType = .Label
-            
+            let type: SidebarItemType = .Category
+
             list.append(SidebarItem(name: project.label, project: project, type: type, icon: icon))
-            
+
             let childProjects = storage.getChildProjects(project: project)
             for childProject in childProjects {
                 if childProject.url == UserDefaultsManagement.archiveDirectory {
                     continue
                 }
-                
+
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category, icon: icon))
             }
         }
 
-        let icon = getImage(named: "tag\(night).png")
-        let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
+        let projects = getProjects()
+        if projects.count > 0 {
+            items.append(projects)
+        }
 
-        list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
-
-        if !UserDefaultsManagement.inlineTags {
+        if UserDefaultsManagement.inlineTags {
+            items.append([])
+        } else {
             let tags = storage.getTags()
-
             if tags.count > 0 {
+                var tagsSidebarItems = [SidebarItem]()
                 for tag in tags {
-                    list.append(Tag(name: tag))
+                    tagsSidebarItems.append(SidebarItem(name: tag, type: .Tag, icon: nil))
+                }
+                
+                if tagsSidebarItems.count > 0 {
+                    items.append(tagsSidebarItems)
                 }
             }
         }
+
+        let icon = getImage(named: "settings\(night).png")
+        items.append([SidebarItem(name: "Settings", type: .Label, icon: icon)])
     }
-    
+
     public func getList() -> [Any] {
         return list
     }
-    
+
     public func getTags() -> [Tag] {
         return list.filter({ ($0 as? Tag) != nil }) as! [Tag]
     }
-    
+
     public func getProjects() -> [SidebarItem] {
         return list.filter({ ($0 as? SidebarItem)?.type == .Category && ($0 as? SidebarItem)?.type != .Archive && ($0 as? SidebarItem)?.project != nil && ($0 as? SidebarItem)!.project!.showInSidebar }) as! [SidebarItem]
     }
-        
+
     private func getImage(named: String) -> Image? {
-        if let image = NSImage(named: named) {
+        if let image = UIImage(named: named) {
             return image
         }
         

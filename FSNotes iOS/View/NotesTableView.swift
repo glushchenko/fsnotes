@@ -212,15 +212,17 @@ class NotesTableView: UITableView,
         })
         actionSheet.addAction(move)
 
-        let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
-            if self.isEditing {
-                self.allowsMultipleSelectionDuringEditing = false
-                self.setEditing(false, animated: true)
-            }
-            
-            self.tagsAction(notes: notes, presentController: presentController)
-        })
-        actionSheet.addAction(tags)
+        if !UserDefaultsManagement.inlineTags {
+            let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
+                if self.isEditing {
+                    self.allowsMultipleSelectionDuringEditing = false
+                    self.setEditing(false, animated: true)
+                }
+                
+                self.tagsAction(notes: notes, presentController: presentController)
+            })
+            actionSheet.addAction(tags)
+        }
 
         if showAll {
             let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in

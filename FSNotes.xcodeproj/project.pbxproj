@@ -54,6 +54,9 @@
 		D70BA87820599D1300875E9C /* header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87520599D1300875E9C /* header@3x.png */; };
 		D70BA87920599D1300875E9C /* header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70BA87620599D1300875E9C /* header@2x.png */; };
 		D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
+		D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6623705C6200E64D62 /* tag2@2x.png */; };
+		D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6723705C6200E64D62 /* tag2@3x.png */; };
+		D70E8D6B23705C6200E64D62 /* tag2.png in Resources */ = {isa = PBXBuildFile; fileRef = D70E8D6823705C6200E64D62 /* tag2.png */; };
 		D70FE12D20FE198200813F9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12B20FE198200813F9E /* Localizable.strings */; };
 		D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE12E20FE198200813F9E /* InfoPlist.strings */; };
 		D70FE13320FE198200813F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D70FE13120FE198200813F9E /* InfoPlist.strings */; };
@@ -497,7 +500,6 @@
 		D7B6E59A207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59B207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
-		D7B6E59E20794B9200FE0E20 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F92078B3C00055F159 /* Sidebar.swift */; };
 		D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		D7BBCA79208C74A0002CE3C3 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
 		D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BBCA78208C749F002CE3C3 /* repository.png */; };
@@ -837,6 +839,7 @@
 		D7FAE29C22DDDCF3003874D1 /* inbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D7FAE29A22DDDCF2003874D1 /* inbox.png */; };
 		D7FBBC2520F151F80014EC5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7FBBC2820F151F80014EC5B /* Localizable.strings */; };
 		D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7FBBC2820F151F80014EC5B /* Localizable.strings */; };
+		D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */; };
 		D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		E876E42EFE068A053134C163 /* Pods_FSNotes__iCloud_Documents_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20075972AA2A53C964752E5C /* Pods_FSNotes__iCloud_Documents_.framework */; };
 		FBC3804B3A152C35E4ADC257 /* Pods_FSNotes__Notarized_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CD37DA957EBBE76F7C571B5 /* Pods_FSNotes__Notarized_.framework */; };
@@ -1050,6 +1053,9 @@
 		D70BA87420599D1200875E9C /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		D70BA87520599D1300875E9C /* header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@3x.png"; sourceTree = "<group>"; };
 		D70BA87620599D1300875E9C /* header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "header@2x.png"; sourceTree = "<group>"; };
+		D70E8D6623705C6200E64D62 /* tag2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag2@2x.png"; sourceTree = "<group>"; };
+		D70E8D6723705C6200E64D62 /* tag2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag2@3x.png"; sourceTree = "<group>"; };
+		D70E8D6823705C6200E64D62 /* tag2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag2.png; sourceTree = "<group>"; };
 		D70FE12C20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D70FE12F20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D70FE13220FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1395,6 +1401,7 @@
 		D7FAE29A22DDDCF2003874D1 /* inbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox.png; sourceTree = "<group>"; };
 		D7FBBC2120F151530014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		D7FBBC2720F151F80014EC5B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
 		DF5620D3409EC7EDEC355F64 /* Pods-FSNotesCore iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.release.xcconfig"; sourceTree = "<group>"; };
 		F804D5F42A7628FA442DA33B /* Pods-FSNotesCore iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotesCore iOS.debug.xcconfig"; path = "Target Support Files/Pods-FSNotesCore iOS/Pods-FSNotesCore iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1781,6 +1788,9 @@
 		D76025B5204F071B000B9F59 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
+				D70E8D6823705C6200E64D62 /* tag2.png */,
+				D70E8D6623705C6200E64D62 /* tag2@2x.png */,
+				D70E8D6723705C6200E64D62 /* tag2@3x.png */,
 				D75DF63F21319993003C3059 /* todo.png */,
 				D75DF63E21319993003C3059 /* todo@2x.png */,
 				D75DF64021319993003C3059 /* todo@3x.png */,
@@ -1824,6 +1834,7 @@
 		D7679387201F21F5000F7BBF /* FSNotes iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7FDA4F8236DBCF500C3B4AA /* Business */,
 				D7ED3FFC20CD0ADE001438EE /* Extensions */,
 				D7F6CFEE2056ABDB008C584A /* Settings */,
 				D7ED3FFB20CD0AA3001438EE /* View */,
@@ -2153,6 +2164,14 @@
 				D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		D7FDA4F8236DBCF500C3B4AA /* Business */ = {
+			isa = PBXGroup;
+			children = (
+				D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */,
+			);
+			path = Business;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2655,6 +2674,7 @@
 				D7D95044209D8B40001FB60B /* repository.png in Resources */,
 				D7D95045209D8B40001FB60B /* tag.png in Resources */,
 				D71AA01F21439A8C004AFD2A /* todo_sidebar_white.png in Resources */,
+				D70E8D6A23705C6200E64D62 /* tag2@3x.png in Resources */,
 				D73CEC8A2278ECA500D549F7 /* checkbox_white@3x.png in Resources */,
 				D75F1DF1206D660D00F70B28 /* DownView.bundle in Resources */,
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
@@ -2670,6 +2690,7 @@
 				D75DF64321319994003C3059 /* todo@3x.png in Resources */,
 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
+				D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */,
 				D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
 				D7FAE29C22DDDCF3003874D1 /* inbox.png in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
@@ -2733,6 +2754,7 @@
 				D70255FF2333CFA0003857AF /* quote.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
+				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
 				D73CEC842278ECA500D549F7 /* checkbox_flipped@2x.png in Resources */,
 				D73CEC902278ECA500D549F7 /* checkbox_flipped_white@2x.png in Resources */,
@@ -3194,6 +3216,7 @@
 				"${BUILT_PRODUCTS_DIR}/DKCamera/DKCamera.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
@@ -3209,6 +3232,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKCamera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
@@ -3484,6 +3508,7 @@
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
+				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
@@ -3509,7 +3534,6 @@
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
 				D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
-				D7B6E59E20794B9200FE0E20 /* Sidebar.swift in Sources */,
 				D7DB5EDA2025BD7900E7E1B6 /* PageViewController.swift in Sources */,
 				D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */,
 				D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */,
@@ -4162,7 +4186,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 334;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4175,7 +4199,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "Developer Production";
@@ -4197,7 +4221,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 333;
+				CURRENT_PROJECT_VERSION = 334;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4211,7 +4235,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4525,7 +4549,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 331;
+				CURRENT_PROJECT_VERSION = 334;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4537,7 +4561,7 @@
 				INFOPLIST_FILE = FSNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.0.3;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4559,7 +4583,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 331;
+				CURRENT_PROJECT_VERSION = 334;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4572,7 +4596,7 @@
 				INFOPLIST_FILE = FSNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 4.0.2;
+				MARKETING_VERSION = 4.0.3;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;

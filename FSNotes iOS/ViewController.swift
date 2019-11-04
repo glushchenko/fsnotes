@@ -140,18 +140,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             // Load all and skip root
 
-            if let project = storage.getRootProject() {
+            guard let project = storage.getRootProject() else { return }
 
-                // Add archive
-                let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
-                if let archive = UserDefaultsManagement.archiveDirectory {
-                    let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-                    _ = storage.add(project: project)
-                }
-
-                // And another all
+            // Add archive
+            let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
+            if let archive = UserDefaultsManagement.archiveDirectory {
+                let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
                 _ = storage.add(project: project)
             }
+
+            // And another all
+            _ = storage.add(project: project)
 
             storage.loadProjects(withTrash: false, skipRoot: true)
 
@@ -162,7 +161,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             storage.loadDocuments() {
                 DispatchQueue.main.async {
-                    self.reloadSidebar()
+                    for note in storage.noteList {
+                        _ = note.scanContentTags()
+                    }
+
+                    if UserDefaultsManagement.inlineTags {
+                        self.sidebarTableView.reloadProjectsSection()
+                        self.sidebarTableView.loadAllTags()
+                    } else {
+                        self.reloadSidebar()
+                    }
                 }
             }
 
@@ -215,7 +223,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func reloadSidebar(select project: Project? = nil) {
         DispatchQueue.main.async {
-            self.sidebarTableView.sidebar = Sidebar()
+            if !UserDefaultsManagement.inlineTags {
+                self.sidebarTableView.sidebar = Sidebar()
+            }
+
             self.maxSidebarWidth = self.calculateLabelMaxWidth()
             self.sidebarTableView.reloadData()
 
@@ -492,7 +503,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         if type == .Trash && note.isTrash()
             || type == .All && note.project.showInCommon
-            || type == .Tag && note.tagNames.contains(sidebarName)
+            || !UserDefaultsManagement.inlineTags && type == .Tag && note.tagNames.contains(sidebarName)
+            || UserDefaultsManagement.inlineTags && type == .Tag && note.tags.contains(sidebarName)
             || [.Category, .Label].contains(type) && project != nil && note.project == project
             || project != nil && project!.isRoot && note.project.parent == project && type != .Inbox
             || type == .Archive && note.project.isArchive
@@ -704,7 +716,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         vc.search.keyboardAppearance = .dark
 
-        vc.sidebarTableView.sidebar = Sidebar()
         vc.sidebarTableView.reloadData()
 
         vc.sidebarTableView.backgroundColor = UIColor(red:0.19, green:0.21, blue:0.21, alpha:1.0)
@@ -741,7 +752,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         vc.search.keyboardAppearance = .default
 
-        vc.sidebarTableView.sidebar = Sidebar()
         vc.sidebarTableView.reloadData()
         vc.notesTable.reloadData()
 
