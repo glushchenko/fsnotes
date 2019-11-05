@@ -356,6 +356,8 @@ class SidebarTableView: UITableView,
             }
             
             self.endUpdates()
+
+            UIApplication.getVC().resizeSidebar()
         }
     }
 
@@ -378,7 +380,7 @@ class SidebarTableView: UITableView,
 
         let projects = Storage.sharedInstance().getProjects()
         for project in projects {
-            if project.isDefault || project.isTrash {
+            if project.isDefault || project.isTrash || project.isArchive {
                 continue
             }
 

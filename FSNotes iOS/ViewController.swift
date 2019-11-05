@@ -139,15 +139,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }
 
             // Load all and skip root
-
             guard let project = storage.getRootProject() else { return }
-
-            // Add archive
-            let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
-            if let archive = UserDefaultsManagement.archiveDirectory {
-                let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-                _ = storage.add(project: project)
-            }
 
             // And another all
             _ = storage.add(project: project)
@@ -861,7 +853,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             while let cell = sidebarTableView.cellForRow(at: IndexPath(row: j, section: i)) as? SidebarTableCellView {
 
                 if let font = cell.label.font, let text = cell.label.text {
-                    let labelWidth = (text as NSString).size(withAttributes: [.font: font]).width
+                    let labelWidth = ("#     " + text as NSString).size(withAttributes: [.font: font]).width
 
                     if labelWidth > width {
                         width = labelWidth
@@ -870,10 +862,23 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
                 j += 1
             }
-
         }
 
-        return width + 40
+        let font = UIFont.boldSystemFont(ofSize: 15.0)
+        let projects = sidebarTableView.getSelectedProjects()
+        let tags = sidebarTableView.getAllTags(projects: projects)
+        for tag in tags {
+            let labelWidth = ("#      " + tag as NSString).size(withAttributes: [.font: font]).width
+            if labelWidth < view.frame.size.width / 2 {
+                if labelWidth > width {
+                    width = labelWidth
+                }
+            } else {
+                width = view.frame.size.width / 2
+            }
+        }
+
+        return width
     }
 
     public func unLock(notes: [Note], completion: @escaping ([Note]?) -> ()) {
@@ -1051,6 +1056,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 disableNightMode()
             }
         }
+    }
+
+    public func resizeSidebar() {
+        let width = calculateLabelMaxWidth()
+        UserDefaultsManagement.sidebarSize = width
+        maxSidebarWidth = width
+        noteTableViewLeadingConstraint.constant = width
+        sidebarWidthConstraint.constant = width
     }
 }
 

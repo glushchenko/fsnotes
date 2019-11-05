@@ -74,6 +74,8 @@ class ShareViewController: SLComposeServiceViewController {
                     for attachRow in attach {
                         if attachRow.hasItemConformingToTypeIdentifier(kUTTypeImage as String) || attachRow.hasItemConformingToTypeIdentifier(kUTTypeJPEG as String){
                             imagesFound = true
+
+                            textView.text = ""
                             return super.loadPreviewView()
                         }
 
@@ -167,6 +169,8 @@ class ShareViewController: SLComposeServiceViewController {
             let input = context.inputItems as? [NSExtensionItem] else { return }
 
         let note = note ?? Note(project: self.currentProject)
+        Storage.sharedInstance().add(note)
+
         var started = 0
         var finished = 0
 

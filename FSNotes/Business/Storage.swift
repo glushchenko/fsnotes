@@ -58,7 +58,10 @@ class Storage {
         bookmarks = bookmark.load()
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
-        initWelcome(storage: url)
+
+        #if os(OSX)
+            initWelcome(storage: url)
+        #endif
 
         var name = url.lastPathComponent
         if let iCloudURL = getCloudDrive(), iCloudURL == url {
@@ -80,11 +83,17 @@ class Storage {
                 checkTrashForVolume(url: project.url)
             #endif
 
+            if let archive = UserDefaultsManagement.archiveDirectory {
+                let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
+                let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
+                _ = add(project: project)
+            }
+
             return
         #endif
 
         _ = add(project: project)
-        
+
         checkTrashForVolume(url: project.url)
 
         for url in bookmarks {
@@ -95,12 +104,12 @@ class Storage {
             guard !projectExist(url: url) else {
                 continue
             }
-            
+
             if url == UserDefaultsManagement.archiveDirectory
                 || url == UserDefaultsManagement.gitStorage {
                 continue
             }
-            
+
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
             _ = add(project: project)
         }

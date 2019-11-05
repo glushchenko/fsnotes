@@ -60,6 +60,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
+        if let note = note {
+            fill(note: note)
+        }
+
         guard let pageController = self.parent as? PageViewController else {
             return
         }
@@ -178,7 +182,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
         setTitle(text: note.getShortTitle())
-        _ = view
 
         guard editArea != nil else { return }
 
@@ -211,9 +214,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if UserDefaultsManagement.liveImagesPreview {
                     let processor = ImagesProcessor(styleApplier: content, range: NSRange(0..<content.length), note: note)
                     processor.load()
-
-                    editArea.attributedText = content
                 }
+
+                editArea.attributedText = content
             }
         } else {
             editArea.attributedText = note.content
@@ -289,6 +292,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     func refill() {
+        guard let editArea = editArea else { return }
+
         initLinksColor()
         
         if let note = self.note {
