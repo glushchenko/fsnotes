@@ -27,6 +27,23 @@ class EditTextView: UITextView, UITextViewDelegate {
 
     public static var imagesLoaderQueue = OperationQueue.init()
 
+    required init?(coder: NSCoder) {
+        if #available(iOS 13.2, *) {
+            super.init(coder: coder)
+        }
+        else {
+            super.init(frame: .zero, textContainer: nil)
+            self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            self.contentMode = .scaleToFill
+
+            self.isScrollEnabled = false   // causes expanding height
+
+            // Auto Layout
+            self.translatesAutoresizingMaskIntoConstraints = false
+            self.font = UIFont(name: "HelveticaNeue", size: 18)
+        }
+    }
+    
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)

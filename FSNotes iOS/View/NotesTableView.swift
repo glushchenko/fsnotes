@@ -117,7 +117,6 @@ class NotesTableView: UITableView,
 
                         evc.fill(note: note)
                         pageController.switchToEditor()
-
                     }
                 })
                 return
