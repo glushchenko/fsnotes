@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class CloudDriveManager {
 
@@ -53,10 +54,6 @@ class CloudDriveManager {
         if let results = query?.results as? [NSMetadataItem] {
             self.saveCloudDriveResultsCache(results: results)
         }
-
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: self.metadataQuery)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(self.handleMetadataQueryUpdates), name: NSNotification.Name.NSMetadataQueryDidUpdate, object: self.metadataQuery)
 
         self.metadataQuery.enableUpdates()
     }
@@ -157,7 +154,7 @@ class CloudDriveManager {
                 
                 if changedMetadataItems.count == 1 {
                     let coreNote = CoreNote(fileURL: note.url)
-                    coreNote.open()
+                    //coreNote.open()
                 }
 
                 note.forceReload()

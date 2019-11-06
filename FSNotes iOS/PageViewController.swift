@@ -63,7 +63,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     }()
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
         }
 

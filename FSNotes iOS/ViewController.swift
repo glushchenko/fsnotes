@@ -32,6 +32,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public var cloudDriveManager: CloudDriveManager?
 
     private let searchQueue = OperationQueue()
+    private let metadataQueue = OperationQueue()
     private var delayedInsert: Note?
 
     private var filteredNoteList: [Note]?
@@ -39,6 +40,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public var is3DTouchShortcut = false
     private var isActiveTableUpdating = false
+
+    private var queryDidFinishGatheringObserver : Any?
+    private var isBackground: Bool = false
 
     override func viewWillAppear(_ animated: Bool) {
         for url in UserDefaultsManagement.importURLs {
@@ -49,6 +53,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+
+        self.metadataQueue.qualityOfService = .userInteractive
 
         if UserDefaultsManagement.nightModeType == .system {
             if #available(iOS 12.0, *) {
@@ -169,12 +175,23 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             // Start CloudDrive manager
 
             self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
-            if let cdm = self.cloudDriveManager {
-                NotificationCenter.default.addObserver(cdm, selector: #selector(cdm.queryDidFinishGathering), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery)
 
-                DispatchQueue.main.async {
-                    self.cloudDriveManager?.metadataQuery.start()
+            if let cdm = self.cloudDriveManager {
+                self.queryDidFinishGatheringObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
+
+                    cdm.queryDidFinishGathering(notification: (notification as NSNotification))
+
+                    NotificationCenter.default.removeObserver(self.queryDidFinishGatheringObserver as Any, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
+
+                    NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidUpdate, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
+
+                        UIApplication.shared.runInBackground({
+                            cdm.handleMetadataQueryUpdates(notification: notification as NSNotification)
+                        })
+                    }
                 }
+
+                self.cloudDriveManager?.metadataQuery.start()
             }
         }
 
@@ -999,34 +1016,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 alertController.textFields![0].selectAll(nil)
             }
         }
-        /*
-
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        alert.messageText = NSLocalizedString("Master password:", comment: "")
-        alert.informativeText = NSLocalizedString("Please enter password for current note", comment: "")
-        alert.accessoryView = field
-        alert.alertStyle = .informational
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let data = Data(field.stringValue.utf8)
-                let hexString = data.map{ String(format:"%02x", $0) }.joined()
-
-                if saveKeychain {
-                    let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-
-                    do {
-                        try item.savePassword(hexString)
-                    } catch {}
-                }
-
-                completion(hexString)
-            }
-        }
-
-        field.becomeFirstResponder()
- */
     }
 
     public func updateTableOrEditor(url: URL, content: String) {
@@ -1062,13 +1051,32 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let width = calculateLabelMaxWidth()
         UserDefaultsManagement.sidebarSize = width
         maxSidebarWidth = width
-        noteTableViewLeadingConstraint.constant = width
-        sidebarWidthConstraint.constant = width
+
+        if sidebarWidthConstraint.constant != 0 {
+            noteTableViewLeadingConstraint.constant = width
+            sidebarWidthConstraint.constant = width
+        }
     }
 }
 
 extension ViewController : UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
+    }
+}
+
+extension UIApplication {
+    public func runInBackground(_ closure: @escaping () -> Void, expirationHandler: (() -> Void)? = nil) {
+        let taskID: UIBackgroundTaskIdentifier
+        if let expirationHandler = expirationHandler {
+            taskID = self.beginBackgroundTask(expirationHandler: expirationHandler)
+        } else {
+            taskID = self.beginBackgroundTask(expirationHandler: { })
+        }
+
+        DispatchQueue.global(qos: .background).sync {
+            closure()
+        }
+        self.endBackgroundTask(taskID)
     }
 }
