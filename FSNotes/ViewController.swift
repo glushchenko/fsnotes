@@ -38,6 +38,8 @@ class ViewController: NSViewController,
     public var snapshotsTimer = Timer()
     public var lastSnapshot: Int = 0
 
+    private var updateViews = [Note]()
+
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
     }
@@ -1247,8 +1249,12 @@ class ViewController: NSViewController,
 
             note.save(attributed: editArea.attributedString())
 
+            if !updateViews.contains(note) {
+                updateViews.append(note)
+            }
+
             rowUpdaterTimer.invalidate()
-            rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateCurrentRow), userInfo: nil, repeats: false)
+            rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateTableViews), userInfo: nil, repeats: false)
         }
     }
 
@@ -1289,22 +1295,16 @@ class ViewController: NSViewController,
         UserDataService.instance.fsUpdatesDisabled = false
     }
 
-    @objc private func updateCurrentRow() {
-        let index = notesTableView.selectedRow
-
-        if (
-            notesTableView.noteList.indices.contains(index)
-                && index > -1
-                && !UserDefaultsManagement.preview
-                && self.editArea.isEditable
-        ) {
-
+    @objc private func updateTableViews() {
+        for note in updateViews {
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
-                moveNoteToTop(note: index)
-            } else {
-                let note = notesTableView.noteList[index]
-                notesTableView.reloadRow(note: note)
+                if let index = notesTableView.noteList.firstIndex(of: note) {
+                    moveNoteToTop(note: index)
+
+                }
             }
+
+            notesTableView.reloadRow(note: note)
         }
     }
     

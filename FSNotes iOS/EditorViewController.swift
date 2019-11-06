@@ -615,7 +615,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 note.save(attributed: self.editArea.attributedText)
 
                 self.rowUpdaterTimer.invalidate()
-                self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
+                self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateTableViews), userInfo: nil, repeats: false)
 
                 self.tagsTimer?.invalidate()
                 self.tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
