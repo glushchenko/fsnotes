@@ -654,6 +654,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             self.notesTable.insertRow(note: note)
         }
+
+        if is3DTouchShortcut {
+            is3DTouchShortcut = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                if evc.editArea != nil {
+                    evc.editArea.becomeFirstResponder()
+                }
+            }
+        }
     }
 
     public func savePasteboard(note: Note) {
@@ -905,7 +914,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if note.unLock(password: password) {
                     success?.append(note)
                 }
-                self.notesTable.reloadRow(note: note)
+
+                DispatchQueue.main.async {
+                    note.invalidateCache()
+                    self.notesTable.reloadRowForce(note: note)
+                }
+
                 completion(success)
             }
         }
@@ -945,7 +959,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         for note in notes {
             if note.isUnlocked() {
                 if note.lock() && isFirst {
-                    notesTable.reloadRow(note: note)
+                    note.invalidateCache()
+                    notesTable.reloadRowForce(note: note)
                 }
                 notes.removeAll { $0 === note }
             }

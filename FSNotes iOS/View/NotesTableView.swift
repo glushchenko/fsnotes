@@ -309,6 +309,12 @@ class NotesTableView: UITableView,
         }
     }
 
+    public func reloadRowForce(note: Note) {
+        if let index = notes.firstIndex(of: note) {
+            reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
+    }
+
     private func renameAction(note: Note, presentController: UIViewController) {
         let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
 

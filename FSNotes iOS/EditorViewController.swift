@@ -973,8 +973,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         if UserDefaultsManagement.liveImagesPreview {
                             self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
 
-
-
                             if processed == assets.count {
                                 note.save()
                                 return
