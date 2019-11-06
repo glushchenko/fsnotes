@@ -41,7 +41,7 @@ class FileSystemEventManager {
             }
             
             if event.fileRemoved || event.dirRemoved {
-                guard let note = self.storage.getBy(url: url), note.project.isTrash else { return }
+                guard let note = self.storage.getBy(url: url) else { return }
                 
                 self.removeNote(note: note)
             }

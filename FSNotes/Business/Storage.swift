@@ -611,10 +611,13 @@ class Storage {
             return nil
         }
 
+        let resolvedPath = url.path.lowercased()
+
         return
             noteList.first(where: {
                 return (
-                    $0.url.path.lowercased() == url.path.lowercased()
+                    $0.url.path.lowercased() == resolvedPath
+                        || "/private" + $0.url.path.lowercased() == resolvedPath
                 )
             })
     }

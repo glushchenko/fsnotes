@@ -230,7 +230,6 @@ class CloudDriveManager {
     
     private func remove(notification: NSNotification) {
         if let removedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
-            
             for item in removedMetadataItems {
                 guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.resolvingSymlinksInPath(), let note = storage.getBy(url: url) else { continue }
 
