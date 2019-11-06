@@ -1492,7 +1492,7 @@ class ViewController: NSViewController,
                         || (note.project.parent != nil && projects!.contains(note.project.parent!))
                     )
                     || type == .Trash
-                    || type == .Todo
+                    || type == .Todo && note.project.showInCommon
                     || type == .Archive && note.project.isArchive
                     || type == .Inbox && note.project.isRoot && note.project.isDefault
                     || !UserDefaultsManagement.inlineTags && tags != nil
