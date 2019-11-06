@@ -35,10 +35,11 @@ class SidebarCellView: NSTableCellView {
     
     override func mouseEntered(with event: NSEvent) {
         guard let vc = ViewController.shared() else { return }
+
         guard let tag = objectValue as? Tag else { return }
 
         if let note = vc.notesTableView.getSelectedNote() {
-            if !note.tagNames.contains(tag.getName()) {
+            if UserDefaultsManagement.inlineTags {
                 plus.isHidden = true
                 return
             }
