@@ -150,7 +150,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             // And another all
             _ = storage.add(project: project)
 
-            storage.loadProjects(withTrash: false, skipRoot: true)
+            storage.loadProjects(withTrash: false, skipRoot: true, withArchive: false)
 
             UserDefaultsManagement.projects =
                 storage.getProjects()

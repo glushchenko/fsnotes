@@ -311,7 +311,7 @@ class Storage {
         return storage
     }
 
-    public func loadProjects(withTrash: Bool = true, skipRoot: Bool = false) {
+    public func loadProjects(withTrash: Bool = true, skipRoot: Bool = false, withArchive: Bool = true) {
         if !skipRoot {
             noteList.removeAll()
         }
@@ -322,6 +322,10 @@ class Storage {
             }
 
             if project.isRoot && skipRoot {
+                continue
+            }
+
+            if project.isArchive && !withArchive {
                 continue
             }
 
