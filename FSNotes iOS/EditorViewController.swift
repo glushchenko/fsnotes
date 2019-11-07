@@ -344,8 +344,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // New line
         if text == "\n" {
-            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
-            formatter.newLine()
+            DispatchQueue.main.async {
+                let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+                formatter.newLine()
+            }
+
             return false
         } else {
             let paragraphStyle = NSMutableParagraphStyle()
@@ -355,8 +358,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Tab
         if text == "\t" {
-            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
-            formatter.tabKey()
+            DispatchQueue.main.async {
+                let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+                formatter.tabKey()
+            }
+
             return false
         }
 

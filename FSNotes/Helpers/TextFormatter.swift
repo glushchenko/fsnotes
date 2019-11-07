@@ -988,6 +988,12 @@ public class TextFormatter {
     
         self.textView.undoManager?.beginUndoGrouping()
         self.textView.replace(selectedRange, withText: replaceString)
+
+        let parRange = NSRange(location: range.location, length: replaceString.count)
+        let parStyle = NSMutableParagraphStyle()
+        parStyle.alignment = .left
+        self.textView.textStorage.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
+
         self.textView.undoManager?.endUndoGrouping()
     #else
         self.textView.insertText(string, replacementRange: range)
