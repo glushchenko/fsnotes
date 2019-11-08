@@ -33,6 +33,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     public var tagsTimer: Timer?
     private let dropDown = DropDown()
+    public var isUndoAction: Bool = false
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
@@ -319,9 +320,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
         }
     }
-    
+
     // RTF style completions
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        if isUndoAction {
+            isUndoAction = false
+            return true
+        }
 
         guard let note = self.note else { return true }
 
@@ -344,10 +350,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // New line
         if text == "\n" {
-            DispatchQueue.main.async {
-                let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
-                formatter.newLine()
-            }
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.newLine()
 
             return false
         } else {
@@ -358,10 +362,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Tab
         if text == "\t" {
-            DispatchQueue.main.async {
-                let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
-                formatter.tabKey()
-            }
+            let formatter = TextFormatter(textView: self.editArea, note: note, shouldScanMarkdown: false)
+            formatter.tabKey()
 
             return false
         }
@@ -1021,6 +1023,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func undoPressed() {
+        isUndoAction = true
+
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageController.orderedViewControllers[1] as? UINavigationController,
@@ -1042,6 +1046,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func redoPressed() {
+        isUndoAction = true
+
         guard
             let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
             let vc = pageController.orderedViewControllers[1] as? UINavigationController,
