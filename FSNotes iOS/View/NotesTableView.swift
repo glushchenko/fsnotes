@@ -310,6 +310,8 @@ class NotesTableView: UITableView,
     }
 
     public func reloadRowForce(note: Note) {
+        note.invalidateCache()
+        
         if let index = notes.firstIndex(of: note) {
             reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }

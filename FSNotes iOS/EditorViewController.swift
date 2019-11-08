@@ -982,7 +982,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
 
                             if processed == assets.count {
-                                note.save()
+                                note.save(attributed: self.editArea.attributedText)
+
+                                UIApplication.getVC().notesTable.reloadRowForce(note: note)
                                 return
                             }
 
@@ -1003,6 +1005,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             self.editArea.insertText(markup)
 
                             note.save(attributed: self.editArea.attributedText)
+                            UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                            
                             note.isParsed = false
 
                             self.editArea.undoManager?.removeAllActions()

@@ -916,7 +916,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
 
                 DispatchQueue.main.async {
-                    note.invalidateCache()
                     self.notesTable.reloadRowForce(note: note)
                 }
 
@@ -959,7 +958,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         for note in notes {
             if note.isUnlocked() {
                 if note.lock() && isFirst {
-                    note.invalidateCache()
                     notesTable.reloadRowForce(note: note)
                 }
                 notes.removeAll { $0 === note }
