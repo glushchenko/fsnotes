@@ -67,6 +67,8 @@ class Sidebar {
         let projects = getProjects()
         if projects.count > 0 {
             items.append(projects)
+        } else {
+            items.append([])
         }
 
         if UserDefaultsManagement.inlineTags {
@@ -81,7 +83,11 @@ class Sidebar {
                 
                 if tagsSidebarItems.count > 0 {
                     items.append(tagsSidebarItems)
+                } else {
+                    items.append([])
                 }
+            } else {
+                items.append([])
             }
         }
 
