@@ -805,8 +805,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             processor.higlightLinks()
             
             if note.type == .RichText {
-                saveTextStorageContent(to: note)
-                note.save()
+                note.save(attributed: attributedString())
             }
             
             return

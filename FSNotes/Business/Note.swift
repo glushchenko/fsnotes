@@ -613,7 +613,13 @@ public class Note: NSObject  {
             }
 
             let contentSrc = getContentFileURL()
-            try fileWrapper.write(to: contentSrc, options: .atomic, originalContentsURL: nil)
+
+            var originalContentsURL: URL? = nil
+            if FileManager.init().fileExists(atPath: contentSrc.path) {
+                originalContentsURL = contentSrc
+            }
+
+            try fileWrapper.write(to: contentSrc, options: .atomic, originalContentsURL: originalContentsURL)
             try FileManager.default.setAttributes(attributes, ofItemAtPath: contentSrc.path)
 
             if decryptedTemporarySrc != nil {
@@ -1486,6 +1492,12 @@ public class Note: NSObject  {
         if isEncrypted() && !isUnlocked() {
             return getFileName()
         }
+
+        #if os(iOS)
+        if !project.firstLineAsTitle {
+            return getFileName()
+        }
+        #endif
 
         if title.count > 0 {
             if title.isValidUUID && (
