@@ -1747,8 +1747,8 @@ class ViewController: NSViewController,
             let note = notesTableView.noteList[selectedRow]
 
             var path = note.url.path
-            if note.isTextBundle() && !note.isUnlocked() {
-                path = note.url.appendingPathComponent("text.markdown").absoluteURL.path
+            if note.isTextBundle() && !note.isUnlocked(), let url = note.getContentFileURL() {
+                path = url.path
             }
 
             NSWorkspace.shared.openFile(path, withApplication: UserDefaultsManagement.externalEditor)

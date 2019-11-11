@@ -140,7 +140,6 @@ public class Note: NSObject  {
 
     public func forceReload() {
         if container != .encryptedTextPack, let attributedString = getContent() {
-
             self.content = NSMutableAttributedString(attributedString: attributedString)
         }
     }
@@ -159,10 +158,7 @@ public class Note: NSObject  {
     }
 
     public func isFullLoadedTextBundle() -> Bool {
-        let ext = getExtensionForContainer()
-        let path = url.appendingPathComponent("text.\(ext)").path
-
-        return FileManager.default.fileExists(atPath: path)
+        return getContentFileURL() != nil
     }
     
     public func getExtensionForContainer() -> String {
@@ -175,8 +171,11 @@ public class Note: NSObject  {
             var path = url.path
 
             if isTextBundle() {
-                let ext = getExtensionForContainer()
-                path = url.appendingPathComponent("text.\(ext)").path
+                if let url = getContentFileURL() {
+                    path = url.path
+                } else {
+                    return nil
+                }
             }
 
             let attr = try FileManager.default.attributesOfItem(atPath: path)
@@ -395,17 +394,11 @@ public class Note: NSObject  {
     }
     
     func getContent() -> NSAttributedString? {
-        guard container != .encryptedTextPack else { return nil }
-
-        let options = getDocOptions()
-        var url = getURL()
-
-        if isTextBundle() {
-            let ext = getExtensionForContainer()
-            url.appendPathComponent("text.\(ext)")
-        }
+        guard container != .encryptedTextPack, let url = getContentFileURL() else { return nil }
 
         do {
+            let options = getDocOptions()
+
             return try NSAttributedString(url: url, options: options, documentAttributes: nil)
         } catch {
 
@@ -612,15 +605,16 @@ public class Note: NSObject  {
                 }
             }
 
-            let contentSrc = getContentFileURL()
+            let contentSrc: URL? = getContentFileURL()
+            let dst = contentSrc ?? getContentSaveURL()
 
             var originalContentsURL: URL? = nil
-            if FileManager.init().fileExists(atPath: contentSrc.path) {
+            if let contentSrc = contentSrc {
                 originalContentsURL = contentSrc
             }
 
-            try fileWrapper.write(to: contentSrc, options: .atomic, originalContentsURL: originalContentsURL)
-            try FileManager.default.setAttributes(attributes, ofItemAtPath: contentSrc.path)
+            try fileWrapper.write(to: dst, options: .atomic, originalContentsURL: originalContentsURL)
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: dst.path)
 
             if decryptedTemporarySrc != nil {
                 self.ciphertextWriter.cancelAllOperations()
@@ -641,7 +635,7 @@ public class Note: NSObject  {
         }
     }
 
-    private func getContentFileURL() -> URL {
+    private func getContentSaveURL() -> URL {
         let url = getURL()
 
         if isTextBundle() {
@@ -650,6 +644,37 @@ public class Note: NSObject  {
         }
 
         return url
+    }
+
+    public func getContentFileURL() -> URL? {
+        var url = getURL()
+
+        if isTextBundle() {
+            let ext = getExtensionForContainer()
+            url = url.appendingPathComponent("text.\(ext)")
+
+            if !FileManager.default.fileExists(atPath: url.path) {
+                url = url.deletingLastPathComponent()
+
+                if let dirList = try? FileManager.default.contentsOfDirectory(atPath: url.path),
+                    let first = dirList.first(where: { $0.starts(with: "text.") })
+                {
+                    url = url.appendingPathComponent(first)
+
+                    return url
+                }
+
+                return nil
+            }
+
+            return url
+        }
+
+        if FileManager.default.fileExists(atPath: url.path) {
+            return url
+        }
+
+        return nil
     }
 
     public func getFileWrapper(with imagesWrapper: FileWrapper? = nil) -> FileWrapper {

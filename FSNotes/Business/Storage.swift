@@ -500,12 +500,8 @@ class Storage {
                 pinned += 1
             }
 
-            if note.isTextBundle() {
-                let full = note.url.appendingPathComponent("text.markdown")
-
-                if !FileManager.default.fileExists(atPath: full.path) {
-                    continue
-                }
+            if note.isTextBundle() && !note.isFullLoadedTextBundle() {
+                continue
             }
 
             noteList.append(note)
