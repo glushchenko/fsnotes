@@ -962,7 +962,7 @@ public class Note: NSObject  {
 
         var tags = [String]()
         for tag in inlineTags {
-            guard let tag = tag.last else { continue }
+            guard let tag = tag.last, isValid(tag: tag) else { continue }
 
             if tag.last == "/" {
                 tags.append(String(tag.dropLast()))
@@ -994,6 +994,18 @@ public class Note: NSObject  {
         self.tags = tags
 
         return (added, removed)
+    }
+
+    private var excludeRanges = [NSRange]()
+
+    private func isValid(tag: String) -> Bool {
+        let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
+        
+        if isHEX {
+            return false
+        }
+
+        return true
     }
     
     public func getImageUrl(imageName: String) -> URL? {
