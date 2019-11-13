@@ -15,8 +15,8 @@ class Sidebar {
     public var items = [[SidebarItem]]()
     
     init() {
-        var night = ""
-        var inboxName = "sidebarInbox"
+        let night = ""
+        let inboxName = "sidebarInbox"
         var system = [SidebarItem]()
 
         if let project = Storage.sharedInstance().getDefault() {

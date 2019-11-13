@@ -179,6 +179,10 @@ class ViewController: NSViewController,
                         : [.command]
                 }
 
+                if menuItem.identifier?.rawValue == "fileMenu.tags", UserDefaultsManagement.inlineTags {
+                    return false
+                }
+
                 if menuItem.identifier?.rawValue == "fileMenu.history" {
                     if EditTextView.note != nil {
                         return true
@@ -1801,6 +1805,10 @@ class ViewController: NSViewController,
         
         noteMenu.addItem(moveMenuItem)
         let moveMenu = NSMenu()
+
+        if UserDefaultsManagement.inlineTags, let tagsMenu = noteMenu.item(withTitle: NSLocalizedString("Tags", comment: "")) {
+            noteMenu.removeItem(tagsMenu)
+        }
         
         if !note.isInArchive() {
             let archiveMenu = NSMenuItem()

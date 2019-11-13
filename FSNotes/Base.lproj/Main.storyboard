@@ -157,7 +157,7 @@ CA
                                                 <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Tags" keyEquivalent="t" id="XZ6-FD-yro">
+                                        <menuItem title="Tags" keyEquivalent="t" identifier="fileMenu.tags" id="XZ6-FD-yro">
                                             <connections>
                                                 <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
                                             </connections>
@@ -734,7 +734,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="menuBar"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>
