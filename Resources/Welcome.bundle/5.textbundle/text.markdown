@@ -6,7 +6,7 @@ You can select and filter unlimited projects and tags.
 
 ### Each subfolder is a project
 
-Make unlimited folders inside your storage. Right click on root folder and click "New folder" `cmd + shift + n`.
+Make unlimited folders inside your storage. Right click on root folder (`Documents`) and click "New folder" `⌥ option + ⇧ shift + n`.
 
 Each project has its own settings, right click on the project - "Show view options" `cmd + shift + ,`.
 
