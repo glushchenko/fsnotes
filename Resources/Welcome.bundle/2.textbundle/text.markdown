@@ -4,15 +4,15 @@
 
 FSNotes respects open formats: **plain/text, markdown, rtf**, and stores data in the file system. You can view, edit, and copy data in your favourite external editor and see live results in FSNotes.
 
-### Table of content 
+### Table of content
 
 - [[Shortcuts]]
-- [[Code highlighting]] 
+- [[Code highlighting]]
 - [[Tags and subtags]]
 - [[Git powered history]]
-- [[Mermaid nad MathJax]]
+- [[Mermaid and MathJax]]
 - [[Sidebar]]
-- [[Containers]]  
+- [[Containers]]
 
 #### Key features
 
@@ -35,10 +35,10 @@ FSNotes respects open formats: **plain/text, markdown, rtf**, and stores data in
 - Encryption AES-256.
 - Mermaid and MathJax support.
 - Git versioning and scheduled backups.
-  
+
 #### Links
 
-Official site: https://fsnot.es  
-Issues: https://github.com/glushchenko/fsnotes/issues  
-Wiki: https://github.com/glushchenko/fsnotes/wiki  
+Official site: https://fsnot.es
+Issues: https://github.com/glushchenko/fsnotes/issues
+Wiki: https://github.com/glushchenko/fsnotes/wiki
 Announces: https://twitter.com/fsnotesapp
