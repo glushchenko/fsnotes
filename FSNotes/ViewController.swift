@@ -1232,13 +1232,18 @@ class ViewController: NSViewController,
             updateTitle(newTitle: currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note"))
         }
     }
-    
-    // Changed main edit view
-    func textDidChange(_ notification: Notification) {
+
+    public func blockFSUpdates() {
         timer.invalidate()
         timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(enableFSUpdates), userInfo: nil, repeats: false)
 
         UserDataService.instance.fsUpdatesDisabled = true
+    }
+    
+    // Changed main edit view
+    func textDidChange(_ notification: Notification) {
+        blockFSUpdates()
+
         let index = notesTableView.selectedRow
         
         if (
@@ -1380,7 +1385,11 @@ class ViewController: NSViewController,
         var type = sidebarItem?.type
 
         // Global search if sidebar not checked
-        if type == nil {
+        if type == nil && (
+            projects == nil || (
+                projects!.count < 2 && projects!.first!.isRoot
+            )
+        ) {
             type = filter.count > 0 ? .All : .Inbox
         }
 

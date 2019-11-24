@@ -910,6 +910,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let note = EditTextView.note, let range = selectedRanges[0] as? NSRange, UserDefaultsManagement.restoreCursorPosition else {
             return
         }
+
+        viewDelegate?.blockFSUpdates()
         
         var length = range.lowerBound
         let data = Data(bytes: &length, count: MemoryLayout.size(ofValue: length))
