@@ -1,6 +1,6 @@
-## 7. Mermaid nad MathJax
+## 7. Mermaid and MathJax
 
-### Mermaid  example
+### Mermaid example
 
 Documentation: https://mermaidjs.github.io
 
