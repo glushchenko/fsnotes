@@ -1305,16 +1305,19 @@ class ViewController: NSViewController,
     }
 
     @objc private func updateTableViews() {
+        notesTableView.beginUpdates()
         for note in updateViews {
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
                 if let index = notesTableView.noteList.firstIndex(of: note) {
                     moveNoteToTop(note: index)
-
                 }
             }
 
             notesTableView.reloadRow(note: note)
         }
+
+        updateViews.removeAll()
+        notesTableView.endUpdates()
     }
     
     func getSidebarProject() -> Project? {

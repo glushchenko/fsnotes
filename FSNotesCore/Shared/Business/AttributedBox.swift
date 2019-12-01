@@ -31,15 +31,29 @@ class AttributedBox {
     public static func getCleanUnchecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
         let size = font.pointSize + font.pointSize / 2
-        let image = getImage(name: "checkbox_empty")
-
+        var image: NSImage
         let attachment = NSTextAttachment()
-        attachment.image = image
+
+        if #available(OSX 10.13, *) {
+            let image = getImage(name: "checkbox_empty")
+            attachment.image = image
+        } else {
+            image = NSImage(named: "checkbox_empty1012.png")!.resize(to: CGSize(width: size, height: size))!
+            let cell = NSTextAttachmentCell(imageCell: image)
+            attachment.attachmentCell = cell
+        }
+
         attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
         checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
+
+        if #available(OSX 10.13, *) {
+        } else {
+            let offset = (font.capHeight - size) / 2
+            checkboxText.addAttribute(.baselineOffset, value: offset, range: NSRange(0..<1))
+        }
 
         let parStyle = NSMutableParagraphStyle()
         parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -50,16 +64,30 @@ class AttributedBox {
 
     public static func getCleanChecked() -> NSMutableAttributedString {
         let font = NotesTextProcessor.font
-        let image = getImage(name: "checkbox")
         let size = font.pointSize + font.pointSize / 2
-
+        var image: NSImage
         let attachment = NSTextAttachment()
-        attachment.image = image
+
+        if #available(OSX 10.13, *) {
+            image = getImage(name: "checkbox")
+            attachment.image = image
+        } else {
+            image = NSImage(named: "checkbox1012.png")!.resize(to: CGSize(width: size, height: size))!
+            let cell = NSTextAttachmentCell(imageCell: image)
+            attachment.attachmentCell = cell
+        }
+
         attachment.bounds = CGRect(x: CGFloat(0), y: (font.capHeight - size) / 2, width: size, height: size)
 
         let checkboxText = NSMutableAttributedString(attributedString: NSAttributedString(attachment: attachment))
 
         checkboxText.addAttribute(.todo, value: 1, range: NSRange(0..<1))
+
+        if #available(OSX 10.13, *) {
+        } else {
+            let offset = (font.capHeight - size) / 2
+            checkboxText.addAttribute(.baselineOffset, value: offset, range: NSRange(0..<1))
+        }
 
         let parStyle = NSMutableParagraphStyle()
         parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
