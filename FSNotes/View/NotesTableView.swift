@@ -33,7 +33,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if (event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)), !UserDefaultsManagement.preview {
+        if let note = EditTextView.note, event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control), !UserDefaultsManagement.preview || note.isRTF() {
+
             vc.focusEditArea()
         }
         

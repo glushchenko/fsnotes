@@ -1549,7 +1549,7 @@ class ViewController: NSViewController,
     }
     
     func focusEditArea(firstResponder: NSResponder? = nil) {
-        guard !UserDefaultsManagement.preview, EditTextView.note?.container != .encryptedTextPack else { return }
+        guard let note = EditTextView.note, !UserDefaultsManagement.preview || note.isRTF(), EditTextView.note?.container != .encryptedTextPack else { return }
 
         var resp: NSResponder = self.editArea
         if let responder = firstResponder {
