@@ -23,6 +23,7 @@ extension NSTextStorage {
 
                 if let manager = ViewController.shared()?.editArea.layoutManager {
                     manager.invalidateDisplay(forCharacterRange: range)
+                    manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
                 }
             }
         }
