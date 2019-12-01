@@ -454,7 +454,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return false
         }
         
-        if UserDefaultsManagement.preview && note.isMarkdown() {
+        if UserDefaultsManagement.preview && !note.isRTF() {
             return false
         }
         
@@ -494,9 +494,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             typingAttributes[.font] = UserDefaultsManagement.noteFont
         }
 
-        if (UserDefaultsManagement.preview && note.isMarkdown()) {
-            // Removes scroll for long notes
-            
+        if UserDefaultsManagement.preview && !note.isRTF() {
             EditTextView.note = nil
             textStorage?.setAttributedString(NSAttributedString())
             EditTextView.note = note

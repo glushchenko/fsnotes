@@ -595,7 +595,7 @@ class ViewController: NSViewController,
                         return false
                     }
                     
-                    if fr.isKind(of: NotesTableView.self) && !UserDefaultsManagement.preview {
+                    if let note = EditTextView.note, fr.isKind(of: NotesTableView.self) && !(UserDefaultsManagement.preview && !note.isRTF()) {
                         NSApp.mainWindow?.makeFirstResponder(self.editArea)
                         return false
                     }
