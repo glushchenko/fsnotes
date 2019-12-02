@@ -34,7 +34,7 @@ class AttributedBox {
         var image: NSImage
         let attachment = NSTextAttachment()
 
-        if #available(OSX 10.13, *) {
+        if #available(OSX 10.13, iOS 10.0, *) {
             let image = getImage(name: "checkbox_empty")
             attachment.image = image
         } else {
@@ -49,7 +49,7 @@ class AttributedBox {
 
         checkboxText.addAttribute(.todo, value: 0, range: NSRange(0..<1))
 
-        if #available(OSX 10.13, *) {
+        if #available(OSX 10.13, iOS 10.0, *) {
         } else {
             let offset = (font.capHeight - size) / 2
             checkboxText.addAttribute(.baselineOffset, value: offset, range: NSRange(0..<1))
@@ -68,7 +68,7 @@ class AttributedBox {
         var image: NSImage
         let attachment = NSTextAttachment()
 
-        if #available(OSX 10.13, *) {
+        if #available(OSX 10.13, iOS 10.0, *) {
             image = getImage(name: "checkbox")
             attachment.image = image
         } else {
@@ -83,7 +83,7 @@ class AttributedBox {
 
         checkboxText.addAttribute(.todo, value: 1, range: NSRange(0..<1))
 
-        if #available(OSX 10.13, *) {
+        if #available(OSX 10.13, iOS 10.0, *) {
         } else {
             let offset = (font.capHeight - size) / 2
             checkboxText.addAttribute(.baselineOffset, value: offset, range: NSRange(0..<1))
