@@ -99,7 +99,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             imagesStorage = note.getURL()
         }
 
-        if note.imageUrl != nil {
+        if let urls = note.imageUrl, urls.count > 0 {
             cleanCache()
             try? loadHTMLView(markdownString, css: css, imagesStorage: imagesStorage)
         } else {
