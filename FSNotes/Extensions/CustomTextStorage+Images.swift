@@ -22,8 +22,14 @@ extension NSTextStorage {
                 attachment.attachmentCell = cell
 
                 if let manager = ViewController.shared()?.editArea.layoutManager {
+                    if #available(OSX 10.13, *) {
+                    } else {
+                        if self.mutableString.length >= range.upperBound {
+                            manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
+                        }
+                    }
+
                     manager.invalidateDisplay(forCharacterRange: range)
-                    manager.invalidateLayout(forCharacterRange: range, actualCharacterRange: nil)
                 }
             }
         }
