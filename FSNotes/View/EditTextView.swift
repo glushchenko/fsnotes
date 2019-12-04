@@ -614,7 +614,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func formatShortcut(keyCode: UInt16, modifier: NSEvent.ModifierFlags) -> Bool {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
-            let note = getSelectedNote(),
+            let note = vc.getCurrentNote(),
             !UserDefaultsManagement.preview,
             editArea.isEditable else { return false }
 
@@ -1042,7 +1042,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
             textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
 
-            unLoadImages()
+            unLoadImages(note: note)
             setSelectedRange(NSRange(location: caretLocation, length: 0))
 
             return true
@@ -1055,7 +1055,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let caretLocation = characterIndexForInsertion(at: dropPoint)
             var offset = 0
 
-            unLoadImages()
+            unLoadImages(note: note)
             
             for url in urls {
                 do {
@@ -1105,8 +1105,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
     
-    public func unLoadImages() {
-        guard let note = getSelectedNote() else { return }
+    public func unLoadImages(note: Note) {
         guard note.container != .encryptedTextPack else { return }
         
         note.save(attributed: attributedString())
@@ -1160,7 +1159,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     @IBAction func pressBold(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
-            let note = getSelectedNote(),
+            let note = vc.getCurrentNote(),
             !UserDefaultsManagement.preview,
             editArea.isEditable else { return }
 
@@ -1171,7 +1170,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     @IBAction func pressItalic(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
-            let note = getSelectedNote(),
+            let note = vc.getCurrentNote(),
             !UserDefaultsManagement.preview,
             editArea.isEditable else { return }
 
@@ -1264,7 +1263,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     @IBAction func insertLink(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
-            let note = getSelectedNote(),
+            let note = vc.getCurrentNote(),
             !UserDefaultsManagement.preview,
             editArea.isEditable else { return }
 

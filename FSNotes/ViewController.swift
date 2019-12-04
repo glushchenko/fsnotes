@@ -1242,18 +1242,15 @@ class ViewController: NSViewController,
     
     // Changed main edit view
     func textDidChange(_ notification: Notification) {
+        guard let note = getCurrentNote() else { return }
+
         blockFSUpdates()
 
-        let index = notesTableView.selectedRow
-        
         if (
-            notesTableView.noteList.indices.contains(index)
-            && index > -1
-            && !UserDefaultsManagement.preview
+            !UserDefaultsManagement.preview
             && self.editArea.isEditable
         ) {
             editArea.removeHighlight()
-            let note = notesTableView.noteList[index]
             editArea.saveImages()
 
             note.save(attributed: editArea.attributedString())
@@ -1265,6 +1262,10 @@ class ViewController: NSViewController,
             rowUpdaterTimer.invalidate()
             rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateTableViews), userInfo: nil, repeats: false)
         }
+    }
+
+    public func getCurrentNote() -> Note? {
+        return EditTextView.note
     }
 
     private func removeForever() {

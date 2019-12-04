@@ -98,37 +98,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     func controlTextDidChange(_ obj: Notification) {
-        UserDataService.instance.searchTrigger = true
-
-        let searchText = self.stringValue
-        let currentTextLength = searchText.count
-        var sidebarItem: SidebarItem? = nil
-
-        if currentTextLength > self.lastQueryLength {
-            self.skipAutocomplete = false
-        }
-
-        self.lastQueryLength = searchText.count
-
-        let projects = vcDelegate.storageOutlineView.getSidebarProjects()
-        let tags = vcDelegate.storageOutlineView.getSidebarTags()
-
-        if projects == nil && tags == nil {
-            sidebarItem = self.vcDelegate.getSidebarItem()
-        }
-
-        self.filterQueue.cancelAllOperations()
-        self.filterQueue.addOperation {
-            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
-                if !UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    UserDataService.instance.searchTrigger = false
-                }
-            }
-        }
-
-        let pb = NSPasteboard(name: .findPboard)
-        pb.declareTypes([.textFinderOptions, .string], owner: nil)
-        pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+        searchTimer.invalidate()
+        searchTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(search), userInfo: nil, repeats: false)
     }
     
     public func suggestAutocomplete(_ note: Note, filter: String) {
@@ -139,5 +110,38 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             editor.selectedRange = NSRange(filter.utf16.count..<note.title.utf16.count)
         }
     }
-    
+
+    @objc private func search() {
+        UserDataService.instance.searchTrigger = true
+
+         let searchText = self.stringValue
+         let currentTextLength = searchText.count
+         var sidebarItem: SidebarItem? = nil
+
+         if currentTextLength > self.lastQueryLength {
+             self.skipAutocomplete = false
+         }
+
+         self.lastQueryLength = searchText.count
+
+         let projects = vcDelegate.storageOutlineView.getSidebarProjects()
+         let tags = vcDelegate.storageOutlineView.getSidebarTags()
+
+         if projects == nil && tags == nil {
+             sidebarItem = self.vcDelegate.getSidebarItem()
+         }
+
+         self.filterQueue.cancelAllOperations()
+         self.filterQueue.addOperation {
+             self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
+                 if !UserDefaultsManagement.focusInEditorOnNoteSelect {
+                     UserDataService.instance.searchTrigger = false
+                 }
+             }
+         }
+
+         let pb = NSPasteboard(name: .findPboard)
+         pb.declareTypes([.textFinderOptions, .string], owner: nil)
+         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+    }
 }
