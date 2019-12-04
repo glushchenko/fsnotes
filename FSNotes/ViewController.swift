@@ -1640,7 +1640,7 @@ class ViewController: NSViewController,
         notesTableView.scrollRowToVisible(0)
     }
     
-    func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil) {
+    func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false) {
         guard let vc = ViewController.shared() else { return }
 
         let selectedProjects = vc.storageOutlineView.getSidebarProjects()
@@ -1671,6 +1671,7 @@ class ViewController: NSViewController,
         disablePreview()
         notesTableView.deselectNotes()
         editArea.string = text
+        EditTextView.note = note
         
         if let si = getSidebarItem(), si.type == .Tag {
             note.addTag(si.name)
