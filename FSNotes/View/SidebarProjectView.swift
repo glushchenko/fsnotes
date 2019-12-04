@@ -141,6 +141,18 @@ class SidebarProjectView: NSOutlineView,
             self.viewDelegate?.search.becomeFirstResponder()
             return
         }
+
+        // Focus on note list
+        if event.keyCode == kVK_RightArrow {
+            if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarProjectView.self) {
+
+                guard let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable() else {
+                    vc.notesTableView.selectNext()
+                    NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
+                    return
+                }
+            }
+        }
         
         super.keyDown(with: event)
     }
