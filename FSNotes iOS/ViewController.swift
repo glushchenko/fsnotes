@@ -872,30 +872,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private func calculateLabelMaxWidth() -> CGFloat {
         var width = CGFloat(115)
-
-        for i in 0...4 {
-            var j = 0
-
-            while let cell = sidebarTableView.cellForRow(at: IndexPath(row: j, section: i)) as? SidebarTableCellView {
-                if let font = cell.label.font, let text = cell.label.text {
-                    let labelWidth = ("     #" + text as NSString).size(withAttributes: [.font: font]).width
-
-                    if labelWidth < view.frame.size.width / 2 {
-                        if labelWidth > width {
-                            width = labelWidth
-                        }
-                    } else {
-                        width = view.frame.size.width / 2
-                    }
-                }
-
-                j += 1
-            }
-        }
-
         let font = UIFont.boldSystemFont(ofSize: 15.0)
+
         let projects = sidebarTableView.getSelectedProjects()
         let tags = sidebarTableView.getAllTags(projects: projects)
+            + Storage.sharedInstance().getProjects().map({ $0.label })
+            + ["Settings", "Inbox", "Notes", "Todo", "Archive", "Trash"]
+
         for tag in tags {
             let labelWidth = ("#      " + tag as NSString).size(withAttributes: [.font: font]).width
             if labelWidth < view.frame.size.width / 2 {
