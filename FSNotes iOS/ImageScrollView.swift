@@ -281,11 +281,23 @@ open class ImageScrollView: UIScrollView {
 
     // MARK: - Actions
 
+    private var isLandscape: Bool?
+    
     @objc func changeOrientationNotification() {
         // A weird bug that frames are not update right after orientation changed. Need delay a little bit with async.
-        DispatchQueue.main.async {
-            self.configureImageForSize(self.imageSize)
-            self.imageScrollViewDelegate?.imageScrollViewDidChangeOrientation(imageScrollView: self)
+
+        guard isLandscape != nil else {
+            isLandscape = UIDevice.current.orientation.isLandscape
+            return
+        }
+
+        if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
+            isLandscape = UIDevice.current.orientation.isLandscape
+
+            DispatchQueue.main.async {
+                self.configureImageForSize(self.imageSize)
+                self.imageScrollViewDelegate?.imageScrollViewDidChangeOrientation(imageScrollView: self)
+            }
         }
     }
 }
