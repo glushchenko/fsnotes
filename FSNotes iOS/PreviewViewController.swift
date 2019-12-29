@@ -10,7 +10,7 @@ import UIKit
 import NightNight
 
 class PreviewViewController: UIViewController {
-    private var orientation: UIDeviceOrientation?
+    private var isLandscape: Bool?
 
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
@@ -66,12 +66,13 @@ class PreviewViewController: UIViewController {
     }
 
     @objc func rotated() {
-        guard orientation != nil else {
-            orientation = UIDevice.current.orientation
+        guard isLandscape != nil else {
+            isLandscape = UIDevice.current.orientation.isLandscape
             return
         }
 
-        if UIDevice.current.orientation != orientation {
+        if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
+            isLandscape = UIDevice.current.orientation.isLandscape
             reloadPreview()
         }
     }

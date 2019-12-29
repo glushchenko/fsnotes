@@ -39,8 +39,8 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
                 }
 
                 let location = touch.location(in: view)
-                let maxX = Int(view.frame.width - 25)
-                let minX = Int(25)
+                let maxX = Int(view.frame.width - 50)
+                let minX = Int(50)
 
                 let isImage = view.isImage(at: glyphIndex)
                 let glyphRect = view.layoutManager.boundingRect(forGlyphRange: NSRange(location: glyphIndex, length: 1), in: view.textContainer)
