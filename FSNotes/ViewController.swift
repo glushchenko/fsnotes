@@ -741,16 +741,7 @@ class ViewController: NSViewController,
             vc.storageOutlineView.deselectAll(nil)
         }
 
-        var value = sender.stringValue
-        
-        if let editor = sender.currentEditor() {
-            let query = editor.string.prefix(editor.selectedRange.location)
-            if query.count > 0 {
-                value = String(query)
-                sender.stringValue = String(query)
-            }
-        }
-
+        let value = sender.stringValue
         let inlineTags = vc.storageOutlineView.getSelectedInlineTags()
 
         if (value.count > 0) {

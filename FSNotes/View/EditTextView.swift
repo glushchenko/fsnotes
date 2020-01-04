@@ -195,10 +195,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
         
-        if !vc.emptyEditAreaImage.isHidden {
-            vc.makeNote(vc.search)
-        }
-
         guard let container = self.textContainer, let manager = self.layoutManager else { return }
 
         let point = self.convert(event.locationInWindow, from: nil)
