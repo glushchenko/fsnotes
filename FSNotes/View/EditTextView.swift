@@ -1665,4 +1665,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         return super.touchBar(touchBar, makeItemForIdentifier: identifier)
     }
+
+    override func menu(for event: NSEvent) -> NSMenu? {
+        let menu = super.menu(for: event)
+
+        let editTitle = NSLocalizedString("Edit Link…", comment: "")
+        if let editLink = menu?.item(withTitle: editTitle) {
+            menu?.removeItem(editLink)
+        }
+
+        let removeTitle = NSLocalizedString("Remove Link", comment: "")
+        if let removeLink = menu?.item(withTitle: removeTitle) {
+            menu?.removeItem(removeLink)
+        }
+
+        return menu
+    }
 }

@@ -14,6 +14,7 @@ class AboutViewController: NSViewController {
             let ver = dictionary["CFBundleShortVersionString"] as? String,
             let build = dictionary["CFBundleVersion"] as? String {
             versionLabel.stringValue = "Version \(ver) (\(build))"
+            versionLabel.isSelectable = true
         }
     }
 
