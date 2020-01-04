@@ -921,16 +921,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for note in notes {
                 if note.container == .encryptedTextPack {
                     if note.unLock(password: password) {
-                        self.notesTable.reloadRow(note: note)
-
                         DispatchQueue.main.async {
+                            self.notesTable.reloadRowForce(note: note)
                             UIApplication.getEVC().fill(note: note)
                             pageController.switchToEditor()
                         }
                     }
                 } else {
                     if note.encrypt(password: password) {
-                        self.notesTable.reloadRow(note: note)
+                        DispatchQueue.main.async {
+                            self.notesTable.reloadRowForce(note: note)
+                        }
                     }
                 }
             }

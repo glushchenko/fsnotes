@@ -95,7 +95,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let height = CGFloat(21 + UserDefaultsManagement.cellSpacing)
 
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
-            if noteList.indices.contains(row) {
+            if row < noteList.count {
                 let note = noteList[row]
 
                 if let urls = note.getImagePreviewUrl(), urls.count > 0 {

@@ -12,14 +12,17 @@ import AVKit
 extension NSTextStorage {
     public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange) {
         EditTextView.imagesLoaderQueue.addOperation {
-            guard url.isImage, let size = attachment.image?.size else { return }
+            guard url.isImage else { return }
 
-            let image = NoteAttachment.getImage(url: url, size: size)?.resize(to: size)?.roundCorners(withRadius: 3)
+            let size = attachment.bounds.size
+            let retinaSize = CGSize(width: size.width * 2, height: size.height * 2)
+            let image = NoteAttachment.getImage(url: url, size: retinaSize)
 
             DispatchQueue.main.async {
                 let cell = NSTextAttachmentCell(imageCell: image)
-                attachment.image = nil
+                attachment.image = image
                 attachment.attachmentCell = cell
+                attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
 
                 if let manager = ViewController.shared()?.editArea.layoutManager {
                     if #available(OSX 10.13, *) {
