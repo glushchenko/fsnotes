@@ -446,13 +446,18 @@ class SidebarProjectView: NSOutlineView,
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {
+        guard let vd = viewDelegate else { return }
+
         if UserDataService.instance.isNotesTableEscape {
             UserDataService.instance.isNotesTableEscape = false
         }
 
         guard let sidebarItems = sidebarItems else { return }
 
-        selectedTags = getSidebarTags()
+        let tags = getSidebarTags()
+        let hasChangedTags = tags?.count != selectedTags?.count
+
+        selectedTags = tags
 
         if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() {
             reloadTags()
@@ -460,13 +465,12 @@ class SidebarProjectView: NSOutlineView,
         
         if let view = notification.object as? NSOutlineView {
             let sidebar = sidebarItems
-            guard let vd = viewDelegate else { return }
-
             let i = view.selectedRow
 
             if sidebar.indices.contains(i), let item = sidebar[i] as? SidebarItem {
                 if UserDataService.instance.lastType == item.type.rawValue && UserDataService.instance.lastProject == item.project?.url &&
-                    UserDataService.instance.lastName == item.name {
+                    UserDataService.instance.lastName == item.name &&
+                    !hasChangedTags {
                     return
                 }
 
