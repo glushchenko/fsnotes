@@ -23,4 +23,10 @@ class TitleTextField: NSTextField {
 
         return super.performKeyEquivalent(with: event)
     }
+
+    override func textDidEndEditing(_ notification: Notification) {
+        guard let vc = ViewController.shared(), let fn = EditTextView.note?.getFileName() else { return }
+
+        vc.updateTitle(newTitle: fn)
+    }
 }

@@ -476,7 +476,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
 
-        viewController.updateTitle(newTitle: note.hasTitle() ? note.title : "")
+        viewController.updateTitle(newTitle: note.getFileName())
 
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {

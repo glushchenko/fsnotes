@@ -913,7 +913,9 @@ class ViewController: NSViewController,
             vc.titleLabel.isEditable = true
             vc.titleLabel.becomeFirstResponder()
 
-            //vc.titleLabel.
+            if let note = EditTextView.note, note.getFileName().isValidUUID {
+                vc.titleLabel.stringValue = note.getFileName()
+            }
         }
     }
 
