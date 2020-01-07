@@ -103,6 +103,14 @@ open class MarkdownView: WKWebView {
     }
     
     public static func getPreviewStyle(theme: String? = nil) -> String {
+        var css = String()
+
+        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
+            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
+                css = content
+            }
+        }
+
         let theme = theme ?? UserDefaultsManagement.codeTheme
 
         var codeStyle = ""
@@ -127,7 +135,7 @@ open class MarkdownView: WKWebView {
         let family = familyName ?? "-apple-system"
         let margin = Int(UserDefaultsManagement.marginSize)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo;} img {display: block; margin: 0 auto;} \(codeStyle)"
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
     }
     
     // MARK: - Private Properties
