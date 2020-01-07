@@ -57,7 +57,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var titleLabel: TitleTextField! {
+    @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {
             let clickGesture = NSClickGestureRecognizer()
             clickGesture.target = self
@@ -642,10 +642,10 @@ class ViewController: NSViewController,
             }
 
             // Renaming is in progress
-            if titleLabel.isEditable == true {
+            if titleLabel.isEditable {
                 titleLabel.isEditable = false
-                titleLabel.window?.makeFirstResponder(nil)
-                return true
+                titleLabel.window?.makeFirstResponder(notesTableView)
+                return false
             }
 
             UserDefaultsManagement.lastProject = 0
@@ -692,12 +692,22 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains([.command])
             && !event.modifierFlags.contains(.option)
         ) {
+            if titleLabel.isEditable {
+                titleLabel.isEditable = false
+                titleLabel.window?.makeFirstResponder(nil)
+            }
+
             notesTableView.selectNext()
             return true
         }
         
         // Prev note (cmd-k)
         if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
+            if titleLabel.isEditable {
+                titleLabel.isEditable = false
+                titleLabel.window?.makeFirstResponder(nil)
+            }
+
             notesTableView.selectPrev()
             return true
         }
@@ -1732,26 +1742,6 @@ class ViewController: NSViewController,
 
         filteredNoteList = resorted
     }
-        
-    func renameNote(selectedRow: Int) {
-        guard notesTableView.noteList.indices.contains(selectedRow) else { return }
-        guard let row = notesTableView.rowView(atRow: selectedRow, makeIfNecessary: true) as? NoteRowView else { return }
-        guard let cell = row.view(atColumn: 0) as? NoteCellView else { return }
-        guard let note = cell.objectValue as? Note else { return }
-        
-        cell.name.isEditable = true
-        cell.name.becomeFirstResponder()
-        cell.name.stringValue = note.getTitleWithoutLabel()
-
-        if UserDefaultsManagement.appearanceType != AppearanceType.Custom, !UserDataService.instance.isDark, #available(OSX 10.13, *) {
-            cell.name.textColor = NSColor.init(named: "reverseBackground")
-        }
-        
-        let fileName = cell.name.currentEditor()!.string as NSString
-        let fileNameLength = fileName.length
-        
-        cell.name.currentEditor()?.selectedRange = NSMakeRange(0, fileNameLength)
-    }
 
     func external(selectedRow: Int) {
         if (notesTableView.noteList.indices.contains(selectedRow)) {
@@ -2017,6 +2007,7 @@ class ViewController: NSViewController,
         }
 
         titleLabel.stringValue = titleString
+        titleLabel.currentEditor()?.selectedRange = NSRange(location: 0, length: 0)
         
         let title = newTitle != nil ? "\(appName) - \(noteTitle)" : appName
         MainWindowController.shared()?.title = title
