@@ -1315,6 +1315,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     override func clicked(onLink link: Any, at charIndex: Int) {
+        if let link = link as? String, link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
+            NSWorkspace.shared.open(mail)
+            return
+        }
+
         let range = NSRange(location: charIndex, length: 1)
         
         let char = attributedSubstring(forProposedRange: range, actualRange: nil)
