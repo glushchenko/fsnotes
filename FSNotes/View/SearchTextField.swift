@@ -78,6 +78,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             } else {
                 vcDelegate.makeNote(self)
             }
+
+            searchTimer.invalidate()
             return true
         case "insertTab:":
             vcDelegate.focusEditArea()
@@ -114,34 +116,34 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     @objc private func search() {
         UserDataService.instance.searchTrigger = true
 
-         let searchText = self.stringValue
-         let currentTextLength = searchText.count
-         var sidebarItem: SidebarItem? = nil
+        let searchText = self.stringValue
+        let currentTextLength = searchText.count
+        var sidebarItem: SidebarItem? = nil
 
-         if currentTextLength > self.lastQueryLength {
-             self.skipAutocomplete = false
-         }
+        if currentTextLength > self.lastQueryLength {
+            self.skipAutocomplete = false
+        }
 
-         self.lastQueryLength = searchText.count
+        self.lastQueryLength = searchText.count
 
-         let projects = vcDelegate.storageOutlineView.getSidebarProjects()
-         let tags = vcDelegate.storageOutlineView.getSidebarTags()
+        let projects = vcDelegate.storageOutlineView.getSidebarProjects()
+        let tags = vcDelegate.storageOutlineView.getSidebarTags()
 
-         if projects == nil && tags == nil {
-             sidebarItem = self.vcDelegate.getSidebarItem()
-         }
+        if projects == nil && tags == nil {
+            sidebarItem = self.vcDelegate.getSidebarItem()
+        }
 
-         self.filterQueue.cancelAllOperations()
-         self.filterQueue.addOperation {
-             self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
-                 if !UserDefaultsManagement.focusInEditorOnNoteSelect {
-                     UserDataService.instance.searchTrigger = false
-                 }
-             }
-         }
+        self.filterQueue.cancelAllOperations()
+        self.filterQueue.addOperation {
+            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
+                if !UserDefaultsManagement.focusInEditorOnNoteSelect {
+                    UserDataService.instance.searchTrigger = false
+                }
+            }
+        }
 
-         let pb = NSPasteboard(name: .findPboard)
-         pb.declareTypes([.textFinderOptions, .string], owner: nil)
-         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+        let pb = NSPasteboard(name: .findPboard)
+        pb.declareTypes([.textFinderOptions, .string], owner: nil)
+        pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
     }
 }
