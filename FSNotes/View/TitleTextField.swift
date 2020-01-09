@@ -25,8 +25,28 @@ class TitleTextField: NSTextField {
     }
 
     override func textDidEndEditing(_ notification: Notification) {
-        guard let vc = ViewController.shared(), let fn = EditTextView.note?.getFileName() else { return }
+        guard let vc = ViewController.shared(), let note = EditTextView.note else { return }
 
-        vc.updateTitle(newTitle: fn)
+        let currentTitle = stringValue
+        let currentName = note.getFileName()
+
+        if currentName != currentTitle {
+            let ext = note.url.pathExtension
+            let dst = note.project.url.appendingPathComponent(currentTitle).appendingPathExtension(ext)
+
+            if !FileManager.default.fileExists(atPath: dst.path), note.move(to: dst) {
+                vc.updateTitle(newTitle: currentTitle)
+
+                return
+            } else {
+                let alert = NSAlert()
+                alert.alertStyle = .critical
+                alert.informativeText = NSLocalizedString("File with name \"\(currentTitle)\" already exists!", comment: "")
+                alert.messageText = NSLocalizedString("Incorrect file name", comment: "")
+                alert.runModal()
+            }
+        }
+
+        vc.updateTitle(newTitle: currentName)
     }
 }

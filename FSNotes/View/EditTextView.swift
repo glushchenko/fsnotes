@@ -973,7 +973,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NSPasteboard.PasteboardType(kUTTypeFileURL as String)
         ])
 
-        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
+        EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 3
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
 

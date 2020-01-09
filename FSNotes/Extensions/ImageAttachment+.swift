@@ -115,7 +115,7 @@ extension NoteAttachment {
         if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBig"), FileManager.default.fileExists(atPath: cacheURL.path) {
             thumbImage = NSImage(contentsOfFile: cacheURL.path)
         } else if
-            let resizedImage = image.resized(to: size)?.roundCorners(withRadius: 3) {
+            let resizedImage = image.resized(to: size) {
             thumbImage = resizedImage
 
             self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBig")
