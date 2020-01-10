@@ -1049,7 +1049,7 @@ public class NotesTextProcessor {
         "      (\(NotesTextProcessor.getNestedParensPattern()))    # href = $3",
         "      \\p{Z}*",
         "      (               # $4",
-        "      (['\"])       # quote char = $5",
+        "      (['\"])         # quote char = $5",
         "      (.*?)           # title = $6",
         "      \\5             # matching quote",
         "      \\p{Z}*",

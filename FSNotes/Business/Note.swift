@@ -1096,17 +1096,15 @@ public class Note: NSObject  {
 
             guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
 
-            let imagePath = self.content.attributedSubstring(from: range).string
+            guard let imagePath = self.content.attributedSubstring(from: range).string.removingPercentEncoding else { return }
 
             if let url = self.getImageUrl(imageName: imagePath) {
                 if url.isRemote() {
                     urls.append(url)
                     i += 1
-                } else if url.isImage || url.isVideo,
-                    let cleanPath = url.path.removingPercentEncoding,
-                    FileManager.default.fileExists(atPath: cleanPath) {
-                        urls.append(URL(fileURLWithPath: cleanPath))
-                        i += 1
+                } else if FileManager.default.fileExists(atPath: url.path), url.isImage || url.isVideo {
+                    urls.append(url)
+                    i += 1
                 }
             }
 
