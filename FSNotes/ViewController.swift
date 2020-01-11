@@ -439,7 +439,9 @@ class ViewController: NSViewController,
             }
 
             _ = note.move(to: destination, project: project)
-            let show = isFit(note: note, shouldLoadMain: true)
+
+            let type = getSidebarType() ?? .Inbox
+            let show = isFit(note: note, shouldLoadMain: true, type: type)
 
             if !show {
                 notesTableView.removeByNotes(notes: [note])
