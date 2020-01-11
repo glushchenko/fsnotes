@@ -20,7 +20,8 @@ extension NSTextStorage {
 
             DispatchQueue.main.async {
                 let cell = NSTextAttachmentCell(imageCell: image)
-                attachment.image = image
+                cell.image?.size = size
+                attachment.image = nil
                 attachment.attachmentCell = cell
                 attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
 
