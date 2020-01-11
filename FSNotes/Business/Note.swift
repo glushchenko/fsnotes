@@ -202,7 +202,16 @@ public class Note: NSObject  {
             removeCacheForPreviewImages()
 
             #if os(OSX)
+                let restorePin = isPinned
+                if isPinned {
+                    removePin()
+                }
+
                 overwrite(url: destination)
+
+                if restorePin {
+                    addPin()
+                }
             #endif
 
             NSLog("File moved from \"\(url.deletingPathExtension().lastPathComponent)\" to \"\(destination.deletingPathExtension().lastPathComponent)\"")
@@ -559,11 +568,13 @@ public class Note: NSObject  {
     }
 
     private func loadTitle() {
-        title = url
-            .deletingPathExtension()
-            .pathComponents
-            .last!
-            .replacingOccurrences(of: ":", with: "/")
+        if !(UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+            title = url
+                .deletingPathExtension()
+                .pathComponents
+                .last!
+                .replacingOccurrences(of: ":", with: "/")
+        }
     }
 
     public func save(attributed: NSAttributedString) {

@@ -10,6 +10,8 @@ import Cocoa
 import Carbon.HIToolbox
 
 class TitleTextField: NSTextField {
+    public var restoreResponder: NSResponder?
+
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.modifierFlags.contains(.command)
             && event.keyCode == kVK_ANSI_C
@@ -24,8 +26,16 @@ class TitleTextField: NSTextField {
         return super.performKeyEquivalent(with: event)
     }
 
+    override func becomeFirstResponder() -> Bool {
+        if let note = EditTextView.note {
+            stringValue = note.getFileName()
+        }
+
+        return super.becomeFirstResponder()
+    }
+
     override func textDidEndEditing(_ notification: Notification) {
-        guard let vc = ViewController.shared(), let note = EditTextView.note else { return }
+        guard stringValue.count > 0, let vc = ViewController.shared(), let note = EditTextView.note else { return }
 
         let currentTitle = stringValue
         let currentName = note.getFileName()
@@ -37,6 +47,7 @@ class TitleTextField: NSTextField {
             if !FileManager.default.fileExists(atPath: dst.path), note.move(to: dst) {
                 vc.updateTitle(newTitle: currentTitle)
 
+                updateNotesTableView()
                 return
             } else {
                 let alert = NSAlert()
@@ -48,5 +59,19 @@ class TitleTextField: NSTextField {
         }
 
         vc.updateTitle(newTitle: currentName)
+
+        updateNotesTableView()
+    }
+
+    public func updateNotesTableView() {
+        guard let vc = ViewController.shared(), let note = EditTextView.note else { return }
+
+        if note.container == .encryptedTextPack && !note.isUnlocked() {
+            vc.notesTableView.reloadRow(note: note)
+        }
+
+        if let responder = restoreResponder {
+            window?.makeFirstResponder(responder)
+        }
     }
 }

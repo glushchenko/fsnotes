@@ -915,6 +915,9 @@ class ViewController: NSViewController,
     }
     
     @IBAction func renameMenu(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        vc.titleLabel.restoreResponder = vc.view.window?.firstResponder
+
         switchTitleToEditMode()
     }
     
