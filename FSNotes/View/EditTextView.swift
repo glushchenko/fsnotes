@@ -1324,6 +1324,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         let char = attributedSubstring(forProposedRange: range, actualRange: nil)
         if char?.attribute(.attachment, at: 0, effectiveRange: nil) == nil {
+
+            if NSEvent.modifierFlags.contains(.command), let link = link as? String, let url = URL(string: link) {
+                _ = try? NSWorkspace.shared.open(url, options: .withoutActivation, configuration: [:])
+                return
+            }
+
             super.clicked(onLink: link, at: charIndex)
             return
         }
