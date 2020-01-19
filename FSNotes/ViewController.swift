@@ -1316,13 +1316,15 @@ class ViewController: NSViewController,
     @objc private func updateTableViews() {
         notesTableView.beginUpdates()
         for note in updateViews {
+            notesTableView.reloadRow(note: note)
+
             if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
                 if let index = notesTableView.noteList.firstIndex(of: note) {
                     moveNoteToTop(note: index)
                 }
+            } else {
+                sortAndMove(note: note)
             }
-
-            notesTableView.reloadRow(note: note)
         }
 
         updateViews.removeAll()
@@ -1408,7 +1410,13 @@ class ViewController: NSViewController,
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
-            
+
+            if let projects = projects {
+                for project in projects {
+                    self.preLoadNoteTitles(in: project)
+                }
+            }
+
             var terms = filter.split(separator: " ")
             let source = self.storage.noteList
             var notes = [Note]()
@@ -1470,6 +1478,18 @@ class ViewController: NSViewController,
         }
         
         self.searchQueue.addOperation(operation)
+    }
+
+    /*
+     Load titles in cases sort by Title
+     */
+    private func preLoadNoteTitles(in project: Project) {
+        if (UserDefaultsManagement.sort == .title || project.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
+            let notes = storage.noteList.filter({ $0.project == project })
+            for note in notes {
+                _ = note.getImagePreviewUrl()
+            }
+        }
     }
 
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
@@ -1696,6 +1716,20 @@ class ViewController: NSViewController,
             
                 self.focusEditArea()
             }
+        }
+    }
+
+    public func sortAndMove(note: Note) {
+        guard let notes = filteredNoteList else { return }
+        guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
+
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        guard let dstIndex = resorted.firstIndex(of: note) else { return }
+
+        if srcIndex != dstIndex {
+            notesTableView.moveRow(at: srcIndex, to: dstIndex)
+            notesTableView.noteList = resorted
+            filteredNoteList = resorted
         }
     }
     

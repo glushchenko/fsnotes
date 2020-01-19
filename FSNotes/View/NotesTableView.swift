@@ -387,13 +387,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func reloadRow(note: Note) {
+        note.invalidateCache()
+        let urls = note.getImagePreviewUrl()
+
         DispatchQueue.main.async {
             if let i = self.noteList.firstIndex(of: note) {
-                note.invalidateCache()
                 if let row = self.rowView(atRow: i, makeIfNecessary: false) as? NoteRowView, let cell = row.subviews.first as? NoteCellView {
 
                     cell.date.stringValue = note.getDateForLabel()
-                    cell.loadImagesPreview(position: i)
+                    cell.loadImagesPreview(position: i, urls: urls)
                     cell.attachHeaders(note: note)
                     cell.renderPin()
 

@@ -15,10 +15,10 @@ typealias ImageView = NSImageView
 #endif
 
 extension NoteCellView {
-    public func loadImagesPreview(position: Int? = nil) {
+    public func loadImagesPreview(position: Int? = nil, urls: [URL]? = nil) {
         guard let note = self.note else { return }
 
-        let imageURLs = note.getImagePreviewUrl()
+        let imageURLs = urls ?? note.getImagePreviewUrl()
         let imagesFound = imageURLs?.count ?? 0
 
         guard
