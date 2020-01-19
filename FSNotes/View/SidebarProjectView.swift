@@ -25,6 +25,7 @@ class SidebarProjectView: NSOutlineView,
 
     private var selectedProjects = [Project]()
     private var selectedTags: [String]?
+    private var lastSelectedRow: Int?
 
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -457,9 +458,11 @@ class SidebarProjectView: NSOutlineView,
         let tags = getSidebarTags()
         let hasChangedTags = tags?.count != selectedTags?.count
 
+        let lastRow = lastSelectedRow
+        lastSelectedRow = selectedRow
         selectedTags = tags
 
-        if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() {
+        if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() || (lastSelectedRow != lastRow && !isTag(i: selectedRow)) {
             reloadTags()
         }
         
@@ -639,6 +642,18 @@ class SidebarProjectView: NSOutlineView,
         guard let vc = ViewController.shared() else { return }
 
         vc.openProjectViewSettings(sender)
+    }
+
+    private func isTag(i: Int?) -> Bool {
+        guard let items = sidebarItems else { return false }
+
+        if let index = i, items.indices.contains(index) {
+            if items[index] as? Tag != nil {
+                return true
+            }
+        }
+
+        return false
     }
 
     private func removeProject(project: Project) {
@@ -955,8 +970,15 @@ class SidebarProjectView: NSOutlineView,
 
     public func getAllTags() -> [String] {
         var tags = [String]()
+        var projects: [Project]? = nil
 
-        if let projects = getSidebarProjects() {
+        if let item = getSidebarItem(), item.type == .All {
+            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive })
+        } else {
+            projects = getSidebarProjects()
+        }
+
+        if let projects = projects {
             for project in projects {
                 let projectTags = project.getAllTags()
                 for tag in projectTags {
