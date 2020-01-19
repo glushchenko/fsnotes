@@ -494,7 +494,7 @@ class ViewController: NSViewController,
         }
     }
 
-    func resizeView() {
+    func viewDidResize() {
         guard let vc = ViewController.shared() else { return }
         vc.checkSidebarConstraint()
                 
