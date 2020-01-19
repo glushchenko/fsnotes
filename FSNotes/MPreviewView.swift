@@ -91,6 +91,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public func load(note: Note) {
+        /// Do not re-load already loaded view
         guard self.note != note else { return }
         
         let markdownString = note.getPrettifiedContent()

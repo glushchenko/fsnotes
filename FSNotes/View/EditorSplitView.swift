@@ -46,7 +46,7 @@ class EditorSplitView: NSSplitView, NSSplitViewDelegate {
     }
 
     func splitViewDidResizeSubviews(_ notification: Notification) {
-        ViewController.shared()?.resizeView()
+        ViewController.shared()?.viewDidResize()
     }
     
     func splitViewWillResizeSubviews(_ notification: Notification) {
