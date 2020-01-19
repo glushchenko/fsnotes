@@ -17,12 +17,12 @@ public typealias MPreviewViewClosure = () -> ()
 
 class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
+    private weak var note: Note?
     private var closure: MPreviewViewClosure?
     public static var template: String?
-
+    
     init(frame: CGRect, note: Note, closure: MPreviewViewClosure?) {
         self.closure = closure
-        
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
 
@@ -91,6 +91,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     public func load(note: Note) {
+        guard self.note != note else { return }
+        
         let markdownString = note.getPrettifiedContent()
         let css = MarkdownView.getPreviewStyle()
 
@@ -105,6 +107,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         } else {
             fastLoading(note: note, markdown: markdownString, css: css)
         }
+        
+        self.note = note
     }
 
     public func cleanCache() {
