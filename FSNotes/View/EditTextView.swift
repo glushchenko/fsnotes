@@ -502,7 +502,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     viewController.editAreaScroll.addSubview(view)
                 }
             } else {
-                markdownView!.load(note: note)
+                /// Resize markdownView
+                let frame = viewController.editAreaScroll.bounds
+                markdownView?.frame = frame
+                
+                /// Load note if needed
+                markdownView?.load(note: note)
             }
             return
         }

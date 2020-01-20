@@ -494,7 +494,7 @@ class ViewController: NSViewController,
         }
     }
 
-    func splitViewDidResizeSubviews(_ notification: Notification) {
+    func viewDidResize() {
         guard let vc = ViewController.shared() else { return }
         vc.checkSidebarConstraint()
                 
