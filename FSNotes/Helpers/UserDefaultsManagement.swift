@@ -806,7 +806,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.AutomaticTextReplacement) {
                 return result as! Bool
             }
-            return false
+            return true
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.AutomaticTextReplacement)
