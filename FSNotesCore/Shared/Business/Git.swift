@@ -88,7 +88,19 @@ class Git {
         process.standardOutput = pipe
         process.standardError = pipe
 
-        process.launch()
+        if #available(OSX 10.13, *) {
+            do {
+                try process.run()
+            } catch {
+                if debug {
+                    print("Can't run git process: \(error.localizedDescription)")
+                }
+
+                return nil
+            }
+        } else {
+            process.launch()
+        }
         process.waitUntilExit()
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
