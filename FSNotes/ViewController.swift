@@ -56,6 +56,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
+    @IBOutlet weak var titleFullTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleShortTrailingConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {
@@ -79,6 +82,8 @@ class ViewController: NSViewController,
                     NSAnimationContext.runAnimationGroup({ context in
                         context.duration = 0.25
                         self?.titleBarAdditionalView.isHidden = true
+                        self?.titleShortTrailingConstraint.priority = .defaultLow
+                        self?.titleFullTrailingConstraint.priority = .defaultHigh
                     }, completionHandler: nil)
                 }
             }
@@ -97,6 +102,8 @@ class ViewController: NSViewController,
                     NSAnimationContext.runAnimationGroup({ context in
                         context.duration = 0.25
                         self?.titleBarAdditionalView.isHidden = false
+                        self?.titleShortTrailingConstraint.priority = .defaultHigh
+                        self?.titleFullTrailingConstraint.priority = .defaultLow
                     }, completionHandler: nil)
                 }
             }
