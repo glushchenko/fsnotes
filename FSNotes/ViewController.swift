@@ -71,7 +71,11 @@ class ViewController: NSViewController,
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
     @IBOutlet weak var titleBarAdditionalView: NSView!
-    @IBOutlet weak var previewButton: NSButton!
+    @IBOutlet weak var previewButton: NSButton! {
+        didSet {
+            previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        }
+    }
     @IBOutlet weak var titleBarView: TitleBarView! {
         didSet {
             titleBarView.onMouseExitedClosure = { [weak self] in
