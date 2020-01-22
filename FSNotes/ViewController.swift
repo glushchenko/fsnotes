@@ -56,8 +56,6 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
-    @IBOutlet weak var titleFullTrailingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleShortTrailingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: TitleTextField! {
@@ -73,22 +71,32 @@ class ViewController: NSViewController,
     }
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
-    @IBOutlet weak var titleBarAdditionalView: NSView!
+    @IBOutlet weak var titleBarAdditionalView: NSVisualEffectView! {
+        didSet {
+            let layer = CALayer()
+            layer.frame = titleBarAdditionalView.bounds
+            layer.backgroundColor = .clear
+            titleBarAdditionalView.wantsLayer = true
+            titleBarAdditionalView.layer = layer
+            titleBarAdditionalView.alphaValue = 0
+        }
+    }
     @IBOutlet weak var previewButton: NSButton!
     @IBOutlet weak var titleBarView: TitleBarView! {
         didSet {
             titleBarView.onMouseExitedClosure = { [weak self] in
                 DispatchQueue.main.async {
                     NSAnimationContext.runAnimationGroup({ context in
-                        context.duration = 0.25
-                        self?.titleBarAdditionalView.isHidden = true
-                        self?.titleShortTrailingConstraint.priority = .defaultLow
-                        self?.titleFullTrailingConstraint.priority = .defaultHigh
+                        context.duration = 0.15
+                        self?.titleBarAdditionalView.alphaValue = 0
+                        self?.titleLabel.backgroundColor = .clear
                     }, completionHandler: nil)
                 }
             }
             titleBarView.onMouseEnteredClosure = { [weak self] in
                 DispatchQueue.main.async {
+                    guard self?.titleLabel.isEnabled == false || self?.titleLabel.isEditable == false else { return }
+                    
                     if let note = EditTextView.note {
                         if note.isUnlocked() {
                             self?.lockUnlock.image = NSImage(named: NSImage.lockUnlockedTemplateName)
@@ -100,10 +108,8 @@ class ViewController: NSViewController,
                     self?.lockUnlock.isHidden = (EditTextView.note == nil)
 
                     NSAnimationContext.runAnimationGroup({ context in
-                        context.duration = 0.25
-                        self?.titleBarAdditionalView.isHidden = false
-                        self?.titleShortTrailingConstraint.priority = .defaultHigh
-                        self?.titleFullTrailingConstraint.priority = .defaultLow
+                        context.duration = 0.15
+                        self?.titleBarAdditionalView.alphaValue = 1
                     }, completionHandler: nil)
                 }
             }
@@ -933,8 +939,10 @@ class ViewController: NSViewController,
 
         if vc.notesTableView.selectedRow > -1 {
             vc.titleLabel.isEditable = true
-            vc.titleLabel.becomeFirstResponder()
-
+            vc.titleLabel.isEnabled = true
+            MainWindowController.shared()?.makeFirstResponder(titleLabel)
+            titleBarAdditionalView.alphaValue = 0
+            
             if let note = EditTextView.note, note.getFileName().isValidUUID {
                 vc.titleLabel.stringValue = note.getFileName()
             }

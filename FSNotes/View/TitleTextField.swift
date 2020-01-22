@@ -59,8 +59,10 @@ class TitleTextField: NSTextField {
         }
 
         vc.updateTitle(newTitle: currentName)
-
+        self.resignFirstResponder()
         updateNotesTableView()
+        vc.titleLabel.isEditable = false
+        vc.titleLabel.isEnabled = false
     }
 
     public func updateNotesTableView() {

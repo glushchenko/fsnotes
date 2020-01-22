@@ -1581,17 +1581,22 @@ CA
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="xSU-Mk-2F1" customClass="TitleBarView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="562" width="462" height="38"/>
                                                         <subviews>
-                                                            <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="0.0" y="0.0" width="462" height="38"/>
+                                                            <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
+                                                                <rect key="frame" x="85" y="11" width="292" height="16"/>
+                                                                <textFieldCell key="cell" lineBreakMode="truncatingTail" enabled="NO" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
+                                                                    <font key="font" metaFont="system"/>
+                                                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" name="mainBackground"/>
+                                                                </textFieldCell>
+                                                                <connections>
+                                                                    <outlet property="delegate" destination="XfG-lQ-9wD" id="ikK-Ty-iHC"/>
+                                                                </connections>
+                                                            </textField>
+                                                            <customView horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
+                                                                <rect key="frame" x="377" y="0.0" width="85" height="38"/>
                                                                 <subviews>
-                                                                    <box hidden="YES" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="sIv-nk-gch">
-                                                                        <rect key="frame" x="0.0" y="-2" width="462" height="5"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="0.5" id="Cgx-T0-tZD"/>
-                                                                        </constraints>
-                                                                    </box>
-                                                                    <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="9" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shI-kr-3o8">
-                                                                        <rect key="frame" x="400" y="11" width="50" height="16"/>
+                                                                    <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="9" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shI-kr-3o8">
+                                                                        <rect key="frame" x="12" y="11" width="61" height="16"/>
                                                                         <subviews>
                                                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="10" height="16"/>
@@ -1622,7 +1627,7 @@ CA
                                                                                 </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
-                                                                                <rect key="frame" x="50" y="0.0" width="0.0" height="16"/>
+                                                                                <rect key="frame" x="50" y="0.0" width="11" height="16"/>
                                                                                 <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>
@@ -1645,33 +1650,22 @@ CA
                                                                     </stackView>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="bottom" secondItem="sIv-nk-gch" secondAttribute="bottom" id="8zI-PO-LGd"/>
                                                                     <constraint firstItem="shI-kr-3o8" firstAttribute="centerY" secondItem="Ua8-RE-q01" secondAttribute="centerY" id="AVX-pD-7Dr"/>
-                                                                    <constraint firstItem="sIv-nk-gch" firstAttribute="leading" secondItem="Ua8-RE-q01" secondAttribute="leading" id="FzU-YG-fYc"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="sIv-nk-gch" secondAttribute="trailing" id="LlO-H5-hxQ"/>
                                                                     <constraint firstAttribute="trailing" secondItem="shI-kr-3o8" secondAttribute="trailing" constant="12" id="PPb-lX-xlt"/>
+                                                                    <constraint firstItem="shI-kr-3o8" firstAttribute="leading" secondItem="Ua8-RE-q01" secondAttribute="leading" constant="12" id="pyO-IT-LKf"/>
                                                                 </constraints>
                                                             </customView>
                                                         </subviews>
                                                         <constraints>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="xSU-Mk-2F1" secondAttribute="leading" constant="85" id="1I0-Qm-T21"/>
+                                                            <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerY" secondItem="xSU-Mk-2F1" secondAttribute="centerY" id="3lf-bf-dJA"/>
                                                             <constraint firstAttribute="trailing" secondItem="Ua8-RE-q01" secondAttribute="trailing" id="Uos-hm-kn6"/>
-                                                            <constraint firstItem="Ua8-RE-q01" firstAttribute="leading" secondItem="xSU-Mk-2F1" secondAttribute="leading" id="duB-fQ-EQf"/>
+                                                            <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" constant="85" id="ZjM-uT-4wC"/>
                                                             <constraint firstItem="Ua8-RE-q01" firstAttribute="top" secondItem="xSU-Mk-2F1" secondAttribute="top" id="esv-qQ-apf"/>
                                                             <constraint firstAttribute="bottom" secondItem="Ua8-RE-q01" secondAttribute="bottom" id="nac-xp-D3Y"/>
                                                             <constraint firstAttribute="height" constant="38" id="uht-o4-cfz"/>
                                                         </constraints>
                                                     </customView>
-                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" horizontalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="rZx-hk-GcJ" customClass="TitleTextField" customModule="FSNotes" customModuleProvider="target">
-                                                        <rect key="frame" x="20" y="573" width="360" height="16"/>
-                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" alignment="center" title="Title" drawsBackground="YES" id="O9K-a1-3eu">
-                                                            <font key="font" metaFont="system"/>
-                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="mainBackground"/>
-                                                        </textFieldCell>
-                                                        <connections>
-                                                            <outlet property="delegate" destination="XfG-lQ-9wD" id="ikK-Ty-iHC"/>
-                                                        </connections>
-                                                    </textField>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
                                                         <rect key="frame" x="249" y="250" width="70" height="99"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -1681,15 +1675,11 @@ CA
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="8Ne-do-Q9o"/>
-                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" constant="20" id="9Sl-l7-wNT"/>
-                                                    <constraint firstItem="shI-kr-3o8" firstAttribute="leading" secondItem="rZx-hk-GcJ" secondAttribute="trailing" priority="999" constant="20" id="AGn-iT-pzF"/>
                                                     <constraint firstItem="xSU-Mk-2F1" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="CQ0-DY-aM0"/>
-                                                    <constraint firstItem="rZx-hk-GcJ" firstAttribute="centerY" secondItem="xSU-Mk-2F1" secondAttribute="centerY" id="Ett-1f-HTb"/>
                                                     <constraint firstAttribute="trailing" secondItem="qJO-7f-vkL" secondAttribute="trailing" id="GZ2-jz-8Ue"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="top" secondItem="xSU-Mk-2F1" secondAttribute="bottom" id="NMQ-Tc-leL"/>
                                                     <constraint firstItem="xSU-Mk-2F1" firstAttribute="top" secondItem="at7-wA-VAS" secondAttribute="top" id="Nm9-X5-Q67"/>
                                                     <constraint firstAttribute="trailing" secondItem="xSU-Mk-2F1" secondAttribute="trailing" id="Te8-se-icR"/>
-                                                    <constraint firstAttribute="trailing" secondItem="rZx-hk-GcJ" secondAttribute="trailing" priority="995" constant="20" id="UCd-6M-rsb"/>
                                                     <constraint firstAttribute="bottom" secondItem="qJO-7f-vkL" secondAttribute="bottom" id="hij-XA-hAd"/>
                                                     <constraint firstItem="qJO-7f-vkL" firstAttribute="leading" secondItem="at7-wA-VAS" secondAttribute="leading" id="inr-29-Y1D"/>
                                                 </constraints>
@@ -1737,9 +1727,7 @@ CA
                         <outlet property="storageOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
                         <outlet property="titleBarAdditionalView" destination="Ua8-RE-q01" id="CfN-3p-UH3"/>
                         <outlet property="titleBarView" destination="xSU-Mk-2F1" id="lbu-pA-1Hs"/>
-                        <outlet property="titleFullTrailingConstraint" destination="UCd-6M-rsb" id="6eB-l3-bUm"/>
                         <outlet property="titleLabel" destination="rZx-hk-GcJ" id="wKj-zD-Ovz"/>
-                        <outlet property="titleShortTrailingConstraint" destination="AGn-iT-pzF" id="vkn-qK-B7k"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
