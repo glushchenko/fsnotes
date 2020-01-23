@@ -81,7 +81,11 @@ class ViewController: NSViewController,
             titleBarAdditionalView.alphaValue = 0
         }
     }
-    @IBOutlet weak var previewButton: NSButton!
+    @IBOutlet weak var previewButton: NSButton! {
+        didSet {
+            previewButton.state = UserDefaultsManagement.preview ? .on : .off
+        }
+    }
     @IBOutlet weak var titleBarView: TitleBarView! {
         didSet {
             titleBarView.onMouseExitedClosure = { [weak self] in

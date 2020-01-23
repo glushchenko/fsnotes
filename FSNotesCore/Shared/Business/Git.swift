@@ -59,14 +59,13 @@ class Git {
         return repositories
     }
 
-    public func getBinary() -> URL {
-        let url = Bundle.main.bundleURL.appendingPathComponent("Contents/MacOS/git")
-
-        return url
+    public func pathToGit() -> String? {
+        return Bundle.main.path(forResource: "git", ofType: "")
     }
 
     public func exec(args: [String], env: [String: String]? = nil) -> String? {
-        let launchPath = getBinary().path
+        guard let launchPath = pathToGit() else { return nil }
+
         let process = Process()
 
         process.launchPath = launchPath
@@ -88,7 +87,19 @@ class Git {
         process.standardOutput = pipe
         process.standardError = pipe
 
-        process.launch()
+        if #available(OSX 10.13, *) {
+            do {
+                try process.run()
+            } catch {
+                if debug {
+                    print("Can't run git process: \(error.localizedDescription)")
+                }
+
+                return nil
+            }
+        } else {
+            process.launch()
+        }
         process.waitUntilExit()
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
