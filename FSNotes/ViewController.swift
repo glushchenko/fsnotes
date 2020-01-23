@@ -940,8 +940,8 @@ class ViewController: NSViewController,
         if vc.notesTableView.selectedRow > -1 {
             vc.titleLabel.isEditable = true
             vc.titleLabel.isEnabled = true
-            MainWindowController.shared()?.makeFirstResponder(titleLabel)
-            titleBarAdditionalView.alphaValue = 0
+            MainWindowController.shared()?.makeFirstResponder(vc.titleLabel)
+            vc.titleBarAdditionalView.alphaValue = 0
             
             if let note = EditTextView.note, note.getFileName().isValidUUID {
                 vc.titleLabel.stringValue = note.getFileName()
