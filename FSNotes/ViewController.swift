@@ -662,7 +662,7 @@ class ViewController: NSViewController,
 
             // Renaming is in progress
             if titleLabel.isEditable {
-                titleLabel.isEditable = false
+                titleLabel.editModeOff()
                 titleLabel.window?.makeFirstResponder(notesTableView)
                 return false
             }
@@ -712,7 +712,7 @@ class ViewController: NSViewController,
             && !event.modifierFlags.contains(.option)
         ) {
             if titleLabel.isEditable {
-                titleLabel.isEditable = false
+                titleLabel.editModeOff()
                 titleLabel.window?.makeFirstResponder(nil)
             }
 
@@ -723,7 +723,7 @@ class ViewController: NSViewController,
         // Prev note (cmd-k)
         if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
             if titleLabel.isEditable {
-                titleLabel.isEditable = false
+                titleLabel.editModeOff()
                 titleLabel.window?.makeFirstResponder(nil)
             }
 
@@ -942,9 +942,7 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
 
         if vc.notesTableView.selectedRow > -1 {
-            vc.titleLabel.isEditable = true
-            vc.titleLabel.isEnabled = true
-            MainWindowController.shared()?.makeFirstResponder(vc.titleLabel)
+            vc.titleLabel.editModeOn()
             vc.titleBarAdditionalView.alphaValue = 0
             
             if let note = EditTextView.note, note.getFileName().isValidUUID {
@@ -1250,7 +1248,7 @@ class ViewController: NSViewController,
         guard let textField = obj.object as? NSTextField, textField == titleLabel else { return }
         
         if titleLabel.isEditable == true {
-            titleLabel.isEditable = false
+            titleLabel.editModeOff()
             fileName(titleLabel)
             view.window?.makeFirstResponder(notesTableView)
         }

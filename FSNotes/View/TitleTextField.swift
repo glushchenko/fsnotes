@@ -40,6 +40,11 @@ class TitleTextField: NSTextField {
         let currentTitle = stringValue
         let currentName = note.getFileName()
 
+        defer {
+            updateNotesTableView()
+            editModeOff()
+        }
+        
         if currentName != currentTitle {
             let ext = note.url.pathExtension
             let dst = note.project.url.appendingPathComponent(currentTitle).appendingPathExtension(ext)
@@ -65,6 +70,18 @@ class TitleTextField: NSTextField {
         vc.titleLabel.isEnabled = false
     }
 
+    public func editModeOn() {
+        self.isEnabled = true
+        self.isEditable = true
+        
+        MainWindowController.shared()?.makeFirstResponder(self)
+    }
+    
+    public func editModeOff() {
+        self.isEnabled = false
+        self.isEditable = false
+    }
+    
     public func updateNotesTableView() {
         guard let vc = ViewController.shared(), let note = EditTextView.note else { return }
 
