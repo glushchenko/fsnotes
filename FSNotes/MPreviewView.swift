@@ -25,6 +25,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
+        userContentController.add(HandlerCodeCopy(), name: "notification")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -336,6 +337,23 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 #endif
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
+    }
+}
+
+class HandlerCodeCopy: NSObject, WKScriptMessageHandler {
+    public static var selectionString: String? {
+        didSet {
+            guard let copyBlock = selectionString else { return }
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(copyBlock, forType: .string)
+        }
+    }
+
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
+
+        HandlerCodeCopy.selectionString = message
     }
 }
 
