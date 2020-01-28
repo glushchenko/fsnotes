@@ -462,14 +462,17 @@ class SidebarProjectView: NSOutlineView,
         lastSelectedRow = selectedRow
         selectedTags = tags
 
-        if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() || (lastSelectedRow != lastRow && !isTag(i: selectedRow)) {
-            reloadTags()
-        }
-        
         if let view = notification.object as? NSOutlineView {
             let sidebar = sidebarItems
             let i = view.selectedRow
 
+            if let cell = view.item(atRow: i) as? SidebarItem {
+                let isTag = cell.type == .Tag
+                if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() || (lastSelectedRow != lastRow && !isTag) {
+                    reloadTags()
+                }
+            }
+            
             if sidebar.indices.contains(i), let item = sidebar[i] as? SidebarItem {
                 if UserDataService.instance.lastType == item.type.rawValue && UserDataService.instance.lastProject == item.project?.url &&
                     UserDataService.instance.lastName == item.name &&
@@ -642,18 +645,6 @@ class SidebarProjectView: NSOutlineView,
         guard let vc = ViewController.shared() else { return }
 
         vc.openProjectViewSettings(sender)
-    }
-
-    private func isTag(i: Int?) -> Bool {
-        guard let items = sidebarItems else { return false }
-
-        if let index = i, items.indices.contains(index) {
-            if items[index] as? Tag != nil {
-                return true
-            }
-        }
-
-        return false
     }
 
     private func removeProject(project: Project) {
