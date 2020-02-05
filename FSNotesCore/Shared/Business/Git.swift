@@ -60,6 +60,11 @@ class Git {
     }
 
     public func pathToGit() -> String? {
+        let gitReleaseURL = Bundle.main.bundleURL.appendingPathComponent("Contents/MacOS/git")
+        if FileManager.default.fileExists(atPath: gitReleaseURL.path) {
+            return gitReleaseURL.path
+        }
+
         return Bundle.main.path(forResource: "git", ofType: "")
     }
 
