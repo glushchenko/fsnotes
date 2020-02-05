@@ -452,7 +452,9 @@ class ViewController: NSViewController,
                     move(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: project)
                 }
 
-                note.save()
+                if imagesMeta.count > 0 {
+                    note.save()
+                }
             }
 
             _ = note.move(to: destination, project: project)
