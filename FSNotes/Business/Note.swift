@@ -1043,7 +1043,6 @@ public class Note: NSObject  {
         return project.url.appendingPathComponent("/.cache/")
     }
 
-    #if os(OSX)
     public func getAllImages(content: NSMutableAttributedString? = nil) -> [(url: URL, path: String)] {
         let content = content ?? self.content
         var res = [(url: URL, path: String)]()
@@ -1062,6 +1061,8 @@ public class Note: NSObject  {
 
         return res
     }
+
+    #if os(OSX)
 
     public func duplicate() {
         var url = self.url
