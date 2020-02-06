@@ -1044,19 +1044,20 @@ public class Note: NSObject  {
     }
 
     #if os(OSX)
-    public func getAllImages() -> [(url: URL, path: String)] {
+    public func getAllImages(content: NSMutableAttributedString? = nil) -> [(url: URL, path: String)] {
+        let content = content ?? self.content
         var res = [(url: URL, path: String)]()
 
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
             {(result, flags, stop) -> Void in
 
-                guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
+            guard let range = result?.range(at: 3), content.length >= range.location else { return }
 
-                let imagePath = self.content.attributedSubstring(from: range).string.removingPercentEncoding
+            let imagePath = content.attributedSubstring(from: range).string.removingPercentEncoding
 
-                if let imagePath = imagePath, let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
-                    res.append((url: url, path: imagePath))
-                }
+            if let imagePath = imagePath, let url = self.getImageUrl(imageName: imagePath), !url.isRemote() {
+                res.append((url: url, path: imagePath))
+            }
         })
 
         return res
@@ -1251,6 +1252,15 @@ public class Note: NSObject  {
         note.content = content
         note.save(globalStorage: false)
 
+        if type == .Markdown {
+            let imagesMeta = getAllImages()
+            for imageMeta in imagesMeta {
+                moveFilesFlatToAssets(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: note.url)
+            }
+
+            note.save(globalStorage: false)
+        }
+
         return note.url
     }
 
@@ -1272,8 +1282,90 @@ public class Note: NSObject  {
                 container = .none
 
                 try? FileManager.default.moveItem(at: flatURL, to: uniqueURL)
+
+                moveFilesAssetsToFlat(content: uniqueURL, src: textBundleURL, project: project)
+
                 try? FileManager.default.removeItem(at: textBundleURL)
             }
+        }
+    }
+
+    private func moveFilesFlatToAssets(note: Note, from imageURL: URL, imagePath: String, to dest: URL) {
+        let dest = dest.appendingPathComponent("assets")
+        let fileName = imageURL.lastPathComponent
+
+        if !FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        do {
+            try FileManager.default.moveItem(at: imageURL, to: dest.appendingPathComponent(fileName))
+
+            let prefix = "]("
+            let postfix = ")"
+
+            let find = prefix + imagePath + postfix
+            let replace = prefix + "assets/" + imageURL.lastPathComponent + postfix
+
+            guard find != replace else { return }
+
+            while note.content.mutableString.contains(find) {
+                let range = note.content.mutableString.range(of: find)
+                note.content.replaceCharacters(in: range, with: replace)
+            }
+        } catch {
+            print("Enc error: \(error)")
+        }
+    }
+
+    private func moveFilesAssetsToFlat(content: URL, src: URL, project: Project) {
+        guard let content = try? String(contentsOf: content) else { return }
+
+        let mutableContent = NSMutableAttributedString(attributedString: NSAttributedString(string: content))
+
+        let imagesMeta = getAllImages(content: mutableContent)
+        for imageMeta in imagesMeta {
+            let fileName = imageMeta.url.lastPathComponent
+            var dst: URL?
+            var prefix = "/files/"
+
+            if imageMeta.url.isImage {
+                prefix = "/i/"
+            }
+
+            dst = project.url.appendingPathComponent(prefix + fileName)
+
+            guard let moveTo = dst else { continue }
+
+            let dstDir = project.url.appendingPathComponent(prefix)
+            let moveFrom = src.appendingPathComponent("assets/" + fileName)
+
+            do {
+                if !FileManager.default.fileExists(atPath: dstDir.path) {
+                    try? FileManager.default.createDirectory(at: dstDir, withIntermediateDirectories: false, attributes: nil)
+                }
+
+                try FileManager.default.moveItem(at: moveFrom, to: moveTo)
+
+            } catch {
+                if let fileName = ImagesProcessor.getFileName(from: moveTo, to: dstDir, ext: moveTo.pathExtension) {
+
+                    let moveTo = dstDir.appendingPathComponent(fileName)
+                    try? FileManager.default.moveItem(at: moveFrom, to: moveTo)
+                }
+            }
+
+            let find = "](assets/" + fileName + ")"
+            let replace = "](" + prefix + fileName + ")"
+
+            guard find != replace else { return }
+
+            while mutableContent.mutableString.contains(find) {
+                let range = mutableContent.mutableString.range(of: find)
+                mutableContent.replaceCharacters(in: range, with: replace)
+            }
+
+            try? mutableContent.string.write(to: url, atomically: true, encoding: String.Encoding.utf8)
         }
     }
 
