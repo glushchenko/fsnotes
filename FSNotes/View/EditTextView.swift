@@ -284,19 +284,54 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if UserDefaultsManagement.inlineTags {
             if (string as NSString).substring(with: charRange) == "#" {
                 if let tags = viewDelegate?.storageOutlineView.getAllTags() {
-                    return tags.compactMap({ "#\($0)"})
+                    return tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
                 }
 
                 return nil
-            } else if charRange.location > 0 {
-                let hashRange = NSRange(location: charRange.location - 1, length: 1)
-                if (string as NSString).substring(with: hashRange) == "#" {
-                    let partialWord = (string as NSString).substring(with: charRange)
-                    if let tags = viewDelegate?.storageOutlineView.getAllTags() {
-                        return tags.filter({ $0.starts(with: partialWord )}).filter({ $0 != partialWord })
+            } else if charRange.location > 0,
+                let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: charRange.location, length: 0)),
+                let paragraph = textStorage?.mutableString.substring(with: parRange)
+            {
+                let words = paragraph.components(separatedBy: " ")
+                var i = parRange.location
+                for word in words {
+                    let range = NSRange(location: i + 1, length: word.count)
+                    i += word.count + 1
+
+                    if word == "" || charRange.location > range.upperBound || charRange.location < range.lowerBound || range.location <= 0 {
+                        continue
                     }
 
-                    return nil
+                    if let tags = viewDelegate?.storageOutlineView.getAllTags(),
+                        let partialWord = textStorage?.mutableString.substring(with: NSRange(range.location..<charRange.upperBound)) {
+
+                        if !partialWord.contains("/") {
+                            return tags.filter({ $0.starts(with: partialWord )})
+                                .sorted { $0.count < $1.count }
+                        }
+
+                        var parts = partialWord.components(separatedBy: "/")
+                        _ = parts.popLast()
+
+                        let excludePart = parts.joined(separator: "/")
+                        let offset = excludePart.count + 1
+
+                        if partialWord.last != "/" {
+                            return tags.filter({ $0.starts(with: partialWord )})
+                                .filter({ $0 != partialWord })
+                                .compactMap({ String($0[offset...]) })
+                                .sorted { $0.count < $1.count }
+                        }
+
+                        if let last = parts.popLast() {
+                            return tags.filter({ $0.starts(with: partialWord )})
+                                .filter({ $0 != partialWord })
+                                .compactMap({ String(last + "/" + $0[offset...]) })
+                                .sorted { $0.count < $1.count }
+                        }
+
+                        return nil
+                    }
                 }
             }
         }
@@ -837,22 +872,29 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     }
                 }
 
-                textStorage?.mutableString.enumerateSubstrings(in: parRange, options: .byWords, using: { word, range, _, stop in
-                    if word == nil || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
-                        return
-                    }
+                if let paragraph = textStorage?.mutableString.substring(with: parRange) {
+                    let words = paragraph.components(separatedBy: " ")
+                    var i = parRange.location
+                    for word in words {
+                        let range = NSRange(location: i + 1, length: word.count)
 
-                    let hashRange = NSRange(location: range.location - 1, length: 1)
+                        i += word.count + 1
 
-                    if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
-                        DispatchQueue.main.async {
-                            self.complete(nil)
+                        if word == "" || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
+                            continue
                         }
 
-                        stop.pointee = true
-                        return
+                        let hashRange = NSRange(location: range.location - 1, length: 1)
+                        if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
+
+                            DispatchQueue.main.async {
+                                self.complete(nil)
+                            }
+
+                            break
+                        }
                     }
-                })
+                }
             }
 
             tagsTimer?.invalidate()
