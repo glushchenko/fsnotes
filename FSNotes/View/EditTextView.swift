@@ -284,7 +284,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if UserDefaultsManagement.inlineTags {
             if (string as NSString).substring(with: charRange) == "#" {
                 if let tags = viewDelegate?.storageOutlineView.getAllTags() {
-                    return tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
+                    var list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
+
+//                    if let first = list.first, first.contains("/"),
+//                        let firstPart = first.components(separatedBy: "/").first,
+//                        !list.contains(firstPart + "/") {
+//                        list.insert(firstPart + "/", at: 0)
+//                    }
+
+                    return unfoldTags(list: list).sorted { $0.count < $1.count }
                 }
 
                 return nil
@@ -305,29 +313,44 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     if let tags = viewDelegate?.storageOutlineView.getAllTags(),
                         let partialWord = textStorage?.mutableString.substring(with: NSRange(range.location..<charRange.upperBound)) {
 
-                        if !partialWord.contains("/") {
-                            return tags.filter({ $0.starts(with: partialWord )})
-                                .sorted { $0.count < $1.count }
-                        }
-
                         var parts = partialWord.components(separatedBy: "/")
-                        _ = parts.popLast()
+                        let last = parts.popLast()
+
+                        if !partialWord.contains("/") {
+                            var list = tags.filter({ $0.starts(with: partialWord )})
+
+//                            if let last = last, !tags.contains(last) {
+//                                if tags.filter({ $0.starts(with: partialWord + "/") }).count > 0 {
+//                                    list.append(last)
+//                                }
+//                            }
+
+                            return unfoldTags(list: list, isFirstLevel: true).sorted { $0.count < $1.count }
+                        }
 
                         let excludePart = parts.joined(separator: "/")
                         let offset = excludePart.count + 1
 
                         if partialWord.last != "/" {
-                            return tags.filter({ $0.starts(with: partialWord )})
+                            var list = tags.filter({ $0.starts(with: partialWord )})
                                 .filter({ $0 != partialWord })
                                 .compactMap({ String($0[offset...]) })
-                                .sorted { $0.count < $1.count }
+
+//                            if let last = last, !tags.contains(last) {
+//                                if tags.filter({ $0.starts(with: partialWord + "/") }).count > 0 {
+//                                    list.append(last)
+//                                }
+//                            }
+
+                            return unfoldTags(list: list).sorted { $0.count < $1.count }
                         }
 
-                        if let last = parts.popLast() {
-                            return tags.filter({ $0.starts(with: partialWord )})
+                        if let lastPart = parts.popLast() {
+                            let list = tags.filter({ $0.starts(with: partialWord )})
                                 .filter({ $0 != partialWord })
-                                .compactMap({ String(last + "/" + $0[offset...]) })
-                                .sorted { $0.count < $1.count }
+                                .compactMap({ String(lastPart + "/" + $0[offset...]) })
+
+                            return unfoldTags(list: list).sorted { $0.count < $1.count }
                         }
 
                         return nil
@@ -344,6 +367,37 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         return nil
+    }
+
+    private func unfoldTags(list: [String], isFirstLevel: Bool = false) -> [String] {
+        var list = list
+
+        for listItem in list {
+            if listItem.contains("/") {
+                let items = listItem.components(separatedBy: "/")
+
+                var start = items.first!
+                var first = true
+
+                for item in items {
+                    if first {
+                        first = false
+                        if isFirstLevel, !list.contains(start) {
+                            list.insert(start, at: 0)
+                        }
+                        continue
+                    }
+
+                    start += ("/" + item)
+
+                    if !list.contains(start) {
+                        list.insert(start, at: 0)
+                    }
+                }
+            }
+        }
+
+        return list
     }
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
