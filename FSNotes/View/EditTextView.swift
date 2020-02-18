@@ -281,16 +281,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+
+        let mainWord = (string as NSString).substring(with: charRange)
+
         if UserDefaultsManagement.inlineTags {
             if (string as NSString).substring(with: charRange) == "#" {
                 if let tags = viewDelegate?.storageOutlineView.getAllTags() {
-                    var list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
-
-//                    if let first = list.first, first.contains("/"),
-//                        let firstPart = first.components(separatedBy: "/").first,
-//                        !list.contains(firstPart + "/") {
-//                        list.insert(firstPart + "/", at: 0)
-//                    }
+                    let list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
 
                     return unfoldTags(list: list).sorted { $0.count < $1.count }
                 }
@@ -314,35 +311,23 @@ class EditTextView: NSTextView, NSTextFinderClient {
                         let partialWord = textStorage?.mutableString.substring(with: NSRange(range.location..<charRange.upperBound)) {
 
                         var parts = partialWord.components(separatedBy: "/")
-                        let last = parts.popLast()
+                        _ = parts.popLast()
 
                         if !partialWord.contains("/") {
-                            var list = tags.filter({ $0.starts(with: partialWord )})
+                            let list = tags.filter({ $0.starts(with: partialWord )})
 
-//                            if let last = last, !tags.contains(last) {
-//                                if tags.filter({ $0.starts(with: partialWord + "/") }).count > 0 {
-//                                    list.append(last)
-//                                }
-//                            }
-
-                            return unfoldTags(list: list, isFirstLevel: true).sorted { $0.count < $1.count }
+                            return unfoldTags(list: list, isFirstLevel: true, word: mainWord).sorted { $0.count < $1.count }
                         }
 
                         let excludePart = parts.joined(separator: "/")
                         let offset = excludePart.count + 1
 
                         if partialWord.last != "/" {
-                            var list = tags.filter({ $0.starts(with: partialWord )})
+                            let list = tags.filter({ $0.starts(with: partialWord )})
                                 .filter({ $0 != partialWord })
                                 .compactMap({ String($0[offset...]) })
 
-//                            if let last = last, !tags.contains(last) {
-//                                if tags.filter({ $0.starts(with: partialWord + "/") }).count > 0 {
-//                                    list.append(last)
-//                                }
-//                            }
-
-                            return unfoldTags(list: list).sorted { $0.count < $1.count }
+                            return unfoldTags(list: list, word: mainWord).sorted { $0.count < $1.count }
                         }
 
                         if let lastPart = parts.popLast() {
@@ -350,7 +335,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                                 .filter({ $0 != partialWord })
                                 .compactMap({ String(lastPart + "/" + $0[offset...]) })
 
-                            return unfoldTags(list: list).sorted { $0.count < $1.count }
+                            return unfoldTags(list: list, word: mainWord).sorted { $0.count < $1.count }
                         }
 
                         return nil
@@ -369,7 +354,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return nil
     }
 
-    private func unfoldTags(list: [String], isFirstLevel: Bool = false) -> [String] {
+    private func unfoldTags(list: [String], isFirstLevel: Bool = false, word: String = "") -> [String] {
+
+        let check = word + "/"
+        if list.filter({ $0.starts(with: check)}).count > 0 {
+            return []
+        }
+
         var list = list
 
         for listItem in list {
@@ -915,17 +906,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     nextChar = textStorage.mutableString.substring(with: nextCharRange)
                 }
 
-                if affectedCharRange.location - 1 >= 0 {
-                    let hashRange = NSRange(location: affectedCharRange.location - 1, length: 1)
-
-                    if (self.string as NSString).substring(with: hashRange) == "#" && replacementString != "#" && nextChar.isWhitespace {
-                        DispatchQueue.main.async {
-                            self.complete(nil)
-                            return
-                        }
-                    }
-                }
-
                 if let paragraph = textStorage?.mutableString.substring(with: parRange) {
                     let words = paragraph.components(separatedBy: " ")
                     var i = parRange.location
@@ -944,7 +924,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                             DispatchQueue.main.async {
                                 self.complete(nil)
                             }
-
                             break
                         }
                     }
