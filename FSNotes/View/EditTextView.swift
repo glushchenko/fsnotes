@@ -41,7 +41,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         return super.becomeFirstResponder()
     }
-    
+
     //MARK: caret width
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
@@ -960,6 +960,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+    }
+
+    override func insertCompletion(_ word: String, forPartialWordRange charRange: NSRange, movement: Int, isFinal flag: Bool) {
+        var final = flag
+
+        if let event = self.window?.currentEvent, event.type == .keyDown, ["_", "/"].contains(event.characters) {
+            final = false
+        }
+
+        super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: final)
     }
 
     @objc public func scanTags() {

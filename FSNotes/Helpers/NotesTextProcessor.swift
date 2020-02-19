@@ -69,6 +69,16 @@ public class NotesTextProcessor {
             }
         }
     }
+
+    public static var quoteColor: NSColor {
+        get {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                return NSColor(named: "quoteColor")!
+            } else {
+                return NSColor.darkGray
+            }
+        }
+    }
 #else
     public static var font: UIFont {
         get {
@@ -100,6 +110,12 @@ public class NotesTextProcessor {
             } else {
                 return UIColor(red:1.00, green:0.90, blue:0.70, alpha:1.0)
             }
+        }
+    }
+
+    public static var quoteColor: UIColor {
+        get {
+            return UIColor.darkGray
         }
     }
 #endif
@@ -636,7 +652,7 @@ public class NotesTextProcessor {
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: quoteFont, range: range)
             attributedString.fixAttributes(in: range)
-            attributedString.addAttribute(.foregroundColor, value: Color.gray, range: range)
+            attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
             attributedString.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
