@@ -1446,6 +1446,7 @@ class ViewController: NSViewController,
             
             for note in source {
                 if operation.isCancelled {
+                    completion()
                     return
                 }
 
@@ -1454,8 +1455,16 @@ class ViewController: NSViewController,
                 }
             }
 
+            let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
+
+            // Check diff
+            if self.filteredNoteList == notes && orderedNotesList == self.notesTableView.noteList {
+                completion()
+                return
+            }
+
             self.filteredNoteList = notes
-            self.notesTableView.noteList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
+            self.notesTableView.noteList = orderedNotesList
 
             if operation.isCancelled {
                 completion()
@@ -1637,7 +1646,11 @@ class ViewController: NSViewController,
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editArea.clear()
 
-        self.updateTable(searchText: "")
+        self.updateTable(searchText: "") {
+            DispatchQueue.main.async {
+                self.storageOutlineView.reloadTags()
+            }
+        }
     }
     
     func makeNoteShortcut() {

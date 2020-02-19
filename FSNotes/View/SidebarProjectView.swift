@@ -940,7 +940,7 @@ class SidebarProjectView: NSOutlineView,
         return allow
     }
 
-    private func reloadTags() {
+    public func reloadTags() {
         unloadAllTags()
         loadAllTags()
     }
