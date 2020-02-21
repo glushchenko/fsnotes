@@ -140,6 +140,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
             
             vc.storageOutlineView.deselectAll(nil)
+            vc.storageOutlineView.reloadTags()
             vc.editArea.clear()
             return
         }
