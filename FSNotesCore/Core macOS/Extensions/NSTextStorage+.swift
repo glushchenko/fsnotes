@@ -49,9 +49,7 @@ extension NSTextStorage {
             if let attachment = value as? NSTextAttachment,
                 self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
 
-                if attachment.isFile() {
-                    attachmentParagraph.alignment = .left
-                }
+                attachmentParagraph.alignment = attachment.isFile() ? .left : .center
 
                 addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
             }
