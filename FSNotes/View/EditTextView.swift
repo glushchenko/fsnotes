@@ -1632,7 +1632,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         note.undoManager.registerUndo(withTarget: self, selector: #selector(unDeleteImages), object: removedImages)
-        note.undoManager.setActionName(NSLocalizedString("Delete Images", comment: ""))
     }
 
     @objc public func unDeleteImages(_ urls: [URL: URL]) {

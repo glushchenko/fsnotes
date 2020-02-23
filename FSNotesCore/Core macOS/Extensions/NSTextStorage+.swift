@@ -39,6 +39,10 @@ extension NSTextStorage {
         attachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         attachmentParagraph.alignment = .center
 
+        let leftAttachmentParagraph = NSMutableParagraphStyle()
+        leftAttachmentParagraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        leftAttachmentParagraph.alignment = .left
+
         mutableString.enumerateSubstrings(in: NSRange(0..<length), options: .byParagraphs) { _, range, _, _ in
             let rangeNewline = range.upperBound == self.length ? range : NSRange(range.location..<range.upperBound + 1)
             self.addAttribute(.paragraphStyle, value: paragraph, range: rangeNewline)
@@ -49,9 +53,8 @@ extension NSTextStorage {
             if let attachment = value as? NSTextAttachment,
                 self.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
 
-                attachmentParagraph.alignment = attachment.isFile() ? .left : .center
-
-                addAttribute(.paragraphStyle, value: attachmentParagraph, range: range)
+                let par = attachment.isFile() ? leftAttachmentParagraph : attachmentParagraph
+                addAttribute(.paragraphStyle, value: par, range: range)
             }
         }
 
