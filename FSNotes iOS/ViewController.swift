@@ -433,10 +433,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if (
                     !note.name.isEmpty
                         && (
-                            filter.isEmpty && type != .Todo || type == .Todo && (
-                                self.isMatched(note: note, terms: ["- [ ]"])
-                                    || self.isMatched(note: note, terms: ["- [x]"])
-                                )
+                            filter.isEmpty && type != .Todo || type == .Todo
+                                && self.isMatched(note: note, terms: ["- [ ]"])
                                 || self.isMatched(note: note, terms: terms)
                         ) && (
                             self.isFit(note: note, sidebarItem: sidebarItem, filter: filter)
