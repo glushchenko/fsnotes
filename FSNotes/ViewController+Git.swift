@@ -93,8 +93,10 @@ extension ViewController {
 
         lastSnapshot = minute
 
-        guard hour == UserDefaultsManagement.snapshotsInterval || (
-            hour != 0 && hour % UserDefaultsManagement.snapshotsInterval == 0
+        guard UserDefaultsManagement.snapshotsInterval != 0 && (
+            hour == UserDefaultsManagement.snapshotsInterval || (
+                hour != 0 && hour % UserDefaultsManagement.snapshotsInterval == 0
+            )
         ) else { return }
 
         guard UserDefaultsManagement.snapshotsIntervalMinutes == minute else { return }
