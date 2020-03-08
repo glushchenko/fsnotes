@@ -755,6 +755,58 @@ class SidebarProjectView: NSOutlineView,
         return inlineTags
     }
 
+    public func selectNext() {
+        let i = selectedRow + 1
+        guard let si = sidebarItems, si.indices.contains(i) else { return }
+
+        if let next = si[i] as? SidebarItem {
+            if next.type == .Label && next.project == nil {
+                let j = i + 1
+
+                guard let si = sidebarItems, si.indices.contains(j) else { return }
+
+                if let next = si[j] as? SidebarItem, next.type != .Tag && next.type != .Label {
+                    selectRowIndexes([j], byExtendingSelection: false)
+                    return
+                }
+
+                return
+            }
+
+            if next.type == .Tag {
+                return
+            }
+        }
+
+        selectRowIndexes([i], byExtendingSelection: false)
+    }
+
+    public func selectPrev() {
+        let i = selectedRow - 1
+        guard let si = sidebarItems, si.indices.contains(i) else { return }
+
+        if let next = si[i] as? SidebarItem {
+            if next.type == .Label && next.project == nil {
+                let j = i - 1
+
+                guard let si = sidebarItems, si.indices.contains(j) else { return }
+
+                if let next = si[j] as? SidebarItem, next.type != .Tag && next.type != .Label {
+                    selectRowIndexes([j], byExtendingSelection: false)
+                    return
+                }
+
+                return
+            }
+
+            if next.type == .Tag {
+                return
+            }
+        }
+
+        selectRowIndexes([i], byExtendingSelection: false)
+    }
+
     private func getSidebarItem() -> SidebarItem? {
         guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return nil }
         

@@ -706,7 +706,38 @@ class ViewController: NSViewController,
             pin(notesTableView.selectedRowIndexes)
             return true
         }
-        
+
+        // Next project cmd - shift - j
+        if (
+            event.keyCode == kVK_ANSI_J
+            && event.modifierFlags.contains([.command])
+            && !event.modifierFlags.contains(.option)
+            && event.modifierFlags.contains(.shift)
+        ) {
+            if titleLabel.isEditable {
+                titleLabel.editModeOff()
+                titleLabel.window?.makeFirstResponder(nil)
+            }
+
+            storageOutlineView.selectNext()
+            return true
+        }
+
+        // Prev project cmd - shift - k
+        if (
+            event.keyCode == kVK_ANSI_K
+            && event.modifierFlags.contains(.command)
+            && event.modifierFlags.contains(.shift)
+        ) {
+            if titleLabel.isEditable {
+                titleLabel.editModeOff()
+                titleLabel.window?.makeFirstResponder(nil)
+            }
+
+            storageOutlineView.selectPrev()
+            return true
+        }
+
         // Next note (cmd-j)
         if (
             event.keyCode == kVK_ANSI_J
