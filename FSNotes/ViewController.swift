@@ -1584,10 +1584,8 @@ class ViewController: NSViewController,
         return !note.name.isEmpty
             && (
                 filter.isEmpty && type != .Todo
-                    || type == .Todo && (
-                        self.isMatched(note: note, terms: ["- [ ]"])
-                            || self.isMatched(note: note, terms: ["- [x]"])
-                    )
+                    || type == .Todo
+                    && self.isMatched(note: note, terms: ["- [ ]"])
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
