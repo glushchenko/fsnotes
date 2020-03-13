@@ -126,8 +126,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
 
-        UserDefaultsManagement.fontSize = 17
-
         print("Before storage load")
         self.storage = Storage.sharedInstance()
 

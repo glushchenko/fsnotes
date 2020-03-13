@@ -55,7 +55,7 @@ class FontViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let fontFamily = label.text {
-            UserDefaultsManagement.noteFont = UIFont(name: fontFamily, size: CGFloat(UserDefaultsManagement.fontSize))
+            UserDefaultsManagement.noteFont = UIFont(name: fontFamily, size: CGFloat(17))
 
             UIApplication.getVC().notesTable.reloadData()
             

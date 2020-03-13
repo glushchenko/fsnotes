@@ -10,17 +10,19 @@ import UIKit
 import NightNight
 
 class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
-    
+
+    private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+
     var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
     var rows = [
         ["Default Extension", "Default Container", "Default Keyboard In Editor"],
-        ["Code block live highlighting", "Live images preview", "Use inline tags"],
+        ["Code block live highlighting", "Live images preview", "Use inline tags", "Dynamic Type", "Font size"],
         ["Font", "Night Mode"],
         ["Projects", "Import notes"],
         ["Support", "Homepage", "Twitter"]
     ]
 
-    var rowsInSection = [3, 3, 2, 2, 3]
+    var rowsInSection = [3, 5, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -86,6 +88,41 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 cell.accessoryType = UserDefaultsManagement.liveImagesPreview ? .checkmark : .none
             case 2:
                 cell.accessoryType = UserDefaultsManagement.inlineTags ? .checkmark : .none
+            case 3:
+                cell.accessoryType = UserDefaultsManagement.dynamicTypeFont ? .checkmark : .none
+            case 4:
+                if UserDefaultsManagement.dynamicTypeFont {
+                    cell.isHidden = true
+                    return cell
+                }
+
+                let stepper = UIStepper(frame: CGRect(x: 20, y: 20, width: 100, height: 20))
+                stepper.stepValue = 1
+                stepper.minimumValue = 10
+                stepper.maximumValue = 40
+                stepper.value = Double(UserDefaultsManagement.fontSize)
+                stepper.translatesAutoresizingMaskIntoConstraints = false
+                stepper.addTarget(self, action: #selector(fontSizeChanged), for: .valueChanged)
+
+                let label = UILabel()
+                label.text = ""
+                label.translatesAutoresizingMaskIntoConstraints = false
+
+                counter.text = String(Double(UserDefaultsManagement.fontSize))
+                counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
+                counter.translatesAutoresizingMaskIntoConstraints = false
+
+                cell.contentView.addSubview(label)
+                cell.contentView.addSubview(counter)
+                cell.contentView.addSubview(stepper)
+                cell.selectionStyle = .none
+                cell.accessoryType = .none
+
+                let views = ["name" : label, "counter": counter, "stepper" : stepper] as [String : Any]
+
+                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[name]-[counter(40)]-15-[stepper(100)]-20-|", options:  NSLayoutConstraint.FormatOptions.alignAllCenterY, metrics: nil, views: views))
+
+                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[name(stepper)]-10-|", options: [], metrics: nil, views: views))
             default:
                 return cell
             }
@@ -134,14 +171,16 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             if let cell = tableView.cellForRow(at: indexPath) {
                 if cell.accessoryType == .none {
                     cell.accessoryType = .checkmark
-                    
                 } else {
                     cell.accessoryType = .none
                 }
-                
-                if indexPath.row == 1 {
+
+                switch indexPath.row {
+                case 0:
+                    UserDefaultsManagement.codeBlockHighlight = (cell.accessoryType == .checkmark)
+                case 1:
                     UserDefaultsManagement.liveImagesPreview = (cell.accessoryType == .checkmark)
-                } else if indexPath.row == 2 {
+                case 2:
                     UserDefaultsManagement.inlineTags = (cell.accessoryType == .checkmark)
 
                     let vc = UIApplication.getVC()
@@ -152,9 +191,19 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                     }
 
                     UIApplication.getEVC().resetToolbar()
+                case 3:
+                    UserDefaultsManagement.dynamicTypeFont = (cell.accessoryType == .checkmark)
 
-                } else {
-                    UserDefaultsManagement.codeBlockHighlight = (cell.accessoryType == .checkmark)
+                    if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 4, section: 1)) {
+                        dynamicCell.isHidden = cell.accessoryType == .checkmark
+                    }
+
+                    tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .automatic)
+                    return
+                case 4:
+                    return
+                default:
+                    return
                 }
             }
         }
@@ -258,6 +307,14 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         return nil
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath.section == 0x01 && indexPath.row == 0x04 && UserDefaultsManagement.dynamicTypeFont) {
+            return 0
+        }
+
+        return super.tableView(tableView, heightForRowAt: indexPath)
+    }
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let nc = navigationController?.viewControllers {
             self.prevCount = nc.count
@@ -310,5 +367,11 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func fontSizeChanged(stepper: UIStepper) {
+        UserDefaultsManagement.fontSize = Int(stepper.value)
+
+        counter.text = String(stepper.value)
     }
 }

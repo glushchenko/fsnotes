@@ -12,6 +12,7 @@ import NightNight
 extension UserDefaultsManagement {
     private struct Constants {
         static let codeTheme = "codeTheme"
+        static let dynamicTypeFont = "dynamicTypeFont"
     }
 
     static var codeTheme: String {
@@ -28,6 +29,18 @@ extension UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+        }
+    }
+
+    static var dynamicTypeFont: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.dynamicTypeFont) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.dynamicTypeFont)
         }
     }
 }
