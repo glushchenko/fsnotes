@@ -155,6 +155,12 @@ public class UserDefaultsManagement {
     
     static var fontSize: Int {
         get {
+        #if os(iOS)
+            if UserDefaultsManagement.dynamicTypeFont {
+                return self.DefaultFontSize
+            }
+        #endif
+
             if let returnFontSize = UserDefaults.standard.object(forKey: Constants.FontSizeKey) {
                 return returnFontSize as! Int
             } else {
