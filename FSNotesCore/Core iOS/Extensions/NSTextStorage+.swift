@@ -15,7 +15,7 @@ extension NSTextStorage {
             if let font = value as? UIFont {
                 var newFont = font.withSize(CGFloat(UserDefaultsManagement.fontSize))
 
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     newFont = fontMetrics.scaledFont(for: newFont)
                 }

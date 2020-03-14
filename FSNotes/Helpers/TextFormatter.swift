@@ -817,7 +817,7 @@ public class TextFormatter {
         if note.isMarkdown() {
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     font = fontMetrics.scaledFont(for: font)
                 }
@@ -911,7 +911,7 @@ public class TextFormatter {
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .body)
             font = fontMetrics.scaledFont(for: font)
         }

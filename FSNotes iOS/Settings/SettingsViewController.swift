@@ -11,6 +11,7 @@ import NightNight
 
 class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
 
+    private var noteTableUpdater = Timer()
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
 
     var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
@@ -199,6 +200,9 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                     }
 
                     tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .automatic)
+
+                    noteTableUpdater.invalidate()
+                    noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
                     return
                 case 4:
                     return
@@ -373,5 +377,18 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         UserDefaultsManagement.fontSize = Int(stepper.value)
 
         counter.text = String(stepper.value)
+
+        noteTableUpdater.invalidate()
+        noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
+    }
+
+    @IBAction func reloadNotesTable() {
+        guard
+            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+            let vc = pageController.orderedViewControllers[0] as? ViewController else {
+                return
+        }
+
+        vc.notesTable.reloadData()
     }
 }

@@ -562,7 +562,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .body)
             font = fontMetrics.scaledFont(for: font)
         }
@@ -632,7 +632,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.storageQueue.addOperation(operation)
         
         if var font = UserDefaultsManagement.noteFont {
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 font = fontMetrics.scaledFont(for: font)
             }

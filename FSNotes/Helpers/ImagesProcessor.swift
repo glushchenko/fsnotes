@@ -59,7 +59,7 @@ public class ImagesProcessor {
             
             if var font = UserDefaultsManagement.noteFont {
                 #if os(iOS)
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     font = fontMetrics.scaledFont(for: font)
                 }

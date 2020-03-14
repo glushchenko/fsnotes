@@ -68,8 +68,15 @@ class NoteCellView: UITableViewCell {
             pin.isHidden = !note.isPinned
         }
 
-        if let font = UserDefaultsManagement.noteFont {
+        if var font = UserDefaultsManagement.noteFont {
             if #available(iOS 11.0, *) {
+
+                if !UserDefaultsManagement.dynamicTypeFont {
+                    if let defaultFont = UIFont(name: UserDefaultsManagement.fontName, size: 17) {
+                        font = defaultFont
+                    }
+                }
+
                 let fontMetrics = UIFontMetrics(forTextStyle: .headline)
                 let scaledFont = fontMetrics.scaledFont(for: font)
                 title.font = scaledFont

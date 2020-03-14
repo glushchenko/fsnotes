@@ -84,7 +84,7 @@ public class NotesTextProcessor {
         get {
             let font = UserDefaultsManagement.noteFont!
 
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 return fontMetrics.scaledFont(for: font)
             }
@@ -132,7 +132,7 @@ public class NotesTextProcessor {
         get {
             if var font = UIFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
     
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     font = fontMetrics.scaledFont(for: font)
                 }
@@ -215,7 +215,7 @@ public class NotesTextProcessor {
     #if os(iOS)
     public static func updateFont(note: Note) {
         if var font = UserDefaultsManagement.noteFont {
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 font = fontMetrics.scaledFont(for: font)
             }
@@ -400,7 +400,7 @@ public class NotesTextProcessor {
                 var font = UserDefaultsManagement.noteFont.bold()
                 font.withSize(CGFloat(UserDefaultsManagement.fontSize))
                 
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     font = fontMetrics.scaledFont(for: font)
                 }
@@ -414,7 +414,7 @@ public class NotesTextProcessor {
                 var font = UserDefaultsManagement.noteFont.italic()
                 font.withSize(CGFloat(UserDefaultsManagement.fontSize))
                 
-                if #available(iOS 11.0, *) {
+                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     font = fontMetrics.scaledFont(for: font)
                 }
@@ -1254,7 +1254,7 @@ public class NotesTextProcessor {
     fileprivate static func codeFont(_ size: CGFloat) -> Font {
         if var font = UserDefaultsManagement.noteFont {
             #if os(iOS)
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 font = fontMetrics.scaledFont(for: font)
             }
@@ -1274,7 +1274,7 @@ public class NotesTextProcessor {
     fileprivate static func quoteFont(_ size: CGFloat) -> Font {
         if var font = UserDefaultsManagement.noteFont {
             #if os(iOS)
-            if #available(iOS 11.0, *) {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
                 let fontMetrics = UIFontMetrics(forTextStyle: .body)
                 font = fontMetrics.scaledFont(for: font)
             }
