@@ -13,7 +13,7 @@ class NotesListController: UITableViewController {
     private var notes = [Note]()
 
     override func viewDidLoad() {
-        title = "Append to"
+        title = NSLocalizedString("Append to", comment: "")
     }
 
     public func setNotes(notes: [Note]) {

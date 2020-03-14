@@ -17,7 +17,7 @@ class FontViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         
-        self.title = "Font Family"
+        self.title = NSLocalizedString("Font Family", comment: "Settings")
         
         let names = UIFont.familyNames
         for familyName in names {

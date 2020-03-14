@@ -27,7 +27,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func viewDidLoad() {
         preferredContentSize = CGSize(width: 300, height: 300)
-        navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = "New note"
+        navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
         navigationController?.navigationBar.backgroundColor = Colors.Header.normalResource
         navigationController?.navigationBar.tintColor = UIColor.white
         navigationController?.navigationBar.barTintColor = UIColor.white
@@ -113,7 +113,7 @@ class ShareViewController: SLComposeServiceViewController {
         let urls = UserDefaultsManagement.projects
         storage.loadProjects(from: urls)
 
-        projectItem?.title = "Project"
+        projectItem?.title = NSLocalizedString("Project", comment: "")
         projectItem?.tapHandler = {
             let projects = storage.getProjects()
             let controller = ProjectListController()
@@ -123,7 +123,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         }
 
-        appendItem?.title = "Append to"
+        appendItem?.title = NSLocalizedString("Append to", comment: "")
 
         DispatchQueue.global().async {
             let element = UserDefaultsManagement.lastProject
@@ -151,7 +151,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         guard let select = SLComposeSheetConfigurationItem() else { return [] }
-        select.title = "Choose for append"
+        select.title = NSLocalizedString("Choose for append", comment: "")
         select.tapHandler = {
             if let notes = self.notes {
                 let controller = NotesListController()

@@ -37,7 +37,7 @@ class MoveViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
 
         self.projects = Storage.sharedInstance().getProjects()
-        self.title = "Move"
+        self.title = NSLocalizedString("Move", comment: "Move view")
 
         super.viewDidLoad()
     }
@@ -51,7 +51,7 @@ class MoveViewController: UITableViewController {
 
                 if note.project != project {
                     guard note.move(to: dstURL) else {
-                        let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                        let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("File with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                         return
@@ -112,7 +112,7 @@ class MoveViewController: UITableViewController {
     }
 
     @objc func newAlert() {
-        let alertController = UIAlertController(title: "Folder name:", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("Folder name:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField { (textField) in
             textField.placeholder = ""
@@ -124,7 +124,7 @@ class MoveViewController: UITableViewController {
             }
 
             guard let allProjects = self.projects, allProjects.first(where: { $0.label == name } ) == nil else {
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Folder with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("Folder with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
                 self.present(alert, animated: true, completion: nil)
@@ -150,7 +150,7 @@ class MoveViewController: UITableViewController {
             self.notesTableView.viewDelegate?.sidebarTableView.reloadProjectsSection()
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)

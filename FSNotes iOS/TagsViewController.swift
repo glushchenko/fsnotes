@@ -37,7 +37,7 @@ class TagsViewController: UITableViewController {
         self.navigationItem.rightBarButtonItem = Buttons.getAdd(target: self, selector: #selector(newAlert))
 
         self.tags = Storage.sharedInstance().getTags()
-        self.title = "Tags"
+        self.title = NSLocalizedString("Tags", comment: "")
 
         super.viewDidLoad()
     }
@@ -102,7 +102,7 @@ class TagsViewController: UITableViewController {
     }
 
     @objc func newAlert() {
-        let alertController = UIAlertController(title: "Tag name:", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("Tag name:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField { (textField) in
             textField.placeholder = ""
@@ -114,7 +114,7 @@ class TagsViewController: UITableViewController {
             }
 
             guard let tags = self.tags, !tags.contains(name) else {
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Tag with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("Tag with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
                 self.present(alert, animated: true, completion: nil)
@@ -130,7 +130,7 @@ class TagsViewController: UITableViewController {
             self.tableView.reloadData()
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)

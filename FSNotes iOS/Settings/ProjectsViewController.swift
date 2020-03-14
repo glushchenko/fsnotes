@@ -46,7 +46,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         self.navigationItem.rightBarButtonItems = buttons
 
         self.projects = Storage.sharedInstance().getProjects()
-        self.title = "Projects"
+        self.title = NSLocalizedString("Projects", comment: "Settings")
 
         super.viewDidLoad()
     }
@@ -100,7 +100,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             return nil
         }
 
-        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
+        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
             self.delete(project: project)
         })
 
@@ -114,7 +114,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     @objc func newAlert() {
-        let alertController = UIAlertController(title: "Folder name:", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("Folder name:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField { (textField) in
             textField.placeholder = ""
@@ -126,7 +126,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             }
 
             guard self.projects.first(where: { $0.label == name } ) == nil else {
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Folder with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("Folder with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
                 self.present(alert, animated: true, completion: nil)
@@ -154,7 +154,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             }
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
@@ -189,14 +189,14 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         let message = "Are you sure you want to remove project \"\(project.getFullLabel())\" and all files inside?"
 
-        let alertController = UIAlertController(title: "Project removing ❌", message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("Project removing ❌", comment: ""), message: message, preferredStyle: .alert)
 
         let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
             project.remove()
             self.removeProject(project: project)
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)

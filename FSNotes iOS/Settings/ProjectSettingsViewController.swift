@@ -12,7 +12,11 @@ import NightNight
 class ProjectSettingsViewController: UITableViewController {
     private var dismiss: Bool = false
     private var project: Project
-    private var sections = ["Sort by", "Visibility", "Notes list"]
+    private var sections = [
+        NSLocalizedString("Sort by", comment: ""),
+        NSLocalizedString("Visibility", comment: ""),
+        NSLocalizedString("Notes list", comment: "")
+    ]
     private var rowsInSections = [3, 2, 1]
 
     init(project: Project, dismiss: Bool = false) {
@@ -38,7 +42,7 @@ class ProjectSettingsViewController: UITableViewController {
             self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
         }
 
-        self.title = "Project \"\(project.getFullLabel())\""
+        self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
 
         super.viewDidLoad()
     }
@@ -120,14 +124,14 @@ class ProjectSettingsViewController: UITableViewController {
             switch indexPath.row {
             case 0:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "modificationDate")
-                cell.textLabel?.text = "Modification date"
+                cell.textLabel?.text = NSLocalizedString("Modification date", comment: "")
                 if project.sortBy.rawValue == "modificationDate" {
                     cell.accessoryType = .checkmark
                 }
                 break
             case 1:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "creationDate")
-                cell.textLabel?.text = "Creation date"
+                cell.textLabel?.text = NSLocalizedString("Creation date", comment: "")
 
                 if project.sortBy.rawValue == "creationDate" {
                     cell.accessoryType = .checkmark
@@ -135,7 +139,7 @@ class ProjectSettingsViewController: UITableViewController {
                 break
             case 2:
                 cell = UITableViewCell(style: .default, reuseIdentifier: "title")
-                cell.textLabel?.text = "Title"
+                cell.textLabel?.text = NSLocalizedString("Title", comment: "")
 
                 if project.sortBy.rawValue == "title" {
                     cell.accessoryType = .checkmark
@@ -153,10 +157,10 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Show notes in \"Notes\" and \"Todo\" lists"
+                cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
                 cell.accessoryType = project.showInCommon ? .checkmark : .none
             case 1:
-                cell.textLabel?.text = "Show folder in sidebar"
+                cell.textLabel?.text = NSLocalizedString("Show folder in sidebar", comment: "")
                 cell.accessoryType = project.showInSidebar ? .checkmark : .none
             default:
                 return cell
@@ -164,7 +168,7 @@ class ProjectSettingsViewController: UITableViewController {
         }
 
         if indexPath.section == 0x02 {
-            cell.textLabel?.text = "Use first line as title"
+            cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")
             cell.accessoryType = project.firstLineAsTitle ? .checkmark : .none
         }
 

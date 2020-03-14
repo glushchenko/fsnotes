@@ -14,13 +14,40 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     private var noteTableUpdater = Timer()
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
 
-    var sections = ["General", "Editor", "UI", "Storage", "FSNotes"]
+    var sections = [
+        NSLocalizedString("General", comment: "Settings"),
+        NSLocalizedString("Editor", comment: "Settings"),
+        NSLocalizedString("UI", comment: "Settings"),
+        NSLocalizedString("Storage", comment: "Settings"),
+        NSLocalizedString("FSNotes", comment: "Settings")
+    ]
+
     var rows = [
-        ["Default Extension", "Default Container", "Default Keyboard In Editor"],
-        ["Code block live highlighting", "Live images preview", "Use inline tags", "Dynamic Type", "Font size"],
-        ["Font", "Night Mode"],
-        ["Projects", "Import notes"],
-        ["Support", "Homepage", "Twitter"]
+        [
+            NSLocalizedString("Default Extension", comment: "Settings"),
+            NSLocalizedString("Default Container", comment: "Settings"),
+            NSLocalizedString("Default Keyboard In Editor", comment: "Settings")
+        ],
+        [
+            NSLocalizedString("Code block live highlighting", comment: "Settings"),
+            NSLocalizedString("Live images preview", comment: "Settings"),
+            NSLocalizedString("Use inline tags", comment: "Settings"),
+            NSLocalizedString("Dynamic Type", comment: "Settings"),
+            NSLocalizedString("Font size", comment: "Settings")
+        ],
+        [
+            NSLocalizedString("Font", comment: "Settings"),
+            NSLocalizedString("Night Mode", comment: "Settings")
+        ],
+        [
+            NSLocalizedString("Projects", comment: "Settings"),
+            NSLocalizedString("Import notes", comment: "Settings")
+        ],
+        [
+            NSLocalizedString("Support", comment: "Settings"),
+            NSLocalizedString("Homepage", comment: "Settings"),
+            NSLocalizedString("Twitter", comment: "Settings")
+        ]
     ]
 
     var rowsInSection = [3, 5, 2, 2, 3]
@@ -36,7 +63,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
         super.viewDidLoad()
         
-        self.title = "Settings"
+        self.title = NSLocalizedString("Settings", comment: "Sidebar settings")
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
     }
@@ -279,7 +306,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard self.sections[section] == "FSNotes" || self.sections[section] == "Storage" else { return nil }
+        guard self.sections[section] == "FSNotes" || self.sections[section] == NSLocalizedString("Storage", comment: "") else { return nil }
 
         let tableViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
 
@@ -289,7 +316,11 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
             if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
                 let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-                version.text = "Version \(versionString) build \(build)"
+                version.text =
+                    NSLocalizedString("Version", comment: "Settings")
+                    + " \(versionString) "
+                    + NSLocalizedString("build", comment: "Settings")
+                    + " \(build)"
             }
 
             version.textColor = UIColor.lightGray
@@ -298,10 +329,10 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             return tableViewFooter
         }
 
-        if self.sections[section] == "Storage" {
+        if self.sections[section] == NSLocalizedString("Storage", comment: "") {
             let label = UILabel(frame: CGRect(x: 20, y: 0, width: tableView.frame.width - 20, height: 60))
             label.font = label.font.withSize(15)
-            label.text = "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf."
+            label.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
             label.textColor = UIColor.lightGray
             label.numberOfLines = 2
             tableViewFooter.addSubview(label)

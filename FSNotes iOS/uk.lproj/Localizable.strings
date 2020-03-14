@@ -1,0 +1,101 @@
+/* Sidebar */
+
+"Archive" = "Архів";
+"Inbox" = "Вхідні";
+"Notes" = "Нотатки";
+"Settings" = "Налаштування";
+"Tags" = "Теги";
+"Todo" = "Завдання";
+"Trash" = "Сміття";
+
+/* Settings groups */
+
+"General" = "Загальні";
+"Editor" = "Редактор";
+"UI" = "Інтерфейс";
+"Storage" = "Сховище";
+
+/* Settings items */
+
+"Default Extension" = "Розширення за замовчуванням";
+"Default Container" = "Контейнер за замовчуванням";
+"Default Keyboard In Editor" = "Клавіатура за замовчуванням";
+"Code block live highlighting" = "Живе підсвічування блоку коду";
+"Live images preview" = "Живий перегляд зображень";
+"Use inline tags" = "Використовувати вбудовані теги";
+"Dynamic Type" = "Динамічний шрифт";
+"Font size" = "Розмір шрифту";
+"Font" = "Шрифт";
+"Night Mode" = "Нічний режим";
+"Projects" = "Проекти";
+"Import notes" = "Імпорт нотаток";
+"Support" = "Підтримка";
+"Homepage" = "Домашня сторінка";
+"Twitter" = "Twitter";
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+"Project" = "Проект";
+"Font Family" = "Сімейство шрифтів";
+"Version" = "Версія";
+"build" = "білд";
+
+/* Project settings */
+
+"Import notes" = "Імпортувати";
+"View settings" = "Налаштування";
+
+"Sort by" = "Сортувати за";
+"Visibility" = "Видимість";
+"Notes list" = "Лист нотаток";
+
+"Modification date" = "Датою модифікації";
+"Creation date" = "Датою створення";
+"Title" = "Заголовок";
+
+"Show notes in \"Notes\" and \"Todo\" lists" = "Показувати документи у списках \"Нотатки\" та \"Завдання\"";
+"Show folder in sidebar" = "Показати папку на бічній панелі";
+"Use first line as title" = "Перший рядок як заголовок";
+
+/* Move view */
+
+"Folder name:" = "Назва папки:";
+"Folder with this name already exist" = "Папка з цим іменем вже існує";
+"File with this name already exist" = "Файл з цим іменем вже існує";
+"Preview" = "Попередній перегляд";
+
+/* Tags view */
+
+"Tag with this name already exist" = "Тег із цією назвою вже існує";
+"Tag name:" = "Назва тегу:";
+"Tags" = "Теги";
+
+/* Projects */
+
+"Project removing ❌" = "";
+
+/* Notes list */
+
+"Rename" = "Перейменувати";
+"Delete" = "Видалити";
+"Move" = "Перемістити";
+"Lock/unlock" = "Заблокувати/розблокувати";
+"Copy plain text" = "Скопіювати звичайний текст";
+"Share" = "Поділитися";
+"UnPin" = "Відкріпити";
+"Pin" = "Закріпити";
+
+"Are you sure you want to remove note?" = "Ви впевнені, що хочете видалити нотатку?";
+"This action cannot be undone." = "Цю дію не можна скасувати.";
+"Rename note:" = "Перейменувати нотатку:";
+"Enter note name" = "Введіть назву нотатки";
+"Note with this name already exist" = "Нотатка з цим ім'ям вже існує";
+"Invalid Password" = "Недійсний пароль";
+"Please enter valid password" = "Введіть дійсний пароль";
+
+/* Night mode */
+
+"Disabled" = "Відключений";
+"Enabled" = "Включений";
+"System" = "Система";
+"Auto by screen brightness" = "Автоматично за яскравістю екрана";
+"Brightness level" = "Рівень яскравості";
+"Type" = "Тип";

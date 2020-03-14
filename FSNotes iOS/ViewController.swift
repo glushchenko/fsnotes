@@ -54,6 +54,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     override func viewDidLoad() {
 
+        let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
+        print(settings)
+
         self.metadataQueue.qualityOfService = .userInteractive
 
         if UserDefaultsManagement.nightModeType == .system {
@@ -871,12 +874,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let font = UIFont.boldSystemFont(ofSize: 15.0)
 
         let projects = sidebarTableView.getSelectedProjects()
+        
+        let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
+        let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
+        let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
+        let todo = NSLocalizedString("Todo", comment: "Todo in sidebar")
+        let archive = NSLocalizedString("Archive", comment: "Archive in sidebar")
+        let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
+
         let tags = sidebarTableView.getAllTags(projects: projects)
             + Storage.sharedInstance().getProjects().map({ $0.label })
-            + ["Settings", "Inbox", "Notes", "Todo", "Archive", "Trash"]
+            + [settings, inbox, notes, todo, archive, trash]
 
         for tag in tags {
-            let labelWidth = ("#      " + tag as NSString).size(withAttributes: [.font: font]).width
+            let labelWidth = ("#        " + tag as NSString).size(withAttributes: [.font: font]).width
             if labelWidth < view.frame.size.width / 2 {
                 if labelWidth > width {
                     width = labelWidth

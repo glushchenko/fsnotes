@@ -92,7 +92,8 @@ class Sidebar {
         }
 
         let icon = getImage(named: "settings\(night).png")
-        items.append([SidebarItem(name: "Settings", type: .Label, icon: icon)])
+        let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
+        items.append([SidebarItem(name: settings, type: .Label, icon: icon)])
     }
 
     public func getList() -> [Any] {

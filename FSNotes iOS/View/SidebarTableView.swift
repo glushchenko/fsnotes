@@ -122,7 +122,7 @@ class SidebarTableView: UITableView,
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
-        if sidebarItem.name == "Settings" {
+        if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
                 view.openSettings()
                 self.deselectRow(at: indexPath, animated: false)

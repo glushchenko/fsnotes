@@ -10,7 +10,10 @@ import UIKit
 import NightNight
 
 class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelegate {
-    var actions = ["Import notes", "View settings"]
+    var actions = [
+        NSLocalizedString("Import notes", comment: ""),
+        NSLocalizedString("View settings", comment: "")
+    ]
 
     override func viewDidLoad() {
         tableView.rowHeight = 44

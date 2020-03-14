@@ -23,7 +23,7 @@ class DefaultExtensionViewController: UITableViewController {
         
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
-        self.title = "Default Extension"
+        self.title = NSLocalizedString("Default Extension", comment: "Settings")
     }
     
     @objc func cancel() {

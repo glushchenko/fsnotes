@@ -10,11 +10,19 @@ import UIKit
 import NightNight
 
 class NightModeViewController: UITableViewController {
-    var sections = ["Type", "Brightness level"]
+    var sections = [
+        NSLocalizedString("Type", comment: ""),
+        NSLocalizedString("Brightness level", comment: "")
+    ]
     var rowsInSection = [3, 1, 1]
     
     var rows = [
-        ["Disabled", "Enabled", "System", "Auto by screen brightness"],
+        [
+            NSLocalizedString("Disabled", comment: ""),
+            NSLocalizedString("Enabled", comment: ""),
+            NSLocalizedString("System", comment: ""),
+            NSLocalizedString("Auto by screen brightness", comment: "")
+        ],
         [""]
     ]
     
@@ -28,7 +36,7 @@ class NightModeViewController: UITableViewController {
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
-        self.title = "Night Mode"
+        self.title = NSLocalizedString("Night Mode", comment: "Settings")
         
         super.viewDidLoad()
     }

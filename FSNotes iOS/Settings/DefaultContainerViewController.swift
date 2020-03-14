@@ -23,7 +23,7 @@ class DefaultContainerViewController: UITableViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
-        self.title = "Default Container"
+        self.title = NSLocalizedString("Default Container", comment: "Settings")
     }
 
     @objc func cancel() {

@@ -89,7 +89,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.isScrollEnabled = true
         
         if let n = note, n.isMarkdown() {
-            self.navigationItem.rightBarButtonItem?.title = "Preview"
+            self.navigationItem.rightBarButtonItem?.title = NSLocalizedString("Preview", comment: "")
         }
         
         super.viewDidAppear(animated)

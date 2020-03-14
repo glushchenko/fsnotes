@@ -26,21 +26,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if let shortcutItems = application.shortcutItems, shortcutItems.isEmpty {
+            let newDocument = NSLocalizedString("New document", comment: "Shortcuts")
             let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
-                                                             localizedTitle: "New document",
+                                                             localizedTitle: newDocument,
                                                              localizedSubtitle: "",
                                                              icon: UIApplicationShortcutIcon(type: .compose),
                                                              userInfo: nil)
-            
+
+            let saveClipboard = NSLocalizedString("Save clipboard", comment: "Shortcuts")
             let shortcutNewClipboard = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.clipboard.type,
-                                                               localizedTitle: "Save clipboard",
+                                                                        localizedTitle: saveClipboard,
                                                                localizedSubtitle: "",
                                                                icon: UIApplicationShortcutIcon(type: .add),
                                                                userInfo: nil)
-            
+
+            let search = NSLocalizedString("Search", comment: "Shortcuts")
+            let focus = NSLocalizedString("Focus in search field", comment: "Shortcuts")
             let shortcutSearch = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.search.type,
-                                                             localizedTitle: "Search",
-                                                             localizedSubtitle: "Focus in search field",
+                                                             localizedTitle: search,
+                                                             localizedSubtitle: focus,
                                                              icon: UIApplicationShortcutIcon(type: .search),
                                                              userInfo: nil)
             

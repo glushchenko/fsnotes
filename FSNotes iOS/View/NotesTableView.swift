@@ -135,7 +135,7 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         guard UIApplication.getVC().sidebarTableView.frame.width == 0 else { return nil }
 
-        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action , indexPath) -> Void in
+        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
             note.remove()
@@ -148,7 +148,11 @@ class NotesTableView: UITableView,
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 
         let note = self.notes[indexPath.row]
-        let pin = UITableViewRowAction(style: .default, title: note.isPinned ? "UnPin" : "Pin", handler: { (action , indexPath) -> Void in
+        let title = note.isPinned
+            ? NSLocalizedString("UnPin", comment: "")
+            : NSLocalizedString("Pin", comment: "")
+
+        let pin = UITableViewRowAction(style: .default, title: title, handler: { (action , indexPath) -> Void in
             
             guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
 
@@ -190,18 +194,18 @@ class NotesTableView: UITableView,
         let actionSheet = UIAlertController(title: note.getShortTitle(), message: nil, preferredStyle: .actionSheet)
 
         if showAll {
-            let rename = UIAlertAction(title: "Rename", style: .default, handler: { _ in
+            let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
                 self.renameAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(rename)
         } else {
-            let remove = UIAlertAction(title: "Delete", style: .default, handler: { _ in
+            let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default, handler: { _ in
                 self.removeAction(notes: notes, presentController: presentController)
             })
             actionSheet.addAction(remove)
         }
 
-        let move = UIAlertAction(title: "Move", style: .default, handler: { _ in
+        let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
             if self.isEditing {
                 self.allowsMultipleSelectionDuringEditing = false
                 self.setEditing(false, animated: true)
@@ -212,7 +216,7 @@ class NotesTableView: UITableView,
         actionSheet.addAction(move)
 
         if !UserDefaultsManagement.inlineTags {
-            let tags = UIAlertAction(title: "Tags", style: .default, handler: { _ in
+            let tags = UIAlertAction(title: NSLocalizedString("Tags", comment: ""), style: .default, handler: { _ in
                 if self.isEditing {
                     self.allowsMultipleSelectionDuringEditing = false
                     self.setEditing(false, animated: true)
@@ -224,23 +228,23 @@ class NotesTableView: UITableView,
         }
 
         if showAll {
-            let encryption = UIAlertAction(title: "Lock/unlock", style: .default, handler: { _ in
+            let encryption = UIAlertAction(title: NSLocalizedString("Lock/unlock", comment: ""), style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
             })
             actionSheet.addAction(encryption)
 
-            let copy = UIAlertAction(title: "Copy plain text", style: .default, handler: { _ in
+            let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(copy)
 
-            let share = UIAlertAction(title: "Share", style: .default, handler: { _ in
+            let share = UIAlertAction(title: NSLocalizedString("Share", comment: ""), style: .default, handler: { _ in
                 self.shareAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(share)
         }
 
-        let dismiss = UIAlertAction(title: "Cancel", style: .destructive, handler: { _ in
+        let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .destructive, handler: { _ in
 
             if self.isEditing {
                 self.setEditing(false, animated: true)
@@ -274,9 +278,11 @@ class NotesTableView: UITableView,
         if indexPath == nil {
             print("Long press on table view, not row.")
         } else if (longPressGesture.state == UIGestureRecognizer.State.began) {
-            let alert = UIAlertController.init(title: "Are you sure you want to remove note?", message: "This action cannot be undone.", preferredStyle: .alert)
+            let title = NSLocalizedString("Are you sure you want to remove note?", comment: "")
+            let message = NSLocalizedString("This action cannot be undone.", comment: "")
+            let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
             
-            let remove = UIAlertAction(title: "Remove", style: .destructive) { (alert: UIAlertAction!) -> Void in
+            let remove = UIAlertAction(title: NSLocalizedString("Remove", comment: ""), style: .destructive) { (alert: UIAlertAction!) -> Void in
                 guard let row = indexPath?.row else {
                     return
                 }
@@ -288,7 +294,7 @@ class NotesTableView: UITableView,
                     }
                 }
             }
-            let cancel = UIAlertAction(title: "Cancel", style: .default)
+            let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default)
             
             alert.addAction(cancel)
             alert.addAction(remove)
@@ -318,11 +324,11 @@ class NotesTableView: UITableView,
     }
 
     private func renameAction(note: Note, presentController: UIViewController) {
-        let alertController = UIAlertController(title: "Rename note:", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: NSLocalizedString("Rename note:", comment: ""), message: nil, preferredStyle: .alert)
 
         alertController.addTextField(configurationHandler: {
             [] (textField: UITextField) in
-            textField.placeholder = "Enter note name"
+            textField.placeholder = NSLocalizedString("Enter note name", comment: "")
             textField.attributedText = NSAttributedString(string: note.getFileName())
         })
 
@@ -332,7 +338,8 @@ class NotesTableView: UITableView,
             }
 
             guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: "Note with this name already exist", preferredStyle: UIAlertController.Style.alert)
+                let message = NSLocalizedString("Note with this name already exist", comment: "")
+                let alert = UIAlertController(title: "Oops 👮‍♂️", message: message, preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 presentController.present(alert, animated: true, completion: nil)
                 return
@@ -358,7 +365,8 @@ class NotesTableView: UITableView,
             }
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+        let title = NSLocalizedString("Cancel", comment: "")
+        let cancelAction = UIAlertAction(title: title, style: .cancel) { (_) in }
 
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
@@ -521,7 +529,9 @@ class NotesTableView: UITableView,
     private func invalidPasswordAlert() {
         guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
 
-        let alert = UIAlertController(title: "Invalid Password", message: "Please enter valid password", preferredStyle: UIAlertController.Style.alert)
+        let invalid = NSLocalizedString("Invalid Password", comment: "")
+        let message = NSLocalizedString("Please enter valid password", comment: "")
+        let alert = UIAlertController(title: invalid, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         pageController.present(alert, animated: true, completion: nil)
     }
