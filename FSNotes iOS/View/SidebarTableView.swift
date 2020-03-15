@@ -336,7 +336,7 @@ class SidebarTableView: UITableView,
             }
         }
 
-        return tags
+        return tags.sorted()
     }
 
     public func loadAllTags() {

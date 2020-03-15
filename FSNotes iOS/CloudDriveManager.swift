@@ -150,11 +150,14 @@ class CloudDriveManager {
 
                 guard let date = note.getFileModifiedDate() else { continue }
 
-                note.loadTags()
+                if note.loadTags() {
+                    DispatchQueue.main.async {
+                        self.delegate.sidebarTableView.loadAllTags()
+                    }
+                }
                 
                 if changedMetadataItems.count == 1 {
-                    let coreNote = CoreNote(fileURL: note.url)
-                    //coreNote.open()
+                    _ = CoreNote(fileURL: note.url)
                 }
 
                 note.forceReload()
@@ -177,7 +180,13 @@ class CloudDriveManager {
                     self.delegate.notesTable.removeByNotes(notes: [prevNote])
 
                     prevNote.url = url
-                    prevNote.loadTags()
+
+                    if prevNote.loadTags() {
+                        DispatchQueue.main.async {
+                            self.delegate.sidebarTableView.loadAllTags()
+                        }
+                    }
+
                     prevNote.parseURL()
 
                     self.resultsDict[index] = url
@@ -263,7 +272,12 @@ class CloudDriveManager {
             return
         }
 
-        note.loadTags()
+        if note.loadTags() {
+            DispatchQueue.main.async {
+                self.delegate.sidebarTableView.loadAllTags()
+            }
+        }
+        
         _ = note.reload()
 
         print("New note imported: \(url)")

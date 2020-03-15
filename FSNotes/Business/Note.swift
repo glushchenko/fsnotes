@@ -933,43 +933,54 @@ public class Note: NSObject  {
         
         _ = saveTags(tagNames)
     }
-    
+
+#if os(OSX)
     public func loadTags() {
-        #if os(OSX)
-            let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
-            if let tagNames = tags?.tagNames {
-                for tag in tagNames {
-                    if !self.tagNames.contains(tag) {
-                        self.tagNames.append(tag)
-                    }
-                    
-                    if !project.isTrash {
-                        sharedStorage.addTag(tag)
-                    }
+        let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
+        if let tagNames = tags?.tagNames {
+            for tag in tagNames {
+                if !self.tagNames.contains(tag) {
+                    self.tagNames.append(tag)
+                }
+
+                if !project.isTrash {
+                    sharedStorage.addTag(tag)
                 }
             }
-        #else
-            if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
-                let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
-                self.tagNames.removeAll()
-                for tag in tags {
-                    if let tagName = tag as? String {
-                        self.tagNames.append(tagName)
+        }
 
-                        if !project.isTrash {
-                            sharedStorage.addTag(tagName)
-                        }
-                    }
-                }
-            }
-        #endif
-
-        #if os(OSX)
         if UserDefaultsManagement.inlineTags {
             _ = scanContentTags()
         }
-        #endif
     }
+#else
+    public func loadTags() -> Bool {
+        if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
+            let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
+            self.tagNames.removeAll()
+            for tag in tags {
+                if let tagName = tag as? String {
+                    self.tagNames.append(tagName)
+
+                    if !project.isTrash {
+                        sharedStorage.addTag(tagName)
+                    }
+                }
+            }
+        }
+
+        if UserDefaultsManagement.inlineTags {
+            let changes = scanContentTags()
+            let qty = changes.0.count + changes.1.count
+
+            if (qty > 0) {
+                return true
+            }
+        }
+
+        return false
+    }
+#endif
 
     public func scanContentTags() -> ([String], [String]) {
         var added = [String]()
