@@ -82,6 +82,7 @@
 "Share" = "Поділитися";
 "UnPin" = "Відкріпити";
 "Pin" = "Закріпити";
+"Cancel" = "Скасувати";
 
 "Are you sure you want to remove note?" = "Ви впевнені, що хочете видалити нотатку?";
 "This action cannot be undone." = "Цю дію не можна скасувати.";
@@ -99,3 +100,5 @@
 "Auto by screen brightness" = "Автоматично за яскравістю екрана";
 "Brightness level" = "Рівень яскравості";
 "Type" = "Тип";
+
+"Done" = "Добре";

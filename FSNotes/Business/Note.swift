@@ -360,8 +360,14 @@ public class Note: NSObject  {
             ) {
             preview = " – " + preview
         }
-        
-        return preview.condenseWhitespace()
+
+        preview = preview.condenseWhitespace()
+
+        if preview.starts(with: "![") {
+            return ""
+        }
+
+        return preview
     }
 
     @objc public func getPreviewForLabel() -> String {
@@ -1121,11 +1127,9 @@ public class Note: NSObject  {
                 }
             }
 
-            #if os(OSX)
             if mdImages.count > 3 {
                 stop.pointee = true
             }
-            #endif
         })
 
         var cleanText = content.string
@@ -1645,6 +1649,10 @@ public class Note: NSObject  {
                 return nil
             }
 
+            if title.starts(with: "![") {
+                return nil;
+            }
+            
             return title
         }
 

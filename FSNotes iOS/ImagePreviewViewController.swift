@@ -29,10 +29,11 @@ class ImagePreviewViewController: UIViewController {
 
         navigation.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
+        let doneString = NSLocalizedString("Done", comment: "")
         let moreButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         moreButton.setBackgroundImage(UIImage(named: "share"), for: .normal)
         navigationBar.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(share), imageName: "share", size: CGSize(width: 24, height: 24), tintColor: nil)
-        navigationBar.leftBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(done))
+        navigationBar.leftBarButtonItem = UIBarButtonItem(title: doneString, style: .done, target: self, action: #selector(done))
     }
 
     @IBAction func share() {

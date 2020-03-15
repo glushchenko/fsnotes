@@ -82,6 +82,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.search.mixedBackgroundColor = Colors.Header
         self.search.mixedBarTintColor = Colors.Header
         self.search.returnKeyType = .go
+         if let textFieldInsideSearchBar = self.search.value(forKey: "searchField") as? UITextField,
+               let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
+                   glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
+                   glassIconView.tintColor = .white
+           }
 
         self.folderCapacity.mixedTextColor = Colors.titleText
         self.currentFolder.mixedTextColor = Colors.titleText
