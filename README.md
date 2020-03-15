@@ -2,7 +2,7 @@
 
 ## Notes manager for macOS/iOS
 
-File System notes (FSNotes): is modern notational velocity (nvALT) on steroids. 
+File System notes (FSNotes): is modern notes manager on steroids for macOS and iOS.
 
 ### macOS app
 
