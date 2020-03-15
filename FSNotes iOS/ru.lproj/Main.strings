@@ -46,3 +46,11 @@
 /* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
 "ZLZ-yY-efJ.headerTitle" = "Editor";
 
+/* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
+"Ywj-qM-UNi.placeholder" = "Найти или создать";
+
+/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
+"8VE-HM-shO.text" = "Входящие ✦";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "1gp-bn-Xq5"; */
+"1gp-bn-Xq5.normalTitle" = "Отменить";

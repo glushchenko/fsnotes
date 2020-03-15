@@ -1068,7 +1068,6 @@
 		D70FE12C20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D70FE12F20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D70FE13220FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D70FE13520FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D70FE13720FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		D7104A63230BD8C500B6D8EE /* SortDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDirection.swift; sourceTree = "<group>"; };
 		D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeViewController.swift; sourceTree = "<group>"; };
@@ -1268,13 +1267,12 @@
 		D7A7F781241D12D3003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		D7A7F782241D12D6003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A7F783241D12D7003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D7A7F784241D12D8003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/MainInterface.strings; sourceTree = "<group>"; };
 		D7A7F785241D12D8003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A7F786241D12D8003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
-		D7A7F787241D12D8003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A7F788241D1395003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D7A7F789241D1395003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A7F78A241D1395003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7A7F7A1241E2E1A003AC0AD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A9FD301FCB4873008ED23C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
@@ -3883,10 +3881,8 @@
 		D70FE13420FE198200813F9E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D70FE13520FE198200813F9E /* ru */,
 				D74B56C6230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C43232D648D00E8D8BA /* zh-Hans */,
-				D7A7F787241D12D8003AC0AD /* uk */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3908,6 +3904,7 @@
 				D7F76C44232D648D00E8D8BA /* zh-Hans */,
 				D7855EDD23486FF8000E96C3 /* ko */,
 				D7A7F786241D12D8003AC0AD /* uk */,
+				D7A7F7A1241E2E1A003AC0AD /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3916,7 +3913,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				D75F333B205EC34800CC887E /* Base */,
-				D7A7F784241D12D8003AC0AD /* uk */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";

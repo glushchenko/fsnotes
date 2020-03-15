@@ -1,0 +1,105 @@
+/* Sidebar */
+
+"Archive" = "Архив";
+"Inbox" = "Входящие";
+"Notes" = "Заметки";
+"Settings" = "Наcтройки";
+"Tags" = "Теги";
+"Todo" = "Todo";
+"Trash" = "Корзина";
+
+/* Settings groups */
+
+"General" = "Общие";
+"Editor" = "Редактор";
+"UI" = "Интерфейс";
+"Storage" = "Хранилище";
+
+/* Settings items */
+
+"Default Extension" = "Формат заметок по умолчанию";
+"Default Container" = "Контейнер по умолчанию";
+"Default Keyboard In Editor" = "Клавиатура в редакторе";
+"Code block live highlighting" = "Подсвечивать код";
+"Live images preview" = "Показывать изображения";
+"Use inline tags" = "Использовать встроенные теги";
+"Dynamic Type" = "Динамический шрифт";
+"Font size" = "Размер шрифта";
+"Font" = "Шрифт";
+"Night Mode" = "Ночной режим";
+"Projects" = "Проекти";
+"Import notes" = "Испорт заметок";
+"Support" = "Поддержка";
+"Homepage" = "Домашняя страница";
+"Twitter" = "Twitter";
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+"Project" = "Проект";
+"Font Family" = "Семейство шрифтов";
+"Version" = "Версия";
+"build" = "билд";
+
+/* Project settings */
+
+"Import notes" = "Импортировать";
+"View settings" = "Настройки";
+
+"Sort by" = "Сортировать по";
+"Visibility" = "Видимость";
+"Notes list" = "Список заметок";
+
+"Modification date" = "Дате модификации";
+"Creation date" = "Дате создания";
+"Title" = "Заголовок";
+
+"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" та \"Todo\"";
+"Show folder in sidebar" = "Показывать проект в боковой панели";
+"Use first line as title" = "Первая строка как заголовок";
+
+/* Move view */
+
+"Folder name:" = "Название папки:";
+"Folder with this name already exist" = "Папка с таким именем уже существует";
+"File with this name already exist" = "Файл с таким именем уже существует";
+"Preview" = "Предпросмотр";
+
+/* Tags view */
+
+"Tag with this name already exist" = "Тег с таким названием уже существует";
+"Tag name:" = "Название тега:";
+"Tags" = "Теги";
+
+/* Projects */
+
+"Project removing ❌" = "Удаление проекта ❌";
+
+/* Notes list */
+
+"Rename" = "Переименовать";
+"Delete" = "Удалить";
+"Move" = "Переместить";
+"Lock/unlock" = "Заблокировать/розблокировать";
+"Copy plain text" = "Скопировать текст";
+"Share" = "Поделиться";
+"UnPin" = "Открепить";
+"Pin" = "Прикрепить";
+"Cancel" = "Отменить";
+
+"Are you sure you want to remove note?" = "Вы уверены, что хотите удалить заметку?";
+"This action cannot be undone." = "Это действие нельзя отменить.";
+"Rename note:" = "Переименовать заметку:";
+"Enter note name" = "Введите название заметки";
+"Note with this name already exist" = "Заметка с таким именем уже существует";
+"Invalid Password" = "Неверный пароль";
+"Please enter valid password" = "Введите действующий пароль";
+
+/* Night mode */
+
+"Disabled" = "Отключен";
+"Enabled" = "Включен";
+"System" = "Система";
+"Auto by screen brightness" = "Автоматически от яркости экрана";
+"Brightness level" = "Уровеньб яркости";
+"Type" = "Тип";
+
+"Done" = "Готово";
+
