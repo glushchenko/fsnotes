@@ -1506,6 +1506,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     private func pasteImageFromClipboard(in note: Note) -> Bool {
         if let url = NSURL(from: NSPasteboard.general) {
+            if !url.isFileURL {
+                return false
+            }
+
             return saveFile(url: url as URL, in: note)
         }
 
