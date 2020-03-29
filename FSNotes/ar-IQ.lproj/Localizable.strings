@@ -53,9 +53,6 @@
 "Delete folder" = "حذف المجلد";
 
 /* No comment provided by engineer. */
-"Delete Images" = "حذف الصور";
-
-/* No comment provided by engineer. */
 "Empty password" = "كلمة مرور فارغة";
 
 /* No comment provided by engineer. */
@@ -87,12 +84,6 @@
 
 /* Menu */
 "History" = "تاريخ";
-
-/* No comment provided by engineer. */
-"Image" = "صورة";
-
-/* Edit area */
-"Image title" = "عنوان الصورة";
 
 /* No comment provided by engineer. */
 "Inbox" = "الوارد";

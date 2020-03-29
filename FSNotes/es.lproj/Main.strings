@@ -1,4 +1,4 @@
-/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
+/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2020 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
 "0f7-Za-V0B.title" = "Copyright © 2017-2019 Oleksandr Glushchenko. Todos los derechos reservados.";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
@@ -226,9 +226,6 @@
 /* Class = "NSTextFieldCell"; title = "v2.9.0"; ObjectID = "dgD-xe-DVG"; */
 "dgD-xe-DVG.title" = "v2.9.0";
 
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (Twitter: @ayad0net)"; ObjectID = "dPf-CP-fuZ"; */
-"dPf-CP-fuZ.title" = "Michael Barzmann\nOlena Glushchenko";
-
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
 "dRJ-4n-Yzg.title" = "Deshacer";
 
@@ -391,7 +388,7 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "Almacenamiento de respaldo";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -459,6 +456,9 @@
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "Cerrar";
+
+/* Class = "NSMenuItem"; title = "Preview MathJax"; ObjectID = "KIz-OO-IQT"; */
+"KIz-OO-IQT.title" = "Previsualizar MathJax";
 
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "Permitir desbloquar las notas con Touch ID";
@@ -592,7 +592,7 @@
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Buscar siguiente";
 
-/* Class = "NSTextFieldCell"; title = "GIT version:"; ObjectID = "qiO-vb-B9L"; */
+/* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Versión Git:";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "qod-hp-9wd"; */
@@ -814,7 +814,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "Cambiar";
 
-/* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "Imagen";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */

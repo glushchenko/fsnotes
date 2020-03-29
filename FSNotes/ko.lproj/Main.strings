@@ -262,7 +262,7 @@
 /* Class = "NSMenuItem"; title = "FSNotes Help"; ObjectID = "FKE-Sm-Kum"; */
 "FKE-Sm-Kum.title" = "FSNotes 도움말";
 
-/* Class = "NSTextFieldCell"; title = "Thanks for icons design:"; ObjectID = "FKf-Ph-LiA"; */
+/* Class = "NSTextFieldCell"; title = "Icons design:"; ObjectID = "FKf-Ph-LiA"; */
 "FKf-Ph-LiA.title" = "아이콘 디자인:";
 
 /* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "fkH-Wf-n87"; */
@@ -408,6 +408,9 @@
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "닫기";
+
+/* Class = "NSMenuItem"; title = "Preview MathJax"; ObjectID = "KIz-OO-IQT"; */
+"KIz-OO-IQT.title" = "미리보기 MathJax";
 
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "Touch ID를 이용하여 노트 잠금 해제";
@@ -751,7 +754,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "변경";
 
-/* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "이미지";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */

@@ -88,6 +88,7 @@ public class UserDefaultsManagement {
         static let MarginSizeKey = "marginSize"
         static let MarkdownPreviewCSS = "markdownPreviewCSS"
         static let MasterPasswordHint = "masterPasswordHint"
+        static let MathJaxPreview = "mathJaxPreview"
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
@@ -1210,6 +1211,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.Welcome)
+        }
+    }
+
+    static var mathJaxPreview: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.MathJaxPreview) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.MathJaxPreview)
         }
     }
 }

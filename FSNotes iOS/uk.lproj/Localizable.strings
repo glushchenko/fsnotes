@@ -1,104 +1,216 @@
-/* Sidebar */
-
+/* Archive in sidebar
+   Sidebar label */
 "Archive" = "Архів";
-"Inbox" = "Вхідні";
-"Notes" = "Нотатки";
-"Settings" = "Налаштування";
-"Tags" = "Теги";
-"Todo" = "Завдання";
-"Trash" = "Сміття";
 
-/* Settings groups */
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "Ви впевнені, що хочете видалити нотатку?";
 
-"General" = "Загальні";
-"Editor" = "Редактор";
-"UI" = "Інтерфейс";
-"Storage" = "Сховище";
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Автоматично за яскравістю екрана";
 
-/* Settings items */
+/* No comment provided by engineer. */
+"Brightness level" = "Рівень яскравості";
 
-"Default Extension" = "Розширення за замовчуванням";
-"Default Container" = "Контейнер за замовчуванням";
-"Default Keyboard In Editor" = "Клавіатура за замовчуванням";
-"Code block live highlighting" = "Живе підсвічування блоку коду";
-"Live images preview" = "Живий перегляд зображень";
-"Use inline tags" = "Використовувати вбудовані теги";
-"Dynamic Type" = "Динамічний шрифт";
-"Font size" = "Розмір шрифту";
-"Font" = "Шрифт";
-"Night Mode" = "Нічний режим";
-"Projects" = "Проекти";
-"Import notes" = "Імпорт нотаток";
-"Support" = "Підтримка";
-"Homepage" = "Домашня сторінка";
-"Twitter" = "Twitter";
-"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
-"Project" = "Проект";
-"Font Family" = "Сімейство шрифтів";
-"Version" = "Версія";
+/* Settings */
 "build" = "білд";
 
-/* Project settings */
-
-"Import notes" = "Імпортувати";
-"View settings" = "Налаштування";
-
-"Sort by" = "Сортувати за";
-"Visibility" = "Видимість";
-"Notes list" = "Лист нотаток";
-
-"Modification date" = "Датою модифікації";
-"Creation date" = "Датою створення";
-"Title" = "Заголовок";
-
-"Show notes in \"Notes\" and \"Todo\" lists" = "Показувати документи у списках \"Нотатки\" та \"Завдання\"";
-"Show folder in sidebar" = "Показати папку на бічній панелі";
-"Use first line as title" = "Перший рядок як заголовок";
-
-/* Move view */
-
-"Folder name:" = "Назва папки:";
-"Folder with this name already exist" = "Папка з цим іменем вже існує";
-"File with this name already exist" = "Файл з цим іменем вже існує";
-"Preview" = "Попередній перегляд";
-
-/* Tags view */
-
-"Tag with this name already exist" = "Тег із цією назвою вже існує";
-"Tag name:" = "Назва тегу:";
-"Tags" = "Теги";
-
-/* Projects */
-
-"Project removing ❌" = "";
-
-/* Notes list */
-
-"Rename" = "Перейменувати";
-"Delete" = "Видалити";
-"Move" = "Перемістити";
-"Lock/unlock" = "Заблокувати/розблокувати";
-"Copy plain text" = "Скопіювати звичайний текст";
-"Share" = "Поділитися";
-"UnPin" = "Відкріпити";
-"Pin" = "Закріпити";
+/* No comment provided by engineer. */
 "Cancel" = "Скасувати";
 
-"Are you sure you want to remove note?" = "Ви впевнені, що хочете видалити нотатку?";
-"This action cannot be undone." = "Цю дію не можна скасувати.";
-"Rename note:" = "Перейменувати нотатку:";
+/* Settings */
+"Code block live highlighting" = "Живе підсвічування блоку коду";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Скопіювати звичайний текст";
+
+/* No comment provided by engineer. */
+"Creation date" = "Датою створення";
+
+/* Settings */
+"Default Container" = "Контейнер за замовчуванням";
+
+/* Settings */
+"Default Extension" = "Розширення за замовчуванням";
+
+/* Settings */
+"Default Keyboard In Editor" = "Клавіатура за замовчуванням";
+
+/* No comment provided by engineer. */
+"Delete" = "Видалити";
+
+/* No comment provided by engineer. */
+"Disabled" = "Відключений";
+
+/* No comment provided by engineer. */
+"Done" = "Добре";
+
+/* Settings */
+"Dynamic Type" = "Динамічний шрифт";
+
+/* Settings */
+"Editor" = "Редактор";
+
+/* No comment provided by engineer. */
+"Enabled" = "Включений";
+
+/* No comment provided by engineer. */
 "Enter note name" = "Введіть назву нотатки";
-"Note with this name already exist" = "Нотатка з цим ім'ям вже існує";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "Файл з цим іменем вже існує";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Назва папки:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "Папка з цим іменем вже існує";
+
+/* Settings */
+"Font" = "Шрифт";
+
+/* Settings */
+"Font Family" = "Сімейство шрифтів";
+
+/* Settings */
+"Font size" = "Розмір шрифту";
+
+/* Settings */
+"General" = "Загальні";
+
+/* Settings */
+"Homepage" = "Домашня сторінка";
+
+/* Settings */
+"Import notes" = "Імпортувати";
+
+/* Inbox in sidebar */
+"Inbox" = "Вхідні";
+
+/* No comment provided by engineer. */
 "Invalid Password" = "Недійсний пароль";
+
+/* Settings */
+"Live images preview" = "Живий перегляд зображень";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Заблокувати/розблокувати";
+
+/* No comment provided by engineer. */
+"Modification date" = "Датою модифікації";
+
+/* Move view */
+"Move" = "Перемістити";
+
+/* Settings */
+"Night Mode" = "Нічний режим";
+
+/* No comment provided by engineer. */
+"Note with this name already exist" = "Нотатка з цим ім'ям вже існує";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Нотатки";
+
+/* No comment provided by engineer. */
+"Notes list" = "Лист нотаток";
+
+/* No comment provided by engineer. */
+"Pin" = "Закріпити";
+
+/* No comment provided by engineer. */
 "Please enter valid password" = "Введіть дійсний пароль";
 
-/* Night mode */
+/* No comment provided by engineer. */
+"Preview" = "Попередній перегляд";
 
-"Disabled" = "Відключений";
-"Enabled" = "Включений";
+/* Settings */
+"Project" = "Проект";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "";
+
+/* Settings */
+"Projects" = "Проекти";
+
+/* No comment provided by engineer. */
+"Rename" = "Перейменувати";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Перейменувати нотатку:";
+
+/* Sidebar settings */
+"Settings" = "Налаштування";
+
+/* No comment provided by engineer. */
+"Share" = "Поділитися";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Показати папку на бічній панелі";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Показувати документи у списках \"Нотатки\" та \"Завдання\"";
+
+/* No comment provided by engineer. */
+"Sort by" = "Сортувати за";
+
+/* Settings */
+"Storage" = "Сховище";
+
+/* Settings */
+"Support" = "Підтримка";
+
+/* No comment provided by engineer. */
 "System" = "Система";
-"Auto by screen brightness" = "Автоматично за яскравістю екрана";
-"Brightness level" = "Рівень яскравості";
+
+/* No comment provided by engineer. */
+"Tag name:" = "Назва тегу:";
+
+/* No comment provided by engineer. */
+"Tag with this name already exist" = "Тег із цією назвою вже існує";
+
+/* Sidebar label */
+"Tags" = "Теги";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "Цю дію не можна скасувати.";
+
+/* No comment provided by engineer. */
+"Title" = "Заголовок";
+
+/* Todo in sidebar */
+"Todo" = "Завдання";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Сміття";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
 "Type" = "Тип";
 
-"Done" = "Добре";
+/* Settings */
+"UI" = "Інтерфейс";
+
+/* No comment provided by engineer. */
+"UnPin" = "Відкріпити";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Перший рядок як заголовок";
+
+/* Settings */
+"Use inline tags" = "Використовувати вбудовані теги";
+
+/* Settings */
+"Version" = "Версія";
+
+/* No comment provided by engineer. */
+"View settings" = "Налаштування";
+
+/* No comment provided by engineer. */
+"Visibility" = "Видимість";
+

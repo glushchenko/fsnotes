@@ -123,6 +123,7 @@
 		D720241922A941A3000A7691 /* EncryptedTextPack.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720241822A941A3000A7691 /* EncryptedTextPack.icns */; };
 		D720241A22A941A3000A7691 /* EncryptedTextPack.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720241822A941A3000A7691 /* EncryptedTextPack.icns */; };
 		D720241B22A941A3000A7691 /* EncryptedTextPack.icns in Resources */ = {isa = PBXBuildFile; fileRef = D720241822A941A3000A7691 /* EncryptedTextPack.icns */; };
+		D72125642430FF5700F74891 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D72125622430FF5700F74891 /* Localizable.strings */; };
 		D72189342102096000FE3AF2 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189332102096000FE3AF2 /* NSTextStorage+.swift */; };
 		D72189362102099B00FE3AF2 /* NSTextStorage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D72189352102099B00FE3AF2 /* NSTextStorage+.swift */; };
 		D721894021020D6800FE3AF2 /* FSNotesCore_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1095,6 +1096,9 @@
 		D720240A22A9412B000A7691 /* Text.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Text.icns; sourceTree = "<group>"; };
 		D720240B22A9412B000A7691 /* TextBundle.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TextBundle.icns; sourceTree = "<group>"; };
 		D720241822A941A3000A7691 /* EncryptedTextPack.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EncryptedTextPack.icns; sourceTree = "<group>"; };
+		D72125632430FF5700F74891 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D72125652430FF8000F74891 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D72125662430FF8C00F74891 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D72189332102096000FE3AF2 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NSTextStorage+.swift"; path = "FSNotesCore/Core iOS/Extensions/NSTextStorage+.swift"; sourceTree = SOURCE_ROOT; };
 		D72189352102099B00FE3AF2 /* NSTextStorage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextStorage+.swift"; sourceTree = "<group>"; };
 		D7271FA42052803400033D0C /* unindent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unindent.png; sourceTree = "<group>"; };
@@ -1936,6 +1940,7 @@
 				D7465F27207F2CD600E46A52 /* Images.xcassets */,
 				D7793C7B1F211C6000CA39B7 /* Info.plist */,
 				D75E341122462442006AD1C1 /* FSNotes Info (Notarized).plist */,
+				D72125622430FF5700F74891 /* Localizable.strings */,
 				D70FE13120FE198200813F9E /* InfoPlist.strings */,
 				D7793C7C1F211C6000CA39B7 /* FSNotes.entitlements */,
 				D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */,
@@ -2589,6 +2594,7 @@
 				D75E33D122462442006AD1C1 /* DownView.bundle in Resources */,
 				D759D1FC2276D25C00961E90 /* icon_alt.png in Resources */,
 				D75E33D522462442006AD1C1 /* InfoPlist.strings in Resources */,
+				D72125642430FF5700F74891 /* Localizable.strings in Resources */,
 				D75E33D722462442006AD1C1 /* SourceCodePro-Bold.ttf in Resources */,
 				D75E33D822462442006AD1C1 /* AvenirNext-Medium.ttf in Resources */,
 				D75E33D922462442006AD1C1 /* AvenirNext-Bold.ttf in Resources */,
@@ -3885,6 +3891,17 @@
 				D7F76C43232D648D00E8D8BA /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D72125622430FF5700F74891 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D72125632430FF5700F74891 /* uk */,
+				D72125652430FF8000F74891 /* ru */,
+				D72125662430FF8C00F74891 /* es */,
+			);
+			name = Localizable.strings;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		D74B56C3230C0A8700A07AF5 /* InfoPlist.strings */ = {

@@ -1,4 +1,4 @@
-/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
+/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2020 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
 "0f7-Za-V0B.title" = "Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved.";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
@@ -391,7 +391,7 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "备份存储";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\n简体中文 🇨🇳";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -459,6 +459,9 @@
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "关闭";
+
+/* Class = "NSMenuItem"; title = "Preview MathJax"; ObjectID = "KIz-OO-IQT"; */
+"KIz-OO-IQT.title" = "预览 MathJax";
 
 /* Class = "NSTextFieldCell"; title = "1"; ObjectID = "kqJ-Fr-EeB"; */
 "kqJ-Fr-EeB.title" = "1";
@@ -829,7 +832,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "更改";
 
-/* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "图像";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */

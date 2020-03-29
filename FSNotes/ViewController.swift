@@ -248,7 +248,7 @@ class ViewController: NSViewController,
 
         editArea.textContainerInset.height = 10
         editArea.isEditable = false
-        editArea.layoutManager?.allowsNonContiguousLayout = false
+        //editArea.layoutManager?.allowsNonContiguousLayout = false
 
         if #available(OSX 10.13, *) {} else {
             self.editArea.backgroundColor = UserDefaultsManagement.bgColor
@@ -551,7 +551,7 @@ class ViewController: NSViewController,
         notesTableView.reloadData()
     }
     
-    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false) {
+    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false, force: Bool = false) {
         DispatchQueue.main.async { [weak self] in
             self?.previewButton.state = UserDefaultsManagement.preview ? .on : .off
         }
@@ -572,7 +572,7 @@ class ViewController: NSViewController,
             let selected = self.notesTableView.selectedRow
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
                 if let note = self.notesTableView.getSelectedNote() {
-                    self.editArea.fill(note: note, saveTyping: saveTyping)
+                    self.editArea.fill(note: note, saveTyping: saveTyping, force: force)
                     self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
                 }
             }

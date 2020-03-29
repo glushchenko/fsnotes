@@ -1,4 +1,5 @@
-/* Sidebar label */
+/* Archive in sidebar
+   Sidebar label */
 "Archive" = "ارشيف";
 
 /* No comment provided by engineer. */
@@ -7,27 +8,20 @@
 /* No comment provided by engineer. */
 "Enter Master Password" = "ادخل كلمة المرور الاساسية";
 
-/* No comment provided by engineer. */
+/* Inbox in sidebar */
 "Inbox" = "الوارد";
 
-/* No comment provided by engineer. */
-"Master password:" = " كلمة السر الرئيسية";
-
-/* Sidebar label */
+/* Notes in sidebar
+   Sidebar label */
 "Notes" = "ملاحظات";
-
-/* No comment provided by engineer. */
-"OK" = "موافق";
-
-/* No comment provided by engineer. */
-"Please enter password for current note" = "رجاءً ادخل كلمة المرور للملاحظة الحالية";
 
 /* Sidebar label */
 "Tags" = "وسوم";
 
-/* No comment provided by engineer. */
+/* Todo in sidebar */
 "Todo" = "قائمة المهام";
 
-/* Sidebar label */
+/* Sidebar label
+   Trash in sidebar */
 "Trash" = "سلة المهملات";
 

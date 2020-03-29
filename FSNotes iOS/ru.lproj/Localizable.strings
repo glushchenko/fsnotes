@@ -1,105 +1,216 @@
-/* Sidebar */
-
+/* Archive in sidebar
+   Sidebar label */
 "Archive" = "Архив";
-"Inbox" = "Входящие";
-"Notes" = "Заметки";
-"Settings" = "Наcтройки";
-"Tags" = "Теги";
-"Todo" = "Todo";
-"Trash" = "Корзина";
 
-/* Settings groups */
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "Вы уверены, что хотите удалить заметку?";
 
-"General" = "Общие";
-"Editor" = "Редактор";
-"UI" = "Интерфейс";
-"Storage" = "Хранилище";
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Автоматически от яркости экрана";
 
-/* Settings items */
+/* No comment provided by engineer. */
+"Brightness level" = "Уровеньб яркости";
 
-"Default Extension" = "Формат заметок по умолчанию";
-"Default Container" = "Контейнер по умолчанию";
-"Default Keyboard In Editor" = "Клавиатура в редакторе";
-"Code block live highlighting" = "Подсвечивать код";
-"Live images preview" = "Показывать изображения";
-"Use inline tags" = "Использовать встроенные теги";
-"Dynamic Type" = "Динамический шрифт";
-"Font size" = "Размер шрифта";
-"Font" = "Шрифт";
-"Night Mode" = "Ночной режим";
-"Projects" = "Проекти";
-"Import notes" = "Испорт заметок";
-"Support" = "Поддержка";
-"Homepage" = "Домашняя страница";
-"Twitter" = "Twitter";
-"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
-"Project" = "Проект";
-"Font Family" = "Семейство шрифтов";
-"Version" = "Версия";
+/* Settings */
 "build" = "билд";
 
-/* Project settings */
-
-"Import notes" = "Импортировать";
-"View settings" = "Настройки";
-
-"Sort by" = "Сортировать по";
-"Visibility" = "Видимость";
-"Notes list" = "Список заметок";
-
-"Modification date" = "Дате модификации";
-"Creation date" = "Дате создания";
-"Title" = "Заголовок";
-
-"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" та \"Todo\"";
-"Show folder in sidebar" = "Показывать проект в боковой панели";
-"Use first line as title" = "Первая строка как заголовок";
-
-/* Move view */
-
-"Folder name:" = "Название папки:";
-"Folder with this name already exist" = "Папка с таким именем уже существует";
-"File with this name already exist" = "Файл с таким именем уже существует";
-"Preview" = "Предпросмотр";
-
-/* Tags view */
-
-"Tag with this name already exist" = "Тег с таким названием уже существует";
-"Tag name:" = "Название тега:";
-"Tags" = "Теги";
-
-/* Projects */
-
-"Project removing ❌" = "Удаление проекта ❌";
-
-/* Notes list */
-
-"Rename" = "Переименовать";
-"Delete" = "Удалить";
-"Move" = "Переместить";
-"Lock/unlock" = "Заблокировать/розблокировать";
-"Copy plain text" = "Скопировать текст";
-"Share" = "Поделиться";
-"UnPin" = "Открепить";
-"Pin" = "Прикрепить";
+/* No comment provided by engineer. */
 "Cancel" = "Отменить";
 
-"Are you sure you want to remove note?" = "Вы уверены, что хотите удалить заметку?";
-"This action cannot be undone." = "Это действие нельзя отменить.";
-"Rename note:" = "Переименовать заметку:";
+/* Settings */
+"Code block live highlighting" = "Подсвечивать код";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Скопировать текст";
+
+/* No comment provided by engineer. */
+"Creation date" = "Дате создания";
+
+/* Settings */
+"Default Container" = "Контейнер по умолчанию";
+
+/* Settings */
+"Default Extension" = "Формат заметок по умолчанию";
+
+/* Settings */
+"Default Keyboard In Editor" = "Клавиатура в редакторе";
+
+/* No comment provided by engineer. */
+"Delete" = "Удалить";
+
+/* No comment provided by engineer. */
+"Disabled" = "Отключен";
+
+/* No comment provided by engineer. */
+"Done" = "Готово";
+
+/* Settings */
+"Dynamic Type" = "Динамический шрифт";
+
+/* Settings */
+"Editor" = "Редактор";
+
+/* No comment provided by engineer. */
+"Enabled" = "Включен";
+
+/* No comment provided by engineer. */
 "Enter note name" = "Введите название заметки";
-"Note with this name already exist" = "Заметка с таким именем уже существует";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "Файл с таким именем уже существует";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Название папки:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "Папка с таким именем уже существует";
+
+/* Settings */
+"Font" = "Шрифт";
+
+/* Settings */
+"Font Family" = "Семейство шрифтов";
+
+/* Settings */
+"Font size" = "Размер шрифта";
+
+/* Settings */
+"General" = "Общие";
+
+/* Settings */
+"Homepage" = "Домашняя страница";
+
+/* Settings */
+"Import notes" = "Импортировать";
+
+/* Inbox in sidebar */
+"Inbox" = "Входящие";
+
+/* No comment provided by engineer. */
 "Invalid Password" = "Неверный пароль";
+
+/* Settings */
+"Live images preview" = "Показывать изображения";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Заблокировать/розблокировать";
+
+/* No comment provided by engineer. */
+"Modification date" = "Дате модификации";
+
+/* Move view */
+"Move" = "Переместить";
+
+/* Settings */
+"Night Mode" = "Ночной режим";
+
+/* No comment provided by engineer. */
+"Note with this name already exist" = "Заметка с таким именем уже существует";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Заметки";
+
+/* No comment provided by engineer. */
+"Notes list" = "Список заметок";
+
+/* No comment provided by engineer. */
+"Pin" = "Прикрепить";
+
+/* No comment provided by engineer. */
 "Please enter valid password" = "Введите действующий пароль";
 
-/* Night mode */
+/* No comment provided by engineer. */
+"Preview" = "Предпросмотр";
 
-"Disabled" = "Отключен";
-"Enabled" = "Включен";
+/* Settings */
+"Project" = "Проект";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "Удаление проекта ❌";
+
+/* Settings */
+"Projects" = "Проекти";
+
+/* No comment provided by engineer. */
+"Rename" = "Переименовать";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Переименовать заметку:";
+
+/* Sidebar settings */
+"Settings" = "Наcтройки";
+
+/* No comment provided by engineer. */
+"Share" = "Поделиться";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Показывать проект в боковой панели";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" та \"Todo\"";
+
+/* No comment provided by engineer. */
+"Sort by" = "Сортировать по";
+
+/* Settings */
+"Storage" = "Хранилище";
+
+/* Settings */
+"Support" = "Поддержка";
+
+/* No comment provided by engineer. */
 "System" = "Система";
-"Auto by screen brightness" = "Автоматически от яркости экрана";
-"Brightness level" = "Уровеньб яркости";
+
+/* No comment provided by engineer. */
+"Tag name:" = "Название тега:";
+
+/* No comment provided by engineer. */
+"Tag with this name already exist" = "Тег с таким названием уже существует";
+
+/* Sidebar label */
+"Tags" = "Теги";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "Это действие нельзя отменить.";
+
+/* No comment provided by engineer. */
+"Title" = "Заголовок";
+
+/* Todo in sidebar */
+"Todo" = "Todo";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Корзина";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
 "Type" = "Тип";
 
-"Done" = "Готово";
+/* Settings */
+"UI" = "Интерфейс";
+
+/* No comment provided by engineer. */
+"UnPin" = "Открепить";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Первая строка как заголовок";
+
+/* Settings */
+"Use inline tags" = "Использовать встроенные теги";
+
+/* Settings */
+"Version" = "Версия";
+
+/* No comment provided by engineer. */
+"View settings" = "Настройки";
+
+/* No comment provided by engineer. */
+"Visibility" = "Видимость";
 

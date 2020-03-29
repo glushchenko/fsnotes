@@ -1,4 +1,5 @@
-/* Sidebar label */
+/* Archive in sidebar
+   Sidebar label */
 "Archive" = "存档";
 
 /* No comment provided by engineer. */
@@ -7,27 +8,20 @@
 /* No comment provided by engineer. */
 "Enter Master Password" = "输入管理员密码";
 
-/* No comment provided by engineer. */
+/* Inbox in sidebar */
 "Inbox" = "收件箱";
 
-/* No comment provided by engineer. */
-"Master password:" = "管理员密码：";
-
-/* Sidebar label */
+/* Notes in sidebar
+   Sidebar label */
 "Notes" = "笔记";
-
-/* No comment provided by engineer. */
-"OK" = "好的";
-
-/* No comment provided by engineer. */
-"Please enter password for current note" = "请输入当前笔记的密码";
 
 /* Sidebar label */
 "Tags" = "标签";
 
-/* No comment provided by engineer. */
+/* Todo in sidebar */
 "Todo" = "待办事项";
 
-/* Sidebar label */
+/* Sidebar label
+   Trash in sidebar */
 "Trash" = "垃圾箱";
 

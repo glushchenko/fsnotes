@@ -1,8 +1,14 @@
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "1gp-bn-Xq5"; */
+"1gp-bn-Xq5.normalTitle" = "Отменить";
+
 /* Class = "UILabel"; text = "Font"; ObjectID = "3jo-l0-DdJ"; */
 "3jo-l0-DdJ.text" = "Font";
 
 /* Class = "UILabel"; text = "Default Container"; ObjectID = "7Ja-3s-eck"; */
 "7Ja-3s-eck.text" = "Default Keyboard On Edititng";
+
+/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
+"8VE-HM-shO.text" = "Входящие ✦";
 
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
 "AbV-ot-mEE.text" = "Date";
@@ -37,6 +43,9 @@
 /* Class = "UILabel"; text = "Live images preview"; ObjectID = "XL0-ja-V8s"; */
 "XL0-ja-V8s.text" = "Live images preview";
 
+/* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
+"Ywj-qM-UNi.placeholder" = "Найти или создать";
+
 /* Class = "UILabel"; text = "Label"; ObjectID = "ZDf-m9-quL"; */
 "ZDf-m9-quL.text" = "Label";
 
@@ -46,11 +55,3 @@
 /* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
 "ZLZ-yY-efJ.headerTitle" = "Editor";
 
-/* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
-"Ywj-qM-UNi.placeholder" = "Найти или создать";
-
-/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
-"8VE-HM-shO.text" = "Входящие ✦";
-
-/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "1gp-bn-Xq5"; */
-"1gp-bn-Xq5.normalTitle" = "Отменить";

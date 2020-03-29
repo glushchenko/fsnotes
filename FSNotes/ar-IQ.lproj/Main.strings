@@ -1,4 +1,4 @@
-/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2019 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
+/* Class = "NSTextFieldCell"; title = "Copyright © 2017-2020 Oleksandr Glushchenko. All rights reserved."; ObjectID = "0f7-Za-V0B"; */
 "0f7-Za-V0B.title" = "حقوق الطبع والنشر © 2017-2019 أوليكساندر غلوشينكو. كل الحقوق محفوظة.";
 
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
@@ -214,9 +214,6 @@
 /* Class = "NSTextFieldCell"; title = "v2.9.0"; ObjectID = "dgD-xe-DVG"; */
 "dgD-xe-DVG.title" = "v2.9.0";
 
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (Twitter: @ayad0net)"; ObjectID = "dPf-CP-fuZ"; */
-"dPf-CP-fuZ.title" = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)";
-
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "dRJ-4n-Yzg"; */
 "dRJ-4n-Yzg.title" = "تراجع";
 
@@ -373,7 +370,7 @@
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "معاينة Markdown CSS ";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -441,6 +438,9 @@
 
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "اغلاق";
+
+/* Class = "NSMenuItem"; title = "Preview MathJax"; ObjectID = "KIz-OO-IQT"; */
+"KIz-OO-IQT.title" = "معاينة MathJax ";
 
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "السماح لبصمة الاصبع لفتح الملاحظات";
@@ -772,7 +772,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "تغيير";
 
-/* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "صورة";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */

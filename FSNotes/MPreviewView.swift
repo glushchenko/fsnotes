@@ -91,9 +91,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
     }
 
-    public func load(note: Note) {
+    public func load(note: Note, force: Bool = false) {
         /// Do not re-load already loaded view
-        guard self.note != note else { return }
+        guard self.note != note || force else { return }
         
         let markdownString = note.getPrettifiedContent()
         let css = MarkdownView.getPreviewStyle()
@@ -132,7 +132,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         let template = MPreviewView.template
         let htmlString = renderMarkdownHTML(markdown: markdown)!
-        guard let pageHTMLString = template?.replacingOccurrences(of: "DOWN_HTML", with: htmlString) else { return }
+        guard var pageHTMLString = template?.replacingOccurrences(of: "DOWN_HTML", with: htmlString) else { return }
 
         var baseURL: URL?
         if let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle") {
@@ -142,7 +142,22 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
 
+        pageHTMLString = pageHTMLString.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS())
+
         loadHTMLString(pageHTMLString, baseURL: baseURL)
+    }
+
+    private func getMathJaxJS() -> String {
+        if !UserDefaultsManagement.mathJaxPreview {
+            return String()
+        }
+
+        return """
+            <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({ showMathMenu: false, tex2jax: { inlineMath: [ ['$', '$'], ['\\(', '\\)'] ], }, messageStyle: "none", showProcessingMessages: true });
+            </script>
+        """
     }
 
     private func getTemplate(css: String) -> String? {
@@ -335,6 +350,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
 #endif
+
+        template = template.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS()) as NSString
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }

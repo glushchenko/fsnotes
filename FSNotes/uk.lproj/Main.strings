@@ -415,6 +415,9 @@
 /* Class = "NSMenuItem"; title = "Close"; ObjectID = "kIy-TN-XMS"; */
 "kIy-TN-XMS.title" = "Закрити";
 
+/* Class = "NSMenuItem"; title = "Preview MathJax"; ObjectID = "KIz-OO-IQT"; */
+"KIz-OO-IQT.title" = "Попередній перегляд MathJax";
+
 /* Class = "NSButtonCell"; title = "Allow Touch ID to unlock notes"; ObjectID = "KST-y3-KvM"; */
 "KST-y3-KvM.title" = "Використовувати Touch ID ";
 
@@ -535,7 +538,7 @@
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Знайти далі";
 
-/* Class = "NSTextFieldCell"; title = "GIT version:"; ObjectID = "qiO-vb-B9L"; */
+/* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Вресія Git:";
 
 /* Class = "NSMenuItem"; title = "Show view options"; ObjectID = "qs2-5J-Q3n"; */
@@ -745,7 +748,7 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "Змінити";
 
-/* Class = "NSMenuItem"; title = "Image"; ObjectID = "yx6-SW-3vn"; */
+/* Class = "NSMenuItem"; title = "Image or file"; ObjectID = "yx6-SW-3vn"; */
 "yx6-SW-3vn.title" = "Зображення або файл";
 
 /* Class = "NSMenuItem"; title = "Show Substitutions"; ObjectID = "z6F-FW-3nz"; */

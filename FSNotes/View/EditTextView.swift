@@ -27,6 +27,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
 
+    @IBOutlet weak var previewMathJax: NSMenuItem!
 
     public static var imagesLoaderQueue = OperationQueue.init()
     
@@ -83,6 +84,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         if menuItem.menu?.identifier?.rawValue == "formatMenu", let vc = ViewController.shared(), vc.notesTableView.selectedRow == -1 || !vc.editArea.hasFocus() {
             return false
+        }
+
+        if menuItem.menu?.identifier?.rawValue == "viewMenu" && menuItem.identifier?.rawValue == "previewMathJax" {
+            menuItem.state = UserDefaultsManagement.mathJaxPreview ? .on : .off
         }
         
         if note.isRTF() {
@@ -518,7 +523,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         vc.togglePreview()
     }
-    
+
+    @IBAction func toggleMathJax(_ sender: NSMenuItem) {
+        sender.state = sender.state == .on ? .off : .on
+
+        UserDefaultsManagement.mathJaxPreview = sender.state == .on
+
+        guard let vc = ViewController.shared() else { return }
+
+        vc.refillEditArea(force: true)
+    }
+
     func getSelectedNote() -> Note? {
         guard let vc = ViewController.shared() else { return nil }
 
@@ -537,7 +552,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return true
     }
 
-    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false) {
+    func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
 
@@ -587,7 +602,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 markdownView?.frame = frame
                 
                 /// Load note if needed
-                markdownView?.load(note: note)
+                markdownView?.load(note: note, force: force)
             }
             return
         }

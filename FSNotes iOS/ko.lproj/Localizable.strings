@@ -1,4 +1,5 @@
-/* Sidebar label */
+/* Archive in sidebar
+   Sidebar label */
 "Archive" = "아카이브";
 
 /* No comment provided by engineer. */
@@ -7,24 +8,17 @@
 /* No comment provided by engineer. */
 "Enter Master Password" = "마스터 암호 입력";
 
-/* No comment provided by engineer. */
-"Master password:" = "마스터 암호：";
-
-/* Sidebar label */
+/* Notes in sidebar
+   Sidebar label */
 "Notes" = "노트";
-
-/* No comment provided by engineer. */
-"OK" = "확인";
-
-/* No comment provided by engineer. */
-"Please enter password for current note" = "노트 암호를 입력하십시오";
 
 /* Sidebar label */
 "Tags" = "태그";
 
-/* No comment provided by engineer. */
+/* Todo in sidebar */
 "Todo" = "할 일";
 
-/* Sidebar label */
+/* Sidebar label
+   Trash in sidebar */
 "Trash" = "휴지통";
 
