@@ -79,6 +79,16 @@ public class NotesTextProcessor {
             }
         }
     }
+
+    public static var underlineColor: NSColor {
+        get {
+            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
+                return NSColor(named: "underlineColor")!
+            } else {
+                return NSColor.black
+            }
+        }
+    }
 #else
     public static var font: UIFont {
         get {
@@ -116,6 +126,12 @@ public class NotesTextProcessor {
     public static var quoteColor: UIColor {
         get {
             return UIColor.darkGray
+        }
+    }
+
+    public static var underlineColor: UIColor {
+        get {
+            return UIColor.black
         }
     }
 #endif

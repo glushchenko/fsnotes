@@ -175,9 +175,11 @@ public class TextFormatter {
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
                         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+                        attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
                     }
                 } else {
                     attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
+                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
                 }
 
                 #if os(iOS)
@@ -196,6 +198,11 @@ public class TextFormatter {
             #if os(OSX)
                 if (textView.typingAttributes[.underlineStyle] == nil) {
                     attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
+
+
+                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: selectedRange)
+
+                    
                     textView.typingAttributes[.underlineStyle] = 1
                 } else {
                     textView.typingAttributes.removeValue(forKey: NSAttributedString.Key(rawValue: "NSUnderline"))

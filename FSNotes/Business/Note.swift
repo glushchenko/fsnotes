@@ -585,12 +585,16 @@ public class Note: NSObject  {
 
     public func save(attributed: NSAttributedString) {
         let mutable = NSMutableAttributedString(attributedString: attributed)
-        
+
         save(content: mutable)
     }
 
     public func save(content: NSMutableAttributedString) {
-        self.content = content.unLoad()
+        if isRTF() {
+            self.content = content.unLoadUnderlines()
+        } else {
+            self.content = content.unLoad()
+        }
 
         save(attributedString: self.content)
     }

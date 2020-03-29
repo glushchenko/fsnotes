@@ -649,6 +649,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if note.type == .RichText && !saveTyping {
             storage.updateFont()
+            storage.loadUnderlines()
         }
 
         if note.type == .PlainText {

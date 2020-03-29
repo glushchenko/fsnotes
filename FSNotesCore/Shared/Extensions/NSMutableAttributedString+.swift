@@ -84,6 +84,25 @@ extension NSMutableAttributedString {
         return unLoadCheckboxes().unLoadImages()
     }
 
+    public func unLoadUnderlines() -> NSMutableAttributedString {
+        self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
+            if value != nil {
+                print(range)
+                self.addAttribute(.underlineColor, value: NSColor.black, range: range)
+            }
+        }
+
+        return self
+    }
+
+    public func loadUnderlines() {
+        self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
+            if value != nil {
+                self.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+            }
+        }
+    }
+
     #if os(OSX)
     public func loadCheckboxes() {
         while mutableString.contains("- [ ] ") {
