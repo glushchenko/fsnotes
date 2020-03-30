@@ -591,7 +591,9 @@ public class Note: NSObject  {
 
     public func save(content: NSMutableAttributedString) {
         if isRTF() {
-            self.content = content.unLoadUnderlines()
+            #if os(OSX)
+                self.content = content.unLoadUnderlines()
+            #endif
         } else {
             self.content = content.unLoad()
         }

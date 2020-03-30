@@ -84,6 +84,7 @@ extension NSMutableAttributedString {
         return unLoadCheckboxes().unLoadImages()
     }
 
+    #if os(OSX)
     public func unLoadUnderlines() -> NSMutableAttributedString {
         self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
             if value != nil {
@@ -94,6 +95,7 @@ extension NSMutableAttributedString {
 
         return self
     }
+    #endif
 
     public func loadUnderlines() {
         self.enumerateAttribute(.underlineStyle, in: NSRange(location: 0, length: self.length)) { (value, range, _) in
