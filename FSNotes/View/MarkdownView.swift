@@ -101,6 +101,19 @@ open class MarkdownView: WKWebView {
         
         try loadHTMLView(markdownString, css: "")
     }
+
+    private func getMathJaxJS() -> String {
+        if !UserDefaultsManagement.mathJaxPreview {
+            return String()
+        }
+
+        return """
+            <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({ showMathMenu: false, tex2jax: { inlineMath: [ ['$', '$'], ['\\(', '\\)'] ], }, messageStyle: "none", showProcessingMessages: true });
+            </script>
+        """
+    }
     
     public static func getPreviewStyle(theme: String? = nil) -> String {
         var css = String()
@@ -211,7 +224,10 @@ private extension MarkdownView {
             htmlString = loadImages(imagesStorage: imagesStorage, html: htmlString)
         }
 
-        let pageHTMLString = try htmlFromTemplate(htmlString, css: css)
+        var pageHTMLString = try htmlFromTemplate(htmlString, css: css)
+
+        pageHTMLString = pageHTMLString.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS())
+
         let indexURL = createTemporaryBundle(pageHTMLString: pageHTMLString)
         
         if let i = indexURL {
