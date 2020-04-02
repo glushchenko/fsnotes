@@ -427,21 +427,7 @@ public class Note: NSObject  {
         
         return nil
     }
-    
-    func readModificatonDate() -> Date? {
-        var modifiedLocalAt: Date?
         
-        do {
-            let fileAttribute: [FileAttributeKey : Any] = try FileManager.default.attributesOfItem(atPath: url.path)
-            
-            modifiedLocalAt = fileAttribute[FileAttributeKey.modificationDate] as? Date
-        } catch {
-            NSLog(error.localizedDescription)
-        }
-        
-        return modifiedLocalAt
-    }
-    
     func isRTF() -> Bool {
         return type == .RichText
     }

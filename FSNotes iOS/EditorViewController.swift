@@ -613,6 +613,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if note.type == .PlainText || note.type == .RichText {
             processor.higlightLinks()
         }
+
+        // Prevent textStorage refresh in CloudDriveManager
+        note.modifiedLocalAt = Date()
         
         self.storageQueue.cancelAllOperations()
         let operation = BlockOperation()
