@@ -694,6 +694,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         guard let note = self.note else { return }
         note.setLastSelectedRange(value: editArea.selectedRange)
+
+        restoreContentOffset()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -701,6 +703,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
+
+
+        print(editArea.contentOffset)
+        print("hide")
     }
 
     public func resetToolbar() {
@@ -1293,6 +1299,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                     }
                 }
             }
+        }
+    }
+
+    private func restoreContentOffset() {
+        DispatchQueue.main.async {
+           if let co = self.editArea.lastContentOffset {
+               self.editArea.lastContentOffset = nil
+               self.editArea.setContentOffset(co, animated: false)
+           }
+        }
+    }
+
+    public func saveContentOffset() {
+        if editArea != nil {
+            editArea.lastContentOffset = editArea.contentOffset
         }
     }
 }

@@ -634,6 +634,8 @@ public class Note: NSObject  {
                     self.writeEncrypted()
                 }
             }
+
+            modifiedLocalAt = Date()
         } catch {
             NSLog("Write error \(error)")
             return

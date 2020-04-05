@@ -53,10 +53,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
-
-        let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
-        print(settings)
-
         self.metadataQueue.qualityOfService = .userInteractive
 
         if UserDefaultsManagement.nightModeType == .system {
@@ -1031,22 +1027,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func updateTableOrEditor(url: URL, content: String) {
-        guard let note = Storage.sharedInstance().getBy(url: url),
-            let date = note.getFileModifiedDate()
-        else { return }
-
-        note.content = NSMutableAttributedString(string: content)
-
-        note.invalidateCache()
-        notesTable.reloadRow(note: note)
-
-        if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
-            note.modifiedLocalAt = date
-            refreshTextStorage(note: note)
-            return
-        }
-    }
+//    public func updateTableOrEditor(url: URL, content: String) {
+//        guard let note = Storage.sharedInstance().getBy(url: url),
+//            let date = note.getFileModifiedDate()
+//        else { return }
+//
+//        note.content = NSMutableAttributedString(string: content)
+//
+//        note.invalidateCache()
+//        notesTable.reloadRow(note: note)
+//
+//        if let editorNote = EditTextView.note, editorNote.isEqualURL(url: url), date > note.modifiedLocalAt {
+//            note.modifiedLocalAt = date
+//            refreshTextStorage(note: note)
+//            return
+//        }
+//    }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         guard UserDefaultsManagement.nightModeType == .system else { return }

@@ -156,9 +156,9 @@ class CloudDriveManager {
                     }
                 }
                 
-                if changedMetadataItems.count == 1 {
-                    _ = CoreNote(fileURL: note.url)
-                }
+//                if changedMetadataItems.count == 1 {
+//                    _ = CoreNote(fileURL: note.url)
+//                }
 
                 note.forceReload()
 

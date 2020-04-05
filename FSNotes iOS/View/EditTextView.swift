@@ -12,6 +12,7 @@ import MobileCoreServices
 class EditTextView: UITextView, UITextViewDelegate {
 
     public var isAllowedScrollRect = true
+    public var lastContentOffset: CGPoint?
 
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")

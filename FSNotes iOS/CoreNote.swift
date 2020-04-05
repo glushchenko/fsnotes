@@ -55,8 +55,8 @@ public class CoreNote: UIDocument {
     }
 
     public func updateView() {
-        DispatchQueue.main.async {
-            UIApplication.getVC().updateTableOrEditor(url: self.fileURL, content: self.content)
-        }
+//        DispatchQueue.main.async {
+//            UIApplication.getVC().updateTableOrEditor(url: self.fileURL, content: self.content)
+//        }
     }
 }
