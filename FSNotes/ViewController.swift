@@ -866,24 +866,41 @@ class ViewController: NSViewController,
             let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
             let x = vc.splitView.subviews[0].frame.width + 5
             let general = moveMenu?.submenu?.item(at: 0)
-            
+
             moveMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
         }
     }
 
     @IBAction func historyMenu(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
+        guard let vc = ViewController.shared(), let note = vc.notesTableView.getSelectedNote() else { return }
 
         if vc.notesTableView.selectedRow >= 0 {
-            vc.loadHistory()
+            let moveMenu = NSMenu()
 
-            let historyTitle = NSLocalizedString("History", comment: "Menu")
-            let historyMenu = vc.noteMenu.item(withTitle: historyTitle)
+            let git = Git.sharedInstance()
+            let repository = git.getRepository(by: note.project.getParent())
+            let commits = repository.getCommits(by: note.getGitPath())
+
+            if commits.count == 0 {
+                return
+            }
+
+            for commit in commits {
+                let menuItem = NSMenuItem()
+                if let date = commit.getDate() {
+                    menuItem.title = date
+                }
+
+                menuItem.representedObject = commit
+                menuItem.action = #selector(vc.checkoutRevision(_:))
+                moveMenu.addItem(menuItem)
+            }
+
             let view = vc.notesTableView.rect(ofRow: vc.notesTableView.selectedRow)
             let x = vc.splitView.subviews[0].frame.width + 5
-            let general = historyMenu?.submenu?.item(at: 0)
+            let general = moveMenu.item(at: 0)
 
-            historyMenu?.submenu?.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
+            moveMenu.popUp(positioning: general, at: NSPoint(x: x, y: view.origin.y + 8), in: vc.notesTableView)
         }
     }
     

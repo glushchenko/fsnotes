@@ -62,7 +62,7 @@ extension ViewController {
 
             DispatchQueue.main.async {
                 guard commits.count > 0 else {
-                    historyMenu?.isHidden = true
+                    historyMenu?.isEnabled = false
                     return
                 }
 
@@ -79,7 +79,7 @@ extension ViewController {
             }
         }
 
-        historyMenu?.isHidden = false
+        historyMenu?.isEnabled = true
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {
