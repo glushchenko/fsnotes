@@ -361,10 +361,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         var chars = nsString.substring(with: charRange)
         chars = chars.replacingOccurrences(of: "[[", with: "")
 
-        print(chars)
-
         if let notes = storage.getBy(startWith: chars) {
-            let titles = notes.map{ $0.title }
+            let titles = notes.map{ "[[" + $0.title + "]]" }.filter{ $0.count > 4 }.sorted()
             return titles
         }
 
