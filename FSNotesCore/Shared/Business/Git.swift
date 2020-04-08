@@ -14,7 +14,7 @@ class Git {
 
     private var home: URL
     private var repositories: URL
-    private var debug: Bool
+    private var debug: Bool = true
 
     public static func sharedInstance() -> Git {
         guard let git = self.instance else {

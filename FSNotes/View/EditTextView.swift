@@ -303,6 +303,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let paragraph = textStorage?.mutableString.substring(with: parRange)
             {
                 let words = paragraph.components(separatedBy: " ")
+                if words.count > 0, let word = words.first, word.starts(with: "[[") {
+                    return completeWikiLinks(charRange: charRange)
+                }
+
                 var i = parRange.location
                 for word in words {
                     let range = NSRange(location: i + 1, length: word.count)
@@ -349,8 +353,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
         }
 
+        return completeWikiLinks(charRange: charRange)
+    }
+
+    private func completeWikiLinks(charRange: NSRange) -> [String]? {
         let nsString = string as NSString
-        let chars = nsString.substring(with: charRange)
+        var chars = nsString.substring(with: charRange)
+        chars = chars.replacingOccurrences(of: "[[", with: "")
+
+        print(chars)
+
         if let notes = storage.getBy(startWith: chars) {
             let titles = notes.map{ $0.title }
             return titles

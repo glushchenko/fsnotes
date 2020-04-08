@@ -35,6 +35,8 @@ extension ViewController {
         guard let commit = sender.representedObject as? Commit else { return }
         guard let note = EditTextView.note else { return }
 
+        UserDataService.instance.fsUpdatesDisabled = true
+
         let repository = Git.sharedInstance().getRepository(by: note.project.getParent())
         repository.checkout(commit: commit, fileName: note.getGitPath())
 
@@ -44,6 +46,8 @@ extension ViewController {
         notesTableView.reloadRow(note: note)
 
         editArea.scanTags()
+
+        UserDataService.instance.fsUpdatesDisabled = false
     }
 
     public func loadHistory() {
@@ -54,6 +58,7 @@ extension ViewController {
         let title = NSLocalizedString("History", comment: "")
         let historyMenu = noteMenu.item(withTitle: title)
         historyMenu?.submenu?.removeAllItems()
+        historyMenu?.isEnabled = false
 
         DispatchQueue.global().async {
             let git = Git.sharedInstance()
@@ -76,10 +81,10 @@ extension ViewController {
                     menuItem.action = #selector(vc.checkoutRevision(_:))
                     historyMenu?.submenu?.addItem(menuItem)
                 }
+
+                historyMenu?.isEnabled = true
             }
         }
-
-        historyMenu?.isEnabled = true
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {
