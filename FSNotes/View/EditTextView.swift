@@ -563,6 +563,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+        unregisterDraggedTypes()
+        registerForDraggedTypes([
+            NSPasteboard.PasteboardType(kUTTypeFileURL as String),
+            NSPasteboard.PasteboardType(rawValue: "public.data"),
+            NSPasteboard.PasteboardType(rawValue: "notesTable")
+        ])
+
         let viewController = self.window?.contentViewController as! ViewController
         viewController.emptyEditAreaImage.isHidden = true
 
@@ -1085,10 +1092,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        registerForDraggedTypes([
-            NSPasteboard.PasteboardType(kUTTypeFileURL as String)
-        ])
-
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 3
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
     }
@@ -1210,6 +1213,23 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 applyLeftParagraphStyle()
             }
             self.viewDelegate?.notesTableView.reloadRow(note: note)
+
+            return true
+        }
+
+        if let vc = ViewController.shared(), let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
+
+            let dropPoint = convert(sender.draggingLocation, from: nil)
+            let caretLocation = characterIndexForInsertion(at: dropPoint)
+
+            if let i = rows.first {
+                let note = vc.notesTableView.noteList[i]
+                let insertRange = NSRange(location: caretLocation, length: 0)
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.insertText("[[" + note.title + "]]", replacementRange: insertRange)
+                }
+            }
 
             return true
         }
@@ -1405,7 +1425,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
         s?.item(withTitle: NSLocalizedString("Text Replacement", comment: ""))?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
         s?.item(withTitle: NSLocalizedString("Data Detectors", comment: ""))?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
     }
-        
+
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return .copy
+    }
+
+    override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        return true
+    }
+
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
         
@@ -1509,8 +1537,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         
         field.becomeFirstResponder()
     }
-
-
 
     override func viewDidChangeEffectiveAppearance() {
         guard let note = EditTextView.note else { return }

@@ -38,7 +38,7 @@ extension NSTextStorage: NSTextStorageDelegate {
 
     private func process(textStorage: NSTextStorage, range editedRange: NSRange, changeInLength delta: Int) {
         guard let note = EditTextView.note, note.isMarkdown() else { return }
-        guard editedRange.length != textStorage.length || EditTextView.shouldForceRescan else { return }
+        guard delta != 0 || EditTextView.shouldForceRescan else { return }
 
         if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
             rescanAll(textStorage: textStorage)
