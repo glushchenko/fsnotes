@@ -1,3 +1,6 @@
+/* Sidebar label */
+"Archive" = "Архів";
+
 /* No comment provided by engineer. */
 "Attach storage..." = "Підключити сховище...";
 
@@ -10,12 +13,24 @@
 /* No comment provided by engineer. */
 "Detach storage" = "Відключити сховище";
 
-/* Menu */
+/* No comment provided by engineer. */
 "History" = "Історія";
+
+/* No comment provided by engineer. */
+"Inbox" = "Вхідні";
+
+/* Sidebar label */
+"Notes" = "Нотатки";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Показати в Finder";
 
 /* No comment provided by engineer. */
 "Show view options" = "Налаштування вигляду";
+
+/* No comment provided by engineer. */
+"Todo" = "Завдання";
+
+/* Sidebar label */
+"Trash" = "Сміття";
 

@@ -211,6 +211,9 @@
 /* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "dZD-Db-KHs"; */
 "dZD-Db-KHs.title" = "언어 (재시작 필요)";
 
+/* Class = "NSMenuItem"; title = "Todo"; ObjectID = "e0G-y0-N0C"; */
+"e0G-y0-N0C.title" = "할 일";
+
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "E6I-n5-dsi"; */
 "E6I-n5-dsi.title" = "복제";
 
@@ -318,6 +321,9 @@
 
 /* Class = "NSMenuItem"; title = "Dark"; ObjectID = "gY8-zt-Iak"; */
 "gY8-zt-Iak.title" = "다크";
+
+/* Class = "NSMenuItem"; title = "Archive"; ObjectID = "H2T-Wj-CfA"; */
+"H2T-Wj-CfA.title" = "아카이브";
 
 /* Class = "NSMenuItem"; title = "View"; ObjectID = "H8h-7b-M4v"; */
 "H8h-7b-M4v.title" = "보기";
@@ -475,6 +481,9 @@
 /* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
 "O8Z-cg-XnH.title" = "가져오기";
 
+/* Class = "NSMenuItem"; title = "Show in sidebar"; ObjectID = "O9f-Lf-HF6"; */
+"O9f-Lf-HF6.title" = "사이드 바에 표시";
+
 /* Class = "NSTextFieldCell"; title = "Title"; ObjectID = "O9K-a1-3eu"; */
 "O9K-a1-3eu.title" = "제목";
 
@@ -561,6 +570,9 @@
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
 "rbD-Rh-wIN.title" = "입력하는 동안 맞춤법 검사";
+
+/* Class = "NSMenuItem"; title = "Trash"; ObjectID = "RdI-N4-pR2"; */
+"RdI-N4-pR2.title" = "휴지통";
 
 /* Class = "NSMenuItem"; title = "Copy URL"; ObjectID = "Rg2-j1-Foz"; */
 "Rg2-j1-Foz.title" = "URL 복사";
@@ -712,11 +724,17 @@
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "링크";
 
+/* Class = "NSMenu"; title = "Show in sidebar"; ObjectID = "xjf-5G-e5Q"; */
+"xjf-5G-e5Q.title" = "사이드 바에 표시";
+
 /* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
 "xJQ-ch-Xlp.title" = "서체 크기 미리보기:";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
 "xPh-BC-Xxl.title" = "변경 이력";
+
+/* Class = "NSMenuItem"; title = "Notes"; ObjectID = "xPz-yo-VwM"; */
+"xPz-yo-VwM.title" = "모든 노트";
 
 /* Class = "NSMenuItem"; title = "Speech"; ObjectID = "xrE-MZ-jX0"; */
 "xrE-MZ-jX0.title" = "말하기";

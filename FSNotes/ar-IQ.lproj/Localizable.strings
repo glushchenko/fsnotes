@@ -2,7 +2,7 @@
 "Add" = "Добавить";
 
 /* Sidebar label */
-"Archive" = "Архив";
+"Archive" = "ارشيف";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "هل انت متأكد من  حذف الملفات %d بشكل نهائي   ؟";
@@ -82,7 +82,7 @@
 /* No comment provided by engineer. */
 "Header 6" = "عنوان ٦";
 
-/* Menu */
+/* No comment provided by engineer. */
 "History" = "تاريخ";
 
 /* No comment provided by engineer. */

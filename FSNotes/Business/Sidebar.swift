@@ -19,27 +19,35 @@ class Sidebar {
         let inboxName = "sidebarInbox"
         var system = [SidebarItem]()
 
-        if let project = Storage.sharedInstance().getDefault() {
+        if UserDefaultsManagement.sidebarVisibilityInbox, let project = Storage.sharedInstance().getDefault() {
             let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), project: project, type: .Inbox, icon: getImage(named: inboxName))
             system.append(inbox)
         }
 
-        let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
-        system.append(notes)
+        if UserDefaultsManagement.sidebarVisibilityNotes {
+            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All, icon: getImage(named: "home\(night).png"))
+            system.append(notes)
+        }
 
-        let todo = SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
-        system.append(todo)
+        if UserDefaultsManagement.sidebarVisibilityTodo {
+            let todo = SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo, icon: getImage(named: "todo_sidebar\(night)"))
+            system.append(todo)
+        }
 
-        if let archiveProject = storage.getArchive() {
+        if UserDefaultsManagement.sidebarVisibilityArchive, let archiveProject = storage.getArchive() {
             let archive = SidebarItem(name: NSLocalizedString("Archive", comment: ""), project: archiveProject, type: .Archive, icon: getImage(named: "archive\(night).png"))
             system.append(archive)
         }
 
-        let trashProject = Storage.sharedInstance().getDefaultTrash()
-        let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash, icon: getImage(named: "trash\(night)"))
-        
-        system.append(trash)
-        list = system
+        if UserDefaultsManagement.sidebarVisibilityTrash {
+            let trashProject = Storage.sharedInstance().getDefaultTrash()
+            let trash = SidebarItem(name: NSLocalizedString("Trash", comment: ""), project: trashProject, type: .Trash, icon: getImage(named: "trash\(night)"))
+            system.append(trash)
+        }
+
+        if system.count > 0 {
+            list = system
+        }
 
         let rootProjects = storage.getRootProjects()
 

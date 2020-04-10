@@ -1225,4 +1225,64 @@ public class UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.MathJaxPreview)
         }
     }
+
+    static var sidebarVisibilityInbox: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarVisibilityInbox") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityInbox")
+        }
+    }
+
+    static var sidebarVisibilityNotes: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarVisibilityNotes") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityNotes")
+        }
+    }
+
+    static var sidebarVisibilityTodo: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarVisibilityTodo") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityTodo")
+        }
+    }
+
+    static var sidebarVisibilityArchive: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarVisibilityArchive") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityArchive")
+        }
+    }
+
+    static var sidebarVisibilityTrash: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarVisibilityTrash") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityTrash")
+        }
+    }
 }

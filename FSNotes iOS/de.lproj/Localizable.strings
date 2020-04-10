@@ -1,0 +1,15 @@
+/* Archive in sidebar
+   Sidebar label */
+"Archive" = "Archiv";
+
+/* Inbox in sidebar */
+"Inbox" = "Posteingang";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Notizen";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Papierkorb";
+

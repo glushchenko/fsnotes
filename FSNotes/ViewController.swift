@@ -56,7 +56,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
-    
+    @IBOutlet weak var showInSidebar: NSMenuItem!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {
@@ -71,6 +71,7 @@ class ViewController: NSViewController,
     }
     @IBOutlet weak var shareButton: NSButton!
     @IBOutlet weak var sortByOutlet: NSMenuItem!
+
     @IBOutlet weak var titleBarAdditionalView: NSVisualEffectView! {
         didSet {
             let layer = CALayer()
@@ -229,6 +230,21 @@ class ViewController: NSViewController,
                 }
 
                 return vc.editAreaScroll.isFindBarVisible || vc.editArea.hasFocus()
+            case "showInSidebar":
+                switch menuItem.tag {
+                case 1:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityInbox ? .on : .off
+                case 2:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityNotes ? .on : .off
+                case 3:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityTodo ? .on : .off
+                case 4:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityArchive ? .on : .off
+                case 5:
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
+                default:
+                    break
+                }
             default:
                 break
             }
@@ -2116,7 +2132,29 @@ class ViewController: NSViewController,
             pasteboard.setString(note.title, forType: NSPasteboard.PasteboardType.string)
         }
     }
-    
+
+    @IBAction func sidebarItemVisibility(_ sender: NSMenuItem) {
+        sender.state = sender.state == .on ? .off : .on
+        let isChecked = sender.state == .on
+
+        switch sender.tag {
+            case 1:
+                UserDefaultsManagement.sidebarVisibilityInbox = isChecked
+            case 2:
+                UserDefaultsManagement.sidebarVisibilityNotes = isChecked
+            case 3:
+                UserDefaultsManagement.sidebarVisibilityTodo = isChecked
+            case 4:
+                UserDefaultsManagement.sidebarVisibilityArchive = isChecked
+            case 5:
+                UserDefaultsManagement.sidebarVisibilityTrash = isChecked
+            default:
+                break
+        }
+
+        ViewController.shared()?.storageOutlineView.reloadSidebar()
+    }
+
     func updateTitle(newTitle: String?) {
         let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "FSNotes"
 

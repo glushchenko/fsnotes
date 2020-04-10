@@ -1,14 +1,23 @@
+/* Sidebar label */
+"Archive" = "Архив";
+
 /* No comment provided by engineer. */
 "Code Span" = "Диапазон кода";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Отключить хранилище";
 
-/* Menu */
+/* No comment provided by engineer. */
 "History" = "История";
 
 /* No comment provided by engineer. */
+"Inbox" = "Входящие";
+
+/* No comment provided by engineer. */
 "New folder" = "Создать директорию";
+
+/* Sidebar label */
+"Notes" = "Заметки";
 
 /* No comment provided by engineer. */
 "Show in Finder" = "Показать в Finder";
@@ -18,4 +27,7 @@
 
 /* Delete menu */
 "This action cannot be undone." = "Это действие не может быть отменено.";
+
+/* Sidebar label */
+"Trash" = "Корзина";
 

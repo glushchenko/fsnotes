@@ -614,6 +614,43 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Show in sidebar" id="O9f-Lf-HF6">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Show in sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
+                                                <items>
+                                                    <menuItem title="Inbox" state="on" tag="1" id="NUu-C6-n14">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Kgb-pp-IKp"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Notes" state="on" tag="2" id="xPz-yo-VwM">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="9eO-fj-M9I"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Todo" state="on" tag="3" id="e0G-y0-N0C">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="vD4-T3-64C"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Archive" state="on" tag="4" id="H2T-Wj-CfA">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="ksp-jO-2u1"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Trash" state="on" tag="5" id="RdI-N4-pR2">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Vrr-NC-FPf"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
@@ -694,6 +731,7 @@ CA
                 </customObject>
                 <customObject id="L4m-js-agn" customClass="ViewController" customModule="FSNotes" customModuleProvider="target">
                     <connections>
+                        <outlet property="showInSidebar" destination="O9f-Lf-HF6" id="kDJ-q5-nnU"/>
                         <outlet property="sortByOutlet" destination="rHB-xF-GgG" id="Z3o-fD-Poh"/>
                     </connections>
                 </customObject>
@@ -743,7 +781,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="menu" size="14"/>
+                        <font key="font" metaFont="system" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>

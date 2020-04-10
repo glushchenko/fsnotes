@@ -1,3 +1,6 @@
+/* Sidebar label */
+"Archive" = "Archivo";
+
 /* No comment provided by engineer. */
 "Back up storage" = "Almacenamiento de respaldo";
 
@@ -10,8 +13,11 @@
 /* No comment provided by engineer. */
 "Detach storage" = "Separar el almacenamiento";
 
-/* Menu */
+/* No comment provided by engineer. */
 "History" = "Historial";
+
+/* Sidebar label */
+"Notes" = "Notas";
 
 /* No comment provided by engineer. */
 "Rename folder" = "Renombrar carpeta";
@@ -21,4 +27,7 @@
 
 /* No comment provided by engineer. */
 "Show view options" = "Mostrar opciones de vista";
+
+/* Sidebar label */
+"Trash" = "Papelera";
 

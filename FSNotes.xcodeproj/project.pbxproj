@@ -1261,6 +1261,10 @@
 		D797004B1F3DD10700BAD94D /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D798027D2137C3D5008D6200 /* uncheckedbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheckedbox.png; sourceTree = "<group>"; };
 		D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheckedbox@2x.png"; sourceTree = "<group>"; };
+		D79D28CD2440F2D6002F914C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D79D28CE2440F2D6002F914C /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D79D28CF2440F36E002F914C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D79D28D02440F36E002F914C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ios-512x512@2x.png"; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
@@ -3854,6 +3858,8 @@
 				D7F76C48232D648D00E8D8BA /* zh-Hans */,
 				D7855EE023486FF8000E96C3 /* ko */,
 				D7A7F789241D1395003AC0AD /* uk */,
+				D79D28CE2440F2D6002F914C /* de */,
+				D79D28D02440F36E002F914C /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3922,6 +3928,8 @@
 				D7855EDD23486FF8000E96C3 /* ko */,
 				D7A7F786241D12D8003AC0AD /* uk */,
 				D7A7F7A1241E2E1A003AC0AD /* ru */,
+				D79D28CD2440F2D6002F914C /* de */,
+				D79D28CF2440F36E002F914C /* es */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
