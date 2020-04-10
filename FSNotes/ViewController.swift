@@ -1599,7 +1599,10 @@ class ViewController: NSViewController,
         }
 
         return !note.name.isEmpty
-            && note.content.string.range(of: "[[" + filter + "]]", options: .caseInsensitive, range: nil, locale: nil) == nil
+            && (
+                note.content.string.range(of: "[[" + filter + "]]", options: .caseInsensitive, range: nil, locale: nil) == nil
+                || filter.count == 0
+            )
             && (
                 filter.isEmpty && type != .Todo
                     || type == .Todo
