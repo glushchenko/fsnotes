@@ -43,7 +43,7 @@ FSNotes is written on **Swift 5**, open-source (MIT license)
 
 ### iOS app
 
-<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/ios-screen.png">
+<img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/ios-screen.png"> <img width="300" alt="FSNotes for iOS" src="https://fsnot.es/img/ios-screen-2.png">
 
 #### Key features
 
