@@ -47,13 +47,24 @@ FSNotes is written on **Swift 5**, open-source (MIT license)
 
 #### Key features
 
-- iCloud Drive support (Files.app folder available).
-- Fast note creation (3DTouch + configurable default keyboard).
-- Pin/Unpin with macOS companion sync.
+- iCloud Drive with subfolders and 3d party apps for iOS 13+.
+- 3DTouch and configurable default keyboard.
+- TextBundles and EncryptedTextBundles containers.
+- Pin/unpin (macOS companion sync).
 - RTF and Markdown markup.
 - Markdown editor with highlighting (code blocks too).
+- Markdown preview.
 - Search with keywords highlighting.
 - Sharing extension.
+- Dynamic font on iOS 11+.
+- Night mode by day/night (location) monitoring.
+- Night mode by screen brightness.
+- Sidebar with folders and tags.
+- Inline images.
+- Inline tags.
+- Dark theme.
+- Encryption AES-256.
+- Mermaid and MathJax.
 
 <a href="https://itunes.apple.com/app/fsnotes-manager/id1346501102">
 	<img src="https://fsnot.es/img/badge-download-on-the-app-store.svg" alt="">
