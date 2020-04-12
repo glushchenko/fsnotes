@@ -566,8 +566,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         unregisterDraggedTypes()
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
-            NSPasteboard.PasteboardType(rawValue: "public.data"),
-            NSPasteboard.PasteboardType(rawValue: "notesTable")
+            NSPasteboard.PasteboardType(rawValue: "public.data")
         ])
 
         let viewController = self.window?.contentViewController as! ViewController
@@ -1171,38 +1170,53 @@ class EditTextView: NSTextView, NSTextFinderClient {
             var offset = 0
 
             unLoadImages(note: note)
-            
-            for url in urls {
-                do {
-                    data = try Data(contentsOf: url)
-                } catch {
-                    return false
-                }
-                
-                guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return false }
 
-                let insertRange = NSRange(location: caretLocation + offset, length: 0)
+            let urlType = NSPasteboard.PasteboardType(kUTTypeFileURL as String)
 
-                if UserDefaultsManagement.liveImagesPreview {
-                    let cleanPath = filePath.removingPercentEncoding ?? filePath
-                    guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
+            if let urlDataRepresentation = sender.draggingPasteboard.pasteboardItems?.first?.data(forType: urlType),
+                let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
+                let note = Storage.sharedInstance().getBy(url: url) {
 
-                    let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
-                    let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+                let replacementRange = NSRange(location: caretLocation + offset, length: 0)
 
-                    if let string = attachment.getAttributedString() {
-                        EditTextView.shouldForceRescan = true
+                NSApp.mainWindow?.makeFirstResponder(self)
+                insertText("[[" + note.title + "]]", replacementRange: replacementRange)
+                self.setSelectedRange(replacementRange)
 
-                        insertText(string, replacementRange: insertRange)
-                        insertNewline(nil)
-                        insertNewline(nil)
+            } else {
 
-                        offset += 3
+                for url in urls {
+                    do {
+                        data = try Data(contentsOf: url)
+                    } catch {
+                        return false
                     }
-                } else {
-                    insertText("![](\(filePath))", replacementRange: insertRange)
-                    insertNewline(nil)
-                    insertNewline(nil)
+
+                    guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return false }
+
+                    let insertRange = NSRange(location: caretLocation + offset, length: 0)
+
+                    if UserDefaultsManagement.liveImagesPreview {
+                        let cleanPath = filePath.removingPercentEncoding ?? filePath
+                        guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
+
+                        let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
+                        let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+
+                        if let string = attachment.getAttributedString() {
+                            EditTextView.shouldForceRescan = true
+
+                            insertText(string, replacementRange: insertRange)
+                            insertNewline(nil)
+                            insertNewline(nil)
+
+                            offset += 3
+                        }
+                    } else {
+                        insertText("![](\(filePath))", replacementRange: insertRange)
+                        insertNewline(nil)
+                        insertNewline(nil)
+                    }
                 }
             }
 
@@ -1213,23 +1227,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 applyLeftParagraphStyle()
             }
             self.viewDelegate?.notesTableView.reloadRow(note: note)
-
-            return true
-        }
-
-        if let vc = ViewController.shared(), let data = board.data(forType: NSPasteboard.PasteboardType.init(rawValue: "notesTable")), let rows = NSKeyedUnarchiver.unarchiveObject(with: data) as? IndexSet {
-
-            let dropPoint = convert(sender.draggingLocation, from: nil)
-            let caretLocation = characterIndexForInsertion(at: dropPoint)
-
-            if let i = rows.first {
-                let note = vc.notesTableView.noteList[i]
-                let insertRange = NSRange(location: caretLocation, length: 0)
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    self.insertText("[[" + note.title + "]]", replacementRange: insertRange)
-                }
-            }
 
             return true
         }
@@ -1424,10 +1421,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         s?.item(withTitle: NSLocalizedString("Smart Links", comment: ""))?.state = self.isAutomaticLinkDetectionEnabled  ? .on : .off
         s?.item(withTitle: NSLocalizedString("Text Replacement", comment: ""))?.state = self.isAutomaticTextReplacementEnabled   ? .on : .off
         s?.item(withTitle: NSLocalizedString("Data Detectors", comment: ""))?.state = self.isAutomaticDataDetectionEnabled ? .on : .off
-    }
-
-    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
-        return .copy
     }
 
     override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
