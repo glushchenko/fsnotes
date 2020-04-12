@@ -48,7 +48,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = NSRect(origin: rect.origin, size: rect.size)
         newRect.size.width = self.caretWidth
-        
+
         if let range = getParagraphRange(), range.upperBound != textStorage?.length || (
             range.upperBound == textStorage?.length
             && textStorage?.string.last == "\n"
@@ -56,7 +56,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         ) {
             newRect.size.height = newRect.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing)
         }
-        
+
         let clr = NSColor(red:0.47, green:0.53, blue:0.69, alpha:1.0)
         super.drawInsertionPoint(in: newRect, color: clr, turnedOn: flag)
     }
@@ -1177,11 +1177,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
                 let note = Storage.sharedInstance().getBy(url: url) {
 
-                let replacementRange = NSRange(location: caretLocation + offset, length: 0)
+                let replacementRange = NSRange(location: caretLocation, length: 0)
 
+                let title = "[[" + note.title + "]]"
                 NSApp.mainWindow?.makeFirstResponder(self)
-                insertText("[[" + note.title + "]]", replacementRange: replacementRange)
-                self.setSelectedRange(replacementRange)
+
+                DispatchQueue.main.async {
+                    self.insertText(title, replacementRange: replacementRange)
+                    self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
+                }
+
 
             } else {
 
@@ -1230,7 +1235,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             return true
         }
-        
+
         return false
     }
     
