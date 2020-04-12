@@ -651,6 +651,19 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
+                                        <menuItem title="Prev note" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Next note" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
@@ -781,7 +794,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>

@@ -22,6 +22,7 @@ public class UserDataService {
     fileprivate var _lastName: String?
 
     fileprivate var _importProgress = false
+    fileprivate var _lockHistory = false
 
     public var searchTrigger: Bool {
         get {
@@ -107,6 +108,15 @@ public class UserDataService {
         }
         set {
             _importProgress = newValue
+        }
+    }
+
+    public var lockHistory: Bool {
+        get {
+            return _lockHistory
+        }
+        set {
+            _lockHistory = newValue
         }
     }
 }

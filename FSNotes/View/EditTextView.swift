@@ -27,6 +27,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
 
+    public var history = [URL]()
+    public var historyPosition = 0
+
     @IBOutlet weak var previewMathJax: NSMenuItem!
 
     public static var imagesLoaderQueue = OperationQueue.init()
@@ -563,6 +566,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+
+        if !UserDataService.instance.lockHistory {
+            history.append(note.url)
+            historyPosition = history.count - 1
+        } else {
+            UserDataService.instance.lockHistory = false
+        }
+
         unregisterDraggedTypes()
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),

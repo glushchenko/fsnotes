@@ -245,6 +245,14 @@ class ViewController: NSViewController,
                 default:
                     break
                 }
+            case "viewMenu":
+                if (menuItem.identifier?.rawValue == "viewMenu.historyBack" &&  vc.editArea.historyPosition == 0) {
+                    return false
+                }
+
+                if (menuItem.identifier?.rawValue == "viewMenu.historyForward" && vc.editArea.historyPosition == vc.editArea.history.count - 1) {
+                    return false
+                }
             default:
                 break
             }
@@ -1705,16 +1713,23 @@ class ViewController: NSViewController,
         }
     }
     
-    func cleanSearchAndEditArea() {
+    func cleanSearchAndEditArea(completion: (() -> ())? = nil) {
         search.stringValue = ""
         search.becomeFirstResponder()
 
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editArea.clear()
 
-        self.updateTable(searchText: "") {
+        let searchText = completion == nil ? "" : nil
+
+        self.updateTable(searchText: searchText) {
             DispatchQueue.main.async {
                 self.storageOutlineView.reloadTags()
+
+                if let completion = completion {
+                    completion()
+                    return
+                }
             }
         }
     }
@@ -2220,6 +2235,54 @@ class ViewController: NSViewController,
 
         DispatchQueue.main.async {
             vc.editArea.performTextFinderAction(sender)
+        }
+    }
+
+    @IBAction func prevHistory(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+
+        if vc.editArea.historyPosition > 0 {
+            let prev = vc.editArea.historyPosition - 1
+            let prevUrl = vc.editArea.history[prev]
+
+            if let note = Storage.sharedInstance().getBy(url: prevUrl) {
+                UserDataService.instance.lockHistory = true
+
+                vc.cleanSearchAndEditArea(completion: { () -> Void in
+                    if let index = vc.notesTableView.getIndex(note) {
+                        vc.notesTableView.selectRow(index)
+                    } else {
+                        vc.storageOutlineView.select(note: note)
+                    }
+                })
+            }
+
+            vc.editArea.historyPosition = prev
+        }
+    }
+
+    @IBAction func nextHistory(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+
+        if vc.editArea.historyPosition < vc.editArea.history.count - 1 {
+            let next = vc.editArea.historyPosition + 1
+            let nextUrl = vc.editArea.history[next]
+
+            if let note = Storage.sharedInstance().getBy(url: nextUrl) {
+                UserDataService.instance.lockHistory = true
+
+                vc.cleanSearchAndEditArea(completion: { () -> Void in
+                    UserDataService.instance.lockHistory = true
+
+                    if let index = vc.notesTableView.getIndex(note) {
+                        vc.notesTableView.selectRow(index)
+                    } else {
+                        vc.storageOutlineView.select(note: note)
+                    }
+                })
+            }
+
+            vc.editArea.historyPosition = next
         }
     }
 

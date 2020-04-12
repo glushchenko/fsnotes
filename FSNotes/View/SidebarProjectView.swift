@@ -22,6 +22,7 @@ class SidebarProjectView: NSOutlineView,
     
     private var storage = Storage.sharedInstance()
     public var isFirstLaunch = true
+    public var selectNote: Note? = nil
 
     private var selectedProjects = [Project]()
     private var selectedTags: [String]?
@@ -538,6 +539,16 @@ class SidebarProjectView: NSOutlineView,
                     }
                     self.isFirstLaunch = false
                 }
+
+                // Only for navigation history
+                if let note = self.selectNote {
+                    DispatchQueue.main.async {
+                        UserDataService.instance.lockHistory = true
+
+                        vd.notesTableView.setSelected(note: note)
+                        self.selectNote = nil
+                    }
+                }
             }
         }
     }
@@ -893,6 +904,13 @@ class SidebarProjectView: NSOutlineView,
 
     public func selectArchive() {
         if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.type == .Archive }) {
+            selectRowIndexes([i], byExtendingSelection: false)
+        }
+    }
+
+    public func select(note: Note) {
+        if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.project == note.project }) {
+            selectNote = note
             selectRowIndexes([i], byExtendingSelection: false)
         }
     }
