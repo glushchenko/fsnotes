@@ -529,6 +529,7 @@ class SidebarProjectView: NSOutlineView,
                         let lastNote = vd.storage.getBy(url: url),
                         let i = vd.notesTableView.getIndex(lastNote)
                     {
+                        vd.notesTableView.saveNavigationHistory(note: lastNote)
                         vd.notesTableView.selectRow(i)
 
                         DispatchQueue.main.async {
@@ -543,10 +544,8 @@ class SidebarProjectView: NSOutlineView,
                 // Only for navigation history
                 if let note = self.selectNote {
                     DispatchQueue.main.async {
-                        UserDataService.instance.lockHistory = true
-
-                        vd.notesTableView.setSelected(note: note)
                         self.selectNote = nil
+                        vd.notesTableView.setSelected(note: note)
                     }
                 }
             }

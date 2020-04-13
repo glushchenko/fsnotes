@@ -246,11 +246,11 @@ class ViewController: NSViewController,
                     break
                 }
             case "viewMenu":
-                if (menuItem.identifier?.rawValue == "viewMenu.historyBack" &&  vc.editArea.historyPosition == 0) {
+                if (menuItem.identifier?.rawValue == "viewMenu.historyBack" &&  vc.notesTableView.historyPosition == 0) {
                     return false
                 }
 
-                if (menuItem.identifier?.rawValue == "viewMenu.historyForward" && vc.editArea.historyPosition == vc.editArea.history.count - 1) {
+                if (menuItem.identifier?.rawValue == "viewMenu.historyForward" && vc.notesTableView.historyPosition == vc.notesTableView.history.count - 1) {
                     return false
                 }
             default:
@@ -596,8 +596,6 @@ class ViewController: NSViewController,
             let selected = self.notesTableView.selectedRow
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
                 if let note = self.notesTableView.getSelectedNote() {
-                    UserDataService.instance.lockHistory = true
-                    
                     self.editArea.fill(note: note, saveTyping: saveTyping, force: force)
                     self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
                 }
@@ -2243,48 +2241,34 @@ class ViewController: NSViewController,
     @IBAction func prevHistory(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
 
-        if vc.editArea.historyPosition > 0 {
-            let prev = vc.editArea.historyPosition - 1
-            let prevUrl = vc.editArea.history[prev]
+        if vc.notesTableView.historyPosition > 0 {
+            let prev = vc.notesTableView.historyPosition - 1
+            let prevUrl = vc.notesTableView.history[prev]
 
             if let note = Storage.sharedInstance().getBy(url: prevUrl) {
-                UserDataService.instance.lockHistory = true
-
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
-                    if let index = vc.notesTableView.getIndex(note) {
-                        vc.notesTableView.selectRow(index)
-                    } else {
-                        vc.storageOutlineView.select(note: note)
-                    }
+                    vc.notesTableView.selectRowAndSidebarItem(note: note)
                 })
             }
 
-            vc.editArea.historyPosition = prev
+            vc.notesTableView.historyPosition = prev
         }
     }
 
     @IBAction func nextHistory(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
 
-        if vc.editArea.historyPosition < vc.editArea.history.count - 1 {
-            let next = vc.editArea.historyPosition + 1
-            let nextUrl = vc.editArea.history[next]
+        if vc.notesTableView.historyPosition < vc.notesTableView.history.count - 1 {
+            let next = vc.notesTableView.historyPosition + 1
+            let nextUrl = vc.notesTableView.history[next]
 
             if let note = Storage.sharedInstance().getBy(url: nextUrl) {
-                UserDataService.instance.lockHistory = true
-
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
-                    UserDataService.instance.lockHistory = true
-
-                    if let index = vc.notesTableView.getIndex(note) {
-                        vc.notesTableView.selectRow(index)
-                    } else {
-                        vc.storageOutlineView.select(note: note)
-                    }
+                    vc.notesTableView.selectRowAndSidebarItem(note: note)
                 })
             }
 
-            vc.editArea.historyPosition = next
+            vc.notesTableView.historyPosition = next
         }
     }
 

@@ -20,7 +20,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public var loadingQueue = OperationQueue.init()
     public var fillTimestamp: Int64?
-    
+
+    public var history = [URL]()
+    public var historyPosition = 0
+
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
         self.delegate = self
@@ -58,6 +61,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func mouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
+        // Save navigation history
+        let point = self.convert(event.locationInWindow, from: nil)
+        let i = row(at: point)
+        if noteList.indices.contains(i) {
+            saveNavigationHistory(note: noteList[i])
+        }
+
         super.mouseDown(with: event)
     }
 
@@ -67,7 +77,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         let point = self.convert(event.locationInWindow, from: nil)
         let i = row(at: point)
         
-        if self.noteList.indices.contains(i) {
+        if noteList.indices.contains(i) {
+            saveNavigationHistory(note: noteList[i])
+
             DispatchQueue.main.async {
                 let selectedRows = self.selectedRowIndexes
                 if !selectedRows.contains(i) {
@@ -315,24 +327,44 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         return nil
     }
     
-    func selectNext() {
+    public func selectNext() {
         UserDataService.instance.searchTrigger = false
+
+        let i = selectedRow + 1
+        if (noteList.indices.contains(i)) {
+            saveNavigationHistory(note: noteList[i])
+        }
 
         selectRow(selectedRow + 1)
     }
     
-    func selectPrev() {
+    public func selectPrev() {
         UserDataService.instance.searchTrigger = false
-        
+
+        let i = selectedRow - 1
+        if (noteList.indices.contains(i)) {
+            saveNavigationHistory(note: noteList[i])
+        }
+
         selectRow(selectedRow - 1)
     }
     
-    func selectRow(_ i: Int) {
+    public func selectRow(_ i: Int) {
         if (noteList.indices.contains(i)) {
             DispatchQueue.main.async {
                 self.selectRowIndexes([i], byExtendingSelection: false)
                 self.scrollRowToVisible(i)
             }
+        }
+    }
+
+    public func selectRowAndSidebarItem(note: Note) {
+        guard let vc = ViewController.shared() else { return }
+
+        if let index = getIndex(note) {
+            selectRow(index)
+        } else {
+            vc.storageOutlineView.select(note: note)
         }
     }
 
@@ -376,7 +408,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         return i
     }
-    
+
     public func insertNew(note: Note) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
 
@@ -411,5 +443,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
         }
     }
-    
+
+    public func saveNavigationHistory(note: Note) {
+        history.append(note.url)
+        historyPosition = history.count - 1
+    }
 }
