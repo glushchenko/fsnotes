@@ -596,6 +596,8 @@ class ViewController: NSViewController,
             let selected = self.notesTableView.selectedRow
             if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
                 if let note = self.notesTableView.getSelectedNote() {
+                    UserDataService.instance.lockHistory = true
+                    
                     self.editArea.fill(note: note, saveTyping: saveTyping, force: force)
                     self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
                 }

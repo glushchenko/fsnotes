@@ -572,7 +572,7 @@ CA
                                                 <action selector="togglePreview:" target="N0L-g4-qwj" id="2w1-01-aD6"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Preview MathJax" state="on" keyEquivalent="`" identifier="previewMathJax" id="KIz-OO-IQT">
+                                        <menuItem title="Preview MathJax" keyEquivalent="`" identifier="previewMathJax" id="KIz-OO-IQT">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="toggleMathJax:" target="N0L-g4-qwj" id="M4h-TJ-TiH"/>
@@ -652,13 +652,13 @@ CA
                                             </menu>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
-                                        <menuItem title="Prev note" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
+                                        <menuItem title="Navigation back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Next note" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
+                                        <menuItem title="Navigation forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
@@ -2966,7 +2966,7 @@ Korean 🇰🇷</string>
                                 <rect key="frame" x="52" y="285" width="265" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="lBe-Pa-whI">
-                                    <font key="font" metaFont="message" size="11"/>
+                                    <font key="font" metaFont="menu" size="11"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </pathCell>
                             </pathControl>
