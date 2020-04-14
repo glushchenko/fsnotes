@@ -1,0 +1,238 @@
+/* No comment provided by engineer. */
+"Add" = "Ajouter";
+
+/* Sidebar label */
+"Archive" = "Archive";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "Etes-vous sûr de vouloir supprimer définitivement %d note(s) ?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Etes-vous sûr de vouloir supprimer le projet \"%@\" et tous les fichiers qu'il contient ?";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "Attacher un stockage...";
+
+/* No comment provided by engineer. */
+"Back up storage" = "Sauvegarder dans le stockage";
+
+/* Delete menu */
+"Cancel" = "Annuler";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Correction grammaticale";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Correction orthographique";
+
+/* No comment provided by engineer. */
+"Code Block" = "Bloc de code";
+
+/* No comment provided by engineer. */
+"Code Span" = "Bloc Span";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Bloc HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Copier le lien";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Copier le texte brut";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Corriger l'orthographe automatiquement";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "Le mot de passe actuel ne correspond pas à celui dans le Trousseau d'accès";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Détecteurs de données";
+
+/* No comment provided by engineer. */
+"Delete" = "Supprimer";
+
+/* No comment provided by engineer. */
+"Delete folder" = "Supprimer le dossier";
+
+/* No comment provided by engineer. */
+"Detach storage" = "Détacher le stockage";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "Modifier le lien...";
+
+/* No comment provided by engineer. */
+"Empty password" = "Mot de passe vide";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Saisir le mot de passe principal";
+
+/* No comment provided by engineer. */
+"File with name \"(currentTitle)\" already exists!" = "Une fichier avec le nom \"(currentTitle)\" existe déjà !";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [édition]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [visualisation]";
+
+/* No comment provided by engineer. */
+"Header 1" = "Titre 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Titre 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Titre 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Titre 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Titre 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Titre 6";
+
+/* No comment provided by engineer. */
+"History" = "Historique";
+
+/* No comment provided by engineer. */
+"Image or file" = "Image ou fichier";
+
+/* No comment provided by engineer. */
+"Inbox" = "Boîte de réception";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Nom de fichier incorrect";
+
+/* No comment provided by engineer. */
+"Link" = "Lien";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "Tout vérouiller";
+
+/* No comment provided by engineer. */
+"Master password:" = "Mot de passe principal";
+
+/* Menu */
+"Move" = "Déplacer";
+
+/* No comment provided by engineer. */
+"New" = "Nouveau";
+
+/* No comment provided by engineer. */
+"New folder" = "Nouveau dossier";
+
+/* No comment provided by engineer. */
+"New project" = "Nouveau projet";
+
+/* No comment provided by engineer. */
+"New RTF" = "Nouveau RTF";
+
+/* Sidebar label */
+"Notes" = "Notes";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* Edit area */
+"Please enter image title:" = "Merci de saisir le nom de l'image :";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Merci de saisir le mot de passe de cette note";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Merci de saisir le nom du projet";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Merci de saisir les tags (séparés par des virgules) :";
+
+/* No comment provided by engineer. */
+"Please try again" = "Merci de réessayer";
+
+/* No comment provided by engineer. */
+"Preferences" = "Préférences";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Quitter FSNotes";
+
+/* Delete menu */
+"Remove" = "Supprimer";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Supprimer le lien";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Supprimer la ou les notes";
+
+/* No comment provided by engineer. */
+"Rename folder" = "Renommer le dossier";
+
+/* No comment provided by engineer. */
+"Search and create" = "Rechercher et créer";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Afficher dans le Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Afficher les options d'affichage";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Copier/Coller intelligent";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Tirets intelligents";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Liens intelligents";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Guillemets intelligentes";
+
+/* View menu */
+"Sort by" = "Trier par";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Orthographe et grammaire";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Barré";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Substitutions";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Tags";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Replacement du texte";
+
+/* Delete menu */
+"This action cannot be undone." = "Cette action ne peut pas être annulée.";
+
+/* No comment provided by engineer. */
+"Todo" = "À faire ";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Activer l'aperçu";
+
+/* Sidebar label */
+"Trash" = "Corbeille";
+
+/* No comment provided by engineer. */
+"Underline" = "Sousligner";
+
+/* Untitled Note */
+"Untitled Note" = "Note sans nom";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "L'URL a été copié dans le presse-papier";
+
+/* Menu */
+"View" = "Affichage";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Mauvais mot de passe ressaisi";
+

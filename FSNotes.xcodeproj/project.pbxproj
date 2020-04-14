@@ -1050,6 +1050,11 @@
 		B22A82E1B99B4D5148437393 /* Pods_FSNotesCore_macOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_macOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC8745CEBAABD51AE2606791 /* Pods_FSNotes_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1924467F1578DE60F76C854 /* Pods-FSNotes (Notarized).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (Notarized).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (Notarized)/Pods-FSNotes (Notarized).release.xcconfig"; sourceTree = "<group>"; };
+		D1D3CD8124459B08002D859B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		D1D3CD8224459B08002D859B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		D1D3CD8324459B08002D859B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		D1D3CD8424459B08002D859B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		D1D3CD852445A65A002D859B /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D3E216DE8167EBE2F6D024DC /* Pods-FSNotes (iCloud Documents).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).release.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).release.xcconfig"; sourceTree = "<group>"; };
 		D70255FE2333CFA0003857AF /* quote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = quote.png; sourceTree = "<group>"; };
 		D7038E1C20FA86C100A54E69 /* SharingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingService.swift; sourceTree = "<group>"; };
@@ -2526,6 +2531,7 @@
 				"zh-Hans",
 				ko,
 				uk,
+				fr,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -3905,6 +3911,7 @@
 				D72125632430FF5700F74891 /* uk */,
 				D72125652430FF8000F74891 /* ru */,
 				D72125662430FF8C00F74891 /* es */,
+				D1D3CD852445A65A002D859B /* fr */,
 			);
 			name = Localizable.strings;
 			path = ..;
@@ -3938,6 +3945,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D75F333B205EC34800CC887E /* Base */,
+				D1D3CD8424459B08002D859B /* fr */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -3951,6 +3959,7 @@
 				D7F76C4A232D648D00E8D8BA /* zh-Hans */,
 				D7855EE223486FF8000E96C3 /* ko */,
 				D7A7F780241D12D3003AC0AD /* uk */,
+				D1D3CD8224459B08002D859B /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -3960,6 +3969,7 @@
 			children = (
 				D7679395201F21F5000F7BBF /* Base */,
 				D7A7F781241D12D3003AC0AD /* uk */,
+				D1D3CD8324459B08002D859B /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -3975,6 +3985,7 @@
 				D7F76C4B232D648D00E8D8BA /* zh-Hans */,
 				D7855EE323486FF8000E96C3 /* ko */,
 				D7A7F77F241D12D3003AC0AD /* uk */,
+				D1D3CD8124459B08002D859B /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
