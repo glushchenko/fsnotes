@@ -1461,7 +1461,7 @@ class ViewController: NSViewController,
 
     private var selectRowTimer = Timer()
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}, saveHistory: Bool = false) {
+    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, saveHistory: Bool = false, completion: @escaping () -> Void = {}) {
 
         var sidebarItem: SidebarItem? = sidebarItem
         var projects: [Project]? = projects
