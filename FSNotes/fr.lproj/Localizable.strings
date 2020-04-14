@@ -1,0 +1,45 @@
+/* Sidebar label */
+"Archive" = "Archive";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "Attacher un stockage...";
+
+/* No comment provided by engineer. */
+"Back up storage" = "Sauvegarder le stockage";
+
+/* No comment provided by engineer. */
+"Delete folder" = "Supprimer le dossier";
+
+/* No comment provided by engineer. */
+"History" = "Historique";
+
+/* No comment provided by engineer. */
+"Inbox" = "Boîte de réception";
+
+/* Menu */
+"Move" = "Déplacer";
+
+/* No comment provided by engineer. */
+"New folder" = "Nouveau dossier";
+
+/* Sidebar label */
+"Notes" = "Notes";
+
+/* Delete menu */
+"Remove" = "Supprimer";
+
+/* No comment provided by engineer. */
+"Rename folder" = "Renommer le dossier";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Localiser dans le Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Afficher les options d'affichage";
+
+/* No comment provided by engineer. */
+"Todo" = "Tâches";
+
+/* Sidebar label */
+"Trash" = "Corbeille";
+

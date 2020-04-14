@@ -14,7 +14,7 @@
 "Attach storage..." = "Attacher un stockage...";
 
 /* No comment provided by engineer. */
-"Back up storage" = "Sauvegarder dans le stockage";
+"Back up storage" = "Sauvegarder le stockage";
 
 /* Delete menu */
 "Cancel" = "Annuler";
@@ -173,7 +173,7 @@
 "Search and create" = "Rechercher et créer";
 
 /* No comment provided by engineer. */
-"Show in Finder" = "Afficher dans le Finder";
+"Show in Finder" = "Localiser dans le Finder";
 
 /* No comment provided by engineer. */
 "Show view options" = "Afficher les options d'affichage";
@@ -213,7 +213,7 @@
 "This action cannot be undone." = "Cette action ne peut pas être annulée.";
 
 /* No comment provided by engineer. */
-"Todo" = "À faire ";
+"Todo" = "Tâches";
 
 /* No comment provided by engineer. */
 "Toggle preview" = "Activer l'aperçu";

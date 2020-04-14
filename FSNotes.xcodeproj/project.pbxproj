@@ -1185,6 +1185,9 @@
 		D7508FCD1F3438540047AB76 /* PrefsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefsViewController.swift; sourceTree = "<group>"; };
 		D752D80723454750006842F9 /* NSTextAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextAttachment+.swift"; sourceTree = "<group>"; };
 		D752D80E23463950006842F9 /* NSMutableAttributedString+Attachments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Attachments.swift"; sourceTree = "<group>"; };
+		D7573D3A24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7573D3B24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7573D3C24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D759D1F92276D25C00961E90 /* icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alt.png; sourceTree = "<group>"; };
 		D759D1FD2276D4C200961E90 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		D75C9039223EDAFD002A9CAD /* padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padlock.png; sourceTree = "<group>"; };
@@ -3866,6 +3869,7 @@
 				D7A7F789241D1395003AC0AD /* uk */,
 				D79D28CE2440F2D6002F914C /* de */,
 				D79D28D02440F36E002F914C /* es */,
+				D7573D3B24465AE4005C0112 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3937,6 +3941,7 @@
 				D7A7F7A1241E2E1A003AC0AD /* ru */,
 				D79D28CD2440F2D6002F914C /* de */,
 				D79D28CF2440F36E002F914C /* es */,
+				D7573D3A24465AE4005C0112 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4012,6 +4017,7 @@
 				D7F76C49232D648D00E8D8BA /* zh-Hans */,
 				D7855EE123486FF8000E96C3 /* ko */,
 				D7A7F782241D12D6003AC0AD /* uk */,
+				D7573D3C24465AE4005C0112 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

@@ -1,0 +1,24 @@
+/* Archive in sidebar
+   Sidebar label */
+"Archive" = "Archive";
+
+/* Inbox in sidebar */
+"Inbox" = "Boîte de réception";
+
+/* Move view */
+"Move" = "Déplacer";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Notes";
+
+/* No comment provided by engineer. */
+"Remove" = "Supprimer";
+
+/* Todo in sidebar */
+"Todo" = "Tâches";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Corbeille";
+

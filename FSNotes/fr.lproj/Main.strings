@@ -577,7 +577,7 @@
 /* Class = "NSMenuItem"; title = "Code Block"; ObjectID = "OOL-dM-zIE"; */
 "OOL-dM-zIE.title" = "Bloc de code";
 
-/* Class = "NSMenuItem"; title = "Navigation forward"; ObjectID = "oQE-3t-6pa"; */
+/* Class = "NSMenuItem"; title = "Forward"; ObjectID = "oQE-3t-6pa"; */
 "oQE-3t-6pa.title" = "Navigation vers l'avant";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
@@ -634,7 +634,7 @@
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Version Git:";
 
-/* Class = "NSMenuItem"; title = "Navigation back"; ObjectID = "qNE-oZ-zJr"; */
+/* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
 "qNE-oZ-zJr.title" = "Navigation vers l'arrière";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "qod-hp-9wd"; */
