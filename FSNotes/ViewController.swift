@@ -1461,7 +1461,7 @@ class ViewController: NSViewController,
 
     private var selectRowTimer = Timer()
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
+    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}, saveHistory: Bool = false) {
 
         var sidebarItem: SidebarItem? = sidebarItem
         var projects: [Project]? = projects
@@ -1564,6 +1564,11 @@ class ViewController: NSViewController,
                         }
 
                         if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
+
+                            if saveHistory, let note = self.notesTableView.noteList.first {
+                                self.notesTableView.saveNavigationHistory(note: note)
+                            }
+
                             self.selectNullTableRow(timer: true)
                         } else {
                             self.editArea.clear()
@@ -1822,6 +1827,7 @@ class ViewController: NSViewController,
 
         updateTable() {
             DispatchQueue.main.async {
+                self.notesTableView.saveNavigationHistory(note: note)
                 if let index = self.notesTableView.getIndex(note) {
                     self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
                     self.notesTableView.scrollRowToVisible(index)

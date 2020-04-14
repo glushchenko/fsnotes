@@ -61,14 +61,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func mouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
-        // Save navigation history
-        let point = self.convert(event.locationInWindow, from: nil)
-        let i = row(at: point)
-        if noteList.indices.contains(i) {
-            saveNavigationHistory(note: noteList[i])
-        }
-
         super.mouseDown(with: event)
+    }
+
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        if (noteList.indices.contains(row)) {
+            saveNavigationHistory(note: noteList[row])
+        }
+        return true
     }
 
     override func rightMouseDown(with event: NSEvent) {
