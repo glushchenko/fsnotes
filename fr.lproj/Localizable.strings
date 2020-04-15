@@ -5,10 +5,10 @@
 "Archive" = "Archive";
 
 /* No comment provided by engineer. */
-"Are you sure you want to irretrievably delete %d note(s)?" = "Etes-vous sûr de vouloir supprimer définitivement %d note(s) ?";
+"Are you sure you want to irretrievably delete %d note(s)?" = "Êtes-vous sûr de vouloir supprimer définitivement %d note(s) ?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove project \"%@\" and all files inside?" = "Etes-vous sûr de vouloir supprimer le projet \"%@\" et tous les fichiers qu'il contient ?";
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Êtes-vous sûr de vouloir supprimer le projet \"%@\" et tous les fichiers qu'il contient ?";
 
 /* No comment provided by engineer. */
 "Attach storage..." = "Attacher un stockage...";
@@ -110,7 +110,7 @@
 "Link" = "Lien";
 
 /* No comment provided by engineer. */
-"Lock All Encrypted" = "Tout vérouiller";
+"Lock All Encrypted" = "Tout verrouiller";
 
 /* No comment provided by engineer. */
 "Master password:" = "Mot de passe principal";
@@ -222,7 +222,7 @@
 "Trash" = "Corbeille";
 
 /* No comment provided by engineer. */
-"Underline" = "Sousligner";
+"Underline" = "Souligner";
 
 /* Untitled Note */
 "Untitled Note" = "Note sans nom";
