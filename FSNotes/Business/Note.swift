@@ -579,6 +579,8 @@ public class Note: NSObject  {
         if isRTF() {
             #if os(OSX)
                 self.content = content.unLoadUnderlines()
+            #else
+                self.content = content
             #endif
         } else {
             self.content = content.unLoad()
@@ -694,7 +696,7 @@ public class Note: NSObject  {
         if isTextBundle() {
             let fileWrapper = getFileWrapper(attributedString: content)
             let info = getTextBundleJsonInfo()
-            let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info))
+            let infoWrapper = self.getFileWrapper(attributedString: NSAttributedString(string: info), forcePlain: true)
 
             let ext = getExtensionForContainer()
             let textBundle = FileWrapper.init(directoryWithFileWrappers: [
@@ -778,10 +780,19 @@ public class Note: NSObject  {
         return attributes
     }
     
-    func getFileWrapper(attributedString: NSAttributedString) -> FileWrapper {
+    func getFileWrapper(attributedString: NSAttributedString, forcePlain: Bool = false) -> FileWrapper {
         do {
             let range = NSRange(location: 0, length: attributedString.length)
-            let documentAttributes = getDocAttributes()
+
+            var documentAttributes = getDocAttributes()
+
+            if forcePlain {
+                documentAttributes = [
+                    .documentType : NSAttributedString.DocumentType.plain,
+                    .characterEncoding : NSNumber(value: String.Encoding.utf8.rawValue)
+                ]
+            }
+
             return try attributedString.fileWrapper(from: range, documentAttributes: documentAttributes)
         } catch {
             return FileWrapper()
@@ -815,7 +826,6 @@ public class Note: NSObject  {
         if (type == .RichText) {
             options = [
                 .documentType : NSAttributedString.DocumentType.rtf
-
             ]
         } else {
             options = [

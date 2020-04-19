@@ -888,7 +888,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             + [settings, inbox, notes, todo, archive, trash]
 
         for tag in tags {
-            let labelWidth = ("#             " + tag as NSString).size(withAttributes: [.font: font]).width
+            let labelWidth = ("#                " + tag as NSString).size(withAttributes: [.font: font]).width
 
             if labelWidth < view.frame.size.width / 2 {
                 if labelWidth > width {
