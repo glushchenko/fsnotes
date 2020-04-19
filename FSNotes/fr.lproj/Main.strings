@@ -110,7 +110,7 @@
 "8dk-Cf-bSg.title" = "Verrouiller au changement d'utilisateur";
 
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
-"8oP-79-BAN.title" = "Couleur de note :";
+"8oP-79-BAN.title" = "Couleur :";
 
 /* Class = "NSMenuItem"; title = "Markdown"; ObjectID = "8yn-cx-Rtm"; */
 "8yn-cx-Rtm.title" = "Markdown";
@@ -134,7 +134,7 @@
 "13t-eQ-kOr.title" = "Traducteurs :";
 
 /* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
-"54i-GK-spQ.title" = "Location de la liste de notes:";
+"54i-GK-spQ.title" = "Liste de notes :";
 
 /* Class = "NSTextFieldCell"; title = "Code Font:"; ObjectID = "63m-us-3j9"; */
 "63m-us-3j9.title" = "Police de code :";
@@ -167,7 +167,7 @@
 "B7t-9v-bSk.placeholderString" = "Rechercher ou créer";
 
 /* Class = "NSTextFieldCell"; title = "Note Font:"; ObjectID = "bJC-he-nDV"; */
-"bJC-he-nDV.title" = "Police de note :";
+"bJC-he-nDV.title" = "Police :";
 
 /* Class = "NSButtonCell"; title = "Show icon in dock"; ObjectID = "bJv-E9-bwW"; */
 "bJv-E9-bwW.title" = "Afficher l'icône dans le Dock";
@@ -182,7 +182,7 @@
 "buJ-ug-pKt.title" = "Utiliser la sélection pour Rechercher";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
-"bXK-wP-sZc.title" = "Espacement de la liste de notes :";
+"bXK-wP-sZc.title" = "Espacement :";
 
 /* Class = "NSMenu"; title = "Folder"; ObjectID = "BYI-2F-BJo"; */
 "BYI-2F-BJo.title" = "Dossier";
@@ -245,7 +245,7 @@
 "dys-2Q-lfZ.title" = "Stockage d'archive :";
 
 /* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "dZD-Db-KHs"; */
-"dZD-Db-KHs.title" = "Langue (redémarrage de l'app requ.) :";
+"dZD-Db-KHs.title" = "Langue (redémarrage de l'app) :";
 
 /* Class = "NSMenuItem"; title = "Todo"; ObjectID = "e0G-y0-N0C"; */
 "e0G-y0-N0C.title" = "Tâches";
@@ -503,7 +503,7 @@
 "LTw-w4-tEo.title" = "Gras";
 
 /* Class = "NSButtonCell"; title = "Hide FSNotes when activating another application"; ObjectID = "M29-fW-FJa"; */
-"M29-fW-FJa.title" = "Masquer FSNotes à l'activation d'une autre application";
+"M29-fW-FJa.title" = "Masquer FSNotes à l'activation d'une autre app";
 
 /* Class = "NSMenuItem"; title = "TextBundle"; ObjectID = "MCR-1v-3Wc"; */
 "MCR-1v-3Wc.title" = "TextBundle";
@@ -833,7 +833,7 @@
 "xjf-5G-e5Q.title" = "Afficher dans la barre latérale";
 
 /* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
-"xJQ-ch-Xlp.title" = "Aperçu de la taille de la police :";
+"xJQ-ch-Xlp.title" = "Taille de l'aperçu :";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
 "xPh-BC-Xxl.title" = "Historique";
@@ -890,7 +890,7 @@
 "Ze0-SZ-STw.title" = "Sauvegarder manuellement";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
-"ZqK-gu-KdQ.title" = "Sélection automatique de note lorsqu'un corps correspond";
+"ZqK-gu-KdQ.title" = "Sélec. auto de note lorsqu'un corps correspond";
 
 /* Class = "NSButtonCell"; title = "Show notes in \"Notes\" and \"Todo\" lists"; ObjectID = "Zzw-01-JH7"; */
 "Zzw-01-JH7.title" = "Voir les notes dans \"Notes\" et \"Tâches\"";
