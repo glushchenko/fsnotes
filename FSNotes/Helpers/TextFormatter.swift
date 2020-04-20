@@ -82,13 +82,19 @@ public class TextFormatter {
     
     func bold() {
         if note.isMarkdown() {
-            let string = "**" + attributedString.string + "**"
-            let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
-            self.insertText(string, selectRange: NSMakeRange(location, 0))
+            var selectRange = NSMakeRange(range.location + 2, 0)
+            let string = attributedString.string
+            let length = string.count
+
+            if length != 0 {
+                selectRange = NSMakeRange(range.location, length + 4)
+            }
+
+            insertText("**" + string + "**", selectRange: selectRange)
         }
         
         if type == .RichText {
-            let newFont = toggleBoldFont(font: self.getTypingAttributes())
+            let newFont = toggleBoldFont(font: getTypingAttributes())
             
             #if os(iOS)
             guard self.attributedString.length > 0 else {
@@ -123,9 +129,15 @@ public class TextFormatter {
     
     func italic() {
         if note.isMarkdown() {
-            let string = "_" + attributedString.string + "_"
-            let location = string.count == 2 ? range.location + 1 : range.upperBound + 2
-            self.insertText(string, selectRange: NSMakeRange(location, 0))
+            var selectRange = NSMakeRange(range.location + 1, 0)
+            let string = attributedString.string
+            let length = string.count
+
+            if length != 0 {
+                selectRange = NSMakeRange(range.location, length + 2)
+            }
+
+            insertText("_" + string + "_", selectRange: selectRange)
         }
         
         if type == .RichText {
@@ -1003,7 +1015,7 @@ public class TextFormatter {
 
         self.textView.undoManager?.endUndoGrouping()
     #else
-        self.textView.insertText(string, replacementRange: range)
+        textView.insertText(string, replacementRange: range)
     #endif
         
         if let select = selectRange {

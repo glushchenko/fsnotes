@@ -681,6 +681,13 @@ public class NotesTextProcessor {
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             attributedString.addAttribute(.font, value: italicFont, range: range)
+
+            NotesTextProcessor.boldRegex.matches(string, range: range) { (result) -> Void in
+                guard let range = result?.range else { return }
+                let boldItalic = Font.addBold(font: italicFont)
+                attributedString.addAttribute(.font, value: boldItalic, range: range)
+            }
+
             attributedString.fixAttributes(in: range)
             
             let preRange = NSMakeRange(range.location, 1)
@@ -695,9 +702,20 @@ public class NotesTextProcessor {
         // We detect and process bolds
         NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
-            attributedString.addAttribute(.font, value: boldFont, range: range)
+
+            if let font = attributedString.attributedSubstring(from: range).attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
+            } else {
+                attributedString.addAttribute(.font, value: boldFont, range: range)
+
+                NotesTextProcessor.italicRegex.matches(string, range: range) { (result) -> Void in
+                    guard let range = result?.range else { return }
+                    let boldItalic = Font.addItalic(font: boldFont)
+                    attributedString.addAttribute(.font, value: boldItalic, range: range)
+                }
+            }
+
             attributedString.fixAttributes(in: range)
-            
+
             let preRange = NSMakeRange(range.location, 2)
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
             hideSyntaxIfNecessary(range: preRange)
@@ -1193,8 +1211,8 @@ public class NotesTextProcessor {
     
     public static let strictItalicRegex = MarklightRegex(pattern: strictItalicPattern, options: [.anchorsMatchLines])
     
-    fileprivate static let italicPattern = "(\\*|_) (?=\\S) (.+?) (?<=\\S) \\1"
-    
+    fileprivate static let italicPattern = "(\\_){1} (?=\\S) (.+?) (?<=\\S) \\1"
+
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     fileprivate static let autolinkPattern = "((https?|ftp):[^\\)'\">\\s]+)"

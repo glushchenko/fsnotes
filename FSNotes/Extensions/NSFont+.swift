@@ -32,6 +32,14 @@ extension NSFont {
     static func boldFont() -> NSFont {
         return NSFontManager().convert(UserDefaultsManagement.noteFont, toHaveTrait: .boldFontMask)
     }
+
+    static func addItalic(font: Font) -> NSFont {
+        return NSFontManager().convert(font, toHaveTrait: .italicFontMask)
+    }
+
+    static func addBold(font: Font) -> NSFont {
+        return NSFontManager().convert(font, toHaveTrait: .boldFontMask)
+    }
     
     func bold() -> NSFont {
         guard let family = UserDefaultsManagement.noteFont.familyName else {
