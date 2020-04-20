@@ -82,6 +82,19 @@ public class TextFormatter {
     
     func bold() {
         if note.isMarkdown() {
+
+            // UnBold
+            if attributedString.string.contains("**") || attributedString.string.contains("__") {
+                let unBold = attributedString
+                    .string
+                    .replacingOccurrences(of: "**", with: "")
+                    .replacingOccurrences(of: "__", with: "")
+
+                let selectRange = NSRange(location: range.location, length: unBold.count)
+                insertText(unBold, selectRange: selectRange)
+                return
+            }
+
             var selectRange = NSMakeRange(range.location + 2, 0)
             let string = attributedString.string
             let length = string.count
@@ -129,6 +142,19 @@ public class TextFormatter {
     
     func italic() {
         if note.isMarkdown() {
+
+            // UnItalic
+            if attributedString.string.contains("*") || attributedString.string.contains("_") {
+                let unItalic = attributedString
+                    .string
+                    .replacingOccurrences(of: "*", with: "")
+                    .replacingOccurrences(of: "_", with: "")
+
+                let selectRange = NSRange(location: range.location, length: unItalic.count)
+                insertText(unItalic, selectRange: selectRange)
+                return
+            }
+
             var selectRange = NSMakeRange(range.location + 1, 0)
             let string = attributedString.string
             let length = string.count
@@ -392,22 +418,34 @@ public class TextFormatter {
     public func header(_ string: String) {
         guard let pRange = getParagraphRange() else { return }
 
+#if os(iOS)
         var prefix = String()
         let selected = self.textView.selectedRange
         let paragraph = storage.mutableString.substring(with: pRange)
 
-        #if os(OSX)
+        if paragraph.starts(with: "#") {
+            prefix = string
+        } else {
             prefix = string + " "
-        #else
-            if paragraph.starts(with: "#") {
-                prefix = string
-            } else {
-                prefix = string + " "
-            }
-        #endif
+        }
 
         let selectRange = NSRange(location: selected.location + selected.length + prefix.count, length: 0)
         insertText(prefix + paragraph, replacementRange: pRange, selectRange: selectRange)
+#else
+        let prefix = string + " "
+        var paragraph = storage.mutableString
+            .substring(with: pRange)
+
+        if paragraph.starts(with: prefix) {
+            paragraph = paragraph.replacingOccurrences(of: prefix, with: "")
+        } else {
+            paragraph =
+                prefix + paragraph.replacingOccurrences(of: "#", with: "").trim()
+        }
+
+        let selectRange = NSRange(location: pRange.location + paragraph.count - 1, length: 0)
+        insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
+#endif
     }
     
     public func link() {
