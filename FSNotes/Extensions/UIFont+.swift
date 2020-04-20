@@ -70,4 +70,13 @@ extension UIFont {
 
         return font
     }
+
+    static func addItalic(font: UIFont) -> UIFont {
+        return font.italic()
+    }
+
+    static func addBold(font: UIFont) -> UIFont {
+        return font.bold()
+    }
+
 }
