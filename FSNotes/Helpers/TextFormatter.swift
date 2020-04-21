@@ -1068,4 +1068,174 @@ public class TextFormatter {
         attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: range)
         return attributedString
     }
+
+    public func list() {
+        guard let pRange = getParagraphRange() else { return }
+
+        let string = getAttributedString().attributedSubstring(from: pRange).string
+
+        var lines = [String]()
+        var addPrefixes = false
+
+        string.enumerateLines { (line, _) in
+            addPrefixes = !self.hasPrefix(line: line, numbers: false)
+            let cleanLine = self.cleanListItem(line: line)
+            lines.append(cleanLine)
+        }
+
+        var result = String()
+        for line in lines {
+            if addPrefixes {
+                var empty = String()
+                var scanFinished = false
+
+                for char in line {
+                    if char.isWhitespace && !scanFinished {
+                        empty.append(char)
+                    } else {
+                        if !scanFinished {
+                            empty.append("- \(char)")
+                            scanFinished = true
+                        } else {
+                            empty.append(char)
+                        }
+                    }
+                }
+
+                result += empty + "\n"
+            } else {
+                result += line + "\n"
+            }
+        }
+
+        let selectRange = selectedRange.length == 0 || lines.count == 1
+            ? NSRange(location: pRange.location + result.count - 1, length: 0)
+            : NSRange(location: pRange.location, length: result.count)
+
+        insertText(result, replacementRange: pRange, selectRange: selectRange)
+    }
+
+    public func orderedList() {
+        guard let pRange = getParagraphRange() else { return }
+
+        let string = getAttributedString().attributedSubstring(from: pRange).string
+
+        var lines = [String]()
+        var addPrefixes = false
+
+        string.enumerateLines { (line, _) in
+            addPrefixes = !self.hasPrefix(line: line, numbers: true)
+            let cleanLine = self.cleanListItem(line: line)
+            lines.append(cleanLine)
+        }
+
+        var result = String()
+        var i = 1
+        var deep = 0
+
+        for line in lines {
+            if addPrefixes {
+                var empty = String()
+                var scanFinished = false
+                var lineDeep = 0
+
+                for char in line {
+                    if char.isWhitespace && !scanFinished {
+                        empty.append(char)
+                        lineDeep += 1
+                    } else {
+                        if !scanFinished {
+
+                            // Resets numeration on deeper lvl
+                            if lineDeep != deep {
+                                i = 1
+                                deep = lineDeep
+                            }
+
+                            empty.append("\(i). \(char)")
+                            scanFinished = true
+                        } else {
+                            empty.append(char)
+                        }
+                    }
+                }
+
+
+                result += empty + "\n"
+                i += 1
+            } else {
+                result += line + "\n"
+            }
+        }
+
+        let selectRange = selectedRange.length == 0 || lines.count == 1
+            ? NSRange(location: pRange.location + result.count - 1, length: 0)
+            : NSRange(location: pRange.location, length: result.count)
+
+        insertText(result, replacementRange: pRange, selectRange: selectRange)
+    }
+
+    private func cleanListItem(line: String) -> String {
+        var cleanLine = String()
+        var prefixFound = false
+        var skip = false
+        var numberSkip = false
+
+        for char in line {
+            if skip {
+                skip = false
+                continue
+            }
+
+            if numberSkip {
+                numberSkip = false
+                continue
+            }
+
+            if char.isWhitespace {
+                cleanLine.append(char)
+            } else if !prefixFound {
+                if char.isNumber {
+                    skip = true
+                    numberSkip = true
+                } else {
+                    if char != "-" {
+                        cleanLine.append(char)
+                    } else {
+                        skip = true
+                    }
+                }
+                prefixFound = true
+            } else {
+                cleanLine.append(char)
+            }
+        }
+
+        return cleanLine
+    }
+
+    private func hasPrefix(line: String, numbers: Bool) -> Bool {
+        var checkNumberDot = false
+
+        for char in line {
+            if checkNumberDot {
+                if char == "." {
+                    return numbers
+                }
+            }
+
+            if char.isWhitespace {
+                continue
+            } else {
+                if char.isNumber {
+                    checkNumberDot = true
+                    continue
+                } else if char == "-" {
+                    return !numbers
+                }
+            }
+        }
+
+        return false
+    }
 }

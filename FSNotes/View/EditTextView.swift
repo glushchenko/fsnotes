@@ -1395,6 +1395,30 @@ class EditTextView: NSTextView, NSTextFinderClient {
         setSelectedRange(NSRange(location: currentRange.location + 1, length: 0))
     }
 
+    @IBAction func insertList(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = vc.getCurrentNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable
+        else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.list()
+    }
+
+    @IBAction func insertOrderedList(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = vc.getCurrentNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable
+        else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.orderedList()
+    }
+
     @IBAction func insertLink(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
