@@ -237,7 +237,7 @@ public class TextFormatter {
         let selectRange = NSRange(location: range.location, length: unBold.count)
         insertText(unBold, replacementRange: range, selectRange: selectRange)
     }
-    
+
     private func unItalic(attributedString: NSAttributedString, range: NSRange) {
         let unItalic = attributedString
             .string
@@ -493,7 +493,7 @@ public class TextFormatter {
                 prefix + paragraph.replacingOccurrences(of: "#", with: "").trim()
         }
 
-        let selectRange = NSRange(location: pRange.location + paragraph.count - 1, length: 0)
+        let selectRange = NSRange(location: pRange.location + paragraph.count, length: 0)
         insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
 #endif
     }
@@ -854,6 +854,11 @@ public class TextFormatter {
 
         guard let pRange = getParagraphRange() else { return }
         let paragraph = storage.mutableString.substring(with: pRange)
+
+        guard paragraph.isContainsLetters else {
+            insertText("> ")
+            return
+        }
 
         var hasPrefix = false
         var lines = [String]()
