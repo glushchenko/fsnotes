@@ -83,15 +83,30 @@ public class TextFormatter {
     func bold() {
         if note.isMarkdown() {
 
-            // UnBold
-            if attributedString.string.contains("**") || attributedString.string.contains("__") {
-                let unBold = attributedString
-                    .string
-                    .replacingOccurrences(of: "**", with: "")
-                    .replacingOccurrences(of: "__", with: "")
+            // UnBold if not selected
+            if range.length == 0 {
+                var resultFound = false
+                let string = getAttributedString().string
 
-                let selectRange = NSRange(location: range.location, length: unBold.count)
-                insertText(unBold, selectRange: selectRange)
+                NotesTextProcessor.boldRegex.matches(string, range: NSRange(0..<string.count)) { (result) -> Void in
+                    guard let range = result?.range else { return }
+
+                    if range.intersection(self.range) != nil {
+                        let boldAttributed = self.getAttributedString().attributedSubstring(from: range)
+
+                        self.unBold(attributedString: boldAttributed, range: range)
+                        resultFound = true
+                    }
+                }
+
+                if resultFound {
+                    return
+                }
+            }
+
+            // UnBold selected
+            if attributedString.string.contains("**") || attributedString.string.contains("__") {
+                unBold(attributedString: attributedString, range: range)
                 return
             }
 
@@ -143,15 +158,30 @@ public class TextFormatter {
     func italic() {
         if note.isMarkdown() {
 
+            // UnItalic if not selected
+            if range.length == 0 {
+                var resultFound = false
+                let string = getAttributedString().string
+
+                NotesTextProcessor.italicRegex.matches(string, range: NSRange(0..<string.count)) { (result) -> Void in
+                    guard let range = result?.range else { return }
+
+                    if range.intersection(self.range) != nil {
+                        let italicAttributed = self.getAttributedString().attributedSubstring(from: range)
+
+                        self.unItalic(attributedString: italicAttributed, range: range)
+                        resultFound = true
+                    }
+                }
+
+                if resultFound {
+                    return
+                }
+            }
+
             // UnItalic
             if attributedString.string.contains("*") || attributedString.string.contains("_") {
-                let unItalic = attributedString
-                    .string
-                    .replacingOccurrences(of: "*", with: "")
-                    .replacingOccurrences(of: "_", with: "")
-
-                let selectRange = NSRange(location: range.location, length: unItalic.count)
-                insertText(unItalic, selectRange: selectRange)
+                unItalic(attributedString: attributedString, range: range)
                 return
             }
 
@@ -196,6 +226,26 @@ public class TextFormatter {
             #endif
             textView.undoManager?.endUndoGrouping()
         }
+    }
+
+    private func unBold(attributedString: NSAttributedString, range: NSRange) {
+        let unBold = attributedString
+            .string
+            .replacingOccurrences(of: "**", with: "")
+            .replacingOccurrences(of: "__", with: "")
+
+        let selectRange = NSRange(location: range.location, length: unBold.count)
+        insertText(unBold, replacementRange: range, selectRange: selectRange)
+    }
+    
+    private func unItalic(attributedString: NSAttributedString, range: NSRange) {
+        let unItalic = attributedString
+            .string
+            .replacingOccurrences(of: "*", with: "")
+            .replacingOccurrences(of: "_", with: "")
+
+        let selectRange = NSRange(location: range.location, length: unItalic.count)
+        insertText(unItalic, replacementRange: range, selectRange: selectRange)
     }
     
     public func underline() {
