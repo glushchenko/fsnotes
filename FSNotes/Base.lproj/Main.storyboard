@@ -556,6 +556,11 @@ CA
                                                 <action selector="insertCodeSpan:" target="Ady-hI-5gd" id="zP1-Kg-gh9"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Quote" keyEquivalent="U" id="X3S-sG-ykW">
+                                            <connections>
+                                                <action selector="insertQuote:" target="Ady-hI-5gd" id="CsH-RU-eV9"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="iDC-du-8d9"/>
                                         <menuItem title="Shift Left" keyEquivalent="[" id="DeU-hy-pvi">
                                             <connections>
@@ -807,7 +812,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="menu" size="14"/>
+                        <font key="font" metaFont="system" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>

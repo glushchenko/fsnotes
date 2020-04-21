@@ -802,26 +802,50 @@ public class TextFormatter {
     public func quote() {
         EditTextView.shouldForceRescan = true
 
-        let currentRange = textView.selectedRange
-        if currentRange.length > 0 {
-            guard let pRange = getParagraphRange() else { return }
-
-            let string = storage.attributedSubstring(from: pRange).string
-            var lines = [String]()
-            string.enumerateLines { (line, _) in
-                lines.append("> " + line)
-            }
-
-            let result = lines.joined(separator: "\n")
-            insertText(result, replacementRange: pRange)
-            return
-        }
-
         guard let pRange = getParagraphRange() else { return }
         let paragraph = storage.mutableString.substring(with: pRange)
 
-        insertText("> " + paragraph, replacementRange: pRange)
-        setSelectedRange(NSRange(location: currentRange.location + 2, length: 0))
+        var hasPrefix = false
+        var lines = [String]()
+
+        paragraph.enumerateLines { (line, _) in
+            hasPrefix = line.starts(with: "> ")
+
+            var skipNext = false
+            var scanFinished = false
+            var cleanLine = String()
+
+            for char in line {
+                if skipNext {
+                    skipNext = false
+                    continue
+                }
+
+                if char == ">" && !scanFinished {
+                    skipNext = true
+                    scanFinished = true
+                } else {
+                    cleanLine.append(char)
+                }
+            }
+
+            lines.append(cleanLine)
+        }
+
+        var result = String()
+        for line in lines {
+            if hasPrefix {
+                result += line + "\n"
+            } else {
+                result += "> " + line + "\n"
+            }
+        }
+
+        let selectRange = selectedRange.length == 0 || lines.count == 1
+            ? NSRange(location: pRange.location + result.count - 1, length: 0)
+            : NSRange(location: pRange.location, length: result.count)
+
+        insertText(result, replacementRange: pRange, selectRange: selectRange)
     }
     
     private func getAttributedTodoString(_ string: String) -> NSAttributedString {
@@ -1074,6 +1098,11 @@ public class TextFormatter {
 
         let string = getAttributedString().attributedSubstring(from: pRange).string
 
+        guard string.isContainsLetters else {
+            insertText("- ")
+            return
+        }
+
         var lines = [String]()
         var addPrefixes = false
 
@@ -1119,6 +1148,11 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
 
         let string = getAttributedString().attributedSubstring(from: pRange).string
+
+        guard string.isContainsLetters else {
+            insertText("1. ")
+            return
+        }
 
         var lines = [String]()
         var addPrefixes = false

@@ -111,6 +111,11 @@ public extension String {
     var isNumber: Bool {
         return !isEmpty && rangeOfCharacter(from: CharacterSet.decimalDigits.inverted) == nil
     }
+
+    var isContainsLetters: Bool {
+        let letters = CharacterSet.letters
+        return self.rangeOfCharacter(from: letters) != nil
+    }
 }
 
 extension StringProtocol where Index == String.Index {

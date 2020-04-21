@@ -1419,6 +1419,18 @@ class EditTextView: NSTextView, NSTextFinderClient {
         formatter.orderedList()
     }
 
+    @IBAction func insertQuote(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = vc.getCurrentNote(),
+            !UserDefaultsManagement.preview,
+            editArea.isEditable
+        else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.quote()
+    }
+
     @IBAction func insertLink(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
