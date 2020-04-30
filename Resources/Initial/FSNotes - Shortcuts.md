@@ -6,8 +6,8 @@ This is **markdown** and **RTF** text manager. For view rendered markdown please
 
 #### Global
 
-- `cmd + option + shift + L` - open main window and focus search bar
-- `cmd + option + shift + n` - save clipboard
+- `control + option + shift + L` - open main window and focus search bar
+- `control + option + shift + n` - save clipboard
 - `enter` - move focus right (deeper); sidebar > note list > note
 - `cmd + enter` - move focus left (higher); note > note list > sidebar
 
