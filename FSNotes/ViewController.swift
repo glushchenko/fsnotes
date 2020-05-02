@@ -470,17 +470,8 @@ class ViewController: NSViewController,
 
             let destination = project.url.appendingPathComponent(note.name)
 
-            if note.type == .Markdown && note.container == .none {
-                let imagesMeta = note.getAllImages()
-                for imageMeta in imagesMeta {
-                    move(note: note, from: imageMeta.url, imagePath: imageMeta.path, to: project)
-                }
-
-                if imagesMeta.count > 0 {
-                    note.save()
-                }
-            }
-
+            note.moveImages(to: project)
+            
             _ = note.move(to: destination, project: project)
 
             let type = getSidebarType() ?? .Inbox
@@ -494,47 +485,6 @@ class ViewController: NSViewController,
         }
         
         editArea.clear()
-    }
-
-    private func move(note: Note, from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
-        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: imageURL)
-        let dest = project.url.appendingPathComponent(dstPrefix)
-
-        if !FileManager.default.fileExists(atPath: dest.path) {
-            try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
-        }
-
-        do {
-            if copy {
-                try FileManager.default.copyItem(at: imageURL, to: dest)
-            } else {
-                try FileManager.default.moveItem(at: imageURL, to: dest)
-            }
-        } catch {
-            if let fileName = ImagesProcessor.getFileName(from: imageURL, to: dest, ext: imageURL.pathExtension) {
-
-                let dest = dest.appendingPathComponent(fileName)
-
-                if copy {
-                    try? FileManager.default.copyItem(at: imageURL, to: dest)
-                } else {
-                    try? FileManager.default.moveItem(at: imageURL, to: dest)
-                }
-
-                let prefix = "]("
-                let postfix = ")"
-
-                let find = prefix + imagePath + postfix
-                let replace = prefix + dstPrefix + fileName + postfix
-
-                guard find != replace else { return }
-
-                while note.content.mutableString.contains(find) {
-                    let range = note.content.mutableString.range(of: find)
-                    note.content.replaceCharacters(in: range, with: replace)
-                }
-            }
-        }
     }
 
     func viewDidResize() {
@@ -2106,7 +2056,7 @@ class ViewController: NSViewController,
                 if note.type == .Markdown && note.container == .none {
                     let images = note.getAllImages()
                     for image in images {
-                        move(note: noteDupe, from: image.url, imagePath: image.path, to: note.project, copy: true)
+                        noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
                     }
                 }
 

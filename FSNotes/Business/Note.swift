@@ -258,6 +258,14 @@ public class Note: NSObject  {
         if FileManager.default.fileExists(atPath: url.path) {
             if isTrash() || completely || isEmpty() {
                 try? FileManager.default.removeItem(at: url)
+
+                if type == .Markdown && container == .none {
+                    let urls = getAllImages()
+                    for url in urls {
+                        try? FileManager.default.removeItem(at: url.url)
+                    }
+                }
+
                 return nil
             }
 
@@ -266,6 +274,10 @@ public class Note: NSObject  {
 
                 var resultingItemUrl: NSURL?
                 if #available(iOS 11.0, *) {
+                    if let trash = Storage.sharedInstance().getDefaultTrash() {
+                        moveImages(to: trash)
+                    }
+
                     try? FileManager.default.trashItem(at: url, resultingItemURL: &resultingItemUrl)
 
                     if let result = resultingItemUrl, let path = result.path {
@@ -284,6 +296,11 @@ public class Note: NSObject  {
             }
 
             print("Note moved in custom Trash folder")
+
+            if let trash = Storage.sharedInstance().getDefaultTrash() {
+                moveImages(to: trash)
+            }
+            
             try? FileManager.default.moveItem(at: url, to: trashUrlTo)
 
             return [trashUrlTo, url]
@@ -299,6 +316,14 @@ public class Note: NSObject  {
 
         if isTrash() {
             try? FileManager.default.removeItem(at: url)
+
+            if type == .Markdown && container == .none {
+                let urls = getAllImages()
+                for url in urls {
+                    try? FileManager.default.removeItem(at: url.url)
+                }
+            }
+
             return nil
         }
 
@@ -310,8 +335,14 @@ public class Note: NSObject  {
                 guard let dst = resultingItemUrl else { return nil }
 
                 let originalURL = url
+
                 overwrite(url: dst as URL)
+
                 return [self.url, originalURL]
+            }
+
+            if let trash = Storage.sharedInstance().getDefaultTrash() {
+                moveImages(to: trash)
             }
 
             try FileManager.default.moveItem(at: url, to: dst)
@@ -327,6 +358,60 @@ public class Note: NSObject  {
         return nil
     }
     #endif
+
+    public func move(from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
+        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: imageURL)
+        let dest = project.url.appendingPathComponent(dstPrefix)
+
+        if !FileManager.default.fileExists(atPath: dest.path) {
+            try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        do {
+            if copy {
+                try FileManager.default.copyItem(at: imageURL, to: dest)
+            } else {
+                try FileManager.default.moveItem(at: imageURL, to: dest)
+            }
+        } catch {
+            if let fileName = ImagesProcessor.getFileName(from: imageURL, to: dest, ext: imageURL.pathExtension) {
+
+                let dest = dest.appendingPathComponent(fileName)
+
+                if copy {
+                    try? FileManager.default.copyItem(at: imageURL, to: dest)
+                } else {
+                    try? FileManager.default.moveItem(at: imageURL, to: dest)
+                }
+
+                let prefix = "]("
+                let postfix = ")"
+
+                let find = prefix + imagePath + postfix
+                let replace = prefix + dstPrefix + fileName + postfix
+
+                guard find != replace else { return }
+
+                while content.mutableString.contains(find) {
+                    let range = content.mutableString.range(of: find)
+                    content.replaceCharacters(in: range, with: replace)
+                }
+            }
+        }
+    }
+
+    public func moveImages(to project: Project) {
+        if type == .Markdown && container == .none {
+            let imagesMeta = getAllImages()
+            for imageMeta in imagesMeta {
+                move(from: imageMeta.url, imagePath: imageMeta.path, to: project)
+            }
+
+            if imagesMeta.count > 0 {
+                save()
+            }
+        }
+    }
     
     private func getDefaultTrashURL() -> URL? {
         if let url = sharedStorage.getDefaultTrash()?.url {

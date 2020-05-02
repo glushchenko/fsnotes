@@ -284,10 +284,14 @@ class SidebarTableView: UITableView,
         let dstURL = project.url.appendingPathComponent(note.name)
 
         if note.project != project {
+            note.moveImages(to: project)
+            
             guard note.move(to: dstURL) else {
                 let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
                 vc.present(alert, animated: true, completion: nil)
+
+                note.moveImages(to: note.project)
                 return
             }
 
