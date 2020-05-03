@@ -7,6 +7,9 @@
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "标题";
 
+/* Class = "NSMenuItem"; title = "List"; ObjectID = "1sM-9Q-KeG"; */
+"1sM-9Q-KeG.title" = "清单";
+
 /* Class = "NSMenuItem"; title = "FSNotes"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "FSNotes";
 
@@ -105,6 +108,9 @@
 
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "小";
+
+/* Class = "NSMenuItem"; title = "Ordered List"; ObjectID = "8cf-5K-KZh"; */
+"8cf-5K-KZh.title" = "有序列表";
 
 /* Class = "NSButtonCell"; title = "Lock when user switched"; ObjectID = "8dk-Cf-bSg"; */
 "8dk-Cf-bSg.title" = "用户切换时自动锁定";
@@ -382,6 +388,9 @@
 /* Class = "NSMenuItem"; title = "Smart Quotes"; ObjectID = "hQb-2v-fYv"; */
 "hQb-2v-fYv.title" = "智能引号";
 
+/* Class = "NSMenuItem"; title = "WikiLinks"; ObjectID = "hqQ-4C-VJL"; */
+"hqQ-4C-VJL.title" = "维基链接";
+
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
 "HyV-fh-RgO.title" = "视图";
 
@@ -397,7 +406,7 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "备份存储";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷\nFrench 🇫🇷"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Deutsch 🇩🇪\nУкраїнська 🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\n简体中文 🇨🇳";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -565,6 +574,9 @@
 /* Class = "NSMenuItem"; title = "Code Block"; ObjectID = "OOL-dM-zIE"; */
 "OOL-dM-zIE.title" = "代码块";
 
+/* Class = "NSMenuItem"; title = "Forward"; ObjectID = "oQE-3t-6pa"; */
+"oQE-3t-6pa.title" = "向前";
+
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
 "OV0-om-POJ.title" = "打印";
 
@@ -618,6 +630,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Git版本:";
+
+/* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
+"qNE-oZ-zJr.title" = "背部";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "qod-hp-9wd"; */
 "qod-hp-9wd.title" = "窗口";
@@ -792,6 +807,9 @@
 
 /* Class = "NSTabViewItem"; label = "Git"; ObjectID = "wxM-bE-TE9"; */
 "wxM-bE-TE9.label" = "Git";
+
+/* Class = "NSMenuItem"; title = "Quote"; ObjectID = "X3S-sG-ykW"; */
+"X3S-sG-ykW.title" = "引用";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
 "x3v-GG-iWU.title" = "拷贝";

@@ -4,6 +4,9 @@
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "제목";
 
+/* Class = "NSMenuItem"; title = "List"; ObjectID = "1sM-9Q-KeG"; */
+"1sM-9Q-KeG.title" = "명부";
+
 /* Class = "NSTextFieldCell"; placeholderString = "TextEdit"; ObjectID = "1XY-bI-DX7"; */
 "1XY-bI-DX7.placeholderString" = "텍스트 편집기";
 
@@ -96,6 +99,9 @@
 
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "작게";
+
+/* Class = "NSMenuItem"; title = "Ordered List"; ObjectID = "8cf-5K-KZh"; */
+"8cf-5K-KZh.title" = "주문 된 목록";
 
 /* Class = "NSButtonCell"; title = "Lock when user switched"; ObjectID = "8dk-Cf-bSg"; */
 "8dk-Cf-bSg.title" = "사용자 변경시 잠금";
@@ -343,6 +349,9 @@
 /* Class = "NSMenuItem"; title = "Smart Quotes"; ObjectID = "hQb-2v-fYv"; */
 "hQb-2v-fYv.title" = "스마트 인용";
 
+/* Class = "NSMenuItem"; title = "WikiLinks"; ObjectID = "hqQ-4C-VJL"; */
+"hqQ-4C-VJL.title" = "위키 링크";
+
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
 "HyV-fh-RgO.title" = "보기";
 
@@ -496,6 +505,9 @@
 /* Class = "NSMenuItem"; title = "Code Block"; ObjectID = "OOL-dM-zIE"; */
 "OOL-dM-zIE.title" = "코드 영역";
 
+/* Class = "NSMenuItem"; title = "Forward"; ObjectID = "oQE-3t-6pa"; */
+"oQE-3t-6pa.title" = "앞으로";
+
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "OV0-om-POJ"; */
 "OV0-om-POJ.title" = "프린트";
 
@@ -549,6 +561,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Git 버전:";
+
+/* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
+"qNE-oZ-zJr.title" = "뒤";
 
 /* Class = "NSWindow"; title = "Window"; ObjectID = "qod-hp-9wd"; */
 "qod-hp-9wd.title" = "윈도우";
@@ -711,6 +726,9 @@
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "도움말";
+
+/* Class = "NSMenuItem"; title = "Quote"; ObjectID = "X3S-sG-ykW"; */
+"X3S-sG-ykW.title" = "인용문";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
 "x3v-GG-iWU.title" = "복사";

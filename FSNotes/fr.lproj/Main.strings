@@ -7,6 +7,9 @@
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "Titre";
 
+/* Class = "NSMenuItem"; title = "List"; ObjectID = "1sM-9Q-KeG"; */
+"1sM-9Q-KeG.title" = "Liste";
+
 /* Class = "NSMenuItem"; title = "FSNotes"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "FSNotes";
 
@@ -105,6 +108,9 @@
 
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "Petit";
+
+/* Class = "NSMenuItem"; title = "Ordered List"; ObjectID = "8cf-5K-KZh"; */
+"8cf-5K-KZh.title" = "Liste ordonnée";
 
 /* Class = "NSButtonCell"; title = "Lock when user switched"; ObjectID = "8dk-Cf-bSg"; */
 "8dk-Cf-bSg.title" = "Verrouiller au changement d'utilisateur";
@@ -409,7 +415,7 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "Sauvegarder le stockage";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷"; ObjectID = "iKE-bp-SFG"; */
+/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷\nFrench 🇫🇷"; ObjectID = "iKE-bp-SFG"; */
 "iKE-bp-SFG.title" = "Allemand 🇩🇪\nUkrainien🇺🇦\nEspagnol 🇪🇸\nArabe 🇮🇶\nChinois (Simplifié) 🇨🇳\nCoréen 🇰🇷\nFrançais 🇫🇷";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
@@ -742,7 +748,7 @@
 /* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
 "TCI-Xs-mwm.title" = "Descendant";
 
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (@ayad0net)\nPertim (macwk.com@gmail.com)\nWonsup Yoon (pusnow@kaist.ac.kr)"; ObjectID = "thj-Sx-DxC"; */
+/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (@ayad0net)\nPertim (macwk.com@gmail.com)\nWonsup Yoon (pusnow@kaist.ac.kr)\ngithub.com/jornetsimon "; ObjectID = "thj-Sx-DxC"; */
 "thj-Sx-DxC.title" = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (@ayad0net)\nPertim (macwk.com@gmail.com)\nWonsup Yoon (pusnow@kaist.ac.kr)";
 
 /* Class = "NSTextFieldCell"; title = "Appearance:"; ObjectID = "Tjy-Pz-wrj"; */
@@ -816,6 +822,9 @@
 
 /* Class = "NSTabViewItem"; label = "Git"; ObjectID = "wxM-bE-TE9"; */
 "wxM-bE-TE9.label" = "Git";
+
+/* Class = "NSMenuItem"; title = "Quote"; ObjectID = "X3S-sG-ykW"; */
+"X3S-sG-ykW.title" = "Citation";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "x3v-GG-iWU"; */
 "x3v-GG-iWU.title" = "Copier";

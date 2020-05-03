@@ -574,6 +574,11 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
+                                        <menuItem title="WikiLinks" keyEquivalent="9" id="hqQ-4C-VJL">
+                                            <connections>
+                                                <action selector="autocomlete:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Toggle Todo" keyEquivalent="t" id="n0M-SN-fzg">
                                             <connections>
                                                 <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
@@ -813,7 +818,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="label" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>

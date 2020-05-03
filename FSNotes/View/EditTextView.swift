@@ -1291,6 +1291,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         f.todo()
     }
 
+    @IBAction func autocomlete(_ sender: Any) {
+        complete(nil)
+    }
+
     @IBAction func pressBold(_ sender: Any) {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
