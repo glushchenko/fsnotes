@@ -449,6 +449,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
 
     public func saveNavigationHistory(note: Note) {
+        guard history.last != note.url else {
+            historyPosition = history.count - 1
+            return
+        }
+
         history.append(note.url)
         historyPosition = history.count - 1
     }
