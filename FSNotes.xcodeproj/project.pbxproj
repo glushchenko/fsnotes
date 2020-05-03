@@ -438,6 +438,9 @@
 		D768D758245E86670028F344 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D754245E854D0028F344 /* NSAttributedString+.swift */; };
 		D768D759245E86680028F344 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D754245E854D0028F344 /* NSAttributedString+.swift */; };
 		D768D75A245E86690028F344 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D754245E854D0028F344 /* NSAttributedString+.swift */; };
+		D768D75C245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */; };
+		D768D75D245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */; };
+		D768D75E245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */; };
 		D76C873E2136AA7100F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
 		D76C87422136AA7100F82952 /* trash_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873C2136AA7100F82952 /* trash_white.png */; };
 		D76C874B2136C16300F82952 /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D76C873B2136AA7100F82952 /* trash.png */; };
@@ -1224,6 +1227,7 @@
 		D7679395201F21F5000F7BBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D7679397201F21F5000F7BBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D768D754245E854D0028F344 /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
+		D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticallyAlignedTextFieldCell.swift; sourceTree = "<group>"; };
 		D76C873B2136AA7100F82952 /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		D76C873C2136AA7100F82952 /* trash_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash_white.png; sourceTree = "<group>"; };
 		D76E10C0215A55CE0017F4A3 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -2102,6 +2106,7 @@
 				D7D1DE67216D05A800AC1845 /* NameTextField.swift */,
 				2799407B218484C900727B20 /* TitleBarView.swift */,
 				D7153E082285EC6100A2C20F /* TitleTextField.swift */,
+				D768D75B245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3465,6 +3470,7 @@
 				D75E33B622462442006AD1C1 /* NameHelper.swift in Sources */,
 				D75E33B722462442006AD1C1 /* PreferencesAdvancedViewController.swift in Sources */,
 				D7153E072285C09C00A2C20F /* AboutViewController.swift in Sources */,
+				D768D75E245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				D7CA7FCE232651A100E9717A /* Repository.swift in Sources */,
 				D7CA7FCA2326519B00E9717A /* Commit.swift in Sources */,
 				D75E33B822462442006AD1C1 /* NSFont+.swift in Sources */,
@@ -3696,6 +3702,7 @@
 				D7487F932173503C00D09383 /* AttributedBox.swift in Sources */,
 				D730BD3C222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E052285C09C00A2C20F /* AboutViewController.swift in Sources */,
+				D768D75C245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				D7CA7FC82326519600E9717A /* Repository.swift in Sources */,
 				D7CA7FC62326519600E9717A /* Commit.swift in Sources */,
 				D7F5C0FB223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
@@ -3800,6 +3807,7 @@
 				D7487F922173503C00D09383 /* AttributedBox.swift in Sources */,
 				D730BD3D222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7153E062285C09C00A2C20F /* AboutViewController.swift in Sources */,
+				D768D75D245ED6470028F344 /* VerticallyAlignedTextFieldCell.swift in Sources */,
 				D7CA7FCD232651A000E9717A /* Repository.swift in Sources */,
 				D7CA7FC92326519A00E9717A /* Commit.swift in Sources */,
 				D7F5C0FC223ED58F0038F172 /* PreferencesAdvancedViewController.swift in Sources */,
