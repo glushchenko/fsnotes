@@ -285,7 +285,92 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
 
+    private func isBetweenBraces(location: Int) -> String? {
+        guard let storage = textStorage else { return nil }
+
+        var firstLeftFound = false
+        var firstRigthFound = false
+
+        var rigthFound = false
+        var leftFound = false
+
+        var i = location
+        var j = location - 1
+
+        while storage.length > i {
+            let char = storage.string[i]
+            if firstRigthFound {
+                rigthFound = char == "]"
+                break
+            }
+
+            if char == "\n" {
+                break
+            }
+
+            if char == "]" {
+                firstRigthFound = true
+            }
+
+            i += 1
+        }
+
+        while j >= 0 {
+            let char = storage.string[j]
+            if firstLeftFound {
+                leftFound = char == "["
+                break
+            }
+
+            if char == "\n" {
+                break
+            }
+
+            if char == "[" {
+                firstLeftFound = true
+            }
+
+            j -= 1
+        }
+
+        var result = String()
+        if leftFound && rigthFound {
+            result =
+                String(storage.string[j...i])
+
+            result = result
+                .replacingOccurrences(of: "[[", with: "")
+                .replacingOccurrences(of: "]]", with: "")
+
+            self.completeRange = NSRange(j+2..<i)
+
+            return result
+        }
+
+        return nil
+    }
+
+    private var completeRange = NSRange()
+
+    override var rangeForUserCompletion: NSRange {
+        if nil != isBetweenBraces(location: selectedRange.location) {
+            return completeRange
+        }
+
+        return super.rangeForUserCompletion
+    }
+
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
+
+        if let word = isBetweenBraces(location: selectedRange().location) {
+            if let notes = storage.getBy(startWith: word) {
+                let titles = notes.map{ String($0.title) }.filter({ $0.count > 0 }).filter({ $0 != word }).sorted()
+
+                return titles
+            }
+
+            return nil
+        }
 
         let mainWord = (string as NSString).substring(with: charRange)
 
@@ -303,9 +388,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 let paragraph = textStorage?.mutableString.substring(with: parRange)
             {
                 let words = paragraph.components(separatedBy: " ")
-                if words.count > 0, let word = words.first, word.starts(with: "[[") {
-                    return completeWikiLinks(charRange: charRange)
-                }
 
                 var i = parRange.location
                 for word in words {
@@ -351,19 +433,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     }
                 }
             }
-        }
-
-        return completeWikiLinks(charRange: charRange)
-    }
-
-    private func completeWikiLinks(charRange: NSRange) -> [String]? {
-        let nsString = string as NSString
-        var chars = nsString.substring(with: charRange)
-        chars = chars.replacingOccurrences(of: "[[", with: "")
-
-        if let notes = storage.getBy(startWith: chars) {
-            let titles = notes.map{ "[[" + $0.title + "]]" }.filter{ $0.count > 4 }.sorted()
-            return titles
         }
 
         return nil
@@ -929,6 +998,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
 
+        if isBetweenBraces(location: selectedRange.location) != nil {
+            DispatchQueue.main.async {
+                self.complete(nil)
+            }
+
+            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+        }
+
         if UserDefaultsManagement.inlineTags {
             if let repl = replacementString, repl.count == 1, !["", " ", "\t", "\n"].contains(repl), let parRange = textStorage?.mutableString.paragraphRange(for: NSRange(location: affectedCharRange.location, length: 0)) {
 
@@ -996,6 +1073,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func insertCompletion(_ word: String, forPartialWordRange charRange: NSRange, movement: Int, isFinal flag: Bool) {
+
+        if nil != isBetweenBraces(location: selectedRange.location) {
+            if movement == NSReturnTextMovement {
+                super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: true)
+            }
+            return
+        }
+
         var final = flag
 
         if let event = self.window?.currentEvent, event.type == .keyDown, ["_", "/"].contains(event.characters) {
@@ -1291,8 +1376,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
         f.todo()
     }
 
-    @IBAction func autocomlete(_ sender: Any) {
-        complete(nil)
+    @IBAction func wikiLinks(_ sender: Any) {
+        let range = selectedRange()
+        insertText("[[]]", replacementRange: range)
+        setSelectedRange(NSRange(location: range.location + 2, length: 0))
     }
 
     @IBAction func pressBold(_ sender: Any) {

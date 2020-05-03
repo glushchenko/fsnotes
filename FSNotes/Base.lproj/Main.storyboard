@@ -576,7 +576,7 @@ CA
                                         <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
                                         <menuItem title="WikiLinks" keyEquivalent="9" id="hqQ-4C-VJL">
                                             <connections>
-                                                <action selector="autocomlete:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
+                                                <action selector="wikiLinks:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Toggle Todo" keyEquivalent="t" id="n0M-SN-fzg">
@@ -2751,7 +2751,7 @@ French 🇫🇷</string>
                                 </connections>
                             </slider>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XOm-C4-sCs">
-                                <rect key="frame" x="49" y="38" width="118" height="18"/>
+                                <rect key="frame" x="49" y="38" width="378" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Scan inline tags" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="g5W-YF-jAC">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
