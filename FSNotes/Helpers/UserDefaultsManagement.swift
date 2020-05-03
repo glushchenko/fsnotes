@@ -542,6 +542,10 @@ public class UserDefaultsManagement {
             if let dl = UserDefaults.standard.object(forKey: Constants.DefaultLanguageKey) as? Int {
                 return dl
             }
+
+            if let code = NSLocale.current.languageCode {
+                return LanguageType.withCode(rawValue: code)
+            }
             
             return 0
         }

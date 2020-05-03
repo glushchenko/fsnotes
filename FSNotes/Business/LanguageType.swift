@@ -77,5 +77,20 @@ enum LanguageType: Int {
         default: return LanguageType.English
         }
     }
+
+    static func withCode(rawValue: String) -> Int {
+        switch(rawValue) {
+            case "en": return 0x00
+            case "ru": return 0x01
+            case "uk": return 0x02
+            case "de": return 0x03
+            case "es": return 0x04
+            case "ar": return 0x05
+            case "zh-Hans": return 0x06
+            case "ko": return 0x07
+            case "fr": return 0x08
+            default: return 0x00
+        }
+    }
     
 }

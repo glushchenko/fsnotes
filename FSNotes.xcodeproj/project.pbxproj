@@ -510,6 +510,10 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
+		D7B2B6E9245EEA610084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
+		D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
+		D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B3391520DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B3391620DE0FB100B36460 /* TagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3391420DE0FB100B36460 /* TagList.swift */; };
 		D7B3FE7021027A5E00764C39 /* UserDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F13BB3820FEDE230005E120 /* UserDataService.swift */; };
@@ -3344,6 +3348,7 @@
 				D72189362102099B00FE3AF2 /* NSTextStorage+.swift in Sources */,
 				6F13BB6A20FEE0450005E120 /* DateFormatter+.swift in Sources */,
 				D7CD5CCB21820A380009D63B /* UserDefaultsManagement+.swift in Sources */,
+				D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3362,6 +3367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D7A7F765241C2183003AC0AD /* UserDefaultsManagement+.swift in Sources */,
+				D7B2B6E9245EEA610084B78D /* LanguageType.swift in Sources */,
 				D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */,
 				D75FC5C621021CC000C516A7 /* NightMode.swift in Sources */,
 				D752D80D23454750006842F9 /* NSTextAttachment+.swift in Sources */,
@@ -3510,6 +3516,7 @@
 				D7CD5CD521820D700009D63B /* ImagesProcessor.swift in Sources */,
 				D7CD5CE1218345A80009D63B /* NotesListController.swift in Sources */,
 				D7CD5CCF21820CAD0009D63B /* String+.swift in Sources */,
+				D7B2B6EC245EEA790084B78D /* LanguageType.swift in Sources */,
 				D7CD5CC9218209D80009D63B /* NoteType.swift in Sources */,
 				D7CD5CC5218209820009D63B /* UserDefaultsManagement.swift in Sources */,
 				D73B120F23659C9900AAE610 /* NotesTextProcessor.swift in Sources */,
@@ -3616,6 +3623,7 @@
 				D7BDFE70201F788D00897A58 /* NoteCellView.swift in Sources */,
 				D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */,
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
+				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D7D88192214AACF40054586C /* UINote.swift in Sources */,
 				D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */,
 				D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */,
