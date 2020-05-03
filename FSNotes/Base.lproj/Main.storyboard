@@ -157,6 +157,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Tags" keyEquivalent="t" identifier="fileMenu.tags" id="XZ6-FD-yro">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                                             <connections>
                                                 <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
                                             </connections>
@@ -573,9 +574,9 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="mrY-K0-JGH"/>
-                                        <menuItem title="Toggle Todo" keyEquivalent="0" id="n0M-SN-fzg">
+                                        <menuItem title="Toggle Todo" keyEquivalent="t" id="n0M-SN-fzg">
                                             <connections>
-                                                <action selector="toggleTodo:" target="Ady-hI-5gd" id="ryY-TU-G03"/>
+                                                <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -812,7 +813,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>
@@ -1862,6 +1863,7 @@ CA
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
                         <menuItem title="Tags" keyEquivalent="t" id="f2h-Tl-AHi">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                             <connections>
                                 <action selector="tagNote:" target="XfG-lQ-9wD" id="Xu2-Mz-4PC"/>
                             </connections>
@@ -2986,7 +2988,7 @@ French 🇫🇷</string>
                                 <rect key="frame" x="52" y="285" width="265" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="lBe-Pa-whI">
-                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <font key="font" metaFont="message" size="11"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </pathCell>
                             </pathControl>

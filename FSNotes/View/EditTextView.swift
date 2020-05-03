@@ -1284,11 +1284,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.shouldForceRescan = true
         f.tab()
     }
-    
-    @IBAction func toggleTodo(_ sender: Any) {
+
+    @IBAction func todo(_ sender: Any) {
         guard let f = self.getTextFormatter() else { return }
-        
-        f.toggleTodo()
+
+        f.todo()
     }
 
     @IBAction func pressBold(_ sender: Any) {
@@ -1761,7 +1761,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if let im = NSImage(named: "todo"), im.isValid, im.size.height > 0 {
                 let image = im.tint(color: NSColor.white)
                 image.size = NSSize(width: 20, height: 20)
-                let button = NSButton(image: image, target: self, action: #selector(toggleTodo(_:)))
+                let button = NSButton(image: image, target: self, action: #selector(todo(_:)))
                 button.bezelColor = NSColor(red:0.21, green:0.21, blue:0.21, alpha:1.0)
 
                 let customViewItem = NSCustomTouchBarItem(identifier: identifier)

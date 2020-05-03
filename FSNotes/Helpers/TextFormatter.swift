@@ -711,6 +711,70 @@ public class TextFormatter {
         #endif
     }
 
+    public func todo() {
+        guard let pRange = getParagraphRange() else { return }
+
+        let attributedString = getAttributedString().attributedSubstring(from: pRange)
+        let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
+
+        if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
+            insertText(AttributedBox.getUnChecked())
+            return
+        }
+
+        var lines = [String]()
+        var addPrefixes = false
+        var addCompleted = false
+        let string = mutable.string
+
+        string.enumerateLines { (line, _) in
+            let result = self.parseTodo(line: line)
+            addPrefixes = !result.0
+            addCompleted = result.1
+            lines.append(result.2)
+        }
+
+        var result = String()
+        for line in lines {
+            if addPrefixes {
+                let task = addCompleted ? "- [x] " : "- [ ] "
+                var empty = String()
+                var scanFinished = false
+
+                if line.count > 0 {
+                    for char in line {
+                        if char.isWhitespace && !scanFinished {
+                            empty.append(char)
+                        } else {
+                            if !scanFinished {
+                                empty.append(task + "\(char)")
+                                scanFinished = true
+                            } else {
+                                empty.append(char)
+                            }
+                        }
+                    }
+
+                    result += empty + "\n"
+                } else {
+                    result += task + "\n"
+                }
+            } else {
+                result += line + "\n"
+            }
+        }
+
+        let mutableResult = NSMutableAttributedString(string: result)
+        mutableResult.loadCheckboxes()
+
+        let diff = mutableResult.length - attributedString.length
+        let selectRange = selectedRange.length == 0 || lines.count == 1
+            ? NSRange(location: pRange.location + pRange.length + diff - 1, length: 0)
+            : NSRange(location: pRange.location, length: mutableResult.length)
+
+        insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+    }
+
     public func toggleTodo(_ location: Int? = nil) {
         if let location = location, let todoAttr = storage.attribute(.todo, at: location, effectiveRange: nil) as? Int {
             let attributedText = (todoAttr == 0) ? AttributedBox.getChecked() : AttributedBox.getUnChecked()
@@ -1301,6 +1365,42 @@ public class TextFormatter {
         }
 
         return cleanLine
+    }
+
+    private func parseTodo(line: String) -> (Bool, Bool, String) {
+        var count = 0
+        var hasTodoPrefix = false
+        var hasIncompletedTask = false
+        var charFound = false
+        var whitespacePrefix = String()
+        var letterPrefix = String()
+
+        for char in line {
+            if char.isWhitespace && !charFound {
+                count += 1
+                whitespacePrefix.append(char)
+                continue
+            } else {
+                charFound = true
+                letterPrefix.append(char)
+            }
+        }
+
+        if letterPrefix.starts(with: "- [ ] ") {
+            hasTodoPrefix = false
+            hasIncompletedTask = true
+        }
+
+        if letterPrefix.starts(with: "- [x] ") {
+            hasTodoPrefix = true
+        }
+
+        letterPrefix =
+            letterPrefix
+                .replacingOccurrences(of: "- [ ] ", with: "")
+                .replacingOccurrences(of: "- [x] ", with: "")
+
+        return (hasTodoPrefix, hasIncompletedTask, whitespacePrefix + letterPrefix)
     }
 
     private func hasPrefix(line: String, numbers: Bool) -> Bool {
