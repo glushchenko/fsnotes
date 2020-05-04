@@ -2220,7 +2220,6 @@ class ViewController: NSViewController,
             let nextUrl = vc.notesTableView.history[next]
 
             if let note = Storage.sharedInstance().getBy(url: nextUrl) {
-                vc.notesTableView.saveNavigationHistory(note: note)
                 vc.cleanSearchAndEditArea(completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                 })
