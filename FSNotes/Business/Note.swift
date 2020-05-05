@@ -118,7 +118,7 @@ public class Note: NSObject  {
         }
         
         if !isTrash() && !project.isArchive {
-            loadTags()
+            _ = loadTags()
         }
     }
         
@@ -144,13 +144,12 @@ public class Note: NSObject  {
         }
     }
     
-    func loadModifiedLocalAt() {
-        guard let modifiedAt = getFileModifiedDate() else {
-            modifiedLocalAt = Date()
-            return
-        }
+    public func loadModifiedLocalAt() {
+        modifiedLocalAt = getFileModifiedDate() ?? Date.distantPast
+    }
 
-        modifiedLocalAt = modifiedAt
+    public func loadCreationDate() {
+        creationDate = getFileCreationDate() ?? Date.distantPast
     }
     
     public func isTextBundle() -> Bool {
@@ -164,27 +163,21 @@ public class Note: NSObject  {
     public func getExtensionForContainer() -> String {
         return type.getExtension(for: container)
     }
-    
+
     public func getFileModifiedDate() -> Date? {
-        do {
-            let url = getURL()
-            var path = url.path
+        let url = getURL()
 
-            if isTextBundle() {
-                if let url = getContentFileURL() {
-                    path = url.path
-                } else {
-                    return nil
-                }
-            }
+        return
+            (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?
+                .contentModificationDate
+    }
 
-            let attr = try FileManager.default.attributesOfItem(atPath: path)
+    public func getFileCreationDate() -> Date? {
+        let url = getURL()
 
-            return attr[FileAttributeKey.modificationDate] as? Date
-        } catch {
-            NSLog("Note modification date load error: \(error.localizedDescription)")
-            return nil
-        }
+        return
+            (try? url.resourceValues(forKeys: [.creationDateKey]))?
+                .creationDate
     }
     
     func move(to: URL, project: Project? = nil) -> Bool {

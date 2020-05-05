@@ -268,6 +268,9 @@ class CloudDriveManager {
     public func add(url: URL) {
         guard self.storage.getBy(url: url) == nil, let note = self.storage.initNote(url: url) else { return }
 
+        note.load()
+        note.loadCreationDate()
+
         if note.isTextBundle() && !note.isFullLoadedTextBundle() {
             return
         }
