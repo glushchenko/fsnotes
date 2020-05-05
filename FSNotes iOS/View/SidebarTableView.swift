@@ -382,8 +382,10 @@ class SidebarTableView: UITableView,
     public func reloadProjectsSection() {
         sidebar?.items[1].removeAll()
 
-        let projects = Storage.sharedInstance().getProjects()
+        let projects = Storage.sharedInstance().getProjects().sorted(by: { $0.label < $1.label })
+
         for project in projects {
+            print(project.label)
             if project.isDefault || project.isTrash || project.isArchive {
                 continue
             }
