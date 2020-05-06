@@ -167,6 +167,14 @@ public class Note: NSObject  {
     public func getFileModifiedDate() -> Date? {
         let url = getURL()
 
+        do {
+            let attr = try FileManager.default.attributesOfItem(atPath: url.path)
+            
+            return attr[FileAttributeKey.modificationDate] as? Date
+        } catch {
+            NSLog("Note modification date load error: \(error.localizedDescription)")
+        }
+
         return
             (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?
                 .contentModificationDate
