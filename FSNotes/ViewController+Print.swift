@@ -44,6 +44,8 @@ extension ViewController {
         var htmlString = template.replacingOccurrences(of: "DOWN_HTML", with: html)
         var imagesStorage = note.project.url
 
+        htmlString = htmlString.replacingOccurrences(of: "MATH_JAX_JS", with: "")
+        
         if note.isTextBundle() {
             imagesStorage = note.getURL()
         }
