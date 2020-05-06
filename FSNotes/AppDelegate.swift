@@ -28,6 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     }
 
     func applicationWillFinishLaunching(_ notification: Notification) {
+        checkStorageChanges()
         loadDockIcon()
         
         if UserDefaultsManagement.showInMenuBar {
@@ -71,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             self.requestStorageDirectory()
             return
         }
-        
+
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         
         guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
@@ -162,7 +163,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                 
                 let bookmarks = SandboxBookmark.sharedInstance()
                 bookmarks.save(url: url)
-                
+
+                UserDefaultsManagement.storageType = .custom
                 UserDefaultsManagement.storagePath = url.path
                 
                 self.restartApp()
@@ -317,4 +319,41 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         appDockTile.display()
     }
+
+    private func checkStorageChanges() {
+        if Storage.sharedInstance().shouldMovePrompt,
+            let local = UserDefaultsManagement.localDocumentsContainer,
+            let iCloudDrive = UserDefaultsManagement.iCloudDocumentsContainer
+        {
+            let message = NSLocalizedString("We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?", comment: "")
+
+            promptToMoveDatabase(from: local, to: iCloudDrive, messageText: message)
+        }
+    }
+
+    public func promptToMoveDatabase(from currentURL: URL, to url : URL, messageText: String) {
+           let alert = NSAlert()
+           alert.messageText = messageText
+           alert.informativeText =
+                NSLocalizedString("Otherwise you note database will be available at: ", comment: "") + currentURL.path
+
+           alert.alertStyle = .warning
+           alert.addButton(withTitle: "No")
+           alert.addButton(withTitle: "Yes")
+           if alert.runModal() == .alertSecondButtonReturn {
+               if let list = try? FileManager.default.contentsOfDirectory(at: currentURL, includingPropertiesForKeys: nil, options: .init()) {
+                   for item in list {
+                       do {
+                           let dst = url.appendingPathComponent(item.lastPathComponent)
+                           try FileManager.default.moveItem(at: item, to: dst)
+                       } catch {
+                           let exist = NSAlert()
+                           exist.messageText = "We can not move \"\(item.path)\" because this item already exist in selected destination."
+                           exist.addButton(withTitle: "OK")
+                           exist.runModal()
+                       }
+                   }
+               }
+           }
+       }
 }

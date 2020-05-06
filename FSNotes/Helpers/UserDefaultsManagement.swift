@@ -106,6 +106,7 @@ public class UserDefaultsManagement {
         static let SnapshotsInterval = "snapshotsInterval"
         static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
         static let SortBy = "sortBy"
+        static let StorageType = "storageType"
         static let SpacesInsteadTabs = "spacesInsteadTabs"
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
@@ -294,6 +295,7 @@ public class UserDefaultsManagement {
         get {
             if let storagePath = UserDefaults.standard.object(forKey: Constants.StoragePathKey) {
                 if FileManager.default.isWritableFile(atPath: storagePath as! String) {
+                    storageType = .custom
                     return storagePath as? String
                 } else {
                     print("Storage path not accessible, settings resetted to default")
@@ -301,19 +303,40 @@ public class UserDefaultsManagement {
             }
 
             if let iCloudDocumentsURL = self.iCloudDocumentsContainer {
+                storageType = .iCloudDrive
                 return iCloudDocumentsURL.path
             }
             
         #if os(iOS)
-            return self.localDocumentsContainer?.path
+            if let localDocumentsContainer = localDocumentsContainer {
+                storageType = .local
+                return localDocumentsContainer.path
+            }
+            return nil
         #elseif CLOUDKIT && os(macOS)
             return nil
         #else
-            return self.localDocumentsContainer?.path
+            if let localDocumentsContainer = localDocumentsContainer {
+                storageType = .local
+                return localDocumentsContainer.path
+            }
+            return nil
         #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.StoragePathKey)
+        }
+    }
+
+    public static var storageType: StorageType {
+        get {
+            if let type = UserDefaults.standard.object(forKey: Constants.StorageType) as? Int {
+                return StorageType(rawValue: type) ?? .none
+            }
+            return .none
+        }
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: Constants.StorageType)
         }
     }
     

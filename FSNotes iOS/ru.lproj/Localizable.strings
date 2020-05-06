@@ -96,7 +96,7 @@
 "Live images preview" = "Показывать изображения";
 
 /* No comment provided by engineer. */
-"Lock/unlock" = "Заблокировать/розблокировать";
+"Lock/unlock" = "Заблокировать/разблокировать";
 
 /* No comment provided by engineer. */
 "Modification date" = "Дате модификации";
@@ -133,7 +133,7 @@
 "Project removing ❌" = "Удаление проекта ❌";
 
 /* Settings */
-"Projects" = "Проекти";
+"Projects" = "Проекты";
 
 /* No comment provided by engineer. */
 "Rename" = "Переименовать";
@@ -151,7 +151,7 @@
 "Show folder in sidebar" = "Показывать проект в боковой панели";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" та \"Todo\"";
+"Show notes in \"Notes\" and \"Todo\" lists" = "Показывать документы в списках \"Заметки\" и \"Todo\"";
 
 /* No comment provided by engineer. */
 "Sort by" = "Сортировать по";
@@ -178,7 +178,7 @@
 "This action cannot be undone." = "Это действие нельзя отменить.";
 
 /* No comment provided by engineer. */
-"Title" = "Заголовок";
+"Title" = "Заголовку";
 
 /* Todo in sidebar */
 "Todo" = "Todo";

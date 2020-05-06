@@ -59,6 +59,9 @@
 "Detach storage" = "Отключить хранилище";
 
 /* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Вы хотите переместить текущие заметки в новое место назначения?";
+
+/* No comment provided by engineer. */
 "Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
@@ -102,6 +105,9 @@
 
 /* Sidebar label */
 "Notes" = "Заметки";
+
+/* No comment provided by engineer. */
+"Otherwise you note database will be available at: " = "В противном случае база данных заметок будет доступна по адресу:";
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
@@ -193,6 +199,9 @@
 
 /* Menu */
 "View" = "Вид";
+
+/* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Мы обнаружили, что вы установили FSNotes из Mac App Store с хранилищем по умолчанию в iCloud Drive. Хотите ли вы перенести старую базу данных в iCloud  Drive?";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Несоответствие паролей";

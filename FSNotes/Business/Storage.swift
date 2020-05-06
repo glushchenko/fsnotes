@@ -53,11 +53,20 @@ class Storage {
     
     private var bookmarks = [URL]()
 
+    public var shouldMovePrompt: Bool = false
+
     init() {
+        let storageType = UserDefaultsManagement.storageType
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
         
         guard let url = UserDefaultsManagement.storageUrl else { return }
+
+        if UserDefaultsManagement.storageType != storageType
+            && storageType == .local
+            && UserDefaultsManagement.storageType == .iCloudDrive {
+            shouldMovePrompt = true
+        }
 
         #if os(OSX)
             initWelcome(storage: url)
