@@ -1380,6 +1380,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let range = selectedRange()
         insertText("[[]]", replacementRange: range)
         setSelectedRange(NSRange(location: range.location + 2, length: 0))
+        complete(nil)
     }
 
     @IBAction func pressBold(_ sender: Any) {
