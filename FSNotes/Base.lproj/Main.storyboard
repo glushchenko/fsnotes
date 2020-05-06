@@ -2176,7 +2176,7 @@ Baran Pirinçal – baranpirincal@gmail.com</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7I7-hE-gq3">
-                                <rect key="frame" x="192" y="130" width="220" height="112"/>
+                                <rect key="frame" x="192" y="116" width="220" height="126"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="thj-Sx-DxC">
                                     <font key="font" metaFont="systemThin" size="13"/>
@@ -2191,7 +2191,7 @@ github.com/jornetsimon </string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7js-bf-o2N">
-                                <rect key="frame" x="31" y="130" width="157" height="112"/>
+                                <rect key="frame" x="31" y="116" width="157" height="126"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="iKE-bp-SFG">
                                     <font key="font" metaFont="system"/>
@@ -2993,7 +2993,7 @@ French 🇫🇷</string>
                                 <rect key="frame" x="52" y="285" width="265" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <pathCell key="cell" controlSize="small" selectable="YES" editable="YES" alignment="left" id="lBe-Pa-whI">
-                                    <font key="font" metaFont="message" size="11"/>
+                                    <font key="font" metaFont="menu" size="11"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </pathCell>
                             </pathControl>
