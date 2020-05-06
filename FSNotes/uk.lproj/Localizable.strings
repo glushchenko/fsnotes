@@ -59,6 +59,9 @@
 "Detach storage" = "Відключити сховище";
 
 /* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Ви хочете перемістити поточні нотатки до нового сховища?";
+
+/* No comment provided by engineer. */
 "Empty password" = "Введіть пароль";
 
 /* No comment provided by engineer. */
@@ -118,8 +121,14 @@
 /* No comment provided by engineer. */
 "New RTF" = "Новий RTF";
 
+/* No comment provided by engineer. */
+"No" = "Ні";
+
 /* Sidebar label */
 "Notes" = "Нотатки";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "Інакше база даних ваших нотаток буде доступна за адресою: ";
 
 /* Edit area */
 "Please enter image title:" = "Заголовок зображення:";
@@ -216,5 +225,14 @@
 "View" = "Вид";
 
 /* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Ми виявили, що ви встановили FSNotes з Mac App Store із зберіганням за замовчуванням в iCloud Drive, хочете перенести стару базу даних в iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "Ми не можемо перемістити \\\"{DST_PATH}\\\", оскільки цей елемент вже існує у вибраному сховищі.";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Паролі не співпадають";
+
+/* No comment provided by engineer. */
+"Yes" = "Так";
 

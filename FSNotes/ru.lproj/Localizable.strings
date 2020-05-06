@@ -103,11 +103,14 @@
 /* No comment provided by engineer. */
 "New RTF" = "Создать RTF";
 
+/* No comment provided by engineer. */
+"No" = "Нет";
+
 /* Sidebar label */
 "Notes" = "Заметки";
 
 /* No comment provided by engineer. */
-"Otherwise you note database will be available at: " = "В противном случае база данных заметок будет доступна по адресу:";
+"Otherwise, the database of your notes will be available at: " = "В противном случае база данных заметок будет доступна по адресу: ";
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
@@ -204,5 +207,11 @@
 "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Мы обнаружили, что вы установили FSNotes из Mac App Store с хранилищем по умолчанию в iCloud Drive. Хотите ли вы перенести старую базу данных в iCloud  Drive?";
 
 /* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "Мы не можем переместить \\\"{DST_PATH}\\\", потому что этот путь уже существует в выбранном месте назначения.";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Несоответствие паролей";
+
+/* No comment provided by engineer. */
+"Yes" = "Да";
 
