@@ -26,6 +26,16 @@ class ShareViewController: SLComposeServiceViewController {
     public let appendItem = SLComposeSheetConfigurationItem()
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
+        if #available(iOS 13.0, *) {
+            _ = NotificationCenter.default.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: .main) { (_) in
+                if let layoutContainerView = self.view.subviews.last {
+                    layoutContainerView.frame.size.height += 45
+                }
+            }
+        }
+        
         preferredContentSize = CGSize(width: 300, height: 300)
         navigationController!.navigationBar.topItem!.rightBarButtonItem!.title = NSLocalizedString("New note", comment: "")
         navigationController?.navigationBar.backgroundColor = Colors.Header.normalResource
