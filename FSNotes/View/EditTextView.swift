@@ -304,7 +304,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 break
             }
 
-            if char == "\n" {
+            if char.isWhitespace {
                 break
             }
 
@@ -322,7 +322,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 break
             }
 
-            if char == "\n" {
+            if char.isWhitespace {
                 break
             }
 
@@ -998,12 +998,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
 
-        if isBetweenBraces(location: selectedRange.location) != nil {
-            DispatchQueue.main.async {
-                self.complete(nil)
-            }
+        if let par = getParagraphRange(),
+            let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
 
-            return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+            if isBetweenBraces(location: selectedRange.location) != nil {
+                DispatchQueue.main.async {
+                    self.complete(nil)
+                }
+
+                return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
+            }
         }
 
         if UserDefaultsManagement.inlineTags {

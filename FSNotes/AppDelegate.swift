@@ -348,7 +348,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                             try FileManager.default.moveItem(at: item, to: dst)
                        } catch {
                             let exist = NSAlert()
-                            let message = NSLocalizedString("We can not move \"{DST_PATH}\" because this item already exist in selected destination.", comment: "")
+                            var message = NSLocalizedString("We can not move \"{DST_PATH}\" because this item already exist in selected destination.", comment: "")
 
                             message = message.replacingOccurrences(of: "{DST_PATH}", with: item.path)
 
