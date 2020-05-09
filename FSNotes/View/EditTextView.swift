@@ -287,6 +287,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     private func isBetweenBraces(location: Int) -> String? {
         guard let storage = textStorage else { return nil }
+        let string = Array(storage.string)
+        let length = storage.length
 
         var firstLeftFound = false
         var firstRigthFound = false
@@ -297,14 +299,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
         var i = location
         var j = location - 1
 
-        while storage.length > i {
-            let char = storage.string[i]
+
+        while length > i {
+            let char = string[i]
             if firstRigthFound {
                 rigthFound = char == "]"
                 break
             }
 
-            if char.isWhitespace {
+            if char.isNewline {
                 break
             }
 
@@ -316,13 +319,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         while j >= 0 {
-            let char = storage.string[j]
+            let char = string[j]
             if firstLeftFound {
                 leftFound = char == "["
                 break
             }
 
-            if char.isWhitespace {
+            if char.isNewline {
                 break
             }
 
@@ -336,7 +339,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         var result = String()
         if leftFound && rigthFound {
             result =
-                String(storage.string[j...i])
+                String(string[j...i])
 
             result = result
                 .replacingOccurrences(of: "[[", with: "")

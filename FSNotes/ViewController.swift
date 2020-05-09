@@ -1515,11 +1515,16 @@ class ViewController: NSViewController,
 
                         if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
 
-                            if saveHistory, let note = self.notesTableView.noteList.first {
-                                self.notesTableView.saveNavigationHistory(note: note)
-                            }
+                            let note = self.notesTableView.noteList.first(where: { $0.title == originalFilter })
+                                ?? self.notesTableView.noteList.first
 
-                            self.selectNullTableRow(timer: true)
+                            if let note = note {
+                                if saveHistory {
+                                    self.notesTableView.saveNavigationHistory(note: note)
+                                }
+
+                                self.selectNullTableRow(note: note)
+                            }
                         } else {
                             self.editArea.clear()
                         }
@@ -1579,10 +1584,6 @@ class ViewController: NSViewController,
 
         return !note.name.isEmpty
             && (
-                note.content.string.range(of: "[[" + filter + "]]", options: .caseInsensitive, range: nil, locale: nil) == nil
-                || filter.count == 0
-            )
-            && (
                 filter.isEmpty && type != .Todo
                     || type == .Todo
                     && self.isMatched(note: note, terms: ["- [ ]"])
@@ -1619,19 +1620,18 @@ class ViewController: NSViewController,
         return found
     }
     
-    @objc func selectNullTableRow(timer: Bool = false) {
-        if timer {
-            self.selectRowTimer.invalidate()
-            self.selectRowTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.selectRowInstant), userInfo: nil, repeats: false)
-            return
-        }
-
-        selectRowInstant()
+    @objc func selectNullTableRow(note: Note) {
+        self.selectRowTimer.invalidate()
+        self.selectRowTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.selectRowInstant), userInfo: note, repeats: false)
     }
 
-    @objc private func selectRowInstant() {
-        notesTableView.selectRowIndexes([0], byExtendingSelection: false)
-        notesTableView.scrollRowToVisible(0)
+    @objc private func selectRowInstant(_ timer: Timer) {
+        if let note = timer.userInfo as? Note {
+            if let i = self.notesTableView.noteList.firstIndex(of: note) {
+                notesTableView.selectRowIndexes([i], byExtendingSelection: false)
+                notesTableView.scrollRowToVisible(i)
+            }
+        }
     }
     
     func focusEditArea(firstResponder: NSResponder? = nil) {

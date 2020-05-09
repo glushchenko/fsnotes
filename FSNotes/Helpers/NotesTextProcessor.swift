@@ -327,7 +327,7 @@ public class NotesTextProcessor {
 
     public static func convertAppLinks(in content: String) -> String {
         var resultString = content
-        NotesTextProcessor.appUrlRegex.matches(content, range: NSRange(location: 0, length: (content as NSString).length), completion: { (result) -> (Void) in
+        NotesTextProcessor.appUrlRegex.matches(content, range: NSRange(location: 0, length: content.count), completion: { (result) -> (Void) in
             guard let innerRange = result?.range else { return }
             var _range = innerRange
             _range.location = _range.location + 2

@@ -418,22 +418,10 @@ class Storage {
     }
         
     func sortNotes(noteList: [Note], filter: String, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
-        var searchQuery = ""
-        if filter.count > 0 {
-            searchQuery = filter.lowercased()
-        }
 
         return noteList.sorted(by: {
             if let operation = operation, operation.isCancelled {
                 return false
-            }
-            
-            if filter.count > 0 && $0.title.lowercased().starts(with: searchQuery) {
-                if $0.title.lowercased().starts(with: searchQuery) && $1.title.lowercased().starts(with: searchQuery) {
-                    return sortQuery(note: $0, next: $1, project: project)
-                }
-                
-                return true
             }
             
             return sortQuery(note: $0, next: $1, project: project)
