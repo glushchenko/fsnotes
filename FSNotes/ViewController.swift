@@ -1668,9 +1668,12 @@ class ViewController: NSViewController,
         }
     }
     
-    func cleanSearchAndEditArea(completion: (() -> ())? = nil) {
+    func cleanSearchAndEditArea(shouldBecomeFirstResponder: Bool = true, completion: (() -> ())? = nil) {
         search.stringValue = ""
-        search.becomeFirstResponder()
+
+        if shouldBecomeFirstResponder {
+            search.becomeFirstResponder()
+        }
 
         notesTableView.selectRowIndexes(IndexSet(), byExtendingSelection: false)
         editArea.clear()
@@ -2083,7 +2086,7 @@ class ViewController: NSViewController,
     @IBAction func copyURL(_ sender: Any) {
         if let note = notesTableView.getSelectedNote(), let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
 
-            let name = "fsnotes://find/\(title)"
+            let name = "fsnotes://find?id=\(title)"
             let pasteboard = NSPasteboard.general
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
             pasteboard.setString(name, forType: NSPasteboard.PasteboardType.string)

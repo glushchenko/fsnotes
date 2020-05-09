@@ -106,9 +106,19 @@ extension AppDelegate {
     func RouteFSNotesFind(_ url: URL) {
         let lastPath = url.lastPathComponent
 
-        guard nil != ViewController.shared() else {
+        guard let vc = ViewController.shared() else {
             self.searchQuery = lastPath
             return
+        }
+
+        if let wikiURL = url["id"] {
+            if let note = Storage.sharedInstance().getBy(title: wikiURL) {
+                vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
+                    vc.notesTableView.selectRowAndSidebarItem(note: note)
+                    NSApp.mainWindow?.makeFirstResponder(vc.editArea)
+                })
+                return
+            }
         }
 
         search(query: lastPath)
