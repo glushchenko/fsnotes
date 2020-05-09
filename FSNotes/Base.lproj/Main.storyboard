@@ -1280,6 +1280,7 @@ CA
                         <outlet property="hidePreview" destination="FFS-iV-L6i" id="6e2-Xa-nly"/>
                         <outlet property="horizontalRadio" destination="lkd-Oe-1Xz" id="9Z7-qI-V1W"/>
                         <outlet property="noteFontColor" destination="o3v-hr-61f" id="8Tn-V4-IKP"/>
+                        <outlet property="noteFontLabel" destination="WQh-GR-hUT" id="Bmu-IJ-hyE"/>
                         <outlet property="previewFontSize" destination="h8R-h7-V5R" id="yTV-Pf-FSJ"/>
                         <outlet property="textMatchAutoSelection" destination="uTG-yn-jge" id="aHG-nn-O4R"/>
                         <outlet property="verticalRadio" destination="oZC-jG-fL4" id="ZrD-si-q2N"/>

@@ -14,6 +14,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBOutlet weak var verticalRadio: NSButton!
     @IBOutlet weak var fontPreview: NSTextField!
     @IBOutlet weak var cellSpacing: NSSlider!
+    @IBOutlet weak var noteFontLabel: NSTextField!
     @IBOutlet weak var noteFontColor: NSColorWell!
     @IBOutlet weak var backgroundColor: NSColorWell!
     @IBOutlet weak var backgroundLabel: NSTextField!
@@ -65,10 +66,11 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         firstLineAsTitle.state = UserDefaultsManagement.firstLineAsTitle ? .on : .off
 
-        let hideBackgroundOption = UserDefaultsManagement.appearanceType != .Custom
+        backgroundColor.isHidden = false
+        backgroundLabel.isHidden = false
 
-        backgroundColor.isHidden = hideBackgroundOption
-        backgroundLabel.isHidden = hideBackgroundOption
+        noteFontColor.isHidden = false
+        noteFontLabel.isHidden = false
     }
 
     @IBAction func changeHideOnDeactivate(_ sender: NSButton) {
@@ -126,17 +128,23 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBAction func setFontColor(_ sender: NSColorWell) {
         guard let vc = ViewController.shared() else { return }
 
+        UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.fontColor = sender.color
         vc.editArea.setEditorTextColor(sender.color)
         vc.refillEditArea()
+
+        restart()
     }
 
     @IBAction func setBgColor(_ sender: NSColorWell) {
         guard let vc = ViewController.shared() else { return }
 
+        UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.bgColor = sender.color
 
         vc.editArea.backgroundColor = sender.color
+
+        restart()
     }
 
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
@@ -215,4 +223,13 @@ class PreferencesUserInterfaceViewController: NSViewController {
         fontPreview.stringValue = "\(UserDefaultsManagement.noteFont.fontName) \(UserDefaultsManagement.noteFont.pointSize)pt"
     }
 
+    private func restart() {
+        let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+        let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [path]
+        task.launch()
+        exit(0)
+    }
 }
