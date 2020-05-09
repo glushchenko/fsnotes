@@ -937,34 +937,10 @@ public class NotesTextProcessor {
     fileprivate static let _markerOL = "[0-9-]+[.]"
 
     fileprivate static let _listMarker = "(?:\\p{Z}|\\t)*(?:\(_markerUL)|\(_markerOL))"
-    fileprivate static let _wholeList = [
-        "(                               # $1 = whole list",
-        "  (                             # $2",
-        "    \\p{Z}{0,\(_tabWidth - 1)}",
-        "    (\(_listMarker))            # $3 = first list item marker",
-        "    \\p{Z}+",
-        "  )",
-        "  (?s:.+?)",
-        "  (                             # $4",
-        "      \\z",
-        "    |",
-        "      \\n{2,}",
-        "      (?=\\S)",
-        "      (?!                       # Negative lookahead for another list item marker",
-        "        \\p{Z}*",
-        "        \(_listMarker)\\p{Z}+",
-        "      )",
-        "  )",
-        ")"
-        ].joined(separator: "\n")
+    fileprivate static let _listSingleLinePattern = "^(?:\\p{Z}|\\t)*((?:[*+-]|\\d+[.]))\\p{Z}+"
 
-    fileprivate static let listPattern = "(?:(?<=\\n)|\\A\\n?)" + _wholeList
-
-    private static let listSingleLinePattern = "\\A(?:\\p{Z}|\\t)*((?:[*+-]|\\d+[.]))\\p{Z}+"
-    
-    public static let listRegex = MarklightRegex(pattern: listPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
+    public static let listRegex = MarklightRegex(pattern: _listSingleLinePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     public static let listOpeningRegex = MarklightRegex(pattern: _listMarker, options: [.allowCommentsAndWhitespace])
-    public static let listSingleLineRegex = MarklightRegex(pattern: listSingleLinePattern, options: [.allowCommentsAndWhitespace])
 
     // MARK: Anchors
     
