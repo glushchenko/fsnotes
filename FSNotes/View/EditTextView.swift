@@ -70,7 +70,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         newInvalidRect.size.width += self.caretWidth - 1
         super.setNeedsDisplay(newInvalidRect)
     }
- 
+
     // MARK: Menu
     
     override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
@@ -230,7 +230,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     override func mouseMoved(with event: NSEvent) {
         let viewController = self.window?.contentViewController as! ViewController
         if (!viewController.emptyEditAreaImage.isHidden) {
-            NSCursor.pointingHand.set()
+            NSCursor.arrow.set()
             return
         }
 
