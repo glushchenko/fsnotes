@@ -116,6 +116,7 @@ extension AppDelegate {
                 vc.cleanSearchAndEditArea(shouldBecomeFirstResponder: false, completion: { () -> Void in
                     vc.notesTableView.selectRowAndSidebarItem(note: note)
                     NSApp.mainWindow?.makeFirstResponder(vc.editArea)
+                    vc.notesTableView.saveNavigationHistory(note: note)
                 })
                 return
             }
