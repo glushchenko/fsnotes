@@ -493,7 +493,7 @@ public class TextFormatter {
                 prefix + paragraph.replacingOccurrences(of: "#", with: "").trim()
         }
 
-        let selectRange = NSRange(location: pRange.location + paragraph.count, length: 0)
+        let selectRange = NSRange(location: pRange.location + paragraph.count - 1, length: 0)
         insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
 #endif
     }
