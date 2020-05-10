@@ -58,6 +58,9 @@ class ViewController: NSViewController,
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
     @IBOutlet weak var showInSidebar: NSMenuItem!
     @IBOutlet weak var searchTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var newNoteTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var newNoteButton: NSButton!
     @IBOutlet weak var titleLabel: TitleTextField! {
         didSet {
             let clickGesture = NSClickGestureRecognizer()
@@ -129,6 +132,9 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
+        newNoteButton.image = NSImage(named: "new_note_button")
+        newNoteButton.setButtonType(.momentaryLight)
+
         scheduleSnapshots()
         self.configureShortcuts()
         self.configureDelegates()
@@ -2026,16 +2032,19 @@ class ViewController: NSViewController,
     func checkSidebarConstraint() {
         if sidebarSplitView.subviews[0].frame.width > 50 {
             searchTopConstraint.constant = 8
+            newNoteTopConstraint.constant = 2
             return
         }
         
         if UserDefaultsManagement.hideRealSidebar || sidebarSplitView.subviews[0].frame.width < 50 {
             
             searchTopConstraint.constant = CGFloat(25)
+            newNoteTopConstraint.constant = CGFloat(20)
             return
         }
         
         searchTopConstraint.constant = 8
+        newNoteTopConstraint.constant = 2
     }
 
     @IBAction func duplicate(_ sender: Any) {
