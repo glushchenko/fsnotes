@@ -66,6 +66,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return super.performKeyEquivalent(with: event)
     }
 
+    override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
+        for item in menu.items {
+            if item.identifier?.rawValue == "WKMenuItemIdentifierReload" {
+                item.isHidden = true
+            }
+        }
+    }
+
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         closure?()
     }
