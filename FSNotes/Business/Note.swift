@@ -120,6 +120,8 @@ public class Note: NSObject  {
         if !isTrash() && !project.isArchive {
             _ = loadTags()
         }
+
+        loadName()
     }
         
     func reload() -> Bool {
@@ -614,7 +616,7 @@ public class Note: NSObject  {
     func parseURL(loadProject: Bool = true) {
         if (url.pathComponents.count > 0) {
             container = .withExt(rawValue: url.pathExtension)
-            name = url.pathComponents.last!
+            name = url.deletingPathExtension().lastPathComponent
             
             if isTextBundle() {
                 let info = url.appendingPathComponent("info.json")
@@ -653,6 +655,10 @@ public class Note: NSObject  {
                 .last!
                 .replacingOccurrences(of: ":", with: "/")
         }
+    }
+
+    private func loadName() {
+        name = url.deletingPathExtension().lastPathComponent
     }
 
     public func save(attributed: NSAttributedString) {

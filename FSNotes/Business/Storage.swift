@@ -423,6 +423,21 @@ class Storage {
             if let operation = operation, operation.isCancelled {
                 return false
             }
+
+            if filter.count > 0 {
+                if ($0.title == filter && $1.title != filter) {
+                    return true
+                }
+
+                if ($0.name == filter && $1.name != filter) {
+                    return true
+                }
+
+                if ($0.title.starts(with: filter) || $0.name.starts(with: filter))
+                    && (!$1.title.starts(with: filter) && !$1.name.starts(with: filter)) {
+                    return true
+                }
+            }
             
             return sortQuery(note: $0, next: $1, project: project)
         })
@@ -491,6 +506,7 @@ class Storage {
 
             #if os(OSX)
                 note.load()
+                _ = note.getImagePreviewUrl()
             #endif
 
             if loadContent {

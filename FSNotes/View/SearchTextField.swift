@@ -73,7 +73,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
-            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased().starts(with: searchQuery.lowercased()) {
+            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased() == stringValue.lowercased() || note.name.lowercased() == stringValue.lowercased() {
+                markCompleteonAsSuccess()
                 vcDelegate.focusEditArea()
             } else {
                 vcDelegate.makeNote(self)
@@ -82,6 +83,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             searchTimer.invalidate()
             return true
         case "insertTab:":
+            markCompleteonAsSuccess()
             vcDelegate.focusEditArea()
             vcDelegate.editArea.scrollToCursor()
             return true
@@ -110,6 +112,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         if note.title.lowercased().starts(with: filter.lowercased()) {
             stringValue = filter + note.title.suffix(note.title.count - filter.count)
             editor.selectedRange = NSRange(filter.utf16.count..<note.title.utf16.count)
+            return
+        }
+
+        if note.name.lowercased().starts(with: filter.lowercased()) {
+            stringValue = filter + note.name.suffix(note.name.count - filter.count)
+            editor.selectedRange = NSRange(filter.utf16.count..<note.name.utf16.count)
         }
     }
 
@@ -145,5 +153,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         let pb = NSPasteboard(name: .findPboard)
         pb.declareTypes([.textFinderOptions, .string], owner: nil)
         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+    }
+
+    private func markCompleteonAsSuccess() {
+        currentEditor()?.selectedRange = NSRange(location: stringValue.count, length: 0)
     }
 }

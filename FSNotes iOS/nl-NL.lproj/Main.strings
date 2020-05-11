@@ -1,0 +1,102 @@
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "1gp-bn-Xq5"; */
+"1gp-bn-Xq5.normalTitle" = "Annuleer";
+
+/* Class = "UILabel"; text = "Font"; ObjectID = "3jo-l0-DdJ"; */
+"3jo-l0-DdJ.text" = "Lettertype";
+
+/* Class = "UILabel"; text = "Projects"; ObjectID = "6pf-ff-hck"; */
+"6pf-ff-hck.text" = "Projecten";
+
+/* Class = "UILabel"; text = "Default Container"; ObjectID = "7Ja-3s-eck"; */
+"7Ja-3s-eck.text" = "Standaard Container";
+
+/* Class = "UILabel"; text = "Dynamic Font"; ObjectID = "7Tm-WO-XkG"; */
+"7Tm-WO-XkG.text" = "Dynamisch Lettertype";
+
+/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
+"8VE-HM-shO.text" = "Postvak In ✦";
+
+/* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
+"AbV-ot-mEE.text" = "Datum";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Cn1-Y0-0eh"; */
+"Cn1-Y0-0eh.text" = "Titel";
+
+/* Class = "UILabel"; text = "Default Extension"; ObjectID = "Ddv-OO-Wuz"; */
+"Ddv-OO-Wuz.text" = "Standaard Extensie";
+
+/* Class = "UILabel"; text = "Use inline tags"; ObjectID = "dpk-uD-cgC"; */
+"dpk-uD-cgC.text" = "Gebruik inline tags";
+
+/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ecm-ZU-dhM"; */
+"ecm-ZU-dhM.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
+
+/* Class = "UITableViewSection"; headerTitle = "View"; ObjectID = "GE7-pW-Nf1"; */
+"GE7-pW-Nf1.headerTitle" = "Weergave";
+
+/* Class = "UILabel"; text = "Font size"; ObjectID = "GZP-1U-TUd"; */
+"GZP-1U-TUd.text" = "Lettertypegrootte";
+
+/* Class = "UILabel"; text = "Twitter"; ObjectID = "hHQ-zQ-ptu"; */
+"hHQ-zQ-ptu.text" = "Twitter";
+
+/* Class = "UILabel"; text = "Code block live highlighting"; ObjectID = "jGp-dZ-ZDR"; */
+"jGp-dZ-ZDR.text" = "Codeblok live markering";
+
+/* Class = "UITableViewSection"; headerTitle = "UI"; ObjectID = "kHE-RF-ila"; */
+"kHE-RF-ila.headerTitle" = "UI";
+
+/* Class = "UILabel"; text = "Preview"; ObjectID = "LAf-Rz-QFy"; */
+"LAf-Rz-QFy.text" = "Voorvertoning";
+
+/* Class = "UILabel"; text = "∞"; ObjectID = "m6a-dd-9sW"; */
+"m6a-dd-9sW.text" = "∞";
+
+/* Class = "UILabel"; text = "Import"; ObjectID = "mjM-hk-WQE"; */
+"mjM-hk-WQE.text" = "Importeren";
+
+/* Class = "UITableViewSection"; headerTitle = "FSNotes"; ObjectID = "MK8-r2-f0u"; */
+"MK8-r2-f0u.headerTitle" = "FSNotes";
+
+/* Class = "UILabel"; text = "Default Keyboard On Edititng"; ObjectID = "mvA-uD-FG2"; */
+"mvA-uD-FG2.text" = "Standaard Toetsenbord bij Editen";
+
+/* Class = "UILabel"; text = "Font"; ObjectID = "mZP-M0-ypM"; */
+"mZP-M0-ypM.text" = "Lettertype";
+
+/* Class = "UILabel"; text = "Homepage"; ObjectID = "o6J-LY-Ov4"; */
+"o6J-LY-Ov4.text" = "Startpagina";
+
+/* Class = "UITableViewSection"; headerTitle = "Section-1"; ObjectID = "Qe6-HW-ixo"; */
+"Qe6-HW-ixo.headerTitle" = "Sectie-1";
+
+/* Class = "UITableViewSection"; headerTitle = "Section-2"; ObjectID = "sXm-Sf-piq"; */
+"sXm-Sf-piq.headerTitle" = "Sectie-2";
+
+/* Class = "UILabel"; text = "Support"; ObjectID = "u6g-yx-6dc"; */
+"u6g-yx-6dc.text" = "Ondersteuning";
+
+/* Class = "UITableViewSection"; headerTitle = "Section-3"; ObjectID = "w10-Gt-pMh"; */
+"w10-Gt-pMh.headerTitle" = "Sectie-3";
+
+/* Class = "UILabel"; text = "Font"; ObjectID = "wmm-cY-j3I"; */
+"wmm-cY-j3I.text" = "Lettertype";
+
+/* Class = "UILabel"; text = "Live images preview"; ObjectID = "XL0-ja-V8s"; */
+"XL0-ja-V8s.text" = "Toon afbeeldingen in de editor";
+
+/* Class = "UIButton"; normalTitle = "   "; ObjectID = "yuS-7s-7qj"; */
+"yuS-7s-7qj.normalTitle" = "   ";
+
+/* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
+"Ywj-qM-UNi.placeholder" = "Zoek en creëer";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ZDf-m9-quL"; */
+"ZDf-m9-quL.text" = "Label";
+
+/* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "ZKo-hy-393"; */
+"ZKo-hy-393.headerTitle" = "Algemeen";
+
+/* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
+"ZLZ-yY-efJ.headerTitle" = "Editor";
+

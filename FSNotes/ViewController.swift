@@ -132,7 +132,7 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        newNoteButton.image = NSImage(named: "new_note_button")
+        newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_ui").resize(to: CGSize(width: 30, height: 30))
         newNoteButton.setButtonType(.momentaryLight)
 
         scheduleSnapshots()
@@ -1516,6 +1516,12 @@ class ViewController: NSViewController,
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
                         if !self.search.skipAutocomplete && self.search.timestamp == timestamp {
+
+                            if operation.isCancelled {
+                                completion()
+                                return
+                            }
+                            
                             self.search.suggestAutocomplete(note, filter: originalFilter)
                         }
 

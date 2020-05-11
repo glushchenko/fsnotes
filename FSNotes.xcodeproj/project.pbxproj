@@ -517,6 +517,9 @@
 		D7ADFD112066CF9400B531F9 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7ADFD102066CF9400B531F9 /* CoreLocation.framework */; };
 		D7B024A72019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7B024A82019BCF3008544C3 /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
+		D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
+		D7B1F6AD246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
+		D7B1F6AE246895B000593001 /* new_note_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B1F6AB246895B000593001 /* new_note_ui.png */; };
 		D7B2B6E8245EEA5F0084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B2B6E9245EEA610084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
@@ -1313,6 +1316,18 @@
 		D7A9FD301FCB4873008ED23C /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		D7ADFD102066CF9400B531F9 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
 		D7B024A62019BCF3008544C3 /* NoteAttribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteAttribute.swift; sourceTree = "<group>"; };
+		D7B1F6A02468718E00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D7B1F6A12468718E00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D7B1F6A22468718E00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D7B1F6A32468718E00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D7B1F6A42468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D7B1F6A52468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		D7B1F6A62468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D7B1F6A72468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D7B1F6A82468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		D7B1F6A92468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Main.strings"; sourceTree = "<group>"; };
+		D7B1F6AA2468718F00593001 /* nl-NL */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-NL"; path = "nl-NL.lproj/Main.strings"; sourceTree = "<group>"; };
+		D7B1F6AB246895B000593001 /* new_note_ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_note_ui.png; sourceTree = "<group>"; };
 		D7B3391420DE0FB100B36460 /* TagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagList.swift; sourceTree = "<group>"; };
 		D7B6E599207912E300FE0E20 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		D7BBCA78208C749F002CE3C3 /* repository.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repository.png; sourceTree = "<group>"; };
@@ -2035,6 +2050,7 @@
 				D7CD5F661F508E6A006AA35D /* SourceCodePro-BoldIt.ttf */,
 				D7DD79551F4E606600D5724B /* SourceCodePro-It.ttf */,
 				D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */,
+				D7B1F6AB246895B000593001 /* new_note_ui.png */,
 				D7038E1F20FA957300A54E69 /* copy.png */,
 				D7CDE9D5215FEC6A00DC5978 /* copy_white.png */,
 				D7D3D5191F4483EA00D152FE /* pin.png */,
@@ -2559,6 +2575,7 @@
 				ko,
 				uk,
 				fr,
+				"nl-NL",
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -2651,6 +2668,7 @@
 				D75E33E622462442006AD1C1 /* Images.xcassets in Resources */,
 				D7C690B922AAE0D500BFBBD1 /* image@3x.png in Resources */,
 				D75E33E722462442006AD1C1 /* trash.png in Resources */,
+				D7B1F6AE246895B000593001 /* new_note_ui.png in Resources */,
 				D7C690DB22AB075F00BFBBD1 /* italic@2x.png in Resources */,
 				D75E33E822462442006AD1C1 /* AvenirNext-Thin.ttf in Resources */,
 				D7CA7FD22326529300E9717A /* git.png in Resources */,
@@ -2890,6 +2908,7 @@
 				D7C690BC22AAE0D600BFBBD1 /* image@3x.png in Resources */,
 				D76C874C2136C17100F82952 /* trash.png in Resources */,
 				D7C690E122AB076000BFBBD1 /* italic@2x.png in Resources */,
+				D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */,
 				D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
 				D7CA7FD02326529300E9717A /* git.png in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
@@ -2988,6 +3007,7 @@
 				D7C690D122AB025800BFBBD1 /* codeblock.png in Resources */,
 				D7C690B622AAE0D400BFBBD1 /* image@3x.png in Resources */,
 				D76C873E2136AA7100F82952 /* trash.png in Resources */,
+				D7B1F6AD246895B000593001 /* new_note_ui.png in Resources */,
 				D7E81C4F1F925B5F00416A91 /* SourceCodePro-Black.ttf in Resources */,
 				D720241022A9412B000A7691 /* Markdown.icns in Resources */,
 				D7ED6893200F87BD00FF975A /* Initial in Resources */,
@@ -3914,6 +3934,7 @@
 				D79D28CE2440F2D6002F914C /* de */,
 				D79D28D02440F36E002F914C /* es */,
 				D7573D3B24465AE4005C0112 /* fr */,
+				D7B1F6A72468718F00593001 /* nl-NL */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3926,6 +3947,7 @@
 				D7F76C47232D648D00E8D8BA /* zh-Hans */,
 				D7855EDE23486FF8000E96C3 /* ko */,
 				D7A7F783241D12D7003AC0AD /* uk */,
+				D7B1F6A42468718F00593001 /* nl-NL */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3940,6 +3962,7 @@
 				D7F76C46232D648D00E8D8BA /* zh-Hans */,
 				D7855EDF23486FF8000E96C3 /* ko */,
 				D7A7F78A241D1395003AC0AD /* uk */,
+				D7B1F6A52468718F00593001 /* nl-NL */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3949,6 +3972,7 @@
 			children = (
 				D74B56C6230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C43232D648D00E8D8BA /* zh-Hans */,
+				D7B1F6A22468718E00593001 /* nl-NL */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3960,6 +3984,7 @@
 				D72125652430FF8000F74891 /* ru */,
 				D72125662430FF8C00F74891 /* es */,
 				D1D3CD852445A65A002D859B /* fr */,
+				D7B1F6A62468718F00593001 /* nl-NL */,
 			);
 			name = Localizable.strings;
 			path = ..;
@@ -3971,6 +3996,7 @@
 				D74B56C4230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C45232D648D00E8D8BA /* zh-Hans */,
 				D7A7F785241D12D8003AC0AD /* uk */,
+				D7B1F6A02468718E00593001 /* nl-NL */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3986,6 +4012,7 @@
 				D79D28CD2440F2D6002F914C /* de */,
 				D79D28CF2440F36E002F914C /* es */,
 				D7573D3A24465AE4005C0112 /* fr */,
+				D7B1F6A32468718E00593001 /* nl-NL */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4008,6 +4035,7 @@
 				D7855EE223486FF8000E96C3 /* ko */,
 				D7A7F780241D12D3003AC0AD /* uk */,
 				D1D3CD8224459B08002D859B /* fr */,
+				D7B1F6A92468718F00593001 /* nl-NL */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -4033,6 +4061,7 @@
 				D7855EE323486FF8000E96C3 /* ko */,
 				D7A7F77F241D12D3003AC0AD /* uk */,
 				D1D3CD8124459B08002D859B /* fr */,
+				D7B1F6AA2468718F00593001 /* nl-NL */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -4045,6 +4074,7 @@
 				D74B56CC230C0A8700A07AF5 /* ar-IQ */,
 				D7F76C42232D648D00E8D8BA /* zh-Hans */,
 				D7A7F788241D1395003AC0AD /* uk */,
+				D7B1F6A12468718E00593001 /* nl-NL */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4060,6 +4090,7 @@
 				D7855EE123486FF8000E96C3 /* ko */,
 				D7A7F782241D12D6003AC0AD /* uk */,
 				D7573D3C24465AE4005C0112 /* fr */,
+				D7B1F6A82468718F00593001 /* nl-NL */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4298,7 +4329,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 384;
+				CURRENT_PROJECT_VERSION = 388;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4311,7 +4342,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.3.0;
+				MARKETING_VERSION = 4.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4333,7 +4364,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 384;
+				CURRENT_PROJECT_VERSION = 388;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4347,7 +4378,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.3.0;
+				MARKETING_VERSION = 4.3.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;

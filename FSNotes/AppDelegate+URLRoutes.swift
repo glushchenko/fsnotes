@@ -104,7 +104,7 @@ extension AppDelegate {
     
     /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
-        let lastPath = url.lastPathComponent
+        var lastPath = url.lastPathComponent
 
         guard let vc = ViewController.shared() else {
             self.searchQuery = lastPath
@@ -119,10 +119,14 @@ extension AppDelegate {
                     vc.notesTableView.saveNavigationHistory(note: note)
                 })
                 return
+            } else {
+                lastPath = wikiURL
             }
         }
 
         search(query: lastPath)
+
+        vc.search.becomeFirstResponder()
     }
 
     func search(query: String) {

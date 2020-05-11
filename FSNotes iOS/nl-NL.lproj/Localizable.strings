@@ -1,0 +1,237 @@
+/* Archive in sidebar
+   Sidebar label */
+"Archive" = "Archief";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "Weet je zeker dat je de notitie wilt verwijderen?";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Automatisch op schermhelderheid";
+
+/* No comment provided by engineer. */
+"Brightness level" = "Helderheidsniveau";
+
+/* Settings */
+"build" = "build";
+
+/* No comment provided by engineer. */
+"Cancel" = "Annuleer";
+
+/* Settings */
+"Code block live highlighting" = "Codeblok live markering";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibel met DayOne JSON (zip), Bear en Ulysses (textbundle), markdown, txt, rtf.";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Kopieer platte tekst";
+
+/* No comment provided by engineer. */
+"Creation date" = "Aanmaakdatum";
+
+/* Settings */
+"Default Container" = "Standaard Container";
+
+/* Settings */
+"Default Extension" = "Standaard Extensie";
+
+/* Settings */
+"Default Keyboard In Editor" = "Standaard Toetsenbord bij Editen";
+
+/* No comment provided by engineer. */
+"Delete" = "Verwijderen";
+
+/* No comment provided by engineer. */
+"Disabled" = "Uitgeschakeld";
+
+/* No comment provided by engineer. */
+"Done" = "Gedaan";
+
+/* Settings */
+"Dynamic Type" = "Dynamisch Type";
+
+/* Settings */
+"Editor" = "Editor";
+
+/* No comment provided by engineer. */
+"Enabled" = "Ingeschakeld";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Voer het hoofdwachtwoord in";
+
+/* No comment provided by engineer. */
+"Enter note name" = "Voer notitie naam in";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "Bestand met deze naam bestaat al";
+
+/* Shortcuts */
+"Focus in search field" = "Focus in zoekveld";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Naam van de map:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "Map met deze naam bestaat al";
+
+/* Settings */
+"Font" = "Lettertype";
+
+/* Settings */
+"Font Family" = "Lettertypefamilie";
+
+/* Settings */
+"Font size" = "Lettertypegrootte";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
+"General" = "Algemeen";
+
+/* Settings */
+"Homepage" = "Startpagina";
+
+/* Settings */
+"Import notes" = "Importeren notities";
+
+/* Inbox in sidebar */
+"Inbox" = "Postvak In";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "Ongeldig wachtwoord";
+
+/* Settings */
+"Live images preview" = "Toon afbeeldingen in de editor";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Vergrendel/ontgrendel";
+
+/* No comment provided by engineer. */
+"Modification date" = "Wijzigingsdatum";
+
+/* Move view */
+"Move" = "Verplaats";
+
+/* Shortcuts */
+"New document" = "Nieuw document";
+
+/* Settings */
+"Night Mode" = "Nachtstand";
+
+/* No comment provided by engineer. */
+"Note with this name already exist" = "Notitie met deze naam bestaat al";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Notities";
+
+/* No comment provided by engineer. */
+"Notes list" = "Notitielijst";
+
+/* No comment provided by engineer. */
+"Pin" = "Pin";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "Voer a.u.b. geldig wachtwoord in";
+
+/* No comment provided by engineer. */
+"Preview" = "Voorvertoning";
+
+/* Settings */
+"Project" = "Project";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "Project verwijderen ❌";
+
+/* Settings */
+"Projects" = "Projecten";
+
+/* No comment provided by engineer. */
+"Remove" = "Verwijder";
+
+/* No comment provided by engineer. */
+"Rename" = "Hernoemen";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Hernoem notitie:";
+
+/* Shortcuts */
+"Save clipboard" = "Opslaan klembord";
+
+/* Shortcuts */
+"Search" = "Zoeken";
+
+/* Sidebar settings */
+"Settings" = "Instellingen";
+
+/* No comment provided by engineer. */
+"Share" = "Delen";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Toon map in zijbalk";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Toon notities in \"Notes\" en \"Todo\" lijsten";
+
+/* No comment provided by engineer. */
+"Sort by" = "Sorteer op";
+
+/* Settings */
+"Storage" = "Opslag";
+
+/* Settings */
+"Support" = "Ondersteuning";
+
+/* No comment provided by engineer. */
+"System" = "Systeem";
+
+/* No comment provided by engineer. */
+"Tag name:" = "Tag naam:";
+
+/* No comment provided by engineer. */
+"Tag with this name already exist" = "Tag met deze naam bestaat al";
+
+/* Sidebar label */
+"Tags" = "Tags";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "Deze actie kan niet ongedaan gemaakt worden.";
+
+/* No comment provided by engineer. */
+"Title" = "Titel";
+
+/* Todo in sidebar */
+"Todo" = "Te Doen";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Prullenmand";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
+"Type" = "Type";
+
+/* Settings */
+"UI" = "UI";
+
+/* No comment provided by engineer. */
+"UnPin" = "VerwijderPin";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Gebruik eerste regel als titel";
+
+/* Settings */
+"Use inline tags" = "Gebruik inline tags";
+
+/* Settings */
+"Version" = "Versie";
+
+/* No comment provided by engineer. */
+"View settings" = "Bekijk instellingen";
+
+/* No comment provided by engineer. */
+"Visibility" = "Zichtbaarheid";
+
