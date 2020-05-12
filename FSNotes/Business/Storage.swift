@@ -429,12 +429,12 @@ class Storage {
                     return true
                 }
 
-                if ($0.name == filter && $1.name != filter) {
+                if ($0.fileName == filter && $1.fileName != filter) {
                     return true
                 }
 
-                if ($0.title.starts(with: filter) || $0.name.starts(with: filter))
-                    && (!$1.title.starts(with: filter) && !$1.name.starts(with: filter)) {
+                if ($0.title.starts(with: filter) || $0.fileName.starts(with: filter))
+                    && (!$1.title.starts(with: filter) && !$1.fileName.starts(with: filter)) {
                     return true
                 }
             }
@@ -507,11 +507,11 @@ class Storage {
             #if os(OSX)
                 note.load()
                 _ = note.getImagePreviewUrl()
+            #else
+                if loadContent {
+                    note.load()
+                }
             #endif
-
-            if loadContent {
-                note.load()
-            }
 
             if note.isPinned {
                 pinned += 1

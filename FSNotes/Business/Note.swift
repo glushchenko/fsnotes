@@ -28,8 +28,16 @@ public class Note: NSObject  {
 
     public var tags = [String]()
     public var originalExtension: String?
-    
-    public var name: String = ""
+
+    /*
+     Filename with extension ie "example.textbundle"
+     */
+    public var name = String()
+
+    /*
+     Filename "example"
+     */
+    public var fileName = String()
     public var preview: String = ""
 
     public var isPinned: Bool = false
@@ -121,7 +129,7 @@ public class Note: NSObject  {
             _ = loadTags()
         }
 
-        loadName()
+        loadFileName()
     }
         
     func reload() -> Bool {
@@ -616,7 +624,7 @@ public class Note: NSObject  {
     func parseURL(loadProject: Bool = true) {
         if (url.pathComponents.count > 0) {
             container = .withExt(rawValue: url.pathExtension)
-            name = url.deletingPathExtension().lastPathComponent
+            name = url.lastPathComponent
             
             if isTextBundle() {
                 let info = url.appendingPathComponent("info.json")
@@ -640,6 +648,7 @@ public class Note: NSObject  {
             }
             
             loadTitle()
+            loadFileName()
         }
 
         if loadProject {
@@ -657,8 +666,12 @@ public class Note: NSObject  {
         }
     }
 
-    private func loadName() {
-        name = url.deletingPathExtension().lastPathComponent
+    private func loadFileName() {
+        fileName = url.deletingPathExtension().lastPathComponent.replacingOccurrences(of: ":", with: "/")
+    }
+
+    public func getFileName() -> String {
+        return fileName
     }
 
     public func save(attributed: NSAttributedString) {
@@ -1720,12 +1733,6 @@ public class Note: NSObject  {
 
     public func showIconInList() -> Bool {
         return (isPinned || isEncrypted())
-    }
-
-    public func getFileName() -> String {
-        let fileName = url.deletingPathExtension().pathComponents.last!.replacingOccurrences(of: ":", with: "/")
-
-        return fileName
     }
 
     public func getShortTitle() -> String {

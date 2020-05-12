@@ -2067,7 +2067,7 @@ class ViewController: NSViewController,
 
                 guard let name = note.getDupeName() else { continue }
 
-                let noteDupe = Note(name: name, project: note.project, type: note.type)
+                let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
                 noteDupe.content = NSMutableAttributedString(string: note.content.string)
 
                 // Clone images

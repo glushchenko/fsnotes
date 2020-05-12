@@ -73,7 +73,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
-            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased() == stringValue.lowercased() || note.name.lowercased() == stringValue.lowercased() {
+            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
                 markCompleteonAsSuccess()
                 vcDelegate.focusEditArea()
             } else {
@@ -115,9 +115,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             return
         }
 
-        if note.name.lowercased().starts(with: filter.lowercased()) {
-            stringValue = filter + note.name.suffix(note.name.count - filter.count)
-            editor.selectedRange = NSRange(filter.utf16.count..<note.name.utf16.count)
+        if note.fileName.lowercased().starts(with: filter.lowercased()) {
+            stringValue = filter + note.fileName.suffix(note.fileName.count - filter.count)
+            editor.selectedRange = NSRange(filter.utf16.count..<note.fileName.utf16.count)
         }
     }
 
