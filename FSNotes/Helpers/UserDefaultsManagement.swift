@@ -738,7 +738,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.LineWidthKey) {
                 return result as! Float
             }
-            return 1000
+            return 700
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.LineWidthKey)
