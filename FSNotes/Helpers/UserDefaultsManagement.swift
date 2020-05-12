@@ -714,7 +714,7 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.LineSpacingEditorKey) {
                 return result as! Float
             }
-            return 0
+            return 4
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.LineSpacingEditorKey)
