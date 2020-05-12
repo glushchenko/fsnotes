@@ -774,6 +774,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
         items.append(quoteButton)
 
+        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 25)
+        let orderedListButton = UIBarButtonItem(image: orderedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.orderedListPressed))
+        items.append(orderedListButton)
+
+        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 25)
+        let numberedListButton = UIBarButtonItem(image: numberedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.numberedListPressed))
+        items.append(numberedListButton)
+
         let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         items.append(indentButton)
 
@@ -933,8 +941,26 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func todoPressed() {
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
-            formatter.toggleTodo()
+            formatter.todo()
             
+            AudioServicesPlaySystemSound(1519)
+        }
+    }
+
+    @objc func orderedListPressed() {
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            formatter.list()
+
+            AudioServicesPlaySystemSound(1519)
+        }
+    }
+
+    @objc func numberedListPressed() {
+        if let note = note {
+            let formatter = TextFormatter(textView: editArea, note: note, shouldScanMarkdown: false)
+            formatter.orderedList()
+
             AudioServicesPlaySystemSound(1519)
         }
     }
@@ -1152,8 +1178,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
             guard let path = self.editArea.textStorage.attribute(.link, at: characterIndex, effectiveRange: nil) as? String else { return }
 
-            if path.starts(with: "fsnotes://find/") {
-                let fileName = path.replacingOccurrences(of: "fsnotes://find/", with: "")
+            if path.starts(with: "fsnotes://find?id=") {
+                let fileName = path.replacingOccurrences(of: "fsnotes://find?id=", with: "")
                 if let note = Storage.instance?.getBy(title: fileName) {
                     fill(note: note)
                 }
@@ -1247,6 +1273,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             DispatchQueue.main.async {
                 textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
             }
+
+            if interaction == .presentActions {
+                let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+                if nil != textView.textStorage.attribute(pathKey, at: characterRange.location, effectiveRange: nil) {
+                    return false
+                }
+
+                return true
+            }
+
             return false
         }
 

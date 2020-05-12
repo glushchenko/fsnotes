@@ -766,6 +766,11 @@ public class TextFormatter {
         }
 
         let mutableResult = NSMutableAttributedString(string: result)
+
+#if os(iOS)
+        mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
+#endif
+
         mutableResult.loadCheckboxes()
 
         let diff = mutableResult.length - attributedString.length
@@ -1189,6 +1194,10 @@ public class TextFormatter {
     
         self.textView.undoManager?.beginUndoGrouping()
         self.textView.replace(selectedRange, withText: replaceString)
+
+        if let string = string as? NSAttributedString {
+            storage.replaceCharacters(in: NSRange(location: range.location, length: replaceString.count), with: string)
+        }
 
         let parRange = NSRange(location: range.location, length: replaceString.count)
         let parStyle = NSMutableParagraphStyle()
