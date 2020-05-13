@@ -99,7 +99,9 @@ extension NSTextStorage: NSTextStorageDelegate {
                 textStorage.removeAttribute(.backgroundColor, range: NSRange(location: fencedRange.upperBound, length: 1))
             }
 
-        } else if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(), let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
+        } else if UserDefaultsManagement.indentedCodeBlockHighlighting,
+            let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
+            let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
             highlight(textStorage: textStorage, indentedRange: codeBlockRanges, intersectedRange: intersectedRange, editedRange: editedRange)
         } else {
             highlightParagraph(textStorage: textStorage, editedRange: editedRange)
@@ -175,7 +177,7 @@ extension NSTextStorage: NSTextStorageDelegate {
             let language = NotesTextProcessor.getLanguage(code)
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
             textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)
-        } else if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
+        } else if UserDefaultsManagement.indentedCodeBlockHighlighting, let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
             let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)

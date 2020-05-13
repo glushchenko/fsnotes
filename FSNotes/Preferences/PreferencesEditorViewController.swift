@@ -9,10 +9,25 @@
 import Cocoa
 
 class PreferencesEditorViewController: NSViewController {
-    
+
+    @IBOutlet weak var codeFont: NSTextField!
+    @IBOutlet weak var codeBlockHighlight: NSButton!
+    @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
+    @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
+    @IBOutlet weak var liveImagesPreview: NSButton!
+    @IBOutlet weak var inEditorFocus: NSButton!
+    @IBOutlet weak var restoreCursorButton: NSButton!
+    @IBOutlet weak var autocloseBrackets: NSButton!
+    @IBOutlet weak var lineSpacing: NSSlider!
+    @IBOutlet weak var imagesWidth: NSSlider!
+    @IBOutlet weak var lineWidth: NSSlider!
+    @IBOutlet weak var spacesInsteadTab: NSButton!
+    @IBOutlet weak var marginSize: NSSlider!
+    @IBOutlet weak var inlineTags: NSButton!
+
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 474, height: 469)
+        preferredContentSize = NSSize(width: 474, height: 480)
     }
 
     override func viewDidLoad() {
@@ -24,6 +39,8 @@ class PreferencesEditorViewController: NSViewController {
         self.view.window!.title = NSLocalizedString("Preferences", comment: "")
 
         codeBlockHighlight.state = UserDefaultsManagement.codeBlockHighlight ? NSControl.StateValue.on : NSControl.StateValue.off
+
+        highlightIndentedCodeBlocks.state = UserDefaultsManagement.indentedCodeBlockHighlighting ? NSControl.StateValue.on : NSControl.StateValue.off
 
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
@@ -45,20 +62,6 @@ class PreferencesEditorViewController: NSViewController {
 
         inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
     }
-    
-    @IBOutlet weak var codeFont: NSTextField!
-    @IBOutlet weak var codeBlockHighlight: NSButton!
-    @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
-    @IBOutlet weak var liveImagesPreview: NSButton!
-    @IBOutlet weak var inEditorFocus: NSButton!
-    @IBOutlet weak var restoreCursorButton: NSButton!
-    @IBOutlet weak var autocloseBrackets: NSButton!
-    @IBOutlet weak var lineSpacing: NSSlider!
-    @IBOutlet weak var imagesWidth: NSSlider!
-    @IBOutlet weak var lineWidth: NSSlider!
-    @IBOutlet weak var spacesInsteadTab: NSButton!
-    @IBOutlet weak var marginSize: NSSlider!
-    @IBOutlet weak var inlineTags: NSButton!
 
     //MARK: global variables
 
@@ -84,7 +87,8 @@ class PreferencesEditorViewController: NSViewController {
     @IBAction func codeBlockHighlight(_ sender: NSButton) {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
 
-        restart()
+        guard let vc = ViewController.shared() else { return }
+        vc.refillEditArea()
     }
 
     @IBAction func markdownCodeThemeAction(_ sender: NSPopUpButton) {
@@ -212,4 +216,12 @@ class PreferencesEditorViewController: NSViewController {
 
         vc.storageOutlineView.reloadSidebar()
     }
+
+    @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {
+        UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
+
+        guard let vc = ViewController.shared() else { return }
+        vc.refillEditArea()
+    }
+
 }

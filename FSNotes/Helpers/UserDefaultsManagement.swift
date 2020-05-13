@@ -75,6 +75,7 @@ public class UserDefaultsManagement {
         static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
         static let ImportURLsKey = "ImportURLs"
+        static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let InlineTags = "inlineTags"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
@@ -517,6 +518,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.codeBlockHighlight)
+        }
+    }
+
+    static var indentedCodeBlockHighlighting: Bool {
+        get {
+            if let highlight = UserDefaults.standard.object(forKey: Constants.IndentedCodeBlockHighlighting) {
+                return highlight as! Bool
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.IndentedCodeBlockHighlighting)
         }
     }
 

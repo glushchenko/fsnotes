@@ -374,15 +374,17 @@ public class NotesTextProcessor {
             })
 
             // Indent code blocks
-            let codeTextProcessor = CodeTextProcessor(textStorage: attributedString)
-            if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges() {
-                for range in codeBlockRanges {
+            if UserDefaultsManagement.indentedCodeBlockHighlighting {
+                let codeTextProcessor = CodeTextProcessor(textStorage: attributedString)
+                if let codeBlockRanges = codeTextProcessor.getCodeBlockRanges() {
+                    for range in codeBlockRanges {
 
-                    if isIntersect(fencedRanges: fencedRanges, indentRange: range) {
-                        continue
+                        if isIntersect(fencedRanges: fencedRanges, indentRange: range) {
+                            continue
+                        }
+
+                        NotesTextProcessor.highlightCode(attributedString: attributedString, range: range)
                     }
-
-                    NotesTextProcessor.highlightCode(attributedString: attributedString, range: range)
                 }
             }
         }
