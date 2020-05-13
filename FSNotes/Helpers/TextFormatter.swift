@@ -1341,37 +1341,70 @@ public class TextFormatter {
     private func cleanListItem(line: String) -> String {
         var cleanLine = String()
         var prefixFound = false
-        var skip = false
-        var numberSkip = false
+
+        var numberCheck = false
+        var spaceCheck = false
+        var dotCheck = false
+
+        var skipped = String()
 
         for char in line {
-            if skip {
-                skip = false
+            if numberCheck {
+                if char.isNumber {
+                    skipped.append(char)
+                    continue
+                } else {
+                    numberCheck = false
+                    dotCheck = true
+                }
+            }
+
+            if dotCheck {
+                if char == "." {
+                    skipped.append(char)
+                    spaceCheck = true
+                } else {
+                    cleanLine.append(skipped)
+                    cleanLine.append(char)
+                    skipped = ""
+                }
+
+                dotCheck = false
                 continue
             }
 
-            if numberSkip {
-                numberSkip = false
+            if spaceCheck {
+                if char.isWhitespace {
+                } else {
+                    cleanLine.append(skipped)
+                    cleanLine.append(char)
+                }
+
+                spaceCheck = false
+                skipped = ""
                 continue
             }
 
-            if char.isWhitespace {
+            if char.isWhitespace && !prefixFound {
                 cleanLine.append(char)
             } else if !prefixFound {
                 if char.isNumber {
-                    skip = true
-                    numberSkip = true
+                    numberCheck = true
+                    skipped.append(char)
+                } else if char == "-" {
+                    spaceCheck = true
+                    skipped.append(char)
                 } else {
-                    if char != "-" {
-                        cleanLine.append(char)
-                    } else {
-                        skip = true
-                    }
+                    cleanLine.append(char)
                 }
                 prefixFound = true
             } else {
                 cleanLine.append(char)
             }
+        }
+
+        if skipped.count > 0 {
+            cleanLine.append(skipped)
         }
 
         return cleanLine
