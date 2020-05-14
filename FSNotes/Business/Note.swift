@@ -1262,6 +1262,8 @@ public class Note: NSObject  {
                 .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: "- [ ]", with: "")
                 .replacingOccurrences(of: "- [x]", with: "")
+                .replacingOccurrences(of: "[[", with: "")
+                .replacingOccurrences(of: "]]", with: "")
 
         let components = cleanText.trim().components(separatedBy: "\n").filter({ $0 != "" })
 

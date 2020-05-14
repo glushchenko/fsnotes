@@ -147,12 +147,20 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
         }
     }
     
-    func switchToList() {
-        self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true)
+    func switchToList(completion: (() -> ())? = nil) {
+        self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true) { _ in
+
+            guard let completion = completion else { return }
+            completion()
+        }
     }
     
-    func switchToEditor() {
-        self.setViewControllers([self.orderedViewControllers[1]], direction: .forward, animated: true)
+    func switchToEditor(completion: (() -> ())? = nil) {
+        self.setViewControllers([self.orderedViewControllers[1]], direction: .forward, animated: true) { _ in
+            
+            guard let completion = completion else { return }
+            completion()
+        }
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

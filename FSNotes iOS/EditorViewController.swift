@@ -332,6 +332,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         guard let note = self.note else { return true }
 
         tagsHandler(affectedCharRange: range, text: text)
+        wikilinkHandler(affectedCharRange: range, text: text)
 
         if text == "" {
             let lastChar = textView.textStorage.attributedSubstring(from: range).string
@@ -442,7 +443,95 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    private func complete(offset: Int? = nil, range: NSRange? = nil, text: String? = nil) {
+    private func wikilinkHandler(affectedCharRange: NSRange, text: String) {
+        guard text.count == 1, !["\n"].contains(text) else { return }
+
+        let textStorage = editArea.textStorage
+        let location = affectedCharRange.location
+        let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: location, length: 0))
+
+        let paragraph = textStorage.attributedSubstring(from: parRange).string
+        guard paragraph.contains("[[") && paragraph.contains("]]"),
+            let result = isBetweenBraces(location: location) else { return }
+
+        let word = result.0 + text
+
+        guard let titles = Storage.sharedInstance().getTitles(by: word) else {
+            dropDown.hide()
+            return
+        }
+
+        self.dropDown.dataSource = titles
+        self.complete(offset: location, replacementRange: result.1)
+    }
+
+    private func isBetweenBraces(location: Int) -> (String, NSRange)? {
+        let storage = editArea.textStorage
+        let string = Array(storage.string)
+        let length = storage.length
+
+        var firstLeftFound = false
+        var firstRigthFound = false
+
+        var rigthFound = false
+        var leftFound = false
+
+        var i = location
+        var j = location - 1
+
+
+        while length > i {
+            let char = string[i]
+            if firstRigthFound {
+                rigthFound = char == "]"
+                break
+            }
+
+            if char.isNewline {
+                break
+            }
+
+            if char == "]" {
+                firstRigthFound = true
+            }
+
+            i += 1
+        }
+
+        while j >= 0 {
+            let char = string[j]
+            if firstLeftFound {
+                leftFound = char == "["
+                break
+            }
+
+            if char.isNewline {
+                break
+            }
+
+            if char == "[" {
+                firstLeftFound = true
+            }
+
+            j -= 1
+        }
+
+        var result = String()
+        if leftFound && rigthFound {
+            result =
+                String(string[j...i])
+
+            result = result
+                .replacingOccurrences(of: "[[", with: "")
+                .replacingOccurrences(of: "]]", with: "")
+
+            return (result, NSRange(j+2..<i))
+        }
+
+        return nil
+    }
+
+    private func complete(offset: Int? = nil, range: NSRange? = nil, text: String? = nil, replacementRange: NSRange? = nil) {
         var endPosition: UITextPosition = editArea.endOfDocument
         if let offset = offset, let position = editArea.position(from: editArea.beginningOfDocument, offset: offset) {
             endPosition = position
@@ -460,6 +549,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         dropDown.anchorView = customView
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             customView.removeFromSuperview()
+
+            // WikiLinks
+            if let range = replacementRange {
+                guard
+                    let textView = self.editArea,
+                    let start = textView.position(from: textView.beginningOfDocument, offset: range.location),
+                    let end = textView.position(from: start, offset: range.length),
+                    let selectedRange = textView.textRange(from: start, to: end)
+                else { return }
+
+                self.editArea.replace(selectedRange, withText: item)
+                return
+            }
 
             if let range = range, let text = text {
                 let string = self.editArea.textStorage.mutableString.substring(with: range) + text
@@ -722,7 +824,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let topBorder = CALayer()
         topBorder.frame = CGRect(x: -1000, y: 0, width: 9999, height: 1)
-        topBorder.mixedBackgroundColor = MixedColor(normal: 0x989898, night: 0x000000)
+        topBorder.mixedBackgroundColor = MixedColor(normal: 0xD5D7DD, night: 0x373739)
         scroll.layer.addSublayer(topBorder)
 
         let isFirst = textField.isFirstResponder
@@ -762,6 +864,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
         items.append(headerButton)
+
+        let wikiImage = UIImage(named: "wikilink")?.resize(maxWidthHeight: 25)
+        let wikiButton = UIBarButtonItem(image: wikiImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.wikilink))
+        items.append(wikiButton)
 
         let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
         items.append(imageButton)
@@ -805,7 +911,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
         }
 
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 40))
         toolBar.isTranslucent = false
         toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
@@ -920,6 +1026,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let formatter = TextFormatter(textView: editArea, note: note)
             formatter.header("#")
         }
+    }
+
+    @objc func wikilink() {
+        editArea.insertText("[[]]")
+        let location = editArea.selectedRange.location - 2
+        let range = NSRange(location: location, length: 0)
+        editArea.selectedRange = range
+
+        guard let titles = Storage.sharedInstance().getTitles() else { return }
+
+        self.dropDown.dataSource = titles
+        self.complete(offset: location, replacementRange: range)
     }
 
     @objc func codeBlockButton() {
@@ -1169,24 +1287,50 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Links
         if self.editArea.isLink(at: characterIndex) {
+            guard let path = self.editArea.textStorage.attribute(.link, at: characterIndex, effectiveRange: nil) as? String else { return }
+
+            if path.starts(with: "fsnotes://find?id=") {
+                openWikiLink(query: path)
+                return
+            }
+
             if self.editArea.isFirstResponder {
                 DispatchQueue.main.async {
                     self.editArea.selectedRange = NSRange(location: characterIndex, length: 0)
                 }
+
                 return
             }
 
-            guard let path = self.editArea.textStorage.attribute(.link, at: characterIndex, effectiveRange: nil) as? String else { return }
-
-            if path.starts(with: "fsnotes://find?id=") {
-                let fileName = path.replacingOccurrences(of: "fsnotes://find?id=", with: "")
-                if let note = Storage.instance?.getBy(title: fileName) {
-                    fill(note: note)
-                }
-            } else if let url = URL(string: path) {
+            if let url = URL(string: path) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-            return
+        }
+    }
+
+    private func openWikiLink(query: String) {
+        guard let query = query.replacingOccurrences(of: "fsnotes://find?id=", with: "").removingPercentEncoding else { return }
+
+        if let note = Storage.instance?.getBy(title: query) {
+            fill(note: note)
+        } else if let note = Storage.instance?.getBy(fileName: query) {
+            fill(note: note)
+        } else {
+            
+            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
+                let vc = pageController.orderedViewControllers[0] as? ViewController
+            else { return  }
+
+            pageController.switchToList() {
+                vc.search.text = query
+                vc.searchBar(vc.search, textDidChange: query) {
+                    if vc.searchView.isHidden {
+                        vc.searchView.isHidden = false
+                    }
+
+                    vc.search.becomeFirstResponder()
+                }
+            }
         }
     }
 
@@ -1269,6 +1413,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
+        if URL.absoluteString.starts(with: "fsnotes://find?id=") {
+            if interaction == .invokeDefaultAction {
+                openWikiLink(query: URL.absoluteString)
+                return true
+            }
+
+            return false
+        }
+
         if textView.isFirstResponder {
             DispatchQueue.main.async {
                 textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
@@ -1301,41 +1454,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if let recognizers = editArea.gestureRecognizers {
-            for recognizer in recognizers {
-                if recognizer.isKind(of: UIGestureRecognizer.self) {
-                    if #available(iOS 11.0, *) {
-                        if [
-                            "com.apple.UIKit.longPressClickDriverPrimary",
-                            "com.apple.UIKit.clickPresentationExclusion",
-                            "com.apple.UIKit.clickPresentationFailure",
-                            "dragFailureRelationships",
-                            "dragExclusionRelationships",
-                            "dragInitiation"
-                            ].contains(recognizer.name) {
-                            recognizer.isEnabled = true
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     func textViewDidEndEditing(_ textView: UITextView) {
         initialKeyboardHeight = 0
-
-        if let recognizers = editArea.gestureRecognizers {
-            for recognizer in recognizers {
-                if recognizer.isKind(of: UIGestureRecognizer.self) {
-                    if #available(iOS 11.0, *) {
-                        if ["com.apple.UIKit.longPressClickDriverPrimary", "com.apple.UIKit.clickPresentationExclusion", "com.apple.UIKit.clickPresentationFailure", "dragFailureRelationships", "dragExclusionRelationships", "dragInitiation"].contains(recognizer.name) {
-                            recognizer.isEnabled = false
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private func restoreContentOffset() {

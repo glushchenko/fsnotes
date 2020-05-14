@@ -50,6 +50,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         UserDefaultsManagement.importURLs = []
+        super.viewWillAppear(animated)
     }
 
     override func viewDidLoad() {
@@ -334,7 +335,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if self.searchView.isHidden {
             self.searchView.isHidden = false
             self.search.becomeFirstResponder()
-            self.viewWillAppear(false)
         } else {
             self.searchView.isHidden = true
             self.search.endEditing(true)
@@ -539,8 +539,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return true
     }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        updateTable(search: true, completion: {})
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String, completion: (() -> ())? = nil) {
+        updateTable(search: true) {
+            guard let completion = completion else { return }
+            completion()
+        }
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -553,6 +556,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         search.text = ""
 
         let note = Note(name: name, project: project)
+
+        if project.firstLineAsTitle {
+            note.content = NSMutableAttributedString(string: "# " + name + "\n\n")
+        }
+
         note.save()
 
         self.updateTable() {}
@@ -562,8 +570,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         evc.note = note
-        pageController.switchToEditor()
-        evc.fill(note: note)
+        pageController.switchToEditor() {
+            evc.fill(note: note)
+
+            DispatchQueue.main.async {
+                evc.editArea.becomeFirstResponder()
+            }
+        }
     }
 
     private var addButton: UIButton?

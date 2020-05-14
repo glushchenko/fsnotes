@@ -351,6 +351,7 @@ class Storage {
         #if os(iOS)
         for note in self.noteList {
             note.load()
+            _ = note.getImagePreviewUrl()
             i += 1
             if i == count {
                 print("Loaded notes: \(count)")
@@ -653,6 +654,17 @@ class Storage {
             noteList.first(where: {
                 return (
                     $0.title.lowercased() == title.lowercased()
+                    && !$0.isTrash()
+                )
+            })
+    }
+
+    func getBy(fileName: String) -> Note? {
+        return
+            noteList.first(where: {
+                return (
+                    $0.fileName.lowercased() == fileName.lowercased()
+                        && !$0.isTrash()
                 )
             })
     }
@@ -662,6 +674,50 @@ class Storage {
             noteList.filter{
                 $0.title.starts(with: startWith)
             }
+    }
+
+    public func getTitles(by word: String? = nil) -> [String]? {
+        var notes = noteList
+
+        if let word = word {
+            notes = notes
+                .filter{ $0.title.contains(word) }
+                .filter({ !$0.isTrash() })
+
+            guard notes.count > 0 else { return nil }
+
+            var titles = notes.map{ String($0.title) }
+
+            titles = Array(Set(titles))
+            titles = titles
+                .filter({ !$0.starts(with: "![](") && !$0.starts(with: "[[") })
+                .sorted { (first, second) -> Bool in
+                    if first.starts(with: word) && second.starts(with: word)
+                        || !first.starts(with: word) && !second.starts(with: word)
+                    {
+                        return first < second
+                    }
+
+                    return (first.starts(with: word) && !second.starts(with: word))
+                }
+
+            return titles
+        }
+
+        guard notes.count > 0 else { return nil }
+
+        notes = notes.sorted { (first, second) -> Bool in
+            return first.modifiedLocalAt > second.modifiedLocalAt
+        }
+
+        let titles = notes
+            .filter({ !$0.isTrash() })
+            .map{ String($0.title) }
+            .filter({ $0.count > 0 })
+            .filter({ !$0.starts(with: "![](") })
+            .prefix(50)
+
+        return Array(titles)
     }
     
     func getDemoSubdirURL() -> URL? {

@@ -492,6 +492,7 @@
 		D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D78678CC2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
+		D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */ = {isa = PBXBuildFile; fileRef = D78C6CBE246D7B78007AF7F2 /* wikilink.png */; };
 		D790641D1FCB4E5F005677E7 /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A9FD301FCB4873008ED23C /* MarkdownView.swift */; };
 		D792297521A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
 		D792297621A845B4005F468F /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792297421A845B4005F468F /* ProjectSettingsViewController.swift */; };
@@ -1288,6 +1289,7 @@
 		D7855EE223486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		D7855EE323486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
+		D78C6CBE246D7B78007AF7F2 /* wikilink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wikilink.png; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
 		D792297421A845B4005F468F /* ProjectSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSettingsViewController.swift; sourceTree = "<group>"; };
 		D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxBookmark.swift; sourceTree = "<group>"; };
@@ -1804,6 +1806,7 @@
 				D7958A3B22EDA35700EDBDDC /* attach.png */,
 				D7B1F6B0246A686600593001 /* numbered_list.png */,
 				D7B1F6AF246A686600593001 /* ordered_list.png */,
+				D78C6CBE246D7B78007AF7F2 /* wikilink.png */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -2839,6 +2842,7 @@
 				D7ECE68A22B6B481006A14C6 /* TextBundle.icns in Resources */,
 				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
 				D70255FF2333CFA0003857AF /* quote.png in Resources */,
+				D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
