@@ -539,11 +539,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return true
     }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String, completion: (() -> ())? = nil) {
-        updateTable(search: true) {
-            guard let completion = completion else { return }
-            completion()
-        }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        updateTable(search: true) {}
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

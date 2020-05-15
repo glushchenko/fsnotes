@@ -47,10 +47,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
-        self.editArea.addGestureRecognizer(imageTap)
+        editArea.addGestureRecognizer(imageTap)
 
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
-        self.editArea.addGestureRecognizer(tap)
+        editArea.addGestureRecognizer(tap)
 
         self.editArea.textStorage.delegate = self.editArea.textStorage
 
@@ -332,7 +332,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         guard let note = self.note else { return true }
 
         tagsHandler(affectedCharRange: range, text: text)
-        wikilinkHandler(affectedCharRange: range, text: text)
+        wikilinkHandler(textView: textView, text: text)
 
         if text == "" {
             let lastChar = textView.textStorage.attributedSubstring(from: range).string
@@ -443,16 +443,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    private func wikilinkHandler(affectedCharRange: NSRange, text: String) {
+    private func wikilinkHandler(textView: UITextView, text: String) {
         guard text.count == 1, !["\n"].contains(text) else { return }
 
-        let textStorage = editArea.textStorage
-        let location = affectedCharRange.location
+        let textStorage = textView.textStorage
+        let location = textView.selectedRange.location
+
+        // Encoded offset for Emoji
+        guard let cursor = textView.cursorDistance else { return }
+
         let parRange = textStorage.mutableString.paragraphRange(for: NSRange(location: location, length: 0))
 
         let paragraph = textStorage.attributedSubstring(from: parRange).string
         guard paragraph.contains("[[") && paragraph.contains("]]"),
-            let result = isBetweenBraces(location: location) else { return }
+            let result = isBetweenBraces(location: cursor) else { return }
 
         let word = result.0 + text
 
@@ -461,8 +465,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return
         }
 
-        self.dropDown.dataSource = titles
-        self.complete(offset: location, replacementRange: result.1)
+        dropDown.dataSource = titles
+
+        let range = result.1
+
+        // Decode multibyte offset for Emoji like "🇺🇦"
+        let startIndex = textView.text.index(textView.text.startIndex, offsetBy: range.lowerBound + 2)
+        let startRange = NSRange(startIndex...startIndex, in: textView.text)
+        let replacementRange = NSRange(location: startRange.lowerBound, length: word.count)
+
+        complete(offset: replacementRange.location, replacementRange: replacementRange)
     }
 
     private func isBetweenBraces(location: Int) -> (String, NSRange)? {
@@ -476,30 +488,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         var rigthFound = false
         var leftFound = false
 
-        var i = location
-        var j = location - 1
+        var i = location - 1
+        var j = location
 
-
-        while length > i {
+        while i >= 0 {
             let char = string[i]
-            if firstRigthFound {
-                rigthFound = char == "]"
-                break
-            }
-
-            if char.isNewline {
-                break
-            }
-
-            if char == "]" {
-                firstRigthFound = true
-            }
-
-            i += 1
-        }
-
-        while j >= 0 {
-            let char = string[j]
             if firstLeftFound {
                 leftFound = char == "["
                 break
@@ -513,19 +506,37 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 firstLeftFound = true
             }
 
-            j -= 1
+            i -= 1
+        }
+
+        while length > j {
+            let char = string[j]
+            if firstRigthFound {
+                rigthFound = char == "]"
+                break
+            }
+
+            if char.isNewline {
+                break
+            }
+
+            if char == "]" {
+                firstRigthFound = true
+            }
+
+            j += 1
         }
 
         var result = String()
         if leftFound && rigthFound {
             result =
-                String(string[j...i])
+                String(string[i...j])
 
             result = result
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
 
-            return (result, NSRange(j+2..<i))
+            return (result, NSRange(i...j))
         }
 
         return nil
@@ -533,7 +544,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     private func complete(offset: Int? = nil, range: NSRange? = nil, text: String? = nil, replacementRange: NSRange? = nil) {
         var endPosition: UITextPosition = editArea.endOfDocument
-        if let offset = offset, let position = editArea.position(from: editArea.beginningOfDocument, offset: offset) {
+
+        if let offset = offset,
+            let position = editArea.position(from: editArea.beginningOfDocument, offset: offset) {
             endPosition = position
         }
 
@@ -542,7 +555,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let customView = UIView(frame: CGRect(x: rect.origin.x, y: rect.origin.y + 30, width: 200, height: 0))
         editArea.addSubview(customView)
 
-        dropDown.cellHeight = 40
+        dropDown.cellHeight = 35
         dropDown.textFont = UIFont.boldSystemFont(ofSize: 15)
         dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
         dropDown.textColor = NightNight.theme == .night ? UIColor.white : UIColor.gray
@@ -560,6 +573,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 else { return }
 
                 self.editArea.replace(selectedRange, withText: item)
+                self.editArea.selectedRange = NSRange(location: range.location + item.count + 2, length: 0)
                 return
             }
 
@@ -1306,24 +1320,30 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
+
+
     }
 
     private func openWikiLink(query: String) {
-        guard let query = query.replacingOccurrences(of: "fsnotes://find?id=", with: "").removingPercentEncoding else { return }
+        guard let query = query
+            .replacingOccurrences(of: "fsnotes://find?id=", with: "")
+            .removingPercentEncoding else { return }
 
-        if let note = Storage.instance?.getBy(title: query) {
+        guard let note = note else { return }
+
+        if let note = Storage.instance?.getBy(title: query, exclude: note) {
             fill(note: note)
-        } else if let note = Storage.instance?.getBy(fileName: query) {
+        } else if let note = Storage.instance?.getBy(fileName: query, exclude: note) {
             fill(note: note)
         } else {
-            
+
             guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
                 let vc = pageController.orderedViewControllers[0] as? ViewController
             else { return  }
 
             pageController.switchToList() {
                 vc.search.text = query
-                vc.searchBar(vc.search, textDidChange: query) {
+                vc.updateTable(search: true) {
                     if vc.searchView.isHidden {
                         vc.searchView.isHidden = false
                     }
@@ -1416,9 +1436,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if URL.absoluteString.starts(with: "fsnotes://find?id=") {
             if interaction == .invokeDefaultAction {
                 openWikiLink(query: URL.absoluteString)
-                return true
             }
-
             return false
         }
 

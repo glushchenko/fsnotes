@@ -662,9 +662,11 @@ public class NotesTextProcessor {
             _range.length = _range.length - 4
             
             let appLink = attributedString.mutableString.substring(with: _range)
-            
+
             if let link = appLink.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: innerRange)
+                let color = UIColor(red: 0.29, green: 0.35, blue: 0.60, alpha: 1.00)
+                attributedString.addAttribute(.foregroundColor, value: color, range: innerRange)
+                attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)
             }
         }
         

@@ -649,22 +649,24 @@ class Storage {
             })
     }
     
-    func getBy(title: String) -> Note? {
+    func getBy(title: String, exclude: Note) -> Note? {
         return
             noteList.first(where: {
                 return (
                     $0.title.lowercased() == title.lowercased()
                     && !$0.isTrash()
+                    && $0 != exclude
                 )
             })
     }
 
-    func getBy(fileName: String) -> Note? {
+    func getBy(fileName: String, exclude: Note) -> Note? {
         return
             noteList.first(where: {
                 return (
                     $0.fileName.lowercased() == fileName.lowercased()
                         && !$0.isTrash()
+                        && $0 != exclude
                 )
             })
     }
@@ -701,6 +703,10 @@ class Storage {
                     return (first.starts(with: word) && !second.starts(with: word))
                 }
 
+            if titles.count > 100 {
+                return Array(titles[0..<100])
+            }
+
             return titles
         }
 
@@ -715,7 +721,7 @@ class Storage {
             .map{ String($0.title) }
             .filter({ $0.count > 0 })
             .filter({ !$0.starts(with: "![](") })
-            .prefix(50)
+            .prefix(100)
 
         return Array(titles)
     }

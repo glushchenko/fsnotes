@@ -9,6 +9,24 @@
 import UIKit
 
 extension UITextView {
+    var cursorOffset: Int? {
+        guard let range = selectedTextRange else { return nil }
+        return offset(from: beginningOfDocument, to: range.start)
+    }
+
+    var cursorIndex: String.Index? {
+        guard
+            let location = cursorOffset,
+            case let length = text.utf16.count-location
+        else { return nil }
+        return Range(.init(location: location, length: length), in: text)?.lowerBound
+    }
+
+    var cursorDistance: Int? {
+        guard let cursorIndex = cursorIndex else { return nil }
+        return text.distance(from: text.startIndex, to: cursorIndex)
+    }
+    
     public func applyLeftParagraphStyle() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)

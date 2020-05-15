@@ -331,6 +331,16 @@ class EditTextView: UITextView, UITextViewDelegate {
 
         return false
     }
+
+    public func isWikiLink(at location: Int) -> Bool {
+        let storage = self.textStorage
+
+        if storage.length > location, let path = storage.attribute(.link, at: location, effectiveRange: nil) as? String, path.starts(with: "fsnotes://find?id=") {
+            return true
+        }
+
+        return false
+    }
 }
 
 struct Undo {
