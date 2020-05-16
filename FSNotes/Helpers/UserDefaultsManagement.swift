@@ -59,6 +59,7 @@ public class UserDefaultsManagement {
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
         static let ContinuousSpellChecking = "continuousSpellChecking"
+        static let CrashedLastTime = "crashedLastTime"
         static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
@@ -1323,6 +1324,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityTrash")
+        }
+    }
+
+    static var crashedLastTime: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.CrashedLastTime) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CrashedLastTime)
         }
     }
 }

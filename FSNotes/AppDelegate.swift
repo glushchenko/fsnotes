@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
         let storage = Storage.sharedInstance()
         storage.loadProjects()
-        storage.loadDocuments() {}
+        storage.loadDocuments()
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {

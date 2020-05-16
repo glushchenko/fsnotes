@@ -130,6 +130,10 @@ public class Note: NSObject  {
         }
 
         loadFileName()
+
+        #if os(iOS)
+            _ = getImagePreviewUrl()
+        #endif
     }
         
     func reload() -> Bool {
@@ -1791,4 +1795,13 @@ public class Note: NSObject  {
 
         return path
     }
+}
+
+struct NoteMeta: Codable {
+    var url: URL
+    var imageUrl: [URL]?
+    var title: String
+    var preview: String
+    var modificationDate: Date
+    var creationDate: Date
 }

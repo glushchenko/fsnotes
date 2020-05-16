@@ -14,12 +14,13 @@ import FSNotesCore_iOS
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    var launchedShortcutItem: UIApplicationShortcutItem?
+    public var window: UIWindow?
+    public var launchedShortcutItem: UIApplicationShortcutItem?
+    public var appCrashed: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
-        
+
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             launchedShortcutItem = shortcutItem
             shouldPerformAdditionalDelegateHandling = false
@@ -75,6 +76,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
+
+        Storage.sharedInstance().saveMetaCache()
+        UserDefaultsManagement.crashedLastTime = false
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -93,6 +97,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
+        handleCrashStatus()
+        
         UIApplication.shared.statusBarStyle = .lightContent
         
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
@@ -155,7 +161,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return true
     }
-    
-    
+
+    private func handleCrashStatus() {
+        if UserDefaultsManagement.crashedLastTime {
+            appCrashed = true
+        }
+
+        UserDefaultsManagement.crashedLastTime = true
+    }
 }
 

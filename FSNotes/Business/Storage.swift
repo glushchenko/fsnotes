@@ -342,33 +342,38 @@ class Storage {
         }
     }
 
-    func loadDocuments(tryCount: Int = 0, completion: @escaping () -> Void) {
+    func loadDocuments(shouldLoadInitial: Bool = true, shouldUseCache: Bool = true) {
+        let startingPoint = Date()
+
         _ = restoreCloudPins()
 
-        let count = self.noteList.count
-        var i = 0
+    #if os(iOS)
+        var result = [String: NoteMeta]()
+        if shouldUseCache {
+            result = getMetaCache()
+        }
+    #endif
 
-        #if os(iOS)
-        for note in self.noteList {
-            note.load()
-            _ = note.getImagePreviewUrl()
-            i += 1
-            if i == count {
-                print("Loaded notes: \(count)")
-                completion()
+        for note in noteList {
+            if let cache = result[note.url.path] {
+                note.title = cache.title
+                note.imageUrl = cache.imageUrl
+                note.isParsed = true
+                note.preview = cache.preview
+                note.modifiedLocalAt = cache.modificationDate
+                note.creationDate = cache.creationDate
+            } else {
+                note.load()
             }
         }
-        #endif
 
-        self.noteList = self.sortNotes(noteList: self.noteList, filter: "")
+        print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
 
-        guard !checkFirstRun() else {
-            if tryCount == 0 {
-                loadProjects()
-                loadDocuments(tryCount: 1) {}
-                return
-            }
-            return
+        noteList = sortNotes(noteList: noteList, filter: "")
+
+        if shouldLoadInitial && checkFirstRun() {
+            loadProjects()
+            loadDocuments(shouldLoadInitial: false)
         }
     }
 
@@ -1071,6 +1076,78 @@ class Storage {
         } catch {
             print("Initial copy error: \(error)")
         }
+    }
+
+    public func saveCache(key: String, data: Data) {
+        guard let cacheDir =
+            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return }
+
+        guard let url = URL(string: "file://" + cacheDir) else { return }
+
+        let cacheURL = url.appendingPathComponent(key + ".cache")
+        do {
+            try data.write(to: cacheURL)
+        } catch {
+            print(error)
+        }
+    }
+
+    public func getCache(key: String) -> Data? {
+        guard let cacheDir =
+            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return nil }
+
+        guard let url = URL(string: "file://" + cacheDir) else { return nil }
+
+        let cacheURL = url.appendingPathComponent(key + ".cache")
+        
+        return try? Data(contentsOf: cacheURL)
+    }
+
+    public func saveMetaCache() {
+        var cache: [NoteMeta] = []
+        for note in noteList {
+            _ = note.scanContentTags()
+
+            cache.append(
+                NoteMeta(
+                    url: note.url,
+                    imageUrl: note.imageUrl,
+                    title: note.title,
+                    preview: note.preview,
+                    modificationDate: note.modifiedLocalAt,
+                    creationDate: note.creationDate!
+                )
+            )
+        }
+
+        let jsonEncoder = JSONEncoder()
+
+        do {
+            let code = try jsonEncoder.encode(cache)
+
+            saveCache(key: "notesList", data: code)
+        } catch {
+            print("Serialization error")
+        }
+    }
+
+    private func getMetaCache() -> [String: NoteMeta] {
+        var result = [String: NoteMeta]()
+
+        if let data = getCache(key: "notesList") {
+            let decoder = JSONDecoder()
+
+            do {
+                let list = try decoder.decode(Array<NoteMeta>.self, from: data)
+                for item in list {
+                    result[item.url.path] = item
+                }
+            } catch {
+                print(error)
+            }
+        }
+
+        return result
     }
 }
 

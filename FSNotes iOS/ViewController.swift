@@ -136,9 +136,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         guard let storage = self.storage else { return }
 
+        var shouldUseCache = false
+        if let appDel = UIApplication.shared.delegate as? AppDelegate {
+            shouldUseCache = !appDel.appCrashed
+        }
+
         DispatchQueue.global(qos: .userInteractive).async {
-            storage.loadProjects()
-            storage.loadDocuments(completion: {})
+            storage.loadProjects(withTrash: false, skipRoot: false, withArchive: false)
+            storage.loadDocuments(shouldUseCache: shouldUseCache)
 
             DispatchQueue.main.async {
                 self.reloadSidebar()
@@ -153,25 +158,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             // And another all
             _ = storage.add(project: project)
 
-            storage.loadProjects(withTrash: false, skipRoot: true, withArchive: false)
+            storage.loadProjects(withTrash: true, skipRoot: true, withArchive: true)
 
             UserDefaultsManagement.projects =
                 storage.getProjects()
                     .filter({ !$0.isTrash })
                     .compactMap({ $0.url })
 
-            storage.loadDocuments() {
-                DispatchQueue.main.async {
-                    for note in storage.noteList {
-                        _ = note.scanContentTags()
-                    }
+            storage.loadDocuments(shouldUseCache: shouldUseCache)
 
-                    if UserDefaultsManagement.inlineTags {
-                        self.sidebarTableView.reloadProjectsSection()
-                        self.sidebarTableView.loadAllTags()
-                    } else {
-                        self.reloadSidebar()
-                    }
+            DispatchQueue.main.async {
+                if UserDefaultsManagement.inlineTags {
+                    self.sidebarTableView.reloadProjectsSection()
+                    self.sidebarTableView.loadAllTags()
+                } else {
+                    self.reloadSidebar()
                 }
             }
 
