@@ -491,7 +491,8 @@ public class NotesTextProcessor {
         NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             let substring = attributedString.mutableString.substring(with: range)
-            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+
+            guard substring.lengthOfBytes(using: .utf8) > 0 && URL(string: substring) != nil else { return }
             attributedString.addAttribute(.link, value: substring, range: range)
             
             if NotesTextProcessor.hideSyntax {
@@ -664,8 +665,16 @@ public class NotesTextProcessor {
             let appLink = attributedString.mutableString.substring(with: _range)
 
             if let link = appLink.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                let color = UIColor(red: 0.29, green: 0.35, blue: 0.60, alpha: 1.00)
+
+            #if os(iOS)
+                let color =
+                    NightNight.theme == .night
+                        ? UIColor(red: 0.00, green: 0.45, blue: 0.15, alpha: 1.00)
+                        : UIColor(red: 0.29, green: 0.35, blue: 0.60, alpha: 1.00)
+
                 attributedString.addAttribute(.foregroundColor, value: color, range: innerRange)
+            #endif
+
                 attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)
             }
         }
@@ -736,7 +745,7 @@ public class NotesTextProcessor {
         NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
             let substring = attributedString.mutableString.substring(with: range)
-            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+            guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
             attributedString.addAttribute(.link, value: substring, range: range)
             
             if NotesTextProcessor.hideSyntax {
@@ -1333,9 +1342,7 @@ public class NotesTextProcessor {
                         str = "http://" + str
                     }
                     
-                    guard let url = URL(string: str) else {
-                        return
-                    }
+                    guard let url = URL(string: str) else { return }
                     
                     storage.addAttribute(.link, value: url, range: range)
                 }

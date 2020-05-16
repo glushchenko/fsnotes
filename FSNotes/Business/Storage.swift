@@ -649,24 +649,24 @@ class Storage {
             })
     }
     
-    func getBy(title: String, exclude: Note) -> Note? {
+    func getBy(title: String, exclude: Note? = nil) -> Note? {
         return
             noteList.first(where: {
                 return (
                     $0.title.lowercased() == title.lowercased()
                     && !$0.isTrash()
-                    && $0 != exclude
+                    && (exclude == nil || $0 != exclude)
                 )
             })
     }
 
-    func getBy(fileName: String, exclude: Note) -> Note? {
+    func getBy(fileName: String, exclude: Note? = nil) -> Note? {
         return
             noteList.first(where: {
                 return (
                     $0.fileName.lowercased() == fileName.lowercased()
                         && !$0.isTrash()
-                        && $0 != exclude
+                        && (exclude == nil || $0 != exclude)
                 )
             })
     }

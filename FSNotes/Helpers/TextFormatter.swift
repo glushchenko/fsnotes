@@ -370,75 +370,32 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
         let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
 
-        guard range.length > 0 else {
-            let text = storage.attributedSubstring(from: pRange).string
-            #if os(OSX)
-                let location = textView.selectedRange().location
-                textView.insertText(padding + text, replacementRange: pRange)
-                self.setSelectedRange(NSMakeRange(location + padding.count, 0))
-            #else
-                replaceWith(string: padding + text, range: pRange)
-                setSelectedRange(NSMakeRange(range.upperBound + padding.count, 0))
-            #endif
-            return
-        }
-        
-        let string = storage.attributedSubstring(from: pRange).string
-        var lines = [String]()
-        string.enumerateLines { (line, _) in
-            lines.append(padding + line)
-        }
-        
-        var result = lines.joined(separator: "\n")
-        if pRange.upperBound != storage.length {
-           result = result + "\n"
-        }
-        
-        #if os(OSX)
-            if textView.textStorage?.length == 0 {
-                EditTextView.shouldForceRescan = true
-            }
+        let string = getAttributedString().attributedSubstring(from: pRange).string
+        var result = String()
+        var lineQty = 0
 
-            textView.insertText(result, replacementRange: pRange)
-        #else
-            replaceWith(string: result)
-        #endif
-        
-        setSelectedRange(NSRange(location: pRange.lowerBound, length: result.count))
+        string.enumerateLines { (line, _) in
+            result.append(padding + line + "\n")
+            lineQty += 1
+        }
+
+        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
+            ? NSRange(location: pRange.location + result.count - 1, length: 0)
+            : NSRange(location: pRange.location, length: result.count)
+
+        insertText(result, replacementRange: pRange, selectRange: selectRange)
     }
     
-    func unTab() {
+    public func unTab() {
         guard let pRange = getParagraphRange() else { return }
-        
-        guard range.length > 0 else {
-            var diff = 0
-            var text = storage.attributedSubstring(from: pRange).string
-            if text.starts(with: "    ") {
-                diff = 4
-                text = String(text.dropFirst(4))
-            } else if text.starts(with: "\t") {
-                diff = 1
-                text = String(text.dropFirst())
-            } else {
-                return
-            }
 
-            guard text.count >= 0 else { return }
-
-            #if os(OSX)
-                textView.insertText(text, replacementRange: pRange)
-            #else
-                self.insertText(text, replacementRange: pRange)
-            #endif
-
-            self.setSelectedRange(NSRange(location: range.location - diff, length: 0))
-            return
-        }
-        
         let string = storage.attributedSubstring(from: pRange).string
-        var resultList: [String] = []
+        var result = String()
+        var lineQty = 0
+
         string.enumerateLines { (line, _) in
             var line = line
+
             if !line.isEmpty {
                 if line.first == "\t" {
                     line = String(line.dropFirst())
@@ -447,22 +404,15 @@ public class TextFormatter {
                 }
             }
             
-            resultList.append(line)
+            result.append(line + "\n")
+            lineQty += 1
         }
-        
-        var result = resultList.joined(separator: "\n")
-        if pRange.upperBound != storage.length {
-            result = result + "\n"
-        }
-        
-        #if os(OSX)
-            textView.insertText(result, replacementRange: pRange)
-        #else
-            replaceWith(string: result)
-        #endif
 
-        let finalRange = NSRange(location: pRange.lowerBound, length: result.count)
-        setSelectedRange(finalRange)
+        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
+            ? NSRange(location: pRange.location + result.count - 1, length: 0)
+            : NSRange(location: pRange.location, length: result.count)
+
+        insertText(result, replacementRange: pRange, selectRange: selectRange)
     }
     
     public func header(_ string: String) {
@@ -910,7 +860,7 @@ public class TextFormatter {
             
             mutable.append(NSAttributedString(string: "```\n"))
 
-            insertText(mutable, replacementRange: currentRange)
+            insertText(mutable.string, replacementRange: currentRange)
             setSelectedRange(NSRange(location: currentRange.location + 3, length: 0))
             return
         }

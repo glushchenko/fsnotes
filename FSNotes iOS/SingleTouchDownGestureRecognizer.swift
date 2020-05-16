@@ -23,7 +23,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
             for touch in touches {
                 guard let view = self.view as? EditTextView else { continue }
 
-                let characterIndex = view.layoutManager.characterIndex(for: touch.preciseLocation(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+                let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
                 self.touchCharIndex = characterIndex
 
                 if UIMenuController.shared.isMenuVisible {
@@ -71,7 +71,7 @@ class SingleTouchDownGestureRecognizer: UIGestureRecognizer {
             for touch in touches {
                 guard let view = self.view as? EditTextView else { continue }
 
-                let characterIndex = view.layoutManager.characterIndex(for: touch.preciseLocation(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+                let characterIndex = view.layoutManager.characterIndex(for: touch.location(in: view), in: view.textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
                 self.touchCharIndex = characterIndex
 
                 if view.isImage(at: characterIndex) {
