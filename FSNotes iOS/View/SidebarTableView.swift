@@ -221,8 +221,14 @@ class SidebarTableView: UITableView,
         }
     }
 
-    public func getSidebarItem() -> SidebarItem? {
-        guard let indexPath = self.indexPathForSelectedRow, let sidebar = self.sidebar else { return nil }
+    public func getSidebarItem(project: Project? = nil) -> SidebarItem? {
+        guard let sidebar = self.sidebar else { return nil }
+
+        if let project = project, sidebar.items.count > 1 {
+            return sidebar.items[1].first(where: { $0.project == project })
+        }
+
+        guard let indexPath = self.indexPathForSelectedRow else { return nil }
 
         let item = sidebar.items[indexPath.section][indexPath.row]
 

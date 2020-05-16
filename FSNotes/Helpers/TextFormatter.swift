@@ -421,9 +421,13 @@ public class TextFormatter {
 #if os(iOS)
         var prefix = String()
         let selected = self.textView.selectedRange
-        let paragraph = storage.mutableString.substring(with: pRange)
+        var paragraph = storage.mutableString.substring(with: pRange)
 
-        if paragraph.starts(with: "#") {
+        if paragraph.starts(with: "######") {
+            paragraph = paragraph
+                .replacingOccurrences(of: "#", with: "")
+                .trim()
+        } else if paragraph.starts(with: "#") {
             prefix = string
         } else {
             prefix = string + " "

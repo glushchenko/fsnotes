@@ -60,14 +60,14 @@ class ProjectSettingsViewController: UITableViewController {
 
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
                     self.project.sortBy = sort
-                    
-                    vc.updateTable {}
+
+                    updateTable()
                 }
             } else if indexPath.section == 0x01 {
                 if indexPath.row == 0x00 {
                     self.project.showInCommon = cell.accessoryType == .none
 
-                    vc.updateTable {}
+                    updateTable()
                 } else {
                     self.project.showInSidebar = cell.accessoryType == .none
 
@@ -83,7 +83,7 @@ class ProjectSettingsViewController: UITableViewController {
                     note.invalidateCache()
                 }
 
-                vc.updateTable {}
+                updateTable()
             }
 
             if cell.accessoryType == .none {
@@ -187,6 +187,14 @@ class ProjectSettingsViewController: UITableViewController {
         vc.notesTable.reloadData()
 
         self.dismiss(animated: true, completion: nil)
+    }
+
+    private func updateTable() {
+        let vc = UIApplication.getVC()
+
+        if let si = vc.sidebarTableView.getSidebarItem(project: project) {
+            vc.updateTable(sidebarItem: si) {}
+        }
     }
 }
 

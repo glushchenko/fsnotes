@@ -218,7 +218,13 @@ public class Project: Equatable {
 
     public func getRelativePath() -> String? {
         if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
-            return url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
+
+            let path = url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
+            if path.count >= 64 {
+                return path.md5
+            }
+
+            return path
         }
 
         return nil

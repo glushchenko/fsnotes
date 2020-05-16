@@ -397,7 +397,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private var accessTime = DispatchTime.now()
 
-    public func updateTable(search: Bool = false, completion: @escaping () -> Void) {
+    public func updateTable(search: Bool = false, sidebarItem: SidebarItem? = nil, completion: @escaping () -> Void) {
         self.isActiveTableUpdating = true
         self.searchQueue.cancelAllOperations()
 
@@ -409,7 +409,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let filter = self.search.text!
         var terms = filter.split(separator: " ")
-        let sidebarItem = self.sidebarTableView.getSidebarItem()
+        let sidebarItem = sidebarItem ?? self.sidebarTableView.getSidebarItem()
         let type: SidebarItemType = sidebarItem?.type ?? .Inbox
 
         if type == .Todo {
