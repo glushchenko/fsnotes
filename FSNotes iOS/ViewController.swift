@@ -222,16 +222,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if diff.1.count > 0 {
                 for note in diff.1 {
                     storage.noteList.append(note)
-
-                    self.notesTable.insertRow(note: note)
                 }
             }
 
+            UserDefaultsManagement.isCheckedCacheDiff = true
+
             DispatchQueue.main.async {
-                self.notesTable.beginUpdates()
                 self.notesTable.removeRows(notes: diff.0)
                 self.notesTable.insertRows(notes: diff.1)
-                self.notesTable.endUpdates()
             }
         }
     }

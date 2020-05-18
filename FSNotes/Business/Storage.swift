@@ -57,6 +57,7 @@ class Storage {
      If app not crashed in previous session – use cache
      */
     private var shouldUseCache = true
+    public var isCheckedCacheDiff = false
 
     init() {
         let storageType = UserDefaultsManagement.storageType
@@ -136,7 +137,7 @@ class Storage {
 
     init(micro: Bool) {
         guard let url = getRoot() else { return }
-        let shouldUseCache = checkCrash()
+        let shouldUseCache = checkCrash() && checkCacheDiff()
 
         let project = Project(url: url, label: "iCloud Drive", isRoot: true, isDefault: true, cache: shouldUseCache)
 
@@ -180,6 +181,18 @@ class Storage {
         }
 
         UserDefaultsManagement.crashedLastTime = true
+
+        return shouldUseCache
+    }
+
+    private func checkCacheDiff() -> Bool {
+        var shouldUseCache = false
+
+        if UserDefaultsManagement.isCheckedCacheDiff {
+            shouldUseCache = true
+        }
+
+        UserDefaultsManagement.isCheckedCacheDiff = false
 
         return shouldUseCache
     }

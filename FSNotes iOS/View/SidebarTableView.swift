@@ -428,4 +428,19 @@ class SidebarTableView: UITableView,
     public func getSelectedProjects() -> [Project] {
         return selectedProjects ?? [Storage.sharedInstance().getDefault()!]
     }
+
+    public func getSelectedSidebarItem() -> SidebarItem? {
+        guard let project = getSelectedProjects().first else { return nil }
+        guard let items = sidebar?.items else { return nil }
+
+        for item in items {
+            for subItem in item {
+                if subItem.project == project {
+                    return subItem
+                }
+            }
+        }
+
+        return nil
+    }
 }

@@ -149,10 +149,8 @@ public class Note: NSObject  {
         return self.url
     }
     
-    public func loadProject(url: URL) {
+    public func loadProject() {
         let sharedStorage = Storage.sharedInstance()
-
-        self.url = url
         
         if let project = sharedStorage.getProjectBy(url: url) {
             self.project = project
@@ -695,7 +693,7 @@ public class Note: NSObject  {
         }
 
         if loadProject {
-            self.loadProject(url: url)
+            self.loadProject()
         }
     }
 

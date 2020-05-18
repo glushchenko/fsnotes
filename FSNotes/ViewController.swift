@@ -1402,7 +1402,7 @@ class ViewController: NSViewController,
         return nil
     }
     
-    func getSidebarItem() -> SidebarItem? {
+    public func getSidebarItem() -> SidebarItem? {
         if let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem {
         
             return sidebarItem

@@ -52,6 +52,7 @@ public class UserDefaultsManagement {
         static let AutomaticDashSubstitution = "automaticDashSubstitution"
         static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
+        static let CacheDiff = "cacheDiff"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
         static let CodeFontNameKey = "codeFont"
@@ -1336,6 +1337,18 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.CrashedLastTime)
+        }
+    }
+
+    static var isCheckedCacheDiff: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.CacheDiff) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CacheDiff)
         }
     }
 }

@@ -264,10 +264,10 @@ class NotesTableView: UITableView,
     
     public func removeRows(notes: [Note]) {
         for note in notes {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
-                self.notes.remove(at: i)
-                deleteRows(at: [indexPath], with: .fade)
+            if let i = notes.firstIndex(where: {$0 === note}) {
+                let indexSet = IndexPath(item: i, section: 0)
+                notes.remove(at: i)
+                deleteRows(at: [indexSet], with: .automatic)
             }
         }
         
@@ -477,7 +477,7 @@ class NotesTableView: UITableView,
         let i = self.getInsertPosition()
 
         DispatchQueue.main.async {
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
+            let sidebarItem = self.viewDelegate?.sidebarTableView.getSelectedSidebarItem()
 
             guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
 
