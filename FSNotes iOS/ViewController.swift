@@ -28,7 +28,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public var indicator: UIActivityIndicatorView?
 
-    public var storage: Storage?
+    public var storage = Storage.shared()
     public var cloudDriveManager: CloudDriveManager?
 
     private let searchQueue = OperationQueue()
@@ -54,6 +54,58 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+        configureUI()
+        configureNotifications()
+        configureGestures()
+
+        loadNotesTable()
+        loadSidebar()
+        preLoadProjectsData()
+
+        super.viewDidLoad()
+    }
+
+    public func preLoadProjectsData() {
+        DispatchQueue.global(qos: .userInteractive).async {
+            let storage = self.storage
+
+            guard let mainProject = storage.getDefault() else { return }
+            print("1. Initial data loading finished")
+
+            let projectsPoint = Date()
+            storage.assignNonRootProjects(project: mainProject)
+            print("2. Projects tree loading finished in \(projectsPoint.timeIntervalSinceNow * -1) seconds")
+
+            let loadAllPoint = Date()
+            storage.loadAllProjectsExceptDefault()
+            print("3. All notes data loading finished in \(loadAllPoint.timeIntervalSinceNow * -1) seconds")
+
+            /*
+             Add and remove default project notes not in cache
+             */
+            let cachePoint = Date()
+            self.loadCacheDiff()
+            print("4. Cache diff finished in \(cachePoint.timeIntervalSinceNow * -1) seconds")
+
+            let tagsPoint = Date()
+            storage.loadAllTags()
+            print("5. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+
+            self.startCloudDriveSyncEngine()
+            self.cacheSharingExtensionProjects()
+
+            DispatchQueue.main.async {
+                if UserDefaultsManagement.inlineTags {
+                    self.sidebarTableView.reloadProjectsSection()
+                    self.sidebarTableView.loadAllTags()
+                } else {
+                    self.reloadSidebar()
+                }
+            }
+        }
+    }
+
+    public func configureUI() {
         self.metadataQueue.qualityOfService = .userInteractive
 
         if UserDefaultsManagement.nightModeType == .system {
@@ -67,7 +119,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
 
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
-        self.configureIndicator(indicator: self.indicator!, view: self.view)
 
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
@@ -124,114 +175,65 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         notesTable.refreshControl = refreshControl
 
-        sidebarTableView.dataSource = sidebarTableView
-        sidebarTableView.delegate = sidebarTableView
-        sidebarTableView.viewController = self
-        sidebarWidthConstraint.constant = 0
-
-        self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
-
-        print("Before storage load")
-        self.storage = Storage.sharedInstance()
-
-        guard let storage = self.storage else { return }
-
-        var shouldUseCache = false
-        if let appDel = UIApplication.shared.delegate as? AppDelegate {
-            shouldUseCache = !appDel.appCrashed
+        if let pageController = self.parent as? PageViewController {
+            pageController.disableSwipe()
         }
+    }
 
-        DispatchQueue.global(qos: .userInteractive).async {
-            storage.loadProjects(withTrash: false, skipRoot: false, withArchive: false)
-            storage.loadDocuments(shouldUseCache: shouldUseCache)
+    public func startCloudDriveSyncEngine() {
+        self.cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
 
-            DispatchQueue.main.async {
-                self.reloadSidebar()
-                self.initTableData()
+        if let cdm = self.cloudDriveManager {
+            self.queryDidFinishGatheringObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
 
-                self.stopAnimation(indicator: self.indicator)
-            }
+                cdm.queryDidFinishGathering(notification: (notification as NSNotification))
 
-            // Load all and skip root
-            guard let project = storage.getRootProject() else { return }
+                NotificationCenter.default.removeObserver(self.queryDidFinishGatheringObserver as Any, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
 
-            // And another all
-            _ = storage.add(project: project)
+                NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidUpdate, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
 
-            storage.loadProjects(withTrash: true, skipRoot: true, withArchive: true)
-
-            UserDefaultsManagement.projects =
-                storage.getProjects()
-                    .filter({ !$0.isTrash })
-                    .compactMap({ $0.url })
-
-            storage.loadDocuments(shouldUseCache: shouldUseCache)
-
-            DispatchQueue.main.async {
-                if UserDefaultsManagement.inlineTags {
-                    self.sidebarTableView.reloadProjectsSection()
-                    self.sidebarTableView.loadAllTags()
-                } else {
-                    self.reloadSidebar()
+                    UIApplication.shared.runInBackground({
+                        cdm.handleMetadataQueryUpdates(notification: notification as NSNotification)
+                    })
                 }
             }
 
-            // Start CloudDrive manager
+            self.cloudDriveManager?.metadataQuery.start()
+        }
+    }
 
-            self.cloudDriveManager = CloudDriveManager(delegate: self, storage: storage)
+    public func cacheSharingExtensionProjects() {
+        UserDefaultsManagement.projects =
+            storage.getProjects()
+                .filter({ !$0.isTrash })
+                .compactMap({ $0.url })
+    }
 
-            if let cdm = self.cloudDriveManager {
-                self.queryDidFinishGatheringObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
-
-                    cdm.queryDidFinishGathering(notification: (notification as NSNotification))
-
-                    NotificationCenter.default.removeObserver(self.queryDidFinishGatheringObserver as Any, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
-
-                    NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidUpdate, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
-
-                        UIApplication.shared.runInBackground({
-                            cdm.handleMetadataQueryUpdates(notification: notification as NSNotification)
-                        })
-                    }
+    private func loadCacheDiff() {
+        if let diff = storage.checkCacheDiff() {
+            if diff.0.count > 0 {
+                for note in diff.0 {
+                    storage.noteList.removeAll(where: { $0 == note })
                 }
 
-                self.cloudDriveManager?.metadataQuery.start()
+
+            }
+
+            if diff.1.count > 0 {
+                for note in diff.1 {
+                    storage.noteList.append(note)
+
+                    self.notesTable.insertRow(note: note)
+                }
+            }
+
+            DispatchQueue.main.async {
+                self.notesTable.beginUpdates()
+                self.notesTable.removeRows(notes: diff.0)
+                self.notesTable.insertRows(notes: diff.1)
+                self.notesTable.endUpdates()
             }
         }
-
-        self.sidebarTableView.sidebar = Sidebar()
-        self.sidebarTableView.reloadData()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-            self.maxSidebarWidth = self.calculateLabelMaxWidth()
-        })
-
-        guard let pageController = self.parent as? PageViewController else {
-            return
-        }
-
-        pageController.disableSwipe()
-
-        keyValueWatcher()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
-        swipe.minimumNumberOfTouches = 1
-        swipe.delegate = self
-
-        view.addGestureRecognizer(swipe)
-        super.viewDidLoad()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: UIScreen.brightnessDidChangeNotification, object: nil)
     }
 
     public func reloadSidebar(select project: Project? = nil) {
@@ -303,21 +305,38 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
 
-    func keyValueWatcher() {
+    public func configureNotifications() {
         let keyStore = NSUbiquitousKeyValueStore()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(ubiquitousKeyValueStoreDidChange), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: keyStore)
+
         keyStore.synchronize()
 
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(ubiquitousKeyValueStoreDidChange),
-                                               name: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
-                                               object: keyStore)
+        NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector:#selector(viewWillAppear(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeScreenBrightness), name: UIScreen.brightnessDidChangeNotification, object: nil)
+    }
+
+    public func configureGestures() {
+        let swipe = UIPanGestureRecognizer(target: self, action: #selector(handleSidebarSwipe))
+        swipe.minimumNumberOfTouches = 1
+        swipe.delegate = self
+        view.addGestureRecognizer(swipe)
     }
 
     @objc func ubiquitousKeyValueStoreDidChange(notification: NSNotification) {
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    _ = storage?.restoreCloudPins()
+                    _ = storage.restoreCloudPins()
                 }
             }
 
@@ -363,7 +382,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         indicator.mixedBackgroundColor = MixedColor(normal: 0xb7b7b7, night: 0x47444e)
         view.addSubview(indicator)
         indicator.bringSubviewToFront(view)
-        startAnimation(indicator: indicator)
     }
 
     public func startAnimation(indicator: UIActivityIndicatorView?) {
@@ -380,7 +398,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func initTableData() {
+    public func loadNotesTable() {
         self.updateTable() {
             self.stopAnimation(indicator: self.indicator)
 
@@ -396,17 +414,28 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
+    public func loadSidebar() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+            self.sidebarTableView.dataSource = self.sidebarTableView
+            self.sidebarTableView.delegate = self.sidebarTableView
+            self.sidebarTableView.viewController = self
+            self.sidebarWidthConstraint.constant = 0
+            self.sidebarTableView.isUserInteractionEnabled = (UserDefaultsManagement.sidebarSize > 0)
+            self.sidebarTableView.sidebar = Sidebar()
+            self.maxSidebarWidth = self.calculateLabelMaxWidth()
+        })
+    }
+
     private var accessTime = DispatchTime.now()
 
     public func updateTable(search: Bool = false, sidebarItem: SidebarItem? = nil, completion: @escaping () -> Void) {
-        self.isActiveTableUpdating = true
-        self.searchQueue.cancelAllOperations()
+        isActiveTableUpdating = true
+        searchQueue.cancelAllOperations()
 
-        self.notesTable.notes.removeAll()
-        self.notesTable.reloadData()
+        notesTable.notes.removeAll()
+        notesTable.reloadData()
 
-        guard let storage = self.storage else { return }
-        self.startAnimation(indicator: self.indicator)
+        startAnimation(indicator: self.indicator)
 
         let filter = self.search.text!
         var terms = filter.split(separator: " ")
@@ -425,7 +454,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             self.accessTime = DispatchTime.now()
 
-            let source = storage.noteList
+            let source = self.storage.noteList
             var notes = [Note]()
 
             for note in source {
@@ -455,7 +484,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if search {
                     self.notesTable.notes = notes
                 } else {
-                    self.notesTable.notes = storage.sortNotes(noteList: notes, filter: "", project: sidebarItem?.project)
+                    self.notesTable.notes = self.storage.sortNotes(noteList: notes, filter: "", project: sidebarItem?.project)
                 }
             } else {
                 self.notesTable.notes.removeAll()
@@ -549,7 +578,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             searchBar.endEditing(true)
             return
         }
-        guard let project = self.storage?.getProjects().first else { return }
+        guard let project = self.storage.getProjects().first else { return }
 
         search.text = ""
 
@@ -617,7 +646,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var currentProject: Project
         var tag: String?
 
-        if let project = self.storage?.getProjects().first {
+        if let project = storage.getProjects().first {
             currentProject = project
         } else {
             return

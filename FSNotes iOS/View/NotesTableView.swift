@@ -17,7 +17,6 @@ class NotesTableView: UITableView,
     UITableViewDragDelegate {
 
     var notes = [Note]()
-    var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
     var cellHeights = [IndexPath:CGFloat]()
     public var selectedIndexPaths: [IndexPath]?
@@ -62,11 +61,12 @@ class NotesTableView: UITableView,
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
         guard self.notes.indices.contains(indexPath.row) else { return cell }
-        
+
         let note = self.notes[indexPath.row]
+        note.isParsed = false
         note.load()
 
-        cell.configure(note: self.notes[indexPath.row])
+        cell.configure(note: note)
         cell.selectionStyle = .gray
 
         let view = UIView()
@@ -133,16 +133,18 @@ class NotesTableView: UITableView,
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard UIApplication.getVC().sidebarTableView.frame.width == 0 else { return nil }
+
+        guard let storage = viewDelegate?.storage, UIApplication.getVC().sidebarTableView.frame.width == 0
+        else { return nil }
 
         let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
             
             let note = self.notes[indexPath.row]
             note.remove()
-            self.removeByNotes(notes: [note])
+            self.removeRows(notes: [note])
 
             if note.isEmpty() {
-                self.storage.removeBy(note: note)
+                storage.removeBy(note: note)
             }
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
@@ -160,7 +162,7 @@ class NotesTableView: UITableView,
             cell.configure(note: note)
 
             let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = self.storage.sortNotes(noteList: self.notes, filter: filter)
+            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
@@ -260,7 +262,7 @@ class NotesTableView: UITableView,
         presentController.present(actionSheet, animated: true, completion: nil)
     }
     
-    func removeByNotes(notes: [Note]) {
+    public func removeRows(notes: [Note]) {
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
@@ -271,8 +273,24 @@ class NotesTableView: UITableView,
         
         self.viewDelegate?.updateNotesCounter()
     }
+
+    public func insertRows(notes: [Note]) {
+        let sidebarItem = viewDelegate?.sidebarTableView.getSidebarItem()
+        let i = self.getInsertPosition()
+
+        for note in notes {
+            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
+
+            if !self.notes.contains(where: {$0 === note}) {
+                self.notes.insert(note, at: i)
+                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+            }
+        }
+    }
     
     @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
+        guard let storage = viewDelegate?.storage else { return }
+
         let p = longPressGesture.location(in: self)
         let indexPath = self.indexPathForRow(at: p)
         if indexPath == nil {
@@ -288,9 +306,9 @@ class NotesTableView: UITableView,
                 }
                 
                 let note = self.notes[row]
-                self.storage.removeNotes(notes: [note]) {_ in 
+                storage.removeNotes(notes: [note]) {_ in
                     DispatchQueue.main.async {
-                        self.removeByNotes(notes: [note])
+                        self.removeRows(notes: [note])
                     }
                 }
             }
@@ -381,7 +399,7 @@ class NotesTableView: UITableView,
             note.remove()
         }
 
-        self.removeByNotes(notes: notes)
+        self.removeRows(notes: notes)
 
         self.allowsMultipleSelectionDuringEditing = false
         self.setEditing(false, animated: true)

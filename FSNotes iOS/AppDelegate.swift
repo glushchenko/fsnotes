@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     public var launchedShortcutItem: UIApplicationShortcutItem?
-    public var appCrashed: Bool = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
@@ -77,8 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
-        Storage.sharedInstance().saveMetaCache()
+        Storage.sharedInstance().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
+
+        print("end \(UserDefaultsManagement.crashedLastTime)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -96,9 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
-        handleCrashStatus()
-        
         UIApplication.shared.statusBarStyle = .lightContent
         
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
@@ -160,14 +158,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return true
-    }
-
-    private func handleCrashStatus() {
-        if UserDefaultsManagement.crashedLastTime {
-            appCrashed = true
-        }
-
-        UserDefaultsManagement.crashedLastTime = true
     }
 }
 

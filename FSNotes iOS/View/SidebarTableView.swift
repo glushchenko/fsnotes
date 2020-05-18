@@ -43,11 +43,15 @@ class SidebarTableView: UITableView,
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sidebar!.items.count
+        guard let items = sidebar?.items else { return 0 }
+
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sidebar!.items[section].count
+        guard let items = sidebar?.items else { return 0 }
+
+        return items[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -257,7 +261,7 @@ class SidebarTableView: UITableView,
                     self.move(note: note, in: project)
                 case .Trash:
                     note.remove()
-                    vc.notesTable.removeByNotes(notes: [note])
+                    vc.notesTable.removeRows(notes: [note])
                 case .Tag:
                     note.addTag(sidebarItem.name)
                 default:
@@ -306,7 +310,7 @@ class SidebarTableView: UITableView,
             note.parseURL()
             note.project = project
 
-            vc.notesTable.removeByNotes(notes: [note])
+            vc.notesTable.removeRows(notes: [note])
             vc.notesTable.insertRow(note: note)
         }
     }
@@ -391,7 +395,6 @@ class SidebarTableView: UITableView,
         let projects = Storage.sharedInstance().getProjects().sorted(by: { $0.label < $1.label })
 
         for project in projects {
-            print(project.label)
             if project.isDefault || project.isTrash || project.isArchive {
                 continue
             }

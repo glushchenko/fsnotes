@@ -147,7 +147,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             self.projects.append(project)
             self.tableView.reloadData()
 
-            _ = Storage.sharedInstance().add(project: project)
+            Storage.sharedInstance().assignTree(for: project)
 
             if let mvc = self.getMainVC() {
                 mvc.sidebarTableView.reloadProjectsSection()
@@ -235,7 +235,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             let storage = Storage.sharedInstance()
             let project = Project(url: url, label: url.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
 
-            _ = storage.add(project: project)
+            storage.assignTree(for: project)
             storage.loadLabel(project, loadContent: true)
 
             let vc = UIApplication.getVC()

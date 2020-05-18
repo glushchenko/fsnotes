@@ -35,8 +35,6 @@ class Storage {
         "textbundle",
         "etp" // Encrypted Text Pack
     ]
-
-    var pinned: Int = 0
     
 #if os(iOS)
     let initialFiles = [
@@ -53,7 +51,12 @@ class Storage {
     
     private var bookmarks = [URL]()
 
-    public var shouldMovePrompt: Bool = false
+    public var shouldMovePrompt = false
+
+    /*
+     If app not crashed in previous session – use cache
+     */
+    private var shouldUseCache = true
 
     init() {
         let storageType = UserDefaultsManagement.storageType
@@ -89,21 +92,21 @@ class Storage {
             }
 
             #if NOT_EXTENSION
-                checkTrashForVolume(url: project.url)
+                assignTrash(by: project.url)
             #endif
 
             if let archive = UserDefaultsManagement.archiveDirectory {
                 let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
                 let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-                _ = add(project: project)
+                assignTree(for: project)
             }
 
             return
         #endif
 
-        _ = add(project: project)
+        assignTree(for: project)
 
-        checkTrashForVolume(url: project.url)
+        assignTrash(by: project.url)
 
         for url in bookmarks {
             if url.pathExtension == "css" {
@@ -120,15 +123,65 @@ class Storage {
             }
 
             let project = Project(url: url, label: url.lastPathComponent, isRoot: true)
-            _ = add(project: project)
+            assignTree(for: project)
         }
 
         let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
 
         if let archive = UserDefaultsManagement.archiveDirectory {
             let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-            _ = add(project: project)
+            assignTree(for: project)
         }
+    }
+
+    init(micro: Bool) {
+        guard let url = getRoot() else { return }
+        let shouldUseCache = checkCrash()
+
+        let project = Project(url: url, label: "iCloud Drive", isRoot: true, isDefault: true, cache: shouldUseCache)
+
+        let notes = project.getNotes()
+
+        projects.append(project)
+        noteList.append(contentsOf: notes)
+    }
+
+    public static func shared() -> Storage {
+        guard let storage = self.instance else {
+            self.instance = Storage(micro: true)
+            return self.instance!
+        }
+        return storage
+    }
+
+    public func getRoot() -> URL? {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
+            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+                do {
+                    try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+
+                    return iCloudDocumentsURL.resolvingSymlinksInPath()
+                } catch {
+                    print("Home directory creation: \(error)")
+                }
+            } else {
+               return iCloudDocumentsURL.resolvingSymlinksInPath()
+            }
+        }
+
+        return nil
+    }
+
+    private func checkCrash() -> Bool {
+        var shouldUseCache = true
+
+        if UserDefaultsManagement.crashedLastTime {
+            shouldUseCache = false
+        }
+
+        UserDefaultsManagement.crashedLastTime = true
+
+        return shouldUseCache
     }
 
     public func makeTempEncryptionDirectory() -> URL? {
@@ -207,7 +260,7 @@ class Storage {
         return added
     }
     
-    private func checkTrashForVolume(url: URL) {
+    private func assignTrash(by url: URL) {
         var trashURL = getTrash(url: url)
 
         do {
@@ -272,7 +325,7 @@ class Storage {
         }
     }
 
-    public func add(project: Project) -> [Project] {
+    public func assignTree(for project: Project, completion: ((_ notes: [Project]) -> ())? = nil) {
         var added = [Project]()
 
         if !projects.contains(project) {
@@ -285,7 +338,84 @@ class Storage {
             added = added + addedSubProjects
         }
 
-        return added
+        if let completion = completion {
+            completion(added)
+        }
+    }
+
+    public func assignNonRootProjects(project: Project) {
+        assignTrash(by: project.url)
+        assignArchive()
+        assignTree(for: project)
+        assignBookmarks()
+    }
+
+    public func loadAllProjectsExceptDefault() {
+        let projects = findAllProjectsExceptDefault()
+        for project in projects {
+            loadLabel(project)
+        }
+    }
+
+    public func loadAllTags() {
+        for note in noteList {
+            if !note.isTrash() && !note.project.isArchive {
+                note.load()
+                _ = note.loadTags()
+            }
+        }
+    }
+
+    public func checkCacheDiff() -> ([Note], [Note])? {
+        guard let project = getDefault() else { return nil }
+
+        var foundRemoved = [Note]()
+        var foundAdded = [Note]()
+
+        let cached = noteList.filter({ $0.project.isDefault })
+        let current = project.read()
+
+        let cachedNotes = Set(cached.map({ $0.url }))
+        let currentNotes = Set(current.map({ $0.url }))
+
+        let removed = cachedNotes.subtracting(currentNotes)
+        let added = currentNotes.subtracting(cachedNotes)
+
+        for removeURL in removed {
+            if let note = cached.first(where: { $0.url == removeURL }) {
+                foundRemoved.append(note)
+            }
+        }
+
+        for addURL in added {
+            if let note = current.first(where: { $0.url == addURL }) {
+                foundAdded.append(note)
+            }
+        }
+
+        return (foundRemoved, foundAdded)
+    }
+
+    public func getProjectDocuments(project: Project) -> [URL] {
+        return readDirectory(project.url).map({ $0.0 as URL })
+    }
+
+    public func assignBookmarks() {
+        let bookmark = SandboxBookmark.sharedInstance()
+        bookmarks = bookmark.load()
+        for bookmark in bookmarks {
+            let externalProject = Project(url: bookmark, label: bookmark.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+
+            projects.append(externalProject)
+        }
+    }
+
+    public func assignArchive() {
+        if let archive = UserDefaultsManagement.archiveDirectory {
+            let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
+            let project = Project(url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
+            assignTree(for: project)
+        }
     }
 
     public func getArchive() -> Project? {
@@ -347,24 +477,8 @@ class Storage {
 
         _ = restoreCloudPins()
 
-    #if os(iOS)
-        var result = [String: NoteMeta]()
-        if shouldUseCache {
-            result = getMetaCache()
-        }
-    #endif
-
         for note in noteList {
-            if let cache = result[note.url.path] {
-                note.title = cache.title
-                note.imageUrl = cache.imageUrl
-                note.isParsed = true
-                note.preview = cache.preview
-                note.modifiedLocalAt = cache.modificationDate
-                note.creationDate = cache.creationDate
-            } else {
-                note.load()
-            }
+            note.load()
         }
 
         print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
@@ -391,6 +505,10 @@ class Storage {
         }
 
         return nil
+    }
+
+    public func findAllProjectsExceptDefault() -> [Project] {
+        return projects.filter({ !$0.isDefault  })
     }
     
     public func getCloudDriveProjects() -> [Project] {
@@ -423,14 +541,14 @@ class Storage {
             })
     }
         
-    func sortNotes(noteList: [Note], filter: String, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
+    func sortNotes(noteList: [Note], filter: String? = nil, project: Project? = nil, operation: BlockOperation? = nil) -> [Note] {
 
         return noteList.sorted(by: {
             if let operation = operation, operation.isCancelled {
                 return false
             }
 
-            if filter.count > 0 {
+            if let filter = filter, filter.count > 0 {
                 if ($0.title == filter && $1.title != filter) {
                     return true
                 }
@@ -518,10 +636,6 @@ class Storage {
                     note.load()
                 }
             #endif
-
-            if note.isPinned {
-                pinned += 1
-            }
 
             if note.isTextBundle() && !note.isFullLoadedTextBundle() {
                 continue
@@ -926,7 +1040,7 @@ class Storage {
         let project = Project(url: url)
         project.createDirectory()
 
-        _ = add(project: project)
+        assignTree(for: project)
         return project
     }
     #endif
@@ -1103,51 +1217,23 @@ class Storage {
         return try? Data(contentsOf: cacheURL)
     }
 
-    public func saveMetaCache() {
-        var cache: [NoteMeta] = []
-        for note in noteList {
-            _ = note.scanContentTags()
+    public func saveProjectsCache() {
+        for project in projects {
+            let notes = noteList.filter({ $0.project == project })
+            let cache = sortNotes(noteList: notes, project: project)
+                .map({ $0.getMeta() })
 
-            cache.append(
-                NoteMeta(
-                    url: note.url,
-                    imageUrl: note.imageUrl,
-                    title: note.title,
-                    preview: note.preview,
-                    modificationDate: note.modifiedLocalAt,
-                    creationDate: note.creationDate!
-                )
-            )
-        }
-
-        let jsonEncoder = JSONEncoder()
-
-        do {
-            let code = try jsonEncoder.encode(cache)
-
-            saveCache(key: "notesList", data: code)
-        } catch {
-            print("Serialization error")
-        }
-    }
-
-    private func getMetaCache() -> [String: NoteMeta] {
-        var result = [String: NoteMeta]()
-
-        if let data = getCache(key: "notesList") {
-            let decoder = JSONDecoder()
+            let key = project.getMd5Hash()
+            let jsonEncoder = JSONEncoder()
 
             do {
-                let list = try decoder.decode(Array<NoteMeta>.self, from: data)
-                for item in list {
-                    result[item.url.path] = item
-                }
+                let code = try jsonEncoder.encode(cache)
+
+                saveCache(key: key, data: code)
             } catch {
-                print(error)
+                print("Serialization error")
             }
         }
-
-        return result
     }
 }
 
