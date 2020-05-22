@@ -36,11 +36,15 @@ class NotesTableView: UITableView,
     private func calcHeight(indexPath: IndexPath) -> CGFloat {
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
-            if let urls = note.getImagePreviewUrl(), urls.count > 0 {
 
-                let previewCharsQty = note.preview.count
-                if (previewCharsQty == 0) {
+            if !note.isLoaded && !note.isLoadedFromCache {
+                note.load()
+            }
+
+            if let urls = note.imageUrl, urls.count > 0 {
+                if note.preview.count == 0 {
                     if note.getTitle() != nil {
+
                         // Title + image
                         return 130
                     }
@@ -63,9 +67,6 @@ class NotesTableView: UITableView,
         guard self.notes.indices.contains(indexPath.row) else { return cell }
 
         let note = self.notes[indexPath.row]
-        note.isParsed = false
-        note.load()
-
         cell.configure(note: note)
         cell.selectionStyle = .gray
 
@@ -90,42 +91,41 @@ class NotesTableView: UITableView,
 
         guard !self.isEditing else { return }
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
+        let note = notes[indexPath.row]
 
-                self.deselectRow(at: indexPath, animated: true)
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            self.deselectRow(at: indexPath, animated: true)
             return
         }
 
-        let note = notes[indexPath.row]
-        if let evc = viewController.viewControllers[0] as? EditorViewController {
-            if let editArea = evc.editArea, let u = editArea.undoManager {
-                u.removeAllActions()
-            }
+        let evc = UIApplication.getEVC()
 
-            if note.container == .encryptedTextPack {
-                viewDelegate?.unLock(notes: [note], completion: { notes in
-                    DispatchQueue.main.async {
-                        guard note.container != .encryptedTextPack else {
-                            self.invalidPasswordAlert()
-                            return
-                        }
-
-                        self.reloadRow(note: note)
-                        NotesTextProcessor.highlight(note: note)
-
-                        evc.fill(note: note)
-                        pageController.switchToEditor()
-                    }
-                })
-                return
-            }
-
-            self.deselectRow(at: indexPath, animated: true)
-            evc.fill(note: note)
-            pageController.switchToEditor()
+        if let editArea = evc.editArea, let u = editArea.undoManager {
+            u.removeAllActions()
         }
+
+        if note.container == .encryptedTextPack {
+            viewDelegate?.unLock(notes: [note], completion: { notes in
+                DispatchQueue.main.async {
+                    guard note.container != .encryptedTextPack else {
+                        self.invalidPasswordAlert()
+                        return
+                    }
+
+                    self.reloadRow(note: note)
+                    NotesTextProcessor.highlight(note: note)
+
+                    evc.fill(note: note)
+                    bvc.containerController.selectController(atIndex: 1, animated: true)
+                }
+            })
+            return
+        }
+
+        self.deselectRow(at: indexPath, animated: true)
+
+        evc.fill(note: note)
+        bvc.containerController.selectController(atIndex: 1, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -264,9 +264,9 @@ class NotesTableView: UITableView,
     
     public func removeRows(notes: [Note]) {
         for note in notes {
-            if let i = notes.firstIndex(where: {$0 === note}) {
-                let indexSet = IndexPath(item: i, section: 0)
-                notes.remove(at: i)
+            if let i = self.notes.firstIndex(where: {$0 === note}) {
+                let indexSet = IndexPath(row: i, section: 0)
+                self.notes.remove(at: i)
                 deleteRows(at: [indexSet], with: .automatic)
             }
         }
@@ -545,13 +545,15 @@ class NotesTableView: UITableView,
     }
 
     private func invalidPasswordAlert() {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
+        else { return }
 
         let invalid = NSLocalizedString("Invalid Password", comment: "")
         let message = NSLocalizedString("Please enter valid password", comment: "")
         let alert = UIAlertController(title: invalid, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        pageController.present(alert, animated: true, completion: nil)
+
+        bvc.present(alert, animated: true, completion: nil)
     }
 
     @available(iOS 11.0, *)

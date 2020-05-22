@@ -149,7 +149,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             if let note = self.notes?.first {
                 note.load(tags: false)
-                _ = note.getImagePreviewUrl()
+                note.loadPreviewInfo()
 
                 DispatchQueue.main.async {
                     self.appendItem?.value = note.getName()
@@ -271,7 +271,7 @@ class ShareViewController: SLComposeServiceViewController {
             DispatchQueue.main.async {
                 if let note = notes.first {
                     note.load()
-                    _ = note.getImagePreviewUrl()
+                    note.loadPreviewInfo()
                     self.appendItem?.value = note.title
                 }
             }

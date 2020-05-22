@@ -358,7 +358,7 @@ class SidebarTableView: UITableView,
         
         unloadAllTags()
 
-        let projects = getSelectedProjects()
+        guard let projects = getSelectedProjects() else { return }
         let tags = getAllTags(projects: projects)
 
         DispatchQueue.main.async {
@@ -425,12 +425,20 @@ class SidebarTableView: UITableView,
 
     }
 
-    public func getSelectedProjects() -> [Project] {
-        return selectedProjects ?? [Storage.sharedInstance().getDefault()!]
+    public func getSelectedProjects() -> [Project]? {
+        if let sel = selectedProjects {
+            return sel
+        }
+
+        if let def = Storage.shared().getDefault() {
+            return [def]
+        }
+
+        return nil
     }
 
     public func getSelectedSidebarItem() -> SidebarItem? {
-        guard let project = getSelectedProjects().first else { return nil }
+        guard let project = getSelectedProjects()?.first else { return nil }
         guard let items = sidebar?.items else { return nil }
 
         for item in items {

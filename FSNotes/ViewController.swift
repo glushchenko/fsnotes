@@ -1559,7 +1559,7 @@ class ViewController: NSViewController,
         if (UserDefaultsManagement.sort == .title || project.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
-                _ = note.getImagePreviewUrl()
+                note.loadPreviewInfo()
             }
         }
     }

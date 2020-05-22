@@ -48,21 +48,22 @@ class PreviewViewController: UIViewController {
     }
 
     @IBAction func share() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let mvc = pageController.mainViewController,
-            let evc = pageController.editorViewController,
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let navPC = bvc.containerController.viewControllers[2] as? UINavigationController,
+            let vc = bvc.containerController.viewControllers[0] as? ViewController,
+            let pvc = navPC.viewControllers.first as? PreviewViewController,
+            let navEC = bvc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = navEC.viewControllers.first as? EditorViewController,
             let note = evc.note
         else { return }
 
-        mvc.notesTable.shareAction(note: note, presentController: evc, isHTML: true)
+        vc.notesTable.shareAction(note: note, presentController: pvc, isHTML: true)
     }
 
     @objc public func returnBack() {
-        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController {
-            clear()
-            pageController.switchToList()
-        }
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
+        clear()
+        bvc.containerController.selectController(atIndex: 0, animated: true)
     }
 
     @objc func rotated() {
@@ -78,9 +79,9 @@ class PreviewViewController: UIViewController {
     }
 
     public func loadPreview() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let evc = pageController.editorViewController,
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController,
             let note = evc.note
         else { return }
 
@@ -96,6 +97,12 @@ class PreviewViewController: UIViewController {
                 imagesStorage = note.getURL()
             }
 
+            for sub in self.view.subviews {
+                if sub.isKind(of: MarkdownView.self) {
+                    sub.removeFromSuperview()
+                }
+            }
+
             if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
                 downView.translatesAutoresizingMaskIntoConstraints = false
                 view.addSubview(downView)
@@ -104,18 +111,20 @@ class PreviewViewController: UIViewController {
         return
     }
 
-    @IBAction func clickOnButton() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let evc = pageController.editorViewController
+    @objc func clickOnButton() {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = bvc.containerController.viewControllers[0] as? ViewController,
+            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController,
+            let note = evc.note,
+            let navPVC = bvc.containerController.viewControllers[2] as? UINavigationController,
+            let pvc = navPVC.viewControllers.first as? PreviewViewController
         else { return }
 
-        evc.clickOnButton()
+        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: navPVC)
     }
 
     public func reloadPreview() {
-        guard view.subviews.count > 0 else { return }
-
         DispatchQueue.main.async {
             for sub in self.view.subviews {
                 if sub.isKind(of: MarkdownView.self) {

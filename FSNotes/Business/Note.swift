@@ -51,6 +51,9 @@ public class Note: NSObject  {
     private var firstLineAsTitle = false
     private var lastSelectedRange: NSRange?
 
+    public var isLoaded = false
+    public var isLoadedFromCache = false
+
     // Load exist
     
     init(url: URL, with project: Project, modified: Date? = nil, created: Date? = nil) {
@@ -101,6 +104,9 @@ public class Note: NSObject  {
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
 
+        isLoadedFromCache = true
+        isParsed = true
+        
         url = meta.url
         imageUrl = meta.imageUrl
         title = meta.title
@@ -157,7 +163,7 @@ public class Note: NSObject  {
         }
     }
         
-    func load(tags: Bool = true) {        
+    func load(tags: Bool = true) {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
@@ -169,8 +175,10 @@ public class Note: NSObject  {
         loadFileName()
 
         #if os(iOS)
-            _ = getImagePreviewUrl()
+            loadPreviewInfo()
         #endif
+
+        isLoaded = true
     }
 
     func reload() -> Bool {
@@ -1266,9 +1274,9 @@ public class Note: NSObject  {
     }
     #endif
 
-    public func getImagePreviewUrl() -> [URL]? {
+    public func loadPreviewInfo() {
         if self.isParsed {
-            return self.imageUrl
+            return
         }
 
         var i = 0
@@ -1335,8 +1343,6 @@ public class Note: NSObject  {
 
         self.imageUrl = urls
         self.isParsed = true
-
-        return urls
     }
 
     private func loadTitleFromFileName() {
@@ -1406,7 +1412,9 @@ public class Note: NSObject  {
     }
 
     public func removeCacheForPreviewImages() {
-        guard let imageURLs = getImagePreviewUrl() else { return }
+        loadPreviewInfo()
+
+        guard let imageURLs = imageUrl else { return }
 
         for url in imageURLs {
             if let imageURL = getCacheForPreviewImage(at: url) {

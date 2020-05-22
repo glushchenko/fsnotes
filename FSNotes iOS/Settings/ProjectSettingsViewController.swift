@@ -180,8 +180,9 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     @objc func close() {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let vc = pageController.mainViewController
-            else { return }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController
+        else { return }
 
         vc.sidebarTableView.reloadProjectsSection()
         vc.notesTable.reloadData()

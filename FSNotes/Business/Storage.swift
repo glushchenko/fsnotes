@@ -137,7 +137,7 @@ class Storage {
 
     init(micro: Bool) {
         guard let url = getRoot() else { return }
-        let shouldUseCache = checkCrash() && checkCacheDiff()
+        let shouldUseCache = checkCrash()
 
         let project = Project(url: url, label: "iCloud Drive", isRoot: true, isDefault: true, cache: shouldUseCache)
 
@@ -372,8 +372,9 @@ class Storage {
 
     public func loadAllTags() {
         for note in noteList {
+            note.load()
+
             if !note.isTrash() && !note.project.isArchive {
-                note.load()
                 _ = note.loadTags()
             }
         }
@@ -643,7 +644,7 @@ class Storage {
 
             #if os(OSX)
                 note.load()
-                _ = note.getImagePreviewUrl()
+                note.loadPreviewInfo()
             #else
                 if loadContent {
                     note.load()

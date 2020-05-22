@@ -203,10 +203,9 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     public func initUndoRedoButons() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = vc.viewControllers[0] as? EditorViewController,
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController,
             let ea = evc.editArea,
             let um = ea.undoManager else {
                 return

@@ -18,7 +18,9 @@ extension NoteCellView {
     public func loadImagesPreview(position: Int? = nil, urls: [URL]? = nil) {
         guard let note = self.note else { return }
 
-        let imageURLs = urls ?? note.getImagePreviewUrl()
+        note.loadPreviewInfo()
+
+        let imageURLs = urls ?? note.imageUrl
         let imagesFound = imageURLs?.count ?? 0
 
         guard

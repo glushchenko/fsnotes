@@ -85,9 +85,10 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
     }
 
     public func getMainVC() -> ViewController? {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let mvc = pageController.mainViewController
-            else { return nil }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController
+        else { return nil }
 
-        return mvc
+        return vc
     }
 }

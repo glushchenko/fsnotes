@@ -125,27 +125,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var handled = false
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
         guard let shortCutType = shortcutItem.type as String? else { return false }
-        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController else {
-            return false
-        }
+
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController
+        else { return false }
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
-            viewController.is3DTouchShortcut = true
-            viewController.createNote()
+            vc.is3DTouchShortcut = true
+            vc.createNote()
 
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
-            viewController.is3DTouchShortcut = true
-            viewController.createNote(pasteboard: true)
+            vc.is3DTouchShortcut = true
+            vc.createNote(pasteboard: true)
 
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            pageViewController.switchToList()
-            viewController.searchView.isHidden = false
-            viewController.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
+            pc.containerController.selectController(atIndex: 0, animated: true)
+            vc.searchView.isHidden = false
+            vc.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
             handled = true
             break
         default:

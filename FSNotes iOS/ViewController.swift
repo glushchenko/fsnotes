@@ -175,8 +175,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         notesTable.refreshControl = refreshControl
 
-        if let pageController = self.parent as? PageViewController {
-            pageController.disableSwipe()
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            bvc.disableSwipe()
         }
     }
 
@@ -215,8 +215,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 for note in diff.0 {
                     storage.noteList.removeAll(where: { $0 == note })
                 }
-
-
             }
 
             if diff.1.count > 0 {
@@ -362,13 +360,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func getEVC() -> EditorViewController? {
-        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController {
-            return evc
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController else { return nil }
 
-        return nil
+        return evc
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -590,17 +586,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.updateTable() {}
 
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
-            return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+           let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+           let evc = nav.viewControllers.first as? EditorViewController else { return }
 
         evc.note = note
-        pageController.switchToEditor() {
-            evc.fill(note: note)
 
-            DispatchQueue.main.async {
-                evc.editArea.becomeFirstResponder()
-            }
+        pc.containerController.selectController(atIndex: 1, animated: true)
+        evc.fill(note: note)
+
+        DispatchQueue.main.async {
+            evc.editArea.becomeFirstResponder()
         }
     }
 
@@ -678,11 +674,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let storage = Storage.sharedInstance()
         storage.add(note)
 
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[1] as? UINavigationController, let evc = viewController.viewControllers[0] as? EditorViewController else {
-            return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+           let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+           let evc = nav.viewControllers.first as? EditorViewController else { return }
 
-        pageController.switchToEditor()
+        pc.containerController.selectController(atIndex: 1, animated: true)
 
         evc.note = note
         evc.fill(note: note)
@@ -753,13 +749,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private func enableNightMode() {
         NightNight.theme = .night
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController,
+            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController else { return }
 
         UserDefaultsManagement.codeTheme = "monokai-sublime"
         NotesTextProcessor.hl = nil
@@ -789,13 +782,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     {
         NightNight.theme = .normal
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController,
+            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController else { return }
 
         UserDefaultsManagement.codeTheme = "atom-one-light"
         NotesTextProcessor.hl = nil
@@ -821,6 +811,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var width: CGFloat = 0
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
+        view.layoutIfNeeded()
+        view.layoutSubviews()
+        viewDidAppear(false)
+
+        view.draw(view.frame)
+        //view.display(<#T##layer: CALayer##CALayer#>)
+
         let windowWidth = self.view.frame.width
         let translation = swipe.translation(in: notesTable)
 
@@ -834,14 +831,26 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.sidebarWidth = sidebarWidthConstraint.constant
             }
 
+            print("max:")
+            print(self.maxSidebarWidth)
             self.sidebarWidthConstraint.constant = self.maxSidebarWidth
+
+            view.layoutIfNeeded()
+            view.layoutSubviews()
             return
         }
 
+        print("sidebar width:")
+        print(self.sidebarWidth)
+
         let sidebarWidth = self.sidebarWidth + translation.x
+        print("current:")
+        print(sidebarWidth)
 
         if swipe.state == .changed {
             if sidebarWidth > self.maxSidebarWidth || sidebarWidth < 0 {
+                view.layoutIfNeeded()
+                view.layoutSubviews()
                 return
             } else {
                 self.noteTableViewLeadingConstraint.constant = sidebarWidth
@@ -899,10 +908,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func refreshTextStorage(note: Note) {
         DispatchQueue.main.async {
-            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-                let evc = viewController.viewControllers[0] as? EditorViewController
-                else { return }
+            guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+                let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+                let evc = nav.viewControllers.first as? EditorViewController else { return }
 
             evc.fill(note: note)
         }
@@ -912,8 +920,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var width = CGFloat(115)
         let font = UIFont.boldSystemFont(ofSize: 15.0)
 
-        let projects = sidebarTableView.getSelectedProjects()
-        
+        guard let projects = sidebarTableView.getSelectedProjects() else { return 0 }
+
         let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
         let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
         let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
@@ -959,7 +967,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func toggleNotesLock(notes: [Note]) {
         var notes = notes
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
 
         notes = lockUnlocked(notes: notes)
         guard notes.count > 0 else { return }
@@ -971,7 +979,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         DispatchQueue.main.async {
                             self.notesTable.reloadRowForce(note: note)
                             UIApplication.getEVC().fill(note: note)
-                            pageController.switchToEditor()
+                            bvc.containerController.selectController(atIndex: 1, animated: true)
                         }
                     }
                 } else {

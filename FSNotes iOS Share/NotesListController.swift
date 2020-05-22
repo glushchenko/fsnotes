@@ -33,7 +33,6 @@ class NotesListController: UITableViewController {
         let note = self.notes[indexPath.row]
 
         note.load(tags: false)
-        _ = note.getImagePreviewUrl()
         let title = note.title
 
         cell.textLabel?.text = title
