@@ -16,8 +16,13 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
     func swiftyPageController(_ controller: SwiftyPageController, willMoveToController toController: UIViewController) {
         if let nav = toController as? UINavigationController {
             if let pvc = nav.viewControllers.first as? PreviewViewController {
-                //pvc.loadPreview()
+                UserDefaultsManagement.previewMode = true
+                pvc.loadPreview()
                 return
+            }
+
+            if nil != nav.viewControllers.first as? EditorViewController {
+                UserDefaultsManagement.previewMode = false
             }
         }
     }
@@ -35,6 +40,12 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
 
         if let pvc = UIApplication.getPVC() {
             //pvc.clear()
+        }
+
+        if let nav = toController as? UINavigationController {
+            if let evc = nav.viewControllers.first as? EditorViewController, evc.editArea != nil {
+                return
+            }
         }
     }
 

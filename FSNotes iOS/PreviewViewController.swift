@@ -9,8 +9,9 @@
 import UIKit
 import NightNight
 
-class PreviewViewController: UIViewController {
+class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     private var isLandscape: Bool?
+    private var modifiedAt = Date()
 
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
@@ -20,7 +21,7 @@ class PreviewViewController: UIViewController {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(returnBack))
 
-        self.navigationItem.rightBarButtonItem = getShareButton()
+        self.navigationItem.rightBarButtonItem = getEditButton()
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
 
@@ -29,13 +30,21 @@ class PreviewViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIContentSizeCategory.didChangeNotification, object: nil)
+
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(editMode))
+        tapGR.delegate = self
+        tapGR.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tapGR)
     }
 
-    public func getShareButton() -> UIBarButtonItem {
+    public func getEditButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named: "share"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(share), for: UIControl.Event.touchUpInside)
+
+        let image = UIImage(named: "edit_preview_controller")!.imageWithColor(color1: .white)
+
+        menuBtn.setImage(image, for: .normal)
+        menuBtn.addTarget(self, action: #selector(editMode), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
@@ -47,17 +56,21 @@ class PreviewViewController: UIViewController {
         return menuBarItem
     }
 
-    @IBAction func share() {
+    @IBAction func editMode() {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let navPC = bvc.containerController.viewControllers[2] as? UINavigationController,
-            let vc = bvc.containerController.viewControllers[0] as? ViewController,
-            let pvc = navPC.viewControllers.first as? PreviewViewController,
-            let navEC = bvc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = navEC.viewControllers.first as? EditorViewController,
-            let note = evc.note
+            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController
         else { return }
 
-        vc.notesTable.shareAction(note: note, presentController: pvc, isHTML: true)
+        bvc.containerController.selectController(atIndex: 1, animated: false)
+
+        DispatchQueue.main.async {
+            if evc.editArea != nil {
+                evc.editArea.becomeFirstResponder()
+            }
+        }
+
+        UserDefaultsManagement.previewMode = false
     }
 
     @objc public func returnBack() {
@@ -74,41 +87,35 @@ class PreviewViewController: UIViewController {
 
         if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
             isLandscape = UIDevice.current.orientation.isLandscape
-            reloadPreview()
+            clear()
+            loadPreview()
         }
     }
 
-    public func loadPreview() {
+    public func loadPreview(force: Bool = false) {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
             let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
             let evc = nav.viewControllers.first as? EditorViewController,
             let note = evc.note
         else { return }
 
-        let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
-        let url = NSURL.fileURL(withPath: path!)
-        let bundle = Bundle(url: url)
+        let isForceRequest = note.modifiedLocalAt != modifiedAt
+        modifiedAt = note.modifiedLocalAt
 
-        let markdownString = note.content.unLoadImages().string
-        do {
-            var imagesStorage = note.project.url
-
-            if note.isTextBundle() {
-                imagesStorage = note.getURL()
-            }
-
-            for sub in self.view.subviews {
-                if sub.isKind(of: MarkdownView.self) {
-                    sub.removeFromSuperview()
+        for sub in self.view.subviews {
+            if sub.isKind(of: MPreviewView.self) {
+                if let view = sub as? MPreviewView, !force {
+                    view.load(note: note, force: isForceRequest)
+                    return
                 }
             }
-
-            if let downView = try? MarkdownView(imagesStorage: imagesStorage, frame: self.view.frame, markdownString: markdownString, css: "", templateBundle: bundle) {
-                downView.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(downView)
-            }
         }
-        return
+
+        clear()
+
+        let downView = MPreviewView(frame: self.view.frame, note: note, closure: {})
+        downView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(downView)
     }
 
     @objc func clickOnButton() {
@@ -117,23 +124,10 @@ class PreviewViewController: UIViewController {
             let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
             let evc = nav.viewControllers.first as? EditorViewController,
             let note = evc.note,
-            let navPVC = bvc.containerController.viewControllers[2] as? UINavigationController,
-            let pvc = navPVC.viewControllers.first as? PreviewViewController
+            let navPVC = bvc.containerController.viewControllers[2] as? UINavigationController
         else { return }
 
         vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: navPVC)
-    }
-
-    public func reloadPreview() {
-        DispatchQueue.main.async {
-            for sub in self.view.subviews {
-                if sub.isKind(of: MarkdownView.self) {
-                    sub.removeFromSuperview()
-                }
-            }
-
-            self.loadPreview()
-        }
     }
 
     public func setTitle(text: String) {
@@ -151,5 +145,25 @@ class PreviewViewController: UIViewController {
                 sub.removeFromSuperview()
             }
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        MPreviewView.template = nil
+
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+        try? FileManager.default.removeItem(at: webkitPreview)
+
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                UIApplication.getVC().enableNightMode()
+            } else {
+                UIApplication.getVC().disableNightMode()
+            }
+        }
+
+        clear()
+        loadPreview(force: true)
     }
 }

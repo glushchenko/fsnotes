@@ -43,7 +43,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
 
-        self.navigationItem.rightBarButtonItem = self.getShareButton()
+        self.navigationItem.rightBarButtonItem = self.getPreviewButton()
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
@@ -256,7 +256,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func preLoadPreview() {
         guard let pvc = UIApplication.getPVC() else { return }
 
-        pvc.loadPreview()
+        pvc.loadPreview(force: true)
     }
 
     @objc public func clickOnButton() {
@@ -1327,7 +1327,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     }
 
-    private func openWikiLink(query: String) {
+    public func openWikiLink(query: String) {
         guard let query = query
             .replacingOccurrences(of: "fsnotes://find?id=", with: "")
             .removingPercentEncoding else { return }
@@ -1401,11 +1401,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
 
-    public func getShareButton() -> UIBarButtonItem {
+    public func getPreviewButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named: "share"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(share), for: UIControl.Event.touchUpInside)
+        let image = UIImage(named: "preview_editor_controller")!.imageWithColor(color1: .white)
+
+        menuBtn.setImage(image, for: .normal)
+        menuBtn.addTarget(self, action: #selector(preview), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
@@ -1423,15 +1425,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         bvc.containerController.selectController(atIndex: 0, animated: true)
     }
 
-    @objc public func share() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = bvc.containerController.viewControllers[0] as? ViewController,
-            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController,
-            let note = evc.note
+    @objc public func preview() {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
         else { return }
 
-        vc.notesTable.shareAction(note: note, presentController: evc)
+        UserDefaultsManagement.previewMode = true
+
+        editArea.endEditing(true)
+        bvc.containerController.selectController(atIndex: 2, animated: false)
     }
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -1491,6 +1492,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     public func saveContentOffset() {
         if editArea != nil {
             editArea.lastContentOffset = editArea.contentOffset
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+
+                UIApplication.getVC().enableNightMode()
+            } else {
+                UIApplication.getVC().disableNightMode()
+            }
         }
     }
 }

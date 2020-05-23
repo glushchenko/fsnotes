@@ -7,10 +7,12 @@
 //
 
 import WebKit
-import Carbon.HIToolbox
 
 #if os(iOS)
-    import NightNight
+import NightNight
+import MobileCoreServices
+#else
+import Carbon.HIToolbox
 #endif
 
 public typealias MPreviewViewClosure = () -> ()
@@ -21,7 +23,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     private var closure: MPreviewViewClosure?
     public static var template: String?
     
-    init(frame: CGRect, note: Note, closure: MPreviewViewClosure?) {
+    init(frame: CGRect, note: Note, closure: MPreviewViewClosure?, force: Bool = false) {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
@@ -44,13 +46,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         scrollView.backgroundColor = UIColor.clear
 #endif
 
-        load(note: note)
+        load(note: note, force: force)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+#if os(OSX)
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.keyCode == kVK_ANSI_C && event.modifierFlags.contains(.command) {
             DispatchQueue.main.async {
@@ -73,6 +76,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
     }
+#endif
 
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         closure?()
@@ -90,6 +94,19 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
 
 #if os(iOS)
+            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
+
+            if url.absoluteString.starts(with: "fsnotes://find?id=") {
+                UIApplication.getEVC().openWikiLink(query: url.absoluteString)
+
+                if let nav = bvc.containerController.selectedController as? UINavigationController, nil !=
+                    nav.viewControllers.first as? PreviewViewController {
+
+                    bvc.containerController.selectController(atIndex: 2, animated: true)
+                    return
+                }
+            }
+
             UIApplication.shared.openURL(url)
 #elseif os(OSX)
             NSWorkspace.shared.open(url)
@@ -369,8 +386,15 @@ class HandlerCodeCopy: NSObject, WKScriptMessageHandler {
     public static var selectionString: String? {
         didSet {
             guard let copyBlock = selectionString else { return }
+
+#if os(OSX)
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(copyBlock, forType: .string)
+#else
+            UIPasteboard.general.setItems([
+                [kUTTypePlainText as String: copyBlock]
+            ])
+#endif
         }
     }
 

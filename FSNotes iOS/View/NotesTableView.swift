@@ -104,6 +104,8 @@ class NotesTableView: UITableView,
             u.removeAllActions()
         }
 
+        let index = UserDefaultsManagement.previewMode ? 2 : 1
+
         if note.container == .encryptedTextPack {
             viewDelegate?.unLock(notes: [note], completion: { notes in
                 DispatchQueue.main.async {
@@ -116,7 +118,7 @@ class NotesTableView: UITableView,
                     NotesTextProcessor.highlight(note: note)
 
                     evc.fill(note: note)
-                    bvc.containerController.selectController(atIndex: 1, animated: true)
+                    bvc.containerController.selectController(atIndex: index, animated: true)
                 }
             })
             return
@@ -125,7 +127,7 @@ class NotesTableView: UITableView,
         self.deselectRow(at: indexPath, animated: true)
 
         evc.fill(note: note)
-        bvc.containerController.selectController(atIndex: 1, animated: true)
+        bvc.containerController.selectController(atIndex: index, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

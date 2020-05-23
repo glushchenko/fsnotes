@@ -746,7 +746,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    private func enableNightMode() {
+    public func enableNightMode() {
         NightNight.theme = .night
 
         guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
@@ -778,7 +778,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    private func disableNightMode()
+    public func disableNightMode()
     {
         NightNight.theme = .normal
 
@@ -811,13 +811,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     var width: CGFloat = 0
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
-        view.layoutIfNeeded()
-        view.layoutSubviews()
-        viewDidAppear(false)
-
-        view.draw(view.frame)
-        //view.display(<#T##layer: CALayer##CALayer#>)
-
         let windowWidth = self.view.frame.width
         let translation = swipe.translation(in: notesTable)
 
@@ -831,26 +824,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.sidebarWidth = sidebarWidthConstraint.constant
             }
 
-            print("max:")
-            print(self.maxSidebarWidth)
             self.sidebarWidthConstraint.constant = self.maxSidebarWidth
-
-            view.layoutIfNeeded()
-            view.layoutSubviews()
             return
         }
 
-        print("sidebar width:")
-        print(self.sidebarWidth)
-
         let sidebarWidth = self.sidebarWidth + translation.x
-        print("current:")
-        print(sidebarWidth)
-
         if swipe.state == .changed {
             if sidebarWidth > self.maxSidebarWidth || sidebarWidth < 0 {
-                view.layoutIfNeeded()
-                view.layoutSubviews()
                 return
             } else {
                 self.noteTableViewLeadingConstraint.constant = sidebarWidth

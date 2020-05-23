@@ -87,7 +87,7 @@ open class SwiftyPageController: UIViewController {
     public weak var delegate: SwiftyPageControllerDelegate?
     public private(set) var selectedIndex: Int?
     public var panGesture: UIPanGestureRecognizer?
-    public var permissibleRangeForHandlingPanFromSides: CGFloat = 40.0
+    public var permissibleRangeForHandlingPanFromSides: CGFloat = 2125.0
     public var isEnabledAnimation = true
     public var isEnabledInteractive = true
     public var animator: AnimatorType = .default
@@ -269,11 +269,11 @@ open class SwiftyPageController: UIViewController {
                 fromController.didMove(toParent: nil)
                 fromController.view.removeFromSuperview()
                 fromController.removeFromParent()
-                
+
                 // present toController
                 toController.didMove(toParent: self)
             }
-            
+
             // change selectedIndex
             selectedIndex = viewControllers.index(of: isCancelled ? fromController : toController)!
             
@@ -351,7 +351,8 @@ open class SwiftyPageController: UIViewController {
         
         // setup first controller
         let controller = viewControllers[index]
-        
+
+        print(controller)
         // setup frame
         controller.view.frame = containerView.bounds
         
@@ -364,7 +365,7 @@ open class SwiftyPageController: UIViewController {
         // show controller
         containerView.addSubview(controller.view)
         controller.didMove(toParent: self)
-        
+
         // call delegate 'didMoveToController' methode
         self.delegate?.swiftyPageController(self, didMoveToController: controller)
     }
@@ -444,8 +445,8 @@ open class SwiftyPageController: UIViewController {
             }
             
             // set layer position
-            toControllerInteractive?.view.layer.position.x = translation.x > 0 ? containerView.bounds.width * 2.0 : -containerView.bounds.width / 2.0
-            
+            //toControllerInteractive?.view.layer.position.x = translation.x > 0 ? containerView.bounds.width / 2 : -containerView.bounds.width / 2.0
+
             // interactive animation
             animator.controller.animationProgress = fmin(fmax(Float(abs(translation.x) / containerView.bounds.width), 0.0), 2.0)
 

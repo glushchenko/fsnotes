@@ -44,7 +44,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             self.font = UIFont(name: "HelveticaNeue", size: 18)
         }
     }
-    
+
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)
