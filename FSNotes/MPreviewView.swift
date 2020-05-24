@@ -35,6 +35,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         super.init(frame: frame, configuration: configuration)
 
         navigationDelegate = self
+        scrollView.bounces = false
         
 #if os(OSX)
         if #available(macOS 10.13, *) {

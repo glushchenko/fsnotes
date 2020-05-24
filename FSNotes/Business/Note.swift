@@ -1750,7 +1750,7 @@ public class Note: NSObject  {
         }
     }
 
-    private func cleanOut() {
+    public func cleanOut() {
         imageUrl = nil
         content = NSMutableAttributedString(string: String())
         preview = String()

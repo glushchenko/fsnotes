@@ -1249,6 +1249,10 @@ class Storage {
             }
         }
     }
+
+    public func cleanUnlocked() {
+        noteList.filter({ $0.isUnlocked() }).map({ $0.cleanOut() })
+    }
 }
 
 extension String: Error {}

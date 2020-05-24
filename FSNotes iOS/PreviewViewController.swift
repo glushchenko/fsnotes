@@ -35,6 +35,10 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         tapGR.delegate = self
         tapGR.numberOfTapsRequired = 2
         view.addGestureRecognizer(tapGR)
+
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(returnBack))
+        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+        self.view.addGestureRecognizer(swipeRight)
     }
 
     public func getEditButton() -> UIBarButtonItem {
@@ -141,7 +145,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
     public func clear() {
         for sub in self.view.subviews {
-            if sub.isKind(of: MarkdownView.self) {
+            if sub.isKind(of: MPreviewView.self) {
                 sub.removeFromSuperview()
             }
         }

@@ -29,6 +29,12 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
 
     func swiftyPageController(_ controller: SwiftyPageController, didMoveToController toController: UIViewController) {
         if toController.isKind(of: UINavigationController.self) {
+            if let nav = toController as? UINavigationController,
+                nil != nav.viewControllers.first as? PreviewViewController {
+                self.disableSwipe()
+                return
+            }
+
             DispatchQueue.main.async {
                 self.enableSwipe()
             }
