@@ -168,24 +168,4 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard UserDefaultsManagement.nightModeType == .system else { return }
-
-        MPreviewView.template = nil
-
-        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
-        try? FileManager.default.removeItem(at: webkitPreview)
-
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                UIApplication.getVC().enableNightMode()
-            } else {
-                UIApplication.getVC().disableNightMode()
-            }
-        }
-
-        removeMPreviewView()
-        loadPreview(force: true)
-    }
 }
