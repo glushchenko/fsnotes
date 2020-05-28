@@ -149,7 +149,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDelegate, UI
     
     func switchToList(completion: (() -> ())? = nil) {
         self.setViewControllers([self.orderedViewControllers[0]], direction: .reverse, animated: true) { _ in
-
+            
+            self.disableSwipe()
+            
             guard let completion = completion else { return }
             completion()
         }
