@@ -66,6 +66,12 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             let evc = nav.viewControllers.first as? EditorViewController
         else { return }
 
+        if let note = evc.note {
+            UserDefaultsManagement.previewMode = false
+
+            UIApplication.getEVC().fill(note: note)
+        }
+
         bvc.containerController.selectController(atIndex: 1, animated: false)
 
         DispatchQueue.main.async {
@@ -79,8 +85,12 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @objc public func returnBack() {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-        clear()
+
         bvc.containerController.selectController(atIndex: 0, animated: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.clear()
+        }
     }
 
     @objc func rotated() {
@@ -91,8 +101,8 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
             isLandscape = UIDevice.current.orientation.isLandscape
-            clear()
-            loadPreview()
+            removeMPreviewView()
+            loadPreview(force: true)
         }
     }
 
@@ -103,19 +113,17 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             let note = evc.note
         else { return }
 
-        let isForceRequest = note.modifiedLocalAt != modifiedAt
+        let isForceRequest = note.modifiedLocalAt != modifiedAt || force
         modifiedAt = note.modifiedLocalAt
 
         for sub in self.view.subviews {
             if sub.isKind(of: MPreviewView.self) {
-                if let view = sub as? MPreviewView, !force {
+                if let view = sub as? MPreviewView {
                     view.load(note: note, force: isForceRequest)
                     return
                 }
             }
         }
-
-        clear()
 
         let downView = MPreviewView(frame: self.view.frame, note: note, closure: {})
         downView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,10 +151,20 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         navigationItem.title = text
     }
 
-    public func clear() {
+    public func removeMPreviewView() {
         for sub in self.view.subviews {
             if sub.isKind(of: MPreviewView.self) {
                 sub.removeFromSuperview()
+            }
+        }
+    }
+
+    public func clear() {
+        for sub in self.view.subviews {
+            if sub.isKind(of: MPreviewView.self) {
+                if let view = sub as? MPreviewView {
+                    try? view.loadHTMLView("", css: "")
+                }
             }
         }
     }
@@ -167,7 +185,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
 
-        clear()
+        removeMPreviewView()
         loadPreview(force: true)
     }
 }

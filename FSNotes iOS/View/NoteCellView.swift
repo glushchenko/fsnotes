@@ -8,8 +8,9 @@
 
 import UIKit
 import NightNight
+import SwipeCellKit
 
-class NoteCellView: UITableViewCell {
+class NoteCellView: SwipeTableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var preview: UILabel!

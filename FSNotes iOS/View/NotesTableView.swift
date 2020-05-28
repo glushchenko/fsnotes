@@ -10,11 +10,13 @@ import UIKit
 import NightNight
 import MobileCoreServices
 import AudioToolbox
+import SwipeCellKit
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
-    UITableViewDragDelegate {
+    UITableViewDragDelegate,
+    SwipeTableViewCellDelegate {
 
     var notes = [Note]()
     var viewDelegate: ViewController? = nil
@@ -63,6 +65,8 @@ class NotesTableView: UITableView,
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
+
+        cell.delegate = self
 
         guard self.notes.indices.contains(indexPath.row) else { return cell }
 
@@ -124,30 +128,87 @@ class NotesTableView: UITableView,
             return
         }
 
-        self.deselectRow(at: indexPath, animated: true)
+        evc.fill(note: note) {
+            bvc.containerController.selectController(atIndex: index, animated: true)
 
-        evc.fill(note: note)
-        bvc.containerController.selectController(atIndex: index, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.deselectRow(at: indexPath, animated: true)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .border
+        options.expansionStyle = .selection
+        return options
+    }
+
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard let storage = viewDelegate?.storage, UIApplication.getVC().sidebarTableView.frame.width == 0
         else { return nil }
 
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
-            
-            let note = self.notes[indexPath.row]
+        guard orientation == .right else { return nil }
+        let note = self.notes[indexPath.row]
+
+        let deleteTitle = NSLocalizedString("Delete", comment: "Table row action")
+        let deleteAction = SwipeAction(style: .destructive, title: deleteTitle) { action, indexPath in
             note.remove()
+
+            self.viewDelegate?.sidebarTableView.loadAllTags()
             self.removeRows(notes: [note])
 
             if note.isEmpty() {
                 storage.removeBy(note: note)
             }
+        }
+        deleteAction.image = UIImage(named: "basket")?.resize(maxWidthHeight: 32)
+
+        let pinTitle = note.isPinned
+            ? NSLocalizedString("UnPin", comment: "Table row action")
+            : NSLocalizedString("Pin", comment: "Table row action")
+
+        let pinAction = SwipeAction(style: .default, title: pinTitle) { action, indexPath in
+            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
+
+            note.togglePin()
+            cell.configure(note: note)
+
+            let filter = self.viewDelegate?.search.text ?? ""
+            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
+            guard let newIndex = resorted.firstIndex(of: note) else { return }
+
+            let newIndexPath = IndexPath(row: newIndex, section: 0)
+            self.moveRow(at: indexPath, to: newIndexPath)
+            self.notes = resorted
+
+            self.reloadRows(at: [newIndexPath], with: .automatic)
+            self.reloadRows(at: [indexPath], with: .automatic)
+        }
+        pinAction.image = UIImage(named: "pin_row_action")?.resize(maxWidthHeight: 32)
+        pinAction.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
+
+        let moreTitle = NSLocalizedString("More", comment: "Table row action")
+        let moreAction = SwipeAction(style: .default, title: moreTitle) { action, indexPath in
+            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
+        }
+        moreAction.image = UIImage(named: "more_row_action")?.resize(maxWidthHeight: 32)
+        moreAction.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
+
+        return [moreAction, pinAction, deleteAction]
+    }
+
+    /*
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+
+
+
+        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
+
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 
@@ -184,6 +245,7 @@ class NotesTableView: UITableView,
 
         return [more, pin, deleteAction]
     }
+ */
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
@@ -289,8 +351,14 @@ class NotesTableView: UITableView,
             }
         }
     }
+
+    public func reloadRows(notes: [Note]) {
+        for note in notes {
+            reloadRow(note: note)
+        }
+    }
     
-    @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
+    @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
         guard let storage = viewDelegate?.storage else { return }
 
         let p = longPressGesture.location(in: self)
@@ -337,6 +405,7 @@ class NotesTableView: UITableView,
 
     public func reloadRowForce(note: Note) {
         note.invalidateCache()
+        note.loadPreviewInfo()
         
         if let index = notes.firstIndex(of: note) {
             reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
@@ -405,6 +474,8 @@ class NotesTableView: UITableView,
 
         self.allowsMultipleSelectionDuringEditing = false
         self.setEditing(false, animated: true)
+
+        self.viewDelegate?.sidebarTableView.loadAllTags()
     }
 
     private func moveAction(notes: [Note], presentController: UIViewController) {

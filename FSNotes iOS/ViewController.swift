@@ -228,6 +228,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             DispatchQueue.main.async {
                 self.notesTable.removeRows(notes: diff.0)
                 self.notesTable.insertRows(notes: diff.1)
+                self.notesTable.reloadRows(notes: diff.2)
             }
         }
     }
@@ -607,11 +608,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let width = self.view.frame.width
             let height = self.view.frame.height
 
-            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 80), y: CGFloat(height - 80)), size: CGSize(width: 48, height: 48))
+            button.frame = CGRect(origin: CGPoint(x: CGFloat(width - 80), y: CGFloat(height - 80)), size: CGSize(width: 60, height: 60))
             return
         }
 
-        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 48, height: 48)))
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: self.view.frame.width - 80, y: self.view.frame.height - 80), size: CGSize(width: 60, height: 60)))
         let image = UIImage(named: "plus.png")
         button.setImage(image, for: UIControl.State.normal)
         button.tag = 1

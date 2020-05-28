@@ -7,6 +7,7 @@
 //
 
 import WebKit
+import Highlightr
 
 #if os(iOS)
 import NightNight
@@ -35,7 +36,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         super.init(frame: frame, configuration: configuration)
 
         navigationDelegate = self
-        scrollView.bounces = false
         
 #if os(OSX)
         if #available(macOS 10.13, *) {
@@ -45,6 +45,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         isOpaque = false
         backgroundColor = UIColor.clear
         scrollView.backgroundColor = UIColor.clear
+        scrollView.bounces = false
 #endif
 
         load(note: note, force: force)
@@ -122,7 +123,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         guard self.note != note || force else { return }
         
         let markdownString = note.getPrettifiedContent()
-        let css = MarkdownView.getPreviewStyle()
+        let css = MPreviewView.getPreviewStyle()
 
         var imagesStorage = note.project.url
         if note.isTextBundle() {
@@ -158,6 +159,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         let template = MPreviewView.template
         let htmlString = renderMarkdownHTML(markdown: markdown)!
+
         guard var pageHTMLString = template?.replacingOccurrences(of: "DOWN_HTML", with: htmlString) else { return }
 
         var baseURL: URL?
@@ -380,6 +382,46 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         template = template.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS()) as NSString
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
+    }
+
+    public static func getPreviewStyle(theme: String? = nil) -> String {
+        var css = String()
+
+        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
+            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
+                css = content
+            }
+        }
+
+        let theme = theme ?? UserDefaultsManagement.codeTheme
+
+        var codeStyle = ""
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
+            codeStyle = try! String.init(contentsOfFile: hgPath)
+        }
+
+        let familyName = UserDefaultsManagement.noteFont.familyName
+
+        #if os(iOS)
+            if #available(iOS 11.0, *) {
+                if !UserDefaultsManagement.dynamicTypeFont {
+                    let fs = UserDefaultsManagement.fontSize
+
+                    return "body {font: \(fs)px '\(familyName)'; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                } else if let font = UserDefaultsManagement.noteFont {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    let fontSize = fontMetrics.scaledFont(for: font).pointSize
+                    let fs = Int(fontSize) - 2
+
+                    return "body {font: \(fs)px '\(familyName)'; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                }
+            }
+        #endif
+
+        let family = familyName ?? "-apple-system"
+        let margin = Int(UserDefaultsManagement.marginSize)
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
     }
 }
 

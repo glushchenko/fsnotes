@@ -17,7 +17,12 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
         if let nav = toController as? UINavigationController {
             if let pvc = nav.viewControllers.first as? PreviewViewController {
                 UserDefaultsManagement.previewMode = true
-                pvc.loadPreview()
+
+                // load if scrolled from editor
+                if !controller.selectedController.isKind(of: ViewController.self) {
+                    pvc.loadPreview()
+                }
+
                 return
             }
 
@@ -42,10 +47,6 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
             DispatchQueue.main.async {
                 self.disableSwipe()
             }
-        }
-
-        if let pvc = UIApplication.getPVC() {
-            //pvc.clear()
         }
 
         if let nav = toController as? UINavigationController {

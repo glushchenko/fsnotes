@@ -380,11 +380,12 @@ class Storage {
         }
     }
 
-    public func checkCacheDiff() -> ([Note], [Note])? {
+    public func checkCacheDiff() -> ([Note], [Note], [Note])? {
         guard let project = getDefault() else { return nil }
 
         var foundRemoved = [Note]()
         var foundAdded = [Note]()
+        var changed = [Note]()
 
         let cached = noteList.filter({ $0.project.isDefault })
         let current = project.read()
@@ -407,7 +408,19 @@ class Storage {
             }
         }
 
-        return (foundRemoved, foundAdded)
+        for cacheNote in cached {
+            if let note = current.first(where: { $0.url == cacheNote.url }) {
+                if cacheNote.modifiedLocalAt != note.modifiedLocalAt {
+                    _ = cacheNote.reload()
+                    cacheNote.invalidateCache()
+                    cacheNote.loadPreviewInfo()
+
+                    changed.append(cacheNote)
+                }
+            }
+        }
+
+        return (foundRemoved, foundAdded, changed)
     }
 
     public func getProjectDocuments(project: Project) -> [URL] {

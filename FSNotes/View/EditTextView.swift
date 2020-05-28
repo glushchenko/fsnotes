@@ -22,7 +22,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var isHighlighted: Bool = false
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
-    var downView: MarkdownView?
+    var downView: MPreviewView?
     public var timer: Timer?
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?

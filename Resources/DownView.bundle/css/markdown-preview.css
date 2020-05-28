@@ -509,15 +509,17 @@ input[type='checkbox'] {
     height:20px;
     line-height: 14px;
     border-radius:5px;
+    background: white;
     border:1px solid #555;
     vertical-align: middle;
 }
     input[type='checkbox'][disabled][checked]:after {
         content:'✓';
+        color: black;
         position: absolute;
         margin-left: 4px;
         margin-top: 3px;
-        opacity: 1 !important;
+        opacity: 1 !important;*/
         font-family: 'Arial';
         font-style: normal;
         font-weight: normal;

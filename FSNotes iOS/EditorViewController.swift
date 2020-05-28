@@ -171,7 +171,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getPVC()?.setTitle(text: text)
     }
 
-    public func fill(note: Note, preview: Bool = false) {
+    public func fill(note: Note, completion: (() -> ())? = nil) {
 
         self.note = note
         if !note.isLoaded {
@@ -179,15 +179,32 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         EditTextView.note = note
-        
+
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
         setTitle(text: note.getShortTitle())
 
+        if UserDefaultsManagement.previewMode {
+            self.fillPreview(note: note)
+
+            completion?()
+            return
+        }
+        
+        fillEditor(note: note)
+        completion?()
+
+        // prefill preview for parallax effect
+        fillPreview(note: note)
+    }
+
+    private func fillEditor(note: Note) {
+
+
         guard editArea != nil else { return }
 
         editArea.initUndoRedoButons()
-        
+
         if note.isRTF() {
             view.backgroundColor = UIColor.white
             editArea.backgroundColor = UIColor.white
@@ -238,7 +255,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.highlightKeyword(search: search)
             isHighlighted = true
         }
-        
+
         editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
@@ -249,11 +266,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         editArea.applyLeftParagraphStyle()
-
-        preLoadPreview()
     }
 
-    private func preLoadPreview() {
+    private func fillPreview(note: Note) {
         guard let pvc = UIApplication.getPVC() else { return }
 
         pvc.loadPreview(force: true)
@@ -740,15 +755,18 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
+        let text = self.editArea.attributedText
         
         self.storageQueue.cancelAllOperations()
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
-            
-            DispatchQueue.main.async {
-                note.save(attributed: self.editArea.attributedText)
 
+            if let text = text {
+                note.save(attributed: text)
+            }
+
+            DispatchQueue.main.async {
                 self.rowUpdaterTimer.invalidate()
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
 
@@ -797,6 +815,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            //bvc.disableSwipe()
+        }
+
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -828,9 +850,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
 
-
-        print(editArea.contentOffset)
-        print("hide")
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            //bvc.enableSwipe()
+        }
     }
 
     public func resetToolbar() {
@@ -1432,6 +1454,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UserDefaultsManagement.previewMode = true
 
         editArea.endEditing(true)
+
+        UIApplication.getPVC()?.loadPreview()
         bvc.containerController.selectController(atIndex: 2, animated: false)
     }
 
