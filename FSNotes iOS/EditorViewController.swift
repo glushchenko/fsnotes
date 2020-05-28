@@ -195,7 +195,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         completion?()
 
         // prefill preview for parallax effect
-        fillPreview(note: note)
+        //fillPreview(note: note)
     }
 
     private func fillEditor(note: Note) {
