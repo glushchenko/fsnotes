@@ -69,6 +69,12 @@ class SandboxBookmark {
     public func remove(url: URL) {
         self.bookmarks.removeValue(forKey: url)
 
+        // old style bookmarks
+        let oldStylePath = "/private" + url.path
+        if let index = bookmarks.firstIndex(where: { $0.key.path == oldStylePath }) {
+            bookmarks.remove(at: index)
+        }
+
         let values = bookmarks.map({ $0.value })
         save(data: values)
     }

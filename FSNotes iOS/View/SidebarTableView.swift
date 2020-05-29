@@ -26,7 +26,7 @@ class SidebarTableView: UITableView,
     @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
 
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
-    var sidebar: Sidebar?
+    var sidebar: Sidebar = Sidebar()
 
     private var selectedProjects: [Project]?
     private var busyTrashReloading = false
@@ -43,25 +43,18 @@ class SidebarTableView: UITableView,
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let items = sidebar?.items else { return 0 }
-
-        return items.count
+        return sidebar.items.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let items = sidebar?.items else { return 0 }
-
-        return items[section].count
+        return sidebar.items[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "sidebarCell", for: indexPath) as! SidebarTableCellView
 
-        guard let sidebar = sidebar else { return cell }
-
         guard sidebar.items.indices.contains(indexPath.section), sidebar.items[indexPath.section].indices.contains(indexPath.row) else { return cell }
-
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
         cell.configure(sidebarItem: sidebarItem)
@@ -122,7 +115,7 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let view = self.viewController, let sidebar = self.sidebar else { return }
+        guard let view = self.viewController else { return }
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
@@ -192,7 +185,7 @@ class SidebarTableView: UITableView,
     }
 
     private func hasProjects() -> Bool {
-        if let projects = self.sidebar?.getProjects(), projects.count > 0 {
+        if sidebar.getProjects().count > 0 {
             return true
         }
 
@@ -226,7 +219,7 @@ class SidebarTableView: UITableView,
     }
 
     public func getSidebarItem(project: Project? = nil) -> SidebarItem? {
-        guard let sidebar = self.sidebar else { return nil }
+        //guard let sidebar = self.sidebar else { return nil }
 
         if let project = project, sidebar.items.count > 1 {
             return sidebar.items[1].first(where: { $0.project == project })
@@ -320,7 +313,8 @@ class SidebarTableView: UITableView,
 
         var projects = [Project]()
         for indexPath in indexPaths {
-            if let item = sidebar?.items[indexPath.section][indexPath.row], let project = item.project {
+            let item = sidebar.items[indexPath.section][indexPath.row]
+            if let project = item.project {
                 projects.append(project)
             }
         }
@@ -361,25 +355,27 @@ class SidebarTableView: UITableView,
         guard let projects = getSelectedProjects() else { return }
         let tags = getAllTags(projects: projects)
 
-        DispatchQueue.main.async {
-            self.beginUpdates()
-            for tag in tags {
-                let position = self.sidebar?.items[2].count ?? 0
-                self.sidebar?.items[2].append(SidebarItem(name: tag, type: .Tag))
-                self.insertRows(at: [IndexPath(item: position, section: 2)], with: .fade)
-            }
-            
-            self.endUpdates()
+        guard tags.count > 0 else { return }
 
+        DispatchQueue.main.async {
+            for tag in tags {
+                let position = self.sidebar.items[2].count
+                let element = SidebarItem(name: tag, type: .Tag)
+                self.sidebar.items[2].insert(element, at: position)
+            }
+
+            self.reloadData()
             UIApplication.getVC().resizeSidebar()
         }
     }
 
     public func unloadAllTags() {
+        guard sidebar.items[2].count > 0 else { return }
+
         let rows = numberOfRows(inSection: 2)
 
         if rows > 0 {
-            self.sidebar?.items[2].removeAll()
+            self.sidebar.items[2].removeAll()
 
             self.beginUpdates()
             for index in stride(from: rows - 1, to: -1, by: -1) {
@@ -390,7 +386,7 @@ class SidebarTableView: UITableView,
     }
 
     public func reloadProjectsSection() {
-        sidebar?.items[1].removeAll()
+        sidebar.items[1].removeAll()
 
         let projects = Storage.sharedInstance().getProjects().sorted(by: { $0.label < $1.label })
 
@@ -401,28 +397,10 @@ class SidebarTableView: UITableView,
 
             let sidebarItem = SidebarItem(name: project.label, project: project, type: .Category, icon: nil, tag: nil)
 
-            sidebar?.items[1].append(sidebarItem)
+            sidebar.items[1].append(sidebarItem)
         }
 
         reloadData()
-    }
-
-    public func addTags(_ tags: [String]) {
-        beginUpdates()
-        for tag in tags {
-            if let si = sidebar?.items[2], si.first(where: { $0.name == tag }) == nil {
-                let sidebarItem = SidebarItem(name: tag, type: .Tag)
-                sidebar?.items[2].append(sidebarItem)
-
-                let position = self.sidebar?.items[2].count ?? 0
-                insertRows(at: [IndexPath(item: position, section: 2)], with: .fade)
-            }
-        }
-        endUpdates()
-    }
-
-    public func removeTags(_ tags: [String]) {
-
     }
 
     public func getSelectedProjects() -> [Project]? {
@@ -439,7 +417,7 @@ class SidebarTableView: UITableView,
 
     public func getSelectedSidebarItem() -> SidebarItem? {
         guard let project = getSelectedProjects()?.first else { return nil }
-        guard let items = sidebar?.items else { return nil }
+        let items = sidebar.items
 
         for item in items {
             for subItem in item {

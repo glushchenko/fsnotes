@@ -108,6 +108,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
             DispatchQueue.main.async {
                 if UserDefaultsManagement.inlineTags {
+                    self.sidebarTableView.sidebar = Sidebar()
                     self.sidebarTableView.reloadProjectsSection()
                     self.sidebarTableView.loadAllTags()
                 } else {
@@ -254,7 +255,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.maxSidebarWidth = self.calculateLabelMaxWidth()
             self.sidebarTableView.reloadData()
 
-            guard let items = self.sidebarTableView.sidebar?.items[1], let selected = project, let i = items.lastIndex(where: { $0.project == selected }) else { return }
+            let items = self.sidebarTableView.sidebar.items[1]
+            guard let selected = project, let i = items.lastIndex(where: { $0.project == selected }) else { return }
 
             let indexPath = IndexPath(row: i, section: 1)
             self.sidebarTableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
@@ -760,12 +762,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func enableNightMode() {
+        print("Dark mode enabled")
+
         NightNight.theme = .night
 
         guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
             let vc = pc.containerController.viewControllers[0] as? ViewController,
             let nav = pc.containerController.viewControllers[1] as? UINavigationController,
             let evc = nav.viewControllers.first as? EditorViewController else { return }
+
+        guard let pvc = UIApplication.getPVC() else { return }
+        pvc.removeMPreviewView()
+        MPreviewView.template = nil
 
         UserDefaultsManagement.codeTheme = "monokai-sublime"
         NotesTextProcessor.hl = nil
@@ -793,6 +801,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func disableNightMode()
     {
+        print("Dark mode disabled")
+
         NightNight.theme = .normal
 
         guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
@@ -800,6 +810,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let nav = pc.containerController.viewControllers[1] as? UINavigationController,
             let evc = nav.viewControllers.first as? EditorViewController else { return }
 
+        guard let pvc = UIApplication.getPVC() else { return }
+        pvc.removeMPreviewView()
+        MPreviewView.template = nil
+        
         UserDefaultsManagement.codeTheme = "atom-one-light"
         NotesTextProcessor.hl = nil
         evc.refill()
@@ -1086,11 +1100,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         guard UserDefaultsManagement.nightModeType == .system else { return }
 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.checkDarkMode()
+        }
+    }
+
+    public func checkDarkMode() {
         if #available(iOS 12.0, *) {
             if traitCollection.userInterfaceStyle == .dark {
-                enableNightMode()
+                if NightNight.theme != .night {
+                    enableNightMode()
+                }
             } else {
-                disableNightMode()
+                if NightNight.theme == .night {
+                    disableNightMode()
+                }
             }
         }
     }

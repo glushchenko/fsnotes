@@ -333,7 +333,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             } else {
                 editArea.keyboardAppearance = .light
             }
-            
+
             fill(note: note)
             
             editArea.selectedRange = range
@@ -767,6 +767,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
             if let text = text {
                 note.save(attributed: text)
+                note.invalidateCache()
+                note.loadPreviewInfo()
             }
 
             DispatchQueue.main.async {
@@ -801,7 +803,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let note = self.note
         else { return }
 
-        note.invalidateCache()
         vc.notesTable.beginUpdates()
         vc.notesTable.reloadRow(note: note)
         vc.notesTable.endUpdates()
@@ -1522,15 +1523,26 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
         guard UserDefaultsManagement.nightModeType == .system else { return }
 
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.checkDarkMode()
+        }
+    }
+
+    public func checkDarkMode() {
         if #available(iOS 12.0, *) {
             if traitCollection.userInterfaceStyle == .dark {
-
-                UIApplication.getVC().enableNightMode()
+                if NightNight.theme != .night {
+                    UIApplication.getVC().enableNightMode()
+                }
             } else {
-                UIApplication.getVC().disableNightMode()
+                if NightNight.theme == .night {
+                    UIApplication.getVC().disableNightMode()
+                }
             }
         }
     }

@@ -168,4 +168,28 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.checkDarkMode()
+        }
+    }
+
+    public func checkDarkMode() {
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                if NightNight.theme != .night {
+                    UIApplication.getVC().enableNightMode()
+                }
+            } else {
+                if NightNight.theme == .night {
+                    UIApplication.getVC().disableNightMode()
+                }
+            }
+        }
+    }
 }

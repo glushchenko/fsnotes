@@ -12,7 +12,7 @@ typealias Image = UIImage
 
 class Sidebar {
     var list = [Any]()
-    let storage = Storage.sharedInstance()
+    let storage = Storage.shared()
     public var items = [[SidebarItem]]()
 
     init() {
@@ -24,7 +24,7 @@ class Sidebar {
 
         var system = [SidebarItem]()
 
-        if let project = Storage.sharedInstance().getDefault() {
+        if let project = Storage.shared().getDefault() {
             let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), project: project, type: .Inbox, icon: getImage(named: inboxName))
             system.append(inbox)
         }
