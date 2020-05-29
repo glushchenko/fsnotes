@@ -47,6 +47,8 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
             DispatchQueue.main.async {
                 self.disableSwipe()
             }
+
+            UIApplication.getPVC()?.clear()
         }
 
         if let nav = toController as? UINavigationController {
@@ -82,6 +84,11 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
 
         containerController.viewControllers = [listController, editorNav, previewNav]
         containerController.selectController(atIndex: 0, animated: false)
+
+        // editor force loading
+        DispatchQueue.main.async {
+            _ = editorController.view
+        }
     }
 
     public func disableSwipe() {

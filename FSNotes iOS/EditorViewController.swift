@@ -171,7 +171,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getPVC()?.setTitle(text: text)
     }
 
-    public func fill(note: Note, completion: (() -> ())? = nil) {
+    public func fill(note: Note, clearPreview: Bool = false, completion: (() -> ())? = nil) {
 
         self.note = note
         if !note.isLoaded {
@@ -195,7 +195,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         completion?()
 
         // prefill preview for parallax effect
-        //fillPreview(note: note)
+        if clearPreview {
+            guard let pvc = UIApplication.getPVC() else { return }
+            pvc.clear()
+        }
     }
 
     private func fillEditor(note: Note) {

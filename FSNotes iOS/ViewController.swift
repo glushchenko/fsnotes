@@ -53,6 +53,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         super.viewWillAppear(animated)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        if nil == Storage.shared().getRoot() {
+            let alert = UIAlertController(title: "Storage not found", message: "Please enable iCloud Drive for this app and try again!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { action in
+                exit(0)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
+
+        super.viewDidAppear(animated)
+    }
+
     override func viewDidLoad() {
         configureUI()
         configureNotifications()

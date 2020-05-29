@@ -404,7 +404,7 @@ class SidebarTableView: UITableView,
             sidebar?.items[1].append(sidebarItem)
         }
 
-        reloadSections(IndexSet(integer: 1), with: .automatic)
+        reloadData()
     }
 
     public func addTags(_ tags: [String]) {

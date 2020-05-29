@@ -121,14 +121,20 @@ class NotesTableView: UITableView,
                     self.reloadRow(note: note)
                     NotesTextProcessor.highlight(note: note)
 
-                    evc.fill(note: note)
-                    bvc.containerController.selectController(atIndex: index, animated: true)
+                    evc.fill(note: note, clearPreview: true) {
+                        bvc.containerController.selectController(atIndex: index, animated: true)
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.deselectRow(at: indexPath, animated: true)
+                        }
+                    }
                 }
             })
+            
             return
         }
 
-        evc.fill(note: note) {
+        evc.fill(note: note, clearPreview: true) {
             bvc.containerController.selectController(atIndex: index, animated: true)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

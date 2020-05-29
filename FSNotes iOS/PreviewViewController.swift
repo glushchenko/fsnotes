@@ -74,7 +74,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         bvc.containerController.selectController(atIndex: 1, animated: false)
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
             if evc.editArea != nil {
                 evc.editArea.becomeFirstResponder()
             }

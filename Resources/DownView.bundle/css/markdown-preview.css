@@ -535,6 +535,10 @@ ul li p {
     padding: 0;
 }
 
+ul li p {
+    display: inline;
+}
+
 canvas {
     display: block;
     margin: 0 auto;
