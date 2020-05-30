@@ -1910,6 +1910,8 @@ class ViewController: NSViewController,
         } else {
             enablePreview()
         }
+
+        editArea.userActivity?.needsSave = true
     }
     
     func loadMoveMenu() {
@@ -2439,5 +2441,20 @@ class ViewController: NSViewController,
         if UserDefaultsManagement.lockOnUserSwitch {
             lockAll(self)
         }
+    }
+
+    override func restoreUserActivityState(_ userActivity: NSUserActivity) {
+        if let name = userActivity.userInfo?["note-file-name"] as? String {
+            if let note = Storage.sharedInstance().getBy(name: name) {
+                notesTableView.selectRowAndSidebarItem(note: note)
+            }
+        }
+    }
+
+    /*
+     Needs update UserActivity if selection did change
+     */
+    func textViewDidChangeSelection(_ notification: Notification) {
+        editArea.userActivity?.needsSave = true
     }
 }

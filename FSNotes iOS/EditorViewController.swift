@@ -61,10 +61,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
-        if let note = note {
-            fill(note: note)
-        }
-
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
             bvc.enableSwipe()
         }
@@ -74,14 +70,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.keyboardDismissMode = .interactive
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        coordinator.animate(alongsideTransition: { (ctx) in
-            self.refillToolbar()
-            self.refill()
-        })
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//
+//        coordinator.animate(alongsideTransition: { (ctx) in
+//            self.refillToolbar()
+//            self.refill()
+//        })
+//    }
 
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
@@ -171,7 +167,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getPVC()?.setTitle(text: text)
     }
 
-    public func fill(note: Note, clearPreview: Bool = false, completion: (() -> ())? = nil) {
+    public func registerHandoff(for note: Note) {
+        let updateDict:  [String: String] = ["note-file-name": note.name]
+        let activity = NSUserActivity(activityType: "es.fsnot.handoff-view")
+        activity.isEligibleForHandoff = true
+        activity.addUserInfoEntries(from: updateDict)
+        activity.title = NSLocalizedString("Open note", comment: "Document opened")
+        self.userActivity = activity
+        self.userActivity?.becomeCurrent()
+    }
+
+    public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
+
+        if enableHandoff {
+            registerHandoff(for: note)
+        }
 
         self.note = note
         if !note.isLoaded {
@@ -202,8 +212,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func fillEditor(note: Note) {
-
-
         guard editArea != nil else { return }
 
         editArea.initUndoRedoButons()
@@ -1543,6 +1551,39 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if NightNight.theme == .night {
                     UIApplication.getVC().disableNightMode()
                 }
+            }
+        }
+    }
+
+    override func restoreUserActivityState(_ activity: NSUserActivity) {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            return
+        }
+
+        guard let name = activity.userInfo?["note-file-name"] as? String,
+            let position = activity.userInfo?["position"] as? String,
+            let state = activity.userInfo?["state"] as? String,
+            let note = Storage.sharedInstance().getBy(name: name)
+        else { return }
+
+        var index = 0
+        if state == "preview" {
+            UserDefaultsManagement.previewMode = true
+            index = 2
+        } else {
+            UserDefaultsManagement.previewMode = false
+            index = 1
+        }
+
+        let evc = UIApplication.getEVC()
+        evc.editArea.resignFirstResponder()
+
+        evc.fill(note: note, clearPreview: true, enableHandoff: false) {
+            bvc.containerController.selectController(atIndex: index, animated: true)
+
+            if let pos = Int(position), pos > -1, evc.editArea.textStorage.length >= pos {
+                evc.editArea.becomeFirstResponder()
+                evc.editArea.selectedRange = NSRange(location: pos, length: 0)
             }
         }
     }

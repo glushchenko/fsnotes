@@ -43,7 +43,12 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
             DispatchQueue.main.async {
                 self.enableSwipe()
             }
+
+        // View controller
         } else {
+
+            UIApplication.getEVC().userActivity?.invalidate()
+            
             DispatchQueue.main.async {
                 self.disableSwipe()
             }

@@ -410,16 +410,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func loadNotesTable() {
         self.updateTable() {
             self.stopAnimation(indicator: self.indicator)
-
-            if !self.is3DTouchShortcut, let note = Storage.sharedInstance().noteList.first {
-
-                DispatchQueue.main.async {
-                    let evc = UIApplication.getEVC()
-                    if evc.note == nil {
-                        evc.fill(note: note)
-                    }
-                }
-            }
         }
     }
 

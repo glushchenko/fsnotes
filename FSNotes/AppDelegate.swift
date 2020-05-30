@@ -359,5 +359,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
                    }
                }
            }
-       }
+    }
+
+    func application(_ application: NSApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([NSUserActivityRestoring]) -> Void) -> Bool {
+
+        ViewController.shared()?.restoreUserActivityState(userActivity)
+
+        return true
+    }
+
+    func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+
+        return true
+    }
 }

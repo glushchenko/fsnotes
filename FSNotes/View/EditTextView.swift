@@ -634,7 +634,38 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return true
     }
 
+    override func updateUserActivityState(_ userActivity: NSUserActivity) {
+        guard let note = EditTextView.note else { return }
+
+        let position =
+            window?.firstResponder == self ? selectedRange().location : -1
+        let state = UserDefaultsManagement.preview ? "preview" : "editor"
+        let data =
+            [
+                "note-file-name": note.name,
+                "position": String(position),
+                "state": state
+            ]
+
+        userActivity.addUserInfoEntries(from: data)
+    }
+
+    public func registerHandoff(note: Note) {
+        self.userActivity?.invalidate()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let updateDict:  [String: String] = ["note-file-name": note.name]
+            let activity = NSUserActivity(activityType: "es.fsnot.handoff-view")
+            activity.isEligibleForHandoff = true
+            activity.userInfo = updateDict
+            activity.title = NSLocalizedString("Open note", comment: "Document opened")
+            self.userActivity = activity
+            self.userActivity?.becomeCurrent()
+        }
+    }
+
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+        registerHandoff(note: note)
 
         unregisterDraggedTypes()
         registerForDraggedTypes([
@@ -1966,5 +1997,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         return menu
+    }
+
+    override func resignFirstResponder() -> Bool {
+        userActivity?.needsSave = true
+
+        return super.resignFirstResponder()
     }
 }
