@@ -177,7 +177,7 @@ class CloudDriveManager {
             if let prevNote = getOldNote(item: item, url: url) {
                 print("Found old, renamed: \(url)")
                 DispatchQueue.main.async {
-                    self.delegate.notesTable.removeByNotes(notes: [prevNote])
+                    self.delegate.notesTable.removeRows(notes: [prevNote])
 
                     prevNote.url = url
 
@@ -244,7 +244,7 @@ class CloudDriveManager {
 
                 self.storage.removeNotes(notes: [note], completely: true) {_ in
                     DispatchQueue.main.async {
-                        self.delegate.notesTable.removeByNotes(notes: [note])
+                        self.delegate.notesTable.removeRows(notes: [note])
                     }
                 }
             }
@@ -266,7 +266,9 @@ class CloudDriveManager {
     }
 
     public func add(url: URL) {
-        guard self.storage.getBy(url: url) == nil, let note = self.storage.initNote(url: url) else { return }
+        guard self.storage.getBy(url: url) == nil,
+            let note = self.storage.initNote(url: url)
+        else { return }
 
         note.load()
         note.loadCreationDate()

@@ -109,6 +109,10 @@
 			<string>One</string>
 		</dict>
 	</dict>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>es.fsnot.handoff-open-note</string>
+	</array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SourceCodePro-Bold.ttf</string>

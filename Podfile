@@ -9,15 +9,16 @@ end
 
 def ios_pods
     pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
-    pod 'DKImagePickerController', '4.1.4'
+    pod 'DKImagePickerController', '4.3.1'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
+    pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
 end
 
 def common_pods
     pod 'Highlightr', :git => 'https://github.com/glushchenko/Highlightr.git', :branch => 'master'
     pod 'libcmark_gfm', :git => 'https://github.com/KristopherGBaker/libcmark_gfm.git', :branch => 'master' 
-	pod 'RNCryptor', '~> 5.1.0'
+    pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
 end
 

@@ -109,8 +109,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages {
             if row < noteList.count {
                 let note = noteList[row]
+                note.loadPreviewInfo()
 
-                if let urls = note.getImagePreviewUrl(), urls.count > 0 {
+                if let urls = note.imageUrl, urls.count > 0 {
                     let previewCharsQty = note.preview.count
 
                     if (previewCharsQty == 0) {
@@ -431,7 +432,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public func reloadRow(note: Note) {
         note.invalidateCache()
-        let urls = note.getImagePreviewUrl()
+        note.loadPreviewInfo()
+        let urls = note.imageUrl
 
         DispatchQueue.main.async {
             if let i = self.noteList.firstIndex(of: note) {

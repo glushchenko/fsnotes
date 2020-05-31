@@ -65,7 +65,7 @@ class MoveViewController: UITableViewController {
                     note.parseURL()
                     note.project = project
 
-                    self.notesTableView.removeByNotes(notes: [note])
+                    self.notesTableView.removeRows(notes: [note])
                     self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
                 }
             }
@@ -149,7 +149,7 @@ class MoveViewController: UITableViewController {
             self.projects?.append(project)
             self.tableView.reloadData()
 
-            _ = Storage.sharedInstance().add(project: project)
+            Storage.sharedInstance().assignTree(for: project)
 
             self.notesTableView.viewDelegate?.sidebarTableView.reloadProjectsSection()
         }

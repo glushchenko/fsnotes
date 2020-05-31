@@ -28,12 +28,9 @@ extension NoteAttachment {
     }
 
     private func getEditorView() -> EditTextView? {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = viewController.viewControllers[0] as? EditorViewController else {
-                return nil
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
+            let evc = nav.viewControllers.first as? EditorViewController else { return nil }
 
         return evc.editArea
     }

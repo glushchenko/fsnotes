@@ -21,7 +21,6 @@ public class Note: NSObject  {
 
     var content: NSMutableAttributedString = NSMutableAttributedString()
     var creationDate: Date? = Date()
-    var sharedStorage = Storage.sharedInstance()
     var tagNames = [String]()
     let dateFormatter = DateFormatter()
     let undoManager = UndoManager()
@@ -52,11 +51,22 @@ public class Note: NSObject  {
     private var firstLineAsTitle = false
     private var lastSelectedRange: NSRange?
 
+    public var isLoaded = false
+    public var isLoadedFromCache = false
+
     // Load exist
     
-    init(url: URL, with project: Project) {
+    init(url: URL, with project: Project, modified: Date? = nil, created: Date? = nil) {
         self.ciphertextWriter.maxConcurrentOperationCount = 1
         self.ciphertextWriter.qualityOfService = .userInteractive
+
+        if let modified = modified {
+            modifiedLocalAt = modified
+        }
+        
+        if let created = created {
+            creationDate = created
+        }
 
         self.url = url
         self.project = project
@@ -90,6 +100,39 @@ public class Note: NSObject  {
         self.parseURL()
     }
 
+    init(meta: NoteMeta, project: Project) {
+        ciphertextWriter.maxConcurrentOperationCount = 1
+        ciphertextWriter.qualityOfService = .userInteractive
+
+        isLoadedFromCache = true
+        isParsed = true
+        
+        url = meta.url
+        imageUrl = meta.imageUrl
+        title = meta.title
+        preview = meta.preview
+        modifiedLocalAt = meta.modificationDate
+        creationDate = meta.creationDate
+        isPinned = meta.pinned
+        self.project = project
+
+        super.init()
+
+        parseURL(loadProject: false)
+    }
+
+    func getMeta() -> NoteMeta {
+        return NoteMeta(
+            url: url,
+            imageUrl: imageUrl,
+            title: title,
+            preview: preview,
+            modificationDate: modifiedLocalAt,
+            creationDate: creationDate!,
+            pinned: isPinned
+        )
+    }
+
     public func setLastSelectedRange(value: NSRange)
     {
         lastSelectedRange = value
@@ -112,15 +155,15 @@ public class Note: NSObject  {
         return self.url
     }
     
-    public func loadProject(url: URL) {
-        self.url = url
+    public func loadProject() {
+        let sharedStorage = Storage.sharedInstance()
         
         if let project = sharedStorage.getProjectBy(url: url) {
             self.project = project
         }
     }
         
-    func load(tags: Bool = true) {        
+    func load(tags: Bool = true) {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
@@ -130,8 +173,14 @@ public class Note: NSObject  {
         }
 
         loadFileName()
+
+        #if os(iOS)
+            loadPreviewInfo()
+        #endif
+
+        isLoaded = true
     }
-        
+
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
@@ -199,6 +248,8 @@ public class Note: NSObject  {
     }
     
     func move(to: URL, project: Project? = nil) -> Bool {
+        let sharedStorage = Storage.sharedInstance()
+
         do {
             var destination = to
 
@@ -425,7 +476,7 @@ public class Note: NSObject  {
     }
     
     private func getDefaultTrashURL() -> URL? {
-        if let url = sharedStorage.getDefaultTrash()?.url {
+        if let url = Storage.sharedInstance().getDefaultTrash()?.url {
             return url
         }
 
@@ -533,12 +584,11 @@ public class Note: NSObject  {
     }
     
     func addPin(cloudSave: Bool = true) {
-        sharedStorage.pinned += 1
         isPinned = true
         
         #if CLOUDKIT || os(iOS)
         if cloudSave {
-            sharedStorage.saveCloudPins()
+            Storage.sharedInstance().saveCloudPins()
         }
         #elseif os(OSX)
             var pin = true
@@ -549,12 +599,11 @@ public class Note: NSObject  {
     
     func removePin(cloudSave: Bool = true) {
         if isPinned {
-            sharedStorage.pinned -= 1
             isPinned = false
             
             #if CLOUDKIT || os(iOS)
             if cloudSave {
-                sharedStorage.saveCloudPins()
+                Storage.sharedInstance().saveCloudPins()
             }
             #elseif os(OSX)
                 var pin = false
@@ -652,7 +701,7 @@ public class Note: NSObject  {
         }
 
         if loadProject {
-            self.loadProject(url: url)
+            self.loadProject()
         }
     }
 
@@ -749,7 +798,7 @@ public class Note: NSObject  {
         }
 
         if globalStorage {
-            sharedStorage.add(self)
+            Storage.sharedInstance().add(self)
         }
     }
 
@@ -978,7 +1027,9 @@ public class Note: NSObject  {
                 new.append(newTagClean)
             }
         }
-        
+
+        let sharedStorage = Storage.sharedInstance()
+
         for n in new { sharedStorage.addTag(n) }
         
         var removedFromStorage = [String]()
@@ -1029,6 +1080,8 @@ public class Note: NSObject  {
 
     public func removeTag(_ name: String) {
         guard tagNames.contains(name) else { return }
+
+        let sharedStorage = Storage.sharedInstance()
         
         if let i = tagNames.firstIndex(of: name) {
             tagNames.remove(at: i)
@@ -1045,6 +1098,8 @@ public class Note: NSObject  {
 
 #if os(OSX)
     public func loadTags() {
+        let sharedStorage = Storage.sharedInstance()
+        
         let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
         if let tagNames = tags?.tagNames {
             for tag in tagNames {
@@ -1064,19 +1119,7 @@ public class Note: NSObject  {
     }
 #else
     public func loadTags() -> Bool {
-        if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
-            let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
-            self.tagNames.removeAll()
-            for tag in tags {
-                if let tagName = tag as? String {
-                    self.tagNames.append(tagName)
-
-                    if !project.isTrash {
-                        sharedStorage.addTag(tagName)
-                    }
-                }
-            }
-        }
+        let sharedStorage = Storage.sharedInstance()
 
         if UserDefaultsManagement.inlineTags {
             let changes = scanContentTags()
@@ -1084,6 +1127,20 @@ public class Note: NSObject  {
 
             if (qty > 0) {
                 return true
+            }
+        } else {
+            if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
+                let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
+                self.tagNames.removeAll()
+                for tag in tags {
+                    if let tagName = tag as? String {
+                        self.tagNames.append(tagName)
+
+                        if !project.isTrash {
+                            sharedStorage.addTag(tagName)
+                        }
+                    }
+                }
             }
         }
 
@@ -1217,9 +1274,9 @@ public class Note: NSObject  {
     }
     #endif
 
-    public func getImagePreviewUrl() -> [URL]? {
+    public func loadPreviewInfo() {
         if self.isParsed {
-            return self.imageUrl
+            return
         }
 
         var i = 0
@@ -1286,8 +1343,6 @@ public class Note: NSObject  {
 
         self.imageUrl = urls
         self.isParsed = true
-
-        return urls
     }
 
     private func loadTitleFromFileName() {
@@ -1357,7 +1412,9 @@ public class Note: NSObject  {
     }
 
     public func removeCacheForPreviewImages() {
-        guard let imageURLs = getImagePreviewUrl() else { return }
+        loadPreviewInfo()
+
+        guard let imageURLs = imageUrl else { return }
 
         for url in imageURLs {
             if let imageURL = getCacheForPreviewImage(at: url) {
@@ -1543,6 +1600,8 @@ public class Note: NSObject  {
     }
 
     public func unLock(password: String) -> Bool {
+        let sharedStorage = Storage.sharedInstance()
+
         do {
             let name = url.deletingPathExtension().lastPathComponent
             let data = try Data(contentsOf: url)
@@ -1691,7 +1750,7 @@ public class Note: NSObject  {
         }
     }
 
-    private func cleanOut() {
+    public func cleanOut() {
         imageUrl = nil
         content = NSMutableAttributedString(string: String())
         preview = String()

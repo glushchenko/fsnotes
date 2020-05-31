@@ -375,6 +375,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
             let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
             viewController.configureIndicator(indicator: indicator, view: self.tableView)
+            viewController.startAnimation(indicator: indicator)
 
             self.view.isUserInteractionEnabled = false
 
@@ -414,11 +415,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     @IBAction func reloadNotesTable() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController else { return }
 
         vc.notesTable.reloadData()
     }

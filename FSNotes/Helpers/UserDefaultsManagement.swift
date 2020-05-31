@@ -52,6 +52,7 @@ public class UserDefaultsManagement {
         static let AutomaticDashSubstitution = "automaticDashSubstitution"
         static let BackupManually = "backupManually"
         static let BgColorKey = "bgColorKeyed"
+        static let CacheDiff = "cacheDiff"
         static let CellSpacing = "cellSpacing"
         static let CellFrameOriginY = "cellFrameOriginY"
         static let CodeFontNameKey = "codeFont"
@@ -59,6 +60,7 @@ public class UserDefaultsManagement {
         static let codeBlockHighlight = "codeBlockHighlight"
         static let codeTheme = "codeTheme"
         static let ContinuousSpellChecking = "continuousSpellChecking"
+        static let CrashedLastTime = "crashedLastTime"
         static let DefaultLanguageKey = "defaultLanguage"
         static let FontNameKey = "font"
         static let FontSizeKey = "fontsize"
@@ -1259,7 +1261,12 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.MathJaxPreview) as? Bool {
                 return result
             }
+
+            #if os(iOS)
+            return true
+            #else
             return false
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.MathJaxPreview)
@@ -1323,6 +1330,30 @@ public class UserDefaultsManagement {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: "sidebarVisibilityTrash")
+        }
+    }
+
+    static var crashedLastTime: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.CrashedLastTime) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CrashedLastTime)
+        }
+    }
+
+    static var isCheckedCacheDiff: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.CacheDiff) as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.CacheDiff)
         }
     }
 }

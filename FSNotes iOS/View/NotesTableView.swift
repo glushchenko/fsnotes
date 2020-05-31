@@ -10,14 +10,15 @@ import UIKit
 import NightNight
 import MobileCoreServices
 import AudioToolbox
+import SwipeCellKit
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
-    UITableViewDragDelegate {
+    UITableViewDragDelegate,
+    SwipeTableViewCellDelegate {
 
     var notes = [Note]()
-    var storage = Storage.sharedInstance()
     var viewDelegate: ViewController? = nil
     var cellHeights = [IndexPath:CGFloat]()
     public var selectedIndexPaths: [IndexPath]?
@@ -37,11 +38,15 @@ class NotesTableView: UITableView,
     private func calcHeight(indexPath: IndexPath) -> CGFloat {
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
-            if let urls = note.getImagePreviewUrl(), urls.count > 0 {
 
-                let previewCharsQty = note.preview.count
-                if (previewCharsQty == 0) {
+            if !note.isLoaded && !note.isLoadedFromCache {
+                note.load()
+            }
+
+            if let urls = note.imageUrl, urls.count > 0 {
+                if note.preview.count == 0 {
                     if note.getTitle() != nil {
+
                         // Title + image
                         return 130
                     }
@@ -61,12 +66,12 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
-        guard self.notes.indices.contains(indexPath.row) else { return cell }
-        
-        let note = self.notes[indexPath.row]
-        note.load()
+        cell.delegate = self
 
-        cell.configure(note: self.notes[indexPath.row])
+        guard self.notes.indices.contains(indexPath.row) else { return cell }
+
+        let note = self.notes[indexPath.row]
+        cell.configure(note: note)
         cell.selectionStyle = .gray
 
         let view = UIView()
@@ -90,60 +95,126 @@ class NotesTableView: UITableView,
 
         guard !self.isEditing else { return }
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let viewController = pageController.orderedViewControllers[1] as? UINavigationController else {
+        let note = notes[indexPath.row]
 
-                self.deselectRow(at: indexPath, animated: true)
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            self.deselectRow(at: indexPath, animated: true)
             return
         }
 
-        let note = notes[indexPath.row]
-        if let evc = viewController.viewControllers[0] as? EditorViewController {
-            if let editArea = evc.editArea, let u = editArea.undoManager {
-                u.removeAllActions()
-            }
+        let evc = UIApplication.getEVC()
 
-            if note.container == .encryptedTextPack {
-                viewDelegate?.unLock(notes: [note], completion: { notes in
-                    DispatchQueue.main.async {
-                        guard note.container != .encryptedTextPack else {
-                            self.invalidPasswordAlert()
-                            return
-                        }
+        if let editArea = evc.editArea, let u = editArea.undoManager {
+            u.removeAllActions()
+        }
 
-                        self.reloadRow(note: note)
-                        NotesTextProcessor.highlight(note: note)
+        let index = UserDefaultsManagement.previewMode ? 2 : 1
 
-                        evc.fill(note: note)
-                        pageController.switchToEditor()
+        if note.container == .encryptedTextPack {
+            viewDelegate?.unLock(notes: [note], completion: { notes in
+                DispatchQueue.main.async {
+                    guard note.container != .encryptedTextPack else {
+                        self.invalidPasswordAlert()
+                        return
                     }
-                })
-                return
-            }
 
-            self.deselectRow(at: indexPath, animated: true)
-            evc.fill(note: note)
-            pageController.switchToEditor()
+                    self.reloadRow(note: note)
+                    NotesTextProcessor.highlight(note: note)
+
+                    evc.fill(note: note, clearPreview: true) {
+                        bvc.containerController.selectController(atIndex: index, animated: true)
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            self.deselectRow(at: indexPath, animated: true)
+                        }
+                    }
+                }
+            })
+            
+            return
+        }
+
+        evc.fill(note: note, clearPreview: true) {
+            bvc.containerController.selectController(atIndex: index, animated: true)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.deselectRow(at: indexPath, animated: true)
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard UIApplication.getVC().sidebarTableView.frame.width == 0 else { return nil }
 
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
-            
-            let note = self.notes[indexPath.row]
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.transitionStyle = .border
+        options.expansionStyle = .selection
+        return options
+    }
+
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard let storage = viewDelegate?.storage, UIApplication.getVC().sidebarTableView.frame.width == 0
+        else { return nil }
+
+        guard orientation == .right else { return nil }
+        let note = self.notes[indexPath.row]
+
+        let deleteTitle = NSLocalizedString("Delete", comment: "Table row action")
+        let deleteAction = SwipeAction(style: .destructive, title: deleteTitle) { action, indexPath in
             note.remove()
-            self.removeByNotes(notes: [note])
+
+            self.viewDelegate?.sidebarTableView.loadAllTags()
+            self.removeRows(notes: [note])
 
             if note.isEmpty() {
-                self.storage.removeBy(note: note)
+                storage.removeBy(note: note)
             }
+        }
+        deleteAction.image = UIImage(named: "basket")?.resize(maxWidthHeight: 32)
+
+        let pinTitle = note.isPinned
+            ? NSLocalizedString("UnPin", comment: "Table row action")
+            : NSLocalizedString("Pin", comment: "Table row action")
+
+        let pinAction = SwipeAction(style: .default, title: pinTitle) { action, indexPath in
+            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
+
+            note.togglePin()
+            cell.configure(note: note)
+
+            let filter = self.viewDelegate?.search.text ?? ""
+            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
+            guard let newIndex = resorted.firstIndex(of: note) else { return }
+
+            let newIndexPath = IndexPath(row: newIndex, section: 0)
+            self.moveRow(at: indexPath, to: newIndexPath)
+            self.notes = resorted
+
+            self.reloadRows(at: [newIndexPath], with: .automatic)
+            self.reloadRows(at: [indexPath], with: .automatic)
+        }
+        pinAction.image = UIImage(named: "pin_row_action")?.resize(maxWidthHeight: 32)
+        pinAction.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
+
+        let moreTitle = NSLocalizedString("More", comment: "Table row action")
+        let moreAction = SwipeAction(style: .default, title: moreTitle) { action, indexPath in
+            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
+        }
+        moreAction.image = UIImage(named: "more_row_action")?.resize(maxWidthHeight: 32)
+        moreAction.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
+
+        return [moreAction, pinAction, deleteAction]
+    }
+
+    /*
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+
+
+
+        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
+
         })
         deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
 
@@ -160,7 +231,7 @@ class NotesTableView: UITableView,
             cell.configure(note: note)
 
             let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = self.storage.sortNotes(noteList: self.notes, filter: filter)
+            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
@@ -180,6 +251,7 @@ class NotesTableView: UITableView,
 
         return [more, pin, deleteAction]
     }
+ */
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
@@ -233,6 +305,13 @@ class NotesTableView: UITableView,
             })
             actionSheet.addAction(encryption)
 
+//            if note.container == .encryptedTextPack {
+//                let share = UIAlertAction(title: NSLocalizedString("Remove encryption", comment: ""), style: .default, handler: { _ in
+//                    self.removeEncryption(note: note)
+//                })
+//                actionSheet.addAction(share)
+//            }
+
             let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
@@ -260,19 +339,41 @@ class NotesTableView: UITableView,
         presentController.present(actionSheet, animated: true, completion: nil)
     }
     
-    func removeByNotes(notes: [Note]) {
+    public func removeRows(notes: [Note]) {
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
+                let indexSet = IndexPath(row: i, section: 0)
                 self.notes.remove(at: i)
-                deleteRows(at: [indexPath], with: .fade)
+                deleteRows(at: [indexSet], with: .automatic)
             }
         }
         
         self.viewDelegate?.updateNotesCounter()
     }
+
+    public func insertRows(notes: [Note]) {
+        let sidebarItem = viewDelegate?.sidebarTableView.getSidebarItem()
+        let i = self.getInsertPosition()
+
+        for note in notes {
+            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
+
+            if !self.notes.contains(where: {$0 === note}) {
+                self.notes.insert(note, at: i)
+                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+            }
+        }
+    }
+
+    public func reloadRows(notes: [Note]) {
+        for note in notes {
+            reloadRow(note: note)
+        }
+    }
     
-    @objc func handleLongPress(longPressGesture:UILongPressGestureRecognizer) {
+    @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
+        guard let storage = viewDelegate?.storage else { return }
+
         let p = longPressGesture.location(in: self)
         let indexPath = self.indexPathForRow(at: p)
         if indexPath == nil {
@@ -288,9 +389,9 @@ class NotesTableView: UITableView,
                 }
                 
                 let note = self.notes[row]
-                self.storage.removeNotes(notes: [note]) {_ in 
+                storage.removeNotes(notes: [note]) {_ in
                     DispatchQueue.main.async {
-                        self.removeByNotes(notes: [note])
+                        self.removeRows(notes: [note])
                     }
                 }
             }
@@ -309,6 +410,7 @@ class NotesTableView: UITableView,
                 let indexPath = IndexPath(row: i, section: 0)
 
                 if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
+                    cell.configure(note: note)
                     cell.updateView()
                 }
             }
@@ -317,6 +419,7 @@ class NotesTableView: UITableView,
 
     public func reloadRowForce(note: Note) {
         note.invalidateCache()
+        note.loadPreviewInfo()
         
         if let index = notes.firstIndex(of: note) {
             reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
@@ -381,10 +484,12 @@ class NotesTableView: UITableView,
             note.remove()
         }
 
-        self.removeByNotes(notes: notes)
+        self.removeRows(notes: notes)
 
         self.allowsMultipleSelectionDuringEditing = false
         self.setEditing(false, animated: true)
+
+        self.viewDelegate?.sidebarTableView.loadAllTags()
     }
 
     private func moveAction(notes: [Note], presentController: UIViewController) {
@@ -436,6 +541,46 @@ class NotesTableView: UITableView,
         }
     }
 
+    private func decryptUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.unEncryptUnlocked() {
+                    notes.removeAll { $0 === note }
+
+                    note.invalidateCache()
+                    reloadRow(note: note)
+                }
+            }
+        }
+
+        return notes
+    }
+
+    public func removeEncryption(note: Note) {
+        let vc = UIApplication.getVC()
+
+        let notes = decryptUnlocked(notes: [note])
+        guard notes.count > 0 else { return }
+
+        vc.getMasterPassword() { password in
+            var isFirst = true
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    let success = note.unEncrypt(password: password)
+                    if success && isFirst {
+                        DispatchQueue.main.async {
+                            UIApplication.getEVC().refill()
+                        }
+                    }
+                }
+                self.reloadRow(note: note)
+                isFirst = false
+            }
+        }
+    }
+
     public func moveRowUp(note: Note) {
         if let i = self.notes.firstIndex(where: {$0 === note}) {
             let position = note.isPinned ? 0 : self.getInsertPosition()
@@ -459,7 +604,7 @@ class NotesTableView: UITableView,
         let i = self.getInsertPosition()
 
         DispatchQueue.main.async {
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
+            let sidebarItem = self.viewDelegate?.sidebarTableView.getSelectedSidebarItem()
 
             guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
 
@@ -527,13 +672,15 @@ class NotesTableView: UITableView,
     }
 
     private func invalidPasswordAlert() {
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else { return }
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
+        else { return }
 
         let invalid = NSLocalizedString("Invalid Password", comment: "")
         let message = NSLocalizedString("Please enter valid password", comment: "")
         let alert = UIAlertController(title: invalid, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-        pageController.present(alert, animated: true, completion: nil)
+
+        bvc.present(alert, animated: true, completion: nil)
     }
 
     @available(iOS 11.0, *)

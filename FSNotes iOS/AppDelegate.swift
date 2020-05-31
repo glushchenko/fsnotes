@@ -14,12 +14,12 @@ import FSNotesCore_iOS
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    var launchedShortcutItem: UIApplicationShortcutItem?
+    public var window: UIWindow?
+    public var launchedShortcutItem: UIApplicationShortcutItem?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
-        
+
         if let shortcutItem = launchOptions?[UIApplication.LaunchOptionsKey.shortcutItem] as? UIApplicationShortcutItem {
             launchedShortcutItem = shortcutItem
             shouldPerformAdditionalDelegateHandling = false
@@ -75,6 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
+
+        Storage.sharedInstance().saveProjectsCache()
+        UserDefaultsManagement.crashedLastTime = false
+
+        print("end \(UserDefaultsManagement.crashedLastTime)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -92,7 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
         UIApplication.shared.statusBarStyle = .lightContent
         
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
@@ -121,27 +125,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var handled = false
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
         guard let shortCutType = shortcutItem.type as String? else { return false }
-        guard let pageViewController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageViewController.orderedViewControllers[0] as? ViewController else {
-            return false
-        }
+
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController
+        else { return false }
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
-            viewController.is3DTouchShortcut = true
-            viewController.createNote()
+            vc.is3DTouchShortcut = true
+            vc.createNote()
 
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
-            viewController.is3DTouchShortcut = true
-            viewController.createNote(pasteboard: true)
+            vc.is3DTouchShortcut = true
+            vc.createNote(pasteboard: true)
 
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            pageViewController.switchToList()
-            viewController.searchView.isHidden = false
-            viewController.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
+            pc.containerController.selectController(atIndex: 0, animated: true)
+            vc.searchView.isHidden = false
+            vc.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
             handled = true
             break
         default:
@@ -155,7 +160,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         return true
     }
-    
-    
+
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+
+        UIApplication.getEVC().restoreUserActivityState(userActivity)
+
+        return true
+    }
+
+    func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        return true
+    }
 }
 

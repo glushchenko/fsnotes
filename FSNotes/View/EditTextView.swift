@@ -22,10 +22,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
     var isHighlighted: Bool = false
     let storage = Storage.sharedInstance()
     let caretWidth: CGFloat = 2
-    var downView: MarkdownView?
+    var downView: MPreviewView?
     public var timer: Timer?
     public var tagsTimer: Timer?
     public var markdownView: MPreviewView?
+    public var restoreRange: NSRange? = nil
     
     @IBOutlet weak var previewMathJax: NSMenuItem!
 
@@ -635,6 +636,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+        registerHandoff(note: note)
 
         unregisterDraggedTypes()
         registerForDraggedTypes([
@@ -730,6 +732,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
+        }
+
+        if let restoreRange = self.restoreRange {
+            NSApp.mainWindow?.makeFirstResponder(self)
+            setSelectedRange(restoreRange)
+            self.restoreRange = nil
         }
     }
 
@@ -1966,5 +1974,44 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         return menu
+    }
+
+    /**
+     Handoff methods
+     */
+    override func updateUserActivityState(_ userActivity: NSUserActivity) {
+        guard let note = EditTextView.note else { return }
+
+        let position =
+            window?.firstResponder == self ? selectedRange().location : -1
+        let state = UserDefaultsManagement.preview ? "preview" : "editor"
+        let data =
+            [
+                "note-file-name": note.name,
+                "position": String(position),
+                "state": state
+            ]
+
+        userActivity.addUserInfoEntries(from: data)
+    }
+
+    override func resignFirstResponder() -> Bool {
+        userActivity?.needsSave = true
+
+        return super.resignFirstResponder()
+    }
+
+    public func registerHandoff(note: Note) {
+        self.userActivity?.invalidate()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            let updateDict:  [String: String] = ["note-file-name": note.name]
+            let activity = NSUserActivity(activityType: "es.fsnot.handoff-open-note")
+            activity.isEligibleForHandoff = true
+            activity.userInfo = updateDict
+            activity.title = NSLocalizedString("Open note", comment: "Document opened")
+            self.userActivity = activity
+            self.userActivity?.becomeCurrent()
+        }
     }
 }

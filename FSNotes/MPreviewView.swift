@@ -7,10 +7,13 @@
 //
 
 import WebKit
-import Carbon.HIToolbox
+import Highlightr
 
 #if os(iOS)
-    import NightNight
+import NightNight
+import MobileCoreServices
+#else
+import Carbon.HIToolbox
 #endif
 
 public typealias MPreviewViewClosure = () -> ()
@@ -21,7 +24,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     private var closure: MPreviewViewClosure?
     public static var template: String?
     
-    init(frame: CGRect, note: Note, closure: MPreviewViewClosure?) {
+    init(frame: CGRect, note: Note, closure: MPreviewViewClosure?, force: Bool = false) {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
@@ -42,15 +45,17 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         isOpaque = false
         backgroundColor = UIColor.clear
         scrollView.backgroundColor = UIColor.clear
+        scrollView.bounces = false
 #endif
 
-        load(note: note)
+        load(note: note, force: force)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+#if os(OSX)
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.keyCode == kVK_ANSI_C && event.modifierFlags.contains(.command) {
             DispatchQueue.main.async {
@@ -73,6 +78,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
     }
+#endif
 
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         closure?()
@@ -90,6 +96,19 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
 
 #if os(iOS)
+            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
+
+            if url.absoluteString.starts(with: "fsnotes://find?id=") {
+                UIApplication.getEVC().openWikiLink(query: url.absoluteString)
+
+                if let nav = bvc.containerController.selectedController as? UINavigationController, nil !=
+                    nav.viewControllers.first as? PreviewViewController {
+
+                    bvc.containerController.selectController(atIndex: 2, animated: true)
+                    return
+                }
+            }
+
             UIApplication.shared.openURL(url)
 #elseif os(OSX)
             NSWorkspace.shared.open(url)
@@ -104,7 +123,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         guard self.note != note || force else { return }
         
         let markdownString = note.getPrettifiedContent()
-        let css = MarkdownView.getPreviewStyle()
+        let css = MPreviewView.getPreviewStyle()
 
         var imagesStorage = note.project.url
         if note.isTextBundle() {
@@ -140,6 +159,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         let template = MPreviewView.template
         let htmlString = renderMarkdownHTML(markdown: markdown)!
+
         guard var pageHTMLString = template?.replacingOccurrences(of: "DOWN_HTML", with: htmlString) else { return }
 
         var baseURL: URL?
@@ -363,14 +383,61 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
+
+    public static func getPreviewStyle(theme: String? = nil) -> String {
+        var css = String()
+
+        if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
+            if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
+                css = content
+            }
+        }
+
+        let theme = theme ?? UserDefaultsManagement.codeTheme
+
+        var codeStyle = ""
+        if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
+            codeStyle = try! String.init(contentsOfFile: hgPath)
+        }
+
+        let familyName = UserDefaultsManagement.noteFont.familyName
+
+        #if os(iOS)
+            if #available(iOS 11.0, *) {
+                if !UserDefaultsManagement.dynamicTypeFont {
+                    let fs = UserDefaultsManagement.fontSize
+
+                    return "body {font: \(fs)px '\(familyName)'; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                } else if let font = UserDefaultsManagement.noteFont {
+                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                    let fontSize = fontMetrics.scaledFont(for: font).pointSize
+                    let fs = Int(fontSize) - 2
+
+                    return "body {font: \(fs)px '\(familyName)'; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                }
+            }
+        #endif
+
+        let family = familyName ?? "-apple-system"
+        let margin = Int(UserDefaultsManagement.marginSize)
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+    }
 }
 
 class HandlerCodeCopy: NSObject, WKScriptMessageHandler {
     public static var selectionString: String? {
         didSet {
             guard let copyBlock = selectionString else { return }
+
+#if os(OSX)
             NSPasteboard.general.clearContents()
             NSPasteboard.general.setString(copyBlock, forType: .string)
+#else
+            UIPasteboard.general.setItems([
+                [kUTTypePlainText as String: copyBlock]
+            ])
+#endif
         }
     }
 

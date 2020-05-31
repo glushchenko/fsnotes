@@ -64,7 +64,10 @@ class NoteCellView: NSTableCellView {
 
         var margin = 0
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
-            margin = self.note?.getImagePreviewUrl()?.count ?? 0 > 0 ? 58 : 0
+
+            self.note?.loadPreviewInfo()
+
+            margin = self.note?.imageUrl?.count ?? 0 > 0 ? 58 : 0
         }
         
         pin.frame.origin.y = CGFloat(-4) + CGFloat(UserDefaultsManagement.cellSpacing) + CGFloat(margin)

@@ -420,7 +420,6 @@ public class TextFormatter {
 
 #if os(iOS)
         var prefix = String()
-        let selected = self.textView.selectedRange
         var paragraph = storage.mutableString.substring(with: pRange)
 
         if paragraph.starts(with: "######") {
@@ -433,7 +432,8 @@ public class TextFormatter {
             prefix = string + " "
         }
 
-        let selectRange = NSRange(location: selected.location + selected.length + prefix.count, length: 0)
+        let diff = paragraph.contains("\n") ? 1 : 0
+        let selectRange = NSRange(location: pRange.location + (prefix + paragraph).count - diff, length: 0)
         insertText(prefix + paragraph, replacementRange: pRange, selectRange: selectRange)
 #else
         let prefix = string + " "
@@ -447,7 +447,7 @@ public class TextFormatter {
                 prefix + paragraph.replacingOccurrences(of: "#", with: "").trim()
         }
 
-        let diff = paragraph.contains("\n") ? 1 : 0;
+        let diff = paragraph.contains("\n") ? 1 : 0
         let selectRange = NSRange(location: pRange.location + paragraph.count - diff, length: 0)
         insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
 #endif

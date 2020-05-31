@@ -1402,7 +1402,7 @@ class ViewController: NSViewController,
         return nil
     }
     
-    func getSidebarItem() -> SidebarItem? {
+    public func getSidebarItem() -> SidebarItem? {
         if let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem {
         
             return sidebarItem
@@ -1559,7 +1559,7 @@ class ViewController: NSViewController,
         if (UserDefaultsManagement.sort == .title || project.sortBy == .title) && (UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle) {
             let notes = storage.noteList.filter({ $0.project == project })
             for note in notes {
-                _ = note.getImagePreviewUrl()
+                note.loadPreviewInfo()
             }
         }
     }
@@ -1910,6 +1910,8 @@ class ViewController: NSViewController,
         } else {
             enablePreview()
         }
+
+        editArea.userActivity?.needsSave = true
     }
     
     func loadMoveMenu() {
@@ -2439,5 +2441,36 @@ class ViewController: NSViewController,
         if UserDefaultsManagement.lockOnUserSwitch {
             lockAll(self)
         }
+    }
+
+    override func restoreUserActivityState(_ userActivity: NSUserActivity) {
+        guard let name = userActivity.userInfo?["note-file-name"] as? String,
+            let position = userActivity.userInfo?["position"] as? String,
+            let state = userActivity.userInfo?["state"] as? String,
+            let note = Storage.sharedInstance().getBy(name: name)
+        else { return }
+
+        if state == "preview" {
+            UserDefaultsManagement.preview = true
+        } else {
+            UserDefaultsManagement.preview = false
+        }
+
+        if let position = Int(position),
+            position > -1,
+            let textStorage = editArea.textStorage,
+            textStorage.length >= position {
+            
+            editArea.restoreRange = NSRange(location: position, length: 0)
+        }
+
+        notesTableView.selectRowAndSidebarItem(note: note)
+    }
+
+    /*
+     Needs update UserActivity if selection did change
+     */
+    func textViewDidChangeSelection(_ notification: Notification) {
+        editArea.userActivity?.needsSave = true
     }
 }

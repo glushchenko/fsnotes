@@ -43,7 +43,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
 
-        self.navigationItem.rightBarButtonItem = self.getShareButton()
+        self.navigationItem.rightBarButtonItem = self.getPreviewButton()
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
@@ -61,29 +61,23 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
-        if let note = note {
-            fill(note: note)
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            bvc.enableSwipe()
         }
-
-        guard let pageController = self.parent as? PageViewController else {
-            return
-        }
-        
-        pageController.enableSwipe()
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
         editArea.keyboardDismissMode = .interactive
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
-        coordinator.animate(alongsideTransition: { (ctx) in
-            self.refillToolbar()
-            self.refill()
-        })
-    }
+//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//        super.viewWillTransition(to: size, with: coordinator)
+//
+//        coordinator.animate(alongsideTransition: { (ctx) in
+//            self.refillToolbar()
+//            self.refill()
+//        })
+//    }
 
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
@@ -98,11 +92,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
         }
 
-        guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController else {
-            return
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            bvc.enableSwipe()
         }
-
-        pageController.enableSwipe()
 
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
@@ -175,19 +167,45 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getPVC()?.setTitle(text: text)
     }
 
-    public func fill(note: Note, preview: Bool = false) {
+    public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
+
+        if enableHandoff {
+            registerHandoff(for: note)
+        }
 
         self.note = note
+        if !note.isLoaded {
+            note.load()
+        }
+
         EditTextView.note = note
-        
+
         UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
 
         setTitle(text: note.getShortTitle())
 
+        if UserDefaultsManagement.previewMode {
+            self.fillPreview(note: note)
+
+            completion?()
+            return
+        }
+        
+        fillEditor(note: note)
+        completion?()
+
+        // prefill preview for parallax effect
+        if clearPreview {
+            guard let pvc = UIApplication.getPVC() else { return }
+            pvc.clear()
+        }
+    }
+
+    private func fillEditor(note: Note) {
         guard editArea != nil else { return }
 
         editArea.initUndoRedoButons()
-        
+
         if note.isRTF() {
             view.backgroundColor = UIColor.white
             editArea.backgroundColor = UIColor.white
@@ -238,7 +256,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             processor.highlightKeyword(search: search)
             isHighlighted = true
         }
-        
+
         editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
@@ -251,14 +269,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.applyLeftParagraphStyle()
     }
 
-    @objc public func clickOnButton() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                return
-        }
+    private func fillPreview(note: Note) {
+        guard let pvc = UIApplication.getPVC() else { return }
 
-        guard let note = self.note else { return }
+        pvc.loadPreview(force: true)
+    }
+
+    @objc public func clickOnButton() {
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController,
+            let note = self.note
+        else { return }
 
         vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
     }
@@ -310,7 +331,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             } else {
                 editArea.keyboardAppearance = .light
             }
-            
+
             fill(note: note)
             
             editArea.selectedRange = range
@@ -397,11 +418,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if (textStorage.string as NSString).substring(with: hashRange) == "#" && text != "#" && nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    let projects = vc.sidebarTableView.getSelectedProjects()
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
-                    self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
 
-                    self.complete(offset: hashRange.location, text: text)
+                    if let projects = vc.sidebarTableView.getSelectedProjects() {
+                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                        self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
+
+                        self.complete(offset: hashRange.location, text: text)
+                    }
                 }
             }
 
@@ -415,26 +438,29 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    let projects = vc.sidebarTableView.getSelectedProjects()
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    if let projects = vc.sidebarTableView.getSelectedProjects() {
+                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
 
-                    if let word = word {
-                        self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
+                        if let word = word {
+                            self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
+                        }
+
+                        self.complete(offset: hashRange.location, range: range, text: text)
+                        stop.pointee = true
                     }
 
-                    self.complete(offset: hashRange.location, range: range, text: text)
-                    stop.pointee = true
                     return
                 }
             })
 
             if text == "#" {
                 let vc = UIApplication.getVC()
-                let projects = vc.sidebarTableView.getSelectedProjects()
-                let tags = vc.sidebarTableView.getAllTags(projects: projects)
-                self.dropDown.dataSource = tags
 
-                self.complete(offset: self.editArea.selectedRange.location)
+                if let projects = vc.sidebarTableView.getSelectedProjects() {
+                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    self.dropDown.dataSource = tags
+                    self.complete(offset: self.editArea.selectedRange.location)
+                }
             }
         }
 
@@ -701,15 +727,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         if textView.isFirstResponder {
             note.setLastSelectedRange(value: textView.selectedRange)
+
+            // Handoff needs update in cursor position cahnged
+            userActivity?.needsSave = true
         }
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController else {
-                return
-        }
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+           let vc = pc.containerController.viewControllers[0] as? ViewController
+        else { return }
         
         vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
@@ -732,15 +759,20 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
+        let text = self.editArea.attributedText
         
         self.storageQueue.cancelAllOperations()
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
             guard let self = self else {return}
-            
-            DispatchQueue.main.async {
-                note.save(attributed: self.editArea.attributedText)
 
+            if let text = text {
+                note.save(attributed: text)
+                note.invalidateCache()
+                note.loadPreviewInfo()
+            }
+
+            DispatchQueue.main.async {
                 self.rowUpdaterTimer.invalidate()
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
 
@@ -767,28 +799,31 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc private func updateCurrentRow() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[0] as? ViewController,
+        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController,
             let note = self.note
-        else {
-            return
-        }
+        else { return }
 
-        note.invalidateCache()
         vc.notesTable.beginUpdates()
         vc.notesTable.reloadRow(note: note)
         vc.notesTable.endUpdates()
     }
     
     func getSearchText() -> String {
-        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController, let viewController = pageController.orderedViewControllers[0] as? ViewController, let search = viewController.search.text {
+        if let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+            let vc = pc.containerController.viewControllers[0] as? ViewController,
+            let search = vc.search.text {
             return search
         }
+
         return ""
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            //bvc.disableSwipe()
+        }
+
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -820,9 +855,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
 
-
-        print(editArea.contentOffset)
-        print("hide")
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            //bvc.enableSwipe()
+        }
     }
 
     public func resetToolbar() {
@@ -993,7 +1028,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        let projects = vc.sidebarTableView.getSelectedProjects()
+        guard let projects = vc.sidebarTableView.getSelectedProjects() else { return }
         let tags = vc.sidebarTableView.getAllTags(projects: projects)
         self.dropDown.dataSource = tags
 
@@ -1196,13 +1231,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func undoPressed() {
         isUndoAction = true
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = vc.viewControllers[0] as? EditorViewController,
-            let ea = evc.editArea,
+        let evc = UIApplication.getEVC()
+
+        guard let ea = evc.editArea,
             let um = ea.undoManager else {
-                return
+            return
         }
         
         self.isUndo = true
@@ -1219,13 +1252,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     @objc func redoPressed() {
         isUndoAction = true
 
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let vc = pageController.orderedViewControllers[1] as? UINavigationController,
-            let evc = vc.viewControllers[0] as? EditorViewController,
-            let ea = evc.editArea,
+        let evc = UIApplication.getEVC()
+        guard let ea = evc.editArea,
             let um = ea.undoManager else {
-                return
+            return
         }
         
         um.redo()
@@ -1324,7 +1354,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     }
 
-    private func openWikiLink(query: String) {
+    public func openWikiLink(query: String) {
         guard let query = query
             .replacingOccurrences(of: "fsnotes://find?id=", with: "")
             .removingPercentEncoding else { return }
@@ -1337,19 +1367,23 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             fill(note: note)
         } else {
 
-            guard let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-                let vc = pageController.orderedViewControllers[0] as? ViewController
-            else { return  }
+            guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
+                let vc = pc.containerController.viewControllers[0] as? ViewController
+            else { return }
 
-            pageController.switchToList() {
-                vc.search.text = query
-                vc.updateTable(search: true) {
-                    if vc.searchView.isHidden {
-                        vc.searchView.isHidden = false
-                    }
+            if let index = pc.containerController.selectedIndex {
+                vc.shouldReturnToControllerIndex = index
+            }
 
-                    vc.search.becomeFirstResponder()
+            pc.containerController.selectController(atIndex: 0, animated: true)
+
+            vc.search.text = query
+            vc.updateTable(search: true) {
+                if vc.searchView.isHidden {
+                    vc.searchView.isHidden = false
                 }
+
+                vc.search.becomeFirstResponder()
             }
         }
     }
@@ -1398,11 +1432,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return false
     }
 
-    public func getShareButton() -> UIBarButtonItem {
+    public func getPreviewButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        menuBtn.setImage(UIImage(named: "share"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(share), for: UIControl.Event.touchUpInside)
+        let image = UIImage(named: "preview_editor_controller")!.imageWithColor(color1: .white)
+
+        menuBtn.setImage(image, for: .normal)
+        menuBtn.addTarget(self, action: #selector(preview), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
@@ -1415,20 +1451,24 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc public func cancel() {
-        if let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController {
-            pageController.switchToList()
-        }
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
+
+        bvc.containerController.selectController(atIndex: 0, animated: true)
     }
 
-    @objc public func share() {
-        guard
-            let pageController = UIApplication.shared.windows[0].rootViewController as? PageViewController,
-            let mvc = pageController.mainViewController,
-            let evc = pageController.editorViewController,
-            let note = evc.note
+    @objc public func preview() {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
         else { return }
 
-        mvc.notesTable.shareAction(note: note, presentController: evc)
+        UserDefaultsManagement.previewMode = true
+
+        editArea.endEditing(true)
+
+        UIApplication.getPVC()?.loadPreview()
+        bvc.containerController.selectController(atIndex: 2, animated: false)
+
+        // Handoff needs update in cursor position cahnged
+        userActivity?.needsSave = true
     }
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -1489,5 +1529,91 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if editArea != nil {
             editArea.lastContentOffset = editArea.contentOffset
         }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.checkDarkMode()
+        }
+    }
+
+    public func checkDarkMode() {
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                if NightNight.theme != .night {
+                    UIApplication.getVC().enableNightMode()
+                }
+            } else {
+                if NightNight.theme == .night {
+                    UIApplication.getVC().disableNightMode()
+                }
+            }
+        }
+    }
+
+    /*
+     Handoff methods
+     */
+    public func registerHandoff(for note: Note) {
+        let updateDict:  [String: String] = ["note-file-name": note.name]
+        let activity = NSUserActivity(activityType: "es.fsnot.handoff-open-note")
+        activity.isEligibleForHandoff = true
+        activity.addUserInfoEntries(from: updateDict)
+        activity.title = NSLocalizedString("Open note", comment: "Document opened")
+        self.userActivity = activity
+        self.userActivity?.becomeCurrent()
+    }
+
+    override func restoreUserActivityState(_ activity: NSUserActivity) {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            return
+        }
+
+        guard let name = activity.userInfo?["note-file-name"] as? String,
+            let position = activity.userInfo?["position"] as? String,
+            let state = activity.userInfo?["state"] as? String,
+            let note = Storage.sharedInstance().getBy(name: name)
+        else { return }
+
+        var index = 0
+        if state == "preview" {
+            UserDefaultsManagement.previewMode = true
+            index = 2
+        } else {
+            UserDefaultsManagement.previewMode = false
+            index = 1
+        }
+
+        let evc = UIApplication.getEVC()
+        evc.editArea.resignFirstResponder()
+
+        evc.fill(note: note, clearPreview: true, enableHandoff: false) {
+            bvc.containerController.selectController(atIndex: index, animated: true)
+
+            if let pos = Int(position), pos > -1, evc.editArea.textStorage.length >= pos {
+                evc.editArea.becomeFirstResponder()
+                evc.editArea.selectedRange = NSRange(location: pos, length: 0)
+            }
+        }
+    }
+
+    override func updateUserActivityState(_ activity: NSUserActivity) {
+        guard let note = EditTextView.note else { return }
+
+        let position =
+            editArea.isFirstResponder ? editArea.selectedRange.location : -1
+        let state = UserDefaultsManagement.previewMode ? "preview" : "editor"
+        let data =
+            [
+                "note-file-name": note.name,
+                "position": String(position),
+                "state": state
+            ]
+
+        activity.addUserInfoEntries(from: data)
     }
 }

@@ -228,7 +228,7 @@ class SidebarProjectView: NSOutlineView,
                     let newProject = Project(url: newSub, parent: project)
                     newProject.create()
 
-                    _ = self.storage.add(project: newProject)
+                    self.storage.assignTree(for: newProject)
                     self.reloadSidebar()
 
                     let validFiles = self.storage.readDirectory(url)
@@ -541,7 +541,6 @@ class SidebarProjectView: NSOutlineView,
                     self.isFirstLaunch = false
                 }
 
-                // Only for navigation history
                 if let note = self.selectNote {
                     DispatchQueue.main.async {
                         self.selectNote = nil
@@ -700,7 +699,7 @@ class SidebarProjectView: NSOutlineView,
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
             
             let newProject = Project(url: projectURL, parent: project.getParent())
-            _ = storage.add(project: newProject)
+            storage.assignTree(for: newProject)
             reloadSidebar()
         } catch {
             let alert = NSAlert()
@@ -731,12 +730,13 @@ class SidebarProjectView: NSOutlineView,
                 bookmark.save()
                 
                 let newProject = Project(url: url, isRoot: true)
-                let projects = self.storage.add(project: newProject)
-                for project in projects {
-                    self.storage.loadLabel(project)
+                self.storage.assignTree(for: newProject) { projects in
+                    for project in projects {
+                        self.storage.loadLabel(project)
+                    }
+
+                    self.reloadSidebar()
                 }
-                
-                self.reloadSidebar()
             }
         }
     }

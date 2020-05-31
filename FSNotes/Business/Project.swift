@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreServices
 
 public class Project: Equatable {
     var url: URL
@@ -33,8 +34,11 @@ public class Project: Equatable {
     #else
     public var firstLineAsTitle: Bool = false
     #endif
+
+    public var metaCache = [NoteMeta]()
+    private var shouldUseCache: Bool = false
     
-    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false) {
+    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false, cache: Bool = true) {
         self.url = url.resolvingSymlinksInPath()
         self.isTrash = isTrash
         self.isRoot = isRoot
@@ -42,6 +46,7 @@ public class Project: Equatable {
         self.isDefault = isDefault
         self.isArchive = isArchive
         self.isExternal = isExternal
+        self.shouldUseCache = cache
 
         showInCommon = (isTrash || isArchive) ? false : true
 
@@ -65,6 +70,140 @@ public class Project: Equatable {
         
         isCloudDrive = isCloudDriveFolder(url: url)
         loadSettings()
+
+        if shouldUseCache {
+            loadCache()
+        }
+    }
+
+    public func getMd5Hash() -> String {
+        return url.path.md5
+    }
+
+    public func loadCache() {
+        guard let cacheDir =
+            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first,
+            let url = URL(string: "file://" + cacheDir)
+        else { return }
+
+        let key = getMd5Hash()
+        let cacheURL = url.appendingPathComponent(key + ".cache")
+
+        if let data = try? Data(contentsOf: cacheURL) {
+            let decoder = JSONDecoder()
+
+            do {
+                metaCache = try decoder.decode(Array<NoteMeta>.self, from: data)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    public func read() -> [Note] {
+        var notes = [Note]()
+        let documents = readAll(at: url)
+
+        for document in documents {
+            let url = (document.0 as URL).resolvingSymlinksInPath()
+            let modified = document.1
+            let created = document.2
+
+            if (url.absoluteString.isEmpty) {
+                continue
+            }
+
+            let note = Note(url: url, with: self, modified: modified, created: created)
+
+            if note.isTextBundle() && !note.isFullLoadedTextBundle() {
+                continue
+            }
+
+            notes.append(note)
+        }
+
+        return notes
+    }
+
+    public func getNotes() -> [Note] {
+        var notes = [Note]()
+
+        if metaCache.isEmpty || !shouldUseCache {
+            notes = read()
+
+            return loadPins(for: notes)
+        }
+
+        for noteMeta in metaCache {
+            let note = Note(meta: noteMeta, project: self)
+            notes.append(note)
+        }
+
+        return notes
+    }
+
+    var allowedExtensions = [
+        "md", "markdown",
+        "txt",
+        "rtf",
+        "fountain",
+        "textbundle",
+        "etp" // Encrypted Text Pack
+    ]
+
+    public func isValidUTI(url: URL) -> Bool {
+        guard url.fileSize < 100000000 else { return false }
+
+        guard let typeIdentifier = (try? url.resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier else { return false }
+
+        let type = typeIdentifier as CFString
+        if type == kUTTypeFolder {
+            return false
+        }
+
+        return UTTypeConformsTo(type, kUTTypeText)
+    }
+
+    public func readAll(at url: URL) -> [(URL, Date, Date)] {
+        let url = url.resolvingSymlinksInPath()
+
+        do {
+            let directoryFiles =
+                try FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: [.contentModificationDateKey, .creationDateKey, .typeIdentifierKey], options:.skipsHiddenFiles)
+
+            return
+                directoryFiles.filter {
+                    allowedExtensions.contains($0.pathExtension)
+                    || self.isValidUTI(url: $0)
+                }.map{
+                    url in (
+                        url,
+                        (try? url.resourceValues(forKeys: [.contentModificationDateKey])
+                            )?.contentModificationDate ?? Date.distantPast,
+                        (try? url.resourceValues(forKeys: [.creationDateKey])
+                            )?.creationDate ?? Date.distantPast
+                    )
+                }
+        } catch {
+            print("Storage not found, url: \(url) – \(error)")
+        }
+
+        return []
+    }
+
+    public func loadPins(for notes: [Note]) -> [Note] {
+        let keyStore = NSUbiquitousKeyValueStore()
+        keyStore.synchronize()
+
+        if let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] {
+            for name in names {
+                if let note = notes.first(where: { $0.name == name }) {
+                    note.isPinned = true
+                }
+            }
+        }
+
+        return notes
     }
     
     func fileExist(fileName: String, ext: String) -> Bool {        
