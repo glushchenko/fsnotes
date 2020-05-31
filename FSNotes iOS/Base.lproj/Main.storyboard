@@ -50,7 +50,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="noteCell" rowHeight="154" id="uv7-Im-hed" customClass="NoteCellView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="268" height="154"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="154"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uv7-Im-hed" id="De0-QG-drV">
                                             <rect key="frame" x="0.0" y="0.0" width="268" height="154"/>

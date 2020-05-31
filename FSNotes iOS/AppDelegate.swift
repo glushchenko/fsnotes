@@ -76,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
-        Storage.sharedInstance().saveProjectsCache()
+        Storage.shared().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
 
         print("end \(UserDefaultsManagement.crashedLastTime)")

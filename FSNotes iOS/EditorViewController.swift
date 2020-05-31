@@ -486,7 +486,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let word = result.0 + text
 
-        guard let titles = Storage.sharedInstance().getTitles(by: word) else {
+        guard let titles = Storage.shared().getTitles(by: word) else {
             dropDown.hide()
             return
         }
