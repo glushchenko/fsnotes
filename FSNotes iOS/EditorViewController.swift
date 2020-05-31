@@ -1556,7 +1556,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
      */
     public func registerHandoff(for note: Note) {
         let updateDict:  [String: String] = ["note-file-name": note.name]
-        let activity = NSUserActivity(activityType: "es.fsnot.handoff-open")
+        let activity = NSUserActivity(activityType: "es.fsnot.handoff-open-note")
         activity.isEligibleForHandoff = true
         activity.addUserInfoEntries(from: updateDict)
         activity.title = NSLocalizedString("Open note", comment: "Document opened")

@@ -2006,7 +2006,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             let updateDict:  [String: String] = ["note-file-name": note.name]
-            let activity = NSUserActivity(activityType: "es.fsnot.handoff-open")
+            let activity = NSUserActivity(activityType: "es.fsnot.handoff-open-note")
             activity.isEligibleForHandoff = true
             activity.userInfo = updateDict
             activity.title = NSLocalizedString("Open note", comment: "Document opened")

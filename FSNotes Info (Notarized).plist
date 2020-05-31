@@ -195,10 +195,10 @@
 			<string>One</string>
 		</dict>
 	</dict>
-    <key>NSUserActivityTypes</key>
-    <array>
-        <string>es.fsnot.handoff-open</string>
-    </array>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>es.fsnot.handoff-open-note</string>
+	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
