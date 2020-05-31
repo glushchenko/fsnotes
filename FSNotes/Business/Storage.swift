@@ -145,6 +145,8 @@ class Storage {
 
         projects.append(project)
         noteList.append(contentsOf: notes)
+
+        checkWelcome()
     }
 
     public static func shared() -> Storage {
@@ -1265,6 +1267,22 @@ class Storage {
 
     public func cleanUnlocked() {
         noteList.filter({ $0.isUnlocked() }).map({ $0.cleanOut() })
+    }
+
+    private func checkWelcome() {
+        guard noteList.isEmpty else { return }
+
+        let welcomeFileName = "FSNotes 4.0 for iOS.textbundle"
+
+        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return }
+
+        guard let dst = getDefault()?.url.appendingPathComponent(welcomeFileName) else { return }
+
+        do {
+            try FileManager.default.copyItem(atPath: src.path, toPath: dst.path)
+        } catch {
+            print("Initial copy error: \(error)")
+        }
     }
 }
 

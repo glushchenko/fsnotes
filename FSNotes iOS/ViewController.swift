@@ -44,6 +44,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var queryDidFinishGatheringObserver : Any?
     private var isBackground: Bool = false
 
+    public var shouldReturnToControllerIndex: Int = 0
+
     override func viewWillAppear(_ animated: Bool) {
         for url in UserDefaultsManagement.importURLs {
             cloudDriveManager?.add(url: url)
@@ -371,6 +373,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.search.endEditing(true)
             self.search.text = nil
             self.updateTable {}
+
+            if shouldReturnToControllerIndex != 0 {
+                guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
+                bvc.containerController.selectController(atIndex: shouldReturnToControllerIndex, animated: true)
+
+                shouldReturnToControllerIndex = 0
+                UIApplication.getEVC().refill()
+            }
         }
     }
 
@@ -573,6 +583,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        shouldReturnToControllerIndex = 0
+
         guard let name = searchBar.text, name.count > 0 else {
             searchBar.endEditing(true)
             return
@@ -1007,7 +1019,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return notes
     }
 
-    private func getMasterPassword(completion: @escaping (String) -> ()) {
+    public func getMasterPassword(completion: @escaping (String) -> ()) {
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
 

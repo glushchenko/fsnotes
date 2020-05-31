@@ -1261,7 +1261,12 @@ public class UserDefaultsManagement {
             if let result = UserDefaults.standard.object(forKey: Constants.MathJaxPreview) as? Bool {
                 return result
             }
+
+            #if os(iOS)
+            return true
+            #else
             return false
+            #endif
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.MathJaxPreview)

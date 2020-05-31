@@ -1371,6 +1371,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 let vc = pc.containerController.viewControllers[0] as? ViewController
             else { return }
 
+            if let index = pc.containerController.selectedIndex {
+                vc.shouldReturnToControllerIndex = index
+            }
+
             pc.containerController.selectController(atIndex: 0, animated: true)
 
             vc.search.text = query

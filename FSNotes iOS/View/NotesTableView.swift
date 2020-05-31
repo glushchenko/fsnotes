@@ -305,6 +305,13 @@ class NotesTableView: UITableView,
             })
             actionSheet.addAction(encryption)
 
+//            if note.container == .encryptedTextPack {
+//                let share = UIAlertAction(title: NSLocalizedString("Remove encryption", comment: ""), style: .default, handler: { _ in
+//                    self.removeEncryption(note: note)
+//                })
+//                actionSheet.addAction(share)
+//            }
+
             let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
@@ -403,6 +410,7 @@ class NotesTableView: UITableView,
                 let indexPath = IndexPath(row: i, section: 0)
 
                 if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
+                    cell.configure(note: note)
                     cell.updateView()
                 }
             }
@@ -530,6 +538,46 @@ class NotesTableView: UITableView,
 
             popOver.sourceView = rowView
             popOver.sourceRect = CGRect(x: presentController.view.bounds.midX, y: rowView.frame.height, width: 10, height: 10)
+        }
+    }
+
+    private func decryptUnlocked(notes: [Note]) -> [Note] {
+        var notes = notes
+
+        for note in notes {
+            if note.isUnlocked() {
+                if note.unEncryptUnlocked() {
+                    notes.removeAll { $0 === note }
+
+                    note.invalidateCache()
+                    reloadRow(note: note)
+                }
+            }
+        }
+
+        return notes
+    }
+
+    public func removeEncryption(note: Note) {
+        let vc = UIApplication.getVC()
+
+        let notes = decryptUnlocked(notes: [note])
+        guard notes.count > 0 else { return }
+
+        vc.getMasterPassword() { password in
+            var isFirst = true
+            for note in notes {
+                if note.container == .encryptedTextPack {
+                    let success = note.unEncrypt(password: password)
+                    if success && isFirst {
+                        DispatchQueue.main.async {
+                            UIApplication.getEVC().refill()
+                        }
+                    }
+                }
+                self.reloadRow(note: note)
+                isFirst = false
+            }
         }
     }
 
