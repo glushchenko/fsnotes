@@ -9,7 +9,7 @@ end
 
 def ios_pods
     pod 'NightNight', :git => 'https://github.com/glushchenko/NightNight.git', :branch => 'master'
-    pod 'DKImagePickerController', '4.1.4'
+    pod 'DKImagePickerController', '4.3.1'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
     pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
