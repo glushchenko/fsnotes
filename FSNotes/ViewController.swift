@@ -2444,11 +2444,27 @@ class ViewController: NSViewController,
     }
 
     override func restoreUserActivityState(_ userActivity: NSUserActivity) {
-        if let name = userActivity.userInfo?["note-file-name"] as? String {
-            if let note = Storage.sharedInstance().getBy(name: name) {
-                notesTableView.selectRowAndSidebarItem(note: note)
-            }
+        guard let name = userActivity.userInfo?["note-file-name"] as? String,
+            let position = userActivity.userInfo?["position"] as? String,
+            let state = userActivity.userInfo?["state"] as? String,
+            let note = Storage.sharedInstance().getBy(name: name)
+        else { return }
+
+        if state == "preview" {
+            UserDefaultsManagement.preview = true
+        } else {
+            UserDefaultsManagement.preview = false
         }
+
+        if let position = Int(position),
+            position > -1,
+            let textStorage = editArea.textStorage,
+            textStorage.length >= position {
+            
+            editArea.restoreRange = NSRange(location: position, length: 0)
+        }
+
+        notesTableView.selectRowAndSidebarItem(note: note)
     }
 
     /*

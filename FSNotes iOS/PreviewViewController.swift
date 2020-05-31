@@ -81,6 +81,9 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         }
 
         UserDefaultsManagement.previewMode = false
+
+        // Handoff needs update in cursor position cahnged
+        UIApplication.getEVC().userActivity?.needsSave = true
     }
 
     @objc public func returnBack() {

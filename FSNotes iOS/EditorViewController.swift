@@ -167,16 +167,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getPVC()?.setTitle(text: text)
     }
 
-    public func registerHandoff(for note: Note) {
-        let updateDict:  [String: String] = ["note-file-name": note.name]
-        let activity = NSUserActivity(activityType: "es.fsnot.handoff-view")
-        activity.isEligibleForHandoff = true
-        activity.addUserInfoEntries(from: updateDict)
-        activity.title = NSLocalizedString("Open note", comment: "Document opened")
-        self.userActivity = activity
-        self.userActivity?.becomeCurrent()
-    }
-
     public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
 
         if enableHandoff {
@@ -737,6 +727,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         if textView.isFirstResponder {
             note.setLastSelectedRange(value: textView.selectedRange)
+
+            // Handoff needs update in cursor position cahnged
+            userActivity?.needsSave = true
         }
     }
 
@@ -1469,6 +1462,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         UIApplication.getPVC()?.loadPreview()
         bvc.containerController.selectController(atIndex: 2, animated: false)
+
+        // Handoff needs update in cursor position cahnged
+        userActivity?.needsSave = true
     }
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -1531,7 +1527,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
-        override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         guard UserDefaultsManagement.nightModeType == .system else { return }
@@ -1553,6 +1549,19 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+    }
+
+    /*
+     Handoff methods
+     */
+    public func registerHandoff(for note: Note) {
+        let updateDict:  [String: String] = ["note-file-name": note.name]
+        let activity = NSUserActivity(activityType: "es.fsnot.handoff-open")
+        activity.isEligibleForHandoff = true
+        activity.addUserInfoEntries(from: updateDict)
+        activity.title = NSLocalizedString("Open note", comment: "Document opened")
+        self.userActivity = activity
+        self.userActivity?.becomeCurrent()
     }
 
     override func restoreUserActivityState(_ activity: NSUserActivity) {
@@ -1586,5 +1595,21 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 evc.editArea.selectedRange = NSRange(location: pos, length: 0)
             }
         }
+    }
+
+    override func updateUserActivityState(_ activity: NSUserActivity) {
+        guard let note = EditTextView.note else { return }
+
+        let position =
+            editArea.isFirstResponder ? editArea.selectedRange.location : -1
+        let state = UserDefaultsManagement.previewMode ? "preview" : "editor"
+        let data =
+            [
+                "note-file-name": note.name,
+                "position": String(position),
+                "state": state
+            ]
+
+        activity.addUserInfoEntries(from: data)
     }
 }

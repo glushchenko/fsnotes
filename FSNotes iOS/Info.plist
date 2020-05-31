@@ -111,8 +111,7 @@
 	</dict>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>es.fsnot.handoff-view</string>
-		<string>es.fsnot.handoff-edit</string>
+		<string>es.fsnot.handoff-open</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

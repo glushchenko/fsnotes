@@ -541,7 +541,6 @@ class SidebarProjectView: NSOutlineView,
                     self.isFirstLaunch = false
                 }
 
-                // Only for navigation history
                 if let note = self.selectNote {
                     DispatchQueue.main.async {
                         self.selectNote = nil
