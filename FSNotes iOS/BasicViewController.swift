@@ -20,7 +20,7 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
 
                 // load if scrolled from editor
                 if !controller.selectedController.isKind(of: ViewController.self) {
-                    pvc.loadPreview()
+                    pvc.loadPreview(force: true)
                 }
 
                 return
@@ -40,20 +40,15 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
                 return
             }
 
-            DispatchQueue.main.async {
-                self.enableSwipe()
-            }
+            self.enableSwipe()
 
         // View controller
         } else {
 
             UIApplication.getEVC().userActivity?.invalidate()
-            
-            DispatchQueue.main.async {
-                self.disableSwipe()
-            }
-
             UIApplication.getPVC()?.clear()
+
+            self.disableSwipe()
         }
 
         if let nav = toController as? UINavigationController {

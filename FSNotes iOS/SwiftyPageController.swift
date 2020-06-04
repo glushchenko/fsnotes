@@ -129,6 +129,7 @@ open class SwiftyPageController: UIViewController {
     
     private var nextIndex: Int?
     private var isAnimating = false
+    public var isMoveFinished = false
     
     private enum AnimatorControllers {
         static var `default` = SwiftyPageControllerAnimatorDefault()
@@ -232,8 +233,9 @@ open class SwiftyPageController: UIViewController {
         }
         
         // call delegate 'willMoveToController' method
-        delegate?.swiftyPageController(self, willMoveToController: toController)
-        
+        //delegate?.swiftyPageController(self, willMoveToController: toController)
+        isMoveFinished = false
+
         // assignment variables
         fromControllerInteractive = fromController
         toControllerInteractive = toController
@@ -294,6 +296,8 @@ open class SwiftyPageController: UIViewController {
                     transitionToIndex(index: nextIndex)
                 }
             }
+
+            isMoveFinished = true
         }
     }
     
@@ -358,7 +362,8 @@ open class SwiftyPageController: UIViewController {
         
         // setup insets
         setupContentInsets(in: controller)
-        
+        isMoveFinished = false
+
         // call delegate 'willMoveToController' method
         delegate?.swiftyPageController(self, willMoveToController: controller)
         
@@ -368,6 +373,8 @@ open class SwiftyPageController: UIViewController {
 
         // call delegate 'didMoveToController' methode
         self.delegate?.swiftyPageController(self, didMoveToController: controller)
+
+        isMoveFinished = true
     }
     
     public func selectController(atIndex index: Int, animated: Bool) {

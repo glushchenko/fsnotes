@@ -55,4 +55,16 @@ extension UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: "previewMode")
         }
     }
+
+    static var sidebarIsOpened: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: "sidebarIsOpened") as? Bool {
+                return result
+            }
+            return false
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "sidebarIsOpened")
+        }
+    }
 }

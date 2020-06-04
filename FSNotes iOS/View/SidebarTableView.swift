@@ -129,8 +129,6 @@ class SidebarTableView: UITableView,
             return
         }
 
-        AudioServicesPlaySystemSound(1519)
-
         var name = sidebarItem.name
         if sidebarItem.type == .Category || sidebarItem.type == .Inbox || sidebarItem.type == .All {
             name += " ✦"
@@ -150,23 +148,30 @@ class SidebarTableView: UITableView,
             }
 
             let storage = Storage.sharedInstance()
-            DispatchQueue.global().async {
-                storage.reLoadTrash()
+            storage.reLoadTrash()
 
-                DispatchQueue.main.async {
-                    view.updateTable() {
-                        self.busyTrashReloading = false
-                    }
+            if !view.isActiveTableUpdating {
+                self.viewController?.enableNotesLeadingConstraint()
+                view.updateTable() {
+                    self.busyTrashReloading = false
+                    self.viewController?.disableNotesLeadingConstraint()
                 }
             }
 
             return
         }
 
+        viewController?.enableNotesLeadingConstraint()
         view.updateTable() {
+            print("ll")
             if sidebarItem.type != .Tag {
-                self.loadAllTags()
+                //self.loadAllTags()
             }
+
+            print("disable")
+
+            self.viewController?.disableNotesLeadingConstraint()
+            self.viewController?.loadSidebarMargins()
         }
     }
     
@@ -226,6 +231,7 @@ class SidebarTableView: UITableView,
         }
 
         guard let indexPath = self.indexPathForSelectedRow else { return nil }
+        viewController?.loadSidebarMargins()
 
         let item = sidebar.items[indexPath.section][indexPath.row]
 
@@ -353,6 +359,8 @@ class SidebarTableView: UITableView,
         unloadAllTags()
 
         guard let projects = getSelectedProjects() else { return }
+        let indexPath = indexPathForSelectedRow
+
         let tags = getAllTags(projects: projects)
 
         guard tags.count > 0 else { return }
@@ -364,8 +372,10 @@ class SidebarTableView: UITableView,
                 self.sidebar.items[2].insert(element, at: position)
             }
 
-            self.reloadData()
             UIApplication.getVC().resizeSidebar()
+
+            self.reloadData()
+            self.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
     }
 

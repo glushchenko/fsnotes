@@ -93,15 +93,9 @@ class NotesTableView: UITableView,
             self.selectedIndexPaths = self.indexPathsForSelectedRows
         }
 
-        guard !self.isEditing else { return }
+        guard !self.isEditing, notes.indices.contains(indexPath.row) else { return }
 
         let note = notes[indexPath.row]
-
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            self.deselectRow(at: indexPath, animated: true)
-            return
-        }
-
         let evc = UIApplication.getEVC()
 
         if let editArea = evc.editArea, let u = editArea.undoManager {
@@ -121,21 +115,29 @@ class NotesTableView: UITableView,
                     self.reloadRow(note: note)
                     NotesTextProcessor.highlight(note: note)
 
-                    evc.fill(note: note, clearPreview: true) {
-                        bvc.containerController.selectController(atIndex: index, animated: true)
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.deselectRow(at: indexPath, animated: true)
-                        }
-                    }
+                    self.fill(note: note, indexPath: indexPath, index: index)
                 }
             })
             
             return
         }
 
+        fill(note: note, indexPath: indexPath, index: index)
+    }
+
+    private func fill(note: Note, indexPath: IndexPath, index: Int) {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            return
+        }
+
+        let evc = UIApplication.getEVC()
+        let vc = UIApplication.getVC()
+
         evc.fill(note: note, clearPreview: true) {
             bvc.containerController.selectController(atIndex: index, animated: true)
+
+            vc.notesTable.frame.origin.x = 0
+            UserDefaultsManagement.sidebarIsOpened = false
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
@@ -155,7 +157,7 @@ class NotesTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard let storage = viewDelegate?.storage, UIApplication.getVC().sidebarTableView.frame.width == 0
+        guard let storage = viewDelegate?.storage, !UserDefaultsManagement.sidebarIsOpened
         else { return nil }
 
         guard orientation == .right else { return nil }
