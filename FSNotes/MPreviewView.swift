@@ -183,7 +183,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return """
             <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
             <script type="text/x-mathjax-config">
-                MathJax.Hub.Config({ showMathMenu: false, tex2jax: { inlineMath: [ ['$', '$'], ['\\(', '\\)'] ], }, messageStyle: "none", showProcessingMessages: true });
+                MathJax.Hub.Config({ showMathMenu: false, tex2jax: {
+                    inlineMath: [ ['$$', '$$'], ['\\((', '\\))'] ],
+                }, messageStyle: "none", showProcessingMessages: true });
             </script>
         """
     }

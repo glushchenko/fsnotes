@@ -98,7 +98,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
                 night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
             )
-        
+
         leftPreHeader.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
@@ -153,13 +153,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         notesTable.frame.origin.x = leftInset
         notesTable.frame.origin.y = topInset
-        notesTable.frame.size.width = screenWidth - left - right
-        notesTable.frame.size.height = screenHeight - top - bottom
+        notesTable.frame.size.width = screenWidth - left - right - navHeight
+        notesTable.frame.size.height = screenHeight - top - navHeight
 
         sidebarTableView.frame.origin.x = leftInset
         sidebarTableView.frame.origin.y = topInset
         sidebarTableView.frame.size.width = screenWidth - left - right
-        sidebarTableView.frame.size.height = screenHeight - top - bottom
+        sidebarTableView.frame.size.height = screenHeight - top
 
         loadPreSafeArea()
         loadSidebarState()
