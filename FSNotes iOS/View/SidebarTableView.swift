@@ -161,17 +161,15 @@ class SidebarTableView: UITableView,
             return
         }
 
-        viewController?.enableNotesLeadingConstraint()
-        view.updateTable() {
-            print("ll")
+
+        //viewController?.enableNotesLeadingConstraint()
+        //let si = self.sidebarTableView.getSidebarItem()
+        guard !view.isActiveTableUpdating else { return }
+
+        view.updateTable(sidebarItem: sidebarItem) {
             if sidebarItem.type != .Tag {
-                //self.loadAllTags()
+                self.loadAllTags()
             }
-
-            print("disable")
-
-            self.viewController?.disableNotesLeadingConstraint()
-            self.viewController?.loadSidebarMargins()
         }
     }
     
@@ -231,7 +229,7 @@ class SidebarTableView: UITableView,
         }
 
         guard let indexPath = self.indexPathForSelectedRow else { return nil }
-        viewController?.loadSidebarMargins()
+        //viewController?.loadSidebarMargins()
 
         let item = sidebar.items[indexPath.section][indexPath.row]
 

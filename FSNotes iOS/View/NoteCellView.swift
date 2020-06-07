@@ -87,8 +87,7 @@ class NoteCellView: SwipeTableViewCell {
     }
 
     public func getDate() -> String {
-        if let sidebarItem = UIApplication.getVC().sidebarTableView.getSidebarItem(),
-            let sort = sidebarItem.project?.sortBy,
+        if let sort = note?.project.sortBy,
             sort == .creationDate,
             let date = note?.getCreationDateForLabel()
         {

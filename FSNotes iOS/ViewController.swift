@@ -23,7 +23,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
+    
     @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sidebarLeadingConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var leftPreHeader: UIView!
+    @IBOutlet weak var rightPreHeader: UIView!
 
     public var indicator: UIActivityIndicatorView?
 
@@ -45,12 +50,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var isBackground: Bool = false
 
     public var shouldReturnToControllerIndex: Int = 0
+    public var selectedProjects: [Project]?
 
     // Swipe animation from handleSidebarSwipe
     private var sidebarWidth: CGFloat = 0
 
     override func viewWillAppear(_ animated: Bool) {
-        notesTable.frame.origin.x = 0
+        //notesTable.frame.origin.x = 0
         
         super.viewWillAppear(animated)
     }
@@ -76,7 +82,59 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadSidebar()
         preLoadProjectsData()
 
+
+        leftPreHeader.backgroundColor = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
+        rightPreHeader.backgroundColor = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
+
+        //leftSafeArea.layer.zPosition = -1
+        //leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
+
         super.viewDidLoad()
+    }
+
+    public func loadNotesFrame() {
+        return
+
+        let top = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+        let bottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
+        let right = UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0
+        let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
+        let navHeight: CGFloat = 44
+
+        let topInset = top + navHeight
+        let leftInset = left
+
+        print("top: \(top)")
+        print("bottom: \(bottom)")
+        print("left: \(left)")
+        print("right: \(right)")
+
+        if left > 0 {
+            if bottom > 0 {
+                leftSafeAreaBottomConstraint.constant = -bottom
+            }
+        }
+
+        notesTable.translatesAutoresizingMaskIntoConstraints = true
+        sidebarTableView.translatesAutoresizingMaskIntoConstraints = true
+
+        notesTable.frame.origin.x = -leftInset - 50
+        sidebarTableView.frame.origin.x = -leftInset - 50
+
+        notesTable.frame.origin.y = topInset
+        sidebarTableView.frame.origin.y = topInset
+
+        notesTable.frame.size.width = UIScreen.main.bounds.width - left - right
+        sidebarTableView.frame.size.width = UIScreen.main.bounds.width - left - right
+
+        notesTable.frame.size.height = UIScreen.main.bounds.height - top - bottom //-
+        sidebarTableView.frame.size.height = UIScreen.main.bounds.height - top - bottom
+
+        if UserDefaultsManagement.sidebarIsOpened {
+            leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
+        } else {
+            leftSafeArea.backgroundColor = UIColor.white
+        }
     }
 
     public func preLoadProjectsData() {
@@ -138,7 +196,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
 
-        self.preHeaderView.mixedBackgroundColor = Colors.Header
+        //self.preHeaderView.mixedBackgroundColor = Colors.Header
         self.headerView.mixedBackgroundColor = Colors.Header
         self.searchView.mixedBackgroundColor = Colors.Header
 
@@ -516,7 +574,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
 
                 self.notesTable.reloadData()
-                //self.loadSidebarMargins()
+                self.loadSidebarMargins()
 
                 if let note = self.delayedInsert {
                     self.notesTable.insertRow(note: note)
@@ -749,8 +807,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func rotated() {
         print("rotated")
+
+
         loadSidebarMargins()
         loadPlusButton()
+
+        DispatchQueue.main.async {
+            self.loadNotesFrame()
+        }
     }
 
     @objc func willExitForeground() {
@@ -855,11 +919,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func enableNotesLeadingConstraint() {
-        notesTableLeadingConstraint.constant = maxSidebarWidth
+        //notesTableLeadingConstraint.constant = maxSidebarWidth
     }
 
     public func disableNotesLeadingConstraint() {
-        notesTableLeadingConstraint.constant = 0
+        //notesTableLeadingConstraint.constant = 0
     }
 
     @objc func loadSidebarMargins() {
@@ -882,9 +946,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableView.isUserInteractionEnabled = true
 
             if UserDefaultsManagement.sidebarIsOpened {
-                self.sidebarTableView.frame.origin.x = 0
-            } else {
-                self.sidebarTableView.frame.origin.x = halfSidebar
+                //self.sidebarTableView.frame.origin.x = 0
+            } else
+            {
+                //self.sidebarTableView.frame.origin.x = halfSidebar
             }
             return
         }
@@ -917,6 +982,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }) { _ in
                     UserDefaultsManagement.sidebarIsOpened = true
                     self.sidebarTableView.isUserInteractionEnabled = true
+
+//                    UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCrossDissolve, animations: {
+//                        //self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+//                    })
+
+                    //self.leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
+
                 }
             }
 
@@ -927,6 +999,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }) { _ in
                     UserDefaultsManagement.sidebarIsOpened = false
                     self.sidebarTableView.isUserInteractionEnabled = false
+//                    self.leftSafeArea.backgroundColor = .white
+//                    self.sidebarTableView.layer.zPosition = -1
                 }
             }
         }
@@ -959,8 +1033,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         var width = CGFloat(115)
         let font = UIFont.boldSystemFont(ofSize: 15.0)
 
-        guard let projects = sidebarTableView.getSelectedProjects() else { return 0 }
-
         let settings = NSLocalizedString("Settings", comment: "Sidebar settings")
         let inbox = NSLocalizedString("Inbox", comment: "Inbox in sidebar")
         let notes = NSLocalizedString("Notes", comment: "Notes in sidebar")
@@ -968,12 +1040,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let archive = NSLocalizedString("Archive", comment: "Archive in sidebar")
         let trash = NSLocalizedString("Trash", comment: "Trash in sidebar")
 
-        let tags = sidebarTableView.getAllTags(projects: projects)
+        var sidebarItems = [String]()
+        if let projects = sidebarTableView.getSelectedProjects() {
+            sidebarItems = sidebarTableView.getAllTags(projects: projects)
+        }
+
+        sidebarItems = sidebarItems
             + Storage.sharedInstance().getProjects().map({ $0.label })
             + [settings, inbox, notes, todo, archive, trash]
 
-        for tag in tags {
-            let labelWidth = ("#                " + tag as NSString).size(withAttributes: [.font: font]).width
+        for item in sidebarItems {
+            let labelWidth = ("#                " + item as NSString).size(withAttributes: [.font: font]).width
 
             if labelWidth < view.frame.size.width / 2 {
                 if labelWidth > width {
@@ -983,6 +1060,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 width = view.frame.size.width / 2
             }
         }
+
+        print(width)
 
         return width
     }
@@ -1136,7 +1215,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func resizeSidebar() {
         let width = calculateLabelMaxWidth()
-        print(width)
         maxSidebarWidth = width
         loadSidebarMargins()
     }
