@@ -76,7 +76,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     override func viewDidLoad() {
         //NightNight.theme = .normal
-        NightNight.theme = .night
+        //NightNight.theme = .normal
 
         configureUI()
         configureNotifications()
@@ -94,7 +94,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         rightPreSafeArea.mixedBackgroundColor =
             MixedColor(
-                normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                normal: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
                 night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
             )
 
