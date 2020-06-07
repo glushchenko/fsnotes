@@ -27,6 +27,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var sidebarLeadingConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var leftPreSafeArea: UIView!
     @IBOutlet weak var leftPreHeader: UIView!
     @IBOutlet weak var rightPreHeader: UIView!
 
@@ -56,7 +57,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var sidebarWidth: CGFloat = 0
 
     override func viewWillAppear(_ animated: Bool) {
-        //notesTable.frame.origin.x = 0
+        loadSidebarState()
+        loadPreSafeArea()
         
         super.viewWillAppear(animated)
     }
@@ -74,6 +76,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+        //NightNight.theme = .normal
+        NightNight.theme = .night
+
         configureUI()
         configureNotifications()
         configureGestures()
@@ -82,18 +87,52 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadSidebar()
         preLoadProjectsData()
 
+//        leftPreSafeArea.mixedBackgroundColor =
+//            MixedColor(
+//                normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+//                night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+//            )
 
-        leftPreHeader.backgroundColor = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
-        rightPreHeader.backgroundColor = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
+        preHeaderView.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+            )
+        
+        leftPreHeader.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+            )
 
-        //leftSafeArea.layer.zPosition = -1
-        //leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
+        rightPreHeader.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+            )
+
+        loadPreSafeArea()
 
         super.viewDidLoad()
     }
 
+    public func getLeftInset() -> CGFloat {
+        let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
+
+        return left
+    }
+
+    public func loadSidebarState() {
+        if UserDefaultsManagement.sidebarIsOpened {
+            notesTable.frame.origin.x = getLeftInset() + maxSidebarWidth
+        } else {
+            notesTable.frame.origin.x = getLeftInset()
+        }
+    }
+
     public func loadNotesFrame() {
-        return
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
 
         let top = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
         let bottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
@@ -109,31 +148,41 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         print("left: \(left)")
         print("right: \(right)")
 
-        if left > 0 {
-            if bottom > 0 {
-                leftSafeAreaBottomConstraint.constant = -bottom
-            }
-        }
-
         notesTable.translatesAutoresizingMaskIntoConstraints = true
         sidebarTableView.translatesAutoresizingMaskIntoConstraints = true
 
-        notesTable.frame.origin.x = -leftInset - 50
-        sidebarTableView.frame.origin.x = -leftInset - 50
-
+        notesTable.frame.origin.x = leftInset
         notesTable.frame.origin.y = topInset
+        notesTable.frame.size.width = screenWidth - left - right
+        notesTable.frame.size.height = screenHeight - top - bottom
+
+        sidebarTableView.frame.origin.x = leftInset
         sidebarTableView.frame.origin.y = topInset
+        sidebarTableView.frame.size.width = screenWidth - left - right
+        sidebarTableView.frame.size.height = screenHeight - top - bottom
 
-        notesTable.frame.size.width = UIScreen.main.bounds.width - left - right
-        sidebarTableView.frame.size.width = UIScreen.main.bounds.width - left - right
+        loadPreSafeArea()
+        loadSidebarState()
+    }
 
-        notesTable.frame.size.height = UIScreen.main.bounds.height - top - bottom //-
-        sidebarTableView.frame.size.height = UIScreen.main.bounds.height - top - bottom
-
+    public func loadPreSafeArea() {
         if UserDefaultsManagement.sidebarIsOpened {
-            leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
+            // blue/black pre safe area
+            leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                )
+
+            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset() - maxSidebarWidth
         } else {
-            leftSafeArea.backgroundColor = UIColor.white
+            leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: .white,
+                    night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
+                )
+
+            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset()
         }
     }
 
@@ -809,12 +858,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         print("rotated")
 
 
+
         loadSidebarMargins()
         loadPlusButton()
 
         DispatchQueue.main.async {
             self.loadNotesFrame()
+            self.loadSidebarState()
         }
+
+
     }
 
     @objc func willExitForeground() {
@@ -939,6 +992,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             return
         }
 
+        let notchWidth = getLeftInset()
+
         let translation = swipe.translation(in: notesTable)
         let halfSidebar = -(self.maxSidebarWidth / 2)
 
@@ -946,29 +1001,38 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.sidebarTableView.isUserInteractionEnabled = true
 
             if UserDefaultsManagement.sidebarIsOpened {
-                //self.sidebarTableView.frame.origin.x = 0
+                self.notesTable.frame.size.width = self.view.frame.width - notchWidth
+                self.sidebarTableView.frame.origin.x = 0 + notchWidth
             } else
             {
-                //self.sidebarTableView.frame.origin.x = halfSidebar
+
+                // blue/blck pre safe area
+                leftPreSafeArea.mixedBackgroundColor =
+                    MixedColor(
+                        normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                        night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                    )
+
+                self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
             }
             return
         }
 
         if swipe.state == .changed {
             guard
-                UserDefaultsManagement.sidebarIsOpened && translation.x < 0 && (translation.x + maxSidebarWidth) > 0
-                || !UserDefaultsManagement.sidebarIsOpened && translation.x > 0 && translation.x < maxSidebarWidth
+                UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth < 0 && (translation.x + notchWidth + maxSidebarWidth) > 0
+                || !UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth > 0 && translation.x + notchWidth < maxSidebarWidth
             else { return }
 
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .beginFromCurrentState, animations: {
                 self.notesTable.frame.origin.x =
-                    (translation.x > 0 ? -self.sidebarWidth : self.maxSidebarWidth)
-                        + translation.x
+                    (translation.x + notchWidth > 0 ? -self.sidebarWidth : self.maxSidebarWidth)
+                    + translation.x + notchWidth
 
-                if translation.x > 0 {
-                    self.sidebarTableView.frame.origin.x = halfSidebar + translation.x / 2
+                if translation.x + notchWidth > 0 {
+                    self.sidebarTableView.frame.origin.x = halfSidebar + (translation.x + notchWidth) / 2 + notchWidth
                 } else {
-                    self.sidebarTableView.frame.origin.x = translation.x / 2
+                    self.sidebarTableView.frame.origin.x = translation.x / 2 + notchWidth
                 }
             })
             return
@@ -978,29 +1042,29 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             if translation.x > 0 {
                 UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
                     self.notesTable.frame.origin.x = self.maxSidebarWidth
-                    self.sidebarTableView.frame.origin.x = 0
+                    self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
+                    self.sidebarTableView.frame.origin.x = 0 + notchWidth
                 }) { _ in
                     UserDefaultsManagement.sidebarIsOpened = true
                     self.sidebarTableView.isUserInteractionEnabled = true
-
-//                    UIView.animate(withDuration: 0.2, delay: 0.0, options: .transitionCrossDissolve, animations: {
-//                        //self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
-//                    })
-
-                    //self.leftSafeArea.backgroundColor = UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00)
-
                 }
             }
 
             if translation.x < 0 {
                 UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-                    self.notesTable.frame.origin.x = 0
-                    self.sidebarTableView.frame.origin.x = halfSidebar
+                    self.notesTable.frame.origin.x = 0 + notchWidth
+                    self.notesTable.frame.size.width = self.view.frame.width - notchWidth
+                    self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
                 }) { _ in
                     UserDefaultsManagement.sidebarIsOpened = false
                     self.sidebarTableView.isUserInteractionEnabled = false
-//                    self.leftSafeArea.backgroundColor = .white
-//                    self.sidebarTableView.layer.zPosition = -1
+
+                    // white pre safe area
+                    self.leftPreSafeArea.mixedBackgroundColor =
+                        MixedColor(
+                            normal: .white,
+                            night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
+                    )
                 }
             }
         }

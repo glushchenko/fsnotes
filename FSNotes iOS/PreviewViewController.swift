@@ -99,13 +99,19 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func rotated() {
         guard isLandscape != nil else {
             isLandscape = UIDevice.current.orientation.isLandscape
+            navigationController?.isNavigationBarHidden = isLandscape!
             return
         }
 
-        if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
-            isLandscape = UIDevice.current.orientation.isLandscape
+        let isLand = UIDevice.current.orientation.isLandscape
+        if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
+            isLandscape = isLand
+            navigationController?.isNavigationBarHidden = isLand
+
             removeMPreviewView()
             loadPreview(force: true)
+        } else {
+            navigationController?.isNavigationBarHidden = false
         }
     }
 
