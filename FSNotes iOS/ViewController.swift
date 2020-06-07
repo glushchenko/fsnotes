@@ -23,11 +23,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
-    
-    @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var sidebarLeadingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var leftPreSafeArea: UIView!
+    @IBOutlet weak var rightPreSafeArea: UIView!
+
     @IBOutlet weak var leftPreHeader: UIView!
     @IBOutlet weak var rightPreHeader: UIView!
 
@@ -93,6 +92,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 //                night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
 //            )
 
+        rightPreSafeArea.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
+            )
+
         preHeaderView.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
@@ -138,7 +143,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let bottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
         let right = UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0
         let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
-        let navHeight: CGFloat = 44
+        let navHeight: CGFloat = 45
 
         let topInset = top + navHeight
         let leftInset = left
@@ -538,9 +543,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.sidebarTableView.viewController = self
         self.maxSidebarWidth = self.calculateLabelMaxWidth()
 
-        print("sidebar loaded")
         if UserDefaultsManagement.sidebarIsOpened {
-            loadSidebarMargins()
             UIApplication.getVC().resizeSidebar()
         }
     }
@@ -623,7 +626,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
 
                 self.notesTable.reloadData()
-                self.loadSidebarMargins()
 
                 if let note = self.delayedInsert {
                     self.notesTable.insertRow(note: note)
@@ -855,25 +857,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func rotated() {
-        print("rotated")
-
-
-
-        loadSidebarMargins()
         loadPlusButton()
 
         DispatchQueue.main.async {
             self.loadNotesFrame()
             self.loadSidebarState()
         }
-
-
     }
 
     @objc func willExitForeground() {
-        loadSidebarMargins()
 
-        // laod new files from sharing extension
+        // load new files from sharing extension
         for url in UserDefaultsManagement.importURLs {
             cloudDriveManager?.add(url: url)
         }
@@ -968,20 +962,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if vc.search.isFirstResponder {
             vc.search.endEditing(true)
             vc.search.becomeFirstResponder()
-        }
-    }
-
-    public func enableNotesLeadingConstraint() {
-        //notesTableLeadingConstraint.constant = maxSidebarWidth
-    }
-
-    public func disableNotesLeadingConstraint() {
-        //notesTableLeadingConstraint.constant = 0
-    }
-
-    @objc func loadSidebarMargins() {
-        if UserDefaultsManagement.sidebarIsOpened {
-            notesTable.frame.origin.x = maxSidebarWidth
         }
     }
 
@@ -1124,8 +1104,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 width = view.frame.size.width / 2
             }
         }
-
-        print(width)
 
         return width
     }
@@ -1280,7 +1258,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func resizeSidebar() {
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
-        loadSidebarMargins()
+
+        let notchWidth = getLeftInset()
+
+        if UserDefaultsManagement.sidebarIsOpened {
+            if maxSidebarWidth > view.frame.size.width {
+                maxSidebarWidth = view.frame.size.width / 2
+            }
+
+            UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
+                self.notesTable.frame.origin.x = self.maxSidebarWidth
+                self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
+                self.sidebarTableView.frame.origin.x = 0 + notchWidth
+            })
+        }
     }
 }
 

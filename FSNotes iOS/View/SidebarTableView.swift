@@ -151,19 +151,14 @@ class SidebarTableView: UITableView,
             storage.reLoadTrash()
 
             if !view.isActiveTableUpdating {
-                self.viewController?.enableNotesLeadingConstraint()
                 view.updateTable() {
                     self.busyTrashReloading = false
-                    self.viewController?.disableNotesLeadingConstraint()
                 }
             }
 
             return
         }
 
-
-        //viewController?.enableNotesLeadingConstraint()
-        //let si = self.sidebarTableView.getSidebarItem()
         guard !view.isActiveTableUpdating else { return }
 
         view.updateTable(sidebarItem: sidebarItem) {
@@ -229,7 +224,6 @@ class SidebarTableView: UITableView,
         }
 
         guard let indexPath = self.indexPathForSelectedRow else { return nil }
-        //viewController?.loadSidebarMargins()
 
         let item = sidebar.items[indexPath.section][indexPath.row]
 

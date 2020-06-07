@@ -131,13 +131,9 @@ class NotesTableView: UITableView,
         }
 
         let evc = UIApplication.getEVC()
-        let vc = UIApplication.getVC()
 
         evc.fill(note: note, clearPreview: true) {
             bvc.containerController.selectController(atIndex: index, animated: true)
-
-            vc.notesTable.frame.origin.x = 0
-            UserDefaultsManagement.sidebarIsOpened = false
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
