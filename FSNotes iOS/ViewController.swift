@@ -75,7 +75,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
-        //NightNight.theme = .normal
+        //NightNight.theme = .night
         //NightNight.theme = .normal
 
         configureUI()
@@ -179,12 +179,24 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
                 )
 
+            rightPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: .white,
+                    night: .black
+                )
+
             notesTable.frame.size.width = self.view.frame.width - self.getLeftInset() - maxSidebarWidth
         } else {
             leftPreSafeArea.mixedBackgroundColor =
                 MixedColor(
                     normal: .white,
-                    night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
+                    night: .black
+                )
+
+            rightPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: .white,
+                    night: .black
                 )
 
             notesTable.frame.size.width = self.view.frame.width - self.getLeftInset()
@@ -1043,7 +1055,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     self.leftPreSafeArea.mixedBackgroundColor =
                         MixedColor(
                             normal: .white,
-                            night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
+                            night: .black
                     )
                 }
             }
