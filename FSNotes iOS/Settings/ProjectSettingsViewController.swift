@@ -50,8 +50,6 @@ class ProjectSettingsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         if let cell = tableView.cellForRow(at: indexPath) {
-            let vc = UIApplication.getVC()
-
             if indexPath.section == 0x00 {
                 for row in 0...rowsInSections[indexPath.section] {
                     let cell = tableView.cellForRow(at: IndexPath(row: row, section: indexPath.section))
@@ -63,37 +61,16 @@ class ProjectSettingsViewController: UITableViewController {
 
                     updateTable()
                 }
-            } else if indexPath.section == 0x01 {
-                if indexPath.row == 0x00 {
-                    self.project.showInCommon = cell.accessoryType == .none
 
-                    updateTable()
+                if cell.accessoryType == .none {
+                    cell.accessoryType = .checkmark
                 } else {
-                    self.project.showInSidebar = cell.accessoryType == .none
-
-                    vc.sidebarTableView.reloadData()
-                    vc.reloadSidebar()
+                    cell.accessoryType = .none
                 }
-            } else {
-                self.project.firstLineAsTitle = cell.accessoryType == .none
-
-                let notes = Storage.sharedInstance().getNotesBy(project: self.project)
-
-                for note in notes {
-                    note.invalidateCache()
-                }
-
-                updateTable()
-            }
-
-            if cell.accessoryType == .none {
-                cell.accessoryType = .checkmark
-            } else {
-                cell.accessoryType = .none
             }
         }
 
-        self.project.saveSettings()
+        project.saveSettings()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -118,6 +95,9 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let uiSwitch = UISwitch()
+        uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
+        
         var cell = UITableViewCell()
 
         if indexPath.section == 0x00 {
@@ -157,22 +137,64 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = project.showInCommon
+
                 cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
-                cell.accessoryType = project.showInCommon ? .checkmark : .none
             case 1:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = project.showInSidebar
+
                 cell.textLabel?.text = NSLocalizedString("Show folder in sidebar", comment: "")
-                cell.accessoryType = project.showInSidebar ? .checkmark : .none
             default:
                 return cell
             }
         }
 
         if indexPath.section == 0x02 {
+            cell.accessoryView = uiSwitch
+            uiSwitch.isOn = project.firstLineAsTitle
+
             cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")
-            cell.accessoryType = project.firstLineAsTitle ? .checkmark : .none
         }
 
         return cell
+    }
+
+    @objc public func switchValueDidChange(_ sender: UISwitch) {
+        guard let cell = sender.superview as? UITableViewCell,
+            let tableView = cell.superview as? UITableView,
+            let indexPath = tableView.indexPath(for: cell) else { return }
+
+        let vc = UIApplication.getVC()
+
+        if indexPath.section == 0x01 {
+            if indexPath.row == 0x00 {
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                self.project.showInCommon = uiSwitch.isOn
+
+                updateTable()
+            } else {
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                self.project.showInSidebar = uiSwitch.isOn
+
+                vc.sidebarTableView.reloadData()
+                vc.reloadSidebar()
+            }
+        } else if indexPath.section == 0x02 {
+            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+            self.project.firstLineAsTitle = uiSwitch.isOn
+
+            let notes = Storage.sharedInstance().getNotesBy(project: self.project)
+
+            for note in notes {
+                note.invalidateCache()
+            }
+
+            updateTable()
+        }
+
+        project.saveSettings()
     }
 
     @objc func cancel() {
