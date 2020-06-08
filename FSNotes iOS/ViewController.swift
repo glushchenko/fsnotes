@@ -101,19 +101,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         preHeaderView.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
             )
 
         leftPreHeader.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
             )
 
         rightPreHeader.mixedBackgroundColor =
             MixedColor(
                 normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.28, green: 0.27, blue: 0.31, alpha: 1.00)
+                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
             )
 
         loadPreSafeArea()
@@ -271,8 +271,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchCancel.mixedTintColor = Colors.buttonText
         search.keyboardAppearance = NightNight.theme == .night ? .dark : .default
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+        notesTable.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         let searchBarTextField = search.value(forKey: "searchField") as? UITextField
         searchBarTextField?.mixedTextColor = MixedColor(normal: 0xfafafa, night: 0xfafafa)

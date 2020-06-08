@@ -23,7 +23,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         self.navigationItem.rightBarButtonItem = getEditButton()
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
         super.viewDidLoad()
 

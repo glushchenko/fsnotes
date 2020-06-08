@@ -210,8 +210,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             view.backgroundColor = UIColor.white
             editArea.backgroundColor = UIColor.white
         } else {
-            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
-            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         }
 
         if note.type == .PlainText {
@@ -583,7 +583,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         dropDown.cellHeight = 35
         dropDown.textFont = UIFont.boldSystemFont(ofSize: 15)
-        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         dropDown.textColor = NightNight.theme == .night ? UIColor.white : UIColor.gray
         dropDown.anchorView = customView
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -974,7 +974,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xe9e9e9, night: 0x47444e)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
@@ -999,7 +999,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
