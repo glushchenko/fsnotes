@@ -702,6 +702,7 @@
 		D7CDE9DF2161791200DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CDE9E02162311500DC5978 /* AppearanceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */; };
 		D7CE196C1FA4BA5E004BF8EE /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
+		D7D00E77248E2C7D009AE455 /* ImageFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D00E76248E2C7C009AE455 /* ImageFormat.swift */; };
 		D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D03BAE205C250500D96A6D /* FontViewController.swift */; };
 		D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B024A62019BCF3008544C3 /* NoteAttribute.swift */; };
 		D7D03BBA205C6D1A00D96A6D /* redo.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D03BB7205C6D1800D96A6D /* redo.png */; };
@@ -1401,6 +1402,7 @@
 		D7CDE9D82160C1D500DC5978 /* makeNote_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote_white.png; sourceTree = "<group>"; };
 		D7CDE9DB2161767A00DC5978 /* AppearanceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceType.swift; sourceTree = "<group>"; };
 		D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewTextField.swift; sourceTree = "<group>"; };
+		D7D00E76248E2C7C009AE455 /* ImageFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFormat.swift; sourceTree = "<group>"; };
 		D7D03BAE205C250500D96A6D /* FontViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontViewController.swift; sourceTree = "<group>"; };
 		D7D03BB7205C6D1800D96A6D /* redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redo.png; sourceTree = "<group>"; };
 		D7D03BB8205C6D1900D96A6D /* redo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redo@2x.png"; sourceTree = "<group>"; };
@@ -2280,6 +2282,7 @@
 			isa = PBXGroup;
 			children = (
 				D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */,
+				D7D00E76248E2C7C009AE455 /* ImageFormat.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3695,6 +3698,7 @@
 				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
+				D7D00E77248E2C7D009AE455 /* ImageFormat.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D798DA792477CFF8001381BE /* SwiftyPageControllerAnimatorParallax.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,

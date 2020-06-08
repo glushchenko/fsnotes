@@ -1164,7 +1164,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else if let fileData = info?["PHImageFileDataKey"] as? Data {
-                            if imageExt == "heic" {
+
+                            let format = ImageFormat.get(from: fileData)
+
+                            print(format)
+                            if format == .heic {
                                 data = UIImage(data: fileData)?.jpegData(compressionQuality: 1)
                                 imageExt = "jpg"
                             } else {

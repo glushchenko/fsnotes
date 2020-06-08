@@ -107,7 +107,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         note.invalidateCache()
 
         for item in UIPasteboard.general.items {
-            if let rtfd = item["com.apple.flat-rtfd"] as? Data {
+            if let rtfd = item["es.fsnot.attributed.text"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
                     let attributedString = NSMutableAttributedString(attributedString: attributedString)
@@ -183,6 +183,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setItems([
+                    ["es.fsnot.attributed.text": rtfd],
                     [kUTTypePlainText as String: attributedString.string],
                     [kUTTypeFlatRTFD as String: rtfd]
                 ])

@@ -261,6 +261,8 @@ class Storage {
                 guard !projectExist(url: surl),
                     surl.lastPathComponent != "i",
                     surl.lastPathComponent != "files",
+                    surl.lastPathComponent != "Welcome",
+                    !surl.path.contains(".git"),
                     !surl.path.contains(".Trash"),
                     !surl.path.contains("Trash"),
                     !surl.path.contains("/."),
@@ -271,6 +273,7 @@ class Storage {
                 }
                 
                 let project = Project(url: surl, label: surl.lastPathComponent, parent: parent)
+
                 projects.append(project)
                 added.append(project)
             }

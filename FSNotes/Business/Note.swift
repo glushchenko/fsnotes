@@ -1800,7 +1800,7 @@ public class Note: NSObject  {
         let fileName = getFileName()
 
         if fileName.isValidUUID {
-            return "✦"
+            return "▽"
         }
 
         return fileName

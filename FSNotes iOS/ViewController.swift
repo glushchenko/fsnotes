@@ -159,12 +159,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.frame.origin.x = leftInset
         notesTable.frame.origin.y = topInset
         notesTable.frame.size.width = screenWidth - left - right - navHeight
-        notesTable.frame.size.height = screenHeight - top - navHeight
+        notesTable.frame.size.height = screenHeight - topInset //- bottom
 
         sidebarTableView.frame.origin.x = leftInset
         sidebarTableView.frame.origin.y = topInset
         sidebarTableView.frame.size.width = screenWidth - left - right
-        sidebarTableView.frame.size.height = screenHeight - top
+        sidebarTableView.frame.size.height = screenHeight - topInset //- bottom
 
         loadPreSafeArea()
         loadSidebarState()

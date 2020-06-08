@@ -16,6 +16,7 @@ import Foundation
     typealias Color = NSColor
 #else
     import UIKit
+    import NightNight
     typealias Font = UIFont
     typealias TextView = EditTextView
     typealias Color = UIColor
@@ -673,7 +674,7 @@ public class TextFormatter {
         let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
-            insertText(AttributedBox.getUnChecked())
+            insertText(AttributedBox.getUnChecked()!)
             return
         }
 
@@ -722,6 +723,8 @@ public class TextFormatter {
         let mutableResult = NSMutableAttributedString(string: result)
 
 #if os(iOS)
+        let textColor: UIColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+        mutableResult.addAttribute(.foregroundColor, value: textColor, range: NSRange(location: 0, length: mutableResult.length))
         mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
 #endif
 

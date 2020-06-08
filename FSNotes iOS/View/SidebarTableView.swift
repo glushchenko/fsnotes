@@ -131,7 +131,7 @@ class SidebarTableView: UITableView,
 
         var name = sidebarItem.name
         if sidebarItem.type == .Category || sidebarItem.type == .Inbox || sidebarItem.type == .All {
-            name += " ✦"
+            name += " ▽"
         }
 
         if let project = sidebarItem.project {
