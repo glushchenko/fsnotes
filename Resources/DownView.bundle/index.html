@@ -165,7 +165,7 @@
 
             element.parentNode.replaceChild(input, element);
 
-            input.parentNode.addEventListener("click", function(event) {
+            input.addEventListener("click", function(event) {
                 addCheckboxEvent(input);
             });
         };
@@ -178,8 +178,8 @@
             inputs[i].disabled = false
             inputs[i].dataset.checkbox = i;
 
-            inputs[i].parentNode.addEventListener("click", function(event) {
-                let element = event.target.firstElementChild;
+            inputs[i].addEventListener("click", function(event) {
+                let element = event.target;
                 addCheckboxEvent(element);
             });
         }

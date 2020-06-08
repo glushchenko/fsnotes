@@ -140,18 +140,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let screenHeight = UIScreen.main.bounds.height
 
         let top = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
-        let bottom = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0
         let right = UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0
         let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
         let navHeight: CGFloat = 45
 
         let topInset = top + navHeight
         let leftInset = left
-
-        print("top: \(top)")
-        print("bottom: \(bottom)")
-        print("left: \(left)")
-        print("right: \(right)")
 
         notesTable.translatesAutoresizingMaskIntoConstraints = true
         sidebarTableView.translatesAutoresizingMaskIntoConstraints = true
@@ -317,6 +311,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
             bvc.disableSwipe()
         }
+
+        loadNotesFrame()
     }
 
     public func startCloudDriveSyncEngine() {

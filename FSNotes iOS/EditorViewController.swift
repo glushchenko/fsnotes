@@ -35,6 +35,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private let dropDown = DropDown()
     public var isUndoAction: Bool = false
 
+    private var isLandscape: Bool?
+
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         
@@ -67,7 +69,25 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
+         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
         editArea.keyboardDismissMode = .interactive
+    }
+
+    @objc func rotated() {
+        guard isLandscape != nil else {
+            isLandscape = UIDevice.current.orientation.isLandscape
+            navigationController?.isNavigationBarHidden = isLandscape!
+            return
+        }
+
+        let isLand = UIDevice.current.orientation.isLandscape
+        if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
+            isLandscape = isLand
+            navigationController?.isNavigationBarHidden = isLand
+        } else {
+            navigationController?.isNavigationBarHidden = false
+        }
     }
 
 //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
