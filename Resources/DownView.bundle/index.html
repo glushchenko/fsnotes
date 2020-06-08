@@ -150,6 +150,42 @@
         window.mermaid.init(undefined, document.querySelectorAll('.language-mermaid'));
     </script>
 
+    <script>
+        var addCheckboxEvent = function(element) {
+            let id = element.dataset.checkbox;
+            window.webkit.messageHandlers.checkbox.postMessage(id);
+
+            let input = document.createElement("input");
+            input.type = "checkbox";
+            input.dataset.checkbox = id;
+
+            if (!element.hasAttribute('checked')) {
+                input.defaultChecked = true;
+            }
+
+            element.parentNode.replaceChild(input, element);
+
+            input.parentNode.addEventListener("click", function(event) {
+                addCheckboxEvent(input);
+            });
+        };
+
+        var inputs = document.querySelectorAll('input[type=checkbox]'),
+            length = inputs.length,
+            i = 0;
+
+        for (i; i < length; i++) {
+            inputs[i].disabled = false
+            inputs[i].dataset.checkbox = i;
+
+            inputs[i].parentNode.addEventListener("click", function(event) {
+                let element = event.target.firstElementChild;
+                addCheckboxEvent(element);
+            });
+        }
+
+    </script>
+
     MATH_JAX_JS
 </body>
 

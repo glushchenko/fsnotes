@@ -308,7 +308,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpe-hj-LME" userLabel="right Pre Header">
-                                <rect key="frame" x="852" y="0.0" width="144" height="45"/>
+                                <rect key="frame" x="852" y="0.0" width="44" height="45"/>
                                 <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5HY-PP-zis" userLabel="left Pre Safe Area">
@@ -346,7 +346,7 @@
                             <constraint firstItem="657-iG-bJh" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="bottom" id="lqI-Xe-LTO"/>
                             <constraint firstItem="wpe-hj-LME" firstAttribute="leading" secondItem="alp-5Z-1d9" secondAttribute="trailing" id="puE-T2-Fhz"/>
                             <constraint firstAttribute="bottom" secondItem="657-iG-bJh" secondAttribute="bottom" id="s6e-2S-ra7"/>
-                            <constraint firstAttribute="trailing" secondItem="wpe-hj-LME" secondAttribute="trailing" constant="-100" id="sPE-j3-mF5"/>
+                            <constraint firstAttribute="trailing" secondItem="wpe-hj-LME" secondAttribute="trailing" id="sPE-j3-mF5"/>
                             <constraint firstItem="hRO-uY-yS2" firstAttribute="leading" secondItem="1zz-x1-ZSj" secondAttribute="trailing" id="uCf-ba-qsG"/>
                             <constraint firstItem="alp-5Z-1d9" firstAttribute="bottom" secondItem="wpe-hj-LME" secondAttribute="bottom" id="xDG-1G-KJZ"/>
                             <constraint firstItem="alp-5Z-1d9" firstAttribute="leading" secondItem="hRO-uY-yS2" secondAttribute="leading" id="xNm-iI-BiD"/>

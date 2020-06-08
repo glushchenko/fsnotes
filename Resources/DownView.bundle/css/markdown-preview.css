@@ -525,6 +525,18 @@ input[type='checkbox'] {
         font-weight: normal;
     }
 
+    input[type='checkbox'][checked]:after {
+        content:'✓';
+        color: black;
+        position: absolute;
+        margin-left: 4px;
+        margin-top: 3px;
+        opacity: 1 !important;*/
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: normal;
+    }
+
 li {
     list-style-position: inside;
     line-height: 22px;
