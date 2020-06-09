@@ -64,7 +64,7 @@ class Sidebar {
             }
         }
 
-        let projects = getProjects()
+        let projects = getProjects().filter({ $0.project?.isDefault == false })
         if projects.count > 0 {
             items.append(projects)
         } else {
@@ -105,7 +105,12 @@ class Sidebar {
     }
 
     public func getProjects() -> [SidebarItem] {
-        return list.filter({ ($0 as? SidebarItem)?.type == .Category && ($0 as? SidebarItem)?.type != .Archive && ($0 as? SidebarItem)?.project != nil && ($0 as? SidebarItem)!.project!.showInSidebar }) as! [SidebarItem]
+        return list.filter({
+            ($0 as? SidebarItem)?.type == .Category
+                && ($0 as? SidebarItem)?.type != .Archive
+                && ($0 as? SidebarItem)?.project != nil
+                && ($0 as? SidebarItem)!.project!.showInSidebar
+        }) as! [SidebarItem]
     }
 
     private func getImage(named: String) -> Image? {

@@ -12,6 +12,7 @@ import Highlightr
 #if os(iOS)
 import NightNight
 import MobileCoreServices
+import AudioToolbox
 #else
 import Carbon.HIToolbox
 #endif
@@ -466,7 +467,7 @@ class HandlerSelection: NSObject, WKScriptMessageHandler {
 class HandlerCheckbox: NSObject, WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController,
                                didReceive message: WKScriptMessage) {
-        
+
         guard let position = message.body as? String else { return }
         guard let note = EditTextView.note else { return }
 
@@ -475,7 +476,7 @@ class HandlerCheckbox: NSObject, WKScriptMessageHandler {
         let range = NSRange(0..<string.count)
 
         var i = 0
-        NotesTextProcessor.todoInlineRegex.matches(string, range: range) { (result) -> Void in
+        NotesTextProcessor.allTodoInlineRegex.matches(string, range: range) { (result) -> Void in
             guard let range = result?.range else { return }
 
             if i == Int(position) {
@@ -486,6 +487,10 @@ class HandlerCheckbox: NSObject, WKScriptMessageHandler {
                 } else {
                     content.replaceCharacters(in: range, with: "- [x] ")
                 }
+
+                #if os(iOS)
+                AudioServicesPlaySystemSound(1519)
+                #endif
 
                 note.save(content: content)
             }

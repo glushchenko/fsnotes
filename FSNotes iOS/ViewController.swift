@@ -75,9 +75,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
-        //NightNight.theme = .night
-        //NightNight.theme = .normal
-
         configureUI()
         configureNotifications()
         configureGestures()
@@ -86,36 +83,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadSidebar()
         preLoadProjectsData()
 
-//        leftPreSafeArea.mixedBackgroundColor =
-//            MixedColor(
-//                normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-//                night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-//            )
-
-        rightPreSafeArea.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
-                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
-            )
-
-        preHeaderView.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
-            )
-
-        leftPreHeader.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
-            )
-
-        rightPreHeader.mixedBackgroundColor =
-            MixedColor(
-                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
-                night: UIColor(red: 0.18, green: 0.17, blue: 0.20, alpha: 1.00)
-            )
-
+        loadNotches()
         loadPreSafeArea()
 
         super.viewDidLoad()
@@ -162,6 +130,32 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         loadPreSafeArea()
         loadSidebarState()
+    }
+
+    public func loadNotches() {
+        rightPreSafeArea.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 1.00, green: 1.00, blue: 1.00, alpha: 1.00),
+                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
+            )
+
+        preHeaderView.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
+            )
+
+        leftPreHeader.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
+            )
+
+        rightPreHeader.mixedBackgroundColor =
+            MixedColor(
+                normal: UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00),
+                night: UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
+            )
     }
 
     public func loadPreSafeArea() {
@@ -239,6 +233,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func configureUI() {
+        UINavigationBar.appearance().isTranslucent = false
+
+        loadNotesFrame()
+
         self.metadataQueue.qualityOfService = .userInteractive
 
         if UserDefaultsManagement.nightModeType == .system {
@@ -256,8 +254,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
         self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
 
-        //self.preHeaderView.mixedBackgroundColor = Colors.Header
         self.headerView.mixedBackgroundColor = Colors.Header
+
+        self.headerView.addBottomBorderWithColor(color: UIColor(red: 0.17, green: 0.17, blue: 0.18, alpha: 1.00), width: 1)
         self.searchView.mixedBackgroundColor = Colors.Header
 
         self.search.mixedBackgroundColor = Colors.Header
@@ -311,8 +310,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
             bvc.disableSwipe()
         }
-
-        loadNotesFrame()
     }
 
     public func startCloudDriveSyncEngine() {
@@ -431,7 +428,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func openSettings() {
+    @objc public func openSettings() {
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
@@ -741,6 +738,29 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private var addButton: UIButton?
+
+    private var setttingsButton: UIButton?
+
+    public func loadSettingsButton() {
+        let height = view.frame.height
+        let width = view.frame.width
+
+        let button = UIButton(frame: CGRect(origin: CGPoint(x: 0, y: height - 150), size: CGSize(width: 200, height: 60)))
+        let image = UIImage(named: "settings.png")
+        button.setImage(image, for: UIControl.State.normal)
+        button.setTitle(NSLocalizedString("Settings", comment: "Sidebar settings"), for: .normal)
+        button.tag = 1
+        button.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
+        button.addTarget(self, action: #selector(self.openSettings), for: .touchDown)
+        button.layer.zPosition = 101
+
+        //sidebarTableView.contentOffset = .init(x: 0, y: -100)
+        sidebarTableView.contentInset = .init(top: 0, left: 0, bottom: 100, right: 0)
+        settingsButton = button
+        
+        self.view.addSubview(settingsButton)
+
+    }
 
     func loadPlusButton() {
         if let button = getButton() {

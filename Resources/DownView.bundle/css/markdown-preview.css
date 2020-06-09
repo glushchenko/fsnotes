@@ -554,6 +554,10 @@ ul li p {
     display: inline;
 }
 
+.cb > .strike {
+    text-decoration: line-through;
+}
+
 canvas {
     display: block;
     margin: 0 auto;

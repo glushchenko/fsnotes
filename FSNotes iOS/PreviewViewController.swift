@@ -75,6 +75,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         bvc.containerController.selectController(atIndex: 1, animated: false)
 
         if evc.editArea != nil {
+            evc.editArea.keyboardAppearance = NightNight.theme == .night ? .dark : .default
             evc.editArea.becomeFirstResponder()
         }
 
