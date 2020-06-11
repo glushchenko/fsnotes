@@ -439,8 +439,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                     let vc = UIApplication.getVC()
 
-                    if let projects = vc.sidebarTableView.getSelectedProjects() {
-                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    if let project = vc.searchQuery.project {
+                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
                         self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
 
                         self.complete(offset: hashRange.location, text: text)
@@ -458,8 +458,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    if let projects = vc.sidebarTableView.getSelectedProjects() {
-                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    if let project = vc.searchQuery.project {
+                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
 
                         if let word = word {
                             self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
@@ -476,8 +476,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if text == "#" {
                 let vc = UIApplication.getVC()
 
-                if let projects = vc.sidebarTableView.getSelectedProjects() {
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                if let project = vc.searchQuery.project {
+                    let tags = vc.sidebarTableView.getAllTags(projects: [project])
                     self.dropDown.dataSource = tags
                     self.complete(offset: self.editArea.selectedRange.location)
                 }
@@ -1048,8 +1048,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        guard let projects = vc.sidebarTableView.getSelectedProjects() else { return }
-        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+        guard let project = vc.searchQuery.project else { return }
+        let tags = vc.sidebarTableView.getAllTags(projects: [project])
         self.dropDown.dataSource = tags
 
         self.complete(offset: location)
@@ -1402,7 +1402,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             pc.containerController.selectController(atIndex: 0, animated: true)
 
             vc.search.text = query
-            vc.updateTable(search: true) {
+            vc.reloadNotesTable(with: SearchQuery(filter: query)) {
                 if vc.searchView.isHidden {
                     vc.searchView.isHidden = false
                 }

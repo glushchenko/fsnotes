@@ -356,7 +356,6 @@ open class SwiftyPageController: UIViewController {
         // setup first controller
         let controller = viewControllers[index]
 
-        print(controller)
         // setup frame
         controller.view.frame = containerView.bounds
         
@@ -373,7 +372,6 @@ open class SwiftyPageController: UIViewController {
 
         // call delegate 'didMoveToController' methode
         self.delegate?.swiftyPageController(self, didMoveToController: controller)
-
         isMoveFinished = true
     }
     

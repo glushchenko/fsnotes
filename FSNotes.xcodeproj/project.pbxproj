@@ -102,7 +102,6 @@
 		D71AA01F21439A8C004AFD2A /* todo_sidebar_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */; };
 		D71AA02021439A8C004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71AA0212143A4A8004AFD2A /* MoveViewController.swift */; };
-		D71AA0262143BD50004AFD2A /* TagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71AA0252143BD4F004AFD2A /* TagsViewController.swift */; };
 		D71AA0272143C1C4004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71AA0282143C1CE004AFD2A /* todo_sidebar.png in Resources */ = {isa = PBXBuildFile; fileRef = D71AA01D21439A8B004AFD2A /* todo_sidebar.png */; };
 		D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D71C4A4D1F520F0E00EBA30B /* DownView.bundle */; };
@@ -1131,7 +1130,6 @@
 		D71AA01C21439A8B004AFD2A /* todo_sidebar_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo_sidebar_white.png; sourceTree = "<group>"; };
 		D71AA01D21439A8B004AFD2A /* todo_sidebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo_sidebar.png; sourceTree = "<group>"; };
 		D71AA0212143A4A8004AFD2A /* MoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveViewController.swift; sourceTree = "<group>"; };
-		D71AA0252143BD4F004AFD2A /* TagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsViewController.swift; sourceTree = "<group>"; };
 		D71C4A4D1F520F0E00EBA30B /* DownView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DownView.bundle; sourceTree = "<group>"; };
 		D71FD2242101CFD0008BEFA1 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		D720240822A9412B000A7691 /* RTF.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = RTF.icns; sourceTree = "<group>"; };
@@ -1955,7 +1953,6 @@
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */,
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
-				D71AA0252143BD4F004AFD2A /* TagsViewController.swift */,
 				D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */,
 				D7DCFECC2108C7850059B37B /* CoreNote.swift */,
 				D798DA772477CFF7001381BE /* SwiftyPageController.swift */,
@@ -3653,7 +3650,6 @@
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
-				D71AA0262143BD50004AFD2A /* TagsViewController.swift in Sources */,
 				D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,

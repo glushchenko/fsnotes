@@ -68,7 +68,7 @@ public class Note: NSObject  {
             creationDate = created
         }
 
-        self.url = url
+        self.url = url.resolvingSymlinksInPath()
         self.project = project
         super.init()
 
@@ -163,7 +163,7 @@ public class Note: NSObject  {
         }
     }
         
-    func load(tags: Bool = true) {
+    func load() {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }

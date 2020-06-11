@@ -17,7 +17,7 @@ class CloudDriveManager {
     private var storage: Storage
 
     private var currentDownloadingList = [URL]()
-    private var resultsDict: [Int: URL] = [:]
+    private var resultsDict: NSMutableDictionary = NSMutableDictionary.init()
 
     private var contentDateDict: [Int: Date] = [:]
     private var fileNameDict: [Int: String] = [:]
@@ -132,7 +132,7 @@ class CloudDriveManager {
             guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.resolvingSymlinksInPath() else { continue }
 
             if contentDateDict[index] == date
-                && resultsDict[index] == url
+                && resultsDict[index] as? URL == url
                 && fileNameDict[index] == fileName
                 && changedMetadataItems.count != 1
                 && !whiteList.contains(index) {
@@ -204,9 +204,9 @@ class CloudDriveManager {
 
     private func getOldNote(item: NSMetadataItem, url: URL) -> Note? {
         let index = self.metadataQuery.index(ofResult: item)
-        guard let prevURL = resultsDict[index] else { return nil }
+        guard let prevURL = resultsDict[index] as? URL else { return nil }
 
-        if resultsDict[index] != url {
+        if prevURL != url {
             if let note = storage.getBy(url: prevURL) {
                 return note
             }
@@ -266,7 +266,8 @@ class CloudDriveManager {
     }
 
     public func add(url: URL) {
-        guard self.storage.getBy(url: url) == nil,
+        guard
+            self.storage.getBy(url: url) == nil,
             let note = self.storage.initNote(url: url)
         else { return }
 
@@ -320,7 +321,7 @@ class CloudDriveManager {
 
                 guard let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
 
-                note.load(tags: false)
+                note.load()
 
                 if note.content.length > 0 {
                     conflictNote.content = note.content
@@ -329,34 +330,6 @@ class CloudDriveManager {
 
                 conflict.isResolved = true
             }
-        }
-    }
-    
-    private func moveToTrash(note: Note, url: URL) {
-        note.url = url
-        
-        DispatchQueue.main.async {
-            var isTrash = false
-            let sidebarItem = self.delegate.sidebarTableView.getSidebarItem()
-
-            if let sidebarItem = sidebarItem, sidebarItem.isTrash() {
-                isTrash = true
-            }
-            
-            if !isTrash,
-                self.delegate.isFit(note: note, sidebarItem: sidebarItem),
-                let i = self.delegate.notesTable.notes.firstIndex(where: {$0 === note}) {
-                
-                self.delegate.notesTable.notes.remove(at: i)
-                self.delegate.notesTable.deleteRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-            }
-            
-            if isTrash {
-                self.delegate.notesTable.notes.insert(note, at: 0)
-                self.delegate.notesTable.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-            }
-            
-            note.parseURL()
         }
     }
 }

@@ -148,7 +148,7 @@ class ShareViewController: SLComposeServiceViewController {
             }
 
             if let note = self.notes?.first {
-                note.load(tags: false)
+                note.load()
                 note.loadPreviewInfo()
 
                 DispatchQueue.main.async {

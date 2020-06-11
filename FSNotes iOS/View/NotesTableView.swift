@@ -131,12 +131,16 @@ class NotesTableView: UITableView,
         }
 
         let evc = UIApplication.getEVC()
+        bvc.containerController.isEnabledInteractive = false
 
         evc.fill(note: note, clearPreview: true) {
             bvc.containerController.selectController(atIndex: index, animated: true)
 
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
+                bvc.containerController.isEnabledInteractive = true
+
             }
         }
     }
@@ -285,17 +289,7 @@ class NotesTableView: UITableView,
         })
         actionSheet.addAction(move)
 
-        if !UserDefaultsManagement.inlineTags {
-            let tags = UIAlertAction(title: NSLocalizedString("Tags", comment: ""), style: .default, handler: { _ in
-                if self.isEditing {
-                    self.allowsMultipleSelectionDuringEditing = false
-                    self.setEditing(false, animated: true)
-                }
-                
-                self.tagsAction(notes: notes, presentController: presentController)
-            })
-            actionSheet.addAction(tags)
-        }
+        // Old tags system removed
 
         if showAll {
             let encryption = UIAlertAction(title: NSLocalizedString("Lock/unlock", comment: ""), style: .default, handler: { _ in
@@ -342,7 +336,9 @@ class NotesTableView: UITableView,
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexSet = IndexPath(row: i, section: 0)
                 self.notes.remove(at: i)
+                beginUpdates()
                 deleteRows(at: [indexSet], with: .automatic)
+                endUpdates()
             }
         }
         
@@ -350,15 +346,17 @@ class NotesTableView: UITableView,
     }
 
     public func insertRows(notes: [Note]) {
-        let sidebarItem = viewDelegate?.sidebarTableView.getSidebarItem()
+        guard let vc = viewDelegate else { return }
         let i = self.getInsertPosition()
 
         for note in notes {
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
+            guard vc.isFit(note: note) else { continue }
 
             if !self.notes.contains(where: {$0 === note}) {
                 self.notes.insert(note, at: i)
+                self.beginUpdates()
                 self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                self.endUpdates()
             }
         }
     }
@@ -496,12 +494,6 @@ class NotesTableView: UITableView,
         presentController.present(controller, animated: true, completion: nil)
     }
 
-    private func tagsAction(notes: [Note], presentController: UIViewController) {
-        let tagsController = TagsViewController(notes: notes, notesTableView: self)
-        let controller = UINavigationController(rootViewController: tagsController)
-        presentController.present(controller, animated: true, completion: nil)
-    }
-
     private func copyAction(note: Note, presentController: UIViewController) {
         let item = [kUTTypeUTF8PlainText as String : note.content.string as Any]
 
@@ -580,35 +572,36 @@ class NotesTableView: UITableView,
     }
 
     public func moveRowUp(note: Note) {
-        if let i = self.notes.firstIndex(where: {$0 === note}) {
-            let position = note.isPinned ? 0 : self.getInsertPosition()
+        guard let vc = viewDelegate,
+            vc.isFit(note: note),
+            let i = self.notes.firstIndex(where: {$0 === note})
+        else { return }
 
-            if i == position {
-                return
-            }
+        let position = note.isPinned ? 0 : self.getInsertPosition()
 
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
-
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
-
-            self.notes.remove(at: i)
-            self.notes.insert(note, at: position)
-
-            moveRow(at: IndexPath(item: i, section: 0), to: IndexPath(item: position, section: 0))
+        if i == position {
+            return
         }
+        
+        self.notes.remove(at: i)
+        self.notes.insert(note, at: position)
+
+        moveRow(at: IndexPath(item: i, section: 0), to: IndexPath(item: position, section: 0))
     }
 
     public func insertRow(note: Note) {
+        guard let vc = viewDelegate else { return }
+
         let i = self.getInsertPosition()
 
         DispatchQueue.main.async {
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSelectedSidebarItem()
-
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
+            guard vc.isFit(note: note) else { return }
 
             if !self.notes.contains(where: {$0 === note}) {
                 self.notes.insert(note, at: i)
+                self.beginUpdates()
                 self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
+                self.endUpdates()
             }
         }
     }

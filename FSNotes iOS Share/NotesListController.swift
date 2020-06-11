@@ -32,7 +32,7 @@ class NotesListController: UITableViewController {
         let cell = UITableViewCell.init(style: .subtitle, reuseIdentifier: nil)
         let note = self.notes[indexPath.row]
 
-        note.load(tags: false)
+        note.load()
         let title = note.title
 
         cell.textLabel?.text = title
@@ -43,7 +43,7 @@ class NotesListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let note = self.notes[indexPath.row]
-        note.load(tags: false)
+        note.load()
         delegate?.save(note: note)
     }
 }

@@ -213,9 +213,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         self.tableView.reloadData()
         Storage.sharedInstance().removeBy(project: project)
 
-        if let mvc = self.getMainVC() {
-            mvc.updateTable {
-                mvc.sidebarTableView.reloadProjectsSection()
+        if let vc = self.getMainVC() {
+            vc.reloadNotesTable(with: vc.searchQuery) {
+                vc.sidebarTableView.reloadProjectsSection()
             }
         }
     }

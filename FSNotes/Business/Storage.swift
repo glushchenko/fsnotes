@@ -146,6 +146,9 @@ class Storage {
         projects.append(project)
         noteList.append(contentsOf: notes)
 
+        assignTrash(by: project.url)
+        assignArchive()
+
         checkWelcome()
     }
 
@@ -366,8 +369,6 @@ class Storage {
     }
 
     public func assignNonRootProjects(project: Project) {
-        assignTrash(by: project.url)
-        assignArchive()
         assignTree(for: project)
         assignBookmarks()
     }
@@ -546,6 +547,15 @@ class Storage {
     public func findAllProjectsExceptDefault() -> [Project] {
         return projects.filter({ !$0.isDefault  })
     }
+
+    public func getAvailableProjects() -> [Project] {
+        return projects.filter({
+            !$0.isDefault
+            && !$0.isTrash
+            && !$0.isArchive
+            && $0.showInSidebar
+        })
+    }
     
     public func getCloudDriveProjects() -> [Project] {
         return projects.filter({$0.isCloudDrive == true})
@@ -593,8 +603,13 @@ class Storage {
                     return true
                 }
 
-                if ($0.title.starts(with: filter) || $0.fileName.starts(with: filter))
-                    && (!$1.title.starts(with: filter) && !$1.fileName.starts(with: filter)) {
+                if (
+                    $0.title.starts(with: filter)
+                        || $0.fileName.starts(with: filter)
+                ) && (
+                    !$1.title.starts(with: filter)
+                        && !$1.fileName.starts(with: filter)
+                ) {
                     return true
                 }
             }
@@ -780,17 +795,12 @@ class Storage {
     }
     
     func getBy(url: URL) -> Note? {
-        if noteList.isEmpty {
-            return nil
-        }
-
-        let resolvedPath = url.path.lowercased()
+        let path = url.resolvingSymlinksInPath().path
 
         return
             noteList.first(where: {
                 return (
-                    $0.url.path.lowercased() == resolvedPath
-                        || "/private" + $0.url.path.lowercased() == resolvedPath
+                    $0.url.path == path
                 )
             })
     }

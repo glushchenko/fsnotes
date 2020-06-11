@@ -26,9 +26,7 @@ class SidebarTableView: UITableView,
     @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
 
     var gradientLayer: CAGradientLayer { return layer as! CAGradientLayer }
-    var sidebar: Sidebar = Sidebar()
-
-    private var selectedProjects: [Project]?
+    private var sidebar: Sidebar = Sidebar()
     private var busyTrashReloading = false
 
     public var viewController: ViewController?
@@ -115,13 +113,15 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let view = self.viewController else { return }
+        guard let vc = self.viewController else { return }
+
+        vc.turnOffSearch()
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
-                view.openSettings()
+                vc.openSettings()
                 self.deselectRow(at: indexPath, animated: false)
             }
 
@@ -134,11 +134,24 @@ class SidebarTableView: UITableView,
             name += " ▽"
         }
 
-        if let project = sidebarItem.project {
-            selectedProjects = [project]
-        }
+        let project =
+            sidebarItem.type == .Tag
+                ? vc.searchQuery.project
+                : sidebarItem.project
 
-        view.currentFolder.text = name
+        let tag =
+            sidebarItem.type == .Tag
+                ? sidebarItem.name
+                : nil
+
+        vc.searchQuery =
+            SearchQuery(
+                type: sidebarItem.type,
+                project: project,
+                tag: tag
+            )
+
+        vc.currentFolder.text = name
 
         if sidebarItem.isTrash() {
             if !busyTrashReloading {
@@ -150,8 +163,8 @@ class SidebarTableView: UITableView,
             let storage = Storage.sharedInstance()
             storage.reLoadTrash()
 
-            if !view.isActiveTableUpdating {
-                view.updateTable() {
+            if !vc.isActiveTableUpdating {
+                vc.reloadNotesTable(with: SearchQuery(type: .Trash)) {
                     self.busyTrashReloading = false
                 }
             }
@@ -159,10 +172,10 @@ class SidebarTableView: UITableView,
             return
         }
 
-        guard !view.isActiveTableUpdating else { return }
+        guard !vc.isActiveTableUpdating else { return }
 
-        view.updateTable(sidebarItem: sidebarItem) {
-            if sidebarItem.type != .Tag {
+        vc.reloadNotesTable(with: vc.searchQuery) {
+            if sidebarItem.project != nil {
                 self.loadAllTags()
             }
         }
@@ -182,12 +195,29 @@ class SidebarTableView: UITableView,
         }
     }
 
-    private func hasProjects() -> Bool {
-        if sidebar.getProjects().count > 0 {
-            return true
+    public func deselectAll() {
+        if let paths = indexPathsForSelectedRows {
+            for path in paths {
+                deselectRow(at: path, animated: false)
+            }
+        }
+    }
+
+    public func select(indexPath: IndexPath) {
+        guard let vc = viewController else { return }
+
+        selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        let item = sidebar.items[indexPath.section][indexPath.row]
+
+        var name = item.name
+        if item.type == .Category
+            || item.type == .Inbox
+            || item.type == .All {
+            name += " ▽"
         }
 
-        return false
+        vc.searchQuery = SearchQuery(type: item.type, project: item.project, tag: item.name)
+        vc.currentFolder.text = name
     }
 
     // MARK: Gradient settings
@@ -217,13 +247,12 @@ class SidebarTableView: UITableView,
     }
 
     public func getSidebarItem(project: Project? = nil) -> SidebarItem? {
-        //guard let sidebar = self.sidebar else { return nil }
 
         if let project = project, sidebar.items.count > 1 {
             return sidebar.items[1].first(where: { $0.project == project })
         }
 
-        guard let indexPath = self.indexPathForSelectedRow else { return nil }
+        guard let indexPath = indexPathForSelectedRow else { return nil }
 
         let item = sidebar.items[indexPath.section][indexPath.row]
 
@@ -346,15 +375,12 @@ class SidebarTableView: UITableView,
     }
 
     public func loadAllTags() {
-        guard UserDefaultsManagement.inlineTags else { return }
+        guard UserDefaultsManagement.inlineTags, let vc = viewController else { return }
         
         unloadAllTags()
+        guard let project = vc.searchQuery.project else { return }
 
-        guard let projects = getSelectedProjects() else { return }
-        let indexPath = indexPathForSelectedRow
-
-        let tags = getAllTags(projects: projects)
-
+        let tags = getAllTags(projects: [project])
         guard tags.count > 0 else { return }
 
         DispatchQueue.main.async {
@@ -364,10 +390,8 @@ class SidebarTableView: UITableView,
                 self.sidebar.items[2].insert(element, at: position)
             }
 
-            UIApplication.getVC().resizeSidebar()
-
-            self.reloadData()
-            self.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            self.viewController?.resizeSidebar()
+            self.safeReloadData()
         }
     }
 
@@ -388,37 +412,12 @@ class SidebarTableView: UITableView,
     }
 
     public func reloadProjectsSection() {
-        sidebar.items[1].removeAll()
-
-        let projects = Storage.sharedInstance().getProjects().sorted(by: { $0.label < $1.label })
-
-        for project in projects {
-            if project.isDefault || project.isTrash || project.isArchive {
-                continue
-            }
-
-            let sidebarItem = SidebarItem(name: project.label, project: project, type: .Category, icon: nil, tag: nil)
-
-            sidebar.items[1].append(sidebarItem)
-        }
-
-        reloadData()
-    }
-
-    public func getSelectedProjects() -> [Project]? {
-        if let sel = selectedProjects {
-            return sel
-        }
-
-        if let def = Storage.shared().getDefault() {
-            return [def]
-        }
-
-        return nil
+        sidebar.updateProjects()
+        safeReloadData()
     }
 
     public func getSelectedSidebarItem() -> SidebarItem? {
-        guard let project = getSelectedProjects()?.first else { return nil }
+        guard let vc = viewController, let project = vc.searchQuery.project else { return nil }
         let items = sidebar.items
 
         for item in items {
@@ -426,6 +425,67 @@ class SidebarTableView: UITableView,
                 if subItem.project == project {
                     return subItem
                 }
+            }
+        }
+
+        return nil
+    }
+
+    public func safeReloadData() {
+        var currentProject: Project?
+        var tagName: String?
+
+        if let section = indexPathForSelectedRow?.section,
+            let row = indexPathForSelectedRow?.row {
+
+            currentProject = sidebar.items[section][row].project
+
+            if section == SidebarSection.Tags.rawValue {
+                tagName = sidebar.items[SidebarSection.Tags.rawValue][row].name
+            }
+        }
+
+        reloadData()
+
+        for (sectionId, section) in sidebar.items.enumerated() {
+            for (rowId, item) in section.enumerated() {
+                if let project = currentProject, item.project === project {
+                    let indexPath = IndexPath(row: rowId, section: sectionId)
+                    selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                    return
+                }
+
+                if sectionId == SidebarSection.Tags.rawValue,
+                    let name = tagName, item.name == name
+                {
+                    let indexPath = IndexPath(row: rowId, section: sectionId)
+                    selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                    return
+                }
+            }
+        }
+    }
+
+    public func getIndexPathBy(project: Project) -> IndexPath? {
+        for (sectionId, section) in sidebar.items.enumerated() {
+            for (rowId, item) in section.enumerated() {
+                if item.project === project {
+                    let indexPath = IndexPath(row: rowId, section: sectionId)
+                    return indexPath
+                }
+            }
+        }
+
+        return nil
+    }
+
+    public func getIndexPathBy(tag: String) -> IndexPath? {
+        let tagsSection = SidebarSection.Tags.rawValue
+
+        for (rowId, item) in sidebar.items[tagsSection].enumerated() {
+            if item.name == tag {
+                let indexPath = IndexPath(row: rowId, section: tagsSection)
+                return indexPath
             }
         }
 

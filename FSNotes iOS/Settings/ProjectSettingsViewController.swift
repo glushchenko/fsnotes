@@ -58,8 +58,7 @@ class ProjectSettingsViewController: UITableViewController {
 
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
                     self.project.sortBy = sort
-
-                    updateTable()
+                    reloadNotesTable()
                 }
 
                 if cell.accessoryType == .none {
@@ -173,13 +172,17 @@ class ProjectSettingsViewController: UITableViewController {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 self.project.showInCommon = uiSwitch.isOn
 
-                updateTable()
+                reloadNotesTable()
             } else {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                self.project.showInSidebar = uiSwitch.isOn
-
-                vc.sidebarTableView.reloadData()
+                project.showInSidebar = uiSwitch.isOn
                 vc.reloadSidebar()
+
+                if !uiSwitch.isOn {
+                    let select = IndexPath(row: 0, section: 0)
+                    vc.sidebarTableView.select(indexPath: select)
+                    vc.reloadNotesTable(with: vc.searchQuery)
+                }
             }
         } else if indexPath.section == 0x02 {
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
@@ -191,7 +194,7 @@ class ProjectSettingsViewController: UITableViewController {
                 note.invalidateCache()
             }
 
-            updateTable()
+            reloadNotesTable()
         }
 
         project.saveSettings()
@@ -212,12 +215,9 @@ class ProjectSettingsViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
-    private func updateTable() {
+    private func reloadNotesTable() {
         let vc = UIApplication.getVC()
-
-        if let si = vc.sidebarTableView.getSidebarItem(project: project) {
-            vc.updateTable(sidebarItem: si) {}
-        }
+        vc.reloadNotesTable(with: vc.searchQuery)
     }
 }
 
