@@ -138,11 +138,15 @@ class ProjectSettingsViewController: UITableViewController {
             case 0:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.showInCommon
+                uiSwitch.isEnabled =
+                    !project.isRoot && !project.isArchive && !project.isTrash
 
                 cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.showInSidebar
+                uiSwitch.isEnabled =
+                    !project.isRoot && !project.isArchive && !project.isTrash
 
                 cell.textLabel?.text = NSLocalizedString("Show folder in sidebar", comment: "")
             default:

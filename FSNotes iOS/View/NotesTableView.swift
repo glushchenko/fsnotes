@@ -359,6 +359,7 @@ class NotesTableView: UITableView,
                 vc.isFitInCurrentSearchQuery(note: note),
                 !self.notes.contains(where: {$0 === note})
             else { continue }
+
             toInsert.append(note)
         }
 
@@ -378,6 +379,9 @@ class NotesTableView: UITableView,
         }
 
         insertRows(at: indexPaths, with: .fade)
+
+        let toReload = vc.storage.loadPins(notes: notes)
+        reloadRows(notes: toReload)
     }
 
     public func reloadRows(notes: [Note]) {
@@ -645,7 +649,12 @@ class NotesTableView: UITableView,
     private func openPopover() {
         let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
 
-        guard type == nil || type == .Category || type == .All || type == .Inbox else { return }
+        guard
+            type == .Category
+            || type == .Inbox
+            || type == .Archive
+            || type == .Trash
+        else { return }
 
         let vc = FolderPopoverViewControler()
         let height = Int(vc.tableView.rowHeight) * vc.actions.count

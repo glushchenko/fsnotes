@@ -1123,6 +1123,23 @@ class Storage {
         #endif
     }
 
+    public func loadPins(notes: [Note]) -> [Note] {
+        let keyStore = NSUbiquitousKeyValueStore()
+        keyStore.synchronize()
+
+        var success = [Note]()
+        guard let names = keyStore.array(forKey: "co.fluder.fsnotes.pins.shared") as? [String] else { return success }
+
+        for note in notes {
+            if names.contains(note.name) {
+                note.addPin(cloudSave: false)
+                success.append(note)
+            }
+        }
+
+        return success
+    }
+
     public func restoreCloudPins() -> (removed: [Note]?, added: [Note]?) {
         var added = [Note]()
         var removed = [Note]()

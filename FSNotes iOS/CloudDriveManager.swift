@@ -197,7 +197,7 @@ class CloudDriveManager {
                 // moved to unavailable dir (i.e. trash) is equal removed
                 // status may be NSMetadataUbiquitousItemDownloadingStatusDownloaded
 
-                guard storage.getProjectBy(url: url) != nil else {
+                guard storage.getProjectByNote(url: url) != nil else {
                     storage.removeNotes(notes: [note], fsRemove: false) {_ in
                         self.notesDeletionQueue.append(note)
                     }
