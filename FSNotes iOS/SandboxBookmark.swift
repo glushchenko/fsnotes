@@ -31,10 +31,9 @@ class SandboxBookmark {
                     var isStale = false
                     let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
 
-                    let resolvedURL = url.resolvingSymlinksInPath()
                     if !isStale {
                         if url.startAccessingSecurityScopedResource() {
-                            self.bookmarks[resolvedURL] = bookmarkData
+                            self.bookmarks[url.standardized] = bookmarkData
                             print("URL loaded from security scope: \(url)")
                         }
                     } else {

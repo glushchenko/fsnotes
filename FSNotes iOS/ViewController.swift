@@ -77,6 +77,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     override func viewDidLoad() {
+        startCloudDriveSyncEngine()
+
         configureUI()
         configureNotifications()
         configureGestures()
@@ -205,31 +207,37 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             storage.assignNonRootProjects(project: mainProject)
             print("2. Projects tree loading finished in \(projectsPoint.timeIntervalSinceNow * -1) seconds")
 
+            // enable icloud drive updates after projects structure formalized
+            self.cloudDriveManager?.metadataQuery.enableUpdates()
+
             let loadAllPoint = Date()
             storage.loadAllProjectsExceptDefault()
             print("3. All notes data loading finished in \(loadAllPoint.timeIntervalSinceNow * -1) seconds")
 
-            self.startCloudDriveSyncEngine() {
-
-                /*
-                 Add and remove default project notes not in cache
-                 */
-                let cachePoint = Date()
-                self.loadCacheDiff()
-                print("4. Cache diff finished in \(cachePoint.timeIntervalSinceNow * -1) seconds")
-
-                let tagsPoint = Date()
-                storage.loadAllTags()
-                print("5. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
-
-                self.importSavedInExtesnion()
-                self.cacheSharingExtensionProjects()
-
-                DispatchQueue.main.async {
-                    self.sidebarTableView.reloadProjectsSection()
-                    self.sidebarTableView.loadAllTags()
-                }
+            DispatchQueue.main.async {
+                self.sidebarTableView.reloadProjectsSection()
             }
+
+            /**
+             Add and remove default project notes not in cache
+             */
+            let cachePoint = Date()
+            self.loadCacheDiff()
+            print("4. Cache diff finished in \(cachePoint.timeIntervalSinceNow * -1) seconds")
+
+            let tagsPoint = Date()
+            storage.loadAllTags()
+            print("5. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+
+            self.importSavedInExtesnion()
+            self.cacheSharingExtensionProjects()
+
+            DispatchQueue.main.async {
+                self.sidebarTableView.reloadProjectsSection()
+                self.sidebarTableView.loadAllTags()
+            }
+
+
         }
     }
 
@@ -314,7 +322,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
-        self.cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
+        cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
+        cloudDriveManager?.metadataQuery.disableUpdates()
 
         if let cdm = self.cloudDriveManager {
             self.queryDidFinishGatheringObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
@@ -574,10 +583,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func loadSidebar() {
-        self.sidebarTableView.dataSource = self.sidebarTableView
-        self.sidebarTableView.delegate = self.sidebarTableView
-        self.sidebarTableView.viewController = self
-        self.maxSidebarWidth = self.calculateLabelMaxWidth()
+        sidebarTableView.dataSource = self.sidebarTableView
+        sidebarTableView.delegate = self.sidebarTableView
+        sidebarTableView.viewController = self
+        maxSidebarWidth = self.calculateLabelMaxWidth()
 
         if UserDefaultsManagement.sidebarIsOpened {
             resizeSidebar()
@@ -594,6 +603,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         notesTable.notes.removeAll()
         notesTable.reloadData()
+        folderCapacity.text = String("∞")
 
         //startAnimation(indicator: self.indicator)
 
@@ -1283,18 +1293,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
-        let notchWidth = getLeftInset()
-
         if UserDefaultsManagement.sidebarIsOpened {
+
             if maxSidebarWidth > view.frame.size.width {
                 maxSidebarWidth = view.frame.size.width / 2
             }
 
-            UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
+            let notchWidth = getLeftInset()
+            //UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
                 self.notesTable.frame.origin.x = self.maxSidebarWidth
                 self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
                 self.sidebarTableView.frame.origin.x = 0 + notchWidth
-            })
+            //})
         }
     }
 }

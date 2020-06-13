@@ -17,7 +17,7 @@ class CloudDriveManager {
     private var storage: Storage
 
     public let metadataQuery = NSMetadataQuery()
-    private var resultsDict = NSMutableDictionary.init()
+    private var resultsDict = NSMutableDictionary()
     private let workerQueue: OperationQueue = {
         let workerQueue = OperationQueue()
         workerQueue.name = "co.fluder.fsnotes.manager.browserdatasource.workerQueue"
@@ -27,8 +27,11 @@ class CloudDriveManager {
     }()
 
     private var shouldLoadTags: Bool = false
-    private var insertionQueue = [Note]()
-    private var deletionQueue = [Note]()
+    private var shouldReloadProjects: Bool = false
+
+    private var notesInsertionQueue = [Note]()
+    private var notesDeletionQueue = [Note]()
+    private var projectsDeletionQueue = [Project]()
 
     init(delegate: ViewController, storage: Storage) {
         metadataQuery.operationQueue = workerQueue
@@ -58,13 +61,14 @@ class CloudDriveManager {
         guard let metadataQuery = notification.object as? NSMetadataQuery else { return }
         metadataQuery.disableUpdates()
 
-        change(notification: notification)
-        download(notification: notification)
-        remove(notification: notification)
+        let changed = change(notification: notification)
+        let added = self.added(notification: notification)
+        let removed = remove(notification: notification)
 
         doVisualChanges()
 
-        if let results = metadataQuery.results as? [NSMetadataItem] {
+        if added > 0 || removed > 0 || changed > 0,
+            let results = metadataQuery.results as? [NSMetadataItem] {
             saveCloudDriveResultsCache(results: results)
         }
 
@@ -75,13 +79,12 @@ class CloudDriveManager {
         let point = Date()
 
         for result in results {
-            let key = metadataQuery.index(ofResult: result)
             if let url = result.value(forAttribute: NSMetadataItemURLKey) as? URL {
-                resultsDict[key] = url.resolvingSymlinksInPath()
+                resultsDict[metadataQuery.index(ofResult: result)] = url.standardized
             }
         }
 
-        print("iCloud Drive resources caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
+        print("iCloud Drive resources: \"\(results.count)\", caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
     }
 
     private func startInitialLoading(results: [NSMetadataItem]) {
@@ -89,9 +92,11 @@ class CloudDriveManager {
             let url = metadataItem.value(forAttribute: NSMetadataItemURLKey) as? URL
             let status = metadataItem.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
 
-            if status == NSMetadataUbiquitousItemDownloadingStatusNotDownloaded, let url = url, FileManager.default.isUbiquitousItem(at: url) {
+            if status == NSMetadataUbiquitousItemDownloadingStatusNotDownloaded,
+                let url = url,
+                FileManager.default.isUbiquitousItem(at: url) {
+
                 do {
-                    print(url)
                     try FileManager.default.startDownloadingUbiquitousItem(at: url)
                 } catch {
                     print("Download error: \(error)")
@@ -100,9 +105,10 @@ class CloudDriveManager {
         }
     }
 
-    private func change(notification: NSNotification) {
-        guard let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] else { return }
+    private func change(notification: NSNotification) -> Int {
+        guard let changedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateChangedItemsKey] as? [NSMetadataItem] else { return 0 }
 
+        var completed = 0
         for item in changedMetadataItems {
             let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
 
@@ -110,9 +116,45 @@ class CloudDriveManager {
             let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
             let contentChangeDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
 
-            guard let url = itemUrl?.resolvingSymlinksInPath(),
-                storage.isValidNote(url: url)
-            else { continue }
+            if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+                completed += 1
+            }
+
+//            print(status)
+//            print(itemUrl?.standardized)
+//            print(item.value(forAttribute: NSMetadataUbiquitousItemPercentDownloadedKey) as? NSNumber)
+
+//            print((try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory)
+//            print((try? itemUrl?.resourceValues(forKeys: [.isPackageKey]))?.isPackage)
+
+            guard let url = itemUrl?.standardized else { continue }
+
+            // check projects
+            let isDirectory = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory ?? false
+
+            if isDirectory && url.pathExtension != "textbundle" {
+
+                // Renamed
+                if let project = getProjectFromCloudDriveResults(item: item) {
+
+                    // Remove old
+                    if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+                        projectsDeletionQueue.append(project)
+                    }
+                }
+
+                // Add new
+                if storage.getProjectBy(url: url) == nil {
+                    if nil != storage.addProject(url: url) {
+                        shouldReloadProjects = true
+                    }
+                }
+
+                continue
+            }
+
+            // check files
+            guard storage.isValidNote(url: url) else { continue }
 
             // note already exist and update completed
             if status == NSMetadataUbiquitousItemDownloadingStatusCurrent,
@@ -157,7 +199,7 @@ class CloudDriveManager {
 
                 guard storage.getProjectBy(url: url) != nil else {
                     storage.removeNotes(notes: [note], fsRemove: false) {_ in
-                        self.deletionQueue.append(note)
+                        self.notesDeletionQueue.append(note)
                     }
 
                     print("File moved outside: \(url)")
@@ -169,7 +211,7 @@ class CloudDriveManager {
                     // moved to available dir
                     print("File moved to new url: \(url)")
 
-                    deletionQueue.append(note)
+                    notesDeletionQueue.append(note)
                     note.url = url
 
                     if note.loadTags() {
@@ -179,7 +221,7 @@ class CloudDriveManager {
                     note.parseURL()
 
                     resultsDict[index] = url
-                    insertionQueue.append(note)
+                    notesInsertionQueue.append(note)
 
                     continue
                 }
@@ -190,11 +232,13 @@ class CloudDriveManager {
                 importNote(url: url)
             }
         }
+
+        return completed
     }
 
     private func getNoteFromCloudDriveResults(item: NSMetadataItem) -> Note? {
         let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
-        guard let url = itemUrl?.resolvingSymlinksInPath() else { return nil }
+        guard let url = itemUrl?.standardized else { return nil }
 
         let index = self.metadataQuery.index(ofResult: item)
         guard let prev = resultsDict[index] as? URL else { return nil }
@@ -207,47 +251,77 @@ class CloudDriveManager {
 
         return nil
     }
-    
-    private func download(notification: NSNotification) {
-        if let addedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem] {
-            for item in addedMetadataItems {
-                guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.resolvingSymlinksInPath() else { continue }
 
-                let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
-                if status != NSMetadataUbiquitousItemDownloadingStatusCurrent
-                    && FileManager.default.isUbiquitousItem(at: url) {
+    private func getProjectFromCloudDriveResults(item: NSMetadataItem) -> Project? {
+        let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
+        guard let url = itemUrl?.standardized else { return nil }
 
-                    do {
-                        try FileManager.default.startDownloadingUbiquitousItem(at: url)
-                    } catch {
-                        print("Download error: \(error)")
-                    }
+        let index = self.metadataQuery.index(ofResult: item)
+        guard let prev = resultsDict[index] as? URL else { return nil }
 
-                    continue
-                }
-
-                // when file moved from outspace to FSNotes space
-                // i.e. revert from macOS trash to iCloud Drive
-                if storage.isValidNote(url: url) {
-                    print("is valid")
-                    self.importNote(url: url)
-                }
+        if prev != url {
+            if let project = storage.getProjectBy(url: prev) {
+                return project
             }
         }
+
+        return nil
     }
     
-    private func remove(notification: NSNotification) {
-        if let removedMetadataItems = notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as? [NSMetadataItem] {
-            for item in removedMetadataItems {
-                guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.resolvingSymlinksInPath(),
-                    let note = storage.getBy(url: url)
-                else { continue }
+    private func added(notification: NSNotification) -> Int {
+        guard let addedMetadataItems =
+            notification.userInfo?[NSMetadataQueryUpdateAddedItemsKey] as? [NSMetadataItem]
+        else { return 0 }
 
-                storage.removeNotes(notes: [note], completely: true) {_ in
-                    self.deletionQueue.append(note)
+        for item in addedMetadataItems {
+            guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized else { continue }
+
+            let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
+            if status != NSMetadataUbiquitousItemDownloadingStatusCurrent
+                && FileManager.default.isUbiquitousItem(at: url) {
+
+                do {
+                    try FileManager.default.startDownloadingUbiquitousItem(at: url)
+                } catch {
+                    print("Download error: \(error)")
                 }
+
+                continue
+            }
+
+            // when file moved from outspace to FSNotes space
+            // i.e. revert from macOS trash to iCloud Drive
+            if storage.isValidNote(url: url) {
+                self.importNote(url: url)
             }
         }
+
+        return addedMetadataItems.count
+    }
+    
+    private func remove(notification: NSNotification) -> Int {
+        guard let removedMetadataItems =
+            notification.userInfo?[NSMetadataQueryUpdateRemovedItemsKey] as?
+                [NSMetadataItem]
+        else { return 0 }
+
+        for item in removedMetadataItems {
+            guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized
+            else { continue }
+
+            if let note = storage.getBy(url: url) {
+                storage.removeNotes(notes: [note], completely: true) {_ in
+                    self.notesDeletionQueue.append(note)
+                }
+            }
+
+            if let project = storage.getProjectBy(url: url) {
+                storage.remove(project: project)
+                self.projectsDeletionQueue.append(project)
+            }
+        }
+
+        return removedMetadataItems.count
     }
 
     public func importNote(url: URL) {
@@ -273,7 +347,7 @@ class CloudDriveManager {
 
         if !storage.contains(note: note) {
             storage.noteList.append(note)
-            insertionQueue.append(note)
+            notesInsertionQueue.append(note)
         }
     }
 
@@ -318,15 +392,23 @@ class CloudDriveManager {
     }
 
     private func doVisualChanges() {
-        let insert = insertionQueue
-        let delete = deletionQueue
+        let insert = notesInsertionQueue
+        let delete = notesDeletionQueue
+        let projects = projectsDeletionQueue
 
-        insertionQueue.removeAll()
-        deletionQueue.removeAll()
+        notesInsertionQueue.removeAll()
+        notesDeletionQueue.removeAll()
+        projectsDeletionQueue.removeAll()
 
         DispatchQueue.main.async {
             self.delegate.notesTable.removeRows(notes: delete)
             self.delegate.notesTable.insertRows(notes: insert)
+            self.delegate.sidebarTableView.removeRows(projects: projects)
+
+            if self.shouldReloadProjects {
+                self.delegate.reloadSidebar()
+                self.shouldReloadProjects = false
+            }
 
             if self.shouldLoadTags {
                 self.delegate.sidebarTableView.loadAllTags()

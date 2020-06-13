@@ -68,7 +68,7 @@ public class Note: NSObject  {
             creationDate = created
         }
 
-        self.url = url.resolvingSymlinksInPath()
+        self.url = url.standardized
         self.project = project
         super.init()
 
@@ -158,7 +158,7 @@ public class Note: NSObject  {
     public func loadProject() {
         let sharedStorage = Storage.sharedInstance()
         
-        if let project = sharedStorage.getProjectBy(url: url) {
+        if let project = sharedStorage.getProjectByNote(url: url) {
             self.project = project
         }
     }
@@ -254,7 +254,7 @@ public class Note: NSObject  {
             var destination = to
 
             if FileManager.default.fileExists(atPath: to.path) {
-                guard let project = project ?? sharedStorage.getProjectBy(url: to) else { return false }
+                guard let project = project ?? sharedStorage.getProjectByNote(url: to) else { return false }
 
                 let ext = getExtensionForContainer()
                 destination = NameHelper.getUniqueFileName(name: title, project: project, ext: ext)

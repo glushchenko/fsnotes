@@ -491,4 +491,28 @@ class SidebarTableView: UITableView,
 
         return nil
     }
+
+    public func removeRows(projects: [Project]) {
+        guard projects.count > 0, let vc = viewController else { return }
+        var deselectCurrent = false
+
+        for project in projects {
+            if project == vc.searchQuery.project {
+                deselectCurrent = true
+            }
+
+            vc.storage.remove(project: project)
+        }
+
+        reloadProjectsSection()
+
+        if deselectCurrent {
+
+            vc.notesTable.notes.removeAll()
+            vc.notesTable.reloadData()
+
+            let indexPath = IndexPath(row: 0, section: 0)
+            select(indexPath: indexPath)
+        }
+    }
 }

@@ -39,7 +39,7 @@ public class Project: Equatable {
     private var shouldUseCache: Bool = false
     
     init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false, cache: Bool = true) {
-        self.url = url.resolvingSymlinksInPath()
+        self.url = url.standardized
         self.isTrash = isTrash
         self.isRoot = isRoot
         self.parent = parent
@@ -105,7 +105,7 @@ public class Project: Equatable {
         let documents = readAll(at: url)
 
         for document in documents {
-            let url = (document.0 as URL).resolvingSymlinksInPath()
+            let url = (document.0 as URL).standardized
             let modified = document.1
             let created = document.2
 
@@ -165,7 +165,7 @@ public class Project: Equatable {
     }
 
     public func readAll(at url: URL) -> [(URL, Date, Date)] {
-        let url = url.resolvingSymlinksInPath()
+        let url = url.standardized
 
         do {
             let directoryFiles =
@@ -175,7 +175,7 @@ public class Project: Equatable {
                 directoryFiles.filter {
                     allowedExtensions.contains($0.pathExtension)
                     || self.isValidUTI(url: $0)
-                }.map{
+                }.map {
                     url in (
                         url,
                         (try? url.resourceValues(forKeys: [.contentModificationDateKey])
@@ -183,6 +183,16 @@ public class Project: Equatable {
                         (try? url.resourceValues(forKeys: [.creationDateKey])
                             )?.creationDate ?? Date.distantPast
                     )
+                }.map {
+                    if $0.0.pathExtension == "textbundle" {
+                        return (
+                            URL(fileURLWithPath: $0.0.path, isDirectory: false),
+                            $0.1,
+                            $0.2
+                        )
+                    }
+
+                    return $0
                 }
         } catch {
             print("Storage not found, url: \(url) – \(error)")
@@ -217,7 +227,7 @@ public class Project: Equatable {
     }
     
     private func isCloudDriveFolder(url: URL) -> Bool {
-        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
             
             if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil), url.path.contains(iCloudDocumentsURL.path) {
                 return true
@@ -356,7 +366,7 @@ public class Project: Equatable {
     }
 
     public func getRelativePath() -> String? {
-        if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
+        if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
 
             let path = url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
             if path.count >= 64 {
