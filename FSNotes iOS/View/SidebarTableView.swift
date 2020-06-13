@@ -331,7 +331,7 @@ class SidebarTableView: UITableView,
             note.project = project
 
             vc.notesTable.removeRows(notes: [note])
-            vc.notesTable.insertRow(note: note)
+            vc.notesTable.insertRows(notes: [note])
         }
     }
 

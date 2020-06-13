@@ -332,33 +332,52 @@ class NotesTableView: UITableView,
     }
     
     public func removeRows(notes: [Note]) {
+        guard notes.count > 0 else { return }
+
+        var indexPaths = [IndexPath]()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexSet = IndexPath(row: i, section: 0)
-                self.notes.remove(at: i)
-                beginUpdates()
-                deleteRows(at: [indexSet], with: .automatic)
-                endUpdates()
+                indexPaths.append(IndexPath(row: i, section: 0))
             }
         }
-        
+
+        self.notes.removeAll(where: { notes.contains($0) })
+
+        deleteRows(at: indexPaths, with: .automatic)
         self.viewDelegate?.updateNotesCounter()
     }
 
     public func insertRows(notes: [Note]) {
-        guard let vc = viewDelegate else { return }
-        let i = self.getInsertPosition()
+        guard notes.count > 0,
+            let vc = viewDelegate, vc.isNoteInsertionAllowed()
+        else { return }
+
+        var toInsert = [Note]()
 
         for note in notes {
-            guard vc.isFit(note: note) else { continue }
-
-            if !self.notes.contains(where: {$0 === note}) {
-                self.notes.insert(note, at: i)
-                self.beginUpdates()
-                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.endUpdates()
-            }
+            guard
+                vc.isFitInCurrentSearchQuery(note: note),
+                !self.notes.contains(where: {$0 === note})
+            else { continue }
+            toInsert.append(note)
         }
+
+        guard toInsert.count > 0 else { return }
+        let nonSorted = self.notes + toInsert
+        let sorted = vc.storage.sortNotes(
+            noteList: nonSorted,
+            project: vc.searchQuery.project
+        )
+
+        var indexPaths = [IndexPath]()
+        for note in toInsert {
+            guard let index = sorted.firstIndex(of: note) else { continue }
+
+            self.notes = sorted
+            indexPaths.append(IndexPath(row: index, section: 0))
+        }
+
+        insertRows(at: indexPaths, with: .fade)
     }
 
     public func reloadRows(notes: [Note]) {
@@ -573,7 +592,8 @@ class NotesTableView: UITableView,
 
     public func moveRowUp(note: Note) {
         guard let vc = viewDelegate,
-            vc.isFit(note: note),
+            vc.isNoteInsertionAllowed(),
+            vc.isFitInCurrentSearchQuery(note: note),
             let i = self.notes.firstIndex(where: {$0 === note})
         else { return }
 
@@ -587,23 +607,6 @@ class NotesTableView: UITableView,
         self.notes.insert(note, at: position)
 
         moveRow(at: IndexPath(item: i, section: 0), to: IndexPath(item: position, section: 0))
-    }
-
-    public func insertRow(note: Note) {
-        guard let vc = viewDelegate else { return }
-
-        let i = self.getInsertPosition()
-
-        DispatchQueue.main.async {
-            guard vc.isFit(note: note) else { return }
-
-            if !self.notes.contains(where: {$0 === note}) {
-                self.notes.insert(note, at: i)
-                self.beginUpdates()
-                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-                self.endUpdates()
-            }
-        }
     }
 
     private func getInsertPosition() -> Int {
@@ -677,7 +680,6 @@ class NotesTableView: UITableView,
         bvc.present(alert, animated: true, completion: nil)
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         guard let cell = tableView.cellForRow(at: indexPath) as? NoteCellView,
@@ -688,5 +690,61 @@ class NotesTableView: UITableView,
         let itemProvider = NSItemProvider(item: data as NSData, typeIdentifier: kUTTypePlainText as String)
 
         return [UIDragItem(itemProvider: itemProvider)]
+    }
+
+    public func addPins(notes: [Note]) {
+        guard let vc = viewDelegate else { return }
+        for note in notes {
+            let sorted = vc.storage.sortNotes(
+                noteList: self.notes,
+                project: vc.searchQuery.project
+            )
+
+            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
+
+                let note = self.notes.remove(at: index)
+                self.notes.insert(note, at: toIndex)
+
+                let at = IndexPath(row: index, section: 0)
+                let to = IndexPath(row: toIndex, section: 0)
+
+                moveRow(at: at, to: to)
+
+                let reload = [
+                    IndexPath(row: index, section: 0),
+                    IndexPath(row: toIndex, section: 0)
+                ]
+
+                reloadRows(at: reload, with: .automatic)
+            }
+        }
+    }
+
+    public func removePins(notes: [Note]) {
+        guard let vc = viewDelegate else { return }
+        for note in notes {
+            let sorted = vc.storage.sortNotes(
+                noteList: self.notes,
+                project: vc.searchQuery.project
+            )
+
+            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
+
+                let note = self.notes.remove(at: index)
+                self.notes.insert(note, at: toIndex)
+
+                let at = IndexPath(row: index, section: 0)
+                let to = IndexPath(row: toIndex, section: 0)
+
+                moveRow(at: at, to: to)
+
+                let reload = [
+                    IndexPath(row: index, section: 0),
+                    IndexPath(row: toIndex, section: 0)
+                ]
+
+                reloadRows(at: reload, with: .automatic)
+            }
+        }
     }
 }

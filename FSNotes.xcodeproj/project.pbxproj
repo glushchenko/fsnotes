@@ -489,6 +489,7 @@
 		D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D78678CC2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
+		D7892AD12493C27800B3DDAE /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECC2108C7850059B37B /* CoreNote.swift */; };
 		D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */ = {isa = PBXBuildFile; fileRef = D78C6CBE246D7B78007AF7F2 /* wikilink.png */; };
 		D78DC70D2478415200C5BB43 /* MPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D730829123084340003185D1 /* MPreviewView.swift */; };
 		D78DC70F2479838E00C5BB43 /* edit_preview_controller.png in Resources */ = {isa = PBXBuildFile; fileRef = D78DC70E2479838E00C5BB43 /* edit_preview_controller.png */; };
@@ -3612,6 +3613,7 @@
 				D75F3339205EC34800CC887E /* ShareViewController.swift in Sources */,
 				D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D7CD5CD7218234010009D63B /* NoteAttribute.swift in Sources */,
+				D7892AD12493C27800B3DDAE /* CoreNote.swift in Sources */,
 				D73B121023659CAA00AAE610 /* CodeTextProcessor.swift in Sources */,
 				D7CD5CDF218330100009D63B /* Note+.swift in Sources */,
 				D7CD5CD021820CBC0009D63B /* URL+.swift in Sources */,

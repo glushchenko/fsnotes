@@ -10,48 +10,54 @@ import UIKit
 import Foundation
 
 public class CoreNote: UIDocument {
-    public var content = String()
+    var note: Note
 
-    override init(fileURL: URL) {
-        super.init(fileURL: fileURL)
+    init(note: Note) {
+        self.note = note
+        super.init(fileURL: note.url)
     }
 
+    public override func contents(forType typeName: String) throws -> Any {
+        return note.getFileWrapper()
+    }
+
+
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
-
-        DispatchQueue.main.async {
-            UIApplication.getVC().cloudDriveManager?.resolveConflict(url: self.fileURL)
-        }
-
-        if typeName == "public.rtf" {
-            /**
-             TODO: Implement RTF reloading
-             **/
-            return
-        }
-
-        if typeName == "org.textbundle.package", let wrapper = contents as? FileWrapper {
-            if let infoWrapper = wrapper.fileWrappers?["info.json"], let jsonData = infoWrapper.regularFileContents,
-                let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
-                let container: NoteContainer = info.version == 0x02 ? .textBundleV2 : .textBundle
-
-                let ext = NoteType.withUTI(rawValue: info.type).getExtension(for: container)
-                let fileName = "text.\(ext)"
-
-                if let markdownWrapper = wrapper.fileWrappers?[fileName] {
-                    if let data = markdownWrapper.regularFileContents, let content = String(data: data as Data, encoding: .utf8) {
-                        self.content = content
-                        updateView()
-                    }
-                }
-
-                return
-            }
-        }
-
-        if let data = contents as? Data, let content = String(data: data, encoding: .utf8) {
-            self.content = content
-            updateView()
-        }
+//
+//        DispatchQueue.main.async {
+//            UIApplication.getVC().cloudDriveManager?.resolveConflict(url: self.fileURL)
+//        }
+//
+//        if typeName == "public.rtf" {
+//            /**
+//             TODO: Implement RTF reloading
+//             **/
+//            return
+//        }
+//
+//        if typeName == "org.textbundle.package", let wrapper = contents as? FileWrapper {
+//            if let infoWrapper = wrapper.fileWrappers?["info.json"], let jsonData = infoWrapper.regularFileContents,
+//                let info = try? JSONDecoder().decode(TextBundleInfo.self, from: jsonData) {
+//                let container: NoteContainer = info.version == 0x02 ? .textBundleV2 : .textBundle
+//
+//                let ext = NoteType.withUTI(rawValue: info.type).getExtension(for: container)
+//                let fileName = "text.\(ext)"
+//
+//                if let markdownWrapper = wrapper.fileWrappers?[fileName] {
+//                    if let data = markdownWrapper.regularFileContents, let content = String(data: data as Data, encoding: .utf8) {
+//                        self.content = content
+//                        updateView()
+//                    }
+//                }
+//
+//                return
+//            }
+//        }
+//
+//        if let data = contents as? Data, let content = String(data: data, encoding: .utf8) {
+//            self.content = content
+//            updateView()
+//        }
     }
 
     public func updateView() {

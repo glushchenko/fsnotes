@@ -742,6 +742,9 @@ class Storage {
         return []
     }
 
+    public func isValidNote(url: URL) -> Bool {
+        return allowedExtensions.contains(url.pathExtension) || isValidUTI(url: url)
+    }
     public func isValidUTI(url: URL) -> Bool {
         guard url.fileSize < 100000000 else { return false }
 
@@ -759,6 +762,14 @@ class Storage {
         if !noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
            noteList.append(note)
         }
+    }
+
+    public func contains(note: Note) -> Bool {
+        if noteList.contains(where: { $0.name == note.name && $0.project == note.project }) {
+           return true
+        }
+
+        return false
     }
     
     func removeBy(note: Note) {
@@ -1149,7 +1160,7 @@ class Storage {
             }
 
             for name in names {
-                if let note = getBy(name: name) {
+                if let note = getBy(name: name), !note.isPinned {
                     note.addPin(cloudSave: false)
                     added.append(note)
                 }

@@ -53,8 +53,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         editArea.addGestureRecognizer(tap)
-
-        self.editArea.textStorage.delegate = self.editArea.textStorage
+        editArea.textStorage.delegate = editArea.textStorage
 
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
@@ -63,10 +62,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            bvc.enableSwipe()
-        }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
          NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)

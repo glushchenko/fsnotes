@@ -66,7 +66,7 @@ class MoveViewController: UITableViewController {
                     note.project = project
 
                     self.notesTableView.removeRows(notes: [note])
-                    self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
+                    self.notesTableView.viewDelegate?.notesTable.insertRows(notes: [note])
                 }
             }
             

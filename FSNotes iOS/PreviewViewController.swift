@@ -88,6 +88,8 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc public func returnBack() {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
 
+        guard bvc.containerController.isMoveFinished else { return }
+
         bvc.containerController.selectController(atIndex: 0, animated: true)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {

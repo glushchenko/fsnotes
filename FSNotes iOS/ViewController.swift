@@ -53,7 +53,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Swipe animation from handleSidebarSwipe
     private var sidebarWidth: CGFloat = 0
-    
+
     // Last selected project abd tag in sidebar
     public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
 
@@ -209,25 +209,26 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             storage.loadAllProjectsExceptDefault()
             print("3. All notes data loading finished in \(loadAllPoint.timeIntervalSinceNow * -1) seconds")
 
-            /*
-             Add and remove default project notes not in cache
-             */
-            let cachePoint = Date()
-            self.loadCacheDiff()
-            print("4. Cache diff finished in \(cachePoint.timeIntervalSinceNow * -1) seconds")
+            self.startCloudDriveSyncEngine() {
 
-            let tagsPoint = Date()
-            storage.loadAllTags()
-            print("5. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
+                /*
+                 Add and remove default project notes not in cache
+                 */
+                let cachePoint = Date()
+                self.loadCacheDiff()
+                print("4. Cache diff finished in \(cachePoint.timeIntervalSinceNow * -1) seconds")
 
-            self.startCloudDriveSyncEngine()
+                let tagsPoint = Date()
+                storage.loadAllTags()
+                print("5. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
-            self.importSavedInExtesnion()
-            self.cacheSharingExtensionProjects()
+                self.importSavedInExtesnion()
+                self.cacheSharingExtensionProjects()
 
-            DispatchQueue.main.async {
-                self.sidebarTableView.reloadProjectsSection()
-                self.sidebarTableView.loadAllTags()
+                DispatchQueue.main.async {
+                    self.sidebarTableView.reloadProjectsSection()
+                    self.sidebarTableView.loadAllTags()
+                }
             }
         }
     }
@@ -312,13 +313,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func startCloudDriveSyncEngine() {
+    public func startCloudDriveSyncEngine(completion: (() -> ())? = nil) {
         self.cloudDriveManager = CloudDriveManager(delegate: self, storage: self.storage)
 
         if let cdm = self.cloudDriveManager {
             self.queryDidFinishGatheringObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: cdm.metadataQuery, queue: self.metadataQueue) { notification in
 
                 cdm.queryDidFinishGathering(notification: (notification as NSNotification))
+
+                completion?()
 
                 NotificationCenter.default.removeObserver(self.queryDidFinishGatheringObserver as Any, name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: nil)
 
@@ -464,12 +467,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] {
             for key in keys {
                 if key == "co.fluder.fsnotes.pins.shared" {
-                    _ = storage.restoreCloudPins()
-                }
-            }
+                    let result = storage.restoreCloudPins()
 
-            DispatchQueue.main.async {
-                self.reloadNotesTable(with: self.searchQuery)
+                    DispatchQueue.main.async {
+                        if let added = result.added {
+                            self.notesTable.addPins(notes: added)
+                        }
+
+                        if let removed = result.removed {
+                            self.notesTable.removePins(notes: removed)
+                        }
+                    }
+                }
             }
         }
     }
@@ -579,7 +588,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func reloadNotesTable(with query: SearchQuery, completion: (() -> ())? = nil) {
-        var query = query
 
         isActiveTableUpdating = true
         searchQueue.cancelAllOperations()
@@ -587,7 +595,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         notesTable.notes.removeAll()
         notesTable.reloadData()
 
-        startAnimation(indicator: self.indicator)
+        //startAnimation(indicator: self.indicator)
 
         self.searchQueue.cancelAllOperations()
 
@@ -608,7 +616,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     break
                 }
 
-                if self.isFit(note: note, searchQuery: &query) {
+                if self.isFit(note: note, searchQuery: query) {
                     notes.append(note)
                 }
             }
@@ -640,7 +648,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.notesTable.reloadData()
 
                 if let note = self.delayedInsert {
-                    self.notesTable.insertRow(note: note)
+                    self.notesTable.insertRows(notes: [note])
                     self.delayedInsert = nil
                 }
 
@@ -660,13 +668,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    public func isFit(note: Note) -> Bool {
-        guard !search.isFirstResponder else { return false }
-
-        return isFit(note: note, searchQuery: &searchQuery)
+    public func isNoteInsertionAllowed() -> Bool {
+        return !search.isFirstResponder
     }
-    
-    public func isFit(note: Note, searchQuery: inout SearchQuery) -> Bool {
+
+    public func isFitInCurrentSearchQuery(note: Note) -> Bool {
+        return isFit(note: note, searchQuery: searchQuery)
+    }
+
+    public func isFit(note: Note, searchQuery: SearchQuery) -> Bool {
         guard !note.name.isEmpty
             && (
                 searchQuery.terms == nil
@@ -825,7 +835,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if self.isActiveTableUpdating {
             self.delayedInsert = note
         } else {
-            self.notesTable.insertRow(note: note)
+            self.notesTable.insertRows(notes: [note])
         }
 
         if is3DTouchShortcut {
@@ -863,7 +873,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         // load new files from sharing extension
         for url in UserDefaultsManagement.importURLs {
-            cm.add(url: url)
+            cm.importNote(url: url)
         }
 
         UserDefaultsManagement.importURLs = []
@@ -1311,7 +1321,7 @@ extension UIApplication {
     }
 }
 
-struct SearchQuery {
+class SearchQuery {
     var type: SidebarItemType? = nil
     var project: Project? = nil
     var tag: String? = nil
