@@ -1056,7 +1056,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             tagsTimer?.invalidate()
-            tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(scanTags), userInfo: nil, repeats: false)
+            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTags), userInfo: nil, repeats: false)
         }
 
         guard let note = EditTextView.note else {

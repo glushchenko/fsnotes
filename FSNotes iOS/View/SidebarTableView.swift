@@ -112,12 +112,19 @@ class SidebarTableView: UITableView,
         return 37
     }
 
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        selectRow(at: indexPath, animated: false, scrollPosition: .none)
+
+        self.tableView(tableView, didSelectRowAt: indexPath)
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = self.viewController else { return }
-
-        vc.turnOffSearch()
-
+        let selectedSection = SidebarSection(rawValue: indexPath.section)
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+
+        guard let vc = self.viewController else { return }
+        vc.turnOffSearch()
+        vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
             Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
@@ -130,55 +137,67 @@ class SidebarTableView: UITableView,
         }
 
         var name = sidebarItem.name
-        if sidebarItem.type == .Category || sidebarItem.type == .Inbox || sidebarItem.type == .All {
+        if sidebarItem.type == .Category
+            || sidebarItem.type == .Inbox
+            || sidebarItem.type == .All {
             name += " ▽"
         }
 
-        let project =
-            sidebarItem.type == .Tag
-                ? vc.searchQuery.project
-                : sidebarItem.project
+        let newQuery = SearchQuery()
+        newQuery.setType(sidebarItem.type)
+        newQuery.project = sidebarItem.project
+        newQuery.tag = nil
 
-        let tag =
-            sidebarItem.type == .Tag
-                ? sidebarItem.name
-                : nil
+        if selectedSection == .Tags {
+            newQuery.type = vc.searchQuery.type
+            newQuery.project = vc.searchQuery.project
+            newQuery.tag = sidebarItem.name
 
-        vc.searchQuery =
-            SearchQuery(
-                type: sidebarItem.type,
-                project: project,
-                tag: tag
-            )
+            deselectAllTags()
+        } else {
+            deselectAllProjects()
+            deselectAllTags()
+        }
 
-        vc.currentFolder.text = name
+        selectRow(at: indexPath, animated: false, scrollPosition: .none)
 
-        if sidebarItem.isTrash() {
-            if !busyTrashReloading {
-                busyTrashReloading = true
-            } else {
-                return
-            }
+        vc.reloadNotesTable(with: newQuery) {
+            DispatchQueue.main.async {
+                vc.currentFolder.text = name
 
-            let storage = Storage.sharedInstance()
-            storage.reLoadTrash()
+                guard vc.notesTable.notes.count > 0 else { return }
 
-            if !vc.isActiveTableUpdating {
-                vc.reloadNotesTable(with: SearchQuery(type: .Trash)) {
-                    self.busyTrashReloading = false
+                let path = IndexPath(row: 0, section: 0)
+                vc.notesTable.scrollToRow(at: path, at: .top, animated: true)
+
+                if selectedSection != .Tags {
+                    self.loadAllTags()
+                    vc.resizeSidebarWithAnimation()
                 }
             }
-
-            return
         }
+    }
 
-        guard !vc.isActiveTableUpdating else { return }
-
-        vc.reloadNotesTable(with: vc.searchQuery) {
-            if sidebarItem.project != nil {
-                self.loadAllTags()
+    private func deselectAllTags() {
+        if let selectedIndexPaths = indexPathsForSelectedRows {
+            for indexPathItem in selectedIndexPaths {
+                if indexPathItem.section == SidebarSection.Tags.rawValue {
+                    deselectRow(at: indexPathItem, animated: false)
+                }
             }
         }
+    }
+
+    private func deselectAllProjects() {
+        if let selectedIndexPaths = indexPathsForSelectedRows {
+            for indexPathItem in selectedIndexPaths {
+                if indexPathItem.section == SidebarSection.Projects.rawValue
+                    || indexPathItem.section == SidebarSection.System.rawValue {
+                    deselectRow(at: indexPathItem, animated: false)
+                }
+            }
+        }
+
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -201,23 +220,6 @@ class SidebarTableView: UITableView,
                 deselectRow(at: path, animated: false)
             }
         }
-    }
-
-    public func select(indexPath: IndexPath) {
-        guard let vc = viewController else { return }
-
-        selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        let item = sidebar.items[indexPath.section][indexPath.row]
-
-        var name = item.name
-        if item.type == .Category
-            || item.type == .Inbox
-            || item.type == .All {
-            name += " ▽"
-        }
-
-        vc.searchQuery = SearchQuery(type: item.type, project: item.project, tag: item.name)
-        vc.currentFolder.text = name
     }
 
     // MARK: Gradient settings
@@ -259,7 +261,6 @@ class SidebarTableView: UITableView,
         return item
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
 
         guard let vc = viewController else { return }
@@ -267,12 +268,10 @@ class SidebarTableView: UITableView,
 
         guard let sidebarItem = cell.sidebarItem else { return }
 
-        _ = coordinator.session.loadObjects(ofClass: String.self) { item in
-            let pathList = item as [String]
+        _ = coordinator.session.loadObjects(ofClass: URL.self) { item in
+            let pathList = item as [URL]
 
-            for path in pathList {
-                let url = URL(fileURLWithPath: path)
-                
+            for url in pathList {
                 guard let note = Storage.sharedInstance().getBy(url: url) else { continue }
 
                 switch sidebarItem.type {
@@ -293,7 +292,6 @@ class SidebarTableView: UITableView,
         }
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
 
         guard let indexPath = destinationIndexPath,
@@ -329,6 +327,9 @@ class SidebarTableView: UITableView,
             note.invalidateCache()
             note.parseURL()
             note.project = project
+
+            // resets tags in sidebar
+            removeTags(in: [note])
 
             vc.notesTable.removeRows(notes: [note])
             vc.notesTable.insertRows(notes: [note])
@@ -374,25 +375,55 @@ class SidebarTableView: UITableView,
         return tags.sorted()
     }
 
-    public func loadAllTags() {
-        guard UserDefaultsManagement.inlineTags, let vc = viewController else { return }
-        
-        unloadAllTags()
-        guard let project = vc.searchQuery.project else { return }
+    private func getAllTags(notes: [Note]? = nil) -> [String] {
+        var tags = [String]()
 
-        let tags = getAllTags(projects: [project])
+        if let notes = notes {
+            for note in notes {
+               for tag in note.tags {
+                   if !tags.contains(tag) {
+                       tags.append(tag)
+                   }
+               }
+            }
+        }
+
+        return tags.sorted()
+    }
+
+    public func loadAllTags() {
+        guard
+            UserDefaultsManagement.inlineTags,
+            let vc = viewController
+        else { return }
+
+        unloadAllTags()
+        var tags = [String]()
+
+        switch vc.searchQuery.type {
+        case .Inbox, .All, .Todo:
+            let notes = vc.notesTable.notes
+            tags = getAllTags(notes: notes)
+            break
+        case .Category:
+            guard let project = vc.searchQuery.project else { return }
+            tags = getAllTags(projects: [project])
+            break
+        default:
+            return
+        }
+
         guard tags.count > 0 else { return }
 
-        DispatchQueue.main.async {
-            for tag in tags {
-                let position = self.sidebar.items[2].count
-                let element = SidebarItem(name: tag, type: .Tag)
-                self.sidebar.items[2].insert(element, at: position)
-            }
-
-            self.viewController?.resizeSidebar()
-            self.safeReloadData()
+        var indexPaths = [IndexPath]()
+        for tag in tags {
+            let position = self.sidebar.items[2].count
+            let element = SidebarItem(name: tag, type: .Tag)
+            self.sidebar.items[2].insert(element, at: position)
+            indexPaths.append(IndexPath(row: position, section: 2))
         }
+
+        insertRows(at: indexPaths, with: .fade)
     }
 
     public func unloadAllTags() {
@@ -411,9 +442,199 @@ class SidebarTableView: UITableView,
         }
     }
 
+    public func removeTags(in notes: [Note]) {
+        for note in notes {
+            note.removeContent()
+        }
+
+        loadTags(notes: notes)
+    }
+
+    public func loadTags(notes: [Note]) {
+        var toInsert = [String]()
+        var toDelete = [String]()
+
+        for note in notes {
+            guard let vc = viewController,
+                let query = createQueryWithoutTags(),
+                vc.isFit(note: note, searchQuery: query)
+            else { continue }
+
+            let result = note.scanContentTags()
+            if result.0.count > 0 {
+                toInsert.append(contentsOf: result.0)
+            }
+
+            if result.1.count > 0 {
+                toDelete.append(contentsOf: result.1)
+                note.tags.removeAll(where: { result.1.contains($0) })
+            }
+        }
+
+        toInsert = Array(Set(toInsert))
+        toDelete = Array(Set(toDelete))
+
+        insert(tags: toInsert)
+        delete(tags: toDelete)
+    }
+
+    public func insert(tags: [String]) {
+        let currentTags = sidebar.items[2].compactMap({ $0.name })
+        var toInsert = [String]()
+
+        for tag in tags {
+            if currentTags.contains(tag) {
+                continue
+            }
+            toInsert.append(tag)
+        }
+
+        guard toInsert.count > 0 else { return }
+
+        let nonSorted = currentTags + toInsert
+        let sorted = nonSorted.sorted()
+
+        var indexPaths = [IndexPath]()
+        for tag in toInsert {
+            guard let index = sorted.firstIndex(of: tag) else { continue }
+            indexPaths.append(IndexPath(row: index, section: 2))
+        }
+
+        sidebar.items[2] = sorted.compactMap({ SidebarItem(name: $0, type: .Tag) })
+        insertRows(at: indexPaths, with: .fade)
+    }
+
+    public func delete(tags: [String]) {
+        guard let vc = viewController else { return }
+
+        var allTags = [String]()
+
+        if let project = vc.searchQuery.project {
+            allTags = project.getAllTags()
+        } else if let type = vc.searchQuery.type {
+            var notes = [Note]()
+            switch type {
+            case .All:
+                notes = Storage.shared().noteList
+                break
+            case .Inbox:
+                notes = Storage.shared().noteList.filter({ $0.project.isRoot })
+                break
+            case .Todo:
+                notes = Storage.shared().noteList.filter({ $0.content.string.contains("- [ ] ") })
+            default:
+                break
+            }
+
+            for note in notes {
+                allTags.append(contentsOf: note.tags)
+            }
+        }
+
+        let currentTags = sidebar.items[2].compactMap({ $0.name })
+        var toRemovePaths = [IndexPath]()
+        var toRemoveTags = [String]()
+
+        for tag in tags {
+            if !allTags.contains(tag) {
+                if let row = currentTags.firstIndex(of: tag) {
+                    toRemovePaths.append(IndexPath(row: row, section: 2))
+                    toRemoveTags.append(tag)
+                }
+            }
+        }
+
+        sidebar.items[2].removeAll(where: { toRemoveTags.contains($0.name) })
+        deleteRows(at: toRemovePaths, with: .fade)
+
+        deSelectTagIfNonExist(tags: toRemoveTags)
+    }
+
+    private func createQueryWithoutTags() -> SearchQuery? {
+        guard let vc = viewController else { return nil }
+        let query = SearchQuery()
+
+        query.project = vc.searchQuery.project
+        if let type = vc.searchQuery.type {
+            query.type = type
+
+            if query.project != nil && type == .Tag {
+                query.type = .Category
+            }
+        }
+
+        return query
+    }
+
+    private func deSelectTagIfNonExist(tags: [String]) {
+        guard let vc = viewController,
+            let tag = vc.searchQuery.tag
+        else { return }
+
+        guard tags.contains(tag) else { return }
+
+        if let project = vc.searchQuery.project,
+            let index = getIndexPathBy(project: project)
+        {
+            tableView(self, didSelectRowAt: index)
+            return
+        }
+
+        if let type = vc.searchQuery.type,
+            let index = getIndexPathBy(type: type) {
+            tableView(self, didSelectRowAt: index)
+        }
+    }
+
     public func reloadProjectsSection() {
         sidebar.updateProjects()
-        safeReloadData()
+
+        guard let vc = viewController else { return }
+
+        let type = vc.searchQuery.type
+        let project = vc.searchQuery.project
+        let tag = vc.searchQuery.tag
+
+        reloadData()
+
+        var i = 0
+        for system in sidebar.items[0] {
+            if system.type == type {
+                let index = IndexPath(row: i, section: 0)
+                selectRow(at: index, animated: false, scrollPosition: .none)
+                break
+            }
+
+            i += 1
+        }
+
+        var j = 0
+        for item in sidebar.items[1] {
+            if item.project == project {
+                let index = IndexPath(row: j, section: 1)
+                selectRow(at: index, animated: false, scrollPosition: .none)
+                break
+            }
+
+            j += 1
+        }
+
+        var k = 0
+        for item in sidebar.items[2] {
+            if item.name == tag {
+                let index = IndexPath(row: k, section: 2)
+                selectRow(at: index, animated: false, scrollPosition: .none)
+                break
+            }
+
+            k += 1
+        }
+    }
+
+    public func reloadProjectsAndResizeSection() {
+        reloadProjectsSection()
+        
+        viewController?.resizeSidebar()
     }
 
     public func getSelectedSidebarItem() -> SidebarItem? {
@@ -429,41 +650,6 @@ class SidebarTableView: UITableView,
         }
 
         return nil
-    }
-
-    public func safeReloadData() {
-        var currentProject: Project?
-        var tagName: String?
-
-        if let section = indexPathForSelectedRow?.section,
-            let row = indexPathForSelectedRow?.row {
-
-            currentProject = sidebar.items[section][row].project
-
-            if section == SidebarSection.Tags.rawValue {
-                tagName = sidebar.items[SidebarSection.Tags.rawValue][row].name
-            }
-        }
-
-        reloadData()
-
-        for (sectionId, section) in sidebar.items.enumerated() {
-            for (rowId, item) in section.enumerated() {
-                if let project = currentProject, item.project === project {
-                    let indexPath = IndexPath(row: rowId, section: sectionId)
-                    selectRow(at: indexPath, animated: false, scrollPosition: .none)
-                    return
-                }
-
-                if sectionId == SidebarSection.Tags.rawValue,
-                    let name = tagName, item.name == name
-                {
-                    let indexPath = IndexPath(row: rowId, section: sectionId)
-                    selectRow(at: indexPath, animated: false, scrollPosition: .none)
-                    return
-                }
-            }
-        }
     }
 
     public func getIndexPathBy(project: Project) -> IndexPath? {
@@ -492,6 +678,19 @@ class SidebarTableView: UITableView,
         return nil
     }
 
+    public func getIndexPathBy(type: SidebarItemType) -> IndexPath? {
+        let section = SidebarSection.System.rawValue
+
+        for (rowId, item) in sidebar.items[section].enumerated() {
+            if item.type == type {
+                let indexPath = IndexPath(row: rowId, section: section)
+                return indexPath
+            }
+        }
+
+        return nil
+    }
+
     public func removeRows(projects: [Project]) {
         guard projects.count > 0, let vc = viewController else { return }
         var deselectCurrent = false
@@ -507,12 +706,33 @@ class SidebarTableView: UITableView,
         reloadProjectsSection()
 
         if deselectCurrent {
-
             vc.notesTable.notes.removeAll()
             vc.notesTable.reloadData()
 
             let indexPath = IndexPath(row: 0, section: 0)
-            select(indexPath: indexPath)
+            tableView(self, didSelectRowAt: indexPath)
+        }
+    }
+
+    public func select(project: Project) {
+        guard let indexPath = getIndexPathBy(project: project) else { return }
+        tableView(self, didSelectRowAt: indexPath)
+    }
+
+    public func restoreSelection(for search: SearchQuery) {
+        if let type = search.type {
+            let index = getIndexPathBy(type: type)
+            selectRow(at: index, animated: false, scrollPosition: .none)
+        }
+
+        if let project = search.project {
+            let index = getIndexPathBy(project: project)
+            selectRow(at: index, animated: false, scrollPosition: .none)
+        }
+
+        if let tag = search.tag {
+            let index = getIndexPathBy(tag: tag)
+            selectRow(at: index, animated: false, scrollPosition: .none)
         }
     }
 }

@@ -150,7 +150,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             Storage.sharedInstance().assignTree(for: project)
 
             if let mvc = self.getMainVC() {
-                mvc.sidebarTableView.reloadProjectsSection()
+                mvc.sidebarTableView.reloadProjectsAndResizeSection()
             }
         }
 
@@ -214,8 +214,8 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         Storage.sharedInstance().removeBy(project: project)
 
         if let vc = self.getMainVC() {
-            vc.reloadNotesTable(with: vc.searchQuery) {
-                vc.sidebarTableView.reloadProjectsSection()
+            vc.reloadNotesTable() {
+                vc.sidebarTableView.reloadProjectsAndResizeSection()
             }
         }
     }
@@ -239,8 +239,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             storage.assignTree(for: project)
             storage.loadLabel(project, loadContent: true)
 
-            let vc = UIApplication.getVC()
-            vc.sidebarTableView.reloadProjectsSection()
+            UIApplication.getVC().sidebarTableView.reloadProjectsAndResizeSection()
 
             self.projects.append(project)
             self.tableView.reloadData()

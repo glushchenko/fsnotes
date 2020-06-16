@@ -18,7 +18,7 @@ import UIKit
 class Storage {
     static var instance: Storage? = nil
     
-    var noteList = [Note]()
+    public var noteList = [Note]()
     private var projects = [Project]()
     private var imageFolders = [URL]()
 
@@ -140,6 +140,7 @@ class Storage {
         let shouldUseCache = checkCrash()
 
         let project = Project(url: url, label: "iCloud Drive", isRoot: true, isDefault: true, cache: shouldUseCache)
+        project.loadSettings()
 
         let notes = project.getNotes()
 
@@ -478,15 +479,7 @@ class Storage {
     }
     
     func getTrash(url: URL) -> URL? {
-        #if os(OSX)
-            return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
-        #else
-        if #available(iOS 11.0, *) {
-            return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
-        } else {
-            return nil
-        }
-        #endif
+        return try? FileManager.default.url(for: .trashDirectory, in: .allDomainsMask, appropriateFor: url, create: false)
     }
     
     public func getBookmarks() -> [URL] {
@@ -642,9 +635,12 @@ class Storage {
     }
     
     private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
-        var sortDirection: SortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
-        if let project = project, project.sortBySettings != .none {
+        var sortDirection: SortDirection
+
+        if let project = project, project.sortBy != .none {
             sortDirection = project.sortDirection
+        } else {
+            sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
         }
         
         let sort = project?.sortBy ?? UserDefaultsManagement.sort
@@ -670,10 +666,10 @@ class Storage {
 
         for document in documents {
             #if os(OSX)
-                if let currentNoteURL = EditTextView.note?.url,
-                    currentNoteURL == url {
-                    continue
-                }
+            if let url = EditTextView.note?.url,
+                url == document.0 {
+                continue
+            }
             #endif
 
             let note = Note(url: document.0, with: item)
@@ -1205,6 +1201,11 @@ class Storage {
         self.projects.removeAll()
 
         for project in projects {
+            if project == projects.first {
+                project.isRoot = true
+                project.label = NSLocalizedString("Inbox", comment: "") 
+            }
+
             self.projects.append(project)
         }
     }

@@ -48,6 +48,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = UIApplication.getVC()
 
         if let cell = tableView.cellForRow(at: indexPath) {
             if indexPath.section == 0x00 {
@@ -58,7 +59,7 @@ class ProjectSettingsViewController: UITableViewController {
 
                 if let sort = SortBy(rawValue: cell.reuseIdentifier!) {
                     self.project.sortBy = sort
-                    reloadNotesTable()
+                    vc.reloadNotesTable()
                 }
 
                 if cell.accessoryType == .none {
@@ -85,7 +86,7 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.sections[section]
+        return sections[section]
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -176,52 +177,39 @@ class ProjectSettingsViewController: UITableViewController {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 self.project.showInCommon = uiSwitch.isOn
 
-                reloadNotesTable()
+                vc.reloadNotesTable()
             } else {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+
                 project.showInSidebar = uiSwitch.isOn
-                vc.reloadSidebar()
+                vc.sidebarTableView.reloadProjectsAndResizeSection()
 
                 if !uiSwitch.isOn {
-                    let select = IndexPath(row: 0, section: 0)
-                    vc.sidebarTableView.select(indexPath: select)
-                    vc.reloadNotesTable(with: vc.searchQuery)
+                    let at = IndexPath(row: 0, section: 0)
+                    vc.sidebarTableView.tableView(vc.sidebarTableView, didSelectRowAt: at)
                 }
             }
         } else if indexPath.section == 0x02 {
             guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            self.project.firstLineAsTitle = uiSwitch.isOn
+            project.firstLineAsTitle = uiSwitch.isOn
 
-            let notes = Storage.sharedInstance().getNotesBy(project: self.project)
-
+            let notes = Storage.sharedInstance().getNotesBy(project: project)
             for note in notes {
                 note.invalidateCache()
             }
 
-            reloadNotesTable()
+            vc.reloadNotesTable()
         }
 
         project.saveSettings()
     }
 
     @objc func cancel() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     @objc func close() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return }
-
-        vc.sidebarTableView.reloadProjectsSection()
-        vc.notesTable.reloadData()
-
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    private func reloadNotesTable() {
-        let vc = UIApplication.getVC()
-        vc.reloadNotesTable(with: vc.searchQuery)
+        dismiss(animated: true, completion: nil)
     }
 }
 

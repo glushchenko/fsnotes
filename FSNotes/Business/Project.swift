@@ -20,19 +20,17 @@ public class Project: Equatable {
     var isArchive: Bool
     public var isExternal: Bool = false
 
-    public var sortBy: SortBy = UserDefaultsManagement.sort
-    public var sortDirection: SortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
-
-    public var sortBySettings: SortBy = .none
-    public var sortDirectionSettings: SortDirection = .desc
+    public var sortDirection: SortDirection = .desc
 
     public var showInCommon: Bool
     public var showInSidebar: Bool = true
 
     #if os(iOS)
     public var firstLineAsTitle: Bool = true
+    public var sortBy: SortBy = .modificationDate
     #else
     public var firstLineAsTitle: Bool = false
+    public var sortBy: SortBy = .none
     #endif
 
     public var metaCache = [NoteMeta]()
@@ -271,13 +269,14 @@ public class Project: Equatable {
 
     public func saveSettings() {
         let data = [
-            "sortBy": sortBySettings.rawValue,
-            "sortDirection": sortDirectionSettings.rawValue,
+            "sortBy": sortBy.rawValue,
+            "sortDirection": sortDirection.rawValue,
             "showInCommon": showInCommon,
             "showInSidebar": showInSidebar,
             "firstLineAsTitle": firstLineAsTitle
         ] as [String : Any]
 
+        #if os(OSX)
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
@@ -286,11 +285,13 @@ public class Project: Equatable {
             keyStore.synchronize()
             return
         }
+        #endif
 
-        UserDefaults.standard.set(data, forKey: url.path)
+        UserDefaults.standard.set(data, forKey: url.path.md5)
     }
 
     public func loadSettings() {
+        #if os(OSX)
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
             let key = relativePath.count == 0 ? "root-directory" : relativePath
@@ -307,11 +308,9 @@ public class Project: Equatable {
                 if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
                     if sort != .none {
                         sortBy = sort
-                        sortBySettings = sort
 
                         if let directionString = settings["sortDirection"] as? String, let direction = SortDirection(rawValue: directionString) {
                             sortDirection = direction
-                            sortDirectionSettings = direction
                         }
                     }
                 }
@@ -324,8 +323,10 @@ public class Project: Equatable {
             }
             return
         }
+        #endif
 
-        if let settings = UserDefaults.standard.object(forKey: url.path) as? NSObject {
+        print(url)
+        if let settings = UserDefaults.standard.object(forKey: url.path.md5) as? NSObject {
             if let common = settings.value(forKey: "showInCommon") as? Bool {
                 self.showInCommon = common
             }
@@ -334,14 +335,15 @@ public class Project: Equatable {
                 self.showInSidebar = sidebar
             }
 
-            if let sortString = settings.value(forKey: "sortBy") as? String, let sort = SortBy(rawValue: sortString) {
+            if let sortString = settings.value(forKey: "sortBy") as? String,
+                let sort = SortBy(rawValue: sortString)
+            {
                 if sort != .none {
                     sortBy = sort
-                    sortBySettings = sort
 
-                    if let directionString = settings.value(forKey: "sortDirection") as? String, let direction = SortDirection(rawValue: directionString) {
+                    if let directionString = settings.value(forKey: "sortDirection") as? String,
+                        let direction = SortDirection(rawValue: directionString) {
                         sortDirection = direction
-                        sortDirectionSettings = direction
                     }
                 }
             }
@@ -369,11 +371,7 @@ public class Project: Equatable {
         if let iCloudRoot =  FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
 
             let path = url.path.replacingOccurrences(of: iCloudRoot.path, with: "")
-            if path.count >= 64 {
-                return path.md5
-            }
-
-            return path
+            return path.md5
         }
 
         return nil

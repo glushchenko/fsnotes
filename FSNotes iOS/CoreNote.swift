@@ -23,6 +23,9 @@ public class CoreNote: UIDocument {
 
 
     public override func load(fromContents contents: Any, ofType typeName: String?) throws {
+
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
+
 //
 //        DispatchQueue.main.async {
 //            UIApplication.getVC().cloudDriveManager?.resolveConflict(url: self.fileURL)

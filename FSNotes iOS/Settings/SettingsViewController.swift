@@ -208,8 +208,10 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 if UserDefaultsManagement.inlineTags {
                     vc.sidebarTableView.loadAllTags()
                 } else {
-                    vc.reloadSidebar()
+                    vc.sidebarTableView.unloadAllTags()
                 }
+
+                vc.resizeSidebarWithAnimation()
 
                 UIApplication.getEVC().resetToolbar()
             case 3:
@@ -393,12 +395,13 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
             DispatchQueue.global().async {
                 let helper = DayOneImportHelper(url: url, storage: storage)
-                let project = helper.check()
+                guard let project = helper.check() else { return }
 
                 DispatchQueue.main.async {
                     self.view.isUserInteractionEnabled = true
 
-                    viewController.reloadSidebar(select: project)
+                    viewController.sidebarTableView.reloadProjectsAndResizeSection()
+                    viewController.sidebarTableView.select(project: project)
                     viewController.stopAnimation(indicator: indicator)
 
                     self.done()

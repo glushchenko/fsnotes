@@ -37,6 +37,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     private var isLandscape: Bool?
 
+    // used for non icloud changes detection
+    private var coreNote: CoreNote?
+
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         
@@ -64,7 +67,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
-         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
 
         editArea.keyboardDismissMode = .interactive
     }
@@ -104,7 +109,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         super.viewDidAppear(animated)
 
         if editArea.textStorage.length == 0 {
-            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
+            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.1)
         }
 
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
@@ -189,9 +194,24 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         self.note = note
-        if !note.isLoaded {
+        if !note.isLoaded || note.project.isExternal {
             note.load()
         }
+
+        // for projects added from another app spaces
+        // changes detector
+        
+//        if note.project.isExternal {
+//            if coreNote != nil {
+//                coreNote?.close()
+//            }
+//
+//            coreNote = CoreNote(note: note)
+//            coreNote?.open()
+//        } else {
+//            coreNote?.close()
+//            coreNote = nil
+//        }
 
         EditTextView.note = note
 
@@ -328,7 +348,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func refill() {
+    @objc func refill() {
         guard let editArea = editArea else { return }
 
         initLinksColor()
@@ -637,14 +657,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     @objc public func scanTags() {
         guard UserDefaultsManagement.inlineTags else { return }
-
         guard let note = EditTextView.note else { return }
-        let vc = UIApplication.getVC()
 
-        let result = note.scanContentTags()
-        if result.0.count > 0 || result.1.count > 0 {
-            vc.sidebarTableView.loadAllTags()
-        }
+        UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
@@ -810,7 +825,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.metadataQuery.enableUpdates()
-        vc.notesTable.moveRowUp(note: note)
     }
 
     @objc private func updateCurrentRow() {
@@ -819,9 +833,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let note = self.note
         else { return }
 
-        vc.notesTable.beginUpdates()
-        vc.notesTable.reloadRow(note: note)
-        vc.notesTable.endUpdates()
+        vc.notesTable.moveRowUp(note: note)
     }
     
     func getSearchText() -> String {

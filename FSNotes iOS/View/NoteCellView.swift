@@ -47,6 +47,12 @@ class NoteCellView: SwipeTableViewCell {
         note = nil
     }
 
+    public func reLoad() {
+        if let note = self.note {
+            configure(note: note)
+        }
+    }
+
     func configure(note: Note) {
         self.note = note
 

@@ -31,6 +31,7 @@ class CloudDriveManager {
 
     private var notesInsertionQueue = [Note]()
     private var notesDeletionQueue = [Note]()
+    private var notesTagsQueue = [Note]()
     private var projectsDeletionQueue = [Project]()
 
     init(delegate: ViewController, storage: Storage) {
@@ -168,10 +169,7 @@ class CloudDriveManager {
 
                 print("File changed: \(url)")
 
-                if note.loadTags() {
-                    self.shouldLoadTags = true
-                }
-
+                notesTagsQueue.append(note)
                 note.forceReload()
 
                 if let currentNote = EditTextView.note,
@@ -214,9 +212,7 @@ class CloudDriveManager {
                     notesDeletionQueue.append(note)
                     note.url = url
 
-                    if note.loadTags() {
-                        self.shouldLoadTags = true
-                    }
+                    notesTagsQueue.append(note)
 
                     note.parseURL()
 
@@ -337,9 +333,7 @@ class CloudDriveManager {
             return
         }
 
-        if note.loadTags() {
-            self.shouldLoadTags = true
-        }
+        notesTagsQueue.append(note)
         
         _ = note.reload()
 
@@ -395,24 +389,22 @@ class CloudDriveManager {
         let insert = notesInsertionQueue
         let delete = notesDeletionQueue
         let projects = projectsDeletionQueue
+        let tags = notesTagsQueue
 
         notesInsertionQueue.removeAll()
         notesDeletionQueue.removeAll()
         projectsDeletionQueue.removeAll()
+        notesTagsQueue.removeAll()
 
         DispatchQueue.main.async {
             self.delegate.notesTable.removeRows(notes: delete)
             self.delegate.notesTable.insertRows(notes: insert)
             self.delegate.sidebarTableView.removeRows(projects: projects)
+            self.delegate.sidebarTableView.loadTags(notes: tags)
 
             if self.shouldReloadProjects {
-                self.delegate.reloadSidebar()
+                self.delegate.sidebarTableView.reloadProjectsSection()
                 self.shouldReloadProjects = false
-            }
-
-            if self.shouldLoadTags {
-                self.delegate.sidebarTableView.loadAllTags()
-                self.shouldLoadTags = false
             }
 
             self.delegate.updateNotesCounter()

@@ -128,8 +128,8 @@ class NightModeViewController: UITableViewController {
             guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
                 let vc = pc.containerController.viewControllers[0] as? ViewController else { return }
             
-            vc.sidebarTableView.reloadProjectsSection()
-            vc.notesTable.reloadData()
+            vc.notesTable.layoutSubviews()
+            vc.sidebarTableView.layoutSubviews()
         }
     }
     

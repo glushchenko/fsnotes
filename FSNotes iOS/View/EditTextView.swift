@@ -80,10 +80,16 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+            if let rtfd = try? attributedString.data(
+                from: NSMakeRange(0, attributedString.length),
+                documentAttributes: [
+                    NSAttributedString.DocumentAttributeKey.documentType:
+                        NSAttributedString.DocumentType.rtfd
+                ]
+            ) {
+                UIPasteboard.general.setData(rtfd, forPasteboardType: "es.fsnot.attributed.text"
+                )
 
-                UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
-                
                 if let textRange = getTextRange() {
                     self.replace(textRange, withText: "")
                 }

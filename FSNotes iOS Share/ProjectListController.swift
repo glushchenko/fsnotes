@@ -10,14 +10,16 @@ import UIKit
 
 class ProjectListController: UITableViewController {
     public weak var delegate: ShareViewController?
-    private var projects = [Project]()
+    public var projects = [Project]()
 
     override func viewDidLoad() {
         //title = "Append to"
     }
 
     public func setProjects(projects: [Project]) {
-        self.projects = projects
+        self.projects = projects.sorted(by: {
+            return $0.label < $1.label
+        })
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

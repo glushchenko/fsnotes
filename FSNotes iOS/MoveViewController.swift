@@ -43,6 +43,8 @@ class MoveViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let vc = notesTableView.viewDelegate else { return }
+
         if let projects = self.projects {
             let project = projects[indexPath.row]
 
@@ -52,6 +54,8 @@ class MoveViewController: UITableViewController {
                 if note.project != project {
                     note.moveImages(to: project)
 
+                    vc.sidebarTableView.removeTags(in: [note])
+                    
                     guard note.move(to: dstURL) else {
                         let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("File with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -66,7 +70,7 @@ class MoveViewController: UITableViewController {
                     note.project = project
 
                     self.notesTableView.removeRows(notes: [note])
-                    self.notesTableView.viewDelegate?.notesTable.insertRows(notes: [note])
+                    vc.notesTable.insertRows(notes: [note])
                 }
             }
             
@@ -151,7 +155,9 @@ class MoveViewController: UITableViewController {
 
             Storage.sharedInstance().assignTree(for: project)
 
-            self.notesTableView.viewDelegate?.sidebarTableView.reloadProjectsSection()
+            if let vc = self.notesTableView.viewDelegate {
+                vc.sidebarTableView.reloadProjectsAndResizeSection()
+            }
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }

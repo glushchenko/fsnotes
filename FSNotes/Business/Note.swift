@@ -310,6 +310,11 @@ public class Note: NSObject  {
         }
     }
 
+    public func removeContent() {
+        content = NSMutableAttributedString()
+        isLoaded = false
+    }
+
     public func isEmpty() -> Bool {
         return content.length == 0 && !isEncrypted()
     }
