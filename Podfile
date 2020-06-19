@@ -13,7 +13,6 @@ def ios_pods
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
     pod 'DropDown', '2.3.13'
     pod 'SwipeCellKit', :git => 'https://github.com/glushchenko/SwipeCellKit.git', :branch => 'develop'
-    pod 'TTTAttributedLabel'
 end
 
 def common_pods
