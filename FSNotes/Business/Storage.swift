@@ -1256,6 +1256,7 @@ class Storage {
         for project in projects {
             if project == projects.first {
                 project.isRoot = true
+                project.isDefault = true
                 project.label = NSLocalizedString("Inbox", comment: "") 
             }
 

@@ -39,7 +39,7 @@ class ProjectListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            UserDefaultsManagement.lastProject = indexPath.row
+            UserDefaultsManagement.lastSelectedURL = projects[indexPath.row].url
 
             cell.accessoryType = .checkmark
 

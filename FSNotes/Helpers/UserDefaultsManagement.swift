@@ -541,17 +541,13 @@ public class UserDefaultsManagement {
 
     static var lastSelectedURL: URL? {
         get {
-            if let path = shared?.object(forKey: Constants.LastSelectedPath) as? String, let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
-                return URL(string: "file://" + encodedPath)
+            if let url = shared?.url(forKey: Constants.LastSelectedPath) {
+                return url
             }
             return nil
         }
         set {
-            if let url = newValue {
-                shared?.set(url.path, forKey: Constants.LastSelectedPath)
-            } else {
-                shared?.set(nil, forKey: Constants.LastSelectedPath)
-            }
+            shared?.set(newValue, forKey: Constants.LastSelectedPath)
         }
     }
     

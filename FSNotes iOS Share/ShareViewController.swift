@@ -120,25 +120,36 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func configurationItems() -> [Any]! {
         let storage = Storage.sharedInstance()
-        let urls = UserDefaultsManagement.projects
+        var urls = [URL]()
+
+        if let inbox = UserDefaultsManagement.storageUrl {
+            urls.append(inbox)
+        }
+
+        if let archive = UserDefaultsManagement.archiveDirectory {
+            urls.append(archive)
+        }
+
+        urls.append(contentsOf: UserDefaultsManagement.projects)
         storage.loadProjects(from: urls)
 
         projectItem?.title = NSLocalizedString("Project", comment: "")
         projectItem?.tapHandler = {
-            let projects = storage.getProjects()
             let controller = ProjectListController()
             controller.delegate = self
-            controller.setProjects(projects: projects)
-            self.pushConfigurationViewController(controller)
 
+            let projects = storage.getProjects()
+            controller.setProjects(projects: projects)
+
+            self.pushConfigurationViewController(controller)
         }
 
         appendItem?.title = NSLocalizedString("Append to", comment: "")
 
         DispatchQueue.global().async {
-            let element = UserDefaultsManagement.lastProject
-
-            if let project = storage.getProjectBy(element: element) {
+            if let projectURL = UserDefaultsManagement.lastSelectedURL,
+                let project = storage.getProjectBy(url: projectURL)
+            {
                 self.currentProject = project
                 self.loadNotesFrom(project: project)
             }

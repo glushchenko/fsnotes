@@ -86,7 +86,7 @@ class CloudDriveManager {
             }
         }
 
-        print("iCloud Drive resources: \"\(results.count)\", caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
+        print("N. iCloud Drive resources: \"\(results.count)\", caching finished in \(point.timeIntervalSinceNow * -1) seconds.")
     }
 
     private func startInitialLoading(results: [NSMetadataItem]) {
