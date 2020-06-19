@@ -47,7 +47,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         ]
     ]
 
-    var rowsInSection = [3, 5, 2, 2, 3]
+    var rowsInSection = [4, 5, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -95,7 +95,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
-        
+
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:

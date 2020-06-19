@@ -122,10 +122,6 @@ class CloudDriveManager {
                 completed += 1
             }
 
-            print(status)
-            print(itemUrl?.standardized)
-
-
             guard let url = itemUrl?.standardized, status == NSMetadataUbiquitousItemDownloadingStatusCurrent else { continue }
 
             // check projects
@@ -136,12 +132,9 @@ class CloudDriveManager {
             // Is folder
             if isDirectory && !isPackage && url.pathExtension != "textbundle" {
 
-                // Renamed
+                // Renamed – remove old
                 if let project = getProjectFromCloudDriveResults(item: item) {
-
-                    // Remove old
                     projectsDeletionQueue.append(project)
-
                 }
 
                 // Add new
@@ -186,7 +179,6 @@ class CloudDriveManager {
             if let note = getNoteFromCloudDriveResults(item: item) {
 
                 // moved to unavailable dir (i.e. trash) is equal removed
-                // status may be NSMetadataUbiquitousItemDownloadingStatusDownloaded
 
                 guard storage.getProjectByNote(url: url) != nil else {
                     storage.removeNotes(notes: [note], fsRemove: false) {_ in
@@ -197,26 +189,21 @@ class CloudDriveManager {
                     continue
                 }
 
-                if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
+                // moved to available dir
+                print("File moved to new url: \(url)")
 
-                    // moved to available dir
-                    print("File moved to new url: \(url)")
+                notesDeletionQueue.append(note)
+                note.url = url
+                note.parseURL()
 
-                    notesDeletionQueue.append(note)
-                    note.url = url
-                    note.parseURL()
+                resultsDict[index] = url
+                notesInsertionQueue.append(note)
 
-                    resultsDict[index] = url
-                    notesInsertionQueue.append(note)
-
-                    continue
-                }
+                continue
             }
 
             // Non exist yet, will add
-            if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
-                importNote(url: url)
-            }
+            importNote(url: url)
         }
 
         return completed
@@ -263,6 +250,7 @@ class CloudDriveManager {
             guard let url = (item.value(forAttribute: NSMetadataItemURLKey) as? URL)?.standardized else { continue }
 
             let status = item.value(forAttribute: NSMetadataUbiquitousItemDownloadingStatusKey) as? String
+
             if status != NSMetadataUbiquitousItemDownloadingStatusCurrent
                 && FileManager.default.isUbiquitousItem(at: url) {
 

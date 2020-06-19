@@ -622,7 +622,7 @@ class NotesTableView: UITableView,
         }
     }
 
-    private func openPopover() {
+    public func openPopover() {
         let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
 
         guard

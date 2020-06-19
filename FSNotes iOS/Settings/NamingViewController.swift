@@ -33,7 +33,8 @@ class NamingViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UserDefaultsManagement.naming = indexPath.row
+        UserDefaultsManagement.naming = SettingsFilesNaming(rawValue: indexPath.row)!
+
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -56,9 +57,8 @@ class NamingViewController: UITableViewController {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
-        if indexPath.row == UserDefaultsManagement.naming {
+        if indexPath.row == UserDefaultsManagement.naming.rawValue {
             cell.accessoryType = .checkmark
         }
     }
-
 }

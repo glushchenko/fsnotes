@@ -231,6 +231,23 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         swipe.minimumNumberOfTouches = 1
         swipe.delegate = self
         view.addGestureRecognizer(swipe)
+
+        let longTapOnSidebar = UILongPressGestureRecognizer(target: self, action: #selector(sidebarLongPress))
+        view.addGestureRecognizer(longTapOnSidebar)
+    }
+
+    @IBAction public func sidebarLongPress(gesture: UILongPressGestureRecognizer) {
+
+        let p = gesture.location(in: self.sidebarTableView)
+        guard let indexPath = self.sidebarTableView.indexPathForRow(at: p) else { return }
+
+        if gesture.state != .ended {
+            sidebarTableView.tableView(sidebarTableView, didSelectRowAt: indexPath)
+
+            notesTable.openPopover()
+        }
+
+        gesture.state = .ended
     }
 
     public func loadNotesTable() {
@@ -284,9 +301,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             storage.loadAllTags()
             print("3. Tags loading finished in \(tagsPoint.timeIntervalSinceNow * -1) seconds")
 
-            self.importSavedInSharedExtension()
-
             DispatchQueue.main.async {
+                self.importSavedInSharedExtension()
                 self.sidebarTableView.loadAllTags()
             }
         }

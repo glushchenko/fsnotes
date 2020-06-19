@@ -68,15 +68,16 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var naming: Int {
+    static var naming: SettingsFilesNaming {
         get {
-            if let result = shared?.object(forKey: "naming") as? Int {
-                return result
+            if let result = shared?.object(forKey: "naming") as? Int, let settings = SettingsFilesNaming(rawValue: result) {
+                return settings
             }
-            return 0
+
+            return .uuid
         }
         set {
-            shared?.set(newValue, forKey: "naming")
+            shared?.set(newValue.rawValue, forKey: "naming")
         }
     }
 }
