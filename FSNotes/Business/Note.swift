@@ -162,15 +162,21 @@ public class Note: NSObject  {
             self.project = project
         }
     }
-        
+
+    public func forceLoad() {
+        invalidateCache()
+        load()
+        loadFileAttributes()
+    }
+
     func load() {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
         
-        if !isTrash() && !project.isArchive {
-            _ = loadTags()
-        }
+        //if !isTrash() && !project.isArchive {
+        //    _ = loadTags()
+        //}
 
         loadFileName()
 
@@ -181,13 +187,23 @@ public class Note: NSObject  {
         isLoaded = true
     }
 
+    public func loadFileWithAttributes() {
+        load()
+        loadFileAttributes()
+    }
+
+    public func loadFileAttributes() {
+        loadCreationDate()
+        loadModifiedLocalAt()
+    }
+
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
         }
                         
         if (modifiedAt != modifiedLocalAt) {
-            if container != .encryptedTextPack, let attributedString = getContent() {
+            if let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
             loadModifiedLocalAt()
@@ -1133,20 +1149,6 @@ public class Note: NSObject  {
             if (qty > 0) {
                 return true
             }
-        } else {
-            if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
-                let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
-                self.tagNames.removeAll()
-                for tag in tags {
-                    if let tagName = tag as? String {
-                        self.tagNames.append(tagName)
-
-                        if !project.isTrash {
-                            sharedStorage.addTag(tagName)
-                        }
-                    }
-                }
-            }
         }
 
         return false
@@ -1432,7 +1434,7 @@ public class Note: NSObject  {
 
     private func convertFlatToTextBundle() -> URL {
         let temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        let temporaryProject = Project(url: temporary)
+        let temporaryProject = Project(storage: project.storage, url: temporary)
 
         let currentName = url.deletingPathExtension().lastPathComponent
         let note = Note(name: currentName, project: temporaryProject, type: type, cont: .textBundleV2)

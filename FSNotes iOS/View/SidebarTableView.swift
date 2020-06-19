@@ -172,7 +172,7 @@ class SidebarTableView: UITableView,
 
                 if selectedSection != .Tags {
                     self.loadAllTags()
-                    vc.resizeSidebarWithAnimation()
+                    vc.resizeSidebar(withAnimation: true)
                 }
             }
         }
@@ -423,7 +423,7 @@ class SidebarTableView: UITableView,
             indexPaths.append(IndexPath(row: position, section: 2))
         }
 
-        insertRows(at: indexPaths, with: .fade)
+        insertRows(at: indexPaths, with: .automatic)
     }
 
     public func unloadAllTags() {
@@ -586,57 +586,6 @@ class SidebarTableView: UITableView,
         }
     }
 
-    public func reloadProjectsSection() {
-        sidebar.updateProjects()
-
-        guard let vc = viewController else { return }
-
-        let type = vc.searchQuery.type
-        let project = vc.searchQuery.project
-        let tag = vc.searchQuery.tag
-
-        reloadData()
-
-        var i = 0
-        for system in sidebar.items[0] {
-            if system.type == type {
-                let index = IndexPath(row: i, section: 0)
-                selectRow(at: index, animated: false, scrollPosition: .none)
-                break
-            }
-
-            i += 1
-        }
-
-        var j = 0
-        for item in sidebar.items[1] {
-            if item.project == project {
-                let index = IndexPath(row: j, section: 1)
-                selectRow(at: index, animated: false, scrollPosition: .none)
-                break
-            }
-
-            j += 1
-        }
-
-        var k = 0
-        for item in sidebar.items[2] {
-            if item.name == tag {
-                let index = IndexPath(row: k, section: 2)
-                selectRow(at: index, animated: false, scrollPosition: .none)
-                break
-            }
-
-            k += 1
-        }
-    }
-
-    public func reloadProjectsAndResizeSection() {
-        reloadProjectsSection()
-        
-        viewController?.resizeSidebar()
-    }
-
     public func getSelectedSidebarItem() -> SidebarItem? {
         guard let vc = viewController, let project = vc.searchQuery.project else { return nil }
         let items = sidebar.items
@@ -691,19 +640,51 @@ class SidebarTableView: UITableView,
         return nil
     }
 
+    public func insertRows(projects: [Project]) {
+        let currentProjects = sidebar.items[1].compactMap({ $0.project })
+        var toInsert = [Project]()
+
+        for project in projects {
+            if currentProjects.contains(project) {
+                continue
+            }
+            toInsert.append(project)
+        }
+
+        guard toInsert.count > 0 else { return }
+
+        let nonSorted = currentProjects + toInsert
+        let sorted = nonSorted.sorted { $0.label < $1.label }
+
+        var indexPaths = [IndexPath]()
+        for project in toInsert {
+            guard let index = sorted.firstIndex(of: project) else { continue }
+            indexPaths.append(IndexPath(row: index, section: 1))
+        }
+
+        sidebar.items[1] = sorted.compactMap({ SidebarItem(name: $0.label, project: $0, type: .Category) })
+        insertRows(at: indexPaths, with: .fade)
+    }
+    
     public func removeRows(projects: [Project]) {
         guard projects.count > 0, let vc = viewController else { return }
         var deselectCurrent = false
 
+        var indexPaths = [IndexPath]()
         for project in projects {
-            if project == vc.searchQuery.project {
-                deselectCurrent = true
-            }
+            if let index = sidebar.items[1].firstIndex(where: { $0.project == project }) {
+                indexPaths.append(IndexPath(row: index, section: 1))
 
-            vc.storage.remove(project: project)
+                if project == vc.searchQuery.project {
+                    deselectCurrent = true
+                }
+
+                vc.storage.remove(project: project)
+                sidebar.items[1].remove(at: index)
+            }
         }
 
-        reloadProjectsSection()
+        deleteRows(at: indexPaths, with: .automatic)
 
         if deselectCurrent {
             vc.notesTable.notes.removeAll()

@@ -660,6 +660,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         guard let note = EditTextView.note else { return }
 
         UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
+
+        if note.fileName != note.title {
+            //UIApplication.getVC().notesTable.rename(note: note, to: note.title, presentController: self)
+        }
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
@@ -807,7 +811,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
 
                 self.tagsTimer?.invalidate()
-                self.tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
+                self.tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
             }
         }
         self.storageQueue.addOperation(operation)

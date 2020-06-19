@@ -10,6 +10,8 @@ import Foundation
 import CoreServices
 
 public class Project: Equatable {
+    var storage: Storage
+
     var url: URL
     public var label: String
     var isTrash: Bool
@@ -34,9 +36,15 @@ public class Project: Equatable {
     #endif
 
     public var metaCache = [NoteMeta]()
-    private var shouldUseCache: Bool = false
     
-    init(url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false, cache: Bool = true) {
+    // all notes loaded with cache diff comparsion
+    public var isReadyForCacheSaving = false
+
+    // if notes loaded from cache validation with fs needed
+    public var cacheUsedDiffValidationNeeded = false
+    
+    init(storage: Storage, url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false) {
+        self.storage = storage
         self.url = url.standardized
         self.isTrash = isTrash
         self.isRoot = isRoot
@@ -44,7 +52,6 @@ public class Project: Equatable {
         self.isDefault = isDefault
         self.isArchive = isArchive
         self.isExternal = isExternal
-        self.shouldUseCache = cache
 
         showInCommon = (isTrash || isArchive) ? false : true
 
@@ -68,24 +75,57 @@ public class Project: Equatable {
         
         isCloudDrive = isCloudDriveFolder(url: url)
         loadSettings()
+    }
 
-        if shouldUseCache {
-            loadCache()
+    public static func == (lhs: Project, rhs: Project) -> Bool {
+        return lhs.url == rhs.url
+    }
+
+    public func getCacheURL() -> URL? {
+        guard let cacheDir = storage.getCacheDir() else { return nil }
+
+        let key = self.url.path.md5
+        let cacheFile = cacheDir.appendingPathComponent(key + ".cache")
+
+        return cacheFile
+    }
+
+    public func saveCache() {
+        guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
+
+        let notes = storage.noteList
+            .filter({ $0.project == self })
+            .map({ $0.getMeta() })
+
+        let jsonEncoder = JSONEncoder()
+
+        do {
+            let data = try jsonEncoder.encode(notes)
+            try data.write(to: cacheURL)
+
+            print(cacheURL)
+            print("Cache saved for: \(self.label)")
+        } catch {
+            print("Serialization error.")
         }
     }
 
-    public func getMd5Hash() -> String {
-        return url.path.md5
+    public func removeCache() {
+        guard let cacheURL = getCacheURL() else { return }
+
+        do {
+            if FileManager.default.fileExists(atPath: cacheURL.path) {
+                try FileManager.default.removeItem(at: cacheURL)
+
+                print("Cache removed successfully at: \(cacheURL.path)")
+            }
+        } catch {
+            print("Cache removing error: \(error)")
+        }
     }
 
     public func loadCache() {
-        guard let cacheDir =
-            NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first,
-            let url = URL(string: "file://" + cacheDir)
-        else { return }
-
-        let key = getMd5Hash()
-        let cacheURL = url.appendingPathComponent(key + ".cache")
+        guard let cacheURL = getCacheURL() else { return }
 
         if let data = try? Data(contentsOf: cacheURL) {
             let decoder = JSONDecoder()
@@ -98,9 +138,9 @@ public class Project: Equatable {
         }
     }
 
-    public func read() -> [Note] {
+    public func fetchNotes() -> [Note] {
         var notes = [Note]()
-        let documents = readAll(at: url)
+        let documents = fetchAllDocuments(at: url)
 
         for document in documents {
             let url = (document.0 as URL).standardized
@@ -123,46 +163,26 @@ public class Project: Equatable {
         return notes
     }
 
-    public func getNotes() -> [Note] {
+    public func loadNotes() {
+        loadCache()
+
         var notes = [Note]()
+        if !metaCache.isEmpty {
+            for noteMeta in metaCache {
+                let note = Note(meta: noteMeta, project: self)
+                notes.append(note)
+            }
 
-        if metaCache.isEmpty || !shouldUseCache {
-            notes = read()
-
-            return loadPins(for: notes)
+            self.cacheUsedDiffValidationNeeded = true
+        } else {
+            notes = fetchNotes()
         }
 
-        for noteMeta in metaCache {
-            let note = Note(meta: noteMeta, project: self)
-            notes.append(note)
-        }
-
-        return notes
+        notes = loadPins(for: notes)
+        storage.noteList.append(contentsOf: notes)
     }
 
-    var allowedExtensions = [
-        "md", "markdown",
-        "txt",
-        "rtf",
-        "fountain",
-        "textbundle",
-        "etp" // Encrypted Text Pack
-    ]
-
-    public func isValidUTI(url: URL) -> Bool {
-        guard url.fileSize < 100000000 else { return false }
-
-        guard let typeIdentifier = (try? url.resourceValues(forKeys: [.typeIdentifierKey]))?.typeIdentifier else { return false }
-
-        let type = typeIdentifier as CFString
-        if type == kUTTypeFolder {
-            return false
-        }
-
-        return UTTypeConformsTo(type, kUTTypeText)
-    }
-
-    public func readAll(at url: URL) -> [(URL, Date, Date)] {
+    public func fetchAllDocuments(at url: URL) -> [(URL, Date, Date)] {
         let url = url.standardized
 
         do {
@@ -171,8 +191,8 @@ public class Project: Equatable {
 
             return
                 directoryFiles.filter {
-                    allowedExtensions.contains($0.pathExtension)
-                    || self.isValidUTI(url: $0)
+                    storage.allowedExtensions.contains($0.pathExtension)
+                    || storage.isValidUTI(url: $0)
                 }.map {
                     url in (
                         url,
@@ -219,11 +239,7 @@ public class Project: Equatable {
         
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
-    
-    public static func == (lhs: Project, rhs: Project) -> Bool {
-        return lhs.url == rhs.url
-    }
-    
+
     private func isCloudDriveFolder(url: URL) -> Bool {
         if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
             
@@ -287,7 +303,7 @@ public class Project: Equatable {
         }
         #endif
 
-        UserDefaults.standard.set(data, forKey: url.path.md5)
+        UserDefaultsManagement.shared?.set(data, forKey: url.path.md5)
     }
 
     public func loadSettings() {
@@ -325,8 +341,7 @@ public class Project: Equatable {
         }
         #endif
 
-        print(url)
-        if let settings = UserDefaults.standard.object(forKey: url.path.md5) as? NSObject {
+        if let settings = UserDefaultsManagement.shared?.object(forKey: url.path.md5) as? NSObject {
             if let common = settings.value(forKey: "showInCommon") as? Bool {
                 self.showInCommon = common
             }
@@ -396,7 +411,7 @@ public class Project: Equatable {
         return relative
     }
 
-    public func createDirectory() {
+    public func createImagesDirectory() {
         do {
             try FileManager.default.createDirectory(at: url.appendingPathComponent("i"), withIntermediateDirectories: true, attributes: nil)
         } catch {
@@ -437,5 +452,47 @@ public class Project: Equatable {
         }
 
         return tags
+    }
+
+    public func checkFSAndMemoryDiff() -> ([Note], [Note], [Note]) {
+        var foundRemoved = [Note]()
+        var foundAdded = [Note]()
+        var foundChanged = [Note]()
+
+        let memoryNotes = Storage.shared().noteList.filter({ $0.project == self })
+        let fileSystemNotes = fetchNotes()
+
+        let cachedNotes = Set(memoryNotes.map({ $0.url }))
+        let currentNotes = Set(fileSystemNotes.map({ $0.url }))
+
+        let removed = cachedNotes.subtracting(currentNotes)
+        let added = currentNotes.subtracting(cachedNotes)
+
+        for removeURL in removed {
+            if let note = memoryNotes.first(where: { $0.url == removeURL }) {
+                foundRemoved.append(note)
+                storage.noteList.removeAll(where: { $0 == note })
+            }
+        }
+
+        for addURL in added {
+            if let note = fileSystemNotes.first(where: { $0.url == addURL }) {
+                note.load()
+                foundAdded.append(note)
+                storage.noteList.append(note)
+            }
+        }
+
+        for memoryNote in memoryNotes {
+            if let note = fileSystemNotes.first(where: { $0.url == memoryNote.url }) {
+                if memoryNote.modifiedLocalAt != note.modifiedLocalAt {
+                    memoryNote.forceLoad()
+                    foundChanged.append(memoryNote)
+                }
+            }
+        }
+
+        isReadyForCacheSaving = true
+        return (foundRemoved, foundAdded, foundChanged)
     }
 }

@@ -225,7 +225,13 @@ class SidebarProjectView: NSOutlineView,
                 if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
 
                     let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
-                    let newProject = Project(url: newSub, parent: project)
+                    let newProject =
+                        Project(
+                            storage: self.storage,
+                            url: newSub,
+                            parent: project
+                        )
+
                     newProject.create()
 
                     self.storage.assignTree(for: newProject)
@@ -698,7 +704,12 @@ class SidebarProjectView: NSOutlineView,
             let projectURL = project.url.appendingPathComponent(value, isDirectory: true)
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
             
-            let newProject = Project(url: projectURL, parent: project.getParent())
+            let newProject =
+                Project(
+                    storage: storage,
+                    url: projectURL,
+                    parent: project.getParent()
+                )
             storage.assignTree(for: newProject)
             reloadSidebar()
         } catch {
@@ -729,7 +740,13 @@ class SidebarProjectView: NSOutlineView,
                 bookmark.store(url: url)
                 bookmark.save()
                 
-                let newProject = Project(url: url, isRoot: true)
+                let newProject =
+                    Project(
+                        storage: self.storage,
+                        url: url,
+                        isRoot: true
+                    )
+                
                 self.storage.assignTree(for: newProject) { projects in
                     for project in projects {
                         self.storage.loadLabel(project)

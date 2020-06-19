@@ -12,7 +12,7 @@ import SSZipArchive
 class DayOneImportHelper {
 
     private var url: URL
-    private let storage: Storage
+    public var storage: Storage
 
     init(url: URL, storage: Storage) {
         self.url = url

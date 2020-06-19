@@ -148,15 +148,26 @@ class MoveViewController: UITableViewController {
                 return
             }
 
-            let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: allProjects[0], isDefault: false, isArchive: false)
+            let storage = Storage.shared()
+
+            let project = Project(
+                storage: storage,
+                url: newDir,
+                label: name,
+                isTrash: false,
+                isRoot: false,
+                parent: allProjects[0],
+                isDefault: false,
+                isArchive: false
+            )
 
             self.projects?.append(project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().assignTree(for: project)
+            storage.assignTree(for: project)
 
             if let vc = self.notesTableView.viewDelegate {
-                vc.sidebarTableView.reloadProjectsAndResizeSection()
+                vc.sidebarTableView.insertRows(projects: [project])
             }
         }
 

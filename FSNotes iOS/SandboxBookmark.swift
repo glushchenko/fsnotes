@@ -12,7 +12,7 @@ class SandboxBookmark {
     static var instance: SandboxBookmark? = nil
 
     private let bookmarksKey = "SecurityBookmarksKey"
-    private var defaults = UserDefaults.init(suiteName: "group.fsnotes-manager")
+    private var defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults")
     private var bookmarks = [URL: Data]()
 
     public static func sharedInstance() -> SandboxBookmark {

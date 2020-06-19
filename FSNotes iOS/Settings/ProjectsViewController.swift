@@ -142,15 +142,25 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: self.projects.first!, isDefault: false, isArchive: false)
+            let storage = Storage.shared()
+            let project = Project(
+                storage: storage,
+                url: newDir,
+                label: name,
+                isTrash: false,
+                isRoot: false,
+                parent: self.projects.first!,
+                isDefault: false,
+                isArchive: false
+            )
 
             self.projects.append(project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().assignTree(for: project)
+            storage.assignTree(for: project)
 
             if let mvc = self.getMainVC() {
-                mvc.sidebarTableView.reloadProjectsAndResizeSection()
+                mvc.sidebarTableView.insertRows(projects: [project])
             }
         }
 
@@ -215,7 +225,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         if let vc = self.getMainVC() {
             vc.reloadNotesTable() {
-                vc.sidebarTableView.reloadProjectsAndResizeSection()
+                vc.sidebarTableView.removeRows(projects: [project])
             }
         }
     }
@@ -234,12 +244,21 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
             let storage = Storage.sharedInstance()
-            let project = Project(url: url, label: url.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+            let project = Project(
+                storage: storage,
+                url: url,
+                label: url.lastPathComponent,
+                isTrash: false,
+                isRoot: true,
+                isDefault: false,
+                isArchive: false,
+                isExternal: true
+            )
 
             storage.assignTree(for: project)
             storage.loadLabel(project, loadContent: true)
 
-            UIApplication.getVC().sidebarTableView.reloadProjectsAndResizeSection()
+            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
 
             self.projects.append(project)
             self.tableView.reloadData()

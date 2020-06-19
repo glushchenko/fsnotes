@@ -182,11 +182,13 @@ class ProjectSettingsViewController: UITableViewController {
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
 
                 project.showInSidebar = uiSwitch.isOn
-                vc.sidebarTableView.reloadProjectsAndResizeSection()
 
                 if !uiSwitch.isOn {
                     let at = IndexPath(row: 0, section: 0)
                     vc.sidebarTableView.tableView(vc.sidebarTableView, didSelectRowAt: at)
+                    vc.sidebarTableView.removeRows(projects: [project])
+                } else {
+                    vc.sidebarTableView.insertRows(projects: [project])
                 }
             }
         } else if indexPath.section == 0x02 {

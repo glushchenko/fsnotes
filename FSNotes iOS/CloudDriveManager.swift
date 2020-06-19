@@ -27,11 +27,12 @@ class CloudDriveManager {
     }()
 
     private var shouldLoadTags: Bool = false
-    private var shouldReloadProjects: Bool = false
 
     private var notesInsertionQueue = [Note]()
     private var notesDeletionQueue = [Note]()
-    private var notesTagsQueue = [Note]()
+    private var notesModificationQueue = [Note]()
+
+    private var projectsInsertionQueue = [Project]()
     private var projectsDeletionQueue = [Project]()
 
     init(delegate: ViewController, storage: Storage) {
@@ -121,56 +122,48 @@ class CloudDriveManager {
                 completed += 1
             }
 
-//            print(status)
-//            print(itemUrl?.standardized)
-//            print(item.value(forAttribute: NSMetadataUbiquitousItemPercentDownloadedKey) as? NSNumber)
+            print(status)
+            print(itemUrl?.standardized)
 
-//            print((try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory)
-//            print((try? itemUrl?.resourceValues(forKeys: [.isPackageKey]))?.isPackage)
 
-            guard let url = itemUrl?.standardized else { continue }
+            guard let url = itemUrl?.standardized, status == NSMetadataUbiquitousItemDownloadingStatusCurrent else { continue }
 
             // check projects
             let isDirectory = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isDirectory ?? false
 
-            if isDirectory && url.pathExtension != "textbundle" {
+            let isPackage = (try? itemUrl?.resourceValues(forKeys: [.isDirectoryKey]))?.isPackage ?? false
+
+            // Is folder
+            if isDirectory && !isPackage && url.pathExtension != "textbundle" {
 
                 // Renamed
                 if let project = getProjectFromCloudDriveResults(item: item) {
 
                     // Remove old
-                    if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
-                        projectsDeletionQueue.append(project)
-                    }
+                    projectsDeletionQueue.append(project)
+
                 }
 
                 // Add new
                 if storage.getProjectBy(url: url) == nil {
-                    if nil != storage.addProject(url: url) {
-                        shouldReloadProjects = true
+                    if let project = storage.addProject(url: url) {
+                        projectsInsertionQueue.append(project)
                     }
                 }
 
                 continue
             }
 
-            // check files
+            // Is file
             guard storage.isValidNote(url: url) else { continue }
 
-            // note already exist and update completed
-            if status == NSMetadataUbiquitousItemDownloadingStatusCurrent,
-                let note = storage.getBy(url: url)
-            {
+            // Note already exist and update completed
+            if let note = storage.getBy(url: url) {
                 if note.isTextBundle() && !note.isFullLoadedTextBundle() {
                     continue
                 }
 
-                //guard let date = note.getFileModifiedDate() else { continue }
-
                 print("File changed: \(url)")
-
-                notesTagsQueue.append(note)
-                note.forceReload()
 
                 if let currentNote = EditTextView.note,
                     let date = contentChangeDate,
@@ -178,18 +171,18 @@ class CloudDriveManager {
                     date > note.modifiedLocalAt
                 {
                     note.modifiedLocalAt = date
+
+                    note.forceLoad()
                     delegate.refreshTextStorage(note: note)
                 }
 
-                note.invalidateCache()
-
-                delegate.notesTable.reloadRow(note: note)
+                notesModificationQueue.append(note)
                 resolveConflict(url: url)
 
                 continue
             }
 
-            // note previously exist on different path
+            // Note previously exist on different path
             if let note = getNoteFromCloudDriveResults(item: item) {
 
                 // moved to unavailable dir (i.e. trash) is equal removed
@@ -211,9 +204,6 @@ class CloudDriveManager {
 
                     notesDeletionQueue.append(note)
                     note.url = url
-
-                    notesTagsQueue.append(note)
-
                     note.parseURL()
 
                     resultsDict[index] = url
@@ -223,7 +213,7 @@ class CloudDriveManager {
                 }
             }
 
-            // non exist yet
+            // Non exist yet, will add
             if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
                 importNote(url: url)
             }
@@ -287,6 +277,7 @@ class CloudDriveManager {
 
             // when file moved from outspace to FSNotes space
             // i.e. revert from macOS trash to iCloud Drive
+
             if storage.isValidNote(url: url) {
                 self.importNote(url: url)
             }
@@ -321,23 +312,9 @@ class CloudDriveManager {
     }
 
     public func importNote(url: URL) {
-        guard
-            self.storage.getBy(url: url) == nil,
-            let note = self.storage.initNote(url: url)
-        else { return }
+        guard let note = storage.importNote(url: url) else { return }
 
-        note.load()
-        note.loadCreationDate()
-
-        if note.isTextBundle() && !note.isFullLoadedTextBundle() {
-            return
-        }
-
-        notesTagsQueue.append(note)
-        
-        _ = note.reload()
-
-        print("File imported: \(url)")
+        print("File imported: \(note.url)")
 
         if !storage.contains(note: note) {
             storage.noteList.append(note)
@@ -388,24 +365,33 @@ class CloudDriveManager {
     private func doVisualChanges() {
         let insert = notesInsertionQueue
         let delete = notesDeletionQueue
-        let projects = projectsDeletionQueue
-        let tags = notesTagsQueue
+        let change = notesModificationQueue
 
         notesInsertionQueue.removeAll()
         notesDeletionQueue.removeAll()
+        notesModificationQueue.removeAll()
+
+        let projectsDeletion = projectsDeletionQueue
+        let projectsInsertion = projectsInsertionQueue
+
         projectsDeletionQueue.removeAll()
-        notesTagsQueue.removeAll()
+        projectsInsertionQueue.removeAll()
+
+        for note in insert {
+            note.forceLoad()
+        }
+
+        for note in change {
+            note.forceLoad()
+        }
 
         DispatchQueue.main.async {
             self.delegate.notesTable.removeRows(notes: delete)
             self.delegate.notesTable.insertRows(notes: insert)
-            self.delegate.sidebarTableView.removeRows(projects: projects)
-            self.delegate.sidebarTableView.loadTags(notes: tags)
+            self.delegate.notesTable.reloadRows(notes: change)
 
-            if self.shouldReloadProjects {
-                self.delegate.sidebarTableView.reloadProjectsSection()
-                self.shouldReloadProjects = false
-            }
+            self.delegate.sidebarTableView.removeRows(projects: projectsDeletion)
+            self.delegate.sidebarTableView.insertRows(projects: projectsInsertion)
 
             self.delegate.updateNotesCounter()
         }

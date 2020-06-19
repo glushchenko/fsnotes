@@ -17,7 +17,7 @@ extension UserDefaultsManagement {
 
     static var codeTheme: String {
         get {
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
+            if let theme = shared?.object(forKey: Constants.codeTheme) as? String {
                 return theme
             }
 
@@ -28,43 +28,55 @@ extension UserDefaultsManagement {
             return "atom-one-light"
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
+            shared?.set(newValue, forKey: Constants.codeTheme)
         }
     }
 
     static var dynamicTypeFont: Bool {
         get {
-            if let result = UserDefaults.standard.object(forKey: Constants.dynamicTypeFont) as? Bool {
+            if let result = shared?.object(forKey: Constants.dynamicTypeFont) as? Bool {
                 return result
             }
             return true
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: Constants.dynamicTypeFont)
+            shared?.set(newValue, forKey: Constants.dynamicTypeFont)
         }
     }
 
     static var previewMode: Bool {
         get {
-            if let result = UserDefaults.standard.object(forKey: "previewMode") as? Bool {
+            if let result = shared?.object(forKey: "previewMode") as? Bool {
                 return result
             }
             return false
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "previewMode")
+            shared?.set(newValue, forKey: "previewMode")
         }
     }
 
     static var sidebarIsOpened: Bool {
         get {
-            if let result = UserDefaults.standard.object(forKey: "sidebarIsOpened") as? Bool {
+            if let result = shared?.object(forKey: "sidebarIsOpened") as? Bool {
                 return result
             }
             return false
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: "sidebarIsOpened")
+            shared?.set(newValue, forKey: "sidebarIsOpened")
+        }
+    }
+
+    static var naming: Int {
+        get {
+            if let result = shared?.object(forKey: "naming") as? Int {
+                return result
+            }
+            return 0
+        }
+        set {
+            shared?.set(newValue, forKey: "naming")
         }
     }
 }

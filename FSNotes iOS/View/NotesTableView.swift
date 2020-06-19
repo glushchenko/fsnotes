@@ -39,10 +39,6 @@ class NotesTableView: UITableView,
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
 
-            if !note.isLoaded && !note.isLoadedFromCache {
-                note.load()
-            }
-
             if let urls = note.imageUrl, urls.count > 0 {
                 if note.preview.count == 0 {
                     if note.getTitle() != nil {
@@ -71,6 +67,11 @@ class NotesTableView: UITableView,
         guard self.notes.indices.contains(indexPath.row) else { return cell }
 
         let note = self.notes[indexPath.row]
+
+        if !note.isLoaded && !note.isLoadedFromCache {
+            note.load()
+        }
+        
         cell.configure(note: note)
         cell.selectionStyle = .gray
 
@@ -209,51 +210,6 @@ class NotesTableView: UITableView,
         return [moreAction, pinAction, deleteAction]
     }
 
-    /*
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-
-
-
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
-
-        })
-        deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
-
-        let note = self.notes[indexPath.row]
-        let title = note.isPinned
-            ? NSLocalizedString("UnPin", comment: "")
-            : NSLocalizedString("Pin", comment: "")
-
-        let pin = UITableViewRowAction(style: .default, title: title, handler: { (action , indexPath) -> Void in
-            
-            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
-
-            note.togglePin()
-            cell.configure(note: note)
-
-            let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
-            guard let newIndex = resorted.firstIndex(of: note) else { return }
-
-            let newIndexPath = IndexPath(row: newIndex, section: 0)
-            self.moveRow(at: indexPath, to: newIndexPath)
-            self.notes = resorted
-
-            self.reloadRows(at: [newIndexPath], with: .automatic)
-            self.reloadRows(at: [indexPath], with: .automatic)
-        })
-        pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
-
-        let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
-            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
-        })
-        more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
-
-
-        return [more, pin, deleteAction]
-    }
- */
-
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
@@ -337,7 +293,7 @@ class NotesTableView: UITableView,
     }
     
     public func removeRows(notes: [Note]) {
-        guard notes.count > 0 else { return }
+        guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
 
         var indexPaths = [IndexPath]()
         for note in notes {
@@ -353,9 +309,7 @@ class NotesTableView: UITableView,
     }
 
     public func insertRows(notes: [Note]) {
-        guard notes.count > 0,
-            let vc = viewDelegate, vc.isNoteInsertionAllowed()
-        else { return }
+        guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
 
         var toInsert = [Note]()
 
@@ -381,16 +335,24 @@ class NotesTableView: UITableView,
             indexPaths.append(IndexPath(row: index, section: 0))
         }
 
+        vc.storage.loadPins(notes: notes)
         self.notes = sorted
+        
         insertRows(at: indexPaths, with: .fade)
-
-        let toReload = vc.storage.loadPins(notes: notes)
-        reloadRows(notes: toReload)
     }
 
     public func reloadRows(notes: [Note]) {
+        var indexPaths = [IndexPath]()
         for note in notes {
-            reloadRow(note: note)
+            if let i = self.notes.firstIndex(where: {$0 === note}) {
+                let indexPath = IndexPath(row: i, section: 0)
+                indexPaths.append(indexPath)
+                
+                if let cell = cellForRow(at: indexPath) as? NoteCellView {
+                    cell.configure(note: note)
+                    cell.updateView()
+                }
+            }
         }
     }
     
@@ -465,32 +427,7 @@ class NotesTableView: UITableView,
                 return
             }
 
-            guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-                let message = NSLocalizedString("Note with this name already exist", comment: "")
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: message, preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                presentController.present(alert, animated: true, completion: nil)
-                return
-            }
-
-            let isPinned = note.isPinned
-            let dst = note.getNewURL(name: name)
-
-            note.removePin()
-            if note.move(to: dst) {
-                note.url = dst
-                note.parseURL()
-            }
-
-            if isPinned {
-                note.addPin()
-            }
-
-            self.reloadRow(note: note)
-
-            if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
-                evc.setTitle(text: note.getShortTitle())
-            }
+            self.rename(note: note, to: name, presentController: presentController)
         }
 
         let title = NSLocalizedString("Cancel", comment: "")
@@ -501,6 +438,35 @@ class NotesTableView: UITableView,
 
         presentController.present(alertController, animated: true) {
             alertController.textFields![0].selectAll(nil)
+        }
+    }
+
+    public func rename(note: Note, to name: String, presentController: UIViewController) {
+        guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
+            let message = NSLocalizedString("Note with this name already exist", comment: "")
+            let alert = UIAlertController(title: "Oops 👮‍♂️", message: message, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            presentController.present(alert, animated: true, completion: nil)
+            return
+        }
+
+        let isPinned = note.isPinned
+        let dst = note.getNewURL(name: name)
+
+        note.removePin()
+        if note.move(to: dst) {
+            note.url = dst
+            note.parseURL()
+        }
+
+        if isPinned {
+            note.addPin()
+        }
+
+        self.reloadRow(note: note)
+
+        if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
+            evc.setTitle(text: note.getShortTitle())
         }
     }
 

@@ -24,26 +24,23 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
     var rows = [
         [
-            NSLocalizedString("Default Extension", comment: "Settings"),
-            NSLocalizedString("Default Container", comment: "Settings"),
-            NSLocalizedString("Default Keyboard In Editor", comment: "Settings")
-        ],
-        [
+            NSLocalizedString("Extension", comment: "Settings"),
+            NSLocalizedString("Container", comment: "Settings"),
+            NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
+            NSLocalizedString("Files Naming", comment: "Settings")
+        ], [
             NSLocalizedString("Code block live highlighting", comment: "Settings"),
             NSLocalizedString("Live images preview", comment: "Settings"),
             NSLocalizedString("Use inline tags", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
             NSLocalizedString("Font size", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Font", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Projects", comment: "Settings"),
             NSLocalizedString("Import notes", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings")
@@ -106,6 +103,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             case 1:
                 cell.accessoryType = .disclosureIndicator
             case 2:
+                cell.accessoryType = .disclosureIndicator
+            case 3:
                 cell.accessoryType = .disclosureIndicator
             default:
                 return cell
@@ -211,7 +210,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                     vc.sidebarTableView.unloadAllTags()
                 }
 
-                vc.resizeSidebarWithAnimation()
+                vc.resizeSidebar(withAnimation: true)
 
                 UIApplication.getEVC().resetToolbar()
             case 3:
@@ -246,6 +245,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 lvc = DefaultContainerViewController()
             case 2:
                 lvc = LanguageViewController()
+            case 3:
+                lvc = NamingViewController()
             default:
                 return
             }
@@ -400,7 +401,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 DispatchQueue.main.async {
                     self.view.isUserInteractionEnabled = true
 
-                    viewController.sidebarTableView.reloadProjectsAndResizeSection()
+                    viewController.sidebarTableView.insertRows(projects: [project])
                     viewController.sidebarTableView.select(project: project)
                     viewController.stopAnimation(indicator: indicator)
 

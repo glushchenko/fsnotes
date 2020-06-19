@@ -81,7 +81,14 @@ class Sidebar {
         items.append(system)
 
         // Projects - section 1
-        items.append([])
+        let projects = storage
+            .getAvailableProjects()
+            .sorted(by: { $0.label < $1.label })
+            .map({
+                SidebarItem(name: $0.label, project: $0, type: .Category)
+            })
+
+        items.append(projects)
 
         // Tags - section 2
         items.append([])
@@ -94,22 +101,6 @@ class Sidebar {
                 icon: getImage(named: "settings_white")
             )]
         )
-    }
-
-    public func updateProjects() {
-        let sidebarItems =
-            storage.getAvailableProjects()
-                .sorted(by: { $0.label < $1.label })
-                .compactMap({
-                    SidebarItem(
-                        name: $0.label,
-                        project: $0,
-                        type: .Category,
-                        icon: nil,
-                        tag: nil)
-                })
-
-        items[1] = sidebarItems
     }
 
     private func getImage(named: String) -> Image? {

@@ -22,7 +22,7 @@
 	<string>$(TeamIdentifierPrefix)co.fluder.fsnotes</string>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.fsnotes-manager</string>
+		<string>group.es.fsnot.user.defaults</string>
 	</array>
 </dict>
 </plist>
