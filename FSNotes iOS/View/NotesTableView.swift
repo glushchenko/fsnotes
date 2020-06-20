@@ -442,12 +442,26 @@ class NotesTableView: UITableView,
     }
 
     public func rename(note: Note, to name: String, presentController: UIViewController) {
-        guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-            let message = NSLocalizedString("Note with this name already exist", comment: "")
-            let alert = UIAlertController(title: "Oops 👮‍♂️", message: message, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            presentController.present(alert, animated: true, completion: nil)
-            return
+
+        guard name.count > 0, name.trim().count > 0 else { return }
+
+        var name = name
+        var i = 1
+
+        while note.project.fileExist(fileName: name, ext: note.url.pathExtension) {
+            let items = name.split(separator: " ")
+
+            if let last = items.last, let position = Int(last) {
+                let full = items.dropLast()
+
+                name = full.joined(separator: " ") + " " + String(position + 1)
+
+                i = position + 1
+            } else {
+                name = name + " " + String(i)
+
+                i += 1
+            }
         }
 
         let isPinned = note.isPinned

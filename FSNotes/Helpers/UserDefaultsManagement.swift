@@ -83,6 +83,7 @@ public class UserDefaultsManagement {
         static let ImportURLsKey = "ImportURLs"
         static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let InlineTags = "inlineTags"
+        static let LastNews = "lastNews"
         static let LastSelectedPath = "lastSelectedPath"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
@@ -291,7 +292,7 @@ public class UserDefaultsManagement {
     static var localDocumentsContainer: URL? {
         get {
             if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-                return URL(fileURLWithPath: path)
+                return URL(fileURLWithPath: path, isDirectory: true)
             }
  
             return nil
@@ -358,7 +359,7 @@ public class UserDefaultsManagement {
             return nil
         }
     }
-            
+
     static var preview: Bool {
         get {
             if let preview = shared?.object(forKey: Constants.Preview) {
@@ -697,7 +698,7 @@ public class UserDefaultsManagement {
             }
             #endif
 
-            if let archive = storageUrl?.appendingPathComponent("Archive") {
+            if let archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
@@ -707,7 +708,7 @@ public class UserDefaultsManagement {
                         print(error)
                     }
                 } else {
-                    self.archiveDirectory = archive
+                    self.archiveDirectory = archive.standardized
                     return archive
                 }
             }
@@ -1344,4 +1345,18 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.CrashedLastTime)
         }
     }
+
+    static var lastNews: Date? {
+        get {
+            if let sync = shared?.object(forKey: "lastNews") {
+                return sync as? Date
+            } else {
+                return nil
+            }
+        }
+        set {
+            shared?.set(newValue, forKey: "lastNews")
+        }
+    }
+
 }

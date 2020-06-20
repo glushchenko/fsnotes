@@ -189,11 +189,12 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setItems([
+                    [kUTTypeText as String: attributedString.string],
                     ["es.fsnot.attributed.text": rtfd],
                     [kUTTypePlainText as String: attributedString.string],
                     [kUTTypeFlatRTFD as String: rtfd]
                 ])
-                
+
                 return
             }
         }

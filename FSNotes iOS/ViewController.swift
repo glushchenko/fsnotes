@@ -9,6 +9,8 @@
 import UIKit
 import NightNight
 import LocalAuthentication
+import WebKit
+import AudioToolbox
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
@@ -29,6 +31,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @IBOutlet weak var leftPreHeader: UIView!
     @IBOutlet weak var rightPreHeader: UIView!
+
+    private var newsPopup: MPreviewView?
+    private var newsOverlay: UIView?
 
     public var indicator: UIActivityIndicatorView?
 
@@ -53,6 +58,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Swipe animation from handleSidebarSwipe
     private var sidebarWidth: CGFloat = 0
+    private var isLandscape: Bool?
 
     // Last selected project abd tag in sidebar
     public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
@@ -92,6 +98,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         loadPreSafeArea()
 
         preLoadProjectsData()
+        loadNews()
+
         super.viewDidLoad()
     }
 
@@ -306,6 +314,62 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.sidebarTableView.loadAllTags()
             }
         }
+    }
+
+    private func loadNews() {
+        guard storage.isReadedNewsOutdated() else { return }
+
+        let isLandscape = UIDevice.current.orientation.isLandscape
+        newsPopup?.removeFromSuperview()
+        newsOverlay?.removeFromSuperview()
+
+        let screeenWidth = UIScreen.main.bounds.width
+        let screeenHeight = UIScreen.main.bounds.height
+
+        let overlay = UIView(frame: CGRect(x: 0, y: 0, width: screeenWidth, height: screeenHeight))
+        overlay.layer.zPosition = 104
+        overlay.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.5)
+        view.addSubview(overlay)
+        self.newsOverlay = overlay
+
+        var width = UIScreen.main.bounds.width - 40
+        if isLandscape {
+            width = UIScreen.main.bounds.width * 0.75
+        }
+
+        let height = screeenHeight * 0.75
+        let note = Note(
+            url: storage.getNews()!,
+            with: storage.getDefault()!
+        )
+        note.load()
+
+        let frame = CGRect(
+            x: (screeenWidth - width) / 2,
+            y: (screeenHeight - height) / 2,
+            width: width,
+            height: height
+        )
+
+        let news = MPreviewView(frame: frame, note: note, closure: {})
+        news.layer.zPosition = 105
+        news.backgroundColor = UIColor(red: 0.84, green: 0.88, blue: 0.91, alpha: 1.00)
+        news.layer.cornerRadius = 5
+        news.layer.masksToBounds = true
+        news.layer.borderWidth = 1
+        news.layer.borderColor = UIColor.gray.cgColor
+
+        let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 25, y: 10), size: CGSize(width: 25, height: 25)))
+        let image = UIImage(named: "close.png")
+        closeButton.setImage(image, for: UIControl.State.normal)
+        closeButton.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
+        closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
+        closeButton.layer.zPosition = 106
+        news.addSubview(closeButton)
+        view.addSubview(news)
+
+        self.newsPopup = news
+
     }
 
     public func saveProjectURLs() {
@@ -787,6 +851,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         createNote(content: nil)
     }
 
+    @objc public func closeNews() {
+        newsPopup?.removeFromSuperview()
+        newsOverlay?.removeFromSuperview()
+
+        // mark as read
+        UserDefaultsManagement.lastNews = storage.getNewsDate()
+
+        AudioServicesPlaySystemSound(1519)
+    }
+
     func createNote(content: String? = nil, pasteboard: Bool? = nil) {
         var currentProject: Project
         var tag: String?
@@ -888,11 +962,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func rotated() {
-        loadPlusButton()
+        guard isLandscape != nil else {
+            isLandscape = UIDevice.current.orientation.isLandscape
+            return
+        }
 
-        DispatchQueue.main.async {
-            self.loadNotesFrame()
-            self.loadSidebarState()
+        let isLand = UIDevice.current.orientation.isLandscape
+        if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
+            isLandscape = isLand
+
+            loadPlusButton()
+            loadNews()
+
+            DispatchQueue.main.async {
+                self.loadNotesFrame()
+                self.loadSidebarState()
+            }
         }
     }
 

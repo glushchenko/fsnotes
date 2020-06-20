@@ -55,6 +55,8 @@ class Storage {
     private var trashURL = URL(string: String())
     private var archiveURL = URL(string: String())
 
+    private let lastNewsDate = "2020-06-20"
+
     init() {
         let storageType = UserDefaultsManagement.storageType
         let bookmark = SandboxBookmark.sharedInstance()
@@ -143,7 +145,7 @@ class Storage {
 
     init(micro: Bool) {
         guard let url = getRoot() else { return }
-        checkCrash()
+        removeCachesIfCrashed()
 
         let project =
             Project(
@@ -203,7 +205,7 @@ class Storage {
 
     // removes all caches after crash
 
-    private func checkCrash() {
+    private func removeCachesIfCrashed() {
         if UserDefaultsManagement.crashedLastTime {
             UserDefaultsManagement.projects = [URL]()
             
@@ -453,8 +455,7 @@ class Storage {
                 isDefault: false,
                 isArchive: true
             )
-
-            assignTree(for: project)
+            projects.append(project)
 
             self.archiveURL = archive
         }
@@ -1325,6 +1326,7 @@ class Storage {
     }
 
     private func checkWelcome() {
+        guard UserDefaultsManagement.copyWelcome else { return }
         guard noteList.isEmpty else { return }
 
         let welcomeFileName = "FSNotes 4.0 for iOS.textbundle"
@@ -1340,6 +1342,45 @@ class Storage {
         } catch {
             print("Initial copy error: \(error)")
         }
+
+        UserDefaultsManagement.copyWelcome = false
+    }
+
+    public func getWelcome() -> URL? {
+        let welcomeFileName = "FSNotes 4.0 for iOS.textbundle"
+
+        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(welcomeFileName)") else { return nil }
+
+        return src
+    }
+
+    public func getNewsDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        if let date = dateFormatter.date(from: lastNewsDate) {
+            return date
+        }
+        return nil
+    }
+
+    public func isReadedNewsOutdated() -> Bool {
+        guard let date = UserDefaultsManagement.lastNews, let newsDate = getNewsDate() else {
+            return true
+        }
+
+        if newsDate > date {
+            return true
+        }
+
+        return false
+    }
+
+    public func getNews() -> URL? {
+        let file = "FSNotes 4 is here! 🚀.textbundle"
+
+        guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
+
+        return src
     }
 
     public func fetchNonSystemProjectURLs() -> [URL] {

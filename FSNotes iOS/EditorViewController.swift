@@ -662,8 +662,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
 
         if UserDefaultsManagement.naming == .autoRename {
-            if note.fileName != note.title {
-                UIApplication.getVC().notesTable.rename(note: note, to: note.title, presentController: self)
+            let title = note.title.withoutSpecialCharacters
+
+            if note.fileName != title {
+                UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
             }
         }
     }

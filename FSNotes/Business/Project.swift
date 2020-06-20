@@ -241,7 +241,11 @@ public class Project: Equatable {
     }
 
     private func isCloudDriveFolder(url: URL) -> Bool {
-        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
+        if let iCloudDocumentsURL =
+            FileManager.default.url(forUbiquityContainerIdentifier: nil)?
+                .appendingPathComponent("Documents", isDirectory: true)
+                .standardized
+        {
             
             if FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil), url.path.contains(iCloudDocumentsURL.path) {
                 return true

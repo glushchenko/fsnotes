@@ -444,7 +444,7 @@ class SidebarTableView: UITableView,
 
     public func removeTags(in notes: [Note]) {
         for note in notes {
-            note.removeContent()
+            note.tags.removeAll()
         }
 
         loadTags(notes: notes)
