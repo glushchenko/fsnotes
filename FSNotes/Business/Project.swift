@@ -284,7 +284,7 @@ public class Project: Equatable {
             return label
         }
         
-        return "\(getParent().getFullLabel()) › \(label)"
+        return "FSNotes › \(label)"
     }
 
     public func saveSettings() {

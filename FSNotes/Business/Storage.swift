@@ -70,9 +70,7 @@ class Storage {
             shouldMovePrompt = true
         }
 
-        #if os(OSX)
-            initWelcome(storage: url)
-        #endif
+        initWelcome(storage: url)
 
         var name = url.lastPathComponent
         if let iCloudURL = getCloudDrive(), iCloudURL == url {
@@ -81,40 +79,7 @@ class Storage {
 
         let project = Project(storage: self, url: url, label: name, isRoot: true, isDefault: true)
 
-        #if os(iOS)
-            projects.append(project)
-
-            for bookmark in bookmarks {
-                let externalProject =
-                    Project(
-                        storage: self,
-                        url: bookmark,
-                        label: bookmark.lastPathComponent,
-                        isTrash: false,
-                        isRoot: true,
-                        isDefault: false,
-                        isArchive: false,
-                        isExternal: true
-                    )
-                
-                projects.append(externalProject)
-            }
-
-            #if NOT_EXTENSION
-                assignTrash(by: project.url)
-            #endif
-
-            if let archive = UserDefaultsManagement.archiveDirectory {
-                let archiveLabel = NSLocalizedString("Archive", comment: "Sidebar label")
-                let project = Project(storage: self, url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
-                assignTree(for: project)
-            }
-
-            return
-        #endif
-
         assignTree(for: project)
-
         assignTrash(by: project.url)
 
         for url in bookmarks {
@@ -160,6 +125,7 @@ class Storage {
 
         assignTrash(by: project.url)
         assignArchive()
+        assignBookmarks()
 
         loadCachedProjects()
         checkWelcome()
@@ -408,18 +374,6 @@ class Storage {
         }
     }
 
-    public func assignNonRootProjects(project: Project) {
-        assignTree(for: project)
-        assignBookmarks()
-    }
-
-    public func loadAllProjectsExceptDefault() {
-        let projects = findAllProjectsExceptDefault()
-        for project in projects {
-            loadLabel(project)
-        }
-    }
-
     public func loadAllTags() {
         for note in noteList {
             note.load()
@@ -438,7 +392,15 @@ class Storage {
         let bookmark = SandboxBookmark.sharedInstance()
         bookmarks = bookmark.load()
         for bookmark in bookmarks {
-            let externalProject = Project(storage: self, url: bookmark, label: bookmark.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+            let externalProject =
+                Project(storage: self,
+                        url: bookmark,
+                        label: bookmark.lastPathComponent,
+                        isTrash: false,
+                        isRoot: true,
+                        isDefault: false,
+                        isArchive: false,
+                        isExternal: true)
 
             projects.append(externalProject)
         }
@@ -495,7 +457,7 @@ class Storage {
                 continue
             }
 
-            if project.isRoot && skipRoot {
+            if project.isRoot && !project.isExternal && skipRoot {
                 continue
             }
 
@@ -1400,6 +1362,15 @@ class Storage {
                 }
 
                 projectURLs.append(standardizedURL)
+            }
+        }
+
+        let sandbox = SandboxBookmark.sharedInstance()
+        let urls = sandbox.load()
+
+        for url in urls {
+            if !projectURLs.contains(url) {
+                projectURLs.append(url)
             }
         }
 

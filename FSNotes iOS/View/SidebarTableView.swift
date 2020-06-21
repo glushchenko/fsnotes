@@ -165,7 +165,10 @@ class SidebarTableView: UITableView,
             DispatchQueue.main.async {
                 vc.currentFolder.text = name
 
-                guard vc.notesTable.notes.count > 0 else { return }
+                guard vc.notesTable.notes.count > 0 else {
+                    self.unloadAllTags()
+                    return
+                }
 
                 let path = IndexPath(row: 0, section: 0)
                 vc.notesTable.scrollToRow(at: path, at: .top, animated: true)
@@ -518,7 +521,7 @@ class SidebarTableView: UITableView,
                 notes = Storage.shared().noteList
                 break
             case .Inbox:
-                notes = Storage.shared().noteList.filter({ $0.project.isRoot })
+                notes = Storage.shared().noteList.filter({ $0.project.isDefault })
                 break
             case .Todo:
                 notes = Storage.shared().noteList.filter({ $0.content.string.contains("- [ ] ") })

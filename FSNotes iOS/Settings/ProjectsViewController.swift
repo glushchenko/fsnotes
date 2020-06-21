@@ -92,7 +92,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let project = self.projects[indexPath.row]
 
-        if project.isRoot && project.isDefault {
+        if project.isDefault {
             return nil
         }
 
