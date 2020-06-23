@@ -241,18 +241,21 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.addGestureRecognizer(swipe)
 
         let longTapOnSidebar = UILongPressGestureRecognizer(target: self, action: #selector(sidebarLongPress))
+        longTapOnSidebar.minimumPressDuration = 0.5
         view.addGestureRecognizer(longTapOnSidebar)
     }
 
     @IBAction public func sidebarLongPress(gesture: UILongPressGestureRecognizer) {
+        guard UserDefaultsManagement.sidebarIsOpened else { return }
 
         let p = gesture.location(in: self.sidebarTableView)
-        guard let indexPath = self.sidebarTableView.indexPathForRow(at: p) else { return }
+
+        guard p.x < maxSidebarWidth, let indexPath = self.sidebarTableView.indexPathForRow(at: p) else { return }
 
         if gesture.state != .ended {
             sidebarTableView.tableView(sidebarTableView, didSelectRowAt: indexPath)
 
-            notesTable.openPopover()
+            notesTable.openPopover(indexPath: indexPath)
         }
 
         gesture.state = .ended

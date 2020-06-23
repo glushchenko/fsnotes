@@ -133,7 +133,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            guard let newDir = UserDefaultsManagement.storageUrl?.appendingPathComponent(name) else { return }
+            guard let newDir = UserDefaultsManagement.storageUrl?.appendingPathComponent(name, isDirectory: true) else { return }
 
             do {
                 try FileManager.default.createDirectory(at: newDir, withIntermediateDirectories: false, attributes: nil)
@@ -154,10 +154,8 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 isArchive: false
             )
 
-            self.projects.append(project)
-            self.tableView.reloadData()
-
             storage.assignTree(for: project)
+            self.tableView.reloadData()
 
             if let mvc = self.getMainVC() {
                 mvc.sidebarTableView.insertRows(projects: [project])

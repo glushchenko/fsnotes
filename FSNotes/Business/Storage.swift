@@ -675,7 +675,7 @@ class Storage {
     }
     
     public func unload(project: Project) {
-        let notes = noteList.filter({ $0.project.isArchive })
+        let notes = noteList.filter({ $0.project == project })
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
                 noteList.remove(at: i)

@@ -616,8 +616,14 @@ class NotesTableView: UITableView,
     }
 
     @objc public func toggleSelectAll() {
+        guard let vc = viewDelegate else { return }
         guard self.isEditing else {
-            openPopover()
+            var indexPath: IndexPath?
+            if let tag = vc.searchQuery.tag {
+                indexPath = vc.sidebarTableView.getIndexPathBy(tag: tag)
+            }
+
+            openPopover(indexPath: indexPath)
             return
         }
 
@@ -636,35 +642,61 @@ class NotesTableView: UITableView,
         }
     }
 
-    public func openPopover() {
-        let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
+    public func openPopover(indexPath: IndexPath? = nil) {
+        guard let vc = viewDelegate else { return }
+        var type = vc.sidebarTableView.getSidebarItem()?.type
+
+        if let path = indexPath, path.section == SidebarSection.Tags.rawValue {
+            type = .Tag
+        }
 
         guard
             type == .Category
             || type == .Inbox
             || type == .Archive
             || type == .Trash
+            || type == .Tag
         else { return }
 
-        let vc = FolderPopoverViewControler()
-        let height = Int(vc.tableView.rowHeight) * vc.actions.count
+        let folderVC = FolderPopoverViewControler()
+        var actions = [FolderPopoverActions]()
 
-        vc.preferredContentSize = CGSize(width: 200, height: height)
-        vc.modalPresentationStyle = .popover
-        if let pres = vc.presentationController {
+        switch type {
+        case .Inbox:
+            actions = [.importNote, .settingsFolder, .createFolder]
+        case .Archive:
+            actions = [.importNote, .settingsFolder]
+        case .Trash:
+            actions = [.settingsFolder]
+        case .Category:
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
+        case .Tag:
+            actions = [.removeTag, .renameTag]
+        default: break
+        }
+
+        folderVC.setActions(actions)
+
+        let height = Int(folderVC.tableView.rowHeight) * folderVC.actions.count
+
+        folderVC.preferredContentSize = CGSize(width: 200, height: height)
+        folderVC.modalPresentationStyle = .popover
+        if let pres = folderVC.presentationController {
             pres.delegate = viewDelegate
         }
 
-        viewDelegate?.present(vc, animated: true)
-        if let pop = vc.popoverPresentationController {
-            pop.sourceView = (viewDelegate?.currentFolder!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            vc.present(folderVC, animated: true)
+            if let pop = folderVC.popoverPresentationController {
+                pop.sourceView = (vc.currentFolder!)
 
-            var cgRect = (viewDelegate?.currentFolder!)!.bounds
-            cgRect.origin.y = cgRect.origin.y + 20
-            pop.sourceRect = cgRect
+                var cgRect = (vc.currentFolder).bounds
+                cgRect.origin.y = cgRect.origin.y + 20
+                pop.sourceRect = cgRect
+            }
+
+            AudioServicesPlaySystemSound(1519)
         }
-
-        AudioServicesPlaySystemSound(1519)
     }
 
     private func invalidPasswordAlert() {

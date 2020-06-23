@@ -1,8 +1,14 @@
 /* No comment provided by engineer. */
 "Append to" = "Добавить к заметке";
 
+/* Sidebar label */
+"Archive" = "Архив";
+
 /* No comment provided by engineer. */
 "Choose for append" = "Выбрать заметку для добавления";
+
+/* No comment provided by engineer. */
+"Inbox" = "Входящие";
 
 /* No comment provided by engineer. */
 "New note" = "Сохранить";

@@ -22,19 +22,13 @@ public class UserDefaultsManagement {
     typealias Font = NSFont
 
     public static var shared: UserDefaults? = UserDefaults.standard
+    static var DefaultFontSize = 14
 #else
     typealias Color = UIColor
     typealias Image = UIImage
     typealias Font = UIFont
 
     public static var shared: UserDefaults? = UserDefaults(suiteName: "group.es.fsnot.user.defaults")
-#endif
-    
-    static var DefaultFont = ".AppleSystemUIFont"
-
-#if os(OSX)
-    static var DefaultFontSize = 14
-#else
     static var DefaultFontSize = 17
 #endif
 
@@ -150,13 +144,13 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var fontName: String {
+    static var fontName: String? {
         get {
-            if let returnFontName = shared?.object(forKey: Constants.FontNameKey) {
-                return returnFontName as! String
-            } else {
-                return "Avenir Next"
+            if let returnFontName = shared?.object(forKey: Constants.FontNameKey) as? String {
+                return returnFontName
             }
+
+            return nil
         }
         set {
             shared?.set(newValue, forKey: Constants.FontNameKey)
@@ -200,14 +194,17 @@ public class UserDefaultsManagement {
 
     static var noteFont: Font! {
         get {
-            if let font = Font(name: self.fontName, size: CGFloat(self.fontSize)) {
+            if let fontName = self.fontName, let font = Font(name: fontName, size: CGFloat(self.fontSize)) {
                 return font
             }
-            
+
             return Font.systemFont(ofSize: CGFloat(self.fontSize))
         }
         set {
-            guard let newValue = newValue else {return}
+            guard let newValue = newValue else {
+                self.fontName = nil
+                return
+            }
             
             self.fontName = newValue.fontName
             self.fontSize = Int(newValue.pointSize)

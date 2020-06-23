@@ -4,23 +4,26 @@
 /* Class = "UILabel"; text = "Font"; ObjectID = "3jo-l0-DdJ"; */
 "3jo-l0-DdJ.text" = "Font";
 
+/* Class = "UILabel"; text = "Projects"; ObjectID = "6pf-ff-hck"; */
+"6pf-ff-hck.text" = "Папки";
+
 /* Class = "UILabel"; text = "Default Container"; ObjectID = "7Ja-3s-eck"; */
 "7Ja-3s-eck.text" = "Default Keyboard On Edititng";
 
-/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
+/* Class = "UILabel"; text = "Inbox ▽"; ObjectID = "8VE-HM-shO"; */
 "8VE-HM-shO.text" = "Входящие ▽";
 
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
 "AbV-ot-mEE.text" = "Date";
+
+/* Class = "UILabel"; text = "Files Naming"; ObjectID = "cIT-mg-zgx"; */
+"cIT-mg-zgx.text" = "Именование файлов";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "Cn1-Y0-0eh"; */
 "Cn1-Y0-0eh.text" = "Title";
 
 /* Class = "UILabel"; text = "Default Extension"; ObjectID = "Ddv-OO-Wuz"; */
 "Ddv-OO-Wuz.text" = "Default Extension";
-
-/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ecm-ZU-dhM"; */
-"ecm-ZU-dhM.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
 
 /* Class = "UILabel"; text = "Code block live highlighting"; ObjectID = "jGp-dZ-ZDR"; */
 "jGp-dZ-ZDR.text" = "Code block live highlighting";

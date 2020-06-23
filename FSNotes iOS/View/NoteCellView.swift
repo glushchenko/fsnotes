@@ -75,13 +75,7 @@ class NoteCellView: SwipeTableViewCell {
             pin.isHidden = !note.isPinned
         }
 
-        if var font = UserDefaultsManagement.noteFont {
-            if !UserDefaultsManagement.dynamicTypeFont {
-                if let defaultFont = UIFont(name: UserDefaultsManagement.fontName, size: 17) {
-                    font = defaultFont
-                }
-            }
-
+        if let font = UserDefaultsManagement.noteFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .headline)
             let scaledFont = fontMetrics.scaledFont(for: font)
             title.font = scaledFont

@@ -145,4 +145,15 @@ extension NSMutableAttributedString {
         }
         #endif
     }
+
+    public func replace(string: String, with attributedString: NSAttributedString? = nil) {
+        let content = attributedString ?? NSAttributedString()
+
+        while mutableString.contains(string) {
+            let range = mutableString.range(of: string)
+            if length >= range.upperBound {
+                replaceCharacters(in: range, with: content)
+            }
+        }
+    }
 }

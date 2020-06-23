@@ -742,7 +742,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
-        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+        if UserDefaultsManagement.dynamicTypeFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .body)
             font = fontMetrics.scaledFont(for: font)
         }
@@ -855,10 +855,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            //bvc.disableSwipe()
-        }
-
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -889,10 +885,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
-
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            //bvc.enableSwipe()
-        }
     }
 
     public func resetToolbar() {
@@ -1519,6 +1511,13 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return false
         }
 
+        if URL.absoluteString.starts(with: "fsnotes://open/?tag=") {
+            if interaction == .invokeDefaultAction {
+                UIApplication.shared.open(URL, options: [:])
+            }
+            return false
+        }
+
         if textView.isFirstResponder {
             DispatchQueue.main.async {
                 textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
@@ -1556,12 +1555,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func restoreContentOffset() {
-        DispatchQueue.main.async {
-           if let co = self.editArea.lastContentOffset {
-               self.editArea.lastContentOffset = nil
-               self.editArea.setContentOffset(co, animated: false)
-           }
-        }
+        if let co = self.editArea.lastContentOffset {
+           self.editArea.lastContentOffset = nil
+           self.editArea.setContentOffset(co, animated: false)
+       }
     }
 
     public func saveContentOffset() {

@@ -12,7 +12,7 @@ import NightNight
 class NamingViewController: UITableViewController {
     private var filesNaming: [String] = [
         "UUID",
-        "Auto rename by title"
+        NSLocalizedString("Auto rename by title", comment: "Naming controller")
     ]
 
     override func viewDidLoad() {

@@ -156,8 +156,6 @@ class CloudDriveManager {
                     continue
                 }
 
-                print("File changed: \(url)")
-
                 if let currentNote = EditTextView.note,
                     let date = contentChangeDate,
                     currentNote.isEqualURL(url: url),
@@ -169,6 +167,7 @@ class CloudDriveManager {
                     delegate.refreshTextStorage(note: note)
                 }
 
+                print("File changed: \(url)")
                 notesModificationQueue.append(note)
                 resolveConflict(url: url)
 

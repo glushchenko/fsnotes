@@ -143,6 +143,10 @@ class SidebarTableView: UITableView,
             name += " ▽"
         }
 
+        if sidebarItem.type == .Tag {
+            name = "#\(name)"
+        }
+
         let newQuery = SearchQuery()
         newQuery.setType(sidebarItem.type)
         newQuery.project = sidebarItem.project
@@ -177,6 +181,34 @@ class SidebarTableView: UITableView,
                     self.loadAllTags()
                     vc.resizeSidebar(withAnimation: true)
                 }
+            }
+        }
+    }
+
+    public func selectCurrentProject() {
+        guard let vc = self.viewController else { return }
+
+        var indexPath: IndexPath = IndexPath(row: 0, section: 0)
+        if let type = vc.searchQuery.type,
+            let ip = getIndexPathBy(type: type) {
+            indexPath = ip
+        } else if let project = vc.searchQuery.project,
+            let ip = getIndexPathBy(project: project) {
+            indexPath = ip
+        }
+
+        let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+
+        let name = sidebarItem.name + " ▽"
+        let newQuery = SearchQuery()
+        newQuery.setType(sidebarItem.type)
+        newQuery.project = sidebarItem.project
+
+        selectRow(at: indexPath, animated: false, scrollPosition: .none)
+
+        vc.reloadNotesTable(with: newQuery) {
+            DispatchQueue.main.async {
+                vc.currentFolder.text = name
             }
         }
     }
@@ -334,6 +366,9 @@ class SidebarTableView: UITableView,
             // resets tags in sidebar
             removeTags(in: [note])
 
+            // reload tags (in remove tags operation notn fitted)
+            _ = note.scanContentTags()
+
             vc.notesTable.removeRows(notes: [note])
             vc.notesTable.insertRows(notes: [note])
         }
@@ -437,11 +472,12 @@ class SidebarTableView: UITableView,
         if rows > 0 {
             self.sidebar.items[2].removeAll()
 
-            self.beginUpdates()
+            var indexPaths = [IndexPath]()
             for index in stride(from: rows - 1, to: -1, by: -1) {
-                self.deleteRows(at: [IndexPath(item: index, section: 2)], with: .automatic)
+                indexPaths.append(IndexPath(row: index, section: 2))
             }
-            self.endUpdates()
+
+            deleteRows(at: indexPaths, with: .automatic)
         }
     }
 
@@ -703,6 +739,16 @@ class SidebarTableView: UITableView,
         tableView(self, didSelectRowAt: indexPath)
     }
 
+    public func select(tag: String) {
+        guard let indexPath = getIndexPathBy(tag: tag) else { return }
+        tableView(self, didSelectRowAt: indexPath)
+
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            return
+        }
+        bvc.containerController.selectController(atIndex: 0, animated: true)
+    }
+
     public func restoreSelection(for search: SearchQuery) {
         if let type = search.type {
             let index = getIndexPathBy(type: type)
@@ -718,5 +764,14 @@ class SidebarTableView: UITableView,
             let index = getIndexPathBy(tag: tag)
             selectRow(at: index, animated: false, scrollPosition: .none)
         }
+    }
+
+    public func remove(tag: String) {
+        guard let indexPath = getIndexPathBy(tag: tag) else { return }
+
+        sidebar.items[2].removeAll(where: { $0.name == tag})
+        deleteRows(at: [indexPath], with: .automatic)
+
+        selectCurrentProject()
     }
 }

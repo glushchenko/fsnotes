@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Storage.shared().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
 
-        print("end \(UserDefaultsManagement.crashedLastTime)")
+        print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -158,6 +158,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        if url.host == "open" {
+            if let tag = url["tag"]?.removingPercentEncoding {
+                UIApplication.getVC().sidebarTableView.select(tag: tag)
+            }
+        }
+
         return true
     }
 

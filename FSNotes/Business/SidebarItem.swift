@@ -58,4 +58,18 @@ class SidebarItem {
         
         return false
     }
+
+    public func isSystem() -> Bool {
+        let system: [SidebarItemType] = [.Inbox, .All, .Archive, .Trash, .Todo]
+
+        return system.contains(type)
+    }
+
+    public func isProject() -> Bool {
+        return type == .Category
+    }
+
+    public func isTag() -> Bool {
+        return type == .Tag
+    }
 }

@@ -675,6 +675,7 @@ public class Note: NSObject  {
 
         #if NOT_EXTENSION || os(OSX)
         content = NotesTextProcessor.convertAppLinks(in: content)
+        //content = NotesTextProcessor.convertAppTags(in: content)
         #endif
         
         return cleanMetaData(content: content)
@@ -757,6 +758,22 @@ public class Note: NSObject  {
         }
 
         save(attributedString: self.content)
+    }
+
+    public func replace(tag: String, with string: String) {
+        if isMarkdown() {
+            self.content = content.unLoad()
+        }
+
+        let replaceWith = NSAttributedString(string: string)
+        if string.count == 0 {
+            content.replace(string: tag + " ", with: replaceWith)
+            content.replace(string: tag, with: replaceWith)
+        }
+
+        content.replace(string: tag, with: replaceWith)
+        
+        save()
     }
         
     public func save(globalStorage: Bool = true) {
@@ -1194,10 +1211,10 @@ public class Note: NSObject  {
 
     private var excludeRanges = [NSRange]()
 
-    private func isValid(tag: String) -> Bool {
-        let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
+    public func isValid(tag: String) -> Bool {
+        //let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
         
-        if isHEX || tag.isNumber {
+        if tag.isNumber {
             return false
         }
 

@@ -61,6 +61,18 @@ public class Project: Equatable {
         }
         #endif
 
+        self.label = String()
+
+        loadLabel(label)
+        isCloudDrive = isCloudDriveFolder(url: url)
+        loadSettings()
+    }
+
+    public static func == (lhs: Project, rhs: Project) -> Bool {
+        return lhs.url == rhs.url
+    }
+
+    public func loadLabel(_ label: String? = nil) {
         if let l = label {
             self.label = l
         } else {
@@ -72,13 +84,6 @@ public class Project: Equatable {
         if let name = localizedName as? String, name.count > 0 {
             self.label = name
         }
-        
-        isCloudDrive = isCloudDriveFolder(url: url)
-        loadSettings()
-    }
-
-    public static func == (lhs: Project, rhs: Project) -> Bool {
-        return lhs.url == rhs.url
     }
 
     public func getCacheURL() -> URL? {
