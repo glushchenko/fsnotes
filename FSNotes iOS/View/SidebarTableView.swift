@@ -316,8 +316,6 @@ class SidebarTableView: UITableView,
                 case .Trash:
                     note.remove()
                     vc.notesTable.removeRows(notes: [note])
-                case .Tag:
-                    note.addTag(sidebarItem.name)
                 default:
                     break
                 }
@@ -334,7 +332,7 @@ class SidebarTableView: UITableView,
             let sidebarItem = cell.sidebarItem
         else { return UITableViewDropProposal(operation: .cancel) }
 
-        if sidebarItem.project != nil || sidebarItem.type == .Trash || sidebarItem.type == .Tag {
+        if sidebarItem.project != nil || sidebarItem.type == .Trash {
             return UITableViewDropProposal(operation: .copy)
         }
 
@@ -348,7 +346,11 @@ class SidebarTableView: UITableView,
 
         if note.project != project {
             note.moveImages(to: project)
-            
+
+            if note.isEncrypted() {
+                _ = note.lock()
+            }
+
             guard note.move(to: dstURL) else {
                 let alert = UIAlertController(title: "Oops 👮‍♂️", message: "File with this name already exist", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -359,7 +361,6 @@ class SidebarTableView: UITableView,
             }
 
             note.url = dstURL
-            note.invalidateCache()
             note.parseURL()
             note.project = project
 

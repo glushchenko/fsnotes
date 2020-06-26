@@ -1159,6 +1159,7 @@ public class TextFormatter {
         let parRange = NSRange(location: range.location, length: replaceString.count)
         let parStyle = NSMutableParagraphStyle()
         parStyle.alignment = .left
+        parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         self.textView.textStorage.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
 
         self.textView.undoManager?.endUndoGrouping()

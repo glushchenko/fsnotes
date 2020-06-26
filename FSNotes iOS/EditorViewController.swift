@@ -109,7 +109,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         super.viewDidAppear(animated)
 
         if editArea.textStorage.length == 0 {
-            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.1)
+            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
@@ -159,15 +159,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     public func getToolbar(for note: Note) -> UIToolbar {
-        if note.isMarkdown() {
-            return self.getMarkdownToolbar()
-        }
-
         if note.type == .RichText {
             return self.getRTFToolbar()
         }
 
-        return self.getPlainTextToolbar()
+        return self.getMarkdownToolbar()
     }
 
     public func refillToolbar() {
@@ -249,17 +245,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         }
 
-        if note.type == .PlainText {
-            let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
-
-            if let font = UserDefaultsManagement.noteFont {
-                editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
-                        .foregroundColor: foregroundColor,
-                        .font: font
-                    ]
-                )
-            }
-        } else if note.isMarkdown() {
+        if note.isMarkdown() {
             EditTextView.shouldForceRescan = true
 
             if let content = note.content.mutableCopy() as? NSMutableAttributedString {
@@ -321,14 +307,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     private func configureToolbar() {
         guard let note = self.note else { return }
-
-        if note.type == .PlainText {
-            if self.toolbar != .plain {
-                self.toolbar = .plain
-                self.addToolBar(textField: editArea, toolbar: self.getPlainTextToolbar())
-            }
-            return
-        }
 
         if note.type == .RichText {
             if self.toolbar != .rich {
@@ -414,6 +392,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .left
+            paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
             editArea.typingAttributes[.paragraphStyle] = paragraphStyle
         }
 
@@ -791,7 +770,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let storage = editArea.textStorage
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
-        if note.type == .PlainText || note.type == .RichText {
+        if note.type == .RichText {
             processor.higlightLinks()
         }
 
@@ -1022,26 +1001,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return toolBar
     }
 
-    private func getPlainTextToolbar() -> UIToolbar {
-        let width = self.editArea.superview!.frame.width
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
-
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
-        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-
-        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
-        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
-
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-
-        toolBar.setItems([spaceButton, undoButton, redoButton], animated: false)
-
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-
-        return toolBar
-    }
-    
     @objc func boldPressed(){
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
@@ -1369,6 +1328,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
             }
 
+//            if path.starts(with: "fsnotes://open/?tag=") {
+//                if let url = URL(string: path) {
+//                    UIApplication.shared.open(url, options: [:])
+//                }
+//
+//                return
+//            }
+
             if self.editArea.isFirstResponder {
                 DispatchQueue.main.async {
                     self.editArea.selectedRange = NSRange(location: characterIndex, length: 0)
@@ -1515,6 +1482,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if interaction == .invokeDefaultAction {
                 UIApplication.shared.open(URL, options: [:])
             }
+//            if textView.isFirstResponder {
+//                UIApplication.shared.open(URL, options: [:])
+//            }
+
             return false
         }
 

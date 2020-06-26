@@ -817,14 +817,13 @@ public class Note: NSObject  {
             if decryptedTemporarySrc != nil {
                 self.ciphertextWriter.cancelAllOperations()
                 self.ciphertextWriter.addOperation {
-                    usleep(useconds_t(1000000))
-
                     guard self.ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
+            } else {
+                modifiedLocalAt = Date()
             }
 
-            modifiedLocalAt = Date()
         } catch {
             NSLog("Write error \(error)")
             return
@@ -1608,8 +1607,11 @@ public class Note: NSObject  {
 
             let data = try Data(contentsOf: textPackURL)
             let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
-
             try encryptedData.write(to: self.url)
+
+            let attributes = getFileAttributes()
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+
             print("FSNotes successfully writed encrypted data for: \(title)")
 
             try FileManager.default.removeItem(at: textPackURL)

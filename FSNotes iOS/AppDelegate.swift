@@ -132,13 +132,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
-            vc.is3DTouchShortcut = true
             vc.createNote()
 
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
-            vc.is3DTouchShortcut = true
             vc.createNote(pasteboard: true)
 
             handled = true

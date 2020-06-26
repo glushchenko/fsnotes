@@ -724,6 +724,10 @@ public class UserDefaultsManagement {
     
     static var editorLineSpacing: Float {
         get {
+            #if os(iOS)
+            return 5
+            #endif
+            
             if let result = shared?.object(forKey: Constants.LineSpacingEditorKey) {
                 return result as! Float
             }

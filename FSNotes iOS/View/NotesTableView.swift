@@ -296,16 +296,20 @@ class NotesTableView: UITableView,
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
 
         var indexPaths = [IndexPath]()
+        var tags = [String]()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 indexPaths.append(IndexPath(row: i, section: 0))
+                tags.append(contentsOf: note.tags)
             }
         }
 
         self.notes.removeAll(where: { notes.contains($0) })
 
         deleteRows(at: indexPaths, with: .automatic)
-        self.viewDelegate?.updateNotesCounter()
+        vc.updateNotesCounter()
+
+        vc.sidebarTableView.delete(tags: tags)
     }
 
     public func insertRows(notes: [Note]) {
@@ -468,6 +472,11 @@ class NotesTableView: UITableView,
         let dst = note.getNewURL(name: name)
 
         note.removePin()
+
+        if note.isEncrypted() {
+            _ = note.lock()
+        }
+
         if note.move(to: dst) {
             note.url = dst
             note.parseURL()
@@ -611,7 +620,11 @@ class NotesTableView: UITableView,
         // scroll to hack
         // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.scrollTo(note: note)
+            if note.project.sortBy == .modificationDate, let first = self.notes.first {
+                self.scrollTo(note: first)
+            } else {
+                self.scrollTo(note: note)
+            }
         }
     }
 

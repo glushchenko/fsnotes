@@ -749,10 +749,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             storage.loadUnderlines()
         }
 
-        if note.type == .PlainText {
-            font = UserDefaultsManagement.noteFont
-        }
-
         setTextColor()
 
         let range = NSRange(0..<storage.length)
@@ -988,7 +984,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if note.type == .PlainText || note.type == .RichText {
+        if note.type == .RichText {
             super.keyDown(with: event)
             saveCursorPosition()
             

@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Needs permission to write images in photos app</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -29,6 +25,8 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
 	<key>CFBundleIcons</key>
 	<dict/>
 	<key>CFBundleIcons~ipad</key>
@@ -101,6 +99,8 @@
 	<string>Note encryption and decryption with FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Requested when photo attached</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Needs permission to write images in photos app</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Needs for attach images in notes</string>
 	<key>NSUbiquitousContainers</key>

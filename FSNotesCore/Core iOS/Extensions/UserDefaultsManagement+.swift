@@ -13,6 +13,7 @@ extension UserDefaultsManagement {
     private struct Constants {
         static let codeTheme = "codeTheme"
         static let dynamicTypeFont = "dynamicTypeFont"
+        static let IsFirstLaunch = "isFirstLaunch"
     }
 
     static var codeTheme: String {
@@ -78,6 +79,18 @@ extension UserDefaultsManagement {
         }
         set {
             shared?.set(newValue.rawValue, forKey: "naming")
+        }
+    }
+
+    static var isFirstLaunch: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.IsFirstLaunch) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.IsFirstLaunch)
         }
     }
 }

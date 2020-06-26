@@ -48,7 +48,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private var maxSidebarWidth = CGFloat(0)
     private var accessTime = DispatchTime.now()
 
-    public var is3DTouchShortcut = false
     public var isActiveTableUpdating = false
 
     private var queryDidFinishGatheringObserver : Any?
@@ -137,6 +136,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     public func configureUI() {
         UINavigationBar.appearance().isTranslucent = false
 
+        if UserDefaultsManagement.isFirstLaunch {
+            UserDefaultsManagement.fontName = "Avenir Next"
+            UserDefaultsManagement.isFirstLaunch = false
+        }
+
         loadNotesFrame()
 
         self.metadataQueue.qualityOfService = .userInteractive
@@ -191,12 +195,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         notesTable.viewDelegate = self
 
-        if #available(iOS 11.0, *) {
-            notesTable.dragInteractionEnabled = true
-            notesTable.dragDelegate = notesTable
-
-            sidebarTableView.dropDelegate = sidebarTableView
-        }
+        notesTable.dragInteractionEnabled = true
+        notesTable.dragDelegate = notesTable
+        sidebarTableView.dropDelegate = sidebarTableView
 
         notesTable.dataSource = notesTable
         notesTable.delegate = notesTable
@@ -918,8 +919,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             notesTable.scrollTo(note: note)
         }
 
-        if is3DTouchShortcut {
-            is3DTouchShortcut = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             evc.editArea.becomeFirstResponder()
         }
     }
@@ -1372,11 +1372,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let notchWidth = getLeftInset()
 
         if (withAnimation) {
-            UIView.animate(withDuration: 0.3, delay: 0.0, options: .init(), animations: {
-            }) { _ in
+            UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
+
                 self.notesTable.frame.origin.x = self.maxSidebarWidth
                 self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
                 self.sidebarTableView.frame.origin.x = 0 + notchWidth
+
+            }) { _ in
+
             }
         } else {
             notesTable.frame.origin.x = maxSidebarWidth

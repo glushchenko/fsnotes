@@ -10,7 +10,7 @@ import UIKit
 import NightNight
 
 class DefaultExtensionViewController: UITableViewController {
-    private var extensions = ["md", "rtf", "txt"]
+    private var extensions = ["md", "rtf"]
     
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]

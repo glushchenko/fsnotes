@@ -45,6 +45,16 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
     }
 
+    override func caretRect(for position: UITextPosition) -> CGRect {
+        var superRect = super.caretRect(for: position)
+        guard let font = self.font else { return superRect }
+
+        // "descender" is expressed as a negative value,
+        // so to add its height you must subtract its value
+        superRect.size.height = font.pointSize - font.descender
+        return superRect
+    }
+
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)

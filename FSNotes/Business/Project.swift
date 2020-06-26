@@ -98,17 +98,21 @@ public class Project: Equatable {
     public func saveCache() {
         guard isReadyForCacheSaving, let cacheURL = getCacheURL() else { return }
 
-        let notes = storage.noteList
-            .filter({ $0.project == self })
-            .map({ $0.getMeta() })
+        let notes = storage.noteList.filter({ $0.project == self })
 
+        for note in notes {
+            if note.isEncrypted() {
+                _ = note.lock()
+            }
+        }
+
+        let meta = notes.map({ $0.getMeta() })
         let jsonEncoder = JSONEncoder()
 
         do {
-            let data = try jsonEncoder.encode(notes)
+            let data = try jsonEncoder.encode(meta)
             try data.write(to: cacheURL)
 
-            print(cacheURL)
             print("Cache saved for: \(self.label)")
         } catch {
             print("Serialization error.")

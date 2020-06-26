@@ -791,7 +791,9 @@ public class NotesTextProcessor {
 
         // Inline tags
         NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
+            guard var range = result?.range(at: 1) else { return }
+
+            range = NSRange(location: range.location - 1, length: range.length + 1)
             var substring = attributedString.mutableString.substring(with: range)
 
             substring = substring
