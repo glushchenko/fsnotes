@@ -641,7 +641,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
 
         if UserDefaultsManagement.naming == .autoRename {
-            let title = note.title.withoutSpecialCharacters
+            let title = note.title.withoutSpecialCharacters.trunc(length: 64)
 
             if note.fileName != title {
                 UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
@@ -784,6 +784,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             guard let self = self else {return}
 
             if let text = text {
+
+                if note.isEncrypted() && !note.isUnlocked() {
+                    DispatchQueue.main.async {
+                        self.cancel()
+                    }
+
+                    return
+                }
+
                 note.save(attributed: text)
                 note.invalidateCache()
                 note.loadPreviewInfo()
@@ -854,7 +863,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.editArea.scrollIndicatorInsets = contentInsets
 
         guard let note = self.note else { return }
-        note.setLastSelectedRange(value: editArea.selectedRange)
+
+        if let last = note.getLastSelectedRange() {
+            editArea.selectedRange = last
+        }
 
         restoreContentOffset()
     }

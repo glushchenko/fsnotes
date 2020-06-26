@@ -231,6 +231,7 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
 
             mvc.storage.loadLabel(selectedProject)
             mvc.sidebarTableView.insertRows(projects: [selectedProject])
+            mvc.sidebarTableView.select(project: selectedProject)
         }
 
         let cancel = NSLocalizedString("Cancel", comment: "")

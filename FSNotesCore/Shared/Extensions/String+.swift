@@ -121,6 +121,10 @@ public extension String {
             }
         }
     }
+
+    func trunc(length: Int) -> String {
+        return (self.count > length) ? String(self.prefix(length)) : self
+    }
 }
 
 extension StringProtocol where Index == String.Index {

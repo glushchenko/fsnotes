@@ -497,6 +497,9 @@ class NotesTableView: UITableView,
         guard let vc = viewDelegate else { return }
 
         vc.sidebarTableView.removeTags(in: notes)
+        for note in notes {
+            note.remove()
+        }
         removeRows(notes: notes)
 
         allowsMultipleSelectionDuringEditing = false
