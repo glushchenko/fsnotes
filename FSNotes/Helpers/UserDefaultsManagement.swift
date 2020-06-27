@@ -731,7 +731,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.LineSpacingEditorKey) {
                 return result as! Float
             }
-            return 0
+            return 4
         }
         set {
             shared?.set(newValue, forKey: Constants.LineSpacingEditorKey)
