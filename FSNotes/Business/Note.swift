@@ -68,7 +68,7 @@ public class Note: NSObject  {
             creationDate = created
         }
 
-        self.url = url
+        self.url = url.standardized
         self.project = project
         super.init()
 
@@ -158,19 +158,25 @@ public class Note: NSObject  {
     public func loadProject() {
         let sharedStorage = Storage.sharedInstance()
         
-        if let project = sharedStorage.getProjectBy(url: url) {
+        if let project = sharedStorage.getProjectByNote(url: url) {
             self.project = project
         }
     }
-        
-    func load(tags: Bool = true) {
+
+    public func forceLoad() {
+        invalidateCache()
+        load()
+        loadFileAttributes()
+    }
+
+    func load() {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
         
-        if !isTrash() && !project.isArchive {
-            _ = loadTags()
-        }
+        //if !isTrash() && !project.isArchive {
+        //    _ = loadTags()
+        //}
 
         loadFileName()
 
@@ -181,13 +187,23 @@ public class Note: NSObject  {
         isLoaded = true
     }
 
+    public func loadFileWithAttributes() {
+        load()
+        loadFileAttributes()
+    }
+
+    public func loadFileAttributes() {
+        loadCreationDate()
+        loadModifiedLocalAt()
+    }
+
     func reload() -> Bool {
         guard let modifiedAt = getFileModifiedDate() else {
             return false
         }
                         
         if (modifiedAt != modifiedLocalAt) {
-            if container != .encryptedTextPack, let attributedString = getContent() {
+            if let attributedString = getContent() {
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
             loadModifiedLocalAt()
@@ -254,7 +270,7 @@ public class Note: NSObject  {
             var destination = to
 
             if FileManager.default.fileExists(atPath: to.path) {
-                guard let project = project ?? sharedStorage.getProjectBy(url: to) else { return false }
+                guard let project = project ?? sharedStorage.getProjectByNote(url: to) else { return false }
 
                 let ext = getExtensionForContainer()
                 destination = NameHelper.getUniqueFileName(name: title, project: project, ext: ext)
@@ -659,6 +675,7 @@ public class Note: NSObject  {
 
         #if NOT_EXTENSION || os(OSX)
         content = NotesTextProcessor.convertAppLinks(in: content)
+        //content = NotesTextProcessor.convertAppTags(in: content)
         #endif
         
         return cleanMetaData(content: content)
@@ -742,6 +759,22 @@ public class Note: NSObject  {
 
         save(attributedString: self.content)
     }
+
+    public func replace(tag: String, with string: String) {
+        if isMarkdown() {
+            self.content = content.unLoad()
+        }
+
+        let replaceWith = NSAttributedString(string: string)
+        if string.count == 0 {
+            content.replace(string: tag + " ", with: replaceWith)
+            content.replace(string: tag, with: replaceWith)
+        }
+
+        content.replace(string: tag, with: replaceWith)
+        
+        save()
+    }
         
     public func save(globalStorage: Bool = true) {
         if self.isMarkdown() {
@@ -784,14 +817,13 @@ public class Note: NSObject  {
             if decryptedTemporarySrc != nil {
                 self.ciphertextWriter.cancelAllOperations()
                 self.ciphertextWriter.addOperation {
-                    usleep(useconds_t(1000000))
-
                     guard self.ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
+            } else {
+                modifiedLocalAt = Date()
             }
 
-            modifiedLocalAt = Date()
         } catch {
             NSLog("Write error \(error)")
             return
@@ -1128,20 +1160,6 @@ public class Note: NSObject  {
             if (qty > 0) {
                 return true
             }
-        } else {
-            if let data = try? url.extendedAttribute(forName: "com.apple.metadata:_kMDItemUserTags"),
-                let tags = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSMutableArray {
-                self.tagNames.removeAll()
-                for tag in tags {
-                    if let tagName = tag as? String {
-                        self.tagNames.append(tagName)
-
-                        if !project.isTrash {
-                            sharedStorage.addTag(tagName)
-                        }
-                    }
-                }
-            }
         }
 
         return false
@@ -1192,10 +1210,10 @@ public class Note: NSObject  {
 
     private var excludeRanges = [NSRange]()
 
-    private func isValid(tag: String) -> Bool {
-        let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
+    public func isValid(tag: String) -> Bool {
+        //let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
         
-        if isHEX || tag.isNumber {
+        if tag.isNumber {
             return false
         }
 
@@ -1427,7 +1445,7 @@ public class Note: NSObject  {
 
     private func convertFlatToTextBundle() -> URL {
         let temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        let temporaryProject = Project(url: temporary)
+        let temporaryProject = Project(storage: project.storage, url: temporary)
 
         let currentName = url.deletingPathExtension().lastPathComponent
         let note = Note(name: currentName, project: temporaryProject, type: type, cont: .textBundleV2)
@@ -1589,8 +1607,11 @@ public class Note: NSObject  {
 
             let data = try Data(contentsOf: textPackURL)
             let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
-
             try encryptedData.write(to: self.url)
+
+            let attributes = getFileAttributes()
+            try FileManager.default.setAttributes(attributes, ofItemAtPath: url.path)
+
             print("FSNotes successfully writed encrypted data for: \(title)")
 
             try FileManager.default.removeItem(at: textPackURL)
@@ -1800,7 +1821,7 @@ public class Note: NSObject  {
         let fileName = getFileName()
 
         if fileName.isValidUUID {
-            return "✦"
+            return "▽"
         }
 
         return fileName

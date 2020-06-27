@@ -16,6 +16,7 @@ import Foundation
     typealias Color = NSColor
 #else
     import UIKit
+    import NightNight
     typealias Font = UIFont
     typealias TextView = EditTextView
     typealias Color = UIColor
@@ -673,7 +674,7 @@ public class TextFormatter {
         let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
-            insertText(AttributedBox.getUnChecked())
+            insertText(AttributedBox.getUnChecked()!)
             return
         }
 
@@ -722,6 +723,8 @@ public class TextFormatter {
         let mutableResult = NSMutableAttributedString(string: result)
 
 #if os(iOS)
+        let textColor: UIColor = NightNight.theme == .night ? UIColor.white : UIColor.black
+        mutableResult.addAttribute(.foregroundColor, value: textColor, range: NSRange(location: 0, length: mutableResult.length))
         mutableResult.addAttribute(.font, value: NotesTextProcessor.font, range: NSRange(location: 0, length: mutableResult.length))
 #endif
 
@@ -1071,7 +1074,7 @@ public class TextFormatter {
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
-        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+        if UserDefaultsManagement.dynamicTypeFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .body)
             font = fontMetrics.scaledFont(for: font)
         }
@@ -1156,6 +1159,7 @@ public class TextFormatter {
         let parRange = NSRange(location: range.location, length: replaceString.count)
         let parStyle = NSMutableParagraphStyle()
         parStyle.alignment = .left
+        parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
         self.textView.textStorage.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
 
         self.textView.undoManager?.endUndoGrouping()

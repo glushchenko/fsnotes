@@ -8,6 +8,9 @@
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Автоматично за яскравістю екрана";
 
+/* Naming controller */
+"Auto rename by title" = "Автоматичне за заголовком";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Рівень яскравості";
 
@@ -23,8 +26,17 @@
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Сумісний з DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
 
+/* Settings */
+"Container" = "Контейнер";
+
 /* No comment provided by engineer. */
 "Copy plain text" = "Скопіювати звичайний текст";
+
+/* Main view popover table */
+"Create folder" = "Створити папку";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Створити папку:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Датою створення";
@@ -38,7 +50,7 @@
 /* Settings */
 "Default Keyboard In Editor" = "Клавіатура за замовчуванням";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Delete" = "Видалити";
 
 /* No comment provided by engineer. */
@@ -57,10 +69,25 @@
 "Enabled" = "Включений";
 
 /* No comment provided by engineer. */
+"Enter folder name" = "Введіть назву папки";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Введіть пароль";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Введіть назву тега";
+
+/* No comment provided by engineer. */
 "Enter note name" = "Введіть назву нотатки";
+
+/* Settings */
+"Extension" = "Формат файла";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл з цим іменем вже існує";
+
+/* Settings */
+"Files Naming" = "Іменування файлів";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Назва папки:";
@@ -83,7 +110,8 @@
 /* Settings */
 "Homepage" = "Домашня сторінка";
 
-/* Settings */
+/* Main view popover table
+   Settings */
 "Import notes" = "Імпортувати";
 
 /* Inbox in sidebar */
@@ -101,14 +129,14 @@
 /* No comment provided by engineer. */
 "Modification date" = "Датою модифікації";
 
+/* Table row action */
+"More" = "Ще";
+
 /* Move view */
 "Move" = "Перемістити";
 
 /* Settings */
 "Night Mode" = "Нічний режим";
-
-/* No comment provided by engineer. */
-"Note with this name already exist" = "Нотатка з цим ім'ям вже існує";
 
 /* Notes in sidebar
    Sidebar label */
@@ -117,7 +145,7 @@
 /* No comment provided by engineer. */
 "Notes list" = "Лист нотаток";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Pin" = "Закріпити";
 
 /* No comment provided by engineer. */
@@ -135,11 +163,29 @@
 /* Settings */
 "Projects" = "Проекти";
 
+/* Main view popover table */
+"Remove folder" = "Видалити папку";
+
+/* Main view popover table */
+"Remove tag" = "Видалити тег";
+
 /* No comment provided by engineer. */
 "Rename" = "Перейменувати";
 
+/* Main view popover table */
+"Rename folder" = "Перейменувати папку";
+
+/* Popover table */
+"Rename folder:" = "Перейменувати папку:";
+
 /* No comment provided by engineer. */
 "Rename note:" = "Перейменувати нотатку:";
+
+/* Main view popover table */
+"Rename tag" = "Перейменувати тег";
+
+/* Popover table */
+"Rename tag:" = "Перейменувати тег:";
 
 /* Sidebar settings */
 "Settings" = "Налаштування";
@@ -151,7 +197,7 @@
 "Show folder in sidebar" = "Показати папку на бічній панелі";
 
 /* No comment provided by engineer. */
-"Show notes in \"Notes\" and \"Todo\" lists" = "Показувати документи у списках \"Нотатки\" та \"Завдання\"";
+"Show notes in \"Notes\" and \"Todo\" lists" = "Включити у \"Нотатки/завдання\"";
 
 /* No comment provided by engineer. */
 "Sort by" = "Сортувати за";
@@ -165,12 +211,6 @@
 /* No comment provided by engineer. */
 "System" = "Система";
 
-/* No comment provided by engineer. */
-"Tag name:" = "Назва тегу:";
-
-/* No comment provided by engineer. */
-"Tag with this name already exist" = "Тег із цією назвою вже існує";
-
 /* Sidebar label */
 "Tags" = "Теги";
 
@@ -178,7 +218,7 @@
 "This action cannot be undone." = "Цю дію не можна скасувати.";
 
 /* No comment provided by engineer. */
-"Title" = "Заголовок";
+"Title" = "Заголовком";
 
 /* Todo in sidebar */
 "Todo" = "Завдання";
@@ -196,7 +236,7 @@
 /* Settings */
 "UI" = "Інтерфейс";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "UnPin" = "Відкріпити";
 
 /* No comment provided by engineer. */
@@ -208,10 +248,9 @@
 /* Settings */
 "Version" = "Версія";
 
-/* No comment provided by engineer. */
+/* Main view popover table */
 "View settings" = "Налаштування";
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимість";
 
-"More" = "Ще";

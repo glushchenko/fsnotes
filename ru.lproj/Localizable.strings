@@ -26,6 +26,9 @@
 "Otherwise, the database of your notes will be available at: " = "В противном случае база данных заметок будет доступна по адресу: ";
 
 /* No comment provided by engineer. */
+"Search and create" = "";
+
+/* No comment provided by engineer. */
 "Show in Finder" = "Показать в Finder";
 
 /* No comment provided by engineer. */

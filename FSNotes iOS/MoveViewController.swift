@@ -30,7 +30,7 @@ class MoveViewController: UITableViewController {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
@@ -43,6 +43,8 @@ class MoveViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let vc = notesTableView.viewDelegate else { return }
+
         if let projects = self.projects {
             let project = projects[indexPath.row]
 
@@ -52,6 +54,8 @@ class MoveViewController: UITableViewController {
                 if note.project != project {
                     note.moveImages(to: project)
 
+                    vc.sidebarTableView.removeTags(in: [note])
+                    
                     guard note.move(to: dstURL) else {
                         let alert = UIAlertController(title: "Oops 👮‍♂️", message: NSLocalizedString("File with this name already exist", comment: ""), preferredStyle: UIAlertController.Style.alert)
                         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
@@ -66,7 +70,7 @@ class MoveViewController: UITableViewController {
                     note.project = project
 
                     self.notesTableView.removeRows(notes: [note])
-                    self.notesTableView.viewDelegate?.notesTable.insertRow(note: note)
+                    vc.notesTable.insertRows(notes: [note])
                 }
             }
             
@@ -102,7 +106,7 @@ class MoveViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
         if selectedNotes.count == 1 {
@@ -144,14 +148,27 @@ class MoveViewController: UITableViewController {
                 return
             }
 
-            let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: allProjects[0], isDefault: false, isArchive: false)
+            let storage = Storage.shared()
+
+            let project = Project(
+                storage: storage,
+                url: newDir,
+                label: name,
+                isTrash: false,
+                isRoot: false,
+                parent: allProjects[0],
+                isDefault: false,
+                isArchive: false
+            )
 
             self.projects?.append(project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().assignTree(for: project)
+            storage.assignTree(for: project)
 
-            self.notesTableView.viewDelegate?.sidebarTableView.reloadProjectsSection()
+            if let vc = self.notesTableView.viewDelegate {
+                vc.sidebarTableView.insertRows(projects: [project])
+            }
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }

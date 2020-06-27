@@ -35,6 +35,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private let dropDown = DropDown()
     public var isUndoAction: Bool = false
 
+    private var isLandscape: Bool?
+
+    // used for non icloud changes detection
+    private var coreNote: CoreNote?
+
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
         
@@ -51,8 +56,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         editArea.addGestureRecognizer(tap)
-
-        self.editArea.textStorage.delegate = self.editArea.textStorage
+        editArea.textStorage.delegate = editArea.textStorage
 
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
@@ -61,13 +65,29 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            bvc.enableSwipe()
-        }
-        
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
+
         editArea.keyboardDismissMode = .interactive
+    }
+
+    @objc func rotated() {
+        guard isLandscape != nil else {
+            isLandscape = UIDevice.current.orientation.isLandscape
+            navigationController?.isNavigationBarHidden = isLandscape!
+            return
+        }
+
+        let isLand = UIDevice.current.orientation.isLandscape
+        if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
+            isLandscape = isLand
+            navigationController?.isNavigationBarHidden = isLand
+        } else {
+            navigationController?.isNavigationBarHidden = false
+        }
     }
 
 //    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -89,7 +109,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         super.viewDidAppear(animated)
 
         if editArea.textStorage.length == 0 {
-            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.0)
+            editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
         if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
@@ -139,15 +159,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     public func getToolbar(for note: Note) -> UIToolbar {
-        if note.isMarkdown() {
-            return self.getMarkdownToolbar()
-        }
-
         if note.type == .RichText {
             return self.getRTFToolbar()
         }
 
-        return self.getPlainTextToolbar()
+        return self.getMarkdownToolbar()
     }
 
     public func refillToolbar() {
@@ -174,9 +190,24 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
 
         self.note = note
-        if !note.isLoaded {
+        if !note.isLoaded || note.project.isExternal {
             note.load()
         }
+
+        // for projects added from another app spaces
+        // changes detector
+        
+//        if note.project.isExternal {
+//            if coreNote != nil {
+//                coreNote?.close()
+//            }
+//
+//            coreNote = CoreNote(note: note)
+//            coreNote?.open()
+//        } else {
+//            coreNote?.close()
+//            coreNote = nil
+//        }
 
         EditTextView.note = note
 
@@ -210,21 +241,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             view.backgroundColor = UIColor.white
             editArea.backgroundColor = UIColor.white
         } else {
-            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
-            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+            view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
+            editArea.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         }
 
-        if note.type == .PlainText {
-            let foregroundColor = NightNight.theme == .night ? UIColor.white : UIColor.black
-
-            if let font = UserDefaultsManagement.noteFont {
-                editArea.attributedText = NSAttributedString(string: note.content.string, attributes: [
-                        .foregroundColor: foregroundColor,
-                        .font: font
-                    ]
-                )
-            }
-        } else if note.isMarkdown() {
+        if note.isMarkdown() {
             EditTextView.shouldForceRescan = true
 
             if let content = note.content.mutableCopy() as? NSMutableAttributedString {
@@ -287,14 +308,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func configureToolbar() {
         guard let note = self.note else { return }
 
-        if note.type == .PlainText {
-            if self.toolbar != .plain {
-                self.toolbar = .plain
-                self.addToolBar(textField: editArea, toolbar: self.getPlainTextToolbar())
-            }
-            return
-        }
-
         if note.type == .RichText {
             if self.toolbar != .rich {
                 self.toolbar = .rich
@@ -313,7 +326,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
     
-    func refill() {
+    @objc func refill() {
         guard let editArea = editArea else { return }
 
         initLinksColor()
@@ -379,6 +392,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         } else {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.alignment = .left
+            paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
             editArea.typingAttributes[.paragraphStyle] = paragraphStyle
         }
 
@@ -419,8 +433,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
                     let vc = UIApplication.getVC()
 
-                    if let projects = vc.sidebarTableView.getSelectedProjects() {
-                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    if let project = vc.searchQuery.project {
+                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
                         self.dropDown.dataSource = tags.filter({ $0.starts(with: text) })
 
                         self.complete(offset: hashRange.location, text: text)
@@ -438,8 +452,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 if (textStorage.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
 
                     let vc = UIApplication.getVC()
-                    if let projects = vc.sidebarTableView.getSelectedProjects() {
-                        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                    if let project = vc.searchQuery.project {
+                        let tags = vc.sidebarTableView.getAllTags(projects: [project])
 
                         if let word = word {
                             self.dropDown.dataSource = tags.filter({ $0.starts(with: word + text) })
@@ -456,8 +470,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             if text == "#" {
                 let vc = UIApplication.getVC()
 
-                if let projects = vc.sidebarTableView.getSelectedProjects() {
-                    let tags = vc.sidebarTableView.getAllTags(projects: projects)
+                if let project = vc.searchQuery.project {
+                    let tags = vc.sidebarTableView.getAllTags(projects: [project])
                     self.dropDown.dataSource = tags
                     self.complete(offset: self.editArea.selectedRange.location)
                 }
@@ -583,7 +597,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
         dropDown.cellHeight = 35
         dropDown.textFont = UIFont.boldSystemFont(ofSize: 15)
-        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        dropDown.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         dropDown.textColor = NightNight.theme == .night ? UIColor.white : UIColor.gray
         dropDown.anchorView = customView
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -622,13 +636,16 @@ class EditorViewController: UIViewController, UITextViewDelegate {
 
     @objc public func scanTags() {
         guard UserDefaultsManagement.inlineTags else { return }
-
         guard let note = EditTextView.note else { return }
-        let vc = UIApplication.getVC()
 
-        let result = note.scanContentTags()
-        if result.0.count > 0 || result.1.count > 0 {
-            vc.sidebarTableView.loadAllTags()
+        UIApplication.getVC().sidebarTableView.loadTags(notes: [note])
+
+        if UserDefaultsManagement.naming == .autoRename {
+            let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+
+            if note.fileName != title {
+                UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
+            }
         }
     }
 
@@ -704,7 +721,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     private func getDefaultFont() -> UIFont {
         var font = UserDefaultsManagement.noteFont!
 
-        if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+        if UserDefaultsManagement.dynamicTypeFont {
             let fontMetrics = UIFontMetrics(forTextStyle: .body)
             font = fontMetrics.scaledFont(for: font)
         }
@@ -753,7 +770,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let storage = editArea.textStorage
         let processor = NotesTextProcessor(note: note, storage: storage, range: range)
         
-        if note.type == .PlainText || note.type == .RichText {
+        if note.type == .RichText {
             processor.higlightLinks()
         }
 
@@ -767,6 +784,15 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             guard let self = self else {return}
 
             if let text = text {
+
+                if note.isEncrypted() && !note.isUnlocked() {
+                    DispatchQueue.main.async {
+                        self.cancel()
+                    }
+
+                    return
+                }
+
                 note.save(attributed: text)
                 note.invalidateCache()
                 note.loadPreviewInfo()
@@ -777,7 +803,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 self.rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.updateCurrentRow), userInfo: nil, repeats: false)
 
                 self.tagsTimer?.invalidate()
-                self.tagsTimer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
+                self.tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
             }
         }
         self.storageQueue.addOperation(operation)
@@ -795,7 +821,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.metadataQuery.enableUpdates()
-        vc.notesTable.moveRowUp(note: note)
     }
 
     @objc private func updateCurrentRow() {
@@ -804,9 +829,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             let note = self.note
         else { return }
 
-        vc.notesTable.beginUpdates()
-        vc.notesTable.reloadRow(note: note)
-        vc.notesTable.endUpdates()
+        vc.notesTable.moveRowUp(note: note)
     }
     
     func getSearchText() -> String {
@@ -820,10 +843,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            //bvc.disableSwipe()
-        }
-
         guard let userInfo = notification.userInfo else { return }
         guard var keyboardFrame: CGRect = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
 
@@ -844,7 +863,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         self.editArea.scrollIndicatorInsets = contentInsets
 
         guard let note = self.note else { return }
-        note.setLastSelectedRange(value: editArea.selectedRange)
+
+        if let last = note.getLastSelectedRange() {
+            editArea.selectedRange = last
+        }
 
         restoreContentOffset()
     }
@@ -854,10 +876,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
-
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            //bvc.enableSwipe()
-        }
     }
 
     public func resetToolbar() {
@@ -974,7 +992,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let width = self.editArea.superview!.frame.width
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
 
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xe9e9e9, night: 0x47444e)
+        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
 
         let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
@@ -995,26 +1013,6 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         return toolBar
     }
 
-    private func getPlainTextToolbar() -> UIToolbar {
-        let width = self.editArea.superview!.frame.width
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 44))
-
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xfafafa, night: 0x47444e)
-        toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-
-        let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
-        let redoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "redo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.redoPressed))
-
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-
-        toolBar.setItems([spaceButton, undoButton, redoButton], animated: false)
-
-        toolBar.isUserInteractionEnabled = true
-        toolBar.sizeToFit()
-
-        return toolBar
-    }
-    
     @objc func boldPressed(){
         if let note = note {
             let formatter = TextFormatter(textView: editArea, note: note)
@@ -1028,8 +1026,8 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let location = editArea.selectedRange.location
 
         let vc = UIApplication.getVC()
-        guard let projects = vc.sidebarTableView.getSelectedProjects() else { return }
-        let tags = vc.sidebarTableView.getAllTags(projects: projects)
+        guard let project = vc.searchQuery.project else { return }
+        let tags = vc.sidebarTableView.getAllTags(projects: [project])
         self.dropDown.dataSource = tags
 
         self.complete(offset: location)
@@ -1164,7 +1162,11 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else if let fileData = info?["PHImageFileDataKey"] as? Data {
-                            if imageExt == "heic" {
+
+                            let format = ImageFormat.get(from: fileData)
+
+                            print(format)
+                            if format == .heic {
                                 data = UIImage(data: fileData)?.jpegData(compressionQuality: 1)
                                 imageExt = "jpg"
                             } else {
@@ -1338,6 +1340,14 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                 return
             }
 
+//            if path.starts(with: "fsnotes://open/?tag=") {
+//                if let url = URL(string: path) {
+//                    UIApplication.shared.open(url, options: [:])
+//                }
+//
+//                return
+//            }
+
             if self.editArea.isFirstResponder {
                 DispatchQueue.main.async {
                     self.editArea.selectedRange = NSRange(location: characterIndex, length: 0)
@@ -1378,7 +1388,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             pc.containerController.selectController(atIndex: 0, animated: true)
 
             vc.search.text = query
-            vc.updateTable(search: true) {
+            vc.reloadNotesTable(with: SearchQuery(filter: query)) {
                 if vc.searchView.isHidden {
                     vc.searchView.isHidden = false
                 }
@@ -1480,6 +1490,17 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             return false
         }
 
+        if URL.absoluteString.starts(with: "fsnotes://open/?tag=") {
+            if interaction == .invokeDefaultAction {
+                UIApplication.shared.open(URL, options: [:])
+            }
+//            if textView.isFirstResponder {
+//                UIApplication.shared.open(URL, options: [:])
+//            }
+
+            return false
+        }
+
         if textView.isFirstResponder {
             DispatchQueue.main.async {
                 textView.selectedRange = NSRange(location: characterRange.upperBound, length: 0)
@@ -1517,12 +1538,10 @@ class EditorViewController: UIViewController, UITextViewDelegate {
     }
 
     private func restoreContentOffset() {
-        DispatchQueue.main.async {
-           if let co = self.editArea.lastContentOffset {
-               self.editArea.lastContentOffset = nil
-               self.editArea.setContentOffset(co, animated: false)
-           }
-        }
+        if let co = self.editArea.lastContentOffset {
+           self.editArea.lastContentOffset = nil
+           self.editArea.setContentOffset(co, animated: false)
+       }
     }
 
     public func saveContentOffset() {

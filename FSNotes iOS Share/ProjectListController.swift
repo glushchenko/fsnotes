@@ -10,14 +10,16 @@ import UIKit
 
 class ProjectListController: UITableViewController {
     public weak var delegate: ShareViewController?
-    private var projects = [Project]()
+    public var projects = [Project]()
 
     override func viewDidLoad() {
         //title = "Append to"
     }
 
     public func setProjects(projects: [Project]) {
-        self.projects = projects
+        self.projects = projects.sorted(by: {
+            return $0.label < $1.label
+        })
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -37,7 +39,7 @@ class ProjectListController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
-            UserDefaultsManagement.lastProject = indexPath.row
+            UserDefaultsManagement.lastSelectedURL = projects[indexPath.row].url
 
             cell.accessoryType = .checkmark
 

@@ -17,7 +17,7 @@ class DefaultContainerViewController: UITableViewController {
         navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         super.viewDidLoad()
 
@@ -39,7 +39,7 @@ class DefaultContainerViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         guard let label = cell.textLabel else { return }
         guard let text = label.text else { return }

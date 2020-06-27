@@ -70,24 +70,6 @@ public extension String {
         return UUID(uuidString: self) != nil
     }
 
-    func escapePlus() -> String {
-        return self.replacingOccurrences(of: "+", with: "%20")
-    }
-
-    func matchingStrings(regex: String) -> [[String]] {
-        guard let regex = try? NSRegularExpression(pattern: regex, options: [.dotMatchesLineSeparators]) else { return [] }
-
-        let nsString = self as NSString
-        let results  = regex.matches(in: self, options: [], range: NSRange(0..<nsString.length))
-        return results.map { result in
-            (0..<result.numberOfRanges).map {
-                result.range(at: $0).location != NSNotFound
-                    ? nsString.substring(with: result.range(at: $0))
-                    : ""
-            }
-        }
-    }
-
     var md5: String {
         let data = Data(self.utf8)
         let hash = data.withUnsafeBytes { (bytes: UnsafeRawBufferPointer) -> [UInt8] in
@@ -115,6 +97,33 @@ public extension String {
     var isContainsLetters: Bool {
         let letters = CharacterSet.letters
         return self.rangeOfCharacter(from: letters) != nil
+    }
+
+    var withoutSpecialCharacters: String {
+        return self.components(separatedBy: CharacterSet.alphanumerics.inverted).joined(separator: " ")
+                .condenseWhitespace()
+    }
+
+    func escapePlus() -> String {
+        return self.replacingOccurrences(of: "+", with: "%20")
+    }
+
+    func matchingStrings(regex: String) -> [[String]] {
+        guard let regex = try? NSRegularExpression(pattern: regex, options: [.dotMatchesLineSeparators]) else { return [] }
+
+        let nsString = self as NSString
+        let results  = regex.matches(in: self, options: [], range: NSRange(0..<nsString.length))
+        return results.map { result in
+            (0..<result.numberOfRanges).map {
+                result.range(at: $0).location != NSNotFound
+                    ? nsString.substring(with: result.range(at: $0))
+                    : ""
+            }
+        }
+    }
+
+    func trunc(length: Int) -> String {
+        return (self.count > length) ? String(self.prefix(length)) : self
     }
 }
 

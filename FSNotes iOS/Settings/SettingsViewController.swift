@@ -24,37 +24,34 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
     var rows = [
         [
-            NSLocalizedString("Default Extension", comment: "Settings"),
-            NSLocalizedString("Default Container", comment: "Settings"),
-            NSLocalizedString("Default Keyboard In Editor", comment: "Settings")
-        ],
-        [
+            NSLocalizedString("Extension", comment: "Settings"),
+            NSLocalizedString("Container", comment: "Settings"),
+            NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
+            NSLocalizedString("Files Naming", comment: "Settings")
+        ], [
             NSLocalizedString("Code block live highlighting", comment: "Settings"),
             NSLocalizedString("Live images preview", comment: "Settings"),
             NSLocalizedString("Use inline tags", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
             NSLocalizedString("Font size", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Font", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Projects", comment: "Settings"),
             NSLocalizedString("Import notes", comment: "Settings")
-        ],
-        [
+        ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
             NSLocalizedString("Twitter", comment: "Settings")
         ]
     ]
 
-    var rowsInSection = [3, 5, 2, 2, 3]
+    var rowsInSection = [4, 5, 2, 2, 3]
     private var prevCount = 0
         
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
         
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
@@ -85,23 +82,29 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let uiSwitch = UISwitch()
+        uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
+
         let cell = UITableViewCell()
-        
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
-        
+
         if indexPath.section == 0x00 {
             switch indexPath.row {
             case 0:
                 cell.accessoryType = .disclosureIndicator
             case 1:
+                cell.accessoryType = .disclosureIndicator
+            case 2:
+                cell.accessoryType = .disclosureIndicator
+            case 3:
                 cell.accessoryType = .disclosureIndicator
             default:
                 return cell
@@ -111,13 +114,17 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.accessoryType = UserDefaultsManagement.codeBlockHighlight ? .checkmark : .none
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
             case 1:
-                cell.accessoryType = UserDefaultsManagement.liveImagesPreview ? .checkmark : .none
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
             case 2:
-                cell.accessoryType = UserDefaultsManagement.inlineTags ? .checkmark : .none
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.inlineTags
             case 3:
-                cell.accessoryType = UserDefaultsManagement.dynamicTypeFont ? .checkmark : .none
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.dynamicTypeFont
             case 4:
                 if UserDefaultsManagement.dynamicTypeFont {
                     cell.isHidden = true
@@ -178,6 +185,54 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
         return cell
     }
+
+    @objc public func switchValueDidChange(_ sender: UISwitch) {
+        guard let cell = sender.superview as? UITableViewCell,
+            let tableView = cell.superview as? UITableView,
+            let indexPath = tableView.indexPath(for: cell) else { return }
+
+        if indexPath.section == 0x01 {
+            switch indexPath.row {
+            case 0:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
+            case 1:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
+            case 2:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.inlineTags = uiSwitch.isOn
+
+                let vc = UIApplication.getVC()
+                if UserDefaultsManagement.inlineTags {
+                    vc.sidebarTableView.loadAllTags()
+                } else {
+                    vc.sidebarTableView.unloadAllTags()
+                }
+
+                vc.resizeSidebar(withAnimation: true)
+
+                UIApplication.getEVC().resetToolbar()
+            case 3:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.dynamicTypeFont = uiSwitch.isOn
+
+                if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 4, section: 1)) {
+                    dynamicCell.isHidden = uiSwitch.isOn
+                }
+
+                tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .automatic)
+
+                noteTableUpdater.invalidate()
+                noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
+                return
+            case 4:
+                return
+            default:
+                return
+            }
+        }
+    }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var lvc: UIViewController?
@@ -190,53 +245,15 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 lvc = DefaultContainerViewController()
             case 2:
                 lvc = LanguageViewController()
+            case 3:
+                lvc = NamingViewController()
             default:
                 return
             }
         }
-        
+
         if indexPath.section == 0x01 {
-            if let cell = tableView.cellForRow(at: indexPath) {
-                if cell.accessoryType == .none {
-                    cell.accessoryType = .checkmark
-                } else {
-                    cell.accessoryType = .none
-                }
-
-                switch indexPath.row {
-                case 0:
-                    UserDefaultsManagement.codeBlockHighlight = (cell.accessoryType == .checkmark)
-                case 1:
-                    UserDefaultsManagement.liveImagesPreview = (cell.accessoryType == .checkmark)
-                case 2:
-                    UserDefaultsManagement.inlineTags = (cell.accessoryType == .checkmark)
-
-                    let vc = UIApplication.getVC()
-                    if UserDefaultsManagement.inlineTags {
-                        vc.sidebarTableView.loadAllTags()
-                    } else {
-                        vc.reloadSidebar()
-                    }
-
-                    UIApplication.getEVC().resetToolbar()
-                case 3:
-                    UserDefaultsManagement.dynamicTypeFont = (cell.accessoryType == .checkmark)
-
-                    if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 4, section: 1)) {
-                        dynamicCell.isHidden = cell.accessoryType == .checkmark
-                    }
-
-                    tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .automatic)
-
-                    noteTableUpdater.invalidate()
-                    noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
-                    return
-                case 4:
-                    return
-                default:
-                    return
-                }
-            }
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         
         if indexPath.section == 0x02 {
@@ -287,8 +304,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             if let url = url {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
-
-            tableView.deselectRow(at: indexPath, animated: false)
         }
         
         if let controller = lvc {
@@ -381,12 +396,13 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
             DispatchQueue.global().async {
                 let helper = DayOneImportHelper(url: url, storage: storage)
-                let project = helper.check()
+                guard let project = helper.check() else { return }
 
                 DispatchQueue.main.async {
                     self.view.isUserInteractionEnabled = true
 
-                    viewController.reloadSidebar(select: project)
+                    viewController.sidebarTableView.insertRows(projects: [project])
+                    viewController.sidebarTableView.select(project: project)
                     viewController.stopAnimation(indicator: indicator)
 
                     self.done()

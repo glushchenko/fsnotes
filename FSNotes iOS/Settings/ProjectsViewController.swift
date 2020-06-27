@@ -28,7 +28,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
@@ -81,7 +81,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
     }
 
@@ -92,7 +92,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let project = self.projects[indexPath.row]
 
-        if project.isRoot && project.isDefault {
+        if project.isDefault {
             return nil
         }
 
@@ -133,7 +133,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            guard let newDir = UserDefaultsManagement.storageUrl?.appendingPathComponent(name) else { return }
+            guard let newDir = UserDefaultsManagement.storageUrl?.appendingPathComponent(name, isDirectory: true) else { return }
 
             do {
                 try FileManager.default.createDirectory(at: newDir, withIntermediateDirectories: false, attributes: nil)
@@ -142,15 +142,23 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
                 return
             }
 
-            let project = Project(url: newDir, label: name, isTrash: false, isRoot: false, parent: self.projects.first!, isDefault: false, isArchive: false)
+            let storage = Storage.shared()
+            let project = Project(
+                storage: storage,
+                url: newDir,
+                label: name,
+                isTrash: false,
+                isRoot: false,
+                parent: self.projects.first!,
+                isDefault: false,
+                isArchive: false
+            )
 
-            self.projects.append(project)
+            storage.assignTree(for: project)
             self.tableView.reloadData()
 
-            Storage.sharedInstance().assignTree(for: project)
-
             if let mvc = self.getMainVC() {
-                mvc.sidebarTableView.reloadProjectsSection()
+                mvc.sidebarTableView.insertRows(projects: [project])
             }
         }
 
@@ -213,9 +221,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         self.tableView.reloadData()
         Storage.sharedInstance().removeBy(project: project)
 
-        if let mvc = self.getMainVC() {
-            mvc.updateTable {
-                mvc.sidebarTableView.reloadProjectsSection()
+        if let vc = self.getMainVC() {
+            vc.reloadNotesTable() {
+                vc.sidebarTableView.removeRows(projects: [project])
             }
         }
     }
@@ -234,13 +242,21 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             SandboxBookmark.sharedInstance().save(data: bookmarkData)
 
             let storage = Storage.sharedInstance()
-            let project = Project(url: url, label: url.lastPathComponent, isTrash: false, isRoot: true, isDefault: false, isArchive: false, isExternal: true)
+            let project = Project(
+                storage: storage,
+                url: url,
+                label: url.lastPathComponent,
+                isTrash: false,
+                isRoot: true,
+                isDefault: false,
+                isArchive: false,
+                isExternal: true
+            )
 
             storage.assignTree(for: project)
             storage.loadLabel(project, loadContent: true)
 
-            let vc = UIApplication.getVC()
-            vc.sidebarTableView.reloadProjectsSection()
+            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
 
             self.projects.append(project)
             self.tableView.reloadData()

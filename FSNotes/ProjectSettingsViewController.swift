@@ -32,7 +32,7 @@ class ProjectSettingsViewController: NSViewController {
             project.sortBy = sortBy
         }
 
-        project.sortBySettings = sortBy
+        project.sortBy = sortBy
         project.saveSettings()
 
         guard let vc = ViewController.shared() else { return }
@@ -42,12 +42,7 @@ class ProjectSettingsViewController: NSViewController {
     @IBAction func sortDirection(_ sender: NSButton) {
         guard let project = project else { return }
 
-        let direction = SortDirection(rawValue: sender.identifier!.rawValue)!
-        if project.sortBySettings != .none {
-            project.sortDirection = direction
-        }
-
-        project.sortDirectionSettings = direction
+        project.sortDirection = SortDirection(rawValue: sender.identifier!.rawValue)!
         project.saveSettings()
 
         guard let vc = ViewController.shared() else { return }
@@ -89,13 +84,13 @@ class ProjectSettingsViewController: NSViewController {
         showInAll.state = project.showInCommon ? .on : .off
         firstLineAsTitle.state = project.firstLineAsTitle ? .on : .off
 
-        modificationDate.state = project.sortBySettings == .modificationDate ? .on : .off
-        creationDate.state = project.sortBySettings == .creationDate ? .on : .off
-        titleButton.state = project.sortBySettings == .title ? .on : .off
-        sortByGlobal.state = project.sortBySettings == .none ? .on : .off
+        modificationDate.state = project.sortBy == .modificationDate ? .on : .off
+        creationDate.state = project.sortBy == .creationDate ? .on : .off
+        titleButton.state = project.sortBy == .title ? .on : .off
+        sortByGlobal.state = project.sortBy == .none ? .on : .off
 
-        directionASC.state = project.sortDirectionSettings == .asc ? .on : .off
-        directionDESC.state = project.sortDirectionSettings == .desc ? .on : .off
+        directionASC.state = project.sortDirection == .asc ? .on : .off
+        directionDESC.state = project.sortDirection == .desc ? .on : .off
 
         self.project = project
     }

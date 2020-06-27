@@ -1,5 +1,7 @@
 # Hello, folks!
 
+![](assets/128.png)
+
 FSNotes is **modern** notes manager for macOS and iOS.
 
 This app respects open formats like _Markdown_ and _GitHub Flavored Markdown_, so you can easily write documents on iPhone and MacBook.
@@ -17,7 +19,7 @@ echo "Hello world"!
 
 ## Images
 
-![](assets/c0518d84-5b7a-4ebb-a024-245f113d9c80.jpeg)
+
 
 Lists, numbered lists and todo:
 
@@ -61,15 +63,8 @@ Personally i recommend TextBundle containers , FSNotes implements it fully, so g
 
 You can read spec here: http://textbundle.org/
 
-## Preview mode
-
-FSNotes 4.0 adds new preview mode, that always on. In preview mode you can double tap for edit note or click appropriate icon in navigation bar.
-
-## Handoff
-
-This is a new feature that i use regularly on iOS and macOS. I think more info you can read on official site https://support.apple.com/en-us/HT209455
+## Author
 
 Thanks for choosing FSNotes. 
 
-—
-Oleksandr H. | <support@fsnot.es>
+— Oleksandr | <support@fsnot.es>

@@ -23,7 +23,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         self.navigationItem.rightBarButtonItem = getEditButton()
 
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x2e2c32)
+        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
         super.viewDidLoad()
 
@@ -74,10 +74,9 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         bvc.containerController.selectController(atIndex: 1, animated: false)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-            if evc.editArea != nil {
-                evc.editArea.becomeFirstResponder()
-            }
+        if evc.editArea != nil {
+            evc.editArea.keyboardAppearance = NightNight.theme == .night ? .dark : .default
+            evc.editArea.becomeFirstResponder()
         }
 
         UserDefaultsManagement.previewMode = false
@@ -89,6 +88,8 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc public func returnBack() {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
 
+        guard bvc.containerController.isMoveFinished else { return }
+
         bvc.containerController.selectController(atIndex: 0, animated: true)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -99,13 +100,19 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func rotated() {
         guard isLandscape != nil else {
             isLandscape = UIDevice.current.orientation.isLandscape
+            navigationController?.isNavigationBarHidden = isLandscape!
             return
         }
 
-        if let landscape = self.isLandscape, landscape != UIDevice.current.orientation.isLandscape, !UIDevice.current.orientation.isFlat {
-            isLandscape = UIDevice.current.orientation.isLandscape
+        let isLand = UIDevice.current.orientation.isLandscape
+        if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
+            isLandscape = isLand
+            navigationController?.isNavigationBarHidden = isLand
+
             removeMPreviewView()
             loadPreview(force: true)
+        } else {
+            navigationController?.isNavigationBarHidden = false
         }
     }
 
@@ -128,9 +135,14 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             }
         }
 
-        let downView = MPreviewView(frame: self.view.frame, note: note, closure: {})
-        downView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(downView)
+        let mPreview = MPreviewView(frame: self.view.frame, note: note, closure: {})
+        mPreview.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(mPreview)
+        
+        mPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        mPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
+        mPreview.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        mPreview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
 
     @objc func clickOnButton() {
@@ -160,6 +172,8 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
                 sub.removeFromSuperview()
             }
         }
+
+        view.removeConstraints(view.constraints)
     }
 
     public func clear() {

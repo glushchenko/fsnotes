@@ -13,8 +13,8 @@
 /* Class = "UILabel"; text = "Dynamic Font"; ObjectID = "7Tm-WO-XkG"; */
 "7Tm-WO-XkG.text" = "Dynamic Font";
 
-/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
-"8VE-HM-shO.text" = "Вхідні ✦";
+/* Class = "UILabel"; text = "Inbox ▽"; ObjectID = "8VE-HM-shO"; */
+"8VE-HM-shO.text" = "Вхідні ▽";
 
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
 "AbV-ot-mEE.text" = "Date";
@@ -27,9 +27,6 @@
 
 /* Class = "UILabel"; text = "Use inline tags"; ObjectID = "dpk-uD-cgC"; */
 "dpk-uD-cgC.text" = "Use inline tags";
-
-/* Class = "UITextView"; text = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda."; ObjectID = "ecm-ZU-dhM"; */
-"ecm-ZU-dhM.text" = "Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.";
 
 /* Class = "UITableViewSection"; headerTitle = "View"; ObjectID = "GE7-pW-Nf1"; */
 "GE7-pW-Nf1.headerTitle" = "View";

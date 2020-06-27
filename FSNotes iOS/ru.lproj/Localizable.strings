@@ -8,6 +8,9 @@
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Автоматически от яркости экрана";
 
+/* Naming controller */
+"Auto rename by title" = "Автоматически по заголовку";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Уровеньб яркости";
 
@@ -23,8 +26,17 @@
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Совместимо с DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
 
+/* Settings */
+"Container" = "Контейнер";
+
 /* No comment provided by engineer. */
 "Copy plain text" = "Скопировать текст";
+
+/* Main view popover table */
+"Create folder" = "Создать папку";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Создать папку:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Дате создания";
@@ -38,7 +50,7 @@
 /* Settings */
 "Default Keyboard In Editor" = "Клавиатура в редакторе";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Delete" = "Удалить";
 
 /* No comment provided by engineer. */
@@ -57,10 +69,25 @@
 "Enabled" = "Включен";
 
 /* No comment provided by engineer. */
+"Enter folder name" = "Введите название папки";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Введите пароль";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Введите название тега";
+
+/* No comment provided by engineer. */
 "Enter note name" = "Введите название заметки";
+
+/* Settings */
+"Extension" = "Формат файла";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Файл с таким именем уже существует";
+
+/* Settings */
+"Files Naming" = "Именование файлов";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Название папки:";
@@ -83,7 +110,8 @@
 /* Settings */
 "Homepage" = "Домашняя страница";
 
-/* Settings */
+/* Main view popover table
+   Settings */
 "Import notes" = "Импортировать";
 
 /* Inbox in sidebar */
@@ -101,14 +129,17 @@
 /* No comment provided by engineer. */
 "Modification date" = "Дате модификации";
 
+/* Table row action */
+"More" = "Ещё";
+
 /* Move view */
 "Move" = "Переместить";
 
+/* Shortcuts */
+"New document" = "Новый документ";
+
 /* Settings */
 "Night Mode" = "Ночной режим";
-
-/* No comment provided by engineer. */
-"Note with this name already exist" = "Заметка с таким именем уже существует";
 
 /* Notes in sidebar
    Sidebar label */
@@ -117,7 +148,7 @@
 /* No comment provided by engineer. */
 "Notes list" = "Список заметок";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Pin" = "Прикрепить";
 
 /* No comment provided by engineer. */
@@ -135,11 +166,35 @@
 /* Settings */
 "Projects" = "Проекты";
 
+/* Main view popover table */
+"Remove folder" = "Удалить папку";
+
+/* Main view popover table */
+"Remove tag" = "Удалить тег";
+
 /* No comment provided by engineer. */
 "Rename" = "Переименовать";
 
+/* Main view popover table */
+"Rename folder" = "Переименовать папку";
+
+/* Popover table */
+"Rename folder:" = "Удалить папку:";
+
 /* No comment provided by engineer. */
 "Rename note:" = "Переименовать заметку:";
+
+/* Main view popover table */
+"Rename tag" = "Переименовать тег";
+
+/* Popover table */
+"Rename tag:" = "Переименовать тег:";
+
+/* Shortcuts */
+"Save clipboard" = "Сохранить из буфера";
+
+/* Shortcuts */
+"Search" = "Поиск";
 
 /* Sidebar settings */
 "Settings" = "Наcтройки";
@@ -164,12 +219,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Система";
-
-/* No comment provided by engineer. */
-"Tag name:" = "Название тега:";
-
-/* No comment provided by engineer. */
-"Tag with this name already exist" = "Тег с таким названием уже существует";
 
 /* Sidebar label */
 "Tags" = "Теги";
@@ -196,7 +245,7 @@
 /* Settings */
 "UI" = "Интерфейс";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "UnPin" = "Открепить";
 
 /* No comment provided by engineer. */
@@ -208,11 +257,9 @@
 /* Settings */
 "Version" = "Версия";
 
-/* No comment provided by engineer. */
+/* Main view popover table */
 "View settings" = "Настройки";
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимость";
-
-"More" = "Ещё";
 

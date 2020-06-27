@@ -25,6 +25,8 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
 	<key>CFBundleIcons</key>
 	<dict/>
 	<key>CFBundleIcons~ipad</key>
@@ -97,6 +99,8 @@
 	<string>Note encryption and decryption with FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Requested when photo attached</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Needs permission to write images in photos app</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Needs for attach images in notes</string>
 	<key>NSUbiquitousContainers</key>

@@ -39,10 +39,6 @@ class NotesTableView: UITableView,
         if notes.indices.contains(indexPath.row) {
             let note = notes[indexPath.row]
 
-            if !note.isLoaded && !note.isLoadedFromCache {
-                note.load()
-            }
-
             if let urls = note.imageUrl, urls.count > 0 {
                 if note.preview.count == 0 {
                     if note.getTitle() != nil {
@@ -71,6 +67,11 @@ class NotesTableView: UITableView,
         guard self.notes.indices.contains(indexPath.row) else { return cell }
 
         let note = self.notes[indexPath.row]
+
+        if !note.isLoaded && !note.isLoadedFromCache {
+            note.load()
+        }
+        
         cell.configure(note: note)
         cell.selectionStyle = .gray
 
@@ -93,15 +94,9 @@ class NotesTableView: UITableView,
             self.selectedIndexPaths = self.indexPathsForSelectedRows
         }
 
-        guard !self.isEditing else { return }
+        guard !self.isEditing, notes.indices.contains(indexPath.row) else { return }
 
         let note = notes[indexPath.row]
-
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            self.deselectRow(at: indexPath, animated: true)
-            return
-        }
-
         let evc = UIApplication.getEVC()
 
         if let editArea = evc.editArea, let u = editArea.undoManager {
@@ -121,24 +116,31 @@ class NotesTableView: UITableView,
                     self.reloadRow(note: note)
                     NotesTextProcessor.highlight(note: note)
 
-                    evc.fill(note: note, clearPreview: true) {
-                        bvc.containerController.selectController(atIndex: index, animated: true)
-
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.deselectRow(at: indexPath, animated: true)
-                        }
-                    }
+                    self.fill(note: note, indexPath: indexPath, index: index)
                 }
             })
             
             return
         }
 
+        fill(note: note, indexPath: indexPath, index: index)
+    }
+
+    private func fill(note: Note, indexPath: IndexPath, index: Int) {
+        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+            return
+        }
+
+        let evc = UIApplication.getEVC()
+        bvc.containerController.isEnabledInteractive = false
+
         evc.fill(note: note, clearPreview: true) {
             bvc.containerController.selectController(atIndex: index, animated: true)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
+                bvc.containerController.isEnabledInteractive = true
+
             }
         }
     }
@@ -155,21 +157,21 @@ class NotesTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard let storage = viewDelegate?.storage, UIApplication.getVC().sidebarTableView.frame.width == 0
+        guard let vc = viewDelegate,
+            !UserDefaultsManagement.sidebarIsOpened,
+            orientation == .right
         else { return nil }
 
-        guard orientation == .right else { return nil }
         let note = self.notes[indexPath.row]
 
         let deleteTitle = NSLocalizedString("Delete", comment: "Table row action")
         let deleteAction = SwipeAction(style: .destructive, title: deleteTitle) { action, indexPath in
+            self.viewDelegate?.sidebarTableView.removeTags(in: [note])
             note.remove()
-
-            self.viewDelegate?.sidebarTableView.loadAllTags()
             self.removeRows(notes: [note])
 
             if note.isEmpty() {
-                storage.removeBy(note: note)
+                vc.storage.removeBy(note: note)
             }
         }
         deleteAction.image = UIImage(named: "basket")?.resize(maxWidthHeight: 32)
@@ -185,7 +187,7 @@ class NotesTableView: UITableView,
             cell.configure(note: note)
 
             let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
+            let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter)
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
             let newIndexPath = IndexPath(row: newIndex, section: 0)
@@ -208,57 +210,21 @@ class NotesTableView: UITableView,
         return [moreAction, pinAction, deleteAction]
     }
 
-    /*
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-
-
-
-        let deleteAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Delete", comment: ""), handler: { (action , indexPath) -> Void in
-
-        })
-        deleteAction.backgroundColor = UIColor(red:0.93, green:0.31, blue:0.43, alpha:1.0)
-
-        let note = self.notes[indexPath.row]
-        let title = note.isPinned
-            ? NSLocalizedString("UnPin", comment: "")
-            : NSLocalizedString("Pin", comment: "")
-
-        let pin = UITableViewRowAction(style: .default, title: title, handler: { (action , indexPath) -> Void in
-            
-            guard let cell = self.cellForRow(at: indexPath) as? NoteCellView else { return }
-
-            note.togglePin()
-            cell.configure(note: note)
-
-            let filter = self.viewDelegate?.search.text ?? ""
-            let resorted = storage.sortNotes(noteList: self.notes, filter: filter)
-            guard let newIndex = resorted.firstIndex(of: note) else { return }
-
-            let newIndexPath = IndexPath(row: newIndex, section: 0)
-            self.moveRow(at: indexPath, to: newIndexPath)
-            self.notes = resorted
-
-            self.reloadRows(at: [newIndexPath], with: .automatic)
-            self.reloadRows(at: [indexPath], with: .automatic)
-        })
-        pin.backgroundColor = UIColor(red:0.24, green:0.59, blue:0.94, alpha:1.0)
-
-        let more = UITableViewRowAction(style: .default, title: "...", handler: { (action , indexPath) -> Void in
-            self.actionsSheet(notes: [note], showAll: true, presentController: self.viewDelegate!)
-        })
-        more.backgroundColor = UIColor(red:0.13, green:0.69, blue:0.58, alpha:1.0)
-
-
-        return [more, pin, deleteAction]
-    }
- */
-
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x2e2c32)
+        cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
 
         let frame = tableView.rectForRow(at: indexPath)
         self.cellHeights[indexPath] = frame.size.height
+    }
+
+    public func turnOffEditing() {
+        if self.isEditing {
+            self.toggleSelectAll()
+
+            self.allowsMultipleSelectionDuringEditing = false
+            self.setEditing(false, animated: true)
+        }
     }
 
     public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController) {
@@ -272,32 +238,19 @@ class NotesTableView: UITableView,
             actionSheet.addAction(rename)
         } else {
             let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default, handler: { _ in
+                self.turnOffEditing()
                 self.removeAction(notes: notes, presentController: presentController)
             })
             actionSheet.addAction(remove)
         }
 
         let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
-            if self.isEditing {
-                self.allowsMultipleSelectionDuringEditing = false
-                self.setEditing(false, animated: true)
-            }
-
+            self.turnOffEditing()
             self.moveAction(notes: notes, presentController: presentController)
         })
         actionSheet.addAction(move)
 
-        if !UserDefaultsManagement.inlineTags {
-            let tags = UIAlertAction(title: NSLocalizedString("Tags", comment: ""), style: .default, handler: { _ in
-                if self.isEditing {
-                    self.allowsMultipleSelectionDuringEditing = false
-                    self.setEditing(false, animated: true)
-                }
-                
-                self.tagsAction(notes: notes, presentController: presentController)
-            })
-            actionSheet.addAction(tags)
-        }
+        // Old tags system removed
 
         if showAll {
             let encryption = UIAlertAction(title: NSLocalizedString("Lock/unlock", comment: ""), style: .default, handler: { _ in
@@ -340,39 +293,75 @@ class NotesTableView: UITableView,
     }
     
     public func removeRows(notes: [Note]) {
+        guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+
+        var indexPaths = [IndexPath]()
+        var tags = [String]()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexSet = IndexPath(row: i, section: 0)
-                self.notes.remove(at: i)
-                deleteRows(at: [indexSet], with: .automatic)
+                indexPaths.append(IndexPath(row: i, section: 0))
+                tags.append(contentsOf: note.tags)
             }
         }
-        
-        self.viewDelegate?.updateNotesCounter()
+
+        self.notes.removeAll(where: { notes.contains($0) })
+
+        deleteRows(at: indexPaths, with: .automatic)
+        vc.updateNotesCounter()
+
+        vc.sidebarTableView.delete(tags: tags)
     }
 
     public func insertRows(notes: [Note]) {
-        let sidebarItem = viewDelegate?.sidebarTableView.getSidebarItem()
-        let i = self.getInsertPosition()
+        guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
+
+        var toInsert = [Note]()
 
         for note in notes {
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
+            guard
+                vc.isFitInCurrentSearchQuery(note: note),
+                !self.notes.contains(where: {$0 === note})
+            else { continue }
 
-            if !self.notes.contains(where: {$0 === note}) {
-                self.notes.insert(note, at: i)
-                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-            }
+            toInsert.append(note)
         }
+
+        guard toInsert.count > 0 else { return }
+        let nonSorted = self.notes + toInsert
+        let sorted = vc.storage.sortNotes(
+            noteList: nonSorted,
+            project: vc.searchQuery.project
+        )
+
+        var indexPaths = [IndexPath]()
+        for note in toInsert {
+            guard let index = sorted.firstIndex(of: note) else { continue }
+            indexPaths.append(IndexPath(row: index, section: 0))
+        }
+
+        vc.storage.loadPins(notes: notes)
+        self.notes = sorted
+        
+        insertRows(at: indexPaths, with: .fade)
     }
 
     public func reloadRows(notes: [Note]) {
+        var indexPaths = [IndexPath]()
         for note in notes {
-            reloadRow(note: note)
+            if let i = self.notes.firstIndex(where: {$0 === note}) {
+                let indexPath = IndexPath(row: i, section: 0)
+                indexPaths.append(indexPath)
+                
+                if let cell = cellForRow(at: indexPath) as? NoteCellView {
+                    cell.configure(note: note)
+                    cell.updateView()
+                }
+            }
         }
     }
     
     @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
-        guard let storage = viewDelegate?.storage else { return }
+        guard let vc = viewDelegate else { return }
 
         let p = longPressGesture.location(in: self)
         let indexPath = self.indexPathForRow(at: p)
@@ -389,7 +378,9 @@ class NotesTableView: UITableView,
                 }
                 
                 let note = self.notes[row]
-                storage.removeNotes(notes: [note]) {_ in
+                vc.sidebarTableView.removeTags(in: [note])
+
+                vc.storage.removeNotes(notes: [note]) {_ in
                     DispatchQueue.main.async {
                         self.removeRows(notes: [note])
                     }
@@ -400,7 +391,7 @@ class NotesTableView: UITableView,
             alert.addAction(cancel)
             alert.addAction(remove)
             
-            self.viewDelegate?.present(alert, animated: true, completion:nil)
+            vc.present(alert, animated: true, completion:nil)
         }
     }
     
@@ -440,32 +431,7 @@ class NotesTableView: UITableView,
                 return
             }
 
-            guard !note.project.fileExist(fileName: name, ext: note.url.pathExtension) else {
-                let message = NSLocalizedString("Note with this name already exist", comment: "")
-                let alert = UIAlertController(title: "Oops 👮‍♂️", message: message, preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-                presentController.present(alert, animated: true, completion: nil)
-                return
-            }
-
-            let isPinned = note.isPinned
-            let dst = note.getNewURL(name: name)
-
-            note.removePin()
-            if note.move(to: dst) {
-                note.url = dst
-                note.parseURL()
-            }
-
-            if isPinned {
-                note.addPin()
-            }
-
-            self.reloadRow(note: note)
-
-            if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
-                evc.setTitle(text: note.getShortTitle())
-            }
+            self.rename(note: note, to: name, presentController: presentController)
         }
 
         let title = NSLocalizedString("Cancel", comment: "")
@@ -479,28 +445,70 @@ class NotesTableView: UITableView,
         }
     }
 
+    public func rename(note: Note, to name: String, presentController: UIViewController) {
+
+        guard name.count > 0, name.trim().count > 0 else { return }
+
+        var name = name
+        var i = 1
+
+        while note.project.fileExist(fileName: name, ext: note.url.pathExtension) {
+            let items = name.split(separator: " ")
+
+            if let last = items.last, let position = Int(last) {
+                let full = items.dropLast()
+
+                name = full.joined(separator: " ") + " " + String(position + 1)
+
+                i = position + 1
+            } else {
+                name = name + " " + String(i)
+
+                i += 1
+            }
+        }
+
+        let isPinned = note.isPinned
+        let dst = note.getNewURL(name: name)
+
+        note.removePin()
+
+        if note.isEncrypted() {
+            _ = note.lock()
+        }
+
+        if note.move(to: dst) {
+            note.url = dst
+            note.parseURL()
+        }
+
+        if isPinned {
+            note.addPin()
+        }
+
+        self.reloadRow(note: note)
+
+        if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
+            evc.setTitle(text: note.getShortTitle())
+        }
+    }
+
     private func removeAction(notes: [Note], presentController: UIViewController) {
+        guard let vc = viewDelegate else { return }
+
+        vc.sidebarTableView.removeTags(in: notes)
         for note in notes {
             note.remove()
         }
+        removeRows(notes: notes)
 
-        self.removeRows(notes: notes)
-
-        self.allowsMultipleSelectionDuringEditing = false
-        self.setEditing(false, animated: true)
-
-        self.viewDelegate?.sidebarTableView.loadAllTags()
+        allowsMultipleSelectionDuringEditing = false
+        setEditing(false, animated: true)
     }
 
     private func moveAction(notes: [Note], presentController: UIViewController) {
         let moveController = MoveViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController:moveController)
-        presentController.present(controller, animated: true, completion: nil)
-    }
-
-    private func tagsAction(notes: [Note], presentController: UIViewController) {
-        let tagsController = TagsViewController(notes: notes, notesTableView: self)
-        let controller = UINavigationController(rootViewController: tagsController)
         presentController.present(controller, animated: true, completion: nil)
     }
 
@@ -582,54 +590,56 @@ class NotesTableView: UITableView,
     }
 
     public func moveRowUp(note: Note) {
-        if let i = self.notes.firstIndex(where: {$0 === note}) {
-            let position = note.isPinned ? 0 : self.getInsertPosition()
+        guard let vc = viewDelegate,
+            vc.isNoteInsertionAllowed(),
+            vc.isFitInCurrentSearchQuery(note: note),
+            let at = notes.firstIndex(where: {$0 === note})
+        else { return }
 
-            if i == position {
-                return
-            }
+        var to = 0
 
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSidebarItem()
+        if note.project.sortBy == .modificationDate {
+            to = note.isPinned ? 0 : notes.filter({ $0.isPinned }).count
+        } else {
+            let sorted = vc.storage.sortNotes(
+                noteList: notes,
+                project: vc.searchQuery.project
+            )
 
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
-
-            self.notes.remove(at: i)
-            self.notes.insert(note, at: position)
-
-            moveRow(at: IndexPath(item: i, section: 0), to: IndexPath(item: position, section: 0))
-        }
-    }
-
-    public func insertRow(note: Note) {
-        let i = self.getInsertPosition()
-
-        DispatchQueue.main.async {
-            let sidebarItem = self.viewDelegate?.sidebarTableView.getSelectedSidebarItem()
-
-            guard let mainController = self.viewDelegate, mainController.isFit(note: note, sidebarItem: sidebarItem) else { return }
-
-            if !self.notes.contains(where: {$0 === note}) {
-                self.notes.insert(note, at: i)
-                self.insertRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
-            }
-        }
-    }
-
-    private func getInsertPosition() -> Int {
-        var i = 0
-
-        for note in self.notes {
-            if note.isPinned {
-                i += 1
-            }
+            to = sorted.firstIndex(of: note) ?? at
         }
 
-        return i
+        let atIndexPath = IndexPath(row: at, section: 0)
+        let toIndexPath = IndexPath(row: to, section: 0)
+
+        if at != to {
+            let note = notes.remove(at: at)
+            notes.insert(note, at: to)
+            moveRow(at: atIndexPath, to: toIndexPath)
+        }
+
+        reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
+
+        // scroll to hack
+        // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if note.project.sortBy == .modificationDate, let first = self.notes.first {
+                self.scrollTo(note: first)
+            } else {
+                self.scrollTo(note: note)
+            }
+        }
     }
 
     @objc public func toggleSelectAll() {
+        guard let vc = viewDelegate else { return }
         guard self.isEditing else {
-            openPopover()
+            var indexPath: IndexPath?
+            if let tag = vc.searchQuery.tag {
+                indexPath = vc.sidebarTableView.getIndexPathBy(tag: tag)
+            }
+
+            openPopover(indexPath: indexPath)
             return
         }
 
@@ -648,27 +658,61 @@ class NotesTableView: UITableView,
         }
     }
 
-    private func openPopover() {
-        let type = viewDelegate?.sidebarTableView.getSidebarItem()?.type
+    public func openPopover(indexPath: IndexPath? = nil) {
+        guard let vc = viewDelegate else { return }
+        var type = vc.sidebarTableView.getSidebarItem()?.type
 
-        guard type == nil || type == .Category || type == .All || type == .Inbox else { return }
+        if let path = indexPath, path.section == SidebarSection.Tags.rawValue {
+            type = .Tag
+        }
 
-        let vc = FolderPopoverViewControler()
-        let height = Int(vc.tableView.rowHeight) * vc.actions.count
+        guard
+            type == .Category
+            || type == .Inbox
+            || type == .Archive
+            || type == .Trash
+            || type == .Tag
+        else { return }
 
-        vc.preferredContentSize = CGSize(width: 200, height: height)
-        vc.modalPresentationStyle = .popover
-        if let pres = vc.presentationController {
+        let folderVC = FolderPopoverViewControler()
+        var actions = [FolderPopoverActions]()
+
+        switch type {
+        case .Inbox:
+            actions = [.importNote, .settingsFolder, .createFolder]
+        case .Archive:
+            actions = [.importNote, .settingsFolder]
+        case .Trash:
+            actions = [.settingsFolder]
+        case .Category:
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
+        case .Tag:
+            actions = [.removeTag, .renameTag]
+        default: break
+        }
+
+        folderVC.setActions(actions)
+
+        let height = Int(folderVC.tableView.rowHeight) * folderVC.actions.count
+
+        folderVC.preferredContentSize = CGSize(width: 200, height: height)
+        folderVC.modalPresentationStyle = .popover
+        if let pres = folderVC.presentationController {
             pres.delegate = viewDelegate
         }
 
-        viewDelegate?.present(vc, animated: true)
-        if let pop = vc.popoverPresentationController {
-            pop.sourceView = (viewDelegate?.currentFolder!)
-            pop.sourceRect = (viewDelegate?.currentFolder!)!.bounds
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            vc.present(folderVC, animated: true)
+            if let pop = folderVC.popoverPresentationController {
+                pop.sourceView = (vc.currentFolder!)
 
-        AudioServicesPlaySystemSound(1519)
+                var cgRect = (vc.currentFolder).bounds
+                cgRect.origin.y = cgRect.origin.y + 20
+                pop.sourceRect = cgRect
+            }
+
+            AudioServicesPlaySystemSound(1519)
+        }
     }
 
     private func invalidPasswordAlert() {
@@ -683,16 +727,77 @@ class NotesTableView: UITableView,
         bvc.present(alert, animated: true, completion: nil)
     }
 
-    @available(iOS 11.0, *)
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
 
         guard let cell = tableView.cellForRow(at: indexPath) as? NoteCellView,
-            let string = cell.note?.url.path
+            let url = cell.note?.url
         else { return [] }
 
-        guard let data = string.data(using: .utf8) else { return [] }
-        let itemProvider = NSItemProvider(item: data as NSData, typeIdentifier: kUTTypePlainText as String)
+        let itemProvider = NSItemProvider(item: url as NSSecureCoding, typeIdentifier: kUTTypeURL as String)
 
         return [UIDragItem(itemProvider: itemProvider)]
+    }
+
+    public func addPins(notes: [Note]) {
+        guard let vc = viewDelegate else { return }
+        for note in notes {
+            let sorted = vc.storage.sortNotes(
+                noteList: self.notes,
+                project: vc.searchQuery.project
+            )
+
+            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
+
+                let note = self.notes.remove(at: index)
+                self.notes.insert(note, at: toIndex)
+
+                let at = IndexPath(row: index, section: 0)
+                let to = IndexPath(row: toIndex, section: 0)
+
+                moveRow(at: at, to: to)
+
+                let reload = [
+                    IndexPath(row: index, section: 0),
+                    IndexPath(row: toIndex, section: 0)
+                ]
+
+                reloadRows(at: reload, with: .automatic)
+            }
+        }
+    }
+
+    public func removePins(notes: [Note]) {
+        guard let vc = viewDelegate else { return }
+        for note in notes {
+            let sorted = vc.storage.sortNotes(
+                noteList: self.notes,
+                project: vc.searchQuery.project
+            )
+
+            if let index = self.notes.firstIndex(of: note), let toIndex = sorted.firstIndex(of: note) {
+
+                let note = self.notes.remove(at: index)
+                self.notes.insert(note, at: toIndex)
+
+                let at = IndexPath(row: index, section: 0)
+                let to = IndexPath(row: toIndex, section: 0)
+
+                moveRow(at: at, to: to)
+
+                let reload = [
+                    IndexPath(row: index, section: 0),
+                    IndexPath(row: toIndex, section: 0)
+                ]
+
+                reloadRows(at: reload, with: .automatic)
+            }
+        }
+    }
+
+    public func scrollTo(note: Note) {
+        if let index = notes.firstIndex(of: note) {
+            let indexPath = IndexPath(row: index, section: 0)
+            scrollToRow(at: indexPath, at: .top, animated: true)
+        }
     }
 }

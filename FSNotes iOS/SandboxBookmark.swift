@@ -12,7 +12,7 @@ class SandboxBookmark {
     static var instance: SandboxBookmark? = nil
 
     private let bookmarksKey = "SecurityBookmarksKey"
-    private var defaults = UserDefaults.init(suiteName: "group.fsnotes-manager")
+    private var defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults")
     private var bookmarks = [URL: Data]()
 
     public static func sharedInstance() -> SandboxBookmark {
@@ -31,10 +31,9 @@ class SandboxBookmark {
                     var isStale = false
                     let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
 
-                    let resolvedURL = url.resolvingSymlinksInPath()
                     if !isStale {
                         if url.startAccessingSecurityScopedResource() {
-                            self.bookmarks[resolvedURL] = bookmarkData
+                            self.bookmarks[url.standardized] = bookmarkData
                             print("URL loaded from security scope: \(url)")
                         }
                     } else {

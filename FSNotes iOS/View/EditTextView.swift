@@ -45,6 +45,16 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
     }
 
+    override func caretRect(for position: UITextPosition) -> CGRect {
+        var superRect = super.caretRect(for: position)
+        guard let font = self.font else { return superRect }
+
+        // "descender" is expressed as a negative value,
+        // so to add its height you must subtract its value
+        superRect.size.height = font.pointSize - font.descender
+        return superRect
+    }
+
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
         if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)
@@ -80,10 +90,16 @@ class EditTextView: UITextView, UITextViewDelegate {
         }
 
         if self.textStorage.length >= self.selectedRange.upperBound {
-            if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
+            if let rtfd = try? attributedString.data(
+                from: NSMakeRange(0, attributedString.length),
+                documentAttributes: [
+                    NSAttributedString.DocumentAttributeKey.documentType:
+                        NSAttributedString.DocumentType.rtfd
+                ]
+            ) {
+                UIPasteboard.general.setData(rtfd, forPasteboardType: "es.fsnot.attributed.text"
+                )
 
-                UIPasteboard.general.setData(rtfd, forPasteboardType: kUTTypeFlatRTFD as String)
-                
                 if let textRange = getTextRange() {
                     self.replace(textRange, withText: "")
                 }
@@ -107,7 +123,7 @@ class EditTextView: UITextView, UITextViewDelegate {
         note.invalidateCache()
 
         for item in UIPasteboard.general.items {
-            if let rtfd = item["com.apple.flat-rtfd"] as? Data {
+            if let rtfd = item["es.fsnot.attributed.text"] as? Data {
                 if let attributedString = try? NSAttributedString(data: rtfd, options: [NSAttributedString.DocumentReadingOptionKey.documentType : NSAttributedString.DocumentType.rtfd], documentAttributes: nil) {
 
                     let attributedString = NSMutableAttributedString(attributedString: attributedString)
@@ -183,10 +199,12 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setItems([
+                    [kUTTypeText as String: attributedString.string],
+                    ["es.fsnot.attributed.text": rtfd],
                     [kUTTypePlainText as String: attributedString.string],
                     [kUTTypeFlatRTFD as String: rtfd]
                 ])
-                
+
                 return
             }
         }

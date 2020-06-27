@@ -512,6 +512,7 @@ input[type='checkbox'] {
     background: white;
     border:1px solid #555;
     vertical-align: middle;
+    transform: scale(1.1);
 }
     input[type='checkbox'][disabled][checked]:after {
         content:'✓';
@@ -523,6 +524,20 @@ input[type='checkbox'] {
         font-family: 'Arial';
         font-style: normal;
         font-weight: normal;
+        transform: scale(1.1);
+    }
+
+    input[type='checkbox'][checked]:after {
+        content:'✓';
+        color: black;
+        position: absolute;
+        margin-left: 4px;
+        margin-top: 3px;
+        opacity: 1 !important;*/
+        font-family: 'Arial';
+        font-style: normal;
+        font-weight: normal;
+        transform: scale(1.1);
     }
 
 li {
@@ -537,6 +552,10 @@ ul li p {
 
 ul li p {
     display: inline;
+}
+
+.cb > .strike {
+    text-decoration: line-through;
 }
 
 canvas {

@@ -47,6 +47,12 @@ class NoteCellView: SwipeTableViewCell {
         note = nil
     }
 
+    public func reLoad() {
+        if let note = self.note {
+            configure(note: note)
+        }
+    }
+
     func configure(note: Note) {
         self.note = note
 
@@ -69,26 +75,16 @@ class NoteCellView: SwipeTableViewCell {
             pin.isHidden = !note.isPinned
         }
 
-        if var font = UserDefaultsManagement.noteFont {
-            if #available(iOS 11.0, *) {
-
-                if !UserDefaultsManagement.dynamicTypeFont {
-                    if let defaultFont = UIFont(name: UserDefaultsManagement.fontName, size: 17) {
-                        font = defaultFont
-                    }
-                }
-
-                let fontMetrics = UIFontMetrics(forTextStyle: .headline)
-                let scaledFont = fontMetrics.scaledFont(for: font)
-                title.font = scaledFont
-                date.font = scaledFont
-            }
+        if let font = UserDefaultsManagement.noteFont {
+            let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+            let scaledFont = fontMetrics.scaledFont(for: font)
+            title.font = scaledFont
+            date.font = scaledFont
         }
     }
 
     public func getDate() -> String {
-        if let sidebarItem = UIApplication.getVC().sidebarTableView.getSidebarItem(),
-            let sort = sidebarItem.project?.sortBy,
+        if let sort = note?.project.sortBy,
             sort == .creationDate,
             let date = note?.getCreationDateForLabel()
         {

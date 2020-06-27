@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Storage.shared().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
 
-        print("end \(UserDefaultsManagement.crashedLastTime)")
+        print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         UIApplication.shared.statusBarStyle = .lightContent
         
-        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").resolvingSymlinksInPath() {
+        if let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized {
 
             if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
                 do {
@@ -132,13 +132,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
-            vc.is3DTouchShortcut = true
             vc.createNote()
 
             handled = true
             break
         case ShortcutIdentifier.clipboard.type:
-            vc.is3DTouchShortcut = true
             vc.createNote(pasteboard: true)
 
             handled = true
@@ -158,6 +156,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+
+        if url.host == "open" {
+            if let tag = url["tag"]?.removingPercentEncoding {
+                UIApplication.getVC().sidebarTableView.select(tag: tag)
+            }
+        }
+
         return true
     }
 

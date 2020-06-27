@@ -345,6 +345,27 @@ public class NotesTextProcessor {
         return resultString
     }
 
+    public static func convertAppTags(in content: String) -> String {
+        let range = NSRange(0..<content.count)
+
+        tagsInlineRegex.matches(content, range: range) { (result) -> Void in
+            guard let range = result?.range else { return }
+
+            var substring = String(content[range])
+
+            substring = substring
+                .replacingOccurrences(of: "#", with: "")
+                .replacingOccurrences(of: "\n", with: "")
+                .trim()
+
+            //tags.append(substring)
+        }
+
+        return content
+    }
+
+
+
     public static func highlight(note: Note) {
         highlightMarkdown(attributedString: note.content, note: note)
         highlightFencedAndIndentCodeBlocks(attributedString: note.content)
@@ -768,6 +789,23 @@ public class NotesTextProcessor {
             }
         }
 
+        // Inline tags
+        NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard var range = result?.range(at: 1) else { return }
+
+            range = NSRange(location: range.location - 1, length: range.length + 1)
+            var substring = attributedString.mutableString.substring(with: range)
+
+            substring = substring
+                .replacingOccurrences(of: "#", with: "")
+                .replacingOccurrences(of: "\n", with: "")
+                .trim()
+
+            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+
+            attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
+        }
+
         if !UserDefaultsManagement.liveImagesPreview {
             
             // We detect and process inline images
@@ -1101,10 +1139,18 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let imageInlineRegex = MarklightRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
-    
+
+    fileprivate static let tagsPattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)"
+
+    public static let tagsInlineRegex = MarklightRegex(pattern: tagsPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
+
     fileprivate static let todoInlinePattern = "(^(-\\ \\[(?:\\ |x)\\])\\ )"
     
     public static let todoInlineRegex = MarklightRegex(pattern: todoInlinePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
+
+    fileprivate static let allTodoInlinePattern = "((-\\ \\[(?:\\ |x)\\])\\ )"
+
+    public static let allTodoInlineRegex = MarklightRegex(pattern: allTodoInlinePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     // MARK: Code
     

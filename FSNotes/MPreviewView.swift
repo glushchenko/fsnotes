@@ -12,6 +12,7 @@ import Highlightr
 #if os(iOS)
 import NightNight
 import MobileCoreServices
+import AudioToolbox
 #else
 import Carbon.HIToolbox
 #endif
@@ -29,6 +30,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
         userContentController.add(HandlerCodeCopy(), name: "notification")
+        userContentController.add(HandlerCheckbox(), name: "checkbox")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -183,7 +185,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return """
             <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
             <script type="text/x-mathjax-config">
-                MathJax.Hub.Config({ showMathMenu: false, tex2jax: { inlineMath: [ ['$', '$'], ['\\(', '\\)'] ], }, messageStyle: "none", showProcessingMessages: true });
+                MathJax.Hub.Config({ showMathMenu: false, tex2jax: {
+                    inlineMath: [ ['$$', '$$'], ['\\((', '\\))'] ],
+                }, messageStyle: "none", showProcessingMessages: true });
             </script>
         """
     }
@@ -457,5 +461,41 @@ class HandlerSelection: NSObject, WKScriptMessageHandler {
         let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
 
         HandlerSelection.selectionString = message
+    }
+}
+
+class HandlerCheckbox: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+
+        guard let position = message.body as? String else { return }
+        guard let note = EditTextView.note else { return }
+
+        let content = note.content.unLoadCheckboxes().unLoadImages()
+        let string = content.string
+        let range = NSRange(0..<string.count)
+
+        var i = 0
+        NotesTextProcessor.allTodoInlineRegex.matches(string, range: range) { (result) -> Void in
+            guard let range = result?.range else { return }
+
+            if i == Int(position) {
+                let substring = content.mutableString.substring(with: range)
+
+                if substring.contains("- [x] ") {
+                    content.replaceCharacters(in: range, with: "- [ ] ")
+                } else {
+                    content.replaceCharacters(in: range, with: "- [x] ")
+                }
+
+                #if os(iOS)
+                AudioServicesPlaySystemSound(1519)
+                #endif
+
+                note.save(content: content)
+            }
+
+            i = i + 1
+        }
     }
 }
