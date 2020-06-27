@@ -755,7 +755,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.LineWidthKey) {
                 return result as! Float
             }
-            return 1000
+            return 700
         }
         set {
             shared?.set(newValue, forKey: Constants.LineWidthKey)
