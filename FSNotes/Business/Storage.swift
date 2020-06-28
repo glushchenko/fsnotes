@@ -634,10 +634,6 @@ class Storage {
             #endif
 
             let note = Note(url: document.0, with: item)
-            if item.isArchive {
-                _ = note.loadTags()
-            }
-
             if document.0.pathComponents.isEmpty {
                 continue
             }

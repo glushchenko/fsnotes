@@ -173,15 +173,15 @@ public class Note: NSObject  {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)
         }
-        
-        //if !isTrash() && !project.isArchive {
-        //    _ = loadTags()
-        //}
 
         loadFileName()
 
         #if os(iOS)
             loadPreviewInfo()
+        #else
+            if !isTrash() && !project.isArchive {
+                _ = loadTags()
+            }
         #endif
 
         isLoaded = true
@@ -1131,7 +1131,12 @@ public class Note: NSObject  {
 #if os(OSX)
     public func loadTags() {
         let sharedStorage = Storage.sharedInstance()
-        
+
+        if UserDefaultsManagement.inlineTags {
+            _ = scanContentTags()
+            return
+        }
+
         let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
         if let tagNames = tags?.tagNames {
             for tag in tagNames {
@@ -1143,10 +1148,6 @@ public class Note: NSObject  {
                     sharedStorage.addTag(tag)
                 }
             }
-        }
-
-        if UserDefaultsManagement.inlineTags {
-            _ = scanContentTags()
         }
     }
 #else
@@ -1170,17 +1171,44 @@ public class Note: NSObject  {
         var added = [String]()
         var removed = [String]()
 
-        let inlineTags = content.string.matchingStrings(regex: "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)")
+        let matchingOptions = NSRegularExpression.MatchingOptions(rawValue: 0)
+        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)"
+
+        let options: NSRegularExpression.Options = [
+            .allowCommentsAndWhitespace,
+            .anchorsMatchLines
+        ]
 
         var tags = [String]()
-        for tag in inlineTags {
-            guard let tag = tag.last, isValid(tag: tag) else { continue }
 
-            if tag.last == "/" {
-                tags.append(String(tag.dropLast()))
-            } else {
-                tags.append(tag)
-            }
+        do {
+            let range = NSRange(location: 0, length: content.length)
+            let re = try NSRegularExpression(pattern: pattern, options: options)
+
+            re.enumerateMatches(
+                in: content.string,
+                options: matchingOptions,
+                range: range,
+                using: { (result, flags, stop) -> Void in
+
+                    guard var range = result?.range(at: 1) else { return }
+                    let cleanTag = content.mutableString.substring(with: range)
+
+                    range = NSRange(location: range.location - 1, length: range.length + 1)
+                    let tag = content.mutableString.substring(with: range)
+
+                    let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
+                    if codeBlock == nil && isValid(tag: cleanTag) {
+                        if tag.last == "/" {
+                            tags.append(String(tag.dropLast()))
+                        } else {
+                            tags.append(tag)
+                        }
+                    }
+                }
+            )
+        } catch {
+            print("Tags parsing: \(error)")
         }
 
         if tags.contains("notags") {

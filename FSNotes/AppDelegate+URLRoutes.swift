@@ -35,6 +35,13 @@ extension AppDelegate {
             let scheme = url.scheme
             else { return }
 
+        if url.host == "open" {
+            if let tag = url["tag"]?.removingPercentEncoding {
+                ViewController.shared()?.storageOutlineView.select(tag: tag)
+                return
+            }
+        }
+
         let path = url.absoluteString.escapePlus()
         if let escaped = URL(string: path) {
             url = escaped

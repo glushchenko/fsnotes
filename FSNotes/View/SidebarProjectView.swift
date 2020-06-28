@@ -1138,4 +1138,11 @@ class SidebarProjectView: NSOutlineView,
             }
         }
     }
+
+    public func select(tag: String) {
+        guard let i = sidebarItems?.firstIndex(where: {($0 as? Tag)?.getName() == "#\(tag)" }) else { return }
+
+        UserDataService.instance.firstNoteSelection = true
+        selectRowIndexes([i], byExtendingSelection: false)
+    }
 }
