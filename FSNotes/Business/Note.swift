@@ -1195,14 +1195,13 @@ public class Note: NSObject  {
                     let cleanTag = content.mutableString.substring(with: range)
 
                     range = NSRange(location: range.location - 1, length: range.length + 1)
-                    let tag = content.mutableString.substring(with: range)
-
+                    
                     let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
                     if codeBlock == nil && isValid(tag: cleanTag) {
-                        if tag.last == "/" {
-                            tags.append(String(tag.dropLast()))
+                        if cleanTag.last == "/" {
+                            tags.append(String(cleanTag.dropLast()))
                         } else {
-                            tags.append(tag)
+                            tags.append(cleanTag)
                         }
                     }
                 }
