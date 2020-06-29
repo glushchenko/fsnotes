@@ -1172,7 +1172,7 @@ public class Note: NSObject  {
         var removed = [String]()
 
         let matchingOptions = NSRegularExpression.MatchingOptions(rawValue: 0)
-        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)"
+        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,]+)"
 
         let options: NSRegularExpression.Options = [
             .allowCommentsAndWhitespace,

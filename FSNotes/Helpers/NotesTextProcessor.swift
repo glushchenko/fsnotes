@@ -1140,7 +1140,7 @@ public class NotesTextProcessor {
     
     public static let imageInlineRegex = MarklightRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
 
-    fileprivate static let tagsPattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\.\\,]+)"
+    fileprivate static let tagsPattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,]+)"
 
     public static let tagsInlineRegex = MarklightRegex(pattern: tagsPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
