@@ -1543,13 +1543,7 @@ class ViewController: NSViewController,
                     } else {
                         self.editArea.clear()
                     }
-                } else if UserDataService.instance.firstNoteSelection {
-                    if let note = self.notesTableView.noteList.first {
-                        self.selectNullTableRow(note: note)
-                    }
-
-                    UserDataService.instance.firstNoteSelection = false
-                }
+                } 
 
                 completion()
             }

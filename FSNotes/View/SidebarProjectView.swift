@@ -518,7 +518,9 @@ class SidebarProjectView: NSOutlineView,
                 UserDataService.instance.lastName = item.name
             }
 
-            vd.editArea.clear()
+            if !UserDataService.instance.firstNoteSelection {
+                vd.editArea.clear()
+            }
 
             if !isFirstLaunch {
                 vd.search.stringValue = ""
@@ -552,6 +554,15 @@ class SidebarProjectView: NSOutlineView,
                         self.selectNote = nil
                         vd.notesTableView.setSelected(note: note)
                     }
+                } else if UserDataService.instance.firstNoteSelection {
+                    if let note = vd.notesTableView.noteList.first {
+                        DispatchQueue.main.async {
+                            vd.selectNullTableRow(note: note)
+                            vd.editArea.fill(note: note)
+                        }
+                    }
+
+                    UserDataService.instance.firstNoteSelection = false
                 }
             }
         }

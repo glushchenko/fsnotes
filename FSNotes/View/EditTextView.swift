@@ -286,10 +286,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
 
-    private func isBetweenBraces(location: Int) -> String? {
+    private func isBetweenBraces(location: Int) -> (String, NSRange)? {
         guard let storage = textStorage else { return nil }
+
         let string = Array(storage.string)
-        let length = storage.length
+        let length = string.count
+
+        guard location < length else { return nil }
 
         var firstLeftFound = false
         var firstRigthFound = false
@@ -297,30 +300,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         var rigthFound = false
         var leftFound = false
 
-        var i = location
-        var j = location - 1
+        var i = location - 1
+        var j = location
 
-
-        while length > i {
+        while i >= 0 {
             let char = string[i]
-            if firstRigthFound {
-                rigthFound = char == "]"
-                break
-            }
-
-            if char.isNewline {
-                break
-            }
-
-            if char == "]" {
-                firstRigthFound = true
-            }
-
-            i += 1
-        }
-
-        while j >= 0 {
-            let char = string[j]
             if firstLeftFound {
                 leftFound = char == "["
                 break
@@ -334,21 +318,37 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 firstLeftFound = true
             }
 
-            j -= 1
+            i -= 1
+        }
+
+        while length > j {
+            let char = string[j]
+            if firstRigthFound {
+                rigthFound = char == "]"
+                break
+            }
+
+            if char.isNewline {
+                break
+            }
+
+            if char == "]" {
+                firstRigthFound = true
+            }
+
+            j += 1
         }
 
         var result = String()
         if leftFound && rigthFound {
             result =
-                String(string[j...i])
+                String(string[i...j])
 
             result = result
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
 
-            self.completeRange = NSRange(j+2..<i)
-
-            return result
+            return (result, NSRange(i...j))
         }
 
         return nil
@@ -357,8 +357,20 @@ class EditTextView: NSTextView, NSTextFinderClient {
     private var completeRange = NSRange()
 
     override var rangeForUserCompletion: NSRange {
-        if nil != isBetweenBraces(location: selectedRange.location) {
-            return completeRange
+        guard let storageString = textStorage?.string else { return super.rangeForUserCompletion }
+
+        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
+        let distance = string.distance(from: storageString.startIndex, to: to)
+
+        if let result = isBetweenBraces(location: distance) {
+            let range = result.1
+
+            // decode multibyte offset for Emoji like "🇺🇦"
+            let startIndex = string.index(string.startIndex, offsetBy: range.lowerBound + 2)
+            let startRange = NSRange(startIndex...startIndex, in: string)
+            let replacementRange = NSRange(location: startRange.lowerBound, length: result.0.count)
+
+            return replacementRange
         }
 
         return super.rangeForUserCompletion
@@ -366,9 +378,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     override func completions(forPartialWordRange charRange: NSRange, indexOfSelectedItem index: UnsafeMutablePointer<Int>) -> [String]? {
 
-        if let word = isBetweenBraces(location: selectedRange().location) {
-            if let notes = storage.getBy(startWith: word) {
-                let titles = notes.map{ String($0.title) }.filter({ $0.count > 0 }).filter({ $0 != word }).sorted()
+        guard let storageString = textStorage?.string else { return nil }
+
+        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
+        let distance = string.distance(from: storageString.startIndex, to: to)
+
+        if let result = isBetweenBraces(location: distance) {
+            if let notes = storage.getBy(startWith: result.0) {
+                let titles = notes.map{ String($0.title) }.filter({ $0.count > 0 }).filter({ $0 != result.0
+
+                }).sorted()
 
                 return titles
             }
@@ -1008,7 +1027,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let par = getParagraphRange(),
             let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
 
-            if isBetweenBraces(location: selectedRange.location) != nil {
+            guard let storageString = textStorage?.string else { return false }
+            let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: affectedCharRange.location)
+            let distance = string.distance(from: storageString.startIndex, to: to)
+
+            if isBetweenBraces(location: distance) != nil {
                 DispatchQueue.main.async {
                     self.complete(nil)
                 }
@@ -1084,8 +1107,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func insertCompletion(_ word: String, forPartialWordRange charRange: NSRange, movement: Int, isFinal flag: Bool) {
+        guard let storageString = textStorage?.string else { return }
 
-        if nil != isBetweenBraces(location: selectedRange.location) {
+        let to = storageString.utf16.index(storageString.utf16.startIndex, offsetBy: selectedRange.location)
+        let distance = string.distance(from: storageString.startIndex, to: to)
+
+        if nil != isBetweenBraces(location: distance) {
             if movement == NSReturnTextMovement {
                 super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: true)
             }
