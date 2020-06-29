@@ -1072,12 +1072,15 @@ class SidebarProjectView: NSOutlineView,
         if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil }) as? [Tag] {
             beginUpdates()
 
+            var indexPaths = IndexSet()
             for tag in tags {
                 let i = row(forItem: tag)
-                self.removeItems(at: [i], inParent: nil, withAnimation: .slideDown)
+                indexPaths.insert(i)
             }
 
             sidebarItems?.removeAll(where: { ($0 as? Tag) != nil })
+            self.removeItems(at: indexPaths, inParent: nil, withAnimation: .slideDown)
+
             endUpdates()
         }
     }
