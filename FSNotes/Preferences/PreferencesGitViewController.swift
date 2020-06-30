@@ -52,7 +52,16 @@ class PreferencesGitViewController: NSViewController {
         openPanel.canChooseFiles = false
         openPanel.begin { (result) -> Void in
             if result.rawValue == NSFileHandlingPanelOKButton {
-                guard let url = openPanel.url else { return }
+                guard let url = openPanel.url?.standardized,
+                    url != UserDefaultsManagement.storageUrl else {
+                        let alert = NSAlert()
+                        alert.alertStyle = .critical
+                        alert.informativeText = NSLocalizedString("Path not available", comment: "")
+                        alert.messageText = NSLocalizedString("Default storage path should not be equal to Git path.", comment: "")
+                        alert.runModal()
+                        return
+                }
+
                 let currentURL = UserDefaultsManagement.gitStorage
 
                 let bookmark = SandboxBookmark.sharedInstance()

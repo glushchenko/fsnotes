@@ -581,11 +581,11 @@ class Storage {
                 }
 
                 if (
-                    $0.title.starts(with: filter)
-                        || $0.fileName.starts(with: filter)
+                    $0.title.startsWith(string: filter)
+                        || $0.fileName.startsWith(string: filter)
                 ) && (
-                    !$1.title.starts(with: filter)
-                        && !$1.fileName.starts(with: filter)
+                    !$1.title.startsWith(string: filter)
+                        && !$1.fileName.startsWith(string: filter)
                 ) {
                     return true
                 }

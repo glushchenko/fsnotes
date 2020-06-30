@@ -125,6 +125,13 @@ public extension String {
     func trunc(length: Int) -> String {
         return (self.count > length) ? String(self.prefix(length)) : self
     }
+
+    func startsWith(string: String) -> Bool {
+        guard let range = range(of: string, options: [.caseInsensitive]) else {
+            return false
+        }
+        return range.lowerBound == startIndex
+    }
 }
 
 extension StringProtocol where Index == String.Index {

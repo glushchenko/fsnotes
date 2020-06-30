@@ -421,6 +421,13 @@ public class NotesTextProcessor {
         return false
     }
 
+    public static func minimalHighlight(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {
+         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
+
+        attributedString.addAttribute(.font, value: font, range: paragraphRange)
+        attributedString.fixAttributes(in: paragraphRange)
+    }
+
     public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {
         let paragraphRange = paragraphRange ?? NSRange(0..<attributedString.length)
         let isFullScan = attributedString.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0

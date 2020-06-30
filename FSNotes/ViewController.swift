@@ -37,6 +37,7 @@ class ViewController: NSViewController,
     /* Git */
     public var snapshotsTimer = Timer()
     public var lastSnapshot: Int = 0
+    public var isGitProcessLocked = false
 
     private var updateViews = [Note]()
 
@@ -1441,7 +1442,7 @@ class ViewController: NSViewController,
 
         var filter = searchText ?? self.search.stringValue
         let originalFilter = searchText ?? self.search.stringValue
-        filter = originalFilter.lowercased()
+        filter = originalFilter
 
         var type = sidebarItem?.type
 
@@ -1515,16 +1516,6 @@ class ViewController: NSViewController,
 
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
-                        if !self.search.skipAutocomplete && self.search.timestamp == timestamp {
-
-                            if operation.isCancelled {
-                                completion()
-                                return
-                            }
-                            
-                            self.search.suggestAutocomplete(note, filter: originalFilter)
-                        }
-
                         if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
 
                             let note = self.notesTableView.noteList.first(where: { $0.title == originalFilter })

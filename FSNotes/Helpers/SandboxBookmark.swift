@@ -67,7 +67,7 @@ class SandboxBookmark {
         do {
             restoredUrl = try URL.init(resolvingBookmarkData: bookmark.value, options: NSURL.BookmarkResolutionOptions.withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &isStale)
         } catch {
-            Swift.print("Error restoring bookmarks")
+            Swift.print("Error restoring bookmarks: \(error)")
             restoredUrl = nil
         }
 

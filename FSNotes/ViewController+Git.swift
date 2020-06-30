@@ -11,23 +11,30 @@ import Cocoa
 extension ViewController {
 
     @IBAction func saveRevision(_ sender: NSMenuItem) {
+        guard !isGitProcessLocked else { return }
         guard let note = EditTextView.note else { return }
 
         let project = note.project.getParent()
         let repository = Git.sharedInstance().getRepository(by: project)
         let gitPath = note.getGitPath()
 
+        isGitProcessLocked = true
         repository.initialize(from: project)
         repository.commit(fileName: gitPath)
+        isGitProcessLocked = false
     }
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
+        guard !isGitProcessLocked else { return }
+
         guard let project = ViewController.shared()?.getSidebarProject() else { return }
 
+        isGitProcessLocked = true
         DispatchQueue.global(qos: .background).async {
             let repository = Git.sharedInstance().getRepository(by: project.getParent())
             repository.initialize(from: project.getParent())
             repository.commitAll()
+            self.isGitProcessLocked = false
         }
     }
 
@@ -88,6 +95,8 @@ extension ViewController {
     }
 
     @IBAction private func makeFullSnapshot(_ sender: Any) {
+        guard !isGitProcessLocked else { return }
+
         let cal = Calendar.current
         let hour = cal.component(.hour, from: Date())
         let minute = cal.component(.minute, from: Date())
@@ -109,15 +118,19 @@ extension ViewController {
         let storage = Storage.sharedInstance()
         let projects = storage.getProjects()
 
-        for project in projects {
-            if project.isTrash {
-                continue
-            }
+        isGitProcessLocked = true
+        DispatchQueue.global().async {
+            for project in projects {
+                if project.isTrash {
+                    continue
+                }
 
-            if project.isRoot || project.isArchive {
-                let git = Git(storage: UserDefaultsManagement.gitStorage)
-                let repo = git.getRepository(by: project)
-                repo.commitAll()
+                if project.isRoot || project.isArchive {
+                    let git = Git(storage: UserDefaultsManagement.gitStorage)
+                    let repo = git.getRepository(by: project)
+                    repo.commitAll()
+                    self.isGitProcessLocked = false
+                }
             }
         }
     }

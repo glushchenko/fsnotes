@@ -17,7 +17,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     
     private var filterQueue = OperationQueue.init()
     private var searchTimer = Timer()
-    
+
     public var searchQuery = ""
     public var selectedRange = NSRange()
     public var skipAutocomplete = false
@@ -27,6 +27,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
     override func textDidEndEditing(_ notification: Notification) {
         if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
+            skipAutocomplete = true
             editor.replaceCharacters(in: editor.selectedRange, with: "")
             window?.makeFirstResponder(nil)
         }
@@ -74,6 +75,16 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
             if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
+
+
+                if note.title.lowercased() == stringValue.lowercased() && note.title != stringValue {
+                    stringValue = note.title
+                }
+
+                if note.fileName.lowercased() == stringValue.lowercased() && note.fileName != stringValue {
+                    stringValue = note.fileName
+                }
+
                 markCompleteonAsSuccess()
                 vcDelegate.focusEditArea()
             } else {
@@ -102,8 +113,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     func controlTextDidChange(_ obj: Notification) {
-        searchTimer.invalidate()
-        searchTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(search), userInfo: nil, repeats: false)
+        if UserDefaultsManagement.textMatchAutoSelection {
+            searchTimer.invalidate()
+            searchTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(search), userInfo: nil, repeats: false)
+        } else {
+            search()
+        }
     }
     
     public func suggestAutocomplete(_ note: Note, filter: String) {
@@ -147,12 +162,32 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 if !UserDefaultsManagement.focusInEditorOnNoteSelect {
                     UserDataService.instance.searchTrigger = false
                 }
+
+                if !self.skipAutocomplete {
+                    if let note = self.vcDelegate.notesTableView.noteList.first {
+                        DispatchQueue.main.async {
+                            if let searchQuery = self.getSearchTextExceptCompletion() {
+                                self.suggestAutocomplete(note, filter: searchQuery)
+                            }
+                        }
+                    }
+                }
             }
         }
 
         let pb = NSPasteboard(name: .findPboard)
         pb.declareTypes([.textFinderOptions, .string], owner: nil)
         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+    }
+
+    private func getSearchTextExceptCompletion() -> String? {
+        guard let editor = currentEditor() else { return nil }
+
+        if editor.selectedRange.location > 0 {
+            return String(editor.string.suffix(editor.selectedRange.location))
+        }
+
+        return nil
     }
 
     private func markCompleteonAsSuccess() {
