@@ -991,8 +991,13 @@ class SidebarProjectView: NSOutlineView,
         }
     }
 
-    public func addTags(_ tags: [String]) {
+    public func addTags(_ tags: [String], shouldUnloadOld: Bool = false) {
         self.beginUpdates()
+
+        if shouldUnloadOld {
+            unloadAllTags()
+        }
+
         for tag in tags {
 
             var subtags = tag.components(separatedBy: "/")
@@ -1063,15 +1068,12 @@ class SidebarProjectView: NSOutlineView,
 
     public func reloadTags() {
         if UserDefaultsManagement.inlineTags {
-            unloadAllTags()
             loadAllTags()
         }
     }
 
     public func unloadAllTags() {
         if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil }) as? [Tag] {
-            beginUpdates()
-
             var indexPaths = IndexSet()
             for tag in tags {
                 let i = row(forItem: tag)
@@ -1080,8 +1082,6 @@ class SidebarProjectView: NSOutlineView,
 
             sidebarItems?.removeAll(where: { ($0 as? Tag) != nil })
             self.removeItems(at: indexPaths, inParent: nil, withAnimation: .slideDown)
-
-            endUpdates()
         }
     }
 
@@ -1118,7 +1118,7 @@ class SidebarProjectView: NSOutlineView,
             hideTagsHeader()
         }
 
-        addTags(tags.sorted())
+        addTags(tags.sorted(), shouldUnloadOld: true)
     }
 
     private func checkTagsHeaderState() {

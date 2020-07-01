@@ -62,11 +62,14 @@ class PreferencesAdvancedViewController: NSViewController {
             LanguageType(rawValue: 0x06),
             LanguageType(rawValue: 0x07),
             LanguageType(rawValue: 0x08),
-            LanguageType(rawValue: 0x09)
+            LanguageType(rawValue: 0x09),
+            LanguageType(rawValue: 10)
         ]
 
         for language in languages {
             if let lang = language?.description, let id = language?.rawValue {
+                print(lang)
+
                 languagePopUp.addItem(withTitle: lang)
                 languagePopUp.lastItem?.state = (id == UserDefaultsManagement.defaultLanguage) ? .on : .off
 

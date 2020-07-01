@@ -1,0 +1,238 @@
+/* Archive in sidebar
+   Sidebar label */
+"Archive" = "Arquivo";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "Tem a certeza que pretende eliminar a nota?";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Automático pelo brilho do ecrã";
+
+/* No comment provided by engineer. */
+"Brightness level" = "Nível de brilho";
+
+/* Settings */
+"build" = "versão";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancelar";
+
+/* Settings */
+"Code block live highlighting" = "Realçar bloco de código";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatível com DayOne JSON (zip), Bear e Ulysses (textbundle), markdown, txt, rtf.";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Copiar texto simples";
+
+/* No comment provided by engineer. */
+"Creation date" = "Data de criação";
+
+/* Settings */
+"Default Container" = "Recipiente por defeito";
+
+/* Settings */
+"Default Extension" = "Extensão por defeito";
+
+/* Settings */
+"Default Keyboard In Editor" = "Teclado por defeito no Editor";
+
+/* Table row action */
+"Delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"Disabled" = "Inactivo";
+
+/* No comment provided by engineer. */
+"Done" = "Feito";
+
+/* Settings */
+"Dynamic Type" = "Tipo dinâmico";
+
+/* Settings */
+"Editor" = "Editor";
+
+/* No comment provided by engineer. */
+"Enabled" = "Activo";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Introduzir Palavra-passe Mestra";
+
+/* No comment provided by engineer. */
+"Enter note name" = "Introduzir nome da nota";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "Já existe um ficheiro com este nome";
+
+/* Shortcuts */
+"Focus in search field" = "Focar caixa de pesquisa";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Nome da pasta:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "Já existe uma pasta com este nome";
+
+/* Settings */
+"Font" = "Tipo de letra";
+
+/* Settings */
+"Font Family" = "Família do tipo de letra";
+
+/* Settings */
+"Font size" = "Tamanho da letra";
+
+/* Settings */
+"FSNotes" = "FSNotes";
+
+/* Settings */
+"General" = "Geral";
+
+/* Settings */
+"Homepage" = "Página inicial";
+
+/* Main view popover table
+   Settings */
+"Import notes" = "Importar notas";
+
+/* Inbox in sidebar */
+"Inbox" = "Caixa de entrada";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "Palavra-passe inválida";
+
+/* Settings */
+"Live images preview" = "Pré-visualização de imagens";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Trancar/destrancar";
+
+/* No comment provided by engineer. */
+"Modification date" = "Data de modificação";
+
+/* Table row action */
+"More" = "Todavía";
+
+/* Move view */
+"Move" = "Mover";
+
+/* Shortcuts */
+"New document" = "Novo documento";
+
+/* Settings */
+"Night Mode" = "Modo Noturno";
+
+/* Notes in sidebar
+   Sidebar label */
+"Notes" = "Notas";
+
+/* No comment provided by engineer. */
+"Notes list" = "Lista de notas";
+
+/* Document opened */
+"Open note" = "Abrir nota";
+
+/* Table row action */
+"Pin" = "Fixar";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "Por favor insira uma palavra-passe válida";
+
+/* No comment provided by engineer. */
+"Preview" = "Pré-visualizar";
+
+/* Settings */
+"Project" = "Projeto";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "Remover projeto❌";
+
+/* Settings */
+"Projects" = "Projetos";
+
+/* No comment provided by engineer. */
+"Remove" = "Remover";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Remover criptografia";
+
+/* No comment provided by engineer. */
+"Rename" = "Renomear";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Renomear nota:";
+
+/* Shortcuts */
+"Save clipboard" = "Guardar na área de transferência";
+
+/* Shortcuts */
+"Search" = "Pesquiser";
+
+/* Sidebar settings */
+"Settings" = "Definições";
+
+/* No comment provided by engineer. */
+"Share" = "Partilhar";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Mostrar pasta na barra lateral";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";
+
+/* No comment provided by engineer. */
+"Sort by" = "Ordenar por";
+
+/* Settings */
+"Storage" = "Armazenamento";
+
+/* Settings */
+"Support" = "Suporte";
+
+/* No comment provided by engineer. */
+"System" = "Sistema";
+
+/* Sidebar label */
+"Tags" = "Etiquetas";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "Esta ação não pode ser revertida.";
+
+/* No comment provided by engineer. */
+"Title" = "Título";
+
+/* Todo in sidebar */
+"Todo" = "Tarefa";
+
+/* Sidebar label
+   Trash in sidebar */
+"Trash" = "Lixo";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
+"Type" = "Tipo";
+
+/* Settings */
+"UI" = "Interface";
+
+/* Table row action */
+"UnPin" = "Soltar";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Utilizar a primeira linha como título";
+
+/* Settings */
+"Use inline tags" = "Utilizar etiquetas em linha";
+
+/* Settings */
+"Version" = "Versão";
+
+/* Main view popover table */
+"View settings" = "Definições de visualização";
+
+/* No comment provided by engineer. */
+"Visibility" = "Visibilidade";
+
