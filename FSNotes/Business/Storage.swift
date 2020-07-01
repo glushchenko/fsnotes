@@ -387,6 +387,16 @@ class Storage {
         isFinishedTagsLoading = true
     }
 
+    public func loadAllTagsOnly() {
+        for note in noteList {
+            if !note.isTrash() && !note.project.isArchive {
+                _ = note.loadTags()
+            }
+        }
+
+        isFinishedTagsLoading = true
+    }
+
     public func getProjectDocuments(project: Project) -> [URL] {
         return readDirectory(project.url).map({ $0.0 as URL })
     }

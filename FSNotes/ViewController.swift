@@ -134,7 +134,7 @@ class ViewController: NSViewController,
     
     override func viewDidLoad() {
         DispatchQueue.global().async {
-            self.storage.loadAllTags()
+            self.storage.loadAllTagsOnly()
 
             DispatchQueue.main.async {
                 self.reloadSideBar()
