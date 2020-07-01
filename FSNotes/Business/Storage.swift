@@ -56,6 +56,7 @@ class Storage {
     private var archiveURL = URL(string: String())
 
     private let lastNewsDate = "2020-06-20"
+    public var isFinishedTagsLoading = false
 
     init() {
         let storageType = UserDefaultsManagement.storageType
@@ -382,6 +383,8 @@ class Storage {
                 _ = note.loadTags()
             }
         }
+
+        isFinishedTagsLoading = true
     }
 
     public func getProjectDocuments(project: Project) -> [URL] {
@@ -475,7 +478,7 @@ class Storage {
         _ = restoreCloudPins()
 
         for note in noteList {
-            note.load()
+            note.fastLoad()
         }
 
         print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")

@@ -133,7 +133,18 @@ class ViewController: NSViewController,
     // MARK: - Overrides
     
     override func viewDidLoad() {
-        newNoteButton.image = NSImage(imageLiteralResourceName: "new_note_ui").resize(to: CGSize(width: 30, height: 30))
+        DispatchQueue.global().async {
+            self.storage.loadAllTags()
+
+            DispatchQueue.main.async {
+                self.reloadSideBar()
+            }
+        }
+
+        newNoteButton.image =
+            NSImage(imageLiteralResourceName: "new_note_ui")
+                .resize(to: CGSize(width: 30, height: 30))
+
         newNoteButton.setButtonType(.momentaryLight)
 
         scheduleSnapshots()

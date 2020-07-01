@@ -169,6 +169,15 @@ public class Note: NSObject  {
         loadFileAttributes()
     }
 
+    func fastLoad() {
+        if let attributedString = getContent() {
+            content = NSMutableAttributedString(attributedString: attributedString)
+        }
+
+        loadFileName()
+        isLoaded = true
+    }
+
     func load() {
         if let attributedString = getContent() {
             content = NSMutableAttributedString(attributedString: attributedString)

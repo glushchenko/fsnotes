@@ -500,7 +500,10 @@ class SidebarProjectView: NSOutlineView,
             if let cell = view.item(atRow: i) as? SidebarItem {
                 let isTag = cell.type == .Tag
                 if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() || (lastSelectedRow != lastRow && !isTag) {
-                    reloadTags()
+
+                    if storage.isFinishedTagsLoading {
+                        reloadTags()
+                    }
                 }
             }
             
