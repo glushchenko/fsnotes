@@ -426,6 +426,22 @@ public class NotesTextProcessor {
 
         attributedString.addAttribute(.font, value: font, range: paragraphRange)
         attributedString.fixAttributes(in: paragraphRange)
+
+        #if os(iOS)
+            if NightNight.theme == .night {
+                attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: paragraphRange)
+            } else {
+                attributedString.addAttribute(.foregroundColor, value: UserDefaultsManagement.fontColor, range: paragraphRange)
+            }
+        #else
+            attributedString.addAttribute(.foregroundColor, value: fontColor, range: paragraphRange)
+            attributedString.enumerateAttribute(.foregroundColor, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+
+                if (value as? NSColor) != nil {
+                    attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.fontColor, range: range)
+                }
+            }
+        #endif
     }
 
     public static func highlightMarkdown(attributedString: NSMutableAttributedString, paragraphRange: NSRange? = nil, note: Note) {

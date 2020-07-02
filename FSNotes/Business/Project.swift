@@ -20,6 +20,8 @@ public class Project: Equatable {
     var parent: Project?
     var isDefault: Bool
     var isArchive: Bool
+
+    public var isVirtual = false
     public var isExternal: Bool = false
 
     public var sortDirection: SortDirection = .desc
@@ -43,7 +45,7 @@ public class Project: Equatable {
     // if notes loaded from cache validation with fs needed
     public var cacheUsedDiffValidationNeeded = false
     
-    init(storage: Storage, url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false) {
+    init(storage: Storage, url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false, isVirtual: Bool = false) {
         self.storage = storage
         self.url = url.standardized
         self.isTrash = isTrash
@@ -52,6 +54,7 @@ public class Project: Equatable {
         self.isDefault = isDefault
         self.isArchive = isArchive
         self.isExternal = isExternal
+        self.isVirtual = isVirtual
 
         showInCommon = (isTrash || isArchive) ? false : true
 

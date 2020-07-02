@@ -137,9 +137,8 @@ class SidebarTableView: UITableView,
         }
 
         var name = sidebarItem.name
-        if sidebarItem.type == .Category
-            || sidebarItem.type == .Inbox
-            || sidebarItem.type == .All {
+        
+        if sidebarItem.type == .Category || sidebarItem.isSystem() {
             name += " ▽"
         }
 

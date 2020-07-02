@@ -666,13 +666,7 @@ class NotesTableView: UITableView,
             type = .Tag
         }
 
-        guard
-            type == .Category
-            || type == .Inbox
-            || type == .Archive
-            || type == .Trash
-            || type == .Tag
-        else { return }
+        guard type != .Label else { return }
 
         let folderVC = FolderPopoverViewControler()
         var actions = [FolderPopoverActions]()
@@ -680,6 +674,8 @@ class NotesTableView: UITableView,
         switch type {
         case .Inbox:
             actions = [.importNote, .settingsFolder, .createFolder]
+        case .All, .Todo:
+            actions = [.settingsFolder]
         case .Archive:
             actions = [.importNote, .settingsFolder]
         case .Trash:

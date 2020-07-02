@@ -23,6 +23,8 @@ class Sidebar {
     public var allItems = [[SidebarItem]]()
 
     init() {
+        guard let defaultURL = Storage.shared().getDefault()?.url else { return }
+
         var system = [SidebarItem]()
 
         // Inbox
@@ -38,20 +40,42 @@ class Sidebar {
         }
 
         // Notes
+        let notesUrl = defaultURL.appendingPathComponent("Fake Virtual Notes Dir")
+        let notesLabel = NSLocalizedString("Notes", comment: "Sidebar items")
+        let fakeNotesProject =
+            Project(
+                storage: Storage.shared(),
+                url: notesUrl,
+                label: notesLabel,
+                isVirtual: true
+            )
+
         system.append(
             SidebarItem(
                 name: NSLocalizedString("Notes", comment: ""),
+                project: fakeNotesProject,
                 type: .All,
-                icon: getImage(named: "home_white")
+                icon: getImage(named: "sidebar_home")
             )
         )
 
         // Todo
+        let todoUrl = defaultURL.appendingPathComponent("Fake Virtual Todo Dir")
+        let todoLabel = NSLocalizedString("Todo", comment: "Sidebar items")
+        let fakeTodoProject =
+            Project(
+                storage: Storage.shared(),
+                url: todoUrl,
+                label: todoLabel,
+                isVirtual: true
+            )
+
         system.append(
             SidebarItem(
                 name: NSLocalizedString("Todo", comment: ""),
+                project: fakeTodoProject,
                 type: .Todo,
-                icon: getImage(named: "todo_sidebar_white")
+                icon: getImage(named: "sidebar_todo")
             )
         )
 
@@ -62,7 +86,7 @@ class Sidebar {
                     name: NSLocalizedString("Archive", comment: ""),
                     project: archiveProject,
                     type: .Archive,
-                    icon: getImage(named: "archive_white")
+                    icon: getImage(named: "sidebar_archive")
                 )
             )
         }
@@ -105,7 +129,7 @@ class Sidebar {
 
     private func getImage(named: String) -> Image? {
         if let image = UIImage(named: named) {
-            return image
+            return image.imageWithColor(color1: .white)
         }
         
         return nil

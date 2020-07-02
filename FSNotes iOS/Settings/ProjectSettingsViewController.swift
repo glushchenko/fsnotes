@@ -140,14 +140,20 @@ class ProjectSettingsViewController: UITableViewController {
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.showInCommon
                 uiSwitch.isEnabled =
-                    !project.isDefault && !project.isArchive && !project.isTrash
+                    !project.isDefault
+                    && !project.isArchive
+                    && !project.isTrash
+                    && !project.isVirtual
 
                 cell.textLabel?.text = NSLocalizedString("Show notes in \"Notes\" and \"Todo\" lists", comment: "")
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = project.showInSidebar
                 uiSwitch.isEnabled =
-                    !project.isDefault && !project.isArchive && !project.isTrash
+                    !project.isDefault
+                    && !project.isArchive
+                    && !project.isTrash
+                    && !project.isVirtual
 
                 cell.textLabel?.text = NSLocalizedString("Show folder in sidebar", comment: "")
             default:
@@ -158,6 +164,7 @@ class ProjectSettingsViewController: UITableViewController {
         if indexPath.section == 0x02 {
             cell.accessoryView = uiSwitch
             uiSwitch.isOn = project.firstLineAsTitle
+            uiSwitch.isEnabled = !project.isVirtual
 
             cell.textLabel?.text = NSLocalizedString("Use first line as title", comment: "")
         }

@@ -96,22 +96,32 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
 
 
     private func openSettings() {
-        guard let mvc = getVC() else { return }
+        guard let vc = getVC(),
+            let sidebarItem = vc.sidebarTableView.getSidebarItem()
+        else { return }
 
-        var currentProject = mvc.sidebarTableView.getSidebarItem()?.project
+        let storage = Storage.shared()
+
+        // All projects
+
+        var currentProject = sidebarItem.project
         if currentProject == nil {
-            currentProject = Storage.sharedInstance().getCurrentProject()
+            currentProject = storage.getCurrentProject()
+        }
+
+        // Virtual projects Notes and Todo
+
+        if sidebarItem.type == .Todo || sidebarItem.type == .All {
+            currentProject = sidebarItem.project
         }
 
         guard let project = currentProject else { return }
 
         let projectController = ProjectSettingsViewController(project: project, dismiss: true)
-
         let controller = UINavigationController(rootViewController: projectController)
 
-
         self.dismiss(animated: true, completion: nil)
-        mvc.present(controller, animated: true, completion: nil)
+        vc.present(controller, animated: true, completion: nil)
     }
 
     private func createFolder() {

@@ -1360,9 +1360,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {
+        let currentSidebarWidth = self.notesTable.frame.origin.x
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
+        if maxSidebarWidth < currentSidebarWidth {
+            return
+        }
+        
         guard UserDefaultsManagement.sidebarIsOpened else { return }
 
         if maxSidebarWidth > view.frame.size.width {
