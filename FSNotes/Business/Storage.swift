@@ -610,6 +610,7 @@ class Storage {
     
     private func sortQuery(note: Note, next: Note, project: Project?) -> Bool {
         var sortDirection: SortDirection
+        var sort: SortBy
 
         if let project = project, project.sortBy != .none {
             sortDirection = project.sortDirection
@@ -617,7 +618,11 @@ class Storage {
             sortDirection = UserDefaultsManagement.sortDirection ? .desc : .asc
         }
         
-        let sort = project?.sortBy ?? UserDefaultsManagement.sort
+        if let sortBy = project?.sortBy, sortBy != .none {
+            sort = sortBy
+        } else {
+            sort = UserDefaultsManagement.sort
+        }
 
         if note.isPinned == next.isPinned {
             switch sort {
