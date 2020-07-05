@@ -412,9 +412,6 @@
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "Back-up opslag";
 
-/* Class = "NSTextFieldCell"; title = "Deutsch 🇩🇪\nUkrainian🇺🇦\nSpanish 🇪🇸\nArabic 🇮🇶\nChinese (Simplified) 🇨🇳\nKorean 🇰🇷\nFrench 🇫🇷"; ObjectID = "iKE-bp-SFG"; */
-"iKE-bp-SFG.title" = "Duits 🇩🇪\nOekraïens🇺🇦\nSpaans 🇪🇸\nArabisch 🇮🇶\nChinees (Vereenvoudigd) 🇨🇳\nKoreaans 🇰🇷\nFrans 🇫🇷";
-
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "Vergrendel bij activering schermbeveiliging";
 
@@ -744,9 +741,6 @@
 
 /* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
 "TCI-Xs-mwm.title" = "Aflopend";
-
-/* Class = "NSTextFieldCell"; title = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (@ayad0net)\nPertim (macwk.com@gmail.com)\nWonsup Yoon (pusnow@kaist.ac.kr)\ngithub.com/jornetsimon "; ObjectID = "thj-Sx-DxC"; */
-"thj-Sx-DxC.title" = "Michael Barzmann\nOlena Glushchenko aonez (aone@keka.io)\nAyad (@ayad0net)\nPertim (macwk.com@gmail.com)\nWonsup Yoon (pusnow@kaist.ac.kr)\ngithub.com/jornetsimon ";
 
 /* Class = "NSTextFieldCell"; title = "Appearance:"; ObjectID = "Tjy-Pz-wrj"; */
 "Tjy-Pz-wrj.title" = "Verschijning:";
