@@ -1,0 +1,259 @@
+/* No comment provided by engineer. */
+"Add" = "Adicionar";
+
+/* Sidebar label */
+"Archive" = "Arquivo";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "Tem a certeza que pretende eliminar %d nota(s) de forma irreversível?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Tem a certeza que pretende eliminar o projeto \"%@\" e todos os seus ficheiros?";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "Adicionar armazenamento...";
+
+/* No comment provided by engineer. */
+"Back up storage" = "Cópia de segurança de armazenamento";
+
+/* Delete menu */
+"Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "Verificar gramática com ortografia";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "Verificar gramática durante a escrita";
+
+/* No comment provided by engineer. */
+"Code Block" = "Bloco de código";
+
+/* No comment provided by engineer. */
+"Code Span" = "Lapso de código";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "Copiar HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "Copiar Ligação";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "Copiar Texto Simples";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "Corrigir Ortografia Automáticamente";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "A palavra-passe atual não coincide com a palavra-passe armazenada no keychain";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "Detectores de dados";
+
+/* No comment provided by engineer. */
+"Delete" = "Eliminar";
+
+/* No comment provided by engineer. */
+"Delete folder" = "Eliminar pasta";
+
+/* No comment provided by engineer. */
+"Detach storage" = "Separar armazenamento";
+
+/* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Deseja mover as notas existentes para o novo destino?";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "Editar Ligação...";
+
+/* No comment provided by engineer. */
+"Empty password" = "Palavra-passe vazia";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Introduzir Palavra-passe Mestra";
+
+/* No comment provided by engineer. */
+"File with name \"(currentTitle)\" already exists!" = "Ficheiro com nome \"(currentTitle)\" já existente!";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [editar]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [pré-visualizar]";
+
+/* No comment provided by engineer. */
+"Header 1" = "Cabeçalho 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Cabeçalho 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Cabeçalho 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Cabeçalho 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Cabeçalho 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Cabeçalho 6";
+
+/* No comment provided by engineer. */
+"History" = "Histórico";
+
+/* No comment provided by engineer. */
+"Image or file" = "Imagem ou ficheiro";
+
+/* No comment provided by engineer. */
+"Inbox" = "Caixa de entrada";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Nome de ficheiro incorrecto";
+
+/* No comment provided by engineer. */
+"Link" = "Ligação";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "Bloquear Todos os Criptografados";
+
+/* No comment provided by engineer. */
+"Master password:" = "Palavra-passe mestra:";
+
+/* Menu */
+"Move" = "Mover";
+
+/* No comment provided by engineer. */
+"New" = "Novo";
+
+/* No comment provided by engineer. */
+"New folder" = "Nova pasta";
+
+/* No comment provided by engineer. */
+"New project" = "Novo projeto";
+
+/* No comment provided by engineer. */
+"New RTF" = "Novo RTF";
+
+/* No comment provided by engineer. */
+"No" = "Não";
+
+/* Sidebar label */
+"Notes" = "Notas";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* Document opened */
+"Open note" = "Abrir nota";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "De outra forma, os dados das suas notas estarão disponíveis em:";
+
+/* Edit area */
+"Please enter image title:" = "Por favor insira o título da imagem:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "Por favor insira a palavra-passe para a nota atual";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "Por favor insira o nome do projeto:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "Por favor insira as etiquetas (separadas por vírgulas):";
+
+/* No comment provided by engineer. */
+"Please try again" = "Volte a tentar por favor";
+
+/* No comment provided by engineer. */
+"Preferences" = "Preferências";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "Sair do FSNotes";
+
+/* Delete menu */
+"Remove" = "Remover";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Remover Ligação";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "Eliminar nota(s)";
+
+/* No comment provided by engineer. */
+"Rename folder" = "Renomear pasta";
+
+/* No comment provided by engineer. */
+"Search and create" = "Pesquisar e criar";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "Mostrar no Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "Mostrar opções de visualização";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "Copiar/Colar inteligente";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "Traços Inteligentes";
+
+/* No comment provided by engineer. */
+"Smart Links" = "Ligações Inteligentes";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "Aspas Inteligentes";
+
+/* View menu */
+"Sort by" = "Ordenar por";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "Ortografia e Gramática";
+
+/* No comment provided by engineer. */
+"Strikethrough" = "Suprimir";
+
+/* No comment provided by engineer. */
+"Substitutions" = "Substituições";
+
+/* Menu
+   Sidebar label */
+"Tags" = "Etiquetas";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "Substituição de Texto";
+
+/* Delete menu */
+"This action cannot be undone." = "Esta ação não pode ser revertida.";
+
+/* No comment provided by engineer. */
+"Todo" = "Tarefa";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "Alternar pré-visualização";
+
+/* Sidebar label */
+"Trash" = "Lixo";
+
+/* No comment provided by engineer. */
+"Underline" = "Sublinhar";
+
+/* Untitled Note */
+"Untitled Note" = "Nota sem título";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "Endereço URL foi copiado para a área de transferência";
+
+/* Menu */
+"View" = "Vista";
+
+/* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Detectamos que está a instalar o FSNotes  através da Mac App Store com o armazenamento por defeito no iCloud Drive, deseja mover a base de dados antiga para o iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "É impossível mover \"{DST_PATH}\" porque este item já existe atualmente no destino seleccionado.";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "Palavra-passe de confirmação errada";
+
+/* No comment provided by engineer. */
+"Yes" = "Sim";
+
