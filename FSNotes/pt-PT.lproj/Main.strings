@@ -23,7 +23,7 @@
 "2Ci-Yj-aWK.title" = "Novo";
 
 /* Class = "NSTextFieldCell"; title = "hour at"; ObjectID = "2Iq-vN-V2w"; */
-"2Iq-vN-V2w.title" = "horas em";
+"2Iq-vN-V2w.title" = "horas e";
 
 /* Class = "NSMenuItem"; title = "Transformations"; ObjectID = "2oI-Rn-ZJC"; */
 "2oI-Rn-ZJC.title" = "Transformações";
@@ -44,7 +44,7 @@
 "3kn-9C-fsB.title" = "Copiar título";
 
 /* Class = "NSButtonCell"; title = "Change Master Password"; ObjectID = "3RO-C7-NOO"; */
-"3RO-C7-NOO.title" = "Introduzir Palavra-passe Mestra";
+"3RO-C7-NOO.title" = "Palavra-passe Mestra";
 
 /* Class = "NSMenu"; title = "Speech"; ObjectID = "3rS-ZA-NoH"; */
 "3rS-ZA-NoH.title" = "Fala";
@@ -101,7 +101,7 @@
 "7me-g8-vOq.title" = "Palavra-passe actual";
 
 /* Class = "NSMenuItem"; title = "Open external"; ObjectID = "7MT-fy-lXN"; */
-"7MT-fy-lXN.title" = "Abrir externo";
+"7MT-fy-lXN.title" = "Abrir externamente";
 
 /* Class = "NSButtonCell"; title = "Set"; ObjectID = "7od-TM-cUB"; */
 "7od-TM-cUB.title" = "Definir";
@@ -143,10 +143,10 @@
 "13t-eQ-kOr.title" = "Tradutores:";
 
 /* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
-"54i-GK-spQ.title" = "Localização da lista de notas:";
+"54i-GK-spQ.title" = "Posição da lista de notas:";
 
 /* Class = "NSTextFieldCell"; title = "Code Font:"; ObjectID = "63m-us-3j9"; */
-"63m-us-3j9.title" = "Tipo de letra de código:";
+"63m-us-3j9.title" = "Letra de código:";
 
 /* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "78Y-hA-62v"; */
 "78Y-hA-62v.title" = "Corrigir Ortografia Automáticamente";
@@ -191,7 +191,7 @@
 "buJ-ug-pKt.title" = "Utilizar selecção para Procura";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
-"bXK-wP-sZc.title" = "Espaçamento da lista de notas:";
+"bXK-wP-sZc.title" = "Espaçamento da lista:";
 
 /* Class = "NSMenu"; title = "Folder"; ObjectID = "BYI-2F-BJo"; */
 "BYI-2F-BJo.title" = "Pasta";
@@ -254,7 +254,7 @@
 "dys-2Q-lfZ.title" = "Armazenamento do arquivo:";
 
 /* Class = "NSTextFieldCell"; title = "Language (need app restart):"; ObjectID = "dZD-Db-KHs"; */
-"dZD-Db-KHs.title" = "Idioma (necessita reinício da aplicação)";
+"dZD-Db-KHs.title" = "Idioma (reinicia a aplicação)";
 
 /* Class = "NSMenuItem"; title = "Todo"; ObjectID = "e0G-y0-N0C"; */
 "e0G-y0-N0C.title" = "Tarefa";
@@ -344,7 +344,7 @@
 "G9H-Lg-TXE.title" = "Esvaziar o lixo";
 
 /* Class = "NSTextFieldCell"; title = "Save clipboard shortcut:"; ObjectID = "gbE-yH-ECm"; */
-"gbE-yH-ECm.title" = "Atalho para guardar na área de transferência:";
+"gbE-yH-ECm.title" = "Guardar no 'clipboard':";
 
 /* Class = "NSButtonCell"; title = "Modification date"; ObjectID = "GCG-C6-9cg"; */
 "GCG-C6-9cg.title" = "Data de modificação";
@@ -416,7 +416,7 @@
 "hz9-B4-Xy5.title" = "Serviços";
 
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
-"Icf-3C-atz.title" = "Pré-visualizar CSS em Markdown:";
+"Icf-3C-atz.title" = "Ver CSS em Markdown:";
 
 /* Class = "NSMenuItem"; title = "Back up storage"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "Cópia de segurança de armazenamento";
@@ -476,7 +476,7 @@
 "k32-YP-yyI.title" = "Itálico";
 
 /* Class = "NSTextFieldCell"; title = "Password:"; ObjectID = "KaC-Mz-siK"; */
-"KaC-Mz-siK.title" = "Palavra-passe:";
+"KaC-Mz-siK.title" = "Passe:";
 
 /* Class = "NSButtonCell"; title = "Use first line as title"; ObjectID = "kbK-Um-cQk"; */
 "kbK-Um-cQk.title" = "Utilizar a primeira linha como título";
@@ -515,7 +515,7 @@
 "LTw-w4-tEo.title" = "Realçado";
 
 /* Class = "NSButtonCell"; title = "Hide FSNotes when activating another application"; ObjectID = "M29-fW-FJa"; */
-"M29-fW-FJa.title" = "Ocultar FSNotes quando outra aplicação estiver activa";
+"M29-fW-FJa.title" = "Ocultar FSNotes quando há outra aplicação activa";
 
 /* Class = "NSMenuItem"; title = "TextBundle"; ObjectID = "MCR-1v-3Wc"; */
 "MCR-1v-3Wc.title" = "TextBundle";
@@ -599,7 +599,7 @@
 "OwM-mh-QMV.title" = "Pesquisar Anterior";
 
 /* Class = "NSMenuItem"; title = "Stop Speaking"; ObjectID = "Oyz-dy-DGm"; */
-"Oyz-dy-DGm.title" = "Parar Fala";
+"Oyz-dy-DGm.title" = "Parar Ditado";
 
 /* Class = "NSViewController"; title = "Layout"; ObjectID = "P2a-yk-5Rx"; */
 "P2a-yk-5Rx.title" = "Layout";
@@ -635,7 +635,7 @@
 "PY8-lr-5qr.title" = "Data de criação";
 
 /* Class = "NSButtonCell"; title = "Side"; ObjectID = "q7c-Fz-aaj"; */
-"q7c-Fz-aaj.title" = "Lado";
+"q7c-Fz-aaj.title" = "Lateral";
 
 /* Class = "NSMenuItem"; title = "Find Next"; ObjectID = "q09-fT-Sye"; */
 "q09-fT-Sye.title" = "Pesquisar Próximo";
@@ -710,7 +710,7 @@
 "S8Z-Js-fwB.title" = "Adicionar armazenamento...";
 
 /* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
-"sAn-Wm-FfY.title" = "Cópia de segurança a cada";
+"sAn-Wm-FfY.title" = "Cópia de seg. a cada";
 
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "Lista de notas";
@@ -857,13 +857,13 @@
 "xPz-yo-VwM.title" = "notas";
 
 /* Class = "NSMenuItem"; title = "Speech"; ObjectID = "xrE-MZ-jX0"; */
-"xrE-MZ-jX0.title" = "Discurso";
+"xrE-MZ-jX0.title" = "Ditar";
 
 /* Class = "NSMenuItem"; title = "Reveal in Finder"; ObjectID = "xSO-lW-k8f"; */
 "xSO-lW-k8f.title" = "Realçar no Finder";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
-"xX0-9b-KDq.title" = "Realçar bloco de código (necessário reiniciar a app)";
+"xX0-9b-KDq.title" = "Realçar bloco de código (reinicia a app)";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
 "xxB-ic-LFu.title" = "Nenhum";
@@ -881,7 +881,7 @@
 "YEy-JH-Tfz.title" = "Pesquisar e Substituir";
 
 /* Class = "NSMenuItem"; title = "Start Speaking"; ObjectID = "Ynk-f8-cLZ"; */
-"Ynk-f8-cLZ.title" = "Começar discurso";
+"Ynk-f8-cLZ.title" = "Começar Ditado";
 
 /* Class = "NSMenuItem"; title = "Pin/unpin"; ObjectID = "You-zo-rbl"; */
 "You-zo-rbl.title" = "Fixar/soltar";
@@ -905,7 +905,7 @@
 "Ze0-SZ-STw.title" = "Cópia de segurança manual";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
-"ZqK-gu-KdQ.title" = "Auto-seleccionar nota quando o corpo do texto corresponder";
+"ZqK-gu-KdQ.title" = "Auto-seleccionar nota quando o texto corresponde";
 
 /* Class = "NSButtonCell"; title = "Show notes in \"Notes\" and \"Todo\" lists"; ObjectID = "Zzw-01-JH7"; */
 "Zzw-01-JH7.title" = "Mostrar notas nas listas \"Notas\" e \"Tarefas\"";

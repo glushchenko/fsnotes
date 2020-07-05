@@ -875,6 +875,7 @@
 		D7F681B52344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
 		D7F681B62344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */; };
 		D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */; };
+		D7F6B74424B1EB3500140487 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D7F6B74224B1EB3500140487 /* InfoPlist.strings */; };
 		D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */; };
 		D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F95F391FF2759300E2A447 /* NotesTextProcessor.swift */; };
 		D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
@@ -1489,6 +1490,7 @@
 		D7F5C0F7223ED57D0038F172 /* PreferencesSecurityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesSecurityViewController.swift; sourceTree = "<group>"; };
 		D7F5C0FA223ED58F0038F172 /* PreferencesAdvancedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesAdvancedViewController.swift; sourceTree = "<group>"; };
 		D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextStorage+Images.swift"; sourceTree = "<group>"; };
+		D7F6B74324B1EB3500140487 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		D7F6CFEF2056AC22008C584A /* LanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		D7F76C42232D648D00E8D8BA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		D7F76C44232D648D00E8D8BA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -1872,6 +1874,7 @@
 				D7F2F1C721C68B5700E41811 /* ProjectListController.swift */,
 				D75F333A205EC34800CC887E /* MainInterface.storyboard */,
 				D75F333D205EC34800CC887E /* Info.plist */,
+				D7F6B74224B1EB3500140487 /* InfoPlist.strings */,
 				D74B56C9230C0A8700A07AF5 /* Localizable.strings */,
 			);
 			path = "FSNotes iOS Share";
@@ -2775,6 +2778,7 @@
 				D70255FD23326130003857AF /* codeblock.png in Resources */,
 				D74B56CB230C0A8700A07AF5 /* Localizable.strings in Resources */,
 				D7958A3D22EDA35700EDBDDC /* attach.png in Resources */,
+				D7F6B74424B1EB3500140487 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4145,6 +4149,14 @@
 				D7A7F788241D1395003AC0AD /* uk */,
 				D7B1F6A12468718E00593001 /* nl-NL */,
 				D774760C24ACC814003E43D1 /* pt-PT */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D7F6B74224B1EB3500140487 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D7F6B74324B1EB3500140487 /* pt-PT */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
