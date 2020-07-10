@@ -45,7 +45,17 @@ public class Project: Equatable {
     // if notes loaded from cache validation with fs needed
     public var cacheUsedDiffValidationNeeded = false
     
-    init(storage: Storage, url: URL, label: String? = nil, isTrash: Bool = false, isRoot: Bool = false, parent: Project? = nil, isDefault: Bool = false, isArchive: Bool = false, isExternal: Bool = false, isVirtual: Bool = false) {
+    init(storage: Storage,
+         url: URL,
+         label: String? = nil,
+         isTrash: Bool = false,
+         isRoot: Bool = false,
+         parent: Project? = nil,
+         isDefault: Bool = false,
+         isArchive: Bool = false,
+         isExternal: Bool = false,
+         isVirtual: Bool = false
+    ) {
         self.storage = storage
         self.url = url.standardized
         self.isTrash = isTrash
@@ -379,9 +389,7 @@ public class Project: Equatable {
                 }
             }
 
-            if isRoot {
-                self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-            } else if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
+            if let firstLineAsTitle = settings.value(forKey: "firstLineAsTitle") as? Bool {
                 self.firstLineAsTitle = firstLineAsTitle
             } else {
                 self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
