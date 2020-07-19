@@ -11,7 +11,7 @@ import Foundation
 public enum NoteType: String {
     case Markdown = "md"
     case RichText = "rtf"
-    
+
     static func withExt(rawValue: String) -> NoteType {
         switch rawValue {
             case "markdown", "md", "mkd", "txt": return NoteType.Markdown
@@ -55,13 +55,10 @@ public enum NoteType: String {
     }
     
     public func getExtension(for container: NoteContainer) -> String {
-        switch self {
-        case .Markdown:
-            if container == .textBundle || container == .none {
-                return "md"
-            }
-            return "markdown"
-        case .RichText: return "rtf"
+        if self == .RichText {
+            return "rtf"
         }
+
+        return UserDefaultsManagement.noteExtension
     }
 }

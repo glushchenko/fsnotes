@@ -22,9 +22,8 @@ class PreferencesGeneralViewController: NSViewController {
     @IBOutlet var searchNotesShortcut: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var showDockIcon: NSButton!
-    @IBOutlet weak var txtAsMarkdown: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
-    @IBOutlet weak var fileFormat: NSPopUpButton!
+    @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
 
     //MARK: global variables
@@ -47,13 +46,12 @@ class PreferencesGeneralViewController: NSViewController {
 
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
 
-        txtAsMarkdown.state = UserDefaultsManagement.txtAsMarkdown ? .on : .off
-
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
 
-        fileFormat.selectItem(withTag: UserDefaultsManagement.fileFormat.tag)
-
         fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
+
+        let ext = UserDefaultsManagement.noteExtension
+        defaultExtension.selectItem(withTitle: "." + ext)
     }
 
     @IBAction func changeDefaultStorage(_ sender: Any) {
@@ -95,6 +93,51 @@ class PreferencesGeneralViewController: NSViewController {
 
     @IBAction func externalEditor(_ sender: Any) {
         UserDefaultsManagement.externalEditor = externalEditorApp.stringValue
+    }
+
+    @IBAction func showDockIcon(_ sender: NSButton) {
+        let isEnabled = sender.state == .on
+        UserDefaultsManagement.showDockIcon = isEnabled
+
+        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
+
+        DispatchQueue.main.async {
+            NSMenu.setMenuBarVisible(true)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
+
+    @IBAction func showInMenuBar(_ sender: NSButton) {
+        UserDefaultsManagement.showInMenuBar = sender.state == .on
+
+        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
+
+        if sender.state == .off {
+            appDelegate.removeMenuBar(nil)
+            return
+        }
+
+        appDelegate.addMenuBar(nil)
+    }
+
+    @IBAction func fileContainer(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else { return }
+
+        if let container = NoteContainer(rawValue: item.tag) {
+            UserDefaultsManagement.fileContainer = container
+        }
+    }
+
+    @IBAction func defaultExtension(_ sender: NSPopUpButton) {
+        let ext = sender.title.replacingOccurrences(of: ".", with: "")
+
+        UserDefaultsManagement.noteExtension = ext
+
+        if ext == "rtf" {
+            UserDefaultsManagement.fileFormat = .RichText
+        } else {
+            UserDefaultsManagement.fileFormat = .Markdown
+        }
     }
 
     func restart() {
@@ -143,49 +186,6 @@ class PreferencesGeneralViewController: NSViewController {
                     vc.searchShortcut()
                 })
             }
-        }
-    }
-
-    @IBAction func showDockIcon(_ sender: NSButton) {
-        let isEnabled = sender.state == .on
-        UserDefaultsManagement.showDockIcon = isEnabled
-
-        NSApp.setActivationPolicy(isEnabled ? .regular : .accessory)
-
-        DispatchQueue.main.async {
-            NSMenu.setMenuBarVisible(true)
-            NSApp.activate(ignoringOtherApps: true)
-        }
-    }
-
-    @IBAction func txtAsMarkdown(_ sender: NSButton) {
-        UserDefaultsManagement.txtAsMarkdown = sender.state == .on
-    }
-
-    @IBAction func showInMenuBar(_ sender: NSButton) {
-        UserDefaultsManagement.showInMenuBar = sender.state == .on
-
-        guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { return }
-
-        if sender.state == .off {
-            appDelegate.removeMenuBar(nil)
-            return
-        }
-
-        appDelegate.addMenuBar(nil)
-    }
-
-    @IBAction func fileFormat(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
-
-        UserDefaultsManagement.fileFormat = NoteType.withTag(rawValue: item.tag)
-    }
-
-    @IBAction func fileContainer(_ sender: NSPopUpButton) {
-        guard let item = sender.selectedItem else { return }
-
-        if let container = NoteContainer(rawValue: item.tag) {
-            UserDefaultsManagement.fileContainer = container
         }
     }
 }

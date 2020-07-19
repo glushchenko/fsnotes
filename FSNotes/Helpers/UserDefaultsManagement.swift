@@ -66,6 +66,7 @@ public class UserDefaultsManagement {
         static let FullScreen = "fullScreen"
         static let FirstLineAsTitle = "firstLineAsTitle"
         static let NoteType = "noteType"
+        static let NoteExtension = "noteExtension"
         static let GrammarChecking = "grammarChecking"
         static let GitStorage = "gitStorage"
         static let HideDate = "hideDate"
@@ -113,7 +114,6 @@ public class UserDefaultsManagement {
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
-        static let TxtAsMarkdown = "txtAsMarkdown"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
     }
@@ -893,18 +893,6 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.HideSidebar)
         }
     }
-
-    static var txtAsMarkdown: Bool {
-        get {
-            if let result = shared?.object(forKey: Constants.TxtAsMarkdown) as? Bool {
-                return result
-            }
-            return false
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.TxtAsMarkdown)
-        }
-    }
     
     static var showInMenuBar: Bool {
         get {
@@ -986,6 +974,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue.tag, forKey: Constants.NoteType)
+        }
+    }
+
+    static var noteExtension: String {
+        get {
+            if let result = shared?.object(forKey: Constants.NoteExtension) as? String {
+                return result
+            }
+
+            return "markdown"
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.NoteExtension)
         }
     }
 
