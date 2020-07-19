@@ -1,6 +1,6 @@
 ## Shortcuts
 
-This is **markdown** and **RTF** text manager. For view rendered markdown please use preview mode, shortcut – ``command + ` ``, or click `View -> Toggle preview`.
+This is **markdown** and **RTF** text manager. For view rendered markdown please use preview mode, shortcut – `command + backtick`, or click `View -> Toggle preview`.
 
 ### Keyboard shortcuts
 
@@ -21,7 +21,7 @@ This is **markdown** and **RTF** text manager. For view rendered markdown please
 - `esc` - move cursor into search bar and clear edit/search fields
 - `cmd + L` - move cursor into search bar
 - `tab` - go to next field
-- ``cmd + ` `` - preview mode (markdown only)
+- `cmd + backtick` - preview mode (markdown only)
 - `up, down arrows` - select note
 - `cmd + j` - next note
 - `cmd + k` - previous note
