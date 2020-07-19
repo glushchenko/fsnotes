@@ -1207,7 +1207,7 @@ public class Note: NSObject  {
                     
                     let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
                     if codeBlock == nil && isValid(tag: cleanTag) {
-                        if cleanTag.last == "/" {
+                        if ["/", "!", "?", ";", ":", ".", ","].contains(cleanTag.last) {
                             tags.append(String(cleanTag.dropLast()))
                         } else {
                             tags.append(cleanTag)

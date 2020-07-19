@@ -830,6 +830,11 @@ public class NotesTextProcessor {
                 .replacingOccurrences(of: "\n", with: "")
                 .trim()
 
+            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
+                range = NSRange(location: range.location, length: range.length - 1)
+                substring = String(substring.dropLast())
+            }
+
             guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
             attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
