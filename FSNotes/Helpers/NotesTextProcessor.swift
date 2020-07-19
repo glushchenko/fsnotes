@@ -533,12 +533,18 @@ public class NotesTextProcessor {
 
         // We detect and process inline links not formatted
         NotesTextProcessor.autolinkRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard let range = result?.range else { return }
-            let substring = attributedString.mutableString.substring(with: range)
+            guard var range = result?.range else { return }
+            var substring = attributedString.mutableString.substring(with: range)
 
             guard substring.lengthOfBytes(using: .utf8) > 0 && URL(string: substring) != nil else { return }
+
+            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
+                range = NSRange(location: range.location, length: range.length - 1)
+                substring = String(substring.dropLast())
+            }
+
             attributedString.addAttribute(.link, value: substring, range: range)
-            
+
             if NotesTextProcessor.hideSyntax {
                 NotesTextProcessor.autolinkPrefixRegex.matches(string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
