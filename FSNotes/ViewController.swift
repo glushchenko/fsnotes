@@ -96,7 +96,7 @@ class ViewController: NSViewController,
             titleBarView.onMouseExitedClosure = { [weak self] in
                 DispatchQueue.main.async {
                     NSAnimationContext.runAnimationGroup({ context in
-                        context.duration = 0.15
+                        context.duration = 0.35
                         self?.titleBarAdditionalView.alphaValue = 0
                         self?.titleLabel.backgroundColor = .clear
                     }, completionHandler: nil)
@@ -117,7 +117,7 @@ class ViewController: NSViewController,
                     self?.lockUnlock.isHidden = (EditTextView.note == nil)
 
                     NSAnimationContext.runAnimationGroup({ context in
-                        context.duration = 0.15
+                        context.duration = 0.35
                         self?.titleBarAdditionalView.alphaValue = 1
                     }, completionHandler: nil)
                 }
@@ -641,6 +641,7 @@ class ViewController: NSViewController,
                 )
             )
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
+            && UserDefaultsManagement.shouldFocusSearchOnESCKeyDown
         ) {
             UserDataService.instance.resetLastSidebar()
             

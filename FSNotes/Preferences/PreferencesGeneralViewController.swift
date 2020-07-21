@@ -22,6 +22,7 @@ class PreferencesGeneralViewController: NSViewController {
     @IBOutlet var searchNotesShortcut: MASShortcutView!
     @IBOutlet weak var defaultStoragePath: NSPathControl!
     @IBOutlet weak var showDockIcon: NSButton!
+    @IBOutlet weak var searchFocusOnESC: NSButton!
     @IBOutlet weak var showInMenuBar: NSButton!
     @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
@@ -46,6 +47,8 @@ class PreferencesGeneralViewController: NSViewController {
 
         showDockIcon.state = UserDefaultsManagement.showDockIcon ? .on : .off
 
+        searchFocusOnESC.state = UserDefaultsManagement.shouldFocusSearchOnESCKeyDown ? .on : .off
+        
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
 
         fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
@@ -107,6 +110,10 @@ class PreferencesGeneralViewController: NSViewController {
         }
     }
 
+    @IBAction func searchFocusOnESC(_ sender: NSButton) {
+        UserDefaultsManagement.shouldFocusSearchOnESCKeyDown = sender.state == .on
+    }
+     
     @IBAction func showInMenuBar(_ sender: NSButton) {
         UserDefaultsManagement.showInMenuBar = sender.state == .on
 
