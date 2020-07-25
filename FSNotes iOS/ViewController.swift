@@ -880,7 +880,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 tag = item.name
             }
 
-            if let project = item.project, !project.isTrash {
+            if let project = item.project,
+                !project.isTrash,
+                !project.isVirtual {
                 currentProject = project
             }
         }

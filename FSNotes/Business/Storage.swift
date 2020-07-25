@@ -1352,7 +1352,7 @@ class Storage {
     }
 
     public func getNews() -> URL? {
-        let file = "FSNotes 4 is here! 🚀.textbundle"
+        let file = "FSNotes 4.0 Change Log.textbundle"
 
         guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
 
