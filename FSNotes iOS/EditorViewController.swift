@@ -1152,7 +1152,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         }
 
                         var url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
-                        let data: Data?
+                        var data: Data?
 
                         if let fileURL = info?["PHImageFileURLKey"] as? URL,
                             fileURL.pathExtension.lowercased() == "heic",
@@ -1162,19 +1162,25 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                             url.deletePathExtension()
                             url.appendPathExtension("jpg")
                         } else if let fileData = info?["PHImageFileDataKey"] as? Data {
-
                             let format = ImageFormat.get(from: fileData)
 
-                            print(format)
                             if format == .heic {
                                 data = UIImage(data: fileData)?.jpegData(compressionQuality: 1)
                                 imageExt = "jpg"
                             } else {
                                 data = fileData
+
+                                let ext = ImageFormat.get(from: data!)
+                                let path = "file:///tmp/" + UUID().uuidString + "." + ext.rawValue
+                                url = URL(fileURLWithPath: path)
                             }
-                        } else {
+                        } else if let imageFileUrl = info?["PHImageFileURLKey"] as? URL {
                             do {
-                                data = try Data(contentsOf: url)
+                                data = try Data(contentsOf: imageFileUrl)
+
+                                let ext = ImageFormat.get(from: data!)
+                                let path = "file:///tmp/" + UUID().uuidString + "." + ext.rawValue
+                                url = URL(fileURLWithPath: path)
                             } catch {
                                 return
                             }
