@@ -104,6 +104,7 @@ public class UserDefaultsManagement {
         static let SaveInKeychain = "saveInKeychain"
         static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
+        static let shouldFocusSearchOnESCKeyDown = "shouldFocusSearchOnESCKeyDown"
         static let ShowInMenuBar = "showInMenuBar"
         static let SmartInsertDelete = "smartInsertDelete"
         static let SnapshotsInterval = "snapshotsInterval"
@@ -891,6 +892,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.HideSidebar)
+        }
+    }
+    
+    static var shouldFocusSearchOnESCKeyDown: Bool {
+        get {
+            if let result = UserDefaults.standard.object(forKey: Constants.shouldFocusSearchOnESCKeyDown) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.shouldFocusSearchOnESCKeyDown)
         }
     }
     
