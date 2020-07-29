@@ -114,7 +114,7 @@ class FileSystemEventManager {
             return
         }
         
-        guard storage.getProjectBy(url: url) != nil else {
+        guard storage.getProjectByNote(url: url) != nil else {
             return
         }
         

@@ -583,8 +583,8 @@ class SidebarProjectView: NSOutlineView,
     
     @IBAction func revealInFinder(_ sender: Any) {
         guard let si = getSidebarItem(), let p = si.project else { return }
-        
-        NSWorkspace.shared.activateFileViewerSelecting([p.url])
+
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: p.url.path)
     }
     
     @IBAction func renameMenu(_ sender: Any) {

@@ -392,7 +392,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 if let note = storage.getBy(url: src) {
                     storage.removeBy(note: note)
 
-                    if let destination = Storage.sharedInstance().getProjectBy(url: dst) {
+                    if let destination = Storage.sharedInstance().getProjectByNote(url: dst) {
                         note.moveImages(to: destination)
                     }
                 }
