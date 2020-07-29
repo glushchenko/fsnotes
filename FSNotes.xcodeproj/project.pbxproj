@@ -227,6 +227,10 @@
 		D7409FA5221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */; };
 		D74112281FABA21B00AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
 		D74112291FABA29100AB619A /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74112271FABA21B00AB619A /* MainWindow.swift */; };
+		D743FB5124CD72AC003A8913 /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
+		D743FB5224CD72AF003A8913 /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
+		D743FB5324CD72B0003A8913 /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
+		D743FB5424CD72B1003A8913 /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
 		D7465F28207F2CD600E46A52 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
 		D7470D072170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
 		D7470D082170E890006B2A92 /* CustomTextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7470D062170E890006B2A92 /* CustomTextStorage.swift */; };
@@ -1795,6 +1799,7 @@
 		D7218944210211B800FE3AF2 /* Business */ = {
 			isa = PBXGroup;
 			children = (
+				D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */,
 				D7038E2520FB24E000A54E69 /* NoteAttachment.swift */,
 				D74B7B642137D3A1007F5331 /* AttributedBox.swift */,
 				D730BD2D222DABA100E69C93 /* NoteContainer.swift */,
@@ -2296,7 +2301,6 @@
 			children = (
 				D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */,
 				D7D00E76248E2C7C009AE455 /* ImageFormat.swift */,
-				D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3425,6 +3429,7 @@
 				D7487FD6217389F800D09383 /* NSImage+.swift in Sources */,
 				D768D755245E854D0028F344 /* NSAttributedString+.swift in Sources */,
 				D70D6CDF225D16D800A07A01 /* NSAppearance+.swift in Sources */,
+				D743FB5124CD72AC003A8913 /* SettingsFilesNaming.swift in Sources */,
 				D7DCFED12108D6910059B37B /* CoreNote.swift in Sources */,
 				D7218945210211D800FE3AF2 /* SortBy.swift in Sources */,
 				D7104A69230BD8E600B6D8EE /* SortDirection.swift in Sources */,
@@ -3504,6 +3509,7 @@
 				D75E337922462442006AD1C1 /* AppDelegate+URLRoutes.swift in Sources */,
 				D7F681B42344F4BF00F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D752D80A23454750006842F9 /* NSTextAttachment+.swift in Sources */,
+				D743FB5224CD72AF003A8913 /* SettingsFilesNaming.swift in Sources */,
 				D75E337A22462442006AD1C1 /* FileSystemEventManager.swift in Sources */,
 				D75E337B22462442006AD1C1 /* PrefsWindowController.swift in Sources */,
 				D7CAD81D231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -3751,6 +3757,7 @@
 				D7E6ACE920832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
 				D7F681B62344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D752D80823454750006842F9 /* NSTextAttachment+.swift in Sources */,
+				D743FB5424CD72B1003A8913 /* SettingsFilesNaming.swift in Sources */,
 				D7170C1D20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D779C7BB1F415C0300FADEE1 /* PrefsWindowController.swift in Sources */,
 				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -3857,6 +3864,7 @@
 				D7E6ACEA20832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */,
 				D7F681B52344F4C000F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D752D80923454750006842F9 /* NSTextAttachment+.swift in Sources */,
+				D743FB5324CD72B0003A8913 /* SettingsFilesNaming.swift in Sources */,
 				D7170C1E20F8565B001DDB36 /* FileSystemEventManager.swift in Sources */,
 				D777D782200912A400D86B33 /* ImagesProcessor.swift in Sources */,
 				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
@@ -4412,7 +4420,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 403;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -4425,7 +4433,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4447,7 +4455,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 402;
+				CURRENT_PROJECT_VERSION = 403;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4461,7 +4469,7 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.5.1;
+				MARKETING_VERSION = 4.5.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;

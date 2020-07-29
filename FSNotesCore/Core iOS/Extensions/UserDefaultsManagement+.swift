@@ -69,19 +69,6 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var naming: SettingsFilesNaming {
-        get {
-            if let result = shared?.object(forKey: "naming") as? Int, let settings = SettingsFilesNaming(rawValue: result) {
-                return settings
-            }
-
-            return .uuid
-        }
-        set {
-            shared?.set(newValue.rawValue, forKey: "naming")
-        }
-    }
-
     static var isFirstLaunch: Bool {
         get {
             if let result = shared?.object(forKey: Constants.IsFirstLaunch) as? Bool {

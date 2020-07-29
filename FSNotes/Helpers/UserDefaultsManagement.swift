@@ -1374,4 +1374,16 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var naming: SettingsFilesNaming {
+        get {
+            if let result = shared?.object(forKey: "naming") as? Int, let settings = SettingsFilesNaming(rawValue: result) {
+                return settings
+            }
+
+            return .uuid
+        }
+        set {
+            shared?.set(newValue.rawValue, forKey: "naming")
+        }
+    }
 }

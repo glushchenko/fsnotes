@@ -109,9 +109,6 @@
 /* Class = "NSTextFieldCell"; title = "Note Color:"; ObjectID = "8oP-79-BAN"; */
 "8oP-79-BAN.title" = "Колір нотатки:";
 
-/* Class = "NSMenuItem"; title = "Markdown"; ObjectID = "8yn-cx-Rtm"; */
-"8yn-cx-Rtm.title" = "Markdown";
-
 /* Class = "NSMenuItem"; title = "Substitutions"; ObjectID = "9ic-FL-obx"; */
 "9ic-FL-obx.title" = "Заміни";
 
@@ -285,6 +282,9 @@
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "frt-CF-STi"; */
 "frt-CF-STi.title" = "Змінити";
+
+/* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
+"FS0-ZJ-WvJ.title" = "Іменування файлів:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
 "fsF-5N-tWg.title" = "Зроблено з ❤️ в Україні 🇺🇦";
@@ -715,6 +715,9 @@
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "Верхній регістр";
 
+/* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
+"Vwq-Ek-K2v.title" = "Фокус на пошуку по ESC";
+
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "Редагування";
 
@@ -733,6 +736,9 @@
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "Допомога";
 
+/* Class = "NSMenuItem"; title = "Auto rename by title"; ObjectID = "wW6-4n-sve"; */
+"wW6-4n-sve.title" = "Автоматичне перейменування за назвою";
+
 /* Class = "NSMenuItem"; title = "Quote"; ObjectID = "X3S-sG-ykW"; */
 "X3S-sG-ykW.title" = "Цитата";
 
@@ -741,9 +747,6 @@
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "XBB-Sr-T1D"; */
 "XBB-Sr-T1D.title" = "Перейменувати";
-
-/* Class = "NSButtonCell"; title = "Recognize .txt as markdown"; ObjectID = "XDU-eb-M17"; */
-"XDU-eb-M17.title" = "Розпізнавати .txt як markdown";
 
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "Посилання";

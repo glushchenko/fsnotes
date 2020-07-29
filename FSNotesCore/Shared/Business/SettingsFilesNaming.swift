@@ -9,4 +9,10 @@
 enum SettingsFilesNaming: Int {
     case uuid
     case autoRename
+
+    public var tag: Int {
+        switch self {
+        case .uuid: return 0x00
+        case .autoRename: return 0x01        }
+    }
 }

@@ -466,16 +466,16 @@ public class Project: Equatable {
     public func getAllTags() -> [String] {
         let notes = Storage.sharedInstance().noteList.filter({ $0.project == self })
 
-        var tags = [String]()
+        var tags: Set<String> = []
         for note in notes {
             for tag in note.tags {
                 if !tags.contains(tag) {
-                    tags.append(tag)
+                    tags.insert(tag)
                 }
             }
         }
 
-        return tags
+        return Array(tags)
     }
 
     public func checkFSAndMemoryDiff() -> ([Note], [Note], [Note]) {

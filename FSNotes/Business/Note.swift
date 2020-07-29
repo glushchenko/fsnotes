@@ -1907,4 +1907,49 @@ public class Note: NSObject  {
 
         return path
     }
+
+    public func rename(to name: String) {
+        var name = name
+        var i = 1
+
+        while project.fileExist(fileName: name, ext: url.pathExtension) {
+
+            // disables renaming loop
+            if fileName.startsWith(string: name) {
+                return
+            }
+
+            let items = name.split(separator: " ")
+
+            if let last = items.last, let position = Int(last) {
+                let full = items.dropLast()
+
+                name = full.joined(separator: " ") + " " + String(position + 1)
+
+                i = position + 1
+            } else {
+                name = name + " " + String(i)
+
+                i += 1
+            }
+        }
+
+        let isPinned = self.isPinned
+        let dst = getNewURL(name: name)
+
+        removePin()
+
+        if isEncrypted() {
+            _ = lock()
+        }
+
+        if move(to: dst) {
+            url = dst
+            parseURL()
+        }
+
+        if isPinned {
+            addPin()
+        }
+    }
 }

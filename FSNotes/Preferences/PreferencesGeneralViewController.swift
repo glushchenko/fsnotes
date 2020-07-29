@@ -14,7 +14,7 @@ import FSNotesCore_macOS
 class PreferencesGeneralViewController: NSViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 413)
+        preferredContentSize = NSSize(width: 476, height: 481)
     }
 
     @IBOutlet var externalEditorApp: NSTextField!
@@ -26,6 +26,7 @@ class PreferencesGeneralViewController: NSViewController {
     @IBOutlet weak var showInMenuBar: NSButton!
     @IBOutlet weak var defaultExtension: NSPopUpButton!
     @IBOutlet weak var fileContainer: NSPopUpButton!
+    @IBOutlet weak var filesNaming: NSPopUpButton!
 
     //MARK: global variables
 
@@ -52,6 +53,8 @@ class PreferencesGeneralViewController: NSViewController {
         showInMenuBar.state = UserDefaultsManagement.showInMenuBar ? .on : .off
 
         fileContainer.selectItem(withTag: UserDefaultsManagement.fileContainer.tag)
+
+        filesNaming.selectItem(withTag: UserDefaultsManagement.naming.tag)
 
         let ext = UserDefaultsManagement.noteExtension
         defaultExtension.selectItem(withTitle: "." + ext)
@@ -144,6 +147,14 @@ class PreferencesGeneralViewController: NSViewController {
             UserDefaultsManagement.fileFormat = .RichText
         } else {
             UserDefaultsManagement.fileFormat = .Markdown
+        }
+    }
+
+    @IBAction func filesNaming(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else { return }
+
+        if let naming = SettingsFilesNaming(rawValue: item.tag) {
+            UserDefaultsManagement.naming = naming
         }
     }
 

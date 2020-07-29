@@ -142,6 +142,7 @@
 "Night Mode" = "Ночной режим";
 
 /* Notes in sidebar
+   Sidebar items
    Sidebar label */
 "Notes" = "Заметки";
 
@@ -229,7 +230,8 @@
 /* No comment provided by engineer. */
 "Title" = "Заголовку";
 
-/* Todo in sidebar */
+/* Sidebar items
+   Todo in sidebar */
 "Todo" = "Todo";
 
 /* Sidebar label

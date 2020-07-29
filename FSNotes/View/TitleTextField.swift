@@ -35,7 +35,10 @@ class TitleTextField: NSTextField {
     }
 
     override func textDidEndEditing(_ notification: Notification) {
-        guard stringValue.count > 0, let vc = ViewController.shared(), let note = EditTextView.note else { return }
+        guard stringValue.count > 0,
+            let vc = ViewController.shared(),
+            let note = EditTextView.note
+        else { return }
 
         let currentTitle = stringValue
         let currentName = note.getFileName()
@@ -46,21 +49,8 @@ class TitleTextField: NSTextField {
         }
         
         if currentName != currentTitle {
-            let ext = note.url.pathExtension
-            let dst = note.project.url.appendingPathComponent(currentTitle).appendingPathExtension(ext)
-
-            if !FileManager.default.fileExists(atPath: dst.path), note.move(to: dst) {
-                vc.updateTitle(newTitle: currentTitle)
-
-                updateNotesTableView()
-                return
-            } else {
-                let alert = NSAlert()
-                alert.alertStyle = .critical
-                alert.informativeText = NSLocalizedString("File with name \"\(currentTitle)\" already exists!", comment: "")
-                alert.messageText = NSLocalizedString("Incorrect file name", comment: "")
-                alert.runModal()
-            }
+            rename(currentTitle: currentTitle, note: note)
+            return
         }
 
         vc.updateTitle(newTitle: currentName)
@@ -68,6 +58,32 @@ class TitleTextField: NSTextField {
         updateNotesTableView()
         vc.titleLabel.isEditable = false
         vc.titleLabel.isEnabled = false
+    }
+
+    public func rename(currentTitle: String, note: Note) {
+        guard let vc = ViewController.shared() else { return }
+
+        let currentName = note.getFileName()
+        let ext = note.url.pathExtension
+        let dst = note.project.url.appendingPathComponent(currentTitle).appendingPathExtension(ext)
+
+        if !FileManager.default.fileExists(atPath: dst.path), note.move(to: dst) {
+            vc.updateTitle(newTitle: currentTitle)
+
+            updateNotesTableView()
+        } else {
+            vc.updateTitle(newTitle: currentName)
+            self.resignFirstResponder()
+            updateNotesTableView()
+            vc.titleLabel.isEditable = false
+            vc.titleLabel.isEnabled = false
+
+            let alert = NSAlert()
+            alert.alertStyle = .critical
+            alert.informativeText = NSLocalizedString("File with name \"\(currentTitle)\" already exists!", comment: "")
+            alert.messageText = NSLocalizedString("Incorrect file name", comment: "")
+            alert.runModal()
+        }
     }
 
     public func editModeOn() {

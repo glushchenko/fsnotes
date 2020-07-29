@@ -468,7 +468,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return []
         }
 
-        var list = list
+        var list: Set<String> = Set(list)
 
         for listItem in list {
             if listItem.contains("/") {
@@ -481,7 +481,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     if first {
                         first = false
                         if isFirstLevel, !list.contains(start) {
-                            list.insert(start, at: 0)
+                            list.insert(start)
                         }
                         continue
                     }
@@ -489,13 +489,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     start += ("/" + item)
 
                     if !list.contains(start) {
-                        list.insert(start, at: 0)
+                        list.insert(start)
                     }
                 }
             }
         }
 
-        return list
+        return Array(list).sorted()
     }
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
@@ -1143,6 +1143,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if added.count > 0 {
             outline.addTags(added)
+        }
+
+        if UserDefaultsManagement.naming == .autoRename {
+            let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+
+            if note.fileName != title {
+                note.rename(to: title)
+
+                viewDelegate?.titleLabel.updateNotesTableView()
+                viewDelegate?.updateTitle(newTitle: note.fileName)
+            }
         }
     }
 

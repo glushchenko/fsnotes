@@ -295,6 +295,9 @@
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "frt-CF-STi"; */
 "frt-CF-STi.title" = "Изменить";
 
+/* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
+"FS0-ZJ-WvJ.title" = "Именование файлов:";
+
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
 "fsF-5N-tWg.title" = "Сделано с ❤️ в Украине 🇺🇦";
 
@@ -402,9 +405,6 @@
 
 /* Class = "NSTextFieldCell"; title = "Line spacing:"; ObjectID = "iUm-Zm-zeg"; */
 "iUm-Zm-zeg.title" = "Межстрочный интервал:";
-
-/* Class = "NSMenuItem"; title = "Plain Text"; ObjectID = "iV0-pn-mg0"; */
-"iV0-pn-mg0.title" = "Plain Text";
 
 /* Class = "NSTextFieldCell"; title = "Line width:"; ObjectID = "Izt-6v-pKO"; */
 "Izt-6v-pKO.title" = "Ширина строки:";
@@ -742,6 +742,9 @@
 /* Class = "NSMenuItem"; title = "Make Upper Case"; ObjectID = "vmV-6d-7jI"; */
 "vmV-6d-7jI.title" = "В верхний регистр";
 
+/* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
+"Vwq-Ek-K2v.title" = "Фокус на поиске по ESC";
+
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "Редактировать";
 
@@ -760,6 +763,9 @@
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "wpr-3q-Mcd"; */
 "wpr-3q-Mcd.title" = "Помощь";
 
+/* Class = "NSMenuItem"; title = "Auto rename by title"; ObjectID = "wW6-4n-sve"; */
+"wW6-4n-sve.title" = "По заголовку";
+
 /* Class = "NSMenuItem"; title = "Quote"; ObjectID = "X3S-sG-ykW"; */
 "X3S-sG-ykW.title" = "Цитата";
 
@@ -768,9 +774,6 @@
 
 /* Class = "NSMenuItem"; title = "Rename"; ObjectID = "XBB-Sr-T1D"; */
 "XBB-Sr-T1D.title" = "Переименовать";
-
-/* Class = "NSButtonCell"; title = "Recognize .txt as markdown"; ObjectID = "XDU-eb-M17"; */
-"XDU-eb-M17.title" = ".txt как markdown";
 
 /* Class = "NSMenuItem"; title = "Link"; ObjectID = "xfW-7n-cIw"; */
 "xfW-7n-cIw.title" = "Ссылка";

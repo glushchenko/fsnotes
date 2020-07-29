@@ -19,6 +19,9 @@
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
 "AbV-ot-mEE.text" = "Date";
 
+/* Class = "UILabel"; text = "Files Naming"; ObjectID = "cIT-mg-zgx"; */
+"cIT-mg-zgx.text" = "Іменування файлів";
+
 /* Class = "UILabel"; text = "Title"; ObjectID = "Cn1-Y0-0eh"; */
 "Cn1-Y0-0eh.text" = "Title";
 

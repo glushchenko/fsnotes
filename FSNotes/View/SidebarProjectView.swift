@@ -1089,7 +1089,7 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func getAllTags() -> [String] {
-        var tags = [String]()
+        var tags: Set<String> = []
         var projects: [Project]? = nil
 
         if let item = getSidebarItem(), item.type == .All {
@@ -1103,13 +1103,13 @@ class SidebarProjectView: NSOutlineView,
                 let projectTags = project.getAllTags()
                 for tag in projectTags {
                     if !tags.contains(tag) {
-                        tags.append(tag)
+                        tags.insert(tag)
                     }
                 }
             }
         }
 
-        return tags
+        return Array(tags)
     }
 
     private func loadAllTags() {
