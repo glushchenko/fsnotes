@@ -248,6 +248,15 @@ public class TextFormatter {
         let selectRange = NSRange(location: range.location, length: unItalic.count)
         insertText(unItalic, replacementRange: range, selectRange: selectRange)
     }
+
+    private func unStrike(attributedString: NSAttributedString, range: NSRange) {
+        let unStrike = attributedString
+            .string
+            .replacingOccurrences(of: "~~", with: "")
+
+        let selectRange = NSRange(location: range.location, length: unStrike.count)
+        insertText(unStrike, replacementRange: range, selectRange: selectRange)
+    }
     
     public func underline() {
         if note.type == .RichText {
@@ -359,11 +368,43 @@ public class TextFormatter {
         }
         
         if note.isMarkdown() {
-            let string = "~~" + attributedString.string + "~~"
-            let location = string.count == 4 ? range.location + 2 : range.upperBound + 4
-            
-            self.replaceWith(string: string)
-            setSelectedRange(NSMakeRange(location, 0))
+
+            // UnStrike if not selected
+            if range.length == 0 {
+                var resultFound = false
+                let string = getAttributedString().string
+
+                NotesTextProcessor.strikeRegex.matches(string, range: NSRange(0..<string.count)) { (result) -> Void in
+                    guard let range = result?.range else { return }
+
+                    if range.intersection(self.range) != nil {
+                        let italicAttributed = self.getAttributedString().attributedSubstring(from: range)
+
+                        self.unStrike(attributedString: italicAttributed, range: range)
+                        resultFound = true
+                    }
+                }
+
+                if resultFound {
+                    return
+                }
+            }
+
+            // UnStrike
+            if attributedString.string.contains("~~") {
+                unStrike(attributedString: attributedString, range: range)
+                return
+            }
+
+            var selectRange = NSMakeRange(range.location + 2, 0)
+            let string = attributedString.string
+            let length = string.count
+
+            if length != 0 {
+                selectRange = NSMakeRange(range.location, length + 4)
+            }
+
+            insertText("~~" + string + "~~", selectRange: selectRange)
         }
     }
     

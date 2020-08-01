@@ -790,6 +790,23 @@ public class NotesTextProcessor {
             attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
             hideSyntaxIfNecessary(range: postRange)
         }
+
+        // We detect and process bolds
+        NotesTextProcessor.strikeRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            guard let range = result?.range else { return }
+
+            attributedString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: range.location + 2, length: range.length - 4))
+
+            attributedString.fixAttributes(in: range)
+
+            let preRange = NSMakeRange(range.location, 2)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: preRange)
+            hideSyntaxIfNecessary(range: preRange)
+
+            let postRange = NSMakeRange(range.location + range.length - 2, 2)
+            attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: postRange)
+            hideSyntaxIfNecessary(range: postRange)
+        }
         
         // We detect and process inline mailto links not formatted
         NotesTextProcessor.autolinkEmailRegex.matches(string, range: paragraphRange) { (result) -> Void in
@@ -1271,6 +1288,10 @@ public class NotesTextProcessor {
     fileprivate static let boldPattern = "(\\*\\*|__) (?=\\S) (.+?[*_]*) (?<=\\S) \\1"
     
     public static let boldRegex = MarklightRegex(pattern: boldPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
+
+    fileprivate static let strikePattern = "(\\~\\~) (?=\\S) (.+?[~]*) (?<=\\S) \\1"
+
+    public static let strikeRegex = MarklightRegex(pattern: strikePattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
     
     // MARK: Italic
     

@@ -114,8 +114,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return !disableRTF.contains(menuItem.title)
         } else {
             let disable = [
-                NSLocalizedString("Underline", comment: ""),
-                NSLocalizedString("Strikethrough", comment: "")
+                NSLocalizedString("Underline", comment: "")
             ]
 
             if disable.contains(menuItem.title) {
