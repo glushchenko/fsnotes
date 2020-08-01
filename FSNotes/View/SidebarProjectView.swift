@@ -1076,15 +1076,13 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func unloadAllTags() {
-        if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil }) as? [Tag] {
-            var indexPaths = IndexSet()
+        if let tags = sidebarItems?.filter({ ($0 as? Tag) != nil && ($0 as? Tag)?.getParent()
+             == nil }) as? [Tag] {
+            beginUpdates()
             for tag in tags {
-                let i = row(forItem: tag)
-                indexPaths.insert(i)
+                remove(tag: tag)
             }
-
-            sidebarItems?.removeAll(where: { ($0 as? Tag) != nil })
-            self.removeItems(at: indexPaths, inParent: nil, withAnimation: .slideDown)
+            endUpdates()
         }
     }
 
