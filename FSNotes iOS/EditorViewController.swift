@@ -643,7 +643,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         if UserDefaultsManagement.naming == .autoRename {
             let title = note.title.withoutSpecialCharacters.trunc(length: 64)
 
-            if note.fileName != title {
+            if note.fileName != title && title.count > 0 {
                 UIApplication.getVC().notesTable.rename(note: note, to: title, presentController: self)
             }
         }
