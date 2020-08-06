@@ -14,7 +14,7 @@ import MobileCoreServices
 import Photos
 import DropDown
 
-class EditorViewController: UIViewController, UITextViewDelegate {
+class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate {
     public var note: Note?
     
     private var isHighlighted: Bool = false
@@ -936,7 +936,7 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         let wikiButton = UIBarButtonItem(image: wikiImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.wikilink))
         items.append(wikiButton)
 
-        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.imagePressed))
+        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertImage))
         items.append(imageButton)
 
         let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 30)
@@ -1130,6 +1130,34 @@ class EditorViewController: UIViewController, UITextViewDelegate {
         }
     }
 
+    @objc func insertImage() {
+        let actionSheet = UIAlertController(title: NSLocalizedString("Images source:", comment: ""), message: nil, preferredStyle: .actionSheet)
+
+        let photos = UIAlertAction(title: NSLocalizedString("Photos", comment: ""), style: .default, handler: { _ in
+            self.imagePressed()
+        })
+        actionSheet.addAction(photos)
+
+        let iCloudDrive = UIAlertAction(title: NSLocalizedString("Documents", comment: ""), style: .default, handler: { _ in
+
+            let documentPickerController = UIDocumentPickerViewController(documentTypes: [String(kUTTypeImage)], in: .import)
+            documentPickerController.delegate = self
+            documentPickerController.allowsMultipleSelection = true
+            documentPickerController.modalPresentationStyle = .formSheet
+
+            self.present(documentPickerController, animated: true, completion: nil)
+        })
+
+        actionSheet.addAction(iCloudDrive)
+
+        let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .destructive, handler: { _ in
+        })
+
+        actionSheet.addAction(cancel)
+
+        present(actionSheet, animated: true, completion: nil)
+    }
+
     @objc func imagePressed() {
         if let note = self.note {
             let pickerController = DKImagePickerController()
@@ -1147,7 +1175,9 @@ class EditorViewController: UIViewController, UITextViewDelegate {
                         processed += 1
 
                         var imageExt = "jpg"
-                        if let uti = info?["PHImageFileUTIKey"] as? String, let ext = UTTypeCopyPreferredTagWithClass(uti as CFString, kUTTagClassFilenameExtension)?.takeRetainedValue() {
+                        if let uti = info?["PHImageFileUTIKey"] as? String,
+                            let ext = UTTypeCopyPreferredTagWithClass(uti as CFString, kUTTagClassFilenameExtension)?.takeRetainedValue()
+                        {
                             imageExt = String(ext)
                         }
 
@@ -1227,6 +1257,68 @@ class EditorViewController: UIViewController, UITextViewDelegate {
             }
 
             present(pickerController, animated: true) {}
+        }
+    }
+
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let note = self.note else { return }
+
+        var processed = 0
+        var markup = String()
+
+        for url in urls {
+            guard var data = try? Data(contentsOf: url) else { continue }
+
+            processed += 1
+
+            let format = ImageFormat.get(from: data)
+            var imageExt = "jpg"
+
+            switch format {
+            case .heic:
+                if let jpegData = UIImage(data: data)?.jpegData(compressionQuality: 1) {
+                    data = jpegData
+                }
+            default:
+                imageExt = format.rawValue
+            }
+
+            let url = URL(fileURLWithPath: "file:///tmp/" + UUID().uuidString + "." + imageExt)
+
+            if UserDefaultsManagement.liveImagesPreview {
+                self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
+
+                if processed == urls.count {
+                    note.save(attributed: self.editArea.attributedText)
+
+                    UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                    continue
+                }
+
+                if urls.count != 1 {
+                    self.editArea.insertText("\n\n")
+                }
+
+                continue
+            }
+
+            guard let path = ImagesProcessor.writeFile(data: data, url: url, note: note, ext: imageExt) else { return }
+
+             markup += "![](\(path))\n\n"
+
+             guard processed == urls.count else { continue }
+
+             DispatchQueue.main.async {
+                 self.editArea.insertText(markup)
+
+                 note.save(attributed: self.editArea.attributedText)
+                 UIApplication.getVC().notesTable.reloadRowForce(note: note)
+
+                 note.isParsed = false
+
+                 self.editArea.undoManager?.removeAllActions()
+                 self.refill()
+             }
         }
     }
 
