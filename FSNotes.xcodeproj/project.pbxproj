@@ -515,6 +515,10 @@
 		D7A41C9B2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A41C9C2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
 		D7A41C9D2316A8BE00DAAFEB /* CodeBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */; };
+		D7A549C024DD9BDA00537544 /* settings-icons-font.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A549BE24DD9BDA00537544 /* settings-icons-font.png */; };
+		D7A549C124DD9BDA00537544 /* settings-icons-night.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A549BF24DD9BDA00537544 /* settings-icons-night.png */; };
+		D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */; };
+		D7A549C524DD9E8D00537544 /* settings-icons-editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A549C424DD9E8D00537544 /* settings-icons-editor.png */; };
 		D7A65C5920F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A65C5A20F11C38003E5ADC /* LanguageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A65C5820F11C38003E5ADC /* LanguageType.swift */; };
 		D7A7F765241C2183003AC0AD /* UserDefaultsManagement+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CD5CDA21832C190009D63B /* UserDefaultsManagement+.swift */; };
@@ -731,6 +735,16 @@
 		D7D372F8207BB09500AFBD9F /* SidebarProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
+		D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79AFC24DE71FA003C61AF /* settings-icons-support.png */; };
+		D7D79AFF24DE727F003C61AF /* settings-icons-rate.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79AFE24DE727E003C61AF /* settings-icons-rate.png */; };
+		D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0024DE72BB003C61AF /* settings-icons-home.png */; };
+		D7D79B0424DE72BB003C61AF /* settings-icons-projects.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0124DE72BB003C61AF /* settings-icons-projects.png */; };
+		D7D79B0524DE72BB003C61AF /* settings-icons-import.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0224DE72BB003C61AF /* settings-icons-import.png */; };
+		D7D79B0B24DE738E003C61AF /* settings-icons-container.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0624DE738C003C61AF /* settings-icons-container.png */; };
+		D7D79B0C24DE738E003C61AF /* settings-icons-twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0724DE738C003C61AF /* settings-icons-twitter.png */; };
+		D7D79B0D24DE738E003C61AF /* settings-icons-naming.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0824DE738D003C61AF /* settings-icons-naming.png */; };
+		D7D79B0E24DE738E003C61AF /* settings-icons-keyboard.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0924DE738D003C61AF /* settings-icons-keyboard.png */; };
+		D7D79B0F24DE738E003C61AF /* settings-icons-format.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79B0A24DE738D003C61AF /* settings-icons-format.png */; };
 		D7D79C28236798C300898A2D /* Welcome.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D79C27236798C300898A2D /* Welcome.bundle */; };
 		D7D79C29236798C300898A2D /* Welcome.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D79C27236798C300898A2D /* Welcome.bundle */; };
 		D7D79C2A236798C300898A2D /* Welcome.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D7D79C27236798C300898A2D /* Welcome.bundle */; };
@@ -1339,6 +1353,10 @@
 		D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ios-512x512@2x.png"; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
 		D7A41C9A2316A8BE00DAAFEB /* CodeBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBlock.swift; sourceTree = "<group>"; };
+		D7A549BE24DD9BDA00537544 /* settings-icons-font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-font.png"; sourceTree = "<group>"; };
+		D7A549BF24DD9BDA00537544 /* settings-icons-night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-night.png"; sourceTree = "<group>"; };
+		D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditorViewController.swift; sourceTree = "<group>"; };
+		D7A549C424DD9E8D00537544 /* settings-icons-editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-editor.png"; sourceTree = "<group>"; };
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A7F77F241D12D3003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		D7A7F780241D12D3003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
@@ -1435,6 +1453,16 @@
 		D7D372F6207BB09500AFBD9F /* SidebarProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarProjectView.swift; sourceTree = "<group>"; };
 		D7D3D5171F44794A00D152FE /* makeNote.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = makeNote.png; sourceTree = "<group>"; };
 		D7D3D5191F4483EA00D152FE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
+		D7D79AFC24DE71FA003C61AF /* settings-icons-support.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-support.png"; sourceTree = "<group>"; };
+		D7D79AFE24DE727E003C61AF /* settings-icons-rate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-rate.png"; sourceTree = "<group>"; };
+		D7D79B0024DE72BB003C61AF /* settings-icons-home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-home.png"; sourceTree = "<group>"; };
+		D7D79B0124DE72BB003C61AF /* settings-icons-projects.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-projects.png"; sourceTree = "<group>"; };
+		D7D79B0224DE72BB003C61AF /* settings-icons-import.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-import.png"; sourceTree = "<group>"; };
+		D7D79B0624DE738C003C61AF /* settings-icons-container.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-container.png"; sourceTree = "<group>"; };
+		D7D79B0724DE738C003C61AF /* settings-icons-twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-twitter.png"; sourceTree = "<group>"; };
+		D7D79B0824DE738D003C61AF /* settings-icons-naming.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-naming.png"; sourceTree = "<group>"; };
+		D7D79B0924DE738D003C61AF /* settings-icons-keyboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-keyboard.png"; sourceTree = "<group>"; };
+		D7D79B0A24DE738D003C61AF /* settings-icons-format.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-format.png"; sourceTree = "<group>"; };
 		D7D79C27236798C300898A2D /* Welcome.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Welcome.bundle; sourceTree = "<group>"; };
 		D7D7CD39232774BC0016AC15 /* ViewController+Git.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Git.swift"; sourceTree = "<group>"; };
 		D7D7CD4F23278A2F0016AC15 /* Git.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Git.bundle; sourceTree = "<group>"; };
@@ -1819,6 +1847,19 @@
 		D73CEC6D2278ECA500D549F7 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D7D79B0624DE738C003C61AF /* settings-icons-container.png */,
+				D7D79B0A24DE738D003C61AF /* settings-icons-format.png */,
+				D7D79B0924DE738D003C61AF /* settings-icons-keyboard.png */,
+				D7D79B0824DE738D003C61AF /* settings-icons-naming.png */,
+				D7D79B0724DE738C003C61AF /* settings-icons-twitter.png */,
+				D7D79B0024DE72BB003C61AF /* settings-icons-home.png */,
+				D7D79B0224DE72BB003C61AF /* settings-icons-import.png */,
+				D7D79B0124DE72BB003C61AF /* settings-icons-projects.png */,
+				D7A549BE24DD9BDA00537544 /* settings-icons-font.png */,
+				D7A549BF24DD9BDA00537544 /* settings-icons-night.png */,
+				D7A549C424DD9E8D00537544 /* settings-icons-editor.png */,
+				D7D79AFE24DE727E003C61AF /* settings-icons-rate.png */,
+				D7D79AFC24DE71FA003C61AF /* settings-icons-support.png */,
 				D7BE112822DB1C8600435866 /* padlock-locked-ios.png */,
 				D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */,
 				D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */,
@@ -2292,6 +2333,7 @@
 				D78115662153D4D9004FA1CA /* ProjectsViewController.swift */,
 				D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */,
 				D73A1FFC249941A200CFC376 /* NamingViewController.swift */,
+				D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2790,10 +2832,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7A549C024DD9BDA00537544 /* settings-icons-font.png in Resources */,
+				D7A549C524DD9E8D00537544 /* settings-icons-editor.png in Resources */,
 				D71AA01A2143948A004AFD2A /* archive.png in Resources */,
 				D7F2F1AE21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7D8E0F0213298CD0057F747 /* makeNote.png in Resources */,
 				D7D06535247B03A800214326 /* more_row_action.png in Resources */,
+				D7D79B0F24DE738E003C61AF /* settings-icons-format.png in Resources */,
 				D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
 				D7DF402C20A3780E000F8B13 /* pin_white.png in Resources */,
 				D73CEC8E2278ECA500D549F7 /* checkbox.png in Resources */,
@@ -2819,6 +2864,7 @@
 				D7FA916520555067002BB0AB /* SourceCodePro-Black.ttf in Resources */,
 				D73CEC8C2278ECA500D549F7 /* checkbox_flipped.png in Resources */,
 				D75DF64221319994003C3059 /* todo.png in Resources */,
+				D7D79B0D24DE738E003C61AF /* settings-icons-naming.png in Resources */,
 				D7BE112622DB168C00435866 /* lock-open.png in Resources */,
 				D73CEC912278ECA500D549F7 /* checkbox_empty_white.png in Resources */,
 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
@@ -2831,12 +2877,14 @@
 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
 				D70E8D6923705C6200E64D62 /* tag2@2x.png in Resources */,
 				D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
+				D7D79B0524DE72BB003C61AF /* settings-icons-import.png in Resources */,
 				D7FAE29C22DDDCF3003874D1 /* inbox.png in Resources */,
 				D7BAC633249E05B2008D29AA /* close.png in Resources */,
 				D7CBAFF6214D495B002ECD5A /* search_white.png in Resources */,
 				D7D06533247AFA0600214326 /* pin_row_action.png in Resources */,
 				D7B1F6B1246A686700593001 /* ordered_list.png in Resources */,
 				D78115652153C035004FA1CA /* add.png in Resources */,
+				D7D79B0E24DE738E003C61AF /* settings-icons-keyboard.png in Resources */,
 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
 				D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
 				D7271FB02052C77600033D0C /* pin.png in Resources */,
@@ -2848,6 +2896,7 @@
 				D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */,
 				D70BA87720599D1300875E9C /* header.png in Resources */,
 				D70BA87920599D1300875E9C /* header@2x.png in Resources */,
+				D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */,
 				D78DC71F247AE47D00C5BB43 /* plus@2x.png in Resources */,
 				D7C2AB0721E116CE00B1AC0E /* share.png in Resources */,
 				D71AA02021439A8C004AFD2A /* todo_sidebar.png in Resources */,
@@ -2861,6 +2910,7 @@
 				D73CEC8F2278ECA500D549F7 /* checkbox_flipped_white@3x.png in Resources */,
 				D7735B11213D06C500FACB12 /* underline@2x.png in Resources */,
 				D70BA87820599D1300875E9C /* header@3x.png in Resources */,
+				D7D79B0C24DE738E003C61AF /* settings-icons-twitter.png in Resources */,
 				D76025BF204F078A000B9F59 /* bold@3x.png in Resources */,
 				D73995602051D1AB009017EE /* italic.png in Resources */,
 				D7BDFE6D201F6E8F00897A58 /* Initial in Resources */,
@@ -2878,6 +2928,7 @@
 				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7B1F6B2246A686700593001 /* numbered_list.png in Resources */,
+				D7D79B0B24DE738E003C61AF /* settings-icons-container.png in Resources */,
 				D7E378812147A05D00D6D7DD /* search.png in Resources */,
 				D7EA59F1213EAD8800582BD9 /* image.png in Resources */,
 				D73CEC8B2278ECA500D549F7 /* checkbox_empty_white@3x.png in Resources */,
@@ -2898,8 +2949,10 @@
 				D7CBAFFA214D4A08002ECD5A /* settings_white@3x.png in Resources */,
 				D70255FF2333CFA0003857AF /* quote.png in Resources */,
 				D78C6CBF246D7B78007AF7F2 /* wikilink.png in Resources */,
+				D7A549C124DD9BDA00537544 /* settings-icons-night.png in Resources */,
 				D7FAE29B22DDDCF3003874D1 /* inbox_white.png in Resources */,
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
+				D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
 				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
 				D73CEC842278ECA500D549F7 /* checkbox_flipped@2x.png in Resources */,
@@ -2911,8 +2964,10 @@
 				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D7D03BC7205C6ED200D96A6D /* undo.png in Resources */,
 				D73CEC832278ECA500D549F7 /* checkbox_flipped@3x.png in Resources */,
+				D7D79AFF24DE727F003C61AF /* settings-icons-rate.png in Resources */,
 				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
 				D78115612153AE89004FA1CA /* preview.png in Resources */,
+				D7D79B0424DE72BB003C61AF /* settings-icons-projects.png in Resources */,
 				D73CEC872278ECA500D549F7 /* checkbox_empty_white@2x.png in Resources */,
 				D767938E201F21F5000F7BBF /* Main.storyboard in Resources */,
 				D70FE13020FE198200813F9E /* InfoPlist.strings in Resources */,
@@ -3667,6 +3722,7 @@
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D798DA7B2477CFF8001381BE /* SwiftyPageControllerAnimatorDefault.swift in Sources */,
 				D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */,
+				D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
@@ -4489,7 +4545,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 194;
+				CURRENT_PROJECT_VERSION = 195;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -4513,7 +4569,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 194;
+				CURRENT_PROJECT_VERSION = 195;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
@@ -4541,7 +4597,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 194;
+				CURRENT_PROJECT_VERSION = 195;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -4571,7 +4627,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 194;
+				CURRENT_PROJECT_VERSION = 195;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";

@@ -11,6 +11,9 @@
 /* Naming controller */
 "Auto rename by title" = "Автоматически по заголовку";
 
+/* Settings */
+"Autocorrection" = "Aвтоисправление";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Уровеньб яркости";
 
@@ -55,6 +58,9 @@
 
 /* No comment provided by engineer. */
 "Disabled" = "Отключен";
+
+/* No comment provided by engineer. */
+"Documents" = "Документы";
 
 /* No comment provided by engineer. */
 "Done" = "Готово";
@@ -110,6 +116,9 @@
 /* Settings */
 "Homepage" = "Домашняя страница";
 
+/* No comment provided by engineer. */
+"Images source:" = "Источник изображения:";
+
 /* Main view popover table
    Settings */
 "Import notes" = "Импортировать";
@@ -149,6 +158,9 @@
 /* No comment provided by engineer. */
 "Notes list" = "Список заметок";
 
+/* No comment provided by engineer. */
+"Photos" = "Фото";
+
 /* Table row action */
 "Pin" = "Прикрепить";
 
@@ -166,6 +178,9 @@
 
 /* Settings */
 "Projects" = "Проекты";
+
+/* Settings */
+"Rate FSNotes" = "Оценить FSNotes";
 
 /* Main view popover table */
 "Remove folder" = "Удалить папку";
@@ -211,6 +226,9 @@
 
 /* No comment provided by engineer. */
 "Sort by" = "Сортировать по";
+
+/* Settings */
+"Spell Checking" = "Проверка орфографии";
 
 /* Settings */
 "Storage" = "Хранилище";

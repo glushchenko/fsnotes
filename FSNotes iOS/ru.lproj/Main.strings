@@ -25,9 +25,6 @@
 /* Class = "UILabel"; text = "Default Extension"; ObjectID = "Ddv-OO-Wuz"; */
 "Ddv-OO-Wuz.text" = "Default Extension";
 
-/* Class = "UILabel"; text = "Code block live highlighting"; ObjectID = "jGp-dZ-ZDR"; */
-"jGp-dZ-ZDR.text" = "Code block live highlighting";
-
 /* Class = "UITableViewSection"; headerTitle = "UI"; ObjectID = "kHE-RF-ila"; */
 "kHE-RF-ila.headerTitle" = "UI";
 
@@ -43,9 +40,6 @@
 /* Class = "UILabel"; text = "Font"; ObjectID = "wmm-cY-j3I"; */
 "wmm-cY-j3I.text" = "Font";
 
-/* Class = "UILabel"; text = "Live images preview"; ObjectID = "XL0-ja-V8s"; */
-"XL0-ja-V8s.text" = "Live images preview";
-
 /* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
 "Ywj-qM-UNi.placeholder" = "Найти или создать";
 
@@ -54,7 +48,4 @@
 
 /* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "ZKo-hy-393"; */
 "ZKo-hy-393.headerTitle" = "General";
-
-/* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
-"ZLZ-yY-efJ.headerTitle" = "Editor";
 

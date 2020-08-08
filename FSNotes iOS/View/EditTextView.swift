@@ -43,6 +43,9 @@ class EditTextView: UITextView, UITextViewDelegate {
             self.translatesAutoresizingMaskIntoConstraints = false
             self.font = UIFont(name: "HelveticaNeue", size: 18)
         }
+
+        autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
+        spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
     }
 
     override func caretRect(for position: UITextPosition) -> CGRect {

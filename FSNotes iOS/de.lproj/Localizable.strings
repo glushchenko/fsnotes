@@ -2,16 +2,33 @@
    Sidebar label */
 "Archive" = "Archiv";
 
+/* Settings */
+"Autocorrection" = "Autokorrektur";
+
+/* No comment provided by engineer. */
+"Documents" = "Unterlagen";
+
+/* No comment provided by engineer. */
+"Images source:" = "Bildquelle:";
+
 /* Inbox in sidebar */
 "Inbox" = "Posteingang";
 
+/* Table row action */
+"More" = "Noch";
+
 /* Notes in sidebar
+   Sidebar items
    Sidebar label */
 "Notes" = "Notizen";
+
+/* No comment provided by engineer. */
+"Photos" = "Fotos";
+
+/* Settings */
+"Spell Checking" = "Rechtschreibprüfung";
 
 /* Sidebar label
    Trash in sidebar */
 "Trash" = "Papierkorb";
-
-"More" = "Noch";
 

@@ -8,15 +8,12 @@
 
 import UIKit
 import NightNight
+import StoreKit
 
 class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
 
-    private var noteTableUpdater = Timer()
-    private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
-        NSLocalizedString("Editor", comment: "Settings"),
         NSLocalizedString("UI", comment: "Settings"),
         NSLocalizedString("Storage", comment: "Settings"),
         NSLocalizedString("FSNotes", comment: "Settings")
@@ -27,13 +24,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             NSLocalizedString("Extension", comment: "Settings"),
             NSLocalizedString("Container", comment: "Settings"),
             NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
-            NSLocalizedString("Files Naming", comment: "Settings")
-        ], [
-            NSLocalizedString("Code block live highlighting", comment: "Settings"),
-            NSLocalizedString("Live images preview", comment: "Settings"),
-            NSLocalizedString("Use inline tags", comment: "Settings"),
-            NSLocalizedString("Dynamic Type", comment: "Settings"),
-            NSLocalizedString("Font size", comment: "Settings")
+            NSLocalizedString("Files Naming", comment: "Settings"),
+            NSLocalizedString("Editor", comment: "Settings")
         ], [
             NSLocalizedString("Font", comment: "Settings"),
             NSLocalizedString("Night Mode", comment: "Settings")
@@ -43,11 +35,33 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         ], [
             NSLocalizedString("Support", comment: "Settings"),
             NSLocalizedString("Homepage", comment: "Settings"),
-            NSLocalizedString("Twitter", comment: "Settings")
+            NSLocalizedString("Twitter", comment: "Settings"),
+            NSLocalizedString("Rate FSNotes", comment: "Settings")
         ]
     ]
 
-    var rowsInSection = [4, 5, 2, 2, 3]
+    var icons = [
+        [
+            "settings-icons-format",
+            "settings-icons-container",
+            "settings-icons-keyboard",
+            "settings-icons-naming",
+            "settings-icons-editor"
+        ], [
+            "settings-icons-font",
+            "settings-icons-night"
+        ], [
+            "settings-icons-projects",
+            "settings-icons-import"
+        ], [
+            "settings-icons-support",
+            "settings-icons-home",
+            "settings-icons-twitter",
+            "settings-icons-rate"
+        ]
+    ]
+
+    var rowsInSection = [5, 2, 2, 4]
     private var prevCount = 0
         
     override func viewDidLoad() {
@@ -57,7 +71,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.interactivePopGestureRecognizer?.delegate = self
 
-
         super.viewDidLoad()
         
         self.title = NSLocalizedString("Settings", comment: "Sidebar settings")
@@ -66,7 +79,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 4
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,14 +100,14 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let uiSwitch = UISwitch()
-        uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
 
         let cell = UITableViewCell()
         let view = UIView()
+        let iconName = icons[indexPath.section][indexPath.row]
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
         cell.textLabel?.text = rows[indexPath.section][indexPath.row]
+        cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
         if indexPath.section == 0x00 {
             switch indexPath.row {
@@ -106,75 +119,25 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 cell.accessoryType = .disclosureIndicator
             case 3:
                 cell.accessoryType = .disclosureIndicator
+            case 4:
+                cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }
         }
-        
+                
         if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
+                cell.accessoryType = .disclosureIndicator
             case 1:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
-            case 2:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.inlineTags
-            case 3:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.dynamicTypeFont
-            case 4:
-                if UserDefaultsManagement.dynamicTypeFont {
-                    cell.isHidden = true
-                    return cell
-                }
-
-                let stepper = UIStepper(frame: CGRect(x: 20, y: 20, width: 100, height: 20))
-                stepper.stepValue = 1
-                stepper.minimumValue = 10
-                stepper.maximumValue = 40
-                stepper.value = Double(UserDefaultsManagement.fontSize)
-                stepper.translatesAutoresizingMaskIntoConstraints = false
-                stepper.addTarget(self, action: #selector(fontSizeChanged), for: .valueChanged)
-
-                let label = UILabel()
-                label.text = ""
-                label.translatesAutoresizingMaskIntoConstraints = false
-
-                counter.text = String(Double(UserDefaultsManagement.fontSize))
-                counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
-                counter.translatesAutoresizingMaskIntoConstraints = false
-
-                cell.contentView.addSubview(label)
-                cell.contentView.addSubview(counter)
-                cell.contentView.addSubview(stepper)
-                cell.selectionStyle = .none
-                cell.accessoryType = .none
-
-                let views = ["name" : label, "counter": counter, "stepper" : stepper] as [String : Any]
-
-                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[name]-[counter(40)]-15-[stepper(100)]-20-|", options:  NSLayoutConstraint.FormatOptions.alignAllCenterY, metrics: nil, views: views))
-
-                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[name(stepper)]-10-|", options: [], metrics: nil, views: views))
+                cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }
         }
-        
+
         if indexPath.section == 0x02 {
-            switch indexPath.row {
-            case 0:
-                cell.accessoryType = .disclosureIndicator
-            case 1:
-                cell.accessoryType = .disclosureIndicator
-            default:
-                return cell
-            }
-        }
-
-        if indexPath.section == 0x03 {
             switch indexPath.row {
             case 0:
                 cell.accessoryType = .disclosureIndicator
@@ -186,52 +149,12 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         return cell
     }
 
-    @objc public func switchValueDidChange(_ sender: UISwitch) {
-        guard let cell = sender.superview as? UITableViewCell,
-            let tableView = cell.superview as? UITableView,
-            let indexPath = tableView.indexPath(for: cell) else { return }
-
-        if indexPath.section == 0x01 {
-            switch indexPath.row {
-            case 0:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
-            case 1:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
-            case 2:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.inlineTags = uiSwitch.isOn
-
-                let vc = UIApplication.getVC()
-                if UserDefaultsManagement.inlineTags {
-                    vc.sidebarTableView.loadAllTags()
-                } else {
-                    vc.sidebarTableView.unloadAllTags()
-                }
-
-                vc.resizeSidebar(withAnimation: true)
-
-                UIApplication.getEVC().resetToolbar()
-            case 3:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.dynamicTypeFont = uiSwitch.isOn
-
-                if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 4, section: 1)) {
-                    dynamicCell.isHidden = uiSwitch.isOn
-                }
-
-                tableView.reloadRows(at: [IndexPath(row: 4, section: 1)], with: .automatic)
-
-                noteTableUpdater.invalidate()
-                noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
-                return
-            case 4:
-                return
-            default:
-                return
-            }
-        }
+    private func image( _ image:UIImage, withSize newSize:CGSize) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(newSize, false, UIScreen.main.scale)
+        image.draw(in: CGRect(x: 0,y: 0,width: newSize.width,height: newSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!.withRenderingMode(.automatic)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -247,16 +170,14 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 lvc = LanguageViewController()
             case 3:
                 lvc = NamingViewController()
+            case 4:
+                lvc = SettingsEditorViewController()
             default:
                 return
             }
         }
-
-        if indexPath.section == 0x01 {
-            tableView.deselectRow(at: indexPath, animated: false)
-        }
         
-        if indexPath.section == 0x02 {
+        if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
                 lvc = FontViewController()
@@ -267,7 +188,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             }
         }
 
-        if indexPath.section == 0x03 {
+        if indexPath.section == 0x02 {
             switch indexPath.row {
             case 0:
                 lvc = ProjectsViewController()
@@ -285,7 +206,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             }
         }
 
-        if indexPath.section == 0x04 {
+        if indexPath.section == 0x03 {
             var url: URL?
 
             switch indexPath.row {
@@ -297,6 +218,9 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 break
             case 0x02:
                 url = URL(string: "https://twitter.com/fsnotesapp")
+                break
+            case 0x03:
+                SKStoreReviewController.requestReview()
                 break
             default: break
             }
@@ -313,7 +237,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
 
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 4 || section == 3 {
+        if section == 2 || section == 3 {
             return 65
         }
 
@@ -355,14 +279,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
 
         return nil
-    }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.section == 0x01 && indexPath.row == 0x04 && UserDefaultsManagement.dynamicTypeFont) {
-            return 0
-        }
-
-        return super.tableView(tableView, heightForRowAt: indexPath)
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -419,21 +335,5 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction func fontSizeChanged(stepper: UIStepper) {
-        UserDefaultsManagement.fontSize = Int(stepper.value)
-
-        counter.text = String(stepper.value)
-
-        noteTableUpdater.invalidate()
-        noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
-    }
-
-    @IBAction func reloadNotesTable() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController else { return }
-
-        vc.notesTable.reloadData()
     }
 }

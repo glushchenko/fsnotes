@@ -8,6 +8,9 @@
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Auto en fonction de la luminosité";
 
+/* Settings */
+"Autocorrection" = "Auto-correction";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Niveau de luminosité";
 
@@ -38,11 +41,14 @@
 /* Settings */
 "Default Keyboard In Editor" = "Clavier par défaut dans l'éditeur";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Delete" = "Supprimer";
 
 /* No comment provided by engineer. */
 "Disabled" = "Désactivé";
+
+/* No comment provided by engineer. */
+"Documents" = "Des documents";
 
 /* No comment provided by engineer. */
 "Done" = "Terminé";
@@ -83,7 +89,11 @@
 /* Settings */
 "Homepage" = "Page d'accueil";
 
-/* Settings */
+/* No comment provided by engineer. */
+"Images source:" = "Source des images:";
+
+/* Main view popover table
+   Settings */
 "Import notes" = "Notes importantes";
 
 /* Inbox in sidebar */
@@ -107,17 +117,15 @@
 /* Settings */
 "Night Mode" = "Mode nuit";
 
-/* No comment provided by engineer. */
-"Note with this name already exist" = "Une note avec ce nom existe déjà";
-
 /* Notes in sidebar
+   Sidebar items
    Sidebar label */
 "Notes" = "Notes";
 
 /* No comment provided by engineer. */
 "Notes list" = "Liste de notes";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Pin" = "Épingler";
 
 /* No comment provided by engineer. */
@@ -157,6 +165,9 @@
 "Sort by" = "Trier par";
 
 /* Settings */
+"Spell Checking" = "Vérification orthographique";
+
+/* Settings */
 "Storage" = "Stockage";
 
 /* Settings */
@@ -164,12 +175,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Système";
-
-/* No comment provided by engineer. */
-"Tag name:" = "Nom de tag :";
-
-/* No comment provided by engineer. */
-"Tag with this name already exist" = "Un tag avec ce nom existe déjà";
 
 /* Sidebar label */
 "Tags" = "Tags";
@@ -180,7 +185,8 @@
 /* No comment provided by engineer. */
 "Title" = "Titre";
 
-/* Todo in sidebar */
+/* Sidebar items
+   Todo in sidebar */
 "Todo" = "À faire";
 
 /* Sidebar label
@@ -196,7 +202,7 @@
 /* Settings */
 "UI" = "Interface";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "UnPin" = "Désépingler";
 
 /* No comment provided by engineer. */
@@ -208,7 +214,7 @@
 /* Settings */
 "Version" = "Version";
 
-/* No comment provided by engineer. */
+/* Main view popover table */
 "View settings" = "Paramètres d'affichage";
 
 /* No comment provided by engineer. */
