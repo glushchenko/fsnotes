@@ -8,6 +8,9 @@
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automatisch op schermhelderheid";
 
+/* Settings */
+"Autocorrection" = "Autocorrectie";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Helderheidsniveau";
 
@@ -38,11 +41,14 @@
 /* Settings */
 "Default Keyboard In Editor" = "Standaard Toetsenbord bij Editen";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "Delete" = "Verwijderen";
 
 /* No comment provided by engineer. */
 "Disabled" = "Uitgeschakeld";
+
+/* No comment provided by engineer. */
+"Documents" = "Documenten";
 
 /* No comment provided by engineer. */
 "Done" = "Gedaan";
@@ -92,7 +98,8 @@
 /* Settings */
 "Homepage" = "Startpagina";
 
-/* Settings */
+/* Main view popover table
+   Settings */
 "Import notes" = "Importeren notities";
 
 /* Inbox in sidebar */
@@ -110,6 +117,9 @@
 /* No comment provided by engineer. */
 "Modification date" = "Wijzigingsdatum";
 
+/* Table row action */
+"More" = "Nog steeds";
+
 /* Move view */
 "Move" = "Verplaats";
 
@@ -119,10 +129,8 @@
 /* Settings */
 "Night Mode" = "Nachtstand";
 
-/* No comment provided by engineer. */
-"Note with this name already exist" = "Notitie met deze naam bestaat al";
-
 /* Notes in sidebar
+   Sidebar items
    Sidebar label */
 "Notes" = "Notities";
 
@@ -130,6 +138,9 @@
 "Notes list" = "Notitielijst";
 
 /* No comment provided by engineer. */
+"Photos" = "Foto's";
+
+/* Table row action */
 "Pin" = "Pin";
 
 /* No comment provided by engineer. */
@@ -146,6 +157,9 @@
 
 /* Settings */
 "Projects" = "Projecten";
+
+/* Settings */
+"Rate FSNotes" = "Beoordeel FSNotes";
 
 /* No comment provided by engineer. */
 "Remove" = "Verwijder";
@@ -178,6 +192,9 @@
 "Sort by" = "Sorteer op";
 
 /* Settings */
+"Spell Checking" = "Spellingcheck";
+
+/* Settings */
 "Storage" = "Opslag";
 
 /* Settings */
@@ -185,12 +202,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Systeem";
-
-/* No comment provided by engineer. */
-"Tag name:" = "Tag naam:";
-
-/* No comment provided by engineer. */
-"Tag with this name already exist" = "Tag met deze naam bestaat al";
 
 /* Sidebar label */
 "Tags" = "Tags";
@@ -201,7 +212,8 @@
 /* No comment provided by engineer. */
 "Title" = "Titel";
 
-/* Todo in sidebar */
+/* Sidebar items
+   Todo in sidebar */
 "Todo" = "Te Doen";
 
 /* Sidebar label
@@ -217,7 +229,7 @@
 /* Settings */
 "UI" = "UI";
 
-/* No comment provided by engineer. */
+/* Table row action */
 "UnPin" = "VerwijderPin";
 
 /* No comment provided by engineer. */
@@ -229,10 +241,9 @@
 /* Settings */
 "Version" = "Versie";
 
-/* No comment provided by engineer. */
+/* Main view popover table */
 "View settings" = "Bekijk instellingen";
 
 /* No comment provided by engineer. */
 "Visibility" = "Zichtbaarheid";
 
-"More" = "Nog steeds";
