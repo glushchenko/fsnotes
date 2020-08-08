@@ -8,6 +8,9 @@
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automático pelo brilho do ecrã";
 
+/* Settings */
+"Autocorrection" = "Auto correção";
+
 /* No comment provided by engineer. */
 "Brightness level" = "Nível de brilho";
 
@@ -43,6 +46,9 @@
 
 /* No comment provided by engineer. */
 "Disabled" = "Inactivo";
+
+/* No comment provided by engineer. */
+"Documents" = "Documentos";
 
 /* No comment provided by engineer. */
 "Done" = "Feito";
@@ -92,6 +98,9 @@
 /* Settings */
 "Homepage" = "Página inicial";
 
+/* No comment provided by engineer. */
+"Images source:" = "Fonte das imagens:";
+
 /* Main view popover table
    Settings */
 "Import notes" = "Importar notas";
@@ -124,6 +133,7 @@
 "Night Mode" = "Modo Noturno";
 
 /* Notes in sidebar
+   Sidebar items
    Sidebar label */
 "Notes" = "Notas";
 
@@ -132,6 +142,9 @@
 
 /* Document opened */
 "Open note" = "Abrir nota";
+
+/* No comment provided by engineer. */
+"Photos" = "Fotos";
 
 /* Table row action */
 "Pin" = "Fixar";
@@ -150,6 +163,9 @@
 
 /* Settings */
 "Projects" = "Projetos";
+
+/* Settings */
+"Rate FSNotes" = "Avaliar FSNotes";
 
 /* No comment provided by engineer. */
 "Remove" = "Remover";
@@ -185,6 +201,9 @@
 "Sort by" = "Ordenar por";
 
 /* Settings */
+"Spell Checking" = "Verificação Ortográfica";
+
+/* Settings */
 "Storage" = "Armazenamento";
 
 /* Settings */
@@ -202,7 +221,8 @@
 /* No comment provided by engineer. */
 "Title" = "Título";
 
-/* Todo in sidebar */
+/* Sidebar items
+   Todo in sidebar */
 "Todo" = "Tarefa";
 
 /* Sidebar label

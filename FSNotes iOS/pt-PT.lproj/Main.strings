@@ -10,9 +10,6 @@
 /* Class = "UILabel"; text = "Default Container"; ObjectID = "7Ja-3s-eck"; */
 "7Ja-3s-eck.text" = "Recipiente por defeito";
 
-/* Class = "UILabel"; text = "Dynamic Font"; ObjectID = "7Tm-WO-XkG"; */
-"7Tm-WO-XkG.text" = "Tipo de letra dinâmico";
-
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
 "AbV-ot-mEE.text" = "Data";
 
@@ -22,20 +19,11 @@
 /* Class = "UILabel"; text = "Default Extension"; ObjectID = "Ddv-OO-Wuz"; */
 "Ddv-OO-Wuz.text" = "Expressão por defeito";
 
-/* Class = "UILabel"; text = "Use inline tags"; ObjectID = "dpk-uD-cgC"; */
-"dpk-uD-cgC.text" = "Utilizar etiquetas em linha";
-
 /* Class = "UITableViewSection"; headerTitle = "View"; ObjectID = "GE7-pW-Nf1"; */
 "GE7-pW-Nf1.headerTitle" = "Vista";
 
-/* Class = "UILabel"; text = "Font size"; ObjectID = "GZP-1U-TUd"; */
-"GZP-1U-TUd.text" = "Tamanho de letra";
-
 /* Class = "UILabel"; text = "Twitter"; ObjectID = "hHQ-zQ-ptu"; */
 "hHQ-zQ-ptu.text" = "Twitter";
-
-/* Class = "UILabel"; text = "Code block live highlighting"; ObjectID = "jGp-dZ-ZDR"; */
-"jGp-dZ-ZDR.text" = "Realçar bloco de código";
 
 /* Class = "UITableViewSection"; headerTitle = "UI"; ObjectID = "kHE-RF-ila"; */
 "kHE-RF-ila.headerTitle" = "Interface";
@@ -76,9 +64,6 @@
 /* Class = "UILabel"; text = "Font"; ObjectID = "wmm-cY-j3I"; */
 "wmm-cY-j3I.text" = "Tipo de Letra";
 
-/* Class = "UILabel"; text = "Live images preview"; ObjectID = "XL0-ja-V8s"; */
-"XL0-ja-V8s.text" = "Pré-visualização de imagens";
-
 /* Class = "UIButton"; normalTitle = "   "; ObjectID = "yuS-7s-7qj"; */
 "yuS-7s-7qj.normalTitle" = "  ";
 
@@ -90,7 +75,4 @@
 
 /* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "ZKo-hy-393"; */
 "ZKo-hy-393.headerTitle" = "Geral";
-
-/* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
-"ZLZ-yY-efJ.headerTitle" = "Editor";
 
