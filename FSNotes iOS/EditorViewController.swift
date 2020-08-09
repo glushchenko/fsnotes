@@ -1155,6 +1155,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         actionSheet.addAction(cancel)
 
+        if let view = self.editArea.superview {
+            actionSheet.popoverPresentationController?.sourceView = view
+            actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
+        }
+
         present(actionSheet, animated: true, completion: nil)
     }
 
