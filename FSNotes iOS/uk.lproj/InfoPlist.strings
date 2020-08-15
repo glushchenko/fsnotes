@@ -1,9 +1,9 @@
-"NSCameraUsageDescription" = "Потреби вкладати фото в нотатки"
+"NSCameraUsageDescription" = "Потреби вкладати фото в нотатки";
 
-"NSFaceIDUsageDescription" = "Шифрування та дешифрування за допомогою FaceID"
+"NSFaceIDUsageDescription" = "Шифрування та дешифрування за допомогою FaceID";
 
-"NSLocationWhenInUseUsageDescription" = "Потрібен дозвіл коли додається фотографія у нотатку"
+"NSLocationWhenInUseUsageDescription" = "Потрібен дозвіл коли додається фотографія у нотатку";
 
-"NSPhotoLibraryAddUsageDescription" = "Потрібен дозвіл на запис зображень у додаток для фотографій"
+"NSPhotoLibraryAddUsageDescription" = "Потрібен дозвіл на запис зображень у додаток для фотографій";
 
-"NSPhotoLibraryUsageDescription" = "Потрібен дозвіл коли додається зображення у нотатку"
+"NSPhotoLibraryUsageDescription" = "Потрібен дозвіл коли додається зображення у нотатку";

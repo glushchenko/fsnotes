@@ -8,7 +8,7 @@
 "NSLocationWhenInUseUsageDescription" = "Necessário quando existem fotos anexadas";
 
 /* Privacy */
-"NSPhotoLibraryAddUsageDescription" = "Precisa de permissão para escrever imagens no aplicativo de fotos"
+"NSPhotoLibraryAddUsageDescription" = "Precisa de permissão para escrever imagens no aplicativo de fotos";
 
 /* Privacy - Photo Library Usage Description */
 "NSPhotoLibraryUsageDescription" = "Necessário para anexar imagens às notas";
