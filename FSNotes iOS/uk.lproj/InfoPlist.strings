@@ -1,6 +1,9 @@
-/* Shortcuts */
+"NSCameraUsageDescription" = "Потреби вкладати фото в нотатки"
 
-"New document" = "Нова нотатка";
-"Save clipboard" = "Зберегти буфер обміну";
-"Search" = "Пошук";
-"Focus in search field" = "Зосередитись в полі";
+"NSFaceIDUsageDescription" = "Шифрування та дешифрування за допомогою FaceID"
+
+"NSLocationWhenInUseUsageDescription" = "Потрібен дозвіл коли додається фотографія у нотатку"
+
+"NSPhotoLibraryAddUsageDescription" = "Потрібен дозвіл на запис зображень у додаток для фотографій"
+
+"NSPhotoLibraryUsageDescription" = "Потрібен дозвіл коли додається зображення у нотатку"

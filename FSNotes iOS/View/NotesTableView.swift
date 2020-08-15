@@ -259,7 +259,8 @@ class NotesTableView: UITableView,
             actionSheet.addAction(encryption)
 
 //            if note.container == .encryptedTextPack {
-//                let share = UIAlertAction(title: NSLocalizedString("Remove encryption", comment: ""), style: .default, handler: { _ in
+//                Remove encryption
+//                let share = UIAlertAction(title: NSLocalizedString("", comment: ""), style: .default, handler: { _ in
 //                    self.removeEncryption(note: note)
 //                })
 //                actionSheet.addAction(share)
@@ -357,41 +358,6 @@ class NotesTableView: UITableView,
                     cell.updateView()
                 }
             }
-        }
-    }
-    
-    @objc func handleLongPress(longPressGesture: UILongPressGestureRecognizer) {
-        guard let vc = viewDelegate else { return }
-
-        let p = longPressGesture.location(in: self)
-        let indexPath = self.indexPathForRow(at: p)
-        if indexPath == nil {
-            print("Long press on table view, not row.")
-        } else if (longPressGesture.state == UIGestureRecognizer.State.began) {
-            let title = NSLocalizedString("Are you sure you want to remove note?", comment: "")
-            let message = NSLocalizedString("This action cannot be undone.", comment: "")
-            let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
-            
-            let remove = UIAlertAction(title: NSLocalizedString("Remove", comment: ""), style: .destructive) { (alert: UIAlertAction!) -> Void in
-                guard let row = indexPath?.row else {
-                    return
-                }
-                
-                let note = self.notes[row]
-                vc.sidebarTableView.removeTags(in: [note])
-
-                vc.storage.removeNotes(notes: [note]) {_ in
-                    DispatchQueue.main.async {
-                        self.removeRows(notes: [note])
-                    }
-                }
-            }
-            let cancel = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .default)
-            
-            alert.addAction(cancel)
-            alert.addAction(remove)
-            
-            vc.present(alert, animated: true, completion:nil)
         }
     }
     

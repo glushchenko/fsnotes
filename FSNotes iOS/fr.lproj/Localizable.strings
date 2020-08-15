@@ -1,5 +1,4 @@
-/* Archive in sidebar
-   Sidebar label */
+/* Archive in sidebar */
 "Archive" = "Archive";
 
 /* No comment provided by engineer. */
@@ -7,6 +6,9 @@
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Auto en fonction de la luminosité";
+
+/* Naming controller */
+"Auto rename by title" = "Renommer automatiquement par titre";
 
 /* Settings */
 "Autocorrection" = "Auto-correction";
@@ -24,10 +26,19 @@
 "Code block live highlighting" = "Bloc de code avec surbrillance";
 
 /* No comment provided by engineer. */
-"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatible avec DayOne JSON (zip), Bear et Ulysses (textbundle), markdown, txt, rtf";
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatible avec DayOne JSON (zip), Bear et Ulysses (textbundle), markdown, txt, rtf.";
+
+/* Settings */
+"Container" = "Container";
 
 /* No comment provided by engineer. */
 "Copy plain text" = "Copier le texte brut";
+
+/* Main view popover table */
+"Create folder" = "Créer le dossier";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Créer le dossier:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Date de création";
@@ -63,10 +74,28 @@
 "Enabled" = "Activé";
 
 /* No comment provided by engineer. */
+"Enter folder name" = "Entrez le nom du dossier";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Entrez le mot de passe principal";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Entrez un nouveau nom de balise";
+
+/* No comment provided by engineer. */
 "Enter note name" = "Entrer le nom de la note";
+
+/* Settings */
+"Extension" = "Extension";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Un fichier avec ce nom existe déjà";
+
+/* Settings */
+"Files Naming" = "Nommage des fichiers";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "Focus dans le champ de recherche";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Nom de dossier :";
@@ -92,8 +121,7 @@
 /* No comment provided by engineer. */
 "Images source:" = "Source des images:";
 
-/* Main view popover table
-   Settings */
+/* Main view popover table - Settings */
 "Import notes" = "Notes importantes";
 
 /* Inbox in sidebar */
@@ -111,19 +139,29 @@
 /* No comment provided by engineer. */
 "Modification date" = "Date de modification";
 
+/* Table row action */
+"More" = "Plus";
+
 /* Move view */
 "Move" = "Déplacer";
+
+/* No comment provided by engineer. */
+"New document" = "Nouveau document";
 
 /* Settings */
 "Night Mode" = "Mode nuit";
 
-/* Notes in sidebar
-   Sidebar items
-   Sidebar label */
+/* Notes in sidebar - Sidebar items - Sidebar label */
 "Notes" = "Notes";
 
 /* No comment provided by engineer. */
 "Notes list" = "Liste de notes";
+
+/* Document opened */
+"Open note" = "Ouvrir la note";
+
+/* No comment provided by engineer. */
+"Photos" = "Photos";
 
 /* Table row action */
 "Pin" = "Épingler";
@@ -143,11 +181,41 @@
 /* Settings */
 "Projects" = "Projets";
 
+/* Settings */
+"Rate FSNotes" = "Noter FSNotes";
+
+/* Main view popover table */
+"Remove folder" = "Supprimer le dossier";
+
+/* Main view popover table */
+"Remove tag" = "Enlever l'étiquette";
+
 /* No comment provided by engineer. */
 "Rename" = "Renommer";
 
+/* Main view popover table */
+"Rename folder" = "Renommer le dossier";
+
+/* Popover table */
+"Rename folder:" = "Renommer le dossier:";
+
 /* No comment provided by engineer. */
 "Rename note:" = "Renommer la note";
+
+/* Main view popover table */
+"Rename tag" = "Renommer la balise";
+
+/* Popover table */
+"Rename tag:" = "Renommer la balise:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "Enregistrer le presse-papiers";
+
+/* No comment provided by engineer. */
+"Search" = "Chercher";
+
+/* No comment provided by engineer. */
+"Search or create" = "Trouver ou créer";
 
 /* Sidebar settings */
 "Settings" = "Paramètres";
@@ -176,21 +244,16 @@
 /* No comment provided by engineer. */
 "System" = "Système";
 
-/* Sidebar label */
-"Tags" = "Tags";
-
 /* No comment provided by engineer. */
 "This action cannot be undone." = "Cette action ne peut pas être annulée.";
 
 /* No comment provided by engineer. */
 "Title" = "Titre";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items - Todo in sidebar */
 "Todo" = "À faire";
 
-/* Sidebar label
-   Trash in sidebar */
+/* Sidebar label - Trash in sidebar */
 "Trash" = "Corbeille";
 
 /* Settings */
@@ -219,4 +282,3 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilité";
-

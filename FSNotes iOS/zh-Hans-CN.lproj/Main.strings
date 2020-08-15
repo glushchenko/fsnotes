@@ -10,7 +10,7 @@
 /* Class = "UILabel"; text = "Default Container"; ObjectID = "7Ja-3s-eck"; */
 "7Ja-3s-eck.text" = "默认容器";
 
-/* Class = "UILabel"; text = "Inbox ✦"; ObjectID = "8VE-HM-shO"; */
+/* Class = "UILabel"; text = "Inbox ▽"; ObjectID = "8VE-HM-shO"; */
 "8VE-HM-shO.text" = "收件箱";
 
 /* Class = "UILabel"; text = "Date"; ObjectID = "AbV-ot-mEE"; */
@@ -27,9 +27,6 @@
 
 /* Class = "UILabel"; text = "Twitter"; ObjectID = "hHQ-zQ-ptu"; */
 "hHQ-zQ-ptu.text" = "Twitter";
-
-/* Class = "UILabel"; text = "Code block live highlighting"; ObjectID = "jGp-dZ-ZDR"; */
-"jGp-dZ-ZDR.text" = "代码块实时高亮显示（非预览模式也可以高亮显示）";
 
 /* Class = "UITableViewSection"; headerTitle = "UI"; ObjectID = "kHE-RF-ila"; */
 "kHE-RF-ila.headerTitle" = "UI界面";
@@ -70,9 +67,6 @@
 /* Class = "UILabel"; text = "Font"; ObjectID = "wmm-cY-j3I"; */
 "wmm-cY-j3I.text" = "字体";
 
-/* Class = "UILabel"; text = "Live images preview"; ObjectID = "XL0-ja-V8s"; */
-"XL0-ja-V8s.text" = "实时图像预览";
-
 /* Class = "UISearchBar"; placeholder = "Search and create"; ObjectID = "Ywj-qM-UNi"; */
 "Ywj-qM-UNi.placeholder" = "搜索或创建（按下回车即可创建）";
 
@@ -82,6 +76,14 @@
 /* Class = "UITableViewSection"; headerTitle = "General"; ObjectID = "ZKo-hy-393"; */
 "ZKo-hy-393.headerTitle" = "基本";
 
-/* Class = "UITableViewSection"; headerTitle = "Editor"; ObjectID = "ZLZ-yY-efJ"; */
-"ZLZ-yY-efJ.headerTitle" = "编辑器";
+/* Class = "UILabel"; text = "Editor"; ObjectID = "0Ej-zu-HgT"; */
+"0Ej-zu-HgT.text" = "";
 
+/* Class = "UILabel"; text = "Files Naming"; ObjectID = "cIT-mg-zgx"; */
+"cIT-mg-zgx.text" = "";
+
+/* Class = "UILabel"; text = "Rate"; ObjectID = "hlX-b2-pJB"; */
+"hlX-b2-pJB.text" = "";
+
+/* Class = "UIButton"; normalTitle = "   "; ObjectID = "yuS-7s-7qj"; */
+"yuS-7s-7qj.normalTitle" = "";

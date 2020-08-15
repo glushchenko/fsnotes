@@ -174,6 +174,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                    glassIconView.tintColor = .white
            }
 
+        self.currentFolder.text = NSLocalizedString("Inbox", comment: "") + " ▽"
+
+        self.searchCancel.titleLabel?.text = NSLocalizedString("Cancel", comment: "")
+
+        self.search.placeholder = NSLocalizedString("Search or create", comment: "")
+
         self.folderCapacity.mixedTextColor = Colors.titleText
         self.currentFolder.mixedTextColor = Colors.titleText
         self.currentFolder.isUserInteractionEnabled = true
@@ -533,8 +539,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc public func openSettings() {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let sourceSelectorTableViewController = storyBoard.instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+        let sourceSelectorTableViewController = SettingsViewController()
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
 
         self.present(navigationController, animated: true, completion: nil)

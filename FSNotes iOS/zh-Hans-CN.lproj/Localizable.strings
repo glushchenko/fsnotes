@@ -8,22 +8,25 @@
 "Enter Master Password" = "输入管理员密码";
 
 /* No comment provided by engineer. */
+"Focus in search field" = "Focus in search field";
+
+/* No comment provided by engineer. */
 "Inbox" = "收件箱";
 
 /* No comment provided by engineer. */
-"Master password:" = "管理员密码：";
+"New document" = "New document";
 
 /* Sidebar label */
 "Notes" = "笔记";
 
 /* No comment provided by engineer. */
-"OK" = "好的";
+"Save clipboard" = "Save clipboard";
 
 /* No comment provided by engineer. */
-"Please enter password for current note" = "请输入当前笔记的密码";
+"Search" = "Search";
 
-/* Sidebar label */
-"Tags" = "标签";
+/* No comment provided by engineer. */
+"Search or create" = "Search or create";
 
 /* No comment provided by engineer. */
 "Todo" = "待办事项";
@@ -31,3 +34,252 @@
 /* Sidebar label */
 "Trash" = "垃圾箱";
 
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "";
+
+/* Naming controller */
+"Auto rename by title" = "";
+
+/* Settings */
+"Autocorrection" = "";
+
+/* No comment provided by engineer. */
+"Brightness level" = "";
+
+/* Settings */
+"build" = "";
+
+/* Settings */
+"Code block live highlighting" = "";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "";
+
+/* Settings */
+"Container" = "";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "";
+
+/* Main view popover table */
+"Create folder" = "";
+
+/* No comment provided by engineer. */
+"Create folder:" = "";
+
+/* No comment provided by engineer. */
+"Creation date" = "";
+
+/* Settings */
+"Default Container" = "";
+
+/* Settings */
+"Default Extension" = "";
+
+/* Settings */
+"Default Keyboard In Editor" = "";
+
+/* Table row action */
+"Delete" = "";
+
+/* No comment provided by engineer. */
+"Disabled" = "";
+
+/* No comment provided by engineer. */
+"Documents" = "";
+
+/* No comment provided by engineer. */
+"Done" = "";
+
+/* Settings */
+"Dynamic Type" = "";
+
+/* Settings */
+"Editor" = "";
+
+/* No comment provided by engineer. */
+"Enabled" = "";
+
+/* No comment provided by engineer. */
+"Enter folder name" = "";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "";
+
+/* No comment provided by engineer. */
+"Enter note name" = "";
+
+/* Settings */
+"Extension" = "";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "";
+
+/* Settings */
+"Files Naming" = "";
+
+/* No comment provided by engineer. */
+"Folder name:" = "";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "";
+
+/* Settings */
+"Font" = "";
+
+/* Settings */
+"Font Family" = "";
+
+/* Settings */
+"Font size" = "";
+
+/* Settings */
+"General" = "";
+
+/* Settings */
+"Homepage" = "";
+
+/* No comment provided by engineer. */
+"Images source:" = "";
+
+/* Main view popover table
+   Settings */
+"Import notes" = "";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "";
+
+/* Settings */
+"Live images preview" = "";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "";
+
+/* No comment provided by engineer. */
+"Modification date" = "";
+
+/* Table row action */
+"More" = "";
+
+/* Move view */
+"Move" = "";
+
+/* Settings */
+"Night Mode" = "";
+
+/* No comment provided by engineer. */
+"Notes list" = "";
+
+/* Document opened */
+"Open note" = "";
+
+/* No comment provided by engineer. */
+"Photos" = "";
+
+/* Table row action */
+"Pin" = "";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "";
+
+/* No comment provided by engineer. */
+"Preview" = "";
+
+/* Settings */
+"Project" = "";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "";
+
+/* Settings */
+"Projects" = "";
+
+/* Settings */
+"Rate FSNotes" = "";
+
+/* Main view popover table */
+"Remove folder" = "";
+
+/* Main view popover table */
+"Remove tag" = "";
+
+/* No comment provided by engineer. */
+"Rename" = "";
+
+/* Main view popover table */
+"Rename folder" = "";
+
+/* Popover table */
+"Rename folder:" = "";
+
+/* No comment provided by engineer. */
+"Rename note:" = "";
+
+/* Main view popover table */
+"Rename tag" = "";
+
+/* Popover table */
+"Rename tag:" = "";
+
+/* Sidebar settings */
+"Settings" = "";
+
+/* No comment provided by engineer. */
+"Share" = "";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "";
+
+/* No comment provided by engineer. */
+"Sort by" = "";
+
+/* Settings */
+"Spell Checking" = "";
+
+/* Settings */
+"Storage" = "";
+
+/* Settings */
+"Support" = "";
+
+/* No comment provided by engineer. */
+"System" = "";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "";
+
+/* No comment provided by engineer. */
+"Title" = "";
+
+/* Settings */
+"Twitter" = "";
+
+/* No comment provided by engineer. */
+"Type" = "";
+
+/* Settings */
+"UI" = "";
+
+/* Table row action */
+"UnPin" = "";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "";
+
+/* Settings */
+"Use inline tags" = "";
+
+/* Settings */
+"Version" = "";
+
+/* Main view popover table */
+"View settings" = "";
+
+/* No comment provided by engineer. */
+"Visibility" = "";

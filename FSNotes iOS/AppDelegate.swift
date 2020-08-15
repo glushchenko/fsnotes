@@ -26,22 +26,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if let shortcutItems = application.shortcutItems, shortcutItems.isEmpty {
-            let newDocument = NSLocalizedString("New document", comment: "Shortcuts")
+            let newDocument = NSLocalizedString("New document", comment: "")
             let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
                                                              localizedTitle: newDocument,
                                                              localizedSubtitle: "",
                                                              icon: UIApplicationShortcutIcon(type: .compose),
                                                              userInfo: nil)
 
-            let saveClipboard = NSLocalizedString("Save clipboard", comment: "Shortcuts")
+            let saveClipboard = NSLocalizedString("Save clipboard", comment: "")
             let shortcutNewClipboard = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.clipboard.type,
                                                                         localizedTitle: saveClipboard,
                                                                localizedSubtitle: "",
                                                                icon: UIApplicationShortcutIcon(type: .add),
                                                                userInfo: nil)
 
-            let search = NSLocalizedString("Search", comment: "Shortcuts")
-            let focus = NSLocalizedString("Focus in search field", comment: "Shortcuts")
+            let search = NSLocalizedString("Search", comment: "")
+            let focus = NSLocalizedString("Focus in search field", comment: "")
             let shortcutSearch = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.search.type,
                                                              localizedTitle: search,
                                                              localizedSubtitle: focus,

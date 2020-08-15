@@ -1,5 +1,4 @@
-/* Archive in sidebar
-   Sidebar label */
+/* Archive in sidebar */
 "Archive" = "Архив";
 
 /* No comment provided by engineer. */
@@ -15,7 +14,7 @@
 "Autocorrection" = "Aвтоисправление";
 
 /* No comment provided by engineer. */
-"Brightness level" = "Уровеньб яркости";
+"Brightness level" = "Уровень яркости";
 
 /* Settings */
 "build" = "билд";
@@ -96,6 +95,9 @@
 "Files Naming" = "Именование файлов";
 
 /* No comment provided by engineer. */
+"Focus in search field" = "Зосередитись у полі пошуку";
+
+/* No comment provided by engineer. */
 "Folder name:" = "Название папки:";
 
 /* No comment provided by engineer. */
@@ -119,8 +121,7 @@
 /* No comment provided by engineer. */
 "Images source:" = "Источник изображения:";
 
-/* Main view popover table
-   Settings */
+/* Main view popover table - Settings */
 "Import notes" = "Импортировать";
 
 /* Inbox in sidebar */
@@ -144,19 +145,20 @@
 /* Move view */
 "Move" = "Переместить";
 
-/* Shortcuts */
-"New document" = "Новый документ";
+/* No comment provided by engineer. */
+"New document" = "New document";
 
 /* Settings */
 "Night Mode" = "Ночной режим";
 
-/* Notes in sidebar
-   Sidebar items
-   Sidebar label */
+/* Notes in sidebar */
 "Notes" = "Заметки";
 
 /* No comment provided by engineer. */
 "Notes list" = "Список заметок";
+
+/* Document opened */
+"Open note" = "Открытая заметка";
 
 /* No comment provided by engineer. */
 "Photos" = "Фото";
@@ -206,11 +208,14 @@
 /* Popover table */
 "Rename tag:" = "Переименовать тег:";
 
-/* Shortcuts */
-"Save clipboard" = "Сохранить из буфера";
+/* No comment provided by engineer. */
+"Save clipboard" = "Сохранить буфер обмена";
 
-/* Shortcuts */
+/* No comment provided by engineer. */
 "Search" = "Поиск";
+
+/* No comment provided by engineer. */
+"Search or create" = "Найти или создать";
 
 /* Sidebar settings */
 "Settings" = "Наcтройки";
@@ -239,21 +244,16 @@
 /* No comment provided by engineer. */
 "System" = "Система";
 
-/* Sidebar label */
-"Tags" = "Теги";
-
 /* No comment provided by engineer. */
 "This action cannot be undone." = "Это действие нельзя отменить.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовку";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items - Todo in sidebar */
 "Todo" = "Todo";
 
-/* Sidebar label
-   Trash in sidebar */
+/* Sidebar label - Trash in sidebar */
 "Trash" = "Корзина";
 
 /* Settings */
@@ -282,4 +282,3 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимость";
-

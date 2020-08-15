@@ -16,7 +16,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         NSLocalizedString("General", comment: "Settings"),
         NSLocalizedString("UI", comment: "Settings"),
         NSLocalizedString("Storage", comment: "Settings"),
-        NSLocalizedString("FSNotes", comment: "Settings")
+        "FSNotes"
     ]
 
     var rows = [
@@ -76,6 +76,24 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         self.title = NSLocalizedString("Settings", comment: "Sidebar settings")
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
+
+        let version = UILabel(frame: CGRect(x: 8, y: 30, width: tableView.frame.width, height: 60))
+        version.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        version.font = version.font.withSize(17).bold()
+
+        if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
+            version.text =
+                NSLocalizedString("Version", comment: "Settings")
+                + " \(versionString) "
+                + NSLocalizedString("build", comment: "Settings")
+                + " \(build)"
+        }
+
+        version.textColor = UIColor.lightGray
+        version.textAlignment = .center
+
+        tableView.tableFooterView = version
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,7 +119,11 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = UITableViewCell()
+        var cell = UITableViewCell()
+        if indexPath.section == 0x02 && indexPath.row == 0x01 {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        }
+
         let view = UIView()
         let iconName = icons[indexPath.section][indexPath.row]
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
@@ -141,6 +163,10 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             switch indexPath.row {
             case 0:
                 cell.accessoryType = .disclosureIndicator
+            case 1:
+                cell.detailTextLabel?.numberOfLines = 0
+                cell.detailTextLabel?.lineBreakMode = .byWordWrapping
+                cell.detailTextLabel?.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
             default:
                 return cell
             }
@@ -235,50 +261,24 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         }
     }
 
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView(frame: CGRect(x: 25, y: 7, width: view.frame.size.width, height: 50))
 
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == 2 || section == 3 {
-            return 65
-        }
+        // add label
+        let label = UILabel(frame: CGRect(x: 25, y: 7, width: headerView.frame.size.width, height: 50))
+        label.text = sections[section]
+        label.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
+        headerView.addSubview(label)
 
-        return 0
-    }
 
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard self.sections[section] == "FSNotes" || self.sections[section] == NSLocalizedString("Storage", comment: "") else { return nil }
+        // bottom border
+        let borderBottom = CALayer()
+        borderBottom.mixedBackgroundColor = MixedColor(normal: 0xcdcdcf, night: 0x19191a)
+        borderBottom.frame = CGRect(x: 0, y: 49.5, width: headerView.frame.size.width, height: 0.5)
+        headerView.layer.addSublayer(borderBottom)
 
-        let tableViewFooter = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
-
-        if self.sections[section] == "FSNotes" {
-            let version = UILabel(frame: CGRect(x: 8, y: 15, width: tableView.frame.width, height: 30))
-            version.font = version.font.withSize(17).bold()
-
-            if let versionString = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-                let build = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
-                version.text =
-                    NSLocalizedString("Version", comment: "Settings")
-                    + " \(versionString) "
-                    + NSLocalizedString("build", comment: "Settings")
-                    + " \(build)"
-            }
-
-            version.textColor = UIColor.lightGray
-            version.textAlignment = .center
-            tableViewFooter.addSubview(version)
-            return tableViewFooter
-        }
-
-        if self.sections[section] == NSLocalizedString("Storage", comment: "") {
-            let label = UILabel(frame: CGRect(x: 20, y: 0, width: tableView.frame.width - 20, height: 60))
-            label.font = label.font.withSize(15)
-            label.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
-            label.textColor = UIColor.lightGray
-            label.numberOfLines = 2
-            tableViewFooter.addSubview(label)
-            return tableViewFooter
-        }
-
-        return nil
+        headerView.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        return headerView
     }
 
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

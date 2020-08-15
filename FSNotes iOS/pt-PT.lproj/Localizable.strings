@@ -1,5 +1,4 @@
-/* Archive in sidebar
-   Sidebar label */
+/* Archive in sidebar */
 "Archive" = "Arquivo";
 
 /* No comment provided by engineer. */
@@ -7,6 +6,9 @@
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automático pelo brilho do ecrã";
+
+/* Naming controller */
+"Auto rename by title" = "Auto rename by title";
 
 /* Settings */
 "Autocorrection" = "Auto correção";
@@ -26,8 +28,17 @@
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatível com DayOne JSON (zip), Bear e Ulysses (textbundle), markdown, txt, rtf.";
 
+/* Settings */
+"Container" = "Container";
+
 /* No comment provided by engineer. */
 "Copy plain text" = "Copiar texto simples";
+
+/* Main view popover table */
+"Create folder" = "Create folder";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Create folder:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Data de criação";
@@ -63,16 +74,28 @@
 "Enabled" = "Activo";
 
 /* No comment provided by engineer. */
+"Enter folder name" = "Digite o nome da pasta";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Introduzir Palavra-passe Mestra";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Insira o novo nome da tag";
 
 /* No comment provided by engineer. */
 "Enter note name" = "Introduzir nome da nota";
 
+/* Settings */
+"Extension" = "Extensão";
+
 /* No comment provided by engineer. */
 "File with this name already exist" = "Já existe um ficheiro com este nome";
 
-/* Shortcuts */
-"Focus in search field" = "Focar caixa de pesquisa";
+/* Settings */
+"Files Naming" = "Nomenclatura de arquivos";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "Foco no campo de pesquisa";
 
 /* No comment provided by engineer. */
 "Folder name:" = "Nome da pasta:";
@@ -90,9 +113,6 @@
 "Font size" = "Tamanho da letra";
 
 /* Settings */
-"FSNotes" = "FSNotes";
-
-/* Settings */
 "General" = "Geral";
 
 /* Settings */
@@ -101,8 +121,7 @@
 /* No comment provided by engineer. */
 "Images source:" = "Fonte das imagens:";
 
-/* Main view popover table
-   Settings */
+/* Main view popover table - Settings */
 "Import notes" = "Importar notas";
 
 /* Inbox in sidebar */
@@ -126,15 +145,13 @@
 /* Move view */
 "Move" = "Mover";
 
-/* Shortcuts */
-"New document" = "Novo documento";
+/* No comment provided by engineer. */
+"New document" = "Novo Documento";
 
 /* Settings */
 "Night Mode" = "Modo Noturno";
 
-/* Notes in sidebar
-   Sidebar items
-   Sidebar label */
+/* Notes in sidebar - Sidebar items */
 "Notes" = "Notas";
 
 /* No comment provided by engineer. */
@@ -167,23 +184,38 @@
 /* Settings */
 "Rate FSNotes" = "Avaliar FSNotes";
 
-/* No comment provided by engineer. */
-"Remove" = "Remover";
+/* Main view popover table */
+"Remove folder" = "Remover pasta";
 
-/* No comment provided by engineer. */
-"Remove encryption" = "Remover criptografia";
+/* Main view popover table */
+"Remove tag" = "Remover tag";
 
 /* No comment provided by engineer. */
 "Rename" = "Renomear";
 
+/* Main view popover table */
+"Rename folder" = "Renomear pasta";
+
+/* Popover table */
+"Rename folder:" = "Renomear pasta:";
+
 /* No comment provided by engineer. */
 "Rename note:" = "Renomear nota:";
 
-/* Shortcuts */
-"Save clipboard" = "Guardar na área de transferência";
+/* Main view popover table */
+"Rename tag" = "Renomear tag";
 
-/* Shortcuts */
-"Search" = "Pesquiser";
+/* Popover table */
+"Rename tag:" = "Renomear tag:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "Salvar área de transferência";
+
+/* No comment provided by engineer. */
+"Search" = "Procurar";
+
+/* No comment provided by engineer. */
+"Search or create" = "Pesquisar e criar";
 
 /* Sidebar settings */
 "Settings" = "Definições";
@@ -212,21 +244,16 @@
 /* No comment provided by engineer. */
 "System" = "Sistema";
 
-/* Sidebar label */
-"Tags" = "Etiquetas";
-
 /* No comment provided by engineer. */
 "This action cannot be undone." = "Esta ação não pode ser revertida.";
 
 /* No comment provided by engineer. */
 "Title" = "Título";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items - Todo in sidebar */
 "Todo" = "Tarefa";
 
-/* Sidebar label
-   Trash in sidebar */
+/* Trash in sidebar */
 "Trash" = "Lixo";
 
 /* Settings */
@@ -255,4 +282,3 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilidade";
-

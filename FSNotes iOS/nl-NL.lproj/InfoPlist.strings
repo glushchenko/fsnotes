@@ -1,18 +1,17 @@
-/* Bundle display name */
-"CFBundleDisplayName" = "";
-
-/* Bundle name */
-"CFBundleName" = "FSNotes";
-
 /* Privacy - Camera Usage Description */
 "NSCameraUsageDescription" = "Behoeften voor het bijvoegen van foto in notities";
+
+/* Privacy */
+"NSFaceIDUsageDescription" = "Let op codering en decodering met FaceID"
 
 /* Privacy - Location When In Use Usage Description */
 "NSLocationWhenInUseUsageDescription" = "Gevraagd wanneer foto bijgevoegd";
 
+/* Privacy */
+"NSPhotoLibraryAddUsageDescription" = "Heeft toestemming nodig om afbeeldingen in de foto-app te schrijven"
+
 /* Privacy - Photo Library Usage Description */
 "NSPhotoLibraryUsageDescription" = "Behoeften voor het toevoegen van afbeeldingen in notities";
 
-/* (No Comment) */
-"TextBundle" = "TextBundle";
+
 

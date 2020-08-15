@@ -1,5 +1,4 @@
-/* Archive in sidebar
-   Sidebar label */
+/* Archive in sidebar */
 "Archive" = "Archief";
 
 /* No comment provided by engineer. */
@@ -7,6 +6,9 @@
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automatisch op schermhelderheid";
+
+/* Naming controller */
+"Auto rename by title" = "Automatisch hernoemen op titel";
 
 /* Settings */
 "Autocorrection" = "Autocorrectie";
@@ -26,8 +28,17 @@
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibel met DayOne JSON (zip), Bear en Ulysses (textbundle), markdown, txt, rtf.";
 
+/* Settings */
+"Container" = "Container";
+
 /* No comment provided by engineer. */
 "Copy plain text" = "Kopieer platte tekst";
+
+/* Main view popover table */
+"Create folder" = "Map aanmaken";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Map aanmaken:";
 
 /* No comment provided by engineer. */
 "Creation date" = "Aanmaakdatum";
@@ -63,15 +74,27 @@
 "Enabled" = "Ingeschakeld";
 
 /* No comment provided by engineer. */
+"Enter folder name" = "Ga naar onze mape";
+
+/* No comment provided by engineer. */
 "Enter Master Password" = "Voer het hoofdwachtwoord in";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Voer een nieuwe tagnaam in";
 
 /* No comment provided by engineer. */
 "Enter note name" = "Voer notitie naam in";
 
+/* Settings */
+"Extension" = "Uitbreiding";
+
 /* No comment provided by engineer. */
 "File with this name already exist" = "Bestand met deze naam bestaat al";
 
-/* Shortcuts */
+/* Settings */
+"Files Naming" = "Naamgeving van bestanden";
+
+/* No comment provided by engineer. */
 "Focus in search field" = "Focus in zoekveld";
 
 /* No comment provided by engineer. */
@@ -90,16 +113,15 @@
 "Font size" = "Lettertypegrootte";
 
 /* Settings */
-"FSNotes" = "FSNotes";
-
-/* Settings */
 "General" = "Algemeen";
 
 /* Settings */
 "Homepage" = "Startpagina";
 
-/* Main view popover table
-   Settings */
+/* No comment provided by engineer. */
+"Images source:" = "Afbeeldingen bron:";
+
+/* Main view popover table - Settings */
 "Import notes" = "Importeren notities";
 
 /* Inbox in sidebar */
@@ -123,19 +145,20 @@
 /* Move view */
 "Move" = "Verplaats";
 
-/* Shortcuts */
+/* No comment provided by engineer. */
 "New document" = "Nieuw document";
 
 /* Settings */
 "Night Mode" = "Nachtstand";
 
-/* Notes in sidebar
-   Sidebar items
-   Sidebar label */
+/* Notes in sidebar - Sidebar items */
 "Notes" = "Notities";
 
 /* No comment provided by engineer. */
 "Notes list" = "Notitielijst";
+
+/* Document opened */
+"Open note" = "Open notitie";
 
 /* No comment provided by engineer. */
 "Photos" = "Foto's";
@@ -161,20 +184,38 @@
 /* Settings */
 "Rate FSNotes" = "Beoordeel FSNotes";
 
-/* No comment provided by engineer. */
-"Remove" = "Verwijder";
+/* Main view popover table */
+"Remove folder" = "Verwijder map";
+
+/* Main view popover table */
+"Remove tag" = "Tag verwijderen";
 
 /* No comment provided by engineer. */
 "Rename" = "Hernoemen";
 
+/* Main view popover table */
+"Rename folder" = "Naam map wijzigen";
+
+/* Popover table */
+"Rename folder:" = "Naam map wijzigen:";
+
 /* No comment provided by engineer. */
 "Rename note:" = "Hernoem notitie:";
 
-/* Shortcuts */
-"Save clipboard" = "Opslaan klembord";
+/* Main view popover table */
+"Rename tag" = "Hernoem tag";
 
-/* Shortcuts */
+/* Popover table */
+"Rename tag:" = "Hernoem tag:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "Bewaar klembord";
+
+/* No comment provided by engineer. */
 "Search" = "Zoeken";
+
+/* No comment provided by engineer. */
+"Search or create" = "Zoek en creëer";
 
 /* Sidebar settings */
 "Settings" = "Instellingen";
@@ -203,21 +244,16 @@
 /* No comment provided by engineer. */
 "System" = "Systeem";
 
-/* Sidebar label */
-"Tags" = "Tags";
-
 /* No comment provided by engineer. */
 "This action cannot be undone." = "Deze actie kan niet ongedaan gemaakt worden.";
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items - Todo in sidebar */
 "Todo" = "Te Doen";
 
-/* Sidebar label
-   Trash in sidebar */
+/* Sidebar label - Trash in sidebar */
 "Trash" = "Prullenmand";
 
 /* Settings */
@@ -246,4 +282,3 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Zichtbaarheid";
-

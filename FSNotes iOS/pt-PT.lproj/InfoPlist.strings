@@ -1,9 +1,3 @@
-/* Bundle display name */
-"CFBundleDisplayName" = "FSNotes";
-
-/* Bundle name */
-"CFBundleName" = "FSNotes";
-
 /* Privacy - Camera Usage Description */
 "NSCameraUsageDescription" = "Necessário para anexar fotos às notas";
 
@@ -13,9 +7,9 @@
 /* Privacy - Location When In Use Usage Description */
 "NSLocationWhenInUseUsageDescription" = "Necessário quando existem fotos anexadas";
 
+/* Privacy */
+"NSPhotoLibraryAddUsageDescription" = "Precisa de permissão para escrever imagens no aplicativo de fotos"
+
 /* Privacy - Photo Library Usage Description */
 "NSPhotoLibraryUsageDescription" = "Necessário para anexar imagens às notas";
-
-/* (No Comment) */
-"TextBundle" = "TextBundle";
 

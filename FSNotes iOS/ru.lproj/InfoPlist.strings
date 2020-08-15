@@ -1,0 +1,9 @@
+"NSCameraUsageDescription" = "Требуется прикрепить фото к заметкам"
+
+"NSFaceIDUsageDescription" = "Шифрование и дешифрование с помощью FaceID"
+
+"NSLocationWhenInUseUsageDescription" = "Запрошено при прикреплении фотографии"
+
+"NSPhotoLibraryAddUsageDescription" = "Требуется разрешение на запись изображений в приложении для фотографий"
+
+"NSPhotoLibraryUsageDescription" = "Требуется прикрепление изображений к заметкам"

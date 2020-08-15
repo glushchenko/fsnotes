@@ -1,5 +1,4 @@
-/* Archive in sidebar
-   Sidebar label */
+/* Archive in sidebar */
 "Archive" = "Архів";
 
 /* No comment provided by engineer. */
@@ -96,6 +95,9 @@
 "Files Naming" = "Іменування файлів";
 
 /* No comment provided by engineer. */
+"Focus in search field" = "Зосередитись в полі";
+
+/* No comment provided by engineer. */
 "Folder name:" = "Назва папки:";
 
 /* No comment provided by engineer. */
@@ -119,8 +121,7 @@
 /* No comment provided by engineer. */
 "Images source:" = "Джерело зображень:";
 
-/* Main view popover table
-   Settings */
+/* Main view popover table - Settings */
 "Import notes" = "Імпортувати";
 
 /* Inbox in sidebar */
@@ -144,16 +145,20 @@
 /* Move view */
 "Move" = "Перемістити";
 
+/* No comment provided by engineer. */
+"New document" = "Нова нотатка";
+
 /* Settings */
 "Night Mode" = "Нічний режим";
 
-/* Notes in sidebar
-   Sidebar items
-   Sidebar label */
+/* Notes in sidebar - Sidebar items */
 "Notes" = "Нотатки";
 
 /* No comment provided by engineer. */
 "Notes list" = "Лист нотаток";
+
+/* Document opened */
+"Open note" = "Відкрита нотатка";
 
 /* No comment provided by engineer. */
 "Photos" = "Фотографії";
@@ -171,7 +176,7 @@
 "Project" = "Проект";
 
 /* No comment provided by engineer. */
-"Project removing ❌" = "";
+"Project removing ❌" = "Видалення проекту ❌";
 
 /* Settings */
 "Projects" = "Проекти";
@@ -203,6 +208,15 @@
 /* Popover table */
 "Rename tag:" = "Перейменувати тег:";
 
+/* No comment provided by engineer. */
+"Save clipboard" = "Зберегти буфер обміну";
+
+/* No comment provided by engineer. */
+"Search" = "Пошук";
+
+/* No comment provided by engineer. */
+"Search or create" = "Знайти або створити";
+
 /* Sidebar settings */
 "Settings" = "Налаштування";
 
@@ -230,21 +244,16 @@
 /* No comment provided by engineer. */
 "System" = "Система";
 
-/* Sidebar label */
-"Tags" = "Теги";
-
 /* No comment provided by engineer. */
 "This action cannot be undone." = "Цю дію не можна скасувати.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовком";
 
-/* Sidebar items
-   Todo in sidebar */
+/* Sidebar items - Todo in sidebar */
 "Todo" = "Завдання";
 
-/* Sidebar label
-   Trash in sidebar */
+/* Sidebar label - Trash in sidebar */
 "Trash" = "Сміття";
 
 /* Settings */
@@ -273,4 +282,3 @@
 
 /* No comment provided by engineer. */
 "Visibility" = "Видимість";
-
