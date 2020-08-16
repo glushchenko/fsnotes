@@ -1143,6 +1143,9 @@
 		D7163D3A24E82C2F00B1FC05 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7163D4824E9244400B1FC05 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7163D4A24E9247400B1FC05 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
+		D7163D4B24E92E7B00B1FC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7163D4C24E92EA600B1FC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7163D4D24E92EBC00B1FC05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7169A5C2077BA140025D2C9 /* StorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageView.swift; sourceTree = "<group>"; };
 		D7170C1C20F8565B001DDB36 /* FileSystemEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemEventManager.swift; sourceTree = "<group>"; };
 		D71AA01B21439A8B004AFD2A /* archive_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = archive_white.png; sourceTree = "<group>"; };
@@ -4013,6 +4016,7 @@
 				D7B1F6A72468718F00593001 /* nl-NL */,
 				D774761324ACC814003E43D1 /* pt-PT */,
 				D7163D3924E82C2F00B1FC05 /* it */,
+				D7163D4B24E92E7B00B1FC05 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4026,6 +4030,7 @@
 				D7163D3624E827B600B1FC05 /* uk */,
 				D7163D3724E827B900B1FC05 /* fr */,
 				D7163D3824E82C2F00B1FC05 /* it */,
+				D7163D4C24E92EA600B1FC05 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4039,6 +4044,7 @@
 				D7B1F6A32468718E00593001 /* nl-NL */,
 				D774760E24ACC814003E43D1 /* pt-PT */,
 				D7163D3A24E82C2F00B1FC05 /* it */,
+				D7163D4D24E92EBC00B1FC05 /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4383,12 +4389,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 197;
+				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4407,13 +4413,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 197;
+				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS Share/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS.FSNotes-iOS-Share";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -4435,12 +4441,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 197;
+				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -4465,13 +4471,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 197;
+				CURRENT_PROJECT_VERSION = 201;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = "FSNotes iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "co.fluder.mobile.FSNotes-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

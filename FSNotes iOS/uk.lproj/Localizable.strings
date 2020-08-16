@@ -2,9 +2,6 @@
 "Archive" = "Архів";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove note?" = "Ви впевнені, що хочете видалити нотатку?";
-
-/* No comment provided by engineer. */
 "Auto by screen brightness" = "Автоматично за яскравістю екрана";
 
 /* Naming controller */
@@ -243,9 +240,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Система";
-
-/* No comment provided by engineer. */
-"This action cannot be undone." = "Цю дію не можна скасувати.";
 
 /* No comment provided by engineer. */
 "Title" = "Заголовком";

@@ -2,9 +2,6 @@
 "Archive" = "Arquivo";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove note?" = "Tem a certeza que pretende eliminar a nota?";
-
-/* No comment provided by engineer. */
 "Auto by screen brightness" = "Automático pelo brilho do ecrã";
 
 /* Naming controller */
@@ -243,9 +240,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Sistema";
-
-/* No comment provided by engineer. */
-"This action cannot be undone." = "Esta ação não pode ser revertida.";
 
 /* No comment provided by engineer. */
 "Title" = "Título";

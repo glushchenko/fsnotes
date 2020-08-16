@@ -1,0 +1,9 @@
+"NSCameraUsageDescription" = "Needs for attach photo in notes";
+
+"NSFaceIDUsageDescription" = "Note encryption and decryption with FaceID";
+
+"NSLocationWhenInUseUsageDescription" = "Requested when photo attached";
+
+"NSPhotoLibraryAddUsageDescription" = "Needs permission to write images in photos app";
+
+"NSPhotoLibraryUsageDescription" = "Needs for attach images in notes";

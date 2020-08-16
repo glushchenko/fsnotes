@@ -1,0 +1,281 @@
+/* Archive in sidebar */
+"Archive" = "Archive";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Auto by screen brightness";
+
+/* Naming controller */
+"Auto rename by title" = "Auto rename by title";
+
+/* Settings */
+"Autocorrection" = "Autocorrection";
+
+/* No comment provided by engineer. */
+"Brightness level" = "Brightness level";
+
+/* Settings */
+"build" = "build";
+
+/* No comment provided by engineer. */
+"Cancel" = "Cancel";
+
+/* Settings */
+"Code block live highlighting" = "Code block live highlighting";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+
+/* Settings */
+"Container" = "Container";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Copy plain text";
+
+/* Main view popover table */
+"Create folder" = "Create folder";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Create folder:";
+
+/* No comment provided by engineer. */
+"Creation date" = "Creation date";
+
+/* Settings */
+"Default Container" = "Default Container";
+
+/* Settings */
+"Default Extension" = "Default Extension";
+
+/* Settings */
+"Default Keyboard In Editor" = "Default Keyboard In Editor";
+
+/* Table row action */
+"Delete" = "Delete";
+
+/* No comment provided by engineer. */
+"Disabled" = "Disabled";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
+
+/* No comment provided by engineer. */
+"Done" = "Done";
+
+/* Settings */
+"Dynamic Type" = "Dynamic Type";
+
+/* Settings */
+"Editor" = "Editor";
+
+/* No comment provided by engineer. */
+"Enabled" = "Enabled";
+
+/* No comment provided by engineer. */
+"Enter folder name" = "Enter folder name";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Enter Master Password";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Enter new tag name";
+
+/* No comment provided by engineer. */
+"Enter note name" = "Enter note name";
+
+/* Settings */
+"Extension" = "Extension";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "File with this name already exist";
+
+/* Settings */
+"Files Naming" = "Files Naming";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "Focus in search field";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Folder name:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "Folder with this name already exist";
+
+/* Settings */
+"Font" = "Font";
+
+/* Settings */
+"Font Family" = "Font Family";
+
+/* Settings */
+"Font size" = "Font size";
+
+/* Settings */
+"General" = "General";
+
+/* Settings */
+"Homepage" = "Homepage";
+
+/* No comment provided by engineer. */
+"Images source:" = "Images source:";
+
+/* Main view popover table
+   Settings */
+"Import notes" = "Import notes";
+
+/* Inbox in sidebar */
+"Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "Invalid Password";
+
+/* Settings */
+"Live images preview" = "Live images preview";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Lock/unlock";
+
+/* No comment provided by engineer. */
+"Modification date" = "Modification date";
+
+/* Table row action */
+"More" = "More";
+
+/* Move view */
+"Move" = "Move";
+
+/* No comment provided by engineer. */
+"New document" = "New document";
+
+/* Settings */
+"Night Mode" = "Night Mode";
+
+/* Notes in sidebar
+   Sidebar items */
+"Notes" = "Notes";
+
+/* No comment provided by engineer. */
+"Notes list" = "Notes list";
+
+/* Document opened */
+"Open note" = "Open note";
+
+/* No comment provided by engineer. */
+"Photos" = "Photos";
+
+/* Table row action */
+"Pin" = "Pin";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "Please enter valid password";
+
+/* No comment provided by engineer. */
+"Preview" = "Preview";
+
+/* Settings */
+"Project" = "Project";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "Project removing ❌";
+
+/* Settings */
+"Projects" = "Projects";
+
+/* Settings */
+"Rate FSNotes" = "Rate FSNotes";
+
+/* Main view popover table */
+"Remove folder" = "Remove folder";
+
+/* Main view popover table */
+"Remove tag" = "Remove tag";
+
+/* No comment provided by engineer. */
+"Rename" = "Rename";
+
+/* Main view popover table */
+"Rename folder" = "Rename folder";
+
+/* Popover table */
+"Rename folder:" = "Rename folder:";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Rename note:";
+
+/* Main view popover table */
+"Rename tag" = "Rename tag";
+
+/* Popover table */
+"Rename tag:" = "Rename tag:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "Save clipboard";
+
+/* No comment provided by engineer. */
+"Search" = "Search";
+
+/* No comment provided by engineer. */
+"Search or create" = "Search or create";
+
+/* Sidebar settings */
+"Settings" = "Settings";
+
+/* No comment provided by engineer. */
+"Share" = "Share";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Show folder in sidebar";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Show notes in \"Notes\" and \"Todo\" lists";
+
+/* No comment provided by engineer. */
+"Sort by" = "Sort by";
+
+/* Settings */
+"Spell Checking" = "Spell Checking";
+
+/* Settings */
+"Storage" = "Storage";
+
+/* Settings */
+"Support" = "Support";
+
+/* No comment provided by engineer. */
+"System" = "System";
+
+/* No comment provided by engineer. */
+"Title" = "Title";
+
+/* Sidebar items
+   Todo in sidebar */
+"Todo" = "Todo";
+
+/* Trash in sidebar */
+"Trash" = "Trash";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
+"Type" = "Type";
+
+/* Settings */
+"UI" = "UI";
+
+/* Table row action */
+"UnPin" = "UnPin";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Use first line as title";
+
+/* Settings */
+"Use inline tags" = "Use inline tags";
+
+/* Settings */
+"Version" = "Version";
+
+/* Main view popover table */
+"View settings" = "View settings";
+
+/* No comment provided by engineer. */
+"Visibility" = "Visibility";

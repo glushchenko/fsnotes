@@ -2,9 +2,6 @@
 "Archive" = "Archief";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove note?" = "Weet je zeker dat je de notitie wilt verwijderen?";
-
-/* No comment provided by engineer. */
 "Auto by screen brightness" = "Automatisch op schermhelderheid";
 
 /* Naming controller */
@@ -243,9 +240,6 @@
 
 /* No comment provided by engineer. */
 "System" = "Systeem";
-
-/* No comment provided by engineer. */
-"This action cannot be undone." = "Deze actie kan niet ongedaan gemaakt worden.";
 
 /* No comment provided by engineer. */
 "Title" = "Titel";
