@@ -50,6 +50,9 @@
 "Data Detectors" = "데이터 탐색기";
 
 /* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+
+/* No comment provided by engineer. */
 "Delete" = "삭제";
 
 /* No comment provided by engineer. */
@@ -59,10 +62,19 @@
 "Detach storage" = "저장소 분리";
 
 /* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "Edit Link…";
+
+/* No comment provided by engineer. */
 "Empty password" = "빈 암호";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "마스터 암호 입력";
+
+/* No comment provided by engineer. */
+"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [수정]";
@@ -71,7 +83,34 @@
 "FSNotes [preview]" = "FSNotes [미리보기]";
 
 /* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
+
+/* No comment provided by engineer. */
 "History" = "변경 이력";
+
+/* No comment provided by engineer. */
+"Image or file" = "Image or file";
+
+/* No comment provided by engineer. */
+"Inbox" = "Inbox";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "링크";
@@ -97,11 +136,23 @@
 /* No comment provided by engineer. */
 "New RTF" = "새로운 RTF파일";
 
+/* No comment provided by engineer. */
+"No" = "No";
+
 /* Sidebar label */
 "Notes" = "모든 노트";
 
 /* No comment provided by engineer. */
 "OK" = "확인";
+
+/* Document opened */
+"Open note" = "Open note";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+
+/* No comment provided by engineer. */
+"Path not available" = "Path not available";
 
 /* Edit area */
 "Please enter image title:" = "이미지 제목을 입력하십시오：";
@@ -126,6 +177,9 @@
 
 /* Delete menu */
 "Remove" = "삭제";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Remove Link";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "노트 삭제";
@@ -159,9 +213,6 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "맞춤법 및 문법";
-
-/* No comment provided by engineer. */
-"Strikethrough" = "취소선";
 
 /* No comment provided by engineer. */
 "Substitutions" = "대체";
@@ -198,5 +249,21 @@
 "View" = "보기";
 
 /* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "틀린 암호가 반복되었습니다.";
 
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
+"Attach storage" = "";
+
+"Hmm, something goes wrong 🙈" = "";
+
+"Note with name \"%@\" already exists in selected storage." = "";
+
+"Sort By" = "";

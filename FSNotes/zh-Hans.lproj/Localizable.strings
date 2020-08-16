@@ -50,6 +50,9 @@
 "Data Detectors" = "数据检测器";
 
 /* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+
+/* No comment provided by engineer. */
 "Delete" = "删除";
 
 /* No comment provided by engineer. */
@@ -59,10 +62,19 @@
 "Detach storage" = "Detach storage";
 
 /* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "Edit Link…";
+
+/* No comment provided by engineer. */
 "Empty password" = "空密码";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "输入管理员密码";
+
+/* No comment provided by engineer. */
+"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [编辑]";
@@ -71,10 +83,34 @@
 "FSNotes [preview]" = "FSNotes [预览]";
 
 /* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
+
+/* Menu */
 "History" = "历史";
 
 /* No comment provided by engineer. */
+"Image or file" = "Image or file";
+
+/* No comment provided by engineer. */
 "Inbox" = "收件箱";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "链接";
@@ -100,11 +136,23 @@
 /* No comment provided by engineer. */
 "New RTF" = "新建RTF文件";
 
+/* No comment provided by engineer. */
+"No" = "No";
+
 /* Sidebar label */
 "Notes" = "笔记";
 
 /* No comment provided by engineer. */
 "OK" = "好的";
+
+/* Document opened */
+"Open note" = "Open note";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+
+/* No comment provided by engineer. */
+"Path not available" = "Path not available";
 
 /* Edit area */
 "Please enter image title:" = "请输入图像标题：";
@@ -129,6 +177,9 @@
 
 /* Delete menu */
 "Remove" = "移除";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Remove Link";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "移除笔记";
@@ -162,9 +213,6 @@
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "拼写和语法";
-
-/* No comment provided by engineer. */
-"Strikethrough" = "删除线";
 
 /* No comment provided by engineer. */
 "Substitutions" = "替换";
@@ -201,5 +249,21 @@
 "View" = "视图";
 
 /* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "重复密码输入错误";
 
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
+"Attach storage" = "";
+
+"Hmm, something goes wrong 🙈" = "";
+
+"Note with name \"%@\" already exists in selected storage." = "";
+
+"Sort By" = "";

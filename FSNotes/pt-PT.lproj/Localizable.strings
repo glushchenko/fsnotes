@@ -50,6 +50,9 @@
 "Data Detectors" = "Detectores de dados";
 
 /* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+
+/* No comment provided by engineer. */
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
@@ -71,7 +74,7 @@
 "Enter Master Password" = "Introduzir Palavra-passe Mestra";
 
 /* No comment provided by engineer. */
-"File with name \"(currentTitle)\" already exists!" = "Ficheiro com nome \"(currentTitle)\" já existente!";
+"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [editar]";
@@ -147,6 +150,9 @@
 
 /* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "De outra forma, os dados das suas notas estarão disponíveis em:";
+
+/* No comment provided by engineer. */
+"Path not available" = "Path not available";
 
 /* Edit area */
 "Please enter image title:" = "Por favor insira o título da imagem:";
@@ -254,3 +260,10 @@
 /* No comment provided by engineer. */
 "Yes" = "Sim";
 
+"Attach storage" = "";
+
+"Hmm, something goes wrong 🙈" = "";
+
+"Note with name \"%@\" already exists in selected storage." = "";
+
+"Sort By" = "";

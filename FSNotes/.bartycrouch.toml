@@ -1,0 +1,35 @@
+[update]
+tasks = ["interfaces", "code", "transform", "normalize"]
+
+[update.interfaces]
+paths = ["."]
+defaultToBase = true
+ignoreEmptyStrings = false
+unstripped = false
+
+[update.code]
+codePaths = ["."]
+localizablePaths = ["."]
+defaultToKeys = true
+additive = true
+unstripped = false
+plistArguments = true
+
+[update.transform]
+codePaths = ["."]
+localizablePaths = ["."]
+transformer = "foundation"
+supportedLanguageEnumPath = "."
+typeName = "BartyCrouch"
+translateMethodName = "translate"
+
+[update.normalize]
+paths = ["."]
+sourceLocale = "en"
+harmonizeWithSource = true
+sortByKeys = true
+
+[lint]
+paths = ["."]
+duplicateKeys = true
+emptyValues = true

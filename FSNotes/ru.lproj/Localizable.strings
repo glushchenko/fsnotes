@@ -50,6 +50,9 @@
 "Data Detectors" = "Детекторы данных";
 
 /* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+
+/* No comment provided by engineer. */
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
@@ -62,10 +65,16 @@
 "Do you want to move current notes in the new destination?" = "Вы хотите переместить текущие заметки в новое место назначения?";
 
 /* No comment provided by engineer. */
+"Edit Link…" = "Edit Link…";
+
+/* No comment provided by engineer. */
 "Empty password" = "Не введен пароль";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "Введите мастер пароль";
+
+/* No comment provided by engineer. */
+"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
@@ -74,10 +83,34 @@
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
 /* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
+
+/* No comment provided by engineer. */
 "History" = "История";
 
 /* No comment provided by engineer. */
+"Image or file" = "Image or file";
+
+/* No comment provided by engineer. */
 "Inbox" = "Входящие";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Ссылка";
@@ -110,7 +143,16 @@
 "Notes" = "Заметки";
 
 /* No comment provided by engineer. */
+"OK" = "OK";
+
+/* Document opened */
+"Open note" = "Open note";
+
+/* No comment provided by engineer. */
 "Otherwise, the database of your notes will be available at: " = "В противном случае база данных заметок будет доступна по адресу: ";
+
+/* No comment provided by engineer. */
+"Path not available" = "Path not available";
 
 /* Edit area */
 "Please enter image title:" = "Пожалуйста, введите заголовок изображения:";
@@ -135,6 +177,9 @@
 
 /* Delete menu */
 "Remove" = "Удалить";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Remove Link";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Удалить";
@@ -183,6 +228,9 @@
 "This action cannot be undone." = "Это действие не может быть отменено.";
 
 /* No comment provided by engineer. */
+"Todo" = "Todo";
+
+/* No comment provided by engineer. */
 "Toggle preview" = "Переключить предпросмотр";
 
 /* Sidebar label */
@@ -212,3 +260,10 @@
 /* No comment provided by engineer. */
 "Yes" = "Да";
 
+"Attach storage" = "";
+
+"Hmm, something goes wrong 🙈" = "";
+
+"Note with name \"%@\" already exists in selected storage." = "";
+
+"Sort By" = "";

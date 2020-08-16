@@ -1,146 +1,146 @@
 /* No comment provided by engineer. */
-"Add" = "Toevoegen";
+"Add" = "Add";
 
 /* Sidebar label */
-"Archive" = "Archief";
+"Archive" = "Archive";
 
 /* No comment provided by engineer. */
-"Are you sure you want to irretrievably delete %d note(s)?" = "Weet je zeker dat je %d notitie(s) definitief wilt wissen?";
+"Are you sure you want to irretrievably delete %d note(s)?" = "Are you sure you want to irretrievably delete %d note(s)?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove project \"%@\" and all files inside?" = "Weet je zeker dat je project \"%@\" en alle bestanden daarin wilt verwijderen?";
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Are you sure you want to remove project \"%@\" and all files inside?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Koppelen opslag...";
+"Attach storage..." = "Attach storage...";
 
 /* No comment provided by engineer. */
-"Back up storage" = "Back-up opslag";
+"Back up storage" = "Back up storage";
 
 /* Delete menu */
-"Cancel" = "Annuleer";
+"Cancel" = "Cancel";
 
 /* No comment provided by engineer. */
-"Check Grammar With Spelling" = "Controleer grammatica tegelijk met spelling";
+"Check Grammar With Spelling" = "Check Grammar With Spelling";
 
 /* No comment provided by engineer. */
-"Check Spelling While Typing" = "Controleer Spelling Tijdens Typen";
+"Check Spelling While Typing" = "Check Spelling While Typing";
 
 /* No comment provided by engineer. */
-"Code Block" = "Codeblok";
+"Code Block" = "Code Block";
 
 /* No comment provided by engineer. */
-"Code Span" = "Code inline";
+"Code Span" = "Code Span";
 
 /* No comment provided by engineer. */
-"Copy HTML" = "Kopieer HTML";
+"Copy HTML" = "Copy HTML";
 
 /* No comment provided by engineer. */
-"Copy Link" = "Kopieer Link";
+"Copy Link" = "Copy Link";
 
 /* No comment provided by engineer. */
-"Copy Plain Text" = "Kopieer Platte Tekst";
+"Copy Plain Text" = "Copy Plain Text";
 
 /* No comment provided by engineer. */
-"Correct Spelling Automatically" = "Corrigeer Spelling Automatisch";
+"Correct Spelling Automatically" = "Correct Spelling Automatically";
 
 /* No comment provided by engineer. */
-"Current password does not match with password in keychain" = "Het huidige wachtwoord komt niet overeen met het wachtwoord in de sleutelhanger";
+"Current password does not match with password in keychain" = "Current password does not match with password in keychain";
 
 /* No comment provided by engineer. */
-"Data Detectors" = "Data Detectoren";
+"Data Detectors" = "Data Detectors";
 
 /* No comment provided by engineer. */
 "Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
 
 /* No comment provided by engineer. */
-"Delete" = "Verwijder";
+"Delete" = "Delete";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Verwijder map";
+"Delete folder" = "Delete folder";
 
 /* No comment provided by engineer. */
-"Detach storage" = "Ontkoppelen opslag";
+"Detach storage" = "Detach storage";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
 
 /* No comment provided by engineer. */
-"Edit Link…" = "Bewerk Link...";
+"Edit Link…" = "Edit Link…";
 
 /* No comment provided by engineer. */
-"Empty password" = "Leeg wachtwoord";
+"Empty password" = "Empty password";
 
 /* No comment provided by engineer. */
-"Enter Master Password" = "Voer Hoofdwachtwoord in";
+"Enter Master Password" = "Enter Master Password";
 
 /* No comment provided by engineer. */
 "File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
-"FSNotes [edit]" = "FSNotes [bewerk]";
+"FSNotes [edit]" = "FSNotes [edit]";
 
 /* No comment provided by engineer. */
-"FSNotes [preview]" = "FSNotes [voorvertoning]";
+"FSNotes [preview]" = "FSNotes [preview]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Kop 1";
+"Header 1" = "Header 1";
 
 /* No comment provided by engineer. */
-"Header 2" = "Kop 2";
+"Header 2" = "Header 2";
 
 /* No comment provided by engineer. */
-"Header 3" = "Kop 3";
+"Header 3" = "Header 3";
 
 /* No comment provided by engineer. */
-"Header 4" = "Kop 4";
+"Header 4" = "Header 4";
 
 /* No comment provided by engineer. */
-"Header 5" = "Kop 5";
+"Header 5" = "Header 5";
 
 /* No comment provided by engineer. */
-"Header 6" = "Kop 6";
+"Header 6" = "Header 6";
 
 /* No comment provided by engineer. */
-"History" = "Geschiedenis";
+"History" = "History";
 
 /* No comment provided by engineer. */
-"Image or file" = "Afbeelding of bestand";
+"Image or file" = "Image or file";
 
 /* No comment provided by engineer. */
-"Inbox" = "Postvak In";
+"Inbox" = "Inbox";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Onjuiste bestandsnaam";
+"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Link";
 
 /* No comment provided by engineer. */
-"Lock All Encrypted" = "Vergrendel alle versleutelde";
+"Lock All Encrypted" = "Lock All Encrypted";
 
 /* No comment provided by engineer. */
-"Master password:" = "Hoofdwachtwoord:";
+"Master password:" = "Master password:";
 
 /* Menu */
-"Move" = "Verplaats";
+"Move" = "Move";
 
 /* No comment provided by engineer. */
-"New" = "Nieuw";
+"New" = "New";
 
 /* No comment provided by engineer. */
-"New folder" = "Nieuwe map";
+"New folder" = "New folder";
 
 /* No comment provided by engineer. */
-"New project" = "Nieuw project";
+"New project" = "New project";
 
 /* No comment provided by engineer. */
-"New RTF" = "Nieuw RTF";
+"New RTF" = "New RTF";
 
 /* No comment provided by engineer. */
 "No" = "No";
 
 /* Sidebar label */
-"Notes" = "Notities";
+"Notes" = "Notes";
 
 /* No comment provided by engineer. */
 "OK" = "OK";
@@ -155,98 +155,98 @@
 "Path not available" = "Path not available";
 
 /* Edit area */
-"Please enter image title:" = "Voer a.u.b. afbeeldingstitel in:";
+"Please enter image title:" = "Please enter image title:";
 
 /* No comment provided by engineer. */
-"Please enter password for current note" = "Voer a.u.b. wachtwoord voor huidige notitie in:";
+"Please enter password for current note" = "Please enter password for current note";
 
 /* No comment provided by engineer. */
-"Please enter project name:" = "Voer a.u.b. projectnaam in:";
+"Please enter project name:" = "Please enter project name:";
 
 /* Menu */
-"Please enter tags (comma separated):" = "Voer a.u.b. tags (kommagescheiden) in:";
+"Please enter tags (comma separated):" = "Please enter tags (comma separated):";
 
 /* No comment provided by engineer. */
-"Please try again" = "Probeer het a.u.b. opnieuw";
+"Please try again" = "Please try again";
 
 /* No comment provided by engineer. */
-"Preferences" = "Voorkeuren";
+"Preferences" = "Preferences";
 
 /* No comment provided by engineer. */
-"Quit FSNotes" = "Stop FSNotes";
+"Quit FSNotes" = "Quit FSNotes";
 
 /* Delete menu */
-"Remove" = "Verwijder";
+"Remove" = "Remove";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Verwijder Link";
+"Remove Link" = "Remove Link";
 
 /* No comment provided by engineer. */
-"Remove note(s)" = "Verwijder notitie(s)";
+"Remove note(s)" = "Remove note(s)";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Hernoem map";
+"Rename folder" = "Rename folder";
 
 /* No comment provided by engineer. */
-"Search and create" = "Zoek en creëer";
+"Search and create" = "Search and create";
 
 /* No comment provided by engineer. */
-"Show in Finder" = "Toon in Finder";
+"Show in Finder" = "Show in Finder";
 
 /* No comment provided by engineer. */
-"Show view options" = "Toon weergaveopties";
+"Show view options" = "Show view options";
 
 /* No comment provided by engineer. */
-"Smart Copy/Paste" = "Slim Kopiëren/Plakken";
+"Smart Copy/Paste" = "Smart Copy/Paste";
 
 /* No comment provided by engineer. */
-"Smart Dashes" = "Slimme Streepjes";
+"Smart Dashes" = "Smart Dashes";
 
 /* No comment provided by engineer. */
-"Smart Links" = "Slimme Links";
+"Smart Links" = "Smart Links";
 
 /* No comment provided by engineer. */
-"Smart Quotes" = "Slimme Aanhalingstekens";
+"Smart Quotes" = "Smart Quotes";
 
 /* View menu */
-"Sort by" = "Sorteer op";
+"Sort by" = "Sort by";
 
 /* No comment provided by engineer. */
-"Spelling and Grammar" = "Spelling en Grammatica";
+"Spelling and Grammar" = "Spelling and Grammar";
 
 /* No comment provided by engineer. */
-"Substitutions" = "Vervangingen";
+"Substitutions" = "Substitutions";
 
 /* Menu
    Sidebar label */
 "Tags" = "Tags";
 
 /* No comment provided by engineer. */
-"Text Replacement" = "Tekstvervanging";
+"Text Replacement" = "Text Replacement";
 
 /* Delete menu */
-"This action cannot be undone." = "Deze actie kan niet ongedaan gemaakt worden.";
+"This action cannot be undone." = "This action cannot be undone.";
 
 /* No comment provided by engineer. */
-"Todo" = "Te Doen";
+"Todo" = "Todo";
 
 /* No comment provided by engineer. */
-"Toggle preview" = "Wissel voorvertoning";
+"Toggle preview" = "Toggle preview";
 
 /* Sidebar label */
-"Trash" = "Prullenmand";
+"Trash" = "Trash";
 
 /* No comment provided by engineer. */
-"Underline" = "Onderstrepen";
+"Underline" = "Underline";
 
 /* Untitled Note */
-"Untitled Note" = "Naamloze notitie";
+"Untitled Note" = "Untitled Note";
 
 /* No comment provided by engineer. */
-"URL has been copied to clipboard" = "URL is gekopieerd naar klembord";
+"URL has been copied to clipboard" = "URL has been copied to clipboard";
 
 /* Menu */
-"View" = "Weergave";
+"View" = "View";
 
 /* No comment provided by engineer. */
 "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
@@ -255,7 +255,7 @@
 "We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
 
 /* No comment provided by engineer. */
-"Wrong repeated password" = "Verkeerd herhaald wachtwoord";
+"Wrong repeated password" = "Wrong repeated password";
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";

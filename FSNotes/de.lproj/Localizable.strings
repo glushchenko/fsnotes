@@ -50,6 +50,9 @@
 "Data Detectors" = "Datendetektoren";
 
 /* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+
+/* No comment provided by engineer. */
 "Delete" = "Löschen";
 
 /* No comment provided by engineer. */
@@ -59,10 +62,19 @@
 "Detach storage" = "Speicher abnehmen";
 
 /* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "Edit Link…";
+
+/* No comment provided by engineer. */
 "Empty password" = "Passwort leer";
 
 /* No comment provided by engineer. */
 "Enter Master Password" = "Geben Sie das Master Passwort ein";
+
+/* No comment provided by engineer. */
+"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [bearbeiten]";
@@ -71,10 +83,34 @@
 "FSNotes [preview]" = "FSNotes [Vorschau]";
 
 /* No comment provided by engineer. */
+"Header 1" = "Header 1";
+
+/* No comment provided by engineer. */
+"Header 2" = "Header 2";
+
+/* No comment provided by engineer. */
+"Header 3" = "Header 3";
+
+/* No comment provided by engineer. */
+"Header 4" = "Header 4";
+
+/* No comment provided by engineer. */
+"Header 5" = "Header 5";
+
+/* No comment provided by engineer. */
+"Header 6" = "Header 6";
+
+/* No comment provided by engineer. */
 "History" = "Die geschichte";
 
 /* No comment provided by engineer. */
+"Image or file" = "Image or file";
+
+/* No comment provided by engineer. */
 "Inbox" = "Posteingang";
+
+/* No comment provided by engineer. */
+"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Link";
@@ -100,8 +136,23 @@
 /* No comment provided by engineer. */
 "New RTF" = "Neu RTF";
 
+/* No comment provided by engineer. */
+"No" = "No";
+
 /* Sidebar label */
 "Notes" = "Notizen";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* Document opened */
+"Open note" = "Open note";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+
+/* No comment provided by engineer. */
+"Path not available" = "Path not available";
 
 /* Edit area */
 "Please enter image title:" = "Geben Sie die Bildbezeichnung ein:";
@@ -126,6 +177,9 @@
 
 /* Delete menu */
 "Remove" = "Löschen";
+
+/* No comment provided by engineer. */
+"Remove Link" = "Remove Link";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Notiz (en) entfernen";
@@ -174,6 +228,9 @@
 "This action cannot be undone." = "Diese Aktion kann nicht rückgängig gemacht werden";
 
 /* No comment provided by engineer. */
+"Todo" = "Todo";
+
+/* No comment provided by engineer. */
 "Toggle preview" = "Vorschau umschalten";
 
 /* Sidebar label */
@@ -192,5 +249,21 @@
 "View" = "Ansicht";
 
 /* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+
+/* No comment provided by engineer. */
 "Wrong repeated password" = "Passwort stimmt nicht überein";
 
+/* No comment provided by engineer. */
+"Yes" = "Yes";
+
+"Attach storage" = "";
+
+"Hmm, something goes wrong 🙈" = "";
+
+"Note with name \"%@\" already exists in selected storage." = "";
+
+"Sort By" = "";
