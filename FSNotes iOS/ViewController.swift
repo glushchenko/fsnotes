@@ -542,6 +542,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let sourceSelectorTableViewController = SettingsViewController()
         let navigationController = UINavigationController(rootViewController: sourceSelectorTableViewController)
 
+        navigationController.modalPresentationStyle = .fullScreen
+
         self.present(navigationController, animated: true, completion: nil)
     }
 

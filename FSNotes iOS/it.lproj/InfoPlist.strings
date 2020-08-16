@@ -1,0 +1,9 @@
+"NSCameraUsageDescription" = "E' necessario per poter aggiungere foto nelle note";
+
+"NSFaceIDUsageDescription" = "Crittografia e decrittografia delle note con FaceID";
+
+"NSLocationWhenInUseUsageDescription" = "E' richiesto quando viene allegata una foto";
+
+"NSPhotoLibraryAddUsageDescription" = "E' necessario il permesso in scrittura per salvare immagini nell'app Foto";
+
+"NSPhotoLibraryUsageDescription" = "E' necessario per allegare immagini nelle note";

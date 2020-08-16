@@ -1,0 +1,284 @@
+/* Archive in sidebar */
+"Archive" = "Archivio";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove note?" = "Sei sicuro di voler rimuovere la nota?";
+
+/* No comment provided by engineer. */
+"Auto by screen brightness" = "Aggiusta automaticamente la luminosità dello schermo";
+
+/* Naming controller */
+"Auto rename by title" = "Rinomina automaticamente per titolo";
+
+/* Settings */
+"Autocorrection" = "Autocorrezione";
+
+/* No comment provided by engineer. */
+"Brightness level" = "Livello di luminosità";
+
+/* Settings */
+"build" = "build";
+
+/* No comment provided by engineer. */
+"Cancel" = "Annulla";
+
+/* Settings */
+"Code block live highlighting" = "Evidenzia in tempo reale il blocco di codice";
+
+/* No comment provided by engineer. */
+"Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibile con DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
+
+/* Settings */
+"Container" = "Container";
+
+/* No comment provided by engineer. */
+"Copy plain text" = "Copia testo semplice";
+
+/* Main view popover table */
+"Create folder" = "Crea cartella";
+
+/* No comment provided by engineer. */
+"Create folder:" = "Crea cartella:";
+
+/* No comment provided by engineer. */
+"Creation date" = "Data di creazione";
+
+/* Settings */
+"Default Container" = "Container predefinito";
+
+/* Settings */
+"Default Extension" = "Estensione predefinita";
+
+/* Settings */
+"Default Keyboard In Editor" = "Tastiera predefinita nell'editor";
+
+/* Table row action */
+"Delete" = "Elimina";
+
+/* No comment provided by engineer. */
+"Disabled" = "Disabilitato";
+
+/* No comment provided by engineer. */
+"Documents" = "Documenti";
+
+/* No comment provided by engineer. */
+"Done" = "Fatto";
+
+/* Settings */
+"Dynamic Type" = "Tipizzazione dinamica";
+
+/* Settings */
+"Editor" = "Editor";
+
+/* No comment provided by engineer. */
+"Enabled" = "Abilitato";
+
+/* No comment provided by engineer. */
+"Enter folder name" = "Inserisci il nome della cartella";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "Inserisci la Master Password";
+
+/* No comment provided by engineer. */
+"Enter new tag name" = "Interisci il nuovo nome del tag";
+
+/* No comment provided by engineer. */
+"Enter note name" = "Inserisci il nome della nota";
+
+/* Settings */
+"Extension" = "Estensione";
+
+/* No comment provided by engineer. */
+"File with this name already exist" = "Il file con questo nome già esiste";
+
+/* Settings */
+"Files Naming" = "Denominazione dei file";
+
+/* No comment provided by engineer. */
+"Focus in search field" = "Focus nel campo di ricerca";
+
+/* No comment provided by engineer. */
+"Folder name:" = "Nome cartella:";
+
+/* No comment provided by engineer. */
+"Folder with this name already exist" = "La cartella con questo nome già esiste";
+
+/* Settings */
+"Font" = "Carattere";
+
+/* Settings */
+"Font Family" = "Tipo carattere";
+
+/* Settings */
+"Font size" = "Dimensione carattere";
+
+/* Settings */
+"General" = "Generali";
+
+/* Settings */
+"Homepage" = "Homepage sito web";
+
+/* No comment provided by engineer. */
+"Images source:" = "Fonti delle immagini:";
+
+/* Main view popover table - Settings */
+"Import notes" = "Importa note";
+
+/* Inbox in sidebar */
+"Inbox" = "In Entrata";
+
+/* No comment provided by engineer. */
+"Invalid Password" = "Password non valida";
+
+/* Settings */
+"Live images preview" = "Antemprima delle immagini";
+
+/* No comment provided by engineer. */
+"Lock/unlock" = "Blocca/sblocca";
+
+/* No comment provided by engineer. */
+"Modification date" = "Data di modifica";
+
+/* Table row action */
+"More" = "Altro";
+
+/* Move view */
+"Move" = "Sposta";
+
+/* No comment provided by engineer. */
+"New document" = "Nuovo documento";
+
+/* Settings */
+"Night Mode" = "Modalità notte";
+
+/* Notes in sidebar - Sidebar items */
+"Notes" = "Note";
+
+/* No comment provided by engineer. */
+"Notes list" = "Lista note";
+
+/* Document opened */
+"Open note" = "Apri nota";
+
+/* No comment provided by engineer. */
+"Photos" = "Foto";
+
+/* Table row action */
+"Pin" = "Fissa";
+
+/* No comment provided by engineer. */
+"Please enter valid password" = "Per favore inserisci una password valida";
+
+/* No comment provided by engineer. */
+"Preview" = "Antemprima";
+
+/* Settings */
+"Project" = "Progetto";
+
+/* No comment provided by engineer. */
+"Project removing ❌" = "Rimozione progetto ❌";
+
+/* Settings */
+"Projects" = "Progetti";
+
+/* Settings */
+"Rate FSNotes" = "Vota FSNotes";
+
+/* Main view popover table */
+"Remove folder" = "Rimuovi cartella";
+
+/* Main view popover table */
+"Remove tag" = "Rimuovi tag";
+
+/* No comment provided by engineer. */
+"Rename" = "Rinomina";
+
+/* Main view popover table */
+"Rename folder" = "Rinomina cartella";
+
+/* Popover table */
+"Rename folder:" = "Rinomina cartella:";
+
+/* No comment provided by engineer. */
+"Rename note:" = "Rinomina nota:";
+
+/* Main view popover table */
+"Rename tag" = "Rinomina tag";
+
+/* Popover table */
+"Rename tag:" = "Rinomina tag:";
+
+/* No comment provided by engineer. */
+"Save clipboard" = "Salva gli appunti";
+
+/* No comment provided by engineer. */
+"Search" = "Cerca";
+
+/* No comment provided by engineer. */
+"Search or create" = "Cerca o crea";
+
+/* Sidebar settings */
+"Settings" = "Impostazioni";
+
+/* No comment provided by engineer. */
+"Share" = "Condividi";
+
+/* No comment provided by engineer. */
+"Show folder in sidebar" = "Visualizza cartella nella sidebar";
+
+/* No comment provided by engineer. */
+"Show notes in \"Notes\" and \"Todo\" lists" = "Visualizza le note negli elenchi \"Note\" e \"Da Fare\"";
+
+/* No comment provided by engineer. */
+"Sort by" = "Ordina per";
+
+/* Settings */
+"Spell Checking" = "Controllo ortografico";
+
+/* Settings */
+"Storage" = "Storage";
+
+/* Settings */
+"Support" = "Supporto";
+
+/* No comment provided by engineer. */
+"System" = "Di Sistema";
+
+/* No comment provided by engineer. */
+"This action cannot be undone." = "Questa azione non può essere annullata.";
+
+/* No comment provided by engineer. */
+"Title" = "Titolo";
+
+/* Sidebar items - Todo in sidebar */
+"Todo" = "Da Fare";
+
+/* Trash in sidebar */
+"Trash" = "Cestino";
+
+/* Settings */
+"Twitter" = "Twitter";
+
+/* No comment provided by engineer. */
+"Type" = "Tipo";
+
+/* Settings */
+"UI" = "Interfaccia utente";
+
+/* Table row action */
+"UnPin" = "Sblocca";
+
+/* No comment provided by engineer. */
+"Use first line as title" = "Usa la prima riga come titolo";
+
+/* Settings */
+"Use inline tags" = "Usa tag in linea";
+
+/* Settings */
+"Version" = "Versione";
+
+/* Main view popover table */
+"View settings" = "Impostazioni visualizzazione";
+
+/* No comment provided by engineer. */
+"Visibility" = "Visibilità";

@@ -687,6 +687,11 @@ class SidebarTableView: UITableView,
             if currentProjects.contains(project) {
                 continue
             }
+
+            if !project.showInSidebar {
+                continue
+            }
+            
             toInsert.append(project)
         }
 
