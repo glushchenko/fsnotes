@@ -2,7 +2,7 @@
 "Archive" = "Archivio";
 
 /* No comment provided by engineer. */
-"Auto by screen brightness" = "Aggiusta automaticamente la luminosità dello schermo";
+"Auto by screen brightness" = "Dalla luminosità dello schermo";
 
 /* Naming controller */
 "Auto rename by title" = "Rinomina automaticamente per titolo";
@@ -20,7 +20,7 @@
 "Cancel" = "Annulla";
 
 /* Settings */
-"Code block live highlighting" = "Evidenzia in tempo reale il blocco di codice";
+"Code block live highlighting" = "Evidenzia il blocco di codice attivo";
 
 /* No comment provided by engineer. */
 "Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf." = "Compatibile con DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.";
@@ -47,7 +47,7 @@
 "Default Extension" = "Estensione predefinita";
 
 /* Settings */
-"Default Keyboard In Editor" = "Tastiera predefinita nell'editor";
+"Default Keyboard In Editor" = "Tastiera predefinita editor";
 
 /* Table row action */
 "Delete" = "Elimina";
@@ -272,7 +272,7 @@
 "Version" = "Versione";
 
 /* Main view popover table */
-"View settings" = "Impostazioni visualizzazione";
+"View settings" = "Impostazioni vista";
 
 /* No comment provided by engineer. */
 "Visibility" = "Visibilità";

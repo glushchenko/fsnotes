@@ -164,6 +164,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
             case 0:
                 cell.accessoryType = .disclosureIndicator
             case 1:
+                cell.detailTextLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
                 cell.detailTextLabel?.numberOfLines = 0
                 cell.detailTextLabel?.lineBreakMode = .byWordWrapping
                 cell.detailTextLabel?.text = NSLocalizedString("Compatible with DayOne JSON (zip), Bear and Ulysses (textbundle), markdown, txt, rtf.", comment: "")
@@ -335,5 +336,27 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
 
     @objc func done() {
         self.dismiss(animated: true, completion: nil)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        guard UserDefaultsManagement.nightModeType == .system else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.checkDarkMode()
+        }
+    }
+
+    public func checkDarkMode() {
+        if #available(iOS 12.0, *) {
+            if traitCollection.userInterfaceStyle == .dark {
+                if NightNight.theme != .night {
+                    UIApplication.getVC().enableNightMode()
+                }
+            } else {
+                if NightNight.theme == .night {
+                    UIApplication.getVC().disableNightMode()
+                }
+            }
+        }
     }
 }
