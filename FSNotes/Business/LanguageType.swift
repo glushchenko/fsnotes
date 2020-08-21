@@ -30,6 +30,7 @@ enum LanguageType: Int {
     case French = 0x08
     case Dutch = 0x09
     case Portuguese = 10
+    case Italian = 11
 
     var description: String {
         get {
@@ -45,6 +46,7 @@ enum LanguageType: Int {
             case 0x08: return "French"
             case 0x09: return "Dutch"
             case 10: return "Portuguese"
+            case 11: return "Italian"
             default: return ""
             }
         }
@@ -64,6 +66,7 @@ enum LanguageType: Int {
             case 0x08: return "fr"
             case 0x09: return "nl-NL"
             case 10: return "pt-PT"
+            case 11: return "it"
             default: return "en"
             }
         }
@@ -82,6 +85,7 @@ enum LanguageType: Int {
         case "French": return LanguageType.French
         case "Dutch": return LanguageType.Dutch
         case "Portuguese": return LanguageType.Portuguese
+        case "Italian": return LanguageType.Italian
         default: return LanguageType.English
         }
     }
@@ -99,6 +103,7 @@ enum LanguageType: Int {
             case "fr": return 0x08
             case "nl-NL": return 0x09
             case "pt-PT": return 10
+            case "it": return 11
             default: return 0x00
         }
     }
