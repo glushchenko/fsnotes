@@ -1331,6 +1331,9 @@
 		D7A549BF24DD9BDA00537544 /* settings-icons-night.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-night.png"; sourceTree = "<group>"; };
 		D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEditorViewController.swift; sourceTree = "<group>"; };
 		D7A549C424DD9E8D00537544 /* settings-icons-editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-editor.png"; sourceTree = "<group>"; };
+		D7A5B5B224F3D281007AE746 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D7A5B5B324F3D284007AE746 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D7A5B5B424F3D28D007AE746 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7A65C5820F11C38003E5ADC /* LanguageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageType.swift; sourceTree = "<group>"; };
 		D7A7F77F241D12D3003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		D7A7F782241D12D6003AC0AD /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -4017,6 +4020,7 @@
 				D774761324ACC814003E43D1 /* pt-PT */,
 				D7163D3924E82C2F00B1FC05 /* it */,
 				D7163D4B24E92E7B00B1FC05 /* en */,
+				D7A5B5B224F3D281007AE746 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4031,6 +4035,7 @@
 				D7163D3724E827B900B1FC05 /* fr */,
 				D7163D3824E82C2F00B1FC05 /* it */,
 				D7163D4C24E92EA600B1FC05 /* en */,
+				D7A5B5B324F3D284007AE746 /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4045,6 +4050,7 @@
 				D774760E24ACC814003E43D1 /* pt-PT */,
 				D7163D3A24E82C2F00B1FC05 /* it */,
 				D7163D4D24E92EBC00B1FC05 /* en */,
+				D7A5B5B424F3D28D007AE746 /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

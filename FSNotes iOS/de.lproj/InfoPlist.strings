@@ -1,0 +1,9 @@
+"NSCameraUsageDescription" = "Sie müssen ein Foto zu Notizen hinzufügen";
+
+"NSFaceIDUsageDescription" = "Ver- und Entschlüsselung mit FaceID";
+
+"NSLocationWhenInUseUsageDescription" = "Wird beim Anhängen eines Fotos angefordert";
+
+"NSPhotoLibraryAddUsageDescription" = "Erfordert eine Berechtigung zum Aufzeichnen von Bildern in der Foto-App";
+
+"NSPhotoLibraryUsageDescription" = "Erfordert das Anhängen von Bildern an Notizen";
