@@ -25,31 +25,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             shouldPerformAdditionalDelegateHandling = false
         }
         
-        if let shortcutItems = application.shortcutItems, shortcutItems.isEmpty {
-            let newDocument = NSLocalizedString("New document", comment: "")
-            let shortcutNew = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.makeNew.type,
-                                                             localizedTitle: newDocument,
-                                                             localizedSubtitle: "",
-                                                             icon: UIApplicationShortcutIcon(type: .compose),
-                                                             userInfo: nil)
+        let newDocument = NSLocalizedString("New document", comment: "")
+        let shortcutNew = UIMutableApplicationShortcutItem(
+            type: ShortcutIdentifier.makeNew.type,
+            localizedTitle: newDocument,
+            localizedSubtitle: "",
+            icon: UIApplicationShortcutIcon(type: .compose),
+            userInfo: nil
+        )
 
-            let saveClipboard = NSLocalizedString("Save clipboard", comment: "")
-            let shortcutNewClipboard = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.clipboard.type,
-                                                                        localizedTitle: saveClipboard,
-                                                               localizedSubtitle: "",
-                                                               icon: UIApplicationShortcutIcon(type: .add),
-                                                               userInfo: nil)
+        let saveClipboard = NSLocalizedString("Save clipboard", comment: "")
+        let shortcutNewClipboard = UIMutableApplicationShortcutItem(
+            type: ShortcutIdentifier.clipboard.type,
+            localizedTitle: saveClipboard,
+            localizedSubtitle: "",
+            icon: UIApplicationShortcutIcon(type: .add),
+            userInfo: nil
+        )
 
-            let search = NSLocalizedString("Search", comment: "")
-            let focus = NSLocalizedString("Focus in search field", comment: "")
-            let shortcutSearch = UIMutableApplicationShortcutItem(type: ShortcutIdentifier.search.type,
-                                                             localizedTitle: search,
-                                                             localizedSubtitle: focus,
-                                                             icon: UIApplicationShortcutIcon(type: .search),
-                                                             userInfo: nil)
-            
-            application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
-        }
+        let search = NSLocalizedString("Search", comment: "")
+        let focus = NSLocalizedString("Focus in search field", comment: "")
+        let shortcutSearch = UIMutableApplicationShortcutItem(
+            type: ShortcutIdentifier.search.type,
+            localizedTitle: search,
+            localizedSubtitle: focus,
+            icon: UIApplicationShortcutIcon(type: .search),
+            userInfo: nil
+        )
+
+        application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
         
         return shouldPerformAdditionalDelegateHandling
     }

@@ -162,6 +162,12 @@ CA
                                                 <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Change creation date" keyEquivalent="d" id="49W-tO-6Vu">
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="changeCreationDate:" target="Ady-hI-5gd" id="BfF-b0-iLh"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="y7K-xq-tI8"/>
                                         <menuItem title="Copy URL" id="Rg2-j1-Foz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -818,7 +824,7 @@ CA
                     <tabView key="tabView" type="noTabsNoBorder" id="db4-eL-XEQ">
                         <rect key="frame" x="675" y="-450" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="menuBar"/>
+                        <font key="font" metaFont="menu" size="14"/>
                     </tabView>
                     <connections>
                         <segue destination="NHv-lG-vxt" kind="relationship" relationship="tabItems" id="AHk-7F-en6"/>

@@ -1106,7 +1106,52 @@ class ViewController: NSViewController,
         
         field.becomeFirstResponder()
     }
-    
+
+    @IBAction func changeCreationDate(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
+        guard let note = notes.first else { return }
+        guard let creationDate = note.getFileCreationDate() else { return }
+        guard let window = MainWindowController.shared() else { return }
+
+        vc.alert = NSAlert()
+        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+
+        field.placeholderString = "fun, health, life"
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let date = formatter.string(from: creationDate)
+
+        field.stringValue = date
+        field.placeholderString = "2020-08-28 21:59:07"
+
+        vc.alert?.messageText = NSLocalizedString("Creation date:", comment: "Menu")
+        vc.alert?.accessoryView = field
+        vc.alert?.alertStyle = .informational
+        vc.alert?.addButton(withTitle: "OK")
+        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                let date = field.stringValue
+                let userDate = formatter.date(from: date)
+                let attributes = [FileAttributeKey.creationDate: userDate]
+
+                do {
+                    try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: note.url.path)
+
+                    note.creationDate = userDate
+                    self.notesTableView.reloadRow(note: note)
+                } catch {
+                    print(error)
+                }
+            }
+
+            vc.alert = nil
+        }
+
+        field.becomeFirstResponder()
+    }
+
     @IBAction func openInExternalEditor(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
         vc.external(selectedRow: vc.notesTableView.selectedRow)
@@ -1378,12 +1423,16 @@ class ViewController: NSViewController,
         for note in updateViews {
             notesTableView.reloadRow(note: note)
 
-            if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true {
+            if UserDefaultsManagement.sort == .modificationDate && UserDefaultsManagement.sortDirection == true &&
+                note.project.sortBy == .none {
+
                 if let index = notesTableView.noteList.firstIndex(of: note) {
                     moveNoteToTop(note: index)
                 }
             } else {
-                sortAndMove(note: note)
+                if let project = getSidebarProject() {
+                    sortAndMove(note: note, project: project)
+                }
             }
         }
 
@@ -1605,7 +1654,7 @@ class ViewController: NSViewController,
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                    || type != .Inbox && projects != nil && (
+                    || type != .Inbox && projects != nil && note.project.showInCommon && (
                         projects!.contains(note.project)
                         || (note.project.parent != nil && projects!.contains(note.project.parent!))
                     )
@@ -1806,11 +1855,11 @@ class ViewController: NSViewController,
         }
     }
 
-    public func sortAndMove(note: Note) {
+    public func sortAndMove(note: Note, project: Project? = nil) {
         guard let notes = filteredNoteList else { return }
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue, project: project)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
 
         if srcIndex != dstIndex {
