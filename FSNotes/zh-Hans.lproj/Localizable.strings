@@ -19,6 +19,9 @@
 /* Delete menu */
 "Cancel" = "取消";
 
+/* Menu */
+"Change creation date" = "变更建立日期";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "检查拼写和语法";
 
@@ -42,6 +45,9 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "拼写正确";
+
+/* Menu */
+"Creation date:" = "Creation date:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "当前密码与钥匙串中的密码不匹配";

@@ -10,6 +10,8 @@
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Sei sicuro di voler eliminare il progetto \"%@\" e tutti i file al suo interno?";
 
+"Attach storage" = "Collega archivio";
+
 /* No comment provided by engineer. */
 "Attach storage..." = "Collega archivio...";
 
@@ -18,6 +20,9 @@
 
 /* Delete menu */
 "Cancel" = "Annulla";
+
+/* Menu */
+"Change creation date" = "Modifica la data di creazione";
 
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Controlla la grammatica e l'ortografia";
@@ -42,6 +47,9 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Correggi ortografia automaticamente";
+
+/* Menu */
+"Creation date:" = "Creation date:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "La password corrente non corrisponde alla password nel portachiavi";
@@ -103,6 +111,8 @@
 /* No comment provided by engineer. */
 "History" = "Cronologia";
 
+"Hmm, something goes wrong 🙈" = "Hmm, qualcosa è andato storto 🙈";
+
 /* No comment provided by engineer. */
 "Image or file" = "Immagine o file";
 
@@ -138,6 +148,8 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+"Note with name \"%@\" already exists in selected storage." = "La nota con il nome \"%@\" esiste già nella memoria selezionata.";
 
 /* Sidebar label */
 "Notes" = "Note";
@@ -211,6 +223,8 @@
 /* View menu */
 "Sort by" = "Ordina per";
 
+"Sort By" = "Ordina per";
+
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Ortografia e Grammatica";
 
@@ -258,11 +272,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Si";
-
-"Attach storage" = "Collega archivio";
-
-"Hmm, something goes wrong 🙈" = "Hmm, qualcosa è andato storto 🙈";
-
-"Note with name \"%@\" already exists in selected storage." = "La nota con il nome \"%@\" esiste già nella memoria selezionata.";
-
-"Sort By" = "Ordina per";

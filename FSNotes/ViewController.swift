@@ -130,6 +130,8 @@ class ViewController: NSViewController,
     @IBOutlet weak var sidebarScrollView: NSScrollView!
     @IBOutlet weak var notesScrollView: NSScrollView!
 
+    @IBOutlet weak var menuChangeCreationDate: NSMenuItem!
+
     // MARK: - Overrides
     
     override func viewDidLoad() {
@@ -157,6 +159,7 @@ class ViewController: NSViewController,
         self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
         self.fsManager?.start()
 
+        configureTranslation()
         self.loadMoveMenu()
         self.loadSortBySetting()
         self.checkSidebarConstraint()
@@ -215,8 +218,17 @@ class ViewController: NSViewController,
                         : [.command]
                 }
 
-                if menuItem.identifier?.rawValue == "fileMenu.tags", UserDefaultsManagement.inlineTags {
-                    return false
+                if menuItem.identifier?.rawValue ==  "fileMenu.changeCreationDate" {
+                    menuItem.title = NSLocalizedString("Change creation date", comment: "Menu")
+                }
+
+                if menuItem.identifier?.rawValue == "fileMenu.tags" {
+                    if UserDefaultsManagement.inlineTags {
+                        menuItem.isHidden = true
+                        return false
+                    } else {
+                        menuItem.isHidden = false
+                    }
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.history" {
@@ -1126,7 +1138,7 @@ class ViewController: NSViewController,
         field.stringValue = date
         field.placeholderString = "2020-08-28 21:59:07"
 
-        vc.alert?.messageText = NSLocalizedString("Creation date:", comment: "Menu")
+        vc.alert?.messageText = NSLocalizedString("Change creation date", comment: "Menu") + ":"
         vc.alert?.accessoryView = field
         vc.alert?.alertStyle = .informational
         vc.alert?.addButton(withTitle: "OK")
@@ -1964,6 +1976,12 @@ class ViewController: NSViewController,
         }
 
         editArea.userActivity?.needsSave = true
+    }
+
+    private func configureTranslation() {
+        let creationDate = NSLocalizedString("Change creation date", comment: "Menu")
+
+        menuChangeCreationDate.title = creationDate
     }
     
     func loadMoveMenu() {

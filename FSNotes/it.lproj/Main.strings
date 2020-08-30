@@ -68,7 +68,7 @@
 "4sb-4s-VLi.title" = "Esci da FSNotes";
 
 /* Class = "NSTextFieldCell"; title = "Note list location:"; ObjectID = "54i-GK-spQ"; */
-"54i-GK-spQ.title" = "Posizione dell'elenco delle note:";
+"54i-GK-spQ.title" = "Posizione elenco note:";
 
 /* Class = "NSMenuItem"; title = "Remove encryption"; ObjectID = "5gL-j7-Zq8"; */
 "5gL-j7-Zq8.title" = "Rimuovi la cifratura";
@@ -488,7 +488,7 @@
 "LTw-w4-tEo.title" = "Grassetto";
 
 /* Class = "NSButtonCell"; title = "Hide FSNotes when activating another application"; ObjectID = "M29-fW-FJa"; */
-"M29-fW-FJa.title" = "Nascondi FSNotes quando attivi un'altra applicazione";
+"M29-fW-FJa.title" = "Nascondi FSNotes quando usi altre app";
 
 /* Class = "NSMenuItem"; title = "TextBundle"; ObjectID = "MCR-1v-3Wc"; */
 "MCR-1v-3Wc.title" = "TextBundle";
@@ -815,7 +815,7 @@
 "xjf-5G-e5Q.title" = "Mostra nella barra laterale";
 
 /* Class = "NSTextFieldCell"; title = "Preview font size:"; ObjectID = "xJQ-ch-Xlp"; */
-"xJQ-ch-Xlp.title" = "Anteprima dimensione carattere:";
+"xJQ-ch-Xlp.title" = "Dimensione carattere:";
 
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "xPh-BC-Xxl"; */
 "xPh-BC-Xxl.title" = "Cronologia";
@@ -830,7 +830,7 @@
 "xSO-lW-k8f.title" = "Mostra nel Finder";
 
 /* Class = "NSButtonCell"; title = "Code block live highlighting (app restart required)"; ObjectID = "xX0-9b-KDq"; */
-"xX0-9b-KDq.title" = "Evidenziazione in tempo reale del blocco di codice (è necessario riavviare l'app)";
+"xX0-9b-KDq.title" = "Evidenzia il blocco di codice (necessario riavvio app)";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "xxB-ic-LFu"; */
 "xxB-ic-LFu.title" = "Niente";
@@ -851,7 +851,7 @@
 "You-zo-rbl.title" = "Fissa/Sblocca";
 
 /* Class = "NSButtonCell"; title = "Automatically insert closing braces and close quotes"; ObjectID = "ypO-g0-1Xo"; */
-"ypO-g0-1Xo.title" = "Inserisci automaticamente le parentesi graffe di chiusura e le virgolette";
+"ypO-g0-1Xo.title" = "Aggiungi automaticamente parentesi e virgolette di chiusura";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "Yum-W4-OUy"; */
 "Yum-W4-OUy.title" = "Cambia";
@@ -869,7 +869,7 @@
 "Ze0-SZ-STw.title" = "Esegui il backup manualmente";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
-"ZqK-gu-KdQ.title" = "Selezione automatica della nota quando corrisponde il testo del corpo";
+"ZqK-gu-KdQ.title" = "Seleziona la nota contiente nel corpo il testo cercato";
 
 /* Class = "NSButtonCell"; title = "Show notes in \"Notes\" and \"Todo\" lists"; ObjectID = "Zzw-01-JH7"; */
 "Zzw-01-JH7.title" = "Mostra le note negli elenchi \"Note\" e \"Da Fare\"";

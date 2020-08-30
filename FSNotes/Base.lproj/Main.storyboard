@@ -162,8 +162,11 @@ CA
                                                 <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Change creation date" keyEquivalent="d" id="49W-tO-6Vu">
+                                        <menuItem title="Change creation date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                                            <attributedString key="userComments">
+                                                <fragment content="#bc-ignore!"/>
+                                            </attributedString>
                                             <connections>
                                                 <action selector="changeCreationDate:" target="Ady-hI-5gd" id="BfF-b0-iLh"/>
                                             </connections>
@@ -1861,6 +1864,7 @@ CA
                         <outlet property="editAreaScroll" destination="qJO-7f-vkL" id="X69-yq-N67"/>
                         <outlet property="emptyEditAreaImage" destination="Gz4-4G-Fts" id="Bih-Xr-Cl8"/>
                         <outlet property="lockUnlock" destination="Ote-7U-BZm" id="DXV-am-jEC"/>
+                        <outlet property="menuChangeCreationDate" destination="QdU-og-lQH" id="3h3-dh-83s"/>
                         <outlet property="newNoteButton" destination="TiA-aF-Uev" id="RLL-yl-PiF"/>
                         <outlet property="newNoteTopConstraint" destination="WNt-DJ-R3r" id="jhb-vo-lvp"/>
                         <outlet property="noteMenu" destination="AaK-Xd-i52" id="t41-7H-k7N"/>
@@ -1939,6 +1943,15 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" control="YES"/>
                             <connections>
                                 <action selector="tagNote:" target="XfG-lQ-9wD" id="Xu2-Mz-4PC"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Change creation date" keyEquivalent="d" id="QdU-og-lQH">
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
+                            <attributedString key="userComments">
+                                <fragment content="#bc-ignore!"/>
+                            </attributedString>
+                            <connections>
+                                <action selector="changeCreationDate:" target="rPt-NT-nkU" id="R4F-Ug-M9Q"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>

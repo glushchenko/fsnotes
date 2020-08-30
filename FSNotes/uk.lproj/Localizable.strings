@@ -19,6 +19,9 @@
 /* Delete menu */
 "Cancel" = "Відміна";
 
+/* Menu */
+"Change creation date" = "Змінити дату створення";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Перевіряти граматику та правопис";
 
@@ -42,6 +45,9 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Автоматично коригувати правописання";
+
+/* Menu */
+"Creation date:" = "Creation date:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Пароль не співпадає з паролем у зв'язці";

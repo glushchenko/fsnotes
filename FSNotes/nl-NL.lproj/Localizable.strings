@@ -19,6 +19,9 @@
 /* Delete menu */
 "Cancel" = "Annuleer";
 
+/* Menu */
+"Change creation date" = "Wijzig de aanmaakdatum";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Controleer grammatica tegelijk met spelling";
 
@@ -42,6 +45,9 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Corrigeer Spelling Automatisch";
+
+/* Menu */
+"Creation date:" = "Creation date:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Het huidige wachtwoord komt niet overeen met het wachtwoord in de sleutelhanger";

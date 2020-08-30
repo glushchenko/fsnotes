@@ -31,5 +31,5 @@ sortByKeys = true
 
 [lint]
 paths = ["."]
-duplicateKeys = true
+duplicateKeys = false
 emptyValues = true

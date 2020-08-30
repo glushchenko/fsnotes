@@ -19,6 +19,9 @@
 /* Delete menu */
 "Cancel" = "Cancel";
 
+/* Menu */
+"Change creation date" = "Changer la date de création";
+
 /* No comment provided by engineer. */
 "Check Grammar With Spelling" = "Check Grammar With Spelling";
 
@@ -42,6 +45,9 @@
 
 /* No comment provided by engineer. */
 "Correct Spelling Automatically" = "Correct Spelling Automatically";
+
+/* Menu */
+"Creation date:" = "Creation date:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "Current password does not match with password in keychain";
