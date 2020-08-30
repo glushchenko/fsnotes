@@ -1589,7 +1589,7 @@ class ViewController: NSViewController,
 
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
-                        if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased() == self.search.stringValue.lowercased()) {
+                        if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().startsWith(string: self.search.stringValue.lowercased())) {
 
                             let note = self.notesTableView.noteList.first(where: { $0.title == originalFilter })
                                 ?? self.notesTableView.noteList.first
@@ -1669,8 +1669,7 @@ class ViewController: NSViewController,
                 || type != .Inbox &&
                     type != .All &&
                     type != .Todo &&
-                    projects != nil &&
-                    filter.isEmpty && (
+                    projects != nil && (
                         projects!.contains(note.project)
                         || (
                             note.project.parent != nil &&

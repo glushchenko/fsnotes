@@ -2263,7 +2263,7 @@ Baran Pirinçal – baranpirincal@gmail.com</string>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" selectable="YES" id="thj-Sx-DxC">
                                     <font key="font" metaFont="systemThin" size="13"/>
-                                    <mutableString key="title">Michael Barzmann
+                                    <string key="title">Michael Barzmann
 Olena Hlushchenko ♥️ aonez (aone@keka.io)
 Ayad (@ayad0net)
 Pertim (macwk.com@gmail.com)
@@ -2271,7 +2271,7 @@ Wonsup Yoon (pusnow@kaist.ac.kr)
 Simon Jornet (github.com/jornetsimon) 
 Chris Hendriks (github.com/olikilo)
 reddit.com/user/endallbeallknowitall
-Leonardo Bartoletti - leodmc88@gmail.com</mutableString>
+Leonardo Bartoletti - leodmc88@gmail.com</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
