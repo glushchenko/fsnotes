@@ -1666,15 +1666,22 @@ class ViewController: NSViewController,
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                    || type != .Inbox && projects != nil && note.project.showInCommon && (
+                || type != .Inbox &&
+                    type != .All &&
+                    type != .Todo &&
+                    projects != nil &&
+                    filter.isEmpty && (
                         projects!.contains(note.project)
-                        || (note.project.parent != nil && projects!.contains(note.project.parent!))
+                        || (
+                            note.project.parent != nil &&
+                            projects!.contains(note.project.parent!)
+                        )
                     )
-                    || type == .Trash
-                    || type == .Todo && note.project.showInCommon
-                    || type == .Archive && note.project.isArchive
-                    || type == .Inbox && note.project.isRoot && note.project.isDefault
-                    || !UserDefaultsManagement.inlineTags && tags != nil
+                || type == .Trash
+                || type == .Todo && note.project.showInCommon
+                || type == .Archive && note.project.isArchive
+                || type == .Inbox && note.project.isRoot && note.project.isDefault
+                || !UserDefaultsManagement.inlineTags && tags != nil
             ) && (
                 type == .Trash && note.isTrash()
                     || type != .Trash && !note.isTrash()

@@ -46,9 +46,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 super.keyUp(with: event)
                 return
             }
-            
+
             vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
-            vc.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
+            if vc.storageOutlineView.selectedRowIndexes.count == 0 {
+                vc.storageOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+            }
+
+            return
         }
         
         super.keyUp(with: event)
@@ -263,6 +267,11 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if ([kVK_ANSI_8, kVK_ANSI_J, kVK_ANSI_K].contains(Int(event.keyCode)) && event.modifierFlags.contains(.command)) {
+            return true
+        }
+
+
+        if event.keyCode == kVK_LeftArrow {
             return true
         }
         
