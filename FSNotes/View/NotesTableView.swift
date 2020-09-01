@@ -270,8 +270,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return true
         }
 
-
-        if event.keyCode == kVK_LeftArrow {
+        if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
             return true
         }
         

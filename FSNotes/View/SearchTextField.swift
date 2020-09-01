@@ -71,10 +71,14 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             }
             return true
         case "cancelOperation:":
+            self.skipAutocomplete = true
+            self.lastQuery = String()
+            self.filterQueue.cancelAllOperations()
             return true
         case "deleteBackward:":
             self.skipAutocomplete = true
             self.lastQuery = String()
+            self.filterQueue.cancelAllOperations()
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
@@ -102,6 +106,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             vcDelegate.editArea.scrollToCursor()
             return true
         case "deleteWordBackward:":
+            self.skipAutocomplete = true
+            self.lastQuery = String()
+            self.filterQueue.cancelAllOperations()
             textView.deleteWordBackward(self)
             return true
         case "noop:":
