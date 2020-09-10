@@ -82,7 +82,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             textView.deleteBackward(self)
             return true
         case "insertNewline:", "insertNewlineIgnoringFieldEditor:":
-            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
+            if let note = vcDelegate.editArea.getSelectedNote(), stringValue.utf16.count > 0, note.title.lowercased() == stringValue.lowercased() || note.fileName.lowercased() == stringValue.lowercased() {
 
                 if note.title.lowercased() == stringValue.lowercased() && note.title != stringValue {
                     stringValue = note.title
@@ -110,6 +110,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             self.lastQuery = String()
             self.filterQueue.cancelAllOperations()
             textView.deleteWordBackward(self)
+            lastQueryLength = self.stringValue.utf16.count
             return true
         case "noop:":
             if let event = NSApp.currentEvent, event.modifierFlags.contains(.command) && event.keyCode == kVK_Return {
@@ -127,23 +128,35 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
     
     public func suggestAutocomplete(_ note: Note, filter: String) {
-        guard note.title != filter.lowercased(), let editor = currentEditor() else { return }
+        guard note.title.lowercased() != filter.lowercased(),
+            let editor = currentEditor()
+        else { return }
 
         if note.title.lowercased().starts(with: filter.lowercased()) {
-            stringValue = filter + note.title.suffix(note.title.count - filter.count)
-            lastQuery = stringValue
+
+            if note.title.lowercased() != stringValue.lowercased() {
+                stringValue = filter + String(note.title.utf16.suffix(note.title.utf16.count - filter.utf16.count))!
+                lastQuery = stringValue
+                lastQueryLength = stringValue.utf16.count
+            }
+
             editor.selectedRange = NSRange(filter.utf16.count..<note.title.utf16.count)
             return
         }
 
         if note.fileName.lowercased().starts(with: filter.lowercased()) {
-            stringValue = filter + note.fileName.suffix(note.fileName.count - filter.count)
-            lastQuery = stringValue
+
+            if note.fileName.lowercased() != stringValue.lowercased() {
+                stringValue = filter + String(note.fileName.utf16.suffix(note.fileName.utf16.count - filter.utf16.count))!
+                lastQuery = stringValue
+                lastQueryLength = stringValue.utf16.count
+            }
+
             editor.selectedRange = NSRange(filter.utf16.count..<note.fileName.utf16.count)
             return
         }
 
-        lastQuery = String()
+        lastQuery = stringValue
     }
 
     @objc private func search() {
@@ -155,7 +168,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         if let location = currentEditor()?.selectedRange.location, !skipAutocomplete {
             if lastQuery.startsWith(string: stringValue) {
-                let range = NSRange(location: location, length: lastQuery.count - location)
+                let range = NSRange(location: location, length: lastQuery.utf16.count - location)
                 stringValue = lastQuery
                 currentEditor()?.selectedRange = range
                 return
