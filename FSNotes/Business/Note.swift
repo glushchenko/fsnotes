@@ -1371,6 +1371,7 @@ public class Note: NSObject  {
         cleanText =
             cleanText
                 .replacingOccurrences(of: "#", with: "")
+                .replacingOccurrences(of: "```", with: "")
                 .replacingOccurrences(of: "- [ ]", with: "")
                 .replacingOccurrences(of: "- [x]", with: "")
                 .replacingOccurrences(of: "[[", with: "")

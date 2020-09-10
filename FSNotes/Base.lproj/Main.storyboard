@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1819,9 +1819,9 @@ CA
                                                         </constraints>
                                                     </customView>
                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" alphaValue="0.29999999999999999" translatesAutoresizingMaskIntoConstraints="NO" id="Gz4-4G-Fts">
-                                                        <rect key="frame" x="249" y="250" width="70" height="99"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="WpA-pT-SDs"/>
+                                                        <rect key="frame" x="199" y="215" width="170" height="170"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="logoInCircle" id="WpA-pT-SDs"/>
                                                         <color key="contentTintColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                     </imageView>
                                                 </subviews>
@@ -3295,6 +3295,7 @@ Italian 🇮🇹</string>
         <image name="git" width="270" height="270"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
+        <image name="logoInCircle" width="250" height="250"/>
         <image name="new-note" width="128" height="128"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>

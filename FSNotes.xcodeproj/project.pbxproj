@@ -130,6 +130,9 @@
 		D7218945210211D800FE3AF2 /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
 		D721894621021B2400FE3AF2 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D721894721021BB700FE3AF2 /* SortBy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7679375201F0BFD000F7BBF /* SortBy.swift */; };
+		D7258903250A7E5F00F1996F /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112322DA2FE200435866 /* launch.png */; };
+		D7258904250A7E6000F1996F /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112322DA2FE200435866 /* launch.png */; };
+		D7258905250A7E6000F1996F /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BE112322DA2FE200435866 /* launch.png */; };
 		D7271FAA2052803500033D0C /* unindent.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA42052803400033D0C /* unindent.png */; };
 		D7271FAB2052803500033D0C /* indent.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA52052803400033D0C /* indent.png */; };
 		D7271FAC2052803500033D0C /* indent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7271FA62052803400033D0C /* indent@2x.png */; };
@@ -2728,6 +2731,7 @@
 				D75E33EE22462442006AD1C1 /* Initial in Resources */,
 				D720241422A9412B000A7691 /* Text.icns in Resources */,
 				D75E33EF22462442006AD1C1 /* locked.png in Resources */,
+				D7258903250A7E5F00F1996F /* launch.png in Resources */,
 				D75E33F022462442006AD1C1 /* AvenirNext-HeavyItalic.ttf in Resources */,
 				D75E33F122462442006AD1C1 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D75E33F222462442006AD1C1 /* Localizable.strings in Resources */,
@@ -2953,6 +2957,7 @@
 				D7C690D422AB033B00BFBBD1 /* tb_link.png in Resources */,
 				D7F2F1A921C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7038E2020FA957400A54E69 /* copy.png in Resources */,
+				D7258905250A7E6000F1996F /* launch.png in Resources */,
 				D71C4A4E1F520F1B00EBA30B /* DownView.bundle in Resources */,
 				D759D1FA2276D25C00961E90 /* icon_alt.png in Resources */,
 				D7CD5F681F508E74006AA35D /* SourceCodePro-Bold.ttf in Resources */,
@@ -3081,6 +3086,7 @@
 				D7E81C511F925B5F00416A91 /* pin.png in Resources */,
 				D730BD492238365800E69C93 /* lock-closed.png in Resources */,
 				D7C690B122AA4B2900BFBBD1 /* todo.png in Resources */,
+				D7258904250A7E6000F1996F /* launch.png in Resources */,
 				D7C690B522AAE0D400BFBBD1 /* image@2x.png in Resources */,
 				D7F2F1B621C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
 				D73A996E22FEC789002A7006 /* inbox.png in Resources */,

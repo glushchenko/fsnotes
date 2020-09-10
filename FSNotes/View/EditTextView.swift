@@ -673,7 +673,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
             viewController.emptyEditAreaImage.isHidden = false
         } else {
-            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
+            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
             viewController.emptyEditAreaImage.isHidden = true
         }
         
@@ -811,7 +811,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         self.window?.title = appDelegate.appTitle
         
         if let viewController = self.window?.contentViewController as? ViewController {
-            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "makeNoteAsset")
+            viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
             viewController.emptyEditAreaImage.isHidden = false
             viewController.updateTitle(newTitle: nil)
         }
