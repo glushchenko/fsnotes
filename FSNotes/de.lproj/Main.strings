@@ -98,7 +98,7 @@
 "78Y-hA-62v.title" = "Rechtschreibung automatisch korrigieren";
 
 /* Class = "NSButtonCell"; title = "Highlight indented code blocks"; ObjectID = "7D9-lM-GXX"; */
-"7D9-lM-GXX.title" = "Einrückte Codeblöcke";
+"7D9-lM-GXX.title" = "Eingerückte Codeblöcke";
 
 /* Class = "NSButtonCell"; title = "Close"; ObjectID = "7GB-y2-EMo"; */
 "7GB-y2-EMo.title" = "Schließen";
