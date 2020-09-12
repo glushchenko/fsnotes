@@ -728,11 +728,11 @@ public class NotesTextProcessor {
                 attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)
 
                 if let range = result?.range(at: 0) {
-                    attributedString.addAttribute(.foregroundColor, value: NSColor.gray, range: range)
+                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: range)
                 }
 
                 if let range = result?.range(at: 2) {
-                    attributedString.addAttribute(.foregroundColor, value: NSColor.gray, range: range)
+                    attributedString.addAttribute(.foregroundColor, value: Color.gray, range: range)
                 }
             }
         }
