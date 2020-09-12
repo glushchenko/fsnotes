@@ -135,12 +135,7 @@ class NoteAttachment {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent(prefix)
 
-        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-
-            return temporary.appendingPathComponent(filePath)
-        }
-
-        return nil
+        return temporary.appendingPathComponent(url.absoluteString.md5 + "." + url.pathExtension)
     }
 
     public static func savePreviewImage(url: URL, image: Image, prefix: String = "Preview") {

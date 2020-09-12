@@ -253,7 +253,8 @@ img {
     background: none;
     border-radius: 3px;
     border-style: none;
-    max-width: 100%
+    max-width: 100%;
+    max-height: 90vh;
 }
 canvas {
     border-radius: 3px;

@@ -1039,7 +1039,11 @@ class ViewController: NSViewController,
                 }
 
                 if let i = selectedRow, i > -1 {
-                    vc.notesTableView.selectRow(i)
+                    if vc.notesTableView.noteList.count > i {
+                        vc.notesTableView.selectRow(i)
+                    } else {
+                        vc.notesTableView.selectRow(vc.notesTableView.noteList.count - 1)
+                    }
                 }
 
                 UserDataService.instance.searchTrigger = false

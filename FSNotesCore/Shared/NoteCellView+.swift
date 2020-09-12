@@ -51,20 +51,14 @@ extension NoteCellView {
     }
 
     private func hideUnusedImagesPreview(quantity: Int) {
-        if quantity < 3 {
-            self.imagePreviewThird.image = nil
-            self.imagePreviewThird.isHidden = true
-        }
+        self.imagePreviewThird.image = nil
+        self.imagePreviewThird.isHidden = true
 
-        if quantity < 2 {
-            self.imagePreviewSecond.image = nil
-            self.imagePreviewSecond.isHidden = true
-        }
+        self.imagePreviewSecond.image = nil
+        self.imagePreviewSecond.isHidden = true
 
-        if quantity < 1 {
-            self.imagePreview.image = nil
-            self.imagePreview.isHidden = true
-        }
+        self.imagePreview.image = nil
+        self.imagePreview.isHidden = true
     }
 
     private func attachImagesPreview(resizedImages: [Image]) {

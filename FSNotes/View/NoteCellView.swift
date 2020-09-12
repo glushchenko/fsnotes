@@ -280,12 +280,7 @@ class NoteCellView: NSTableCellView {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent("Preview")
 
-        if let filePath = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-
-            return temporary.appendingPathComponent(filePath)
-        }
-
-        return nil
+        return temporary.appendingPathComponent(url.absoluteString.md5 + "." + url.pathExtension)
     }
 
     private func savePreviewImage(url: URL, image: Image) {
