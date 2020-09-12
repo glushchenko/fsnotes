@@ -726,6 +726,14 @@ public class NotesTextProcessor {
             #endif
 
                 attributedString.addAttribute(.link, value: "fsnotes://find?id=" + link, range: _range)
+
+                if let range = result?.range(at: 0) {
+                    attributedString.addAttribute(.foregroundColor, value: NSColor.gray, range: range)
+                }
+
+                if let range = result?.range(at: 2) {
+                    attributedString.addAttribute(.foregroundColor, value: NSColor.gray, range: range)
+                }
             }
         }
         
@@ -1283,7 +1291,7 @@ public class NotesTextProcessor {
     
     // MARK: App url
     
-    fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)\\]\\]"
+    fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
     
     public static let appUrlRegex = MarklightRegex(pattern: appUrlPattern, options: [.anchorsMatchLines])
     
