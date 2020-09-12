@@ -746,6 +746,11 @@ public class NotesTextProcessor {
         // We detect and process italics
         NotesTextProcessor.italicRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
+
+            if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
+                return
+            }
+
             attributedString.addAttribute(.font, value: italicFont, range: range)
 
             NotesTextProcessor.boldRegex.matches(string, range: range) { (result) -> Void in
@@ -768,6 +773,10 @@ public class NotesTextProcessor {
         // We detect and process bolds
         NotesTextProcessor.boldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range else { return }
+
+            if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
+                return
+            }
 
             if let font = attributedString.attributedSubstring(from: range).attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
             } else {
@@ -941,6 +950,10 @@ public class NotesTextProcessor {
         }
 
         return "/i/"
+    }
+
+    public static func isLink(attributedString: NSAttributedString, range: NSRange) -> Bool {
+        return attributedString.attributedSubstring(from: range).attribute(.link, at: 0, effectiveRange: nil) != nil
     }
     
     /// Tabs are automatically converted to spaces as part of the transform
