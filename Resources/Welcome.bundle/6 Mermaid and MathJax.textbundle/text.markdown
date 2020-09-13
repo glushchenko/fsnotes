@@ -1,6 +1,6 @@
-## 7. Mermaid and MathJax
+# 6. Mermaid and MathJax
 
-### Mermaid example
+## Mermaid example
 
 Documentation: https://mermaidjs.github.io
 
@@ -18,7 +18,7 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-### MathJax example
+## MathJax example
 
 Documentation: https://www.mathjax.org
 

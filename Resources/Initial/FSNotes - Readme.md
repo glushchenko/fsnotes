@@ -1,39 +1,51 @@
-## File system notes manager
+## FSNotes – File System Notes Manager
 
-[[Shortcuts]]
+FSNotes lets write and store notes in portable and non vendor locked formats, catalog and manage large amounts of data.
 
-File system notes is modern notational velocity (nvALT) on steroids.
+You can view, edit, and copy data in your favourite external editor and see live results in FSNotes.  It's simple and blazing fast!
 
-FSNotes respects open formats: **plain/text, markdown, rtf**, and stores data in the file system. You can view, edit, and copy data in your favourite external editor and see live results in FSNotes.
+Memorizing [keyboard shortcuts](https://github.com/glushchenko/fsnotes/wiki/Keyboard-Shortcuts) takes some work, but once you have, shortcuts make using FSNotes so much more efficient.
 
-Key features:
+### Key features
 
-- keyboard centric
-- global shortcuts (clipboard save / search field)
-- markdown and RTF markup (files stored on disk as plain/text and rich text)
-- markdown preview mode
-- elastic two pane view (vertical and horizontal layout)
-- blazing fast and lightweight
-- open files in finder / works with external editors (changes seamlessly live sync with UI)
-- pin/unpin important notes in top
-- synchronization over iCloud Drive / Dropbox
-- multi folder storage
-- fast copy markdown code to clipboard
-- live markdown highlighting with code blocks (over 170 languages)
-- code highlighting themes
-- markdown images preview in editor
+- Markdown-first. Also supports any plaintext and RTF files.
+- Fast and lightweight. Works smoothly with 10k+ files.
+- Access anywhere. Sync with iCloud Drive or Dropbox.
+- Multi-folder storage.
+- Keyboard-centric. nvalt-inspired controls and shortcuts.
+- Syntax highlighting within code blocks. Supports over 170 programming languages.
+- In-line image support.
+- Organize with tags.
 
-Default storage directory (Notarized):
-
-```~/Library/Containers/co.fluder.FSNotes/Data/Documents/```
-
-Default storage directory (iCloud Drive):
-
-```~/Library/Mobile Documents/iCloud~co~fluder~fsnotes/Documents```
-
-Of course you can change the directory (i.e. Dropbox or iCloud Drive) for synchronization
+### Screen
 
 ![](https://raw.githubusercontent.com/glushchenko/fsnotes/master/code.png)
 
-- [ ] and
-- [x] todo 🤗
+### And many more
+
+- Cross-note links using [[double brackets]].
+- Elastic two-pane view. Choose a vertical or horizontal layout.
+- External editor support (changes seamless live sync with UI).
+- Pin important notes.
+- Quickly copy notes to the clipboard.
+- Dark mode.
+- Lock sensitive notes with AES-256 encryption.
+- Mermaid and MathJax support.
+- Optional Git versioning and backups.
+- iOS app with sync via iCloud Drive.
+
+### Wiki
+
+[Alfred Workflow](https://github.com/glushchenko/fsnotes/wiki/Alfred-Workflow)
+[Backup & Versioning of Notes](https://github.com/glushchenko/fsnotes/wiki/Backup-&-Versioning-of-Notes)
+[Containers](https://github.com/glushchenko/fsnotes/wiki/Containers)
+[Finding & creating documents via URLs](https://github.com/glushchenko/fsnotes/wiki/Finding-&-creating-documents-via-URLs)
+[Markdown Reference](https://github.com/glushchenko/fsnotes/wiki/Markdown-Reference)
+[Report Bugs or Request Features](https://github.com/glushchenko/fsnotes/wiki/Report-Bugs-or-Request-Features)
+[Keyboard Shortcuts](https://github.com/glushchenko/fsnotes/wiki/Keyboard-Shortcuts)
+
+Special thanks to [Matt Sephton](https://www.gingerbeardman.com) 👍
+
+### Author
+
+© Oleksandr Hlushchenko and [Contributors](https://github.com/glushchenko/fsnotes/graphs/contributors), 2017–2020

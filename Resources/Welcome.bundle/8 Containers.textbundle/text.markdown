@@ -1,10 +1,10 @@
-## 9. Containers
+# 8. Containers
 
 What are containers? A 'container' is a holder for your files. A container holds text and other assets used in one note. Of course, you can choose to store notes without containers at all. Open Preferences -> General -> Containers and select "None". Notes will be stored in plain text, Markdown or RTF.
 
 I recommend to use Text Bundle and Encrypted Text Bundles for sensitive data. Read on.
 
-### Text Bundle container
+## Text Bundle container
 
 File extension – `.textbundle`
 
@@ -12,7 +12,7 @@ TextBundle – file format aims to provide a more seamless user experience when 
 
 For example, a Markdown file may contain references to external images. When sending such a file from a Markdown editor to a previewer, users will have to explicitly permit access to every single image file. This is where TextBundle comes handy. TextBundle brings the convenience back - by bundling the Markdown text and all referenced images into a single file.
 
-### Encrypted Text Bundle container
+## Encrypted Text Bundle container
 
 File extension – `.etp`.
 

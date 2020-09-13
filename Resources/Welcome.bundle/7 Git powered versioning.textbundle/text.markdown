@@ -1,6 +1,6 @@
-## 8. Git powered versioning
+# 7. Git powered versioning
 
-Save note revisions with `cmd-s`:
+Save note revisions with `cmd + s` shortcut:
 
 ![](assets/3d1952d0-88bb-472f-9ba2-ca57fafec9c9.jpg)
 
@@ -10,7 +10,7 @@ And restore them:
 
 
 
-### Backup all notes automatically
+## Backup all notes automatically
 
 Configure it in preferences:
 
@@ -18,7 +18,7 @@ Configure it in preferences:
 
 For example, make a backup each hour.
 
-### You can also backup backups 🤪
+## You can also backup backups 🤪
 
 Well, you cannot be too safe.
 

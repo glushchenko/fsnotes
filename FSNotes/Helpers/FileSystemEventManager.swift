@@ -140,15 +140,6 @@ class FileSystemEventManager {
                 self.delegate.reloadSideBar()
             }
         }
-        
-        if note.name == "FSNotes - Readme.md" {
-            self.delegate.updateTable() {
-                self.delegate.notesTableView.selectRow(0)
-                note.addPin()
-
-                self.delegate.reloadSideBar()
-            }
-        }
     }
     
     private func renameNote(note: Note) {

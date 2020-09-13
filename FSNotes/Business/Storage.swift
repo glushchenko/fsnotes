@@ -35,20 +35,7 @@ class Storage {
         "textbundle",
         "etp" // Encrypted Text Pack
     ]
-    
-#if os(iOS)
-    let initialFiles = [
-        "FSNotes - Readme.md",
-        "FSNotes - Code Highlighting.md"
-    ]
-#else
-    let initialFiles = [
-        "FSNotes - Readme.md",
-        "FSNotes - Shortcuts.md",
-        "FSNotes - Code Highlighting.md"
-    ]
-#endif
-    
+
     private var bookmarks = [URL]()
     public var shouldMovePrompt = false
 
@@ -269,7 +256,6 @@ class Storage {
         guard !projectExist(url: url),
             url.lastPathComponent != "i",
             url.lastPathComponent != "files",
-            url.lastPathComponent != "Welcome",
             !url.path.contains(".git"),
             !url.path.contains(".Trash"),
             !url.path.contains("Trash"),
@@ -482,7 +468,7 @@ class Storage {
         }
     }
 
-    func loadDocuments(shouldLoadInitial: Bool = true) {
+    public func loadDocuments() {
         let startingPoint = Date()
 
         _ = restoreCloudPins()
@@ -494,11 +480,6 @@ class Storage {
         print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
 
         noteList = sortNotes(noteList: noteList, filter: "")
-
-        if shouldLoadInitial && checkFirstRun() {
-            loadProjects()
-            loadDocuments(shouldLoadInitial: false)
-        }
     }
 
     public func getMainProject() -> Project {
@@ -792,29 +773,6 @@ class Storage {
     
     func getNextId() -> Int {
         return noteList.count
-    }
-    
-    func checkFirstRun() -> Bool {
-        guard noteList.isEmpty, let resourceURL = Bundle.main.resourceURL else { return false }
-
-        guard let destination = getDemoSubdirURL() else { return false }
-        
-        let initialPath = resourceURL.appendingPathComponent("Initial").path
-        let path = destination.path
-        
-        do {
-            let files = try FileManager.default.contentsOfDirectory(atPath: initialPath)
-            for file in files {
-                guard initialFiles.contains(file) else {
-                    continue
-                }
-                try? FileManager.default.copyItem(atPath: "\(initialPath)/\(file)", toPath: "\(path)/\(file)")
-            }
-        } catch {
-            print("Initial copy error: \(error)")
-        }
-
-        return true
     }
     
     func getBy(url: URL) -> Note? {

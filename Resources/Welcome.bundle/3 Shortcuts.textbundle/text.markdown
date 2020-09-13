@@ -1,22 +1,26 @@
-## 4. Shortcuts
+# 3. Shortcuts
 
-FSNotes respects mouseless usage, it is shortcuts friendly app.
+FSNotes respects mouseless usage, it is shortcuts friendly app. 
 
-### Keyboard shortcuts
+The most important combination you must learn:
 
-#### Global
+`cmd - backtick` - disable / enable preview mode.
+
+Alternative: you can do same in menu bar `View - Toggle Preview`
+
+## Global
 
 - `cmd + option + shift + L` - open main window and focus search bar
 - `cmd + option + shift + n` - save clipboard
 - `enter` - move focus right (deeper); sidebar > note list > note
 - `cmd + enter` - move focus left (higher); note > note list > sidebar
 
-#### Search and create field
+## Search and create field
 
 - `down arrow` - move focus on notes list
 - `enter` - make note
 
-#### Main window
+## Main window
 
 - `esc` - move cursor into search bar and clear edit/search fields
 - `cmd + L` - move cursor into search bar
@@ -26,7 +30,7 @@ FSNotes respects mouseless usage, it is shortcuts friendly app.
 - `cmd + j` - next note
 - `cmd + k` - previous note
 
-#### Notes list
+## Notes list
 
 - `cmd + delete` - remove note
 - `cmd + r` - rename note
@@ -42,9 +46,9 @@ FSNotes respects mouseless usage, it is shortcuts friendly app.
 - `cmd + d` – duplicate note
 - `cmd + alt + l` - encrypt/decrypt note (AES 256)
 
-#### Editor
+## Editor
 
 - `fn + f5` - autocomplete note name
-- ``cmd + ` ``, or click `View -> Toggle preview` - for preview rendered markdown
+- ``cmd + ` ``, or click `View - Toggle preview` - for enable or disable preview rendered markdown
 
 

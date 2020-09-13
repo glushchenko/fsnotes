@@ -1780,6 +1780,10 @@ CA
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
                                                                                 <rect key="frame" x="50" y="0.0" width="11" height="16"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="width" constant="11" id="FOv-xI-qeM"/>
+                                                                                    <constraint firstAttribute="height" constant="16" id="cQg-Gn-wlM"/>
+                                                                                </constraints>
                                                                                 <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                     <font key="font" metaFont="system"/>

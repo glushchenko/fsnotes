@@ -1,4 +1,4 @@
-## 5. Sidebar
+# 4. Sidebar
 
 To toggle projects and tags sidebar press `control + cmd + shift + b`
 
