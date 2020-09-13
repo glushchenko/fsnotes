@@ -768,7 +768,8 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: Constants.TextMatchAutoSelection) {
                 return result as! Bool
             }
-            return true
+            
+            return false
         }
         set {
             shared?.set(newValue, forKey: Constants.TextMatchAutoSelection)

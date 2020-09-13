@@ -814,7 +814,18 @@ class ViewController: NSViewController,
         if (value.count > 0) {
             search.stringValue = String()
             editArea.clear()
-            createNote(name: value, content: inlineTags)
+            var content = String()
+
+            if UserDefaultsManagement.fileFormat == .Markdown,
+                UserDefaultsManagement.naming == .autoRename {
+                content.append("# \(value)\n\n")
+            }
+
+            if (inlineTags.count > 0) {
+                content.append(inlineTags)
+            }
+
+            createNote(name: value, content: content)
         } else {
             createNote(content: inlineTags)
         }
