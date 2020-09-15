@@ -29,8 +29,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         self.closure = closure
         let userContentController = WKUserContentController()
         userContentController.add(HandlerSelection(), name: "newSelectionDetected")
-        userContentController.add(HandlerCodeCopy(), name: "notification")
         userContentController.add(HandlerCheckbox(), name: "checkbox")
+        userContentController.add(HandlerMouse(), name: "mouse")
+        userContentController.add(HandlerClipboard(), name: "clipboard")
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
@@ -425,31 +426,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let family = familyName ?? "-apple-system"
         let margin = Int(UserDefaultsManagement.marginSize)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
-    }
-}
-
-class HandlerCodeCopy: NSObject, WKScriptMessageHandler {
-    public static var selectionString: String? {
-        didSet {
-            guard let copyBlock = selectionString else { return }
-
-#if os(OSX)
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(copyBlock, forType: .string)
-#else
-            UIPasteboard.general.setItems([
-                [kUTTypePlainText as String: copyBlock]
-            ])
-#endif
-        }
-    }
-
-    func userContentController(_ userContentController: WKUserContentController,
-                               didReceive message: WKScriptMessage) {
-        let message = (message.body as! String).trimmingCharacters(in: .whitespacesAndNewlines)
-
-        HandlerCodeCopy.selectionString = message
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(margin)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
     }
 }
 
@@ -497,5 +474,36 @@ class HandlerCheckbox: NSObject, WKScriptMessageHandler {
 
             i = i + 1
         }
+    }
+}
+
+class HandlerMouse: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+
+        guard let action = message.body as? String else { return }
+
+        if action == "enter" {
+            NSCursor.pointingHand.set()
+        } else {
+            NSCursor.arrow.set()
+        }
+    }
+}
+
+class HandlerClipboard: NSObject, WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+
+        guard let action = message.body as? String else { return }
+
+        #if os(OSX)
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(action, forType: .string)
+        #else
+            UIPasteboard.general.setItems([
+                [kUTTypePlainText as String: action]
+            ])
+        #endif
     }
 }

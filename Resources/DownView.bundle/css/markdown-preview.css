@@ -231,7 +231,7 @@ body {
     font-size: 0.9em;
     line-height: 1.2;
     word-wrap: break-word;
-    padding: 0.7rem
+    padding: 15px 0;
 }
 a {
     background-color: transparent;
@@ -418,11 +418,19 @@ table tr:nth-child(2n) {
 }
 code {
     padding: .2em 0;
+    line-height: 30px;
     margin: 0;
     font-size: 85%;
     background-color: rgba(0, 0, 0, .04);
-    border-radius: 3px
+    border: 1px solid rgba(0, 0, 0, .04);
+    border-radius: 3px;
+    transition: background 0.5s ease-out;
 }
+    code:hover {
+        border: 1px solid #9c9c9c;
+        cursor: pointer;
+    }
+
 pre code,
 pre>code {
     padding: 0;
@@ -445,7 +453,7 @@ pre code {
     max-width: initial;
     overflow: initial;
     line-height: inherit;
-    background-color: transparent
+    border: 1px solid rgba(0, 0, 0, .04);
 }
 pre code:after,
 pre code:before {
