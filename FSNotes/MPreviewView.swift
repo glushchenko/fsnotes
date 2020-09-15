@@ -483,11 +483,13 @@ class HandlerMouse: NSObject, WKScriptMessageHandler {
 
         guard let action = message.body as? String else { return }
 
+        #if os(OSX)
         if action == "enter" {
             NSCursor.pointingHand.set()
         } else {
             NSCursor.arrow.set()
         }
+        #endif
     }
 }
 
