@@ -666,10 +666,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
         viewController.emptyEditAreaImage.isHidden = true
 
         if note.container == .encryptedTextPack {
-            if note.isEncrypted() && UserDefaultsManagement.preview {
-                viewController.disablePreview()
-            }
-
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "locked")
             viewController.emptyEditAreaImage.isHidden = false
         } else {

@@ -22,8 +22,7 @@ class NameHelper {
         }
 
         var fileUrl = project.url
-        fileUrl.appendPathComponent(name)
-        fileUrl.appendPathExtension(ext)
+        fileUrl.appendPathComponent(name + "." + ext, isDirectory: false)
 
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: fileUrl.path) {

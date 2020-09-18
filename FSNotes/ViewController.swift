@@ -498,7 +498,7 @@ class ViewController: NSViewController,
                 continue
             }
 
-            let destination = project.url.appendingPathComponent(note.name)
+            let destination = project.url.appendingPathComponent(note.name, isDirectory: false)
 
             note.moveImages(to: project)
             
@@ -1282,19 +1282,18 @@ class ViewController: NSViewController,
         getMasterPassword() { password, isTypedByUser in
             guard password.count > 0 else { return }
 
-            var isFirst = true
             for note in notes {
                 var success = false
 
                 if note.container == .encryptedTextPack {
                     success = note.unLock(password: password)
-                    if success && isFirst {
-                        self.refillEditArea()
+                    if success && notes.count == 0x01 {
+                        self.refillEditArea(force: true)
                     }
                 } else {
                     success = note.encrypt(password: password)
-                    if success && isFirst {
-                        self.refillEditArea()
+                    if success && notes.count == 0x01 {
+                        self.refillEditArea(force: true)
                         self.focusTable()
                     }
                 }
@@ -1304,7 +1303,6 @@ class ViewController: NSViewController,
                 }
 
                 self.notesTableView.reloadRow(note: note)
-                isFirst = false
             }
         }
     }
@@ -1316,18 +1314,18 @@ class ViewController: NSViewController,
         notes = decryptUnlocked(notes: notes)
         guard notes.count > 0 else { return }
 
+        UserDataService.instance.fsUpdatesDisabled = true
         getMasterPassword() { password, isTypedByUser in
-            var isFirst = true
             for note in notes {
                 if note.container == .encryptedTextPack {
                     let success = note.unEncrypt(password: password)
-                    if success && isFirst {
-                        self.refillEditArea()
+                    if success && notes.count == 0x01 {
+                        self.refillEditArea(force: true)
                     }
                 }
                 self.notesTableView.reloadRow(note: note)
-                isFirst = false
             }
+            UserDataService.instance.fsUpdatesDisabled = false
         }
     }
 
@@ -1356,7 +1354,7 @@ class ViewController: NSViewController,
         }
 
         editArea.clear()
-        refillEditArea()
+        refillEditArea(force: true)
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {
@@ -2393,7 +2391,7 @@ class ViewController: NSViewController,
             for note in notes {
                 let success = note.unLock(password: password)
                 if success, i == 0 {
-                    self.refillEditArea()
+                    self.refillEditArea(force: true)
 
                     if isTypedByUser {
                         self.save(password: password)
@@ -2489,7 +2487,7 @@ class ViewController: NSViewController,
         for note in notes {
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
-                    self.refillEditArea()
+                    self.refillEditArea(force: true)
                 }
                 notes.removeAll { $0 === note }
             }

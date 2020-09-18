@@ -181,6 +181,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let operation = BlockOperation()
             operation.addExecutionBlock { [weak self] in        
                 DispatchQueue.main.async {
+
+                    guard self?.selectedRowIndexes.count == 0x01 else {
+                        vc.editArea.clear()
+                        return
+                    }
+
                     guard !operation.isCancelled, self?.fillTimestamp == timestamp else { return }
 
                     vc.editArea.fill(note: note, highlight: true)
@@ -424,6 +430,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
     public func insertNew(note: Note) {
         guard let vc = self.window?.contentViewController as? ViewController else { return }
+
+        guard noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil else { return }
 
         let type = vc.getSidebarType() ?? .Inbox
         guard vc.isFit(note: note, shouldLoadMain: true, type: type) else { return }

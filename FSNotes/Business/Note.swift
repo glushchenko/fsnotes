@@ -1707,7 +1707,7 @@ public class Note: NSObject  {
             let textPackURL = url.appendingPathExtension("textpack")
             try decryptedData.write(to: textPackURL)
 
-            let newURL = project.url.appendingPathComponent(name).appendingPathExtension("textbundle")
+            let newURL = project.url.appendingPathComponent(name + ".textbundle", isDirectory: false)
             url = newURL
             container = .textBundleV2
 
