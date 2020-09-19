@@ -24,6 +24,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     public var history = [URL]()
     public var historyPosition = 0
 
+    public var limitedActionsList = [
+        "note.print",
+        "note.copyTitle",
+        "note.copyURL",
+        "note.rename",
+        "note.saveRevision",
+        "note.history"
+    ]
+
     override func draw(_ dirtyRect: NSRect) {
         self.dataSource = self
         self.delegate = self
@@ -332,6 +341,17 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         guard let vc = self.window?.contentViewController as? ViewController else { return }
+
+        menu.autoenablesItems = false
+
+        for menuItem in menu.items {
+            if let identifier = menuItem.identifier?.rawValue,
+                limitedActionsList.contains(identifier)
+            {
+                menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
+            }
+        }
+
         vc.loadMoveMenu()
     }
     

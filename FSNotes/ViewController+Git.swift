@@ -59,13 +59,16 @@ extension ViewController {
 
     public func loadHistory() {
         guard let vc = ViewController.shared(),
-            let note = vc.notesTableView.getSelectedNote()
-            else { return }
+            let notes = vc.notesTableView.getSelectedNotes(),
+            let note = notes.first
+        else { return }
 
         let title = NSLocalizedString("History", comment: "")
         let historyMenu = noteMenu.item(withTitle: title)
         historyMenu?.submenu?.removeAllItems()
         historyMenu?.isEnabled = false
+
+        guard notes.count == 0x01 else { return }
 
         DispatchQueue.global().async {
             let git = Git.sharedInstance()

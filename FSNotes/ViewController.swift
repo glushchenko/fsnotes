@@ -211,6 +211,13 @@ class ViewController: NSViewController,
                     return true
                 }
             case "fileMenu":
+
+                if vc.notesTableView.selectedRowIndexes.count > 1,
+                   let id = menuItem.identifier?.rawValue, vc.notesTableView.limitedActionsList.contains(id) {
+
+                    return false
+                }
+
                 if menuItem.identifier?.rawValue == "fileMenu.delete" {
                     menuItem.keyEquivalentModifierMask =
                         UserDefaultsManagement.focusInEditorOnNoteSelect
@@ -232,6 +239,10 @@ class ViewController: NSViewController,
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.history" {
+                    if vc.notesTableView.selectedRowIndexes.count > 1 {
+                        return false
+                    }
+
                     if EditTextView.note != nil {
                         return true
                     }
@@ -1144,8 +1155,6 @@ class ViewController: NSViewController,
         vc.alert = NSAlert()
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
 
-        field.placeholderString = "fun, health, life"
-
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let date = formatter.string(from: creationDate)
@@ -1163,13 +1172,15 @@ class ViewController: NSViewController,
                 let userDate = formatter.date(from: date)
                 let attributes = [FileAttributeKey.creationDate: userDate]
 
-                do {
-                    try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: note.url.path)
+                for note in notes {
+                    do {
+                        try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: note.url.path)
 
-                    note.creationDate = userDate
-                    self.notesTableView.reloadRow(note: note)
-                } catch {
-                    print(error)
+                        note.creationDate = userDate
+                        self.notesTableView.reloadRow(note: note)
+                    } catch {
+                        print(error)
+                    }
                 }
             }
 
@@ -2049,21 +2060,6 @@ class ViewController: NSViewController,
             menuItem.representedObject = item
             menuItem.action = #selector(vc.moveNote(_:))
             moveMenu.addItem(menuItem)
-        }
-
-        let personalSelection = [
-            "noteMove.print",
-            "noteMove.copyTitle",
-            "noteMove.copyUrl",
-            "noteMove.rename"
-        ]
-
-        for menu in noteMenu.items {
-            if let identifier = menu.identifier?.rawValue,
-                personalSelection.contains(identifier)
-            {
-                menu.isHidden = (vc.notesTableView.selectedRowIndexes.count > 1)
-            }
         }
 
         noteMenu.setSubmenu(moveMenu, for: moveMenuItem)

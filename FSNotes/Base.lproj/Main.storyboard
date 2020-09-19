@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -99,7 +99,7 @@ CA
                                                 <action selector="fileMenuNewRTF:" target="L4m-js-agn" id="7O9-Gp-1o1"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Save revision" keyEquivalent="s" id="o8V-Wi-IWO">
+                                        <menuItem title="Save revision" keyEquivalent="s" identifier="note.saveRevision" id="o8V-Wi-IWO">
                                             <connections>
                                                 <action selector="saveRevision:" target="Ady-hI-5gd" id="GVG-2g-BP7"/>
                                             </connections>
@@ -116,7 +116,7 @@ CA
                                                 <action selector="duplicate:" target="Ady-hI-5gd" id="9eI-Pe-IRx"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename" keyEquivalent="r" id="jLq-8F-n0X">
+                                        <menuItem title="Rename" keyEquivalent="r" identifier="note.rename" id="jLq-8F-n0X">
                                             <connections>
                                                 <action selector="renameMenu:" target="L4m-js-agn" id="H0Y-Fe-qfr"/>
                                             </connections>
@@ -172,13 +172,13 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="y7K-xq-tI8"/>
-                                        <menuItem title="Copy URL" id="Rg2-j1-Foz">
+                                        <menuItem title="Copy URL" identifier="note.copyURL" id="Rg2-j1-Foz">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="copyURL:" target="Ady-hI-5gd" id="aX7-ly-HOE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Copy title" keyEquivalent="c" identifier="fileMenu.copyTitle" id="5LV-Vi-n79">
+                                        <menuItem title="Copy title" keyEquivalent="c" identifier="note.copyTitle" id="5LV-Vi-n79">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="copyTitle:" target="Ady-hI-5gd" id="a1Z-Iq-V4h"/>
@@ -190,13 +190,13 @@ CA
                                                 <action selector="moveMenu:" target="L4m-js-agn" id="CDY-Sr-IPD"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="History" keyEquivalent="H" id="Snd-dJ-uj5">
+                                        <menuItem title="History" keyEquivalent="H" identifier="note.history" id="Snd-dJ-uj5">
                                             <connections>
                                                 <action selector="historyMenu:" target="Ady-hI-5gd" id="VPf-oO-JCe"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zV0-3n-jVp"/>
-                                        <menuItem title="Print" keyEquivalent="p" id="OV0-om-POJ">
+                                        <menuItem title="Print" keyEquivalent="p" identifier="note.print" id="OV0-om-POJ">
                                             <connections>
                                                 <action selector="printNotes:" target="Ady-hI-5gd" id="aq9-E9-nEe"/>
                                             </connections>
@@ -965,7 +965,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="TextBundle" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" imageScaling="proportionallyDown" inset="2" selectedItem="MCR-1v-3Wc" id="u6Y-Is-Nwm">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="kGi-nO-Y2a">
                                         <items>
                                             <menuItem title="TextBundle" state="on" tag="3" id="MCR-1v-3Wc"/>
@@ -1013,7 +1013,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title=".markdown" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="HK7-Qq-ilB" id="SNo-Pc-VFy">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="5cf-YK-mN9">
                                         <items>
                                             <menuItem title=".markdown" state="on" id="HK7-Qq-ilB"/>
@@ -1034,7 +1034,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="UUID" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="cmH-fQ-bVK" id="3k2-O8-Jza">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Ilk-gp-eEJ">
                                         <items>
                                             <menuItem title="UUID" state="on" id="cmH-fQ-bVK"/>
@@ -1207,7 +1207,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="h03-jd-8ll">
                                         <items>
                                             <menuItem title="Big" tag="13" id="cUI-cw-eo5"/>
@@ -1486,7 +1486,7 @@ CA
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
-                                            <customView canDrawConcurrently="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes" customModuleProvider="target">
+                                            <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vp7-cq-QSI" customClass="OutlineHeaderView" customModule="FSNotes" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="562" width="144" height="38"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="38" id="9sA-Ak-h1e"/>
@@ -1521,7 +1521,7 @@ CA
                                                     </searchField>
                                                     <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="116" horizontalPageScroll="10" verticalLineScroll="116" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kzf-Jh-YEb">
                                                         <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
-                                                        <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" id="MtJ-BC-rZB">
+                                                        <clipView key="contentView" focusRingType="none" drawsBackground="NO" id="MtJ-BC-rZB">
                                                             <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1675,7 +1675,7 @@ CA
                                                         </constraints>
                                                         <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new-note" imagePosition="overlaps" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                            <font key="font" metaFont="controlContent"/>
+                                                            <font key="font" metaFont="cellTitle"/>
                                                         </buttonCell>
                                                         <connections>
                                                             <action selector="fileMenuNewNote:" target="XfG-lQ-9wD" id="4o2-hM-kTQ"/>
@@ -1701,7 +1701,7 @@ CA
                                                 <subviews>
                                                     <scrollView misplaced="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="qJO-7f-vkL" customClass="EditorScrollView" customModule="FSNotes" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
-                                                        <clipView key="contentView" canDrawConcurrently="YES" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
+                                                        <clipView key="contentView" focusRingType="none" drawsBackground="NO" copiesOnScroll="NO" id="FJ2-Yo-v0A">
                                                             <rect key="frame" x="0.0" y="0.0" width="568" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1892,7 +1892,7 @@ CA
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="AaK-Xd-i52">
                     <items>
-                        <menuItem title="Save revision" keyEquivalent="s" id="Nhf-c1-VJ6">
+                        <menuItem title="Save revision" tag="100" keyEquivalent="s" identifier="note.saveRevision" id="Nhf-c1-VJ6">
                             <connections>
                                 <action selector="saveRevision:" target="rPt-NT-nkU" id="3q1-my-06E"/>
                             </connections>
@@ -1902,7 +1902,7 @@ CA
                                 <action selector="duplicate:" target="rPt-NT-nkU" id="hUh-qX-nAT"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename" keyEquivalent="r" identifier="noteMove.rename" id="XBB-Sr-T1D">
+                        <menuItem title="Rename" keyEquivalent="r" identifier="note.rename" id="XBB-Sr-T1D">
                             <connections>
                                 <action selector="renameMenu:" target="XfG-lQ-9wD" id="iYK-OA-0IW"/>
                             </connections>
@@ -1920,7 +1920,7 @@ CA
                                 <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="noteMove.toggleLock" id="5gL-j7-Zq8">
+                        <menuItem title="Remove encryption" keyEquivalent="7" identifier="note.toggleLock" id="5gL-j7-Zq8">
                             <connections>
                                 <action selector="removeNoteEncryption:" target="rPt-NT-nkU" id="5ga-uK-aSH"/>
                             </connections>
@@ -1959,27 +1959,27 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="06c-Up-wPq"/>
-                        <menuItem title="Copy URL" identifier="noteMove.copyUrl" id="uQ1-ej-ufE">
+                        <menuItem title="Copy URL" identifier="note.copyURL" id="uQ1-ej-ufE">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="copyURL:" target="rPt-NT-nkU" id="zCA-0T-c96"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Copy title" keyEquivalent="c" identifier="noteMove.copyTitle" id="3kn-9C-fsB">
+                        <menuItem title="Copy title" keyEquivalent="c" identifier="note.copyTitle" id="3kn-9C-fsB">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <connections>
                                 <action selector="copyTitle:" target="rPt-NT-nkU" id="Fwy-yp-nPd"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="fYh-FK-PdD"/>
-                        <menuItem title="Print" keyEquivalent="p" identifier="noteMove.print" id="nCW-CZ-qC7">
+                        <menuItem title="Print" keyEquivalent="p" identifier="note.print" id="nCW-CZ-qC7">
                             <connections>
                                 <action selector="printNotes:" target="rPt-NT-nkU" id="f6C-X6-WZP"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="FCO-gg-UBw"/>
                         <menuItem title="History" id="xPh-BC-Xxl">
-                            <menu key="submenu" title="History" id="auW-wa-jbc"/>
+                            <menu key="submenu" title="History" identifier="note.history" id="auW-wa-jbc"/>
                         </menuItem>
                     </items>
                 </menu>
@@ -2758,7 +2758,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="OOr-cO-sjv">
                                         <items>
                                             <menuItem title="github" state="on" id="v1K-9W-2aB"/>
@@ -2998,7 +2998,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="rSZ-Wo-Rtj" id="BZN-Xe-Atr">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="iLc-AS-AqE">
                                         <items>
                                             <menuItem title="System" state="on" id="rSZ-Wo-Rtj"/>
@@ -3023,7 +3023,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="cmQ-0I-gTB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="IQ9-BV-ooL"/>
                                 </popUpButtonCell>
                                 <connections>
