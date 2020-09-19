@@ -342,7 +342,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         view.addSubview(overlay)
         self.newsOverlay = overlay
 
-        var width = UIScreen.main.bounds.width - 40
+        var width = UIScreen.main.bounds.width - 20
         if isLandscape {
             width = UIScreen.main.bounds.width * 0.75
         }
@@ -363,18 +363,18 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         let news = MPreviewView(frame: frame, note: note, closure: {})
         news.layer.zPosition = 105
-        news.backgroundColor = UIColor(red: 0.84, green: 0.88, blue: 0.91, alpha: 1.00)
+        news.backgroundColor = UIColor.white
         news.layer.cornerRadius = 5
         news.layer.masksToBounds = true
         news.layer.borderWidth = 1
         news.layer.borderColor = UIColor.gray.cgColor
 
         let closeButton = UIButton(frame: CGRect(origin: CGPoint(x: width - 10 - 25, y: 10), size: CGSize(width: 25, height: 25)))
-        let image = UIImage(named: "close.png")
+        let image = UIImage(named: "close-window.png")
         closeButton.setImage(image, for: UIControl.State.normal)
         closeButton.tintColor = UIColor(red:0.49, green:0.92, blue:0.63, alpha:1.0)
         closeButton.addTarget(self, action: #selector(closeNews), for: .touchDown)
-        closeButton.layer.zPosition = 106
+        closeButton.layer.zPosition = 110
         news.addSubview(closeButton)
         view.addSubview(news)
 

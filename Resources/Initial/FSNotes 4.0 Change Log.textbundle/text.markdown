@@ -1,4 +1,4 @@
-# FSNotes 4 is here! 🚀
+# FSNotes 4 is here!
 
 ![](assets/128.png)
 
