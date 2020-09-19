@@ -58,6 +58,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+#if os(OSX)
     override func mouseDown(with event: NSEvent) {
         if let note = EditTextView.note {
             if note.container == .encryptedTextPack && !note.isUnlocked() {
@@ -66,8 +67,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
         super.mouseDown(with: event)
     }
-
-#if os(OSX)
+    
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.keyCode == kVK_ANSI_C && event.modifierFlags.contains(.command) {
             DispatchQueue.main.async {
