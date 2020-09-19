@@ -631,8 +631,13 @@ class ViewController: NSViewController,
                         return false
                     }
                     
-                    if let note = EditTextView.note, fr.isKind(of: NotesTableView.self) && !(UserDefaultsManagement.preview && !note.isRTF()) {
-                        NSApp.mainWindow?.makeFirstResponder(self.editArea)
+                    if EditTextView.note != nil, fr.isKind(of: NotesTableView.self) {
+                        if UserDefaultsManagement.preview
+                            && EditTextView.note?.container != .encryptedTextPack {
+                            disablePreview()
+                        }
+
+                        focusEditArea(shouldRestoreCursorPosition: true)
                         return false
                     }
                 }
@@ -1740,7 +1745,7 @@ class ViewController: NSViewController,
         }
     }
     
-    func focusEditArea(firstResponder: NSResponder? = nil) {
+    func focusEditArea(firstResponder: NSResponder? = nil, shouldRestoreCursorPosition: Bool = false) {
         guard let note = EditTextView.note, !UserDefaultsManagement.preview || note.isRTF(), EditTextView.note?.container != .encryptedTextPack else { return }
 
         var resp: NSResponder = self.editArea
@@ -1756,6 +1761,10 @@ class ViewController: NSViewController,
                 
                 if UserDefaultsManagement.focusInEditorOnNoteSelect {
                     //self.editArea.restoreCursorPosition()
+                }
+
+                if shouldRestoreCursorPosition {
+                    self.editArea.restoreCursorPosition()
                 }
             }
             return

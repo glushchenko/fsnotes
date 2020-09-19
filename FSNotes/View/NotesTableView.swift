@@ -45,9 +45,15 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if let note = EditTextView.note, event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control), !UserDefaultsManagement.preview || note.isRTF() {
+        if EditTextView.note != nil,
+           event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
+        {
+            if UserDefaultsManagement.preview
+                && EditTextView.note?.container != .encryptedTextPack {
+                vc.disablePreview()
+            }
 
-            vc.focusEditArea()
+            vc.focusEditArea(shouldRestoreCursorPosition: true)
         }
         
         if (event.keyCode == kVK_LeftArrow) {
