@@ -48,10 +48,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             vcDelegate.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
             return
         }
-        
-        if event.keyCode == kVK_Return {
-            vcDelegate.focusEditArea()
-        }
 
         if event.keyCode == kVK_Delete || event.keyCode == kVK_ForwardDelete {
             self.skipAutocomplete = true
@@ -93,7 +89,18 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
 
                 markCompleteonAsSuccess()
-                vcDelegate.focusEditArea()
+
+                if vcDelegate.currentPreviewState == .on
+                    && EditTextView.note?.container != .encryptedTextPack {
+                    vcDelegate.currentPreviewState = .off
+
+                    let position = note.getCursorPosition()
+                    vcDelegate.refillEditArea(cursor: position)
+
+                    NSApp.mainWindow?.makeFirstResponder(vcDelegate.editArea)
+                } else {
+                    vcDelegate.focusEditArea()
+                }
             } else {
                 vcDelegate.makeNote(self)
             }
@@ -102,7 +109,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             return true
         case "insertTab:":
             markCompleteonAsSuccess()
-            vcDelegate.focusEditArea()
+
+            if vcDelegate.currentPreviewState == .on {
+                NSApp.mainWindow?.makeFirstResponder(vcDelegate.editArea.markdownView)
+            } else {
+                vcDelegate.focusEditArea()
+            }
+
             vcDelegate.editArea.scrollToCursor()
             return true
         case "deleteWordBackward:":

@@ -27,7 +27,7 @@ class ViewController: NSViewController,
     let storage = Storage.sharedInstance()
     var filteredNoteList: [Note]?
     var alert: NSAlert?
-    var refilled: Bool = false
+    var noteLoading: ProgressState = .none
     var timer = Timer()
     var sidebarTimer = Timer()
     var rowUpdaterTimer = Timer()
@@ -44,6 +44,8 @@ class ViewController: NSViewController,
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
     }
+
+    public var currentPreviewState: PreviewState = UserDefaultsManagement.preview ? .on : .off
 
     // MARK: - IBOutlets
     @IBOutlet var emptyEditAreaImage: NSImageView!
@@ -88,7 +90,7 @@ class ViewController: NSViewController,
     }
     @IBOutlet weak var previewButton: NSButton! {
         didSet {
-            previewButton.state = UserDefaultsManagement.preview ? .on : .off
+            previewButton.state = currentPreviewState == .on ? .on : .off
         }
     }
     @IBOutlet weak var titleBarView: TitleBarView! {
@@ -529,15 +531,13 @@ class ViewController: NSViewController,
     }
 
     func viewDidResize() {
+        guard currentPreviewState == .on else { return }
+
         guard let vc = ViewController.shared() else { return }
         vc.checkSidebarConstraint()
                 
-        if !refilled {
-            self.refilled = true
-            DispatchQueue.main.async() {
-                self.refillEditArea(previewOnly: true)
-                self.refilled = false
-            }
+        if noteLoading != .incomplete {
+            refillEditArea()
         }
     }
 
@@ -547,51 +547,32 @@ class ViewController: NSViewController,
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: outline, selector: #selector(outline.reloadSidebar), userInfo: nil, repeats: false)
     }
-    
-    func reloadView(note: Note? = nil) {
-        let notesTable = self.notesTableView!
-        let selectedNote = notesTable.getSelectedNote()
-        let cursor = editArea.selectedRanges[0].rangeValue.location
         
-        self.updateTable() {
-            if let selected = selectedNote, let index = notesTable.getIndex(selected) {
-                notesTable.selectRowIndexes([index], byExtendingSelection: false)
-                self.refillEditArea(cursor: cursor)
-            }
-        }
-    }
-    
     func setTableRowHeight() {
         notesTableView.rowHeight = CGFloat(21 + UserDefaultsManagement.cellSpacing)
         notesTableView.reloadData()
     }
     
-    func refillEditArea(cursor: Int? = nil, previewOnly: Bool = false, saveTyping: Bool = false, force: Bool = false) {
-        DispatchQueue.main.async { [weak self] in
-            self?.previewButton.state = UserDefaultsManagement.preview ? .on : .off
+    func refillEditArea(cursor: Int? = nil, saveTyping: Bool = false, force: Bool = false) {
+        noteLoading = .incomplete
+        previewButton.state = self.currentPreviewState == .on ? .on : .off
+
+        var location: Int = 0
+        if let unwrappedCursor = cursor {
+            location = unwrappedCursor
+        } else {
+            location = editArea.selectedRanges[0].rangeValue.location
         }
-        
-        guard !previewOnly || previewOnly && UserDefaultsManagement.preview else {
-            return
-        }
-        
-        DispatchQueue.main.async {
-            var location: Int = 0
-        
-            if let unwrappedCursor = cursor {
-                location = unwrappedCursor
-            } else {
-                location = self.editArea.selectedRanges[0].rangeValue.location
-            }
-            
-            let selected = self.notesTableView.selectedRow
-            if (selected > -1 && self.notesTableView.noteList.indices.contains(selected)) {
-                if let note = self.notesTableView.getSelectedNote() {
-                    self.editArea.fill(note: note, saveTyping: saveTyping, force: force)
-                    self.editArea.setSelectedRange(NSRange.init(location: location, length: 0))
-                }
+
+        let selected = notesTableView.selectedRow
+        if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
+            if let note = notesTableView.getSelectedNote() {
+                editArea.fill(note: note, saveTyping: saveTyping, force: force)
+                editArea.setSelectedRange(NSRange.init(location: location, length: 0))
             }
         }
+
+        noteLoading = .done
     }
         
     public func keyDown(with event: NSEvent) -> Bool {
@@ -620,7 +601,7 @@ class ViewController: NSViewController,
                         return false
                     }
                     
-                    if fr.isKind(of: EditTextView.self) {
+                    if fr.isKind(of: EditTextView.self) || fr.isKind(of: MPreviewView.self) {
                         NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
                         return false
                     }
@@ -631,13 +612,13 @@ class ViewController: NSViewController,
                         return false
                     }
                     
-                    if EditTextView.note != nil, fr.isKind(of: NotesTableView.self) {
-                        if UserDefaultsManagement.preview
-                            && EditTextView.note?.container != .encryptedTextPack {
-                            disablePreview()
+                    if let note = EditTextView.note, fr.isKind(of: NotesTableView.self) {
+                        if note.container != .encryptedTextPack {
+                            if currentPreviewState == .on {
+                                disablePreview()
+                            }
+                            NSApp.mainWindow?.makeFirstResponder(editArea)
                         }
-
-                        focusEditArea(shouldRestoreCursorPosition: true)
                         return false
                     }
                 }
@@ -680,6 +661,7 @@ class ViewController: NSViewController,
 
             if self.editAreaScroll.isFindBarVisible {
                 cancelTextSearch()
+                NSApp.mainWindow?.makeFirstResponder(editArea)
                 return false
             }
 
@@ -689,6 +671,8 @@ class ViewController: NSViewController,
                 titleLabel.window?.makeFirstResponder(notesTableView)
                 return false
             }
+
+            restoreCurrentPreviewState()
 
             UserDefaultsManagement.lastProject = 0
             UserDefaultsManagement.lastSelectedURL = nil
@@ -765,6 +749,8 @@ class ViewController: NSViewController,
             && event.modifierFlags.contains([.command])
             && !event.modifierFlags.contains(.option)
         ) {
+            NSApp.mainWindow?.makeFirstResponder(notesTableView)
+
             if titleLabel.isEditable {
                 titleLabel.editModeOff()
                 titleLabel.window?.makeFirstResponder(nil)
@@ -776,6 +762,8 @@ class ViewController: NSViewController,
         
         // Prev note (cmd-k)
         if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
+            NSApp.mainWindow?.makeFirstResponder(notesTableView)
+
             if titleLabel.isEditable {
                 titleLabel.editModeOff()
                 titleLabel.window?.makeFirstResponder(nil)
@@ -811,10 +799,6 @@ class ViewController: NSViewController,
         let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
         self.editArea.performTextFinderAction(menu)
-
-        if !UserDefaultsManagement.preview {
-            NSApp.mainWindow?.makeFirstResponder(self.editArea)
-        }
     }
     
     @IBAction func makeNote(_ sender: SearchTextField) {
@@ -1076,10 +1060,6 @@ class ViewController: NSViewController,
                 UserDataService.instance.searchTrigger = false
             }
 
-            if UserDefaultsManagement.preview {
-                vc.disablePreview()
-            }
-
             vc.editArea.clear()
         }
 
@@ -1304,12 +1284,16 @@ class ViewController: NSViewController,
                 if note.container == .encryptedTextPack {
                     success = note.unLock(password: password)
                     if success && notes.count == 0x01 {
-                        self.refillEditArea(force: true)
+                        DispatchQueue.main.async {
+                            self.refillEditArea(force: true)
+                        }
                     }
                 } else {
                     success = note.encrypt(password: password)
                     if success && notes.count == 0x01 {
-                        self.refillEditArea(force: true)
+                        DispatchQueue.main.async {
+                            self.refillEditArea(force: true)
+                        }
                         self.focusTable()
                     }
                 }
@@ -1336,7 +1320,9 @@ class ViewController: NSViewController,
                 if note.container == .encryptedTextPack {
                     let success = note.unEncrypt(password: password)
                     if success && notes.count == 0x01 {
-                        self.refillEditArea(force: true)
+                        DispatchQueue.main.async {
+                            self.refillEditArea(force: true)
+                        }
                     }
                 }
                 self.notesTableView.reloadRow(note: note)
@@ -1401,7 +1387,7 @@ class ViewController: NSViewController,
         blockFSUpdates()
 
         if (
-            !UserDefaultsManagement.preview
+            currentPreviewState == .off
             && self.editArea.isEditable
         ) {
             editArea.removeHighlight()
@@ -1745,38 +1731,24 @@ class ViewController: NSViewController,
         }
     }
     
-    func focusEditArea(firstResponder: NSResponder? = nil, shouldRestoreCursorPosition: Bool = false) {
-        guard let note = EditTextView.note, !UserDefaultsManagement.preview || note.isRTF(), EditTextView.note?.container != .encryptedTextPack else { return }
+    func focusEditArea() {
+        guard let note = EditTextView.note,
+            currentPreviewState == .off || note.isRTF(),
+            note.container != .encryptedTextPack
+        else { return }
 
-        var resp: NSResponder = self.editArea
-        if let responder = firstResponder {
-            resp = responder
-        }
-        
-        if (self.notesTableView.selectedRow > -1) {
-            DispatchQueue.main.async() {
-                self.editArea.isEditable = true
-                self.emptyEditAreaImage.isHidden = true
-                self.editArea.window?.makeFirstResponder(resp)
-                
-                if UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    //self.editArea.restoreCursorPosition()
-                }
+        NSApp.mainWindow?.makeFirstResponder(editArea)
 
-                if shouldRestoreCursorPosition {
-                    self.editArea.restoreCursorPosition()
-                }
-            }
-            return
+        if (notesTableView.selectedRow > -1) {
+            editArea.isEditable = true
+            emptyEditAreaImage.isHidden = true
         }
-        
-        editArea.window?.makeFirstResponder(resp)
     }
     
     func focusTable() {
         DispatchQueue.main.async {
             let index = self.notesTableView.selectedRow > -1 ? self.notesTableView.selectedRow : 0
-            
+
             self.notesTableView.window?.makeFirstResponder(self.notesTableView)
             self.notesTableView.selectRowIndexes([index], byExtendingSelection: false)
             self.notesTableView.scrollRowToVisible(index)
@@ -1981,22 +1953,38 @@ class ViewController: NSViewController,
             NSWorkspace.shared.openFile(path, withApplication: UserDefaultsManagement.externalEditor)
         }
     }
-        
-    func enablePreview() {
-        //Preview mode doesn't support text search
-        cancelTextSearch()
-        
+
+    @IBAction func togglePreview(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
-        vc.editArea.window?.makeFirstResponder(vc.notesTableView)
-        
-        self.view.window!.title = NSLocalizedString("FSNotes [preview]", comment: "")
-        UserDefaultsManagement.preview = true
-        refillEditArea()
+
+        let firstResp = NSApp.mainWindow?.firstResponder
+
+        if (vc.currentPreviewState == .on) {
+            vc.disablePreview()
+        } else {
+            //Preview mode doesn't support text search
+            vc.cancelTextSearch()
+            vc.currentPreviewState = .on
+            vc.refillEditArea()
+        }
+
+        if let responder = firstResp, (
+            search.currentEditor() == firstResp
+            || responder.isKind(of: NotesTableView.self)
+            || responder.isKind(of: SidebarProjectView.self)
+        ) {
+            NSApp.mainWindow?.makeFirstResponder(firstResp)
+        } else {
+            let responder = vc.currentPreviewState == .on ? editArea.markdownView : editArea
+            NSApp.mainWindow?.makeFirstResponder(responder)
+        }
+
+        UserDefaultsManagement.preview = vc.currentPreviewState == .on
+        editArea.userActivity?.needsSave = true
     }
-    
+
     func disablePreview() {
-        self.view.window!.title = NSLocalizedString("FSNotes [edit]", comment: "")
-        UserDefaultsManagement.preview = false
+        currentPreviewState = .off
 
         editArea.markdownView?.removeFromSuperview()
         editArea.markdownView = nil
@@ -2004,17 +1992,12 @@ class ViewController: NSViewController,
         guard let editor = editArea else { return }
         editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
-        self.refillEditArea()
+        let position = EditTextView.note?.getCursorPosition()
+        refillEditArea(cursor: position)
     }
     
-    func togglePreview() {
-        if (UserDefaultsManagement.preview) {
-            disablePreview()
-        } else {
-            enablePreview()
-        }
-
-        editArea.userActivity?.needsSave = true
+    public func restoreCurrentPreviewState() {
+        currentPreviewState = UserDefaultsManagement.preview ? .on : .off
     }
 
     private func configureTranslation() {
@@ -2259,10 +2242,6 @@ class ViewController: NSViewController,
     
     //MARK: Share Service
     
-    @IBAction func togglePreview(_ sender: NSButton) {
-        togglePreview()
-    }
-    
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = notesTableView.getSelectedNote() {
             let sharingPicker = NSSharingServicePicker(items: [note.content])
@@ -2294,7 +2273,7 @@ class ViewController: NSViewController,
 
         if !vc.editAreaScroll.isFindBarVisible, [NSFindPanelAction.next.rawValue, NSFindPanelAction.previous.rawValue].contains(UInt(sender.tag)) {
 
-            if UserDefaultsManagement.preview && vc.notesTableView.selectedRow > -1 {
+            if vc.currentPreviewState == .on && vc.notesTableView.selectedRow > -1 {
                 vc.disablePreview()
             }
 
@@ -2303,9 +2282,7 @@ class ViewController: NSViewController,
             vc.editArea.performTextFinderAction(menu)
         }
 
-        DispatchQueue.main.async {
-            vc.editArea.performTextFinderAction(sender)
-        }
+        vc.editArea.performTextFinderAction(sender)
     }
 
     @IBAction func prevHistory(_ sender: NSMenuItem) {
@@ -2396,7 +2373,9 @@ class ViewController: NSViewController,
             for note in notes {
                 let success = note.unLock(password: password)
                 if success, i == 0 {
-                    self.refillEditArea(force: true)
+                    DispatchQueue.main.async {
+                        self.refillEditArea(force: true)
+                    }
 
                     if isTypedByUser {
                         self.save(password: password)
@@ -2545,9 +2524,9 @@ class ViewController: NSViewController,
         else { return }
 
         if state == "preview" {
-            UserDefaultsManagement.preview = true
+            currentPreviewState = .on
         } else {
-            UserDefaultsManagement.preview = false
+            currentPreviewState = .off
         }
 
         if let position = Int(position),

@@ -48,12 +48,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if EditTextView.note != nil,
            event.keyCode == kVK_Tab && !event.modifierFlags.contains(.control)
         {
-            if UserDefaultsManagement.preview
-                && EditTextView.note?.container != .encryptedTextPack {
-                vc.disablePreview()
+            if vc.currentPreviewState == .on {
+                NSApp.mainWindow?.makeFirstResponder(vc.editArea.markdownView)
+            } else {
+                vc.focusEditArea()
             }
 
-            vc.focusEditArea(shouldRestoreCursorPosition: true)
+            return
         }
         
         if (event.keyCode == kVK_LeftArrow) {
@@ -202,11 +203,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                         return
                     }
 
-                    guard !operation.isCancelled, self?.fillTimestamp == timestamp else { return }
+                    guard !operation.isCancelled,
+                          self?.fillTimestamp == timestamp else { return }
 
                     vc.editArea.fill(note: note, highlight: true)
                     if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
-                        vc.focusEditArea(firstResponder: nil)
+                        vc.focusEditArea()
                     }
                 }
             }
@@ -369,6 +371,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func selectNext() {
+        guard let vc = ViewController.shared() else { return }
+        vc.restoreCurrentPreviewState()
+
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow + 1
@@ -380,6 +385,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     public func selectPrev() {
+        guard let vc = ViewController.shared() else { return }
+        vc.restoreCurrentPreviewState()
+
         UserDataService.instance.searchTrigger = false
 
         let i = selectedRow - 1

@@ -1953,4 +1953,18 @@ public class Note: NSObject  {
             addPin()
         }
     }
+
+    public func getCursorPosition() -> Int? {
+        var position: Int?
+
+        if let data = try? url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
+            position = data.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> Int in
+                ptr.load(as: Int.self)
+            }
+
+            return position
+        }
+
+        return nil
+    }
 }

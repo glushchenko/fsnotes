@@ -49,7 +49,7 @@ extension ViewController {
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)
-        refillEditArea()
+        refillEditArea(force: true)
         notesTableView.reloadRow(note: note)
 
         editArea.scanTags()

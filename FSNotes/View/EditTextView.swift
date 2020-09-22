@@ -222,7 +222,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.mouseDown(with: event)
         saveCursorPosition()
         
-        if !UserDefaultsManagement.preview {
+        if vc.currentPreviewState == .off {
             self.isEditable = true
         }
     }
@@ -253,7 +253,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
         
-        if UserDefaultsManagement.preview {
+        if viewController.currentPreviewState == .on {
             return
         }
         
@@ -618,12 +618,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             _ = formatShortcut(keyCode: keyCode, modifier: modifier)
         }
     }
-    
-    @IBAction func togglePreview(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-
-        vc.togglePreview()
-    }
 
     @IBAction func toggleMathJax(_ sender: NSMenuItem) {
         sender.state = sender.state == .on ? .off : .on
@@ -646,7 +640,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return false
         }
         
-        if UserDefaultsManagement.preview && !note.isRTF() {
+        if viewDelegate?.currentPreviewState == .on && !note.isRTF() {
             return false
         }
         
@@ -690,25 +684,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             typingAttributes[.font] = UserDefaultsManagement.noteFont
         }
 
-        if UserDefaultsManagement.preview && !note.isRTF() {
-            EditTextView.note = nil
-            textStorage?.setAttributedString(NSAttributedString())
-            EditTextView.note = note
-
-            if markdownView == nil {
-                let frame = viewController.editAreaScroll.bounds
-                markdownView = MPreviewView(frame: frame, note: note, closure: {})
-                if let view = self.markdownView, EditTextView.note == note {
-                    viewController.editAreaScroll.addSubview(view)
-                }
-            } else {
-                /// Resize markdownView
-                let frame = viewController.editAreaScroll.bounds
-                markdownView?.frame = frame
-                
-                /// Load note if needed
-                markdownView?.load(note: note, force: force)
-            }
+        if viewController.currentPreviewState == .on && !note.isRTF() {
+            loadMarkdownWebView(note: note, force: force)
             return
         }
 
@@ -752,6 +729,29 @@ class EditTextView: NSTextView, NSTextFinderClient {
             NSApp.mainWindow?.makeFirstResponder(self)
             setSelectedRange(restoreRange)
             self.restoreRange = nil
+        }
+    }
+
+    private func loadMarkdownWebView(note: Note, force: Bool) {
+        guard let vc = ViewController.shared() else { return }
+
+        EditTextView.note = nil
+        textStorage?.setAttributedString(NSAttributedString())
+        EditTextView.note = note
+
+        if markdownView == nil {
+            let frame = vc.editAreaScroll.bounds
+            markdownView = MPreviewView(frame: frame, note: note, closure: {})
+            if let view = self.markdownView, EditTextView.note == note {
+                vc.editAreaScroll.addSubview(view)
+            }
+        } else {
+            /// Resize markdownView
+            let frame = vc.editAreaScroll.bounds
+            markdownView?.frame = frame
+
+            /// Load note if needed
+            markdownView?.load(note: note, force: force)
         }
     }
 
@@ -819,7 +819,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable else { return false }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1431,7 +1431,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1442,7 +1442,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1535,7 +1535,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable
         else { return }
 
@@ -1547,7 +1547,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable
         else { return }
 
@@ -1559,7 +1559,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable
         else { return }
 
@@ -1571,7 +1571,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            !UserDefaultsManagement.preview,
+            vc.currentPreviewState == .off,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -2013,7 +2013,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         let position =
             window?.firstResponder == self ? selectedRange().location : -1
-        let state = UserDefaultsManagement.preview ? "preview" : "editor"
+        let state = viewDelegate?.currentPreviewState == .on ? "preview" : "editor"
         let data =
             [
                 "note-file-name": note.name,

@@ -78,7 +78,7 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.liveImagesPreview = (sender.state == NSControl.StateValue.on)
 
-        if let note = EditTextView.note, !UserDefaultsManagement.preview {
+        if let note = EditTextView.note, vc.currentPreviewState == .off {
             NotesTextProcessor.highlight(note: note)
             vc.refillEditArea()
         }
@@ -131,7 +131,7 @@ class PreferencesEditorViewController: NSViewController {
         temporary.appendPathComponent("ThumbnailsBig")
         try? FileManager.default.removeItem(at: temporary)
 
-        if let note = EditTextView.note, !UserDefaultsManagement.preview {
+        if let note = EditTextView.note, vc.currentPreviewState == .off {
             NotesTextProcessor.highlight(note: note)
             vc.refillEditArea()
         }
@@ -142,7 +142,7 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.lineWidth = sender.floatValue
 
-        if let _ = EditTextView.note, !UserDefaultsManagement.preview {
+        if let _ = EditTextView.note, vc.currentPreviewState == .off {
             vc.editArea.updateTextContainerInset()
         }
     }
@@ -176,7 +176,7 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.marginSize = sender.floatValue
 
-        if let _ = EditTextView.note, !UserDefaultsManagement.preview {
+        if let _ = EditTextView.note, vc.currentPreviewState == .off {
             vc.editArea.updateTextContainerInset()
         }
     }

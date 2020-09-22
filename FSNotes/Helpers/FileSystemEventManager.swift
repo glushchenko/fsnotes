@@ -180,7 +180,9 @@ class FileSystemEventManager {
             self.delegate.notesTableView.reloadRow(note: note)
 
             if EditTextView.note == note {
-                self.delegate.refillEditArea()
+                DispatchQueue.main.async {
+                    self.delegate.refillEditArea()
+                }
             }
         }
     }

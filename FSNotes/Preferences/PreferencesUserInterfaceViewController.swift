@@ -212,8 +212,14 @@ class PreferencesUserInterfaceViewController: NSViewController {
         let newFont = fontManager.convert(UserDefaultsManagement.noteFont!)
         UserDefaultsManagement.noteFont = newFont
 
-        vc.refillEditArea()
-        vc.reloadView()
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+        try? FileManager.default.removeItem(at: webkitPreview)
+
+        MPreviewView.template = nil
+        NotesTextProcessor.hl = nil
+
+        vc.editArea.clear()
+        vc.refillEditArea(force: true)
 
         setFontPreview()
     }

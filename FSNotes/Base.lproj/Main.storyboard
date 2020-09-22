@@ -602,7 +602,7 @@ CA
                                     <items>
                                         <menuItem title="Toggle preview" keyEquivalent="`" id="PdU-Em-Ugm">
                                             <connections>
-                                                <action selector="togglePreview:" target="N0L-g4-qwj" id="2w1-01-aD6"/>
+                                                <action selector="togglePreview:" target="Ady-hI-5gd" id="62m-Nl-zcS"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Preview MathJax" keyEquivalent="`" identifier="previewMathJax" id="KIz-OO-IQT">
@@ -1773,10 +1773,10 @@ CA
                                                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Yk7-v6-QmI">
                                                                                     <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                                                                     <font key="font" metaFont="system"/>
+                                                                                    <connections>
+                                                                                        <action selector="togglePreview:" target="rPt-NT-nkU" id="OlJ-kk-v0k"/>
+                                                                                    </connections>
                                                                                 </buttonCell>
-                                                                                <connections>
-                                                                                    <action selector="togglePreview:" target="XfG-lQ-9wD" id="Mf0-5U-8VP"/>
-                                                                                </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
                                                                                 <rect key="frame" x="50" y="0.0" width="11" height="16"/>
