@@ -189,7 +189,11 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
 
-        vc.refillEditArea()
+        MPreviewView.template = nil
+        NotesTextProcessor.hl = nil
+
+        vc.editArea.clear()
+        vc.refillEditArea(force: true)
 
         setCodeFont()
     }

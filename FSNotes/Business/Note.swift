@@ -686,7 +686,7 @@ public class Note: NSObject  {
 
             return cleanMetaData(content: content)
         #else
-            return cleanMetaData(content: self.content)
+            return cleanMetaData(content: self.content.string)
         #endif
     }
 
