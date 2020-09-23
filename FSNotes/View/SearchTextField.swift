@@ -138,6 +138,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     }
 
     func controlTextDidChange(_ obj: Notification) {
+        vcDelegate.restoreCurrentPreviewState()
+        
         search()
     }
     

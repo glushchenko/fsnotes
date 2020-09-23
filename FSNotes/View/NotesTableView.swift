@@ -81,6 +81,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func mouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
+        ViewController.shared()?.restoreCurrentPreviewState()
+
         super.mouseDown(with: event)
     }
 
@@ -291,6 +293,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if ([kVK_ANSI_8, kVK_ANSI_J, kVK_ANSI_K].contains(Int(event.keyCode)) && event.modifierFlags.contains(.command)) {
             return true
+        }
+
+        if event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
+            ViewController.shared()?.restoreCurrentPreviewState()
         }
 
         if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
