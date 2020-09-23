@@ -28,12 +28,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
     override func textDidEndEditing(_ notification: Notification) {
         if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
-            skipAutocomplete = true
             editor.replaceCharacters(in: editor.selectedRange, with: "")
             window?.makeFirstResponder(nil)
         }
 
-        lastQuery = String()
+        self.skipAutocomplete = false
+        self.lastQuery = String()
+        self.lastQueryLength = 0
     }
 
     override func keyUp(with event: NSEvent) {
@@ -238,7 +239,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     private func markCompleteonAsSuccess() {
         currentEditor()?.selectedRange = NSRange(location: stringValue.count, length: 0)
 
-        self.skipAutocomplete = true
+        self.skipAutocomplete = false
         self.lastQuery = String()
+        self.lastQueryLength = 0
     }
 }
