@@ -1604,7 +1604,11 @@ class ViewController: NSViewController,
 
                 if search {
                     if (self.notesTableView.noteList.count > 0) {
-                        if filter.count > 0 && (UserDefaultsManagement.textMatchAutoSelection || note.title.lowercased().startsWith(string: self.search.stringValue.lowercased())) {
+                        if filter.count > 0 && (
+                            UserDefaultsManagement.textMatchAutoSelection
+                            || note.title.lowercased().startsWith(string: self.search.stringValue.lowercased())
+                            || note.fileName.lowercased().startsWith(string: self.search.stringValue.lowercased())
+                        ) {
 
                             let note = self.notesTableView.noteList.first(where: { $0.title == originalFilter })
                                 ?? self.notesTableView.noteList.first
@@ -1975,7 +1979,7 @@ class ViewController: NSViewController,
         ) {
             NSApp.mainWindow?.makeFirstResponder(firstResp)
         } else {
-            let responder = vc.currentPreviewState == .on ? editArea.markdownView : editArea
+            let responder = vc.currentPreviewState == .on ? notesTableView : editArea
             NSApp.mainWindow?.makeFirstResponder(responder)
         }
 

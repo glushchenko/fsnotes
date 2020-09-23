@@ -91,6 +91,20 @@
                 }, 150)
             });
         }
+
+        var aList = document.getElementsByTagName("a"),
+            aLength = aList.length,
+            j = 0;
+
+        for (j; j < aLength; j++) {
+            aList[j].addEventListener("mouseenter", function(event) {
+                window.webkit.messageHandlers.mouse.postMessage('enter')
+            });
+
+            aList[j].addEventListener("mouseleave", function(event) {
+                window.webkit.messageHandlers.mouse.postMessage('leave')
+            });
+        }
     </script>
 
     <script>

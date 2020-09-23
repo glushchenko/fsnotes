@@ -345,23 +345,45 @@ public class NotesTextProcessor {
         return resultString
     }
 
-    public static func convertAppTags(in content: String) -> String {
-        let range = NSRange(0..<content.count)
+    public static func convertAppTags(in content: NSMutableAttributedString) -> NSMutableAttributedString {
+        let attributedString = content.mutableCopy() as! NSMutableAttributedString
+        let range = NSRange(0..<content.string.count)
+        let tagQuery = "fsnotes://open/?tag="
 
-        tagsInlineRegex.matches(content, range: range) { (result) -> Void in
-            guard let range = result?.range else { return }
+        NotesTextProcessor.tagsInlineRegex.matches(content.string, range: range) { (result) -> Void in
+            guard var range = result?.range(at: 1) else { return }
 
-            var substring = String(content[range])
+            range = NSRange(location: range.location - 1, length: range.length + 1)
+            var substring = attributedString.mutableString.substring(with: range)
 
             substring = substring
                 .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: "\n", with: "")
                 .trim()
 
-            //tags.append(substring)
+            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
+                range = NSRange(location: range.location, length: range.length - 1)
+                substring = String(substring.dropLast())
+            }
+
+            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+
+            attributedString.addAttribute(.link, value: "\(tagQuery)\(tag)", range: range)
         }
 
-        return content
+        attributedString.enumerateAttribute(.link, in: range) { (value, range, _) in
+            if let value = value as? String, value.starts(with: tagQuery) {
+                if let tag = value
+                    .replacingOccurrences(of: tagQuery, with: "")
+                    .removingPercentEncoding
+                {
+                    let link = "[#\(tag)](\(value))"
+                    attributedString.replaceCharacters(in: range, with: link)
+                }
+            }
+        }
+
+        return attributedString
     }
 
 

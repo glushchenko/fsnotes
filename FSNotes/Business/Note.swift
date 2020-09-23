@@ -680,14 +680,14 @@ public class Note: NSObject  {
     }
     
     func getPrettifiedContent() -> String {
-        var content = self.content.string
-
         #if NOT_EXTENSION || os(OSX)
-        content = NotesTextProcessor.convertAppLinks(in: content)
-        //content = NotesTextProcessor.convertAppTags(in: content)
+            let mutable = NotesTextProcessor.convertAppTags(in: self.content)
+            let content = NotesTextProcessor.convertAppLinks(in: mutable.string)
+
+            return cleanMetaData(content: content)
+        #else
+            return cleanMetaData(content: self.content)
         #endif
-        
-        return cleanMetaData(content: content)
     }
 
     public func overwrite(url: URL) {

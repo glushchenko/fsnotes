@@ -237,5 +237,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
     private func markCompleteonAsSuccess() {
         currentEditor()?.selectedRange = NSRange(location: stringValue.count, length: 0)
+
+        self.skipAutocomplete = true
+        self.lastQuery = String()
     }
 }
