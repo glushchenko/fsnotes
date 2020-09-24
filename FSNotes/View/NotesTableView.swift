@@ -70,6 +70,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
             return
         }
+
+        if event.keyCode == kVK_DownArrow {
+            if let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
+                selectNext()
+                return
+            }
+        }
+
+        if event.keyCode == kVK_UpArrow {
+            if let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
+                selectPrev()
+                return
+            }
+        }
         
         super.keyUp(with: event)
     }
@@ -295,8 +309,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return true
         }
 
-        if event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
-            ViewController.shared()?.restoreCurrentPreviewState()
+        if self.window?.firstResponder == self,
+           event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
+            return true
         }
 
         if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
