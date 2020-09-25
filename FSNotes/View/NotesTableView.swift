@@ -71,14 +71,14 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
 
-        if event.keyCode == kVK_DownArrow {
+        if event.keyCode == kVK_DownArrow && !event.modifierFlags.contains(.shift) {
             if let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
                 selectNext()
                 return
             }
         }
 
-        if event.keyCode == kVK_UpArrow {
+        if event.keyCode == kVK_UpArrow && !event.modifierFlags.contains(.shift) {
             if let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
                 selectPrev()
                 return
@@ -314,6 +314,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         if self.window?.firstResponder == self,
+           !event.modifierFlags.contains(.shift),
            event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
             return true
         }
