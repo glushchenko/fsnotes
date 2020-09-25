@@ -247,16 +247,20 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
-        var items = [NSPasteboardItem]()
+        var title = String()
+        var urls = [URL]()
         for row in rowIndexes {
             let note = noteList[row]
+            urls.append(note.url)
 
-            let item = NSPasteboardItem()
-            item.setData(note.url.dataRepresentation, forType: NSPasteboard.PasteboardType(rawValue: kUTTypeFileURL as String))
-
-            items.append(item)
+            title = note.title
         }
-        pboard.writeObjects(items)
+
+        pboard.setString(title, forType: NSPasteboard.PasteboardType.string)
+
+        let data = NSKeyedArchiver.archivedData(withRootObject: urls)
+        pboard.setData(data, forType: NSPasteboard.noteType)
+
         return true
     }
     

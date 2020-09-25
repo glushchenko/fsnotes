@@ -653,7 +653,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         unregisterDraggedTypes()
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
-            NSPasteboard.PasteboardType(rawValue: "public.data")
+            NSPasteboard.noteType
         ])
 
         let viewController = self.window?.contentViewController as! ViewController
@@ -1235,6 +1235,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let range = selectedRange
         var data: Data
 
+        let dropPoint = convert(sender.draggingLocation, from: nil)
+        let caretLocation = characterIndexForInsertion(at: dropPoint)
+
         guard let note = EditTextView.note, let storage = textStorage else { return false }
 
         if let data = board.data(forType: .rtfd),
@@ -1291,67 +1294,63 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
             return true
         }
+
+        if let archivedData = board.data(forType: NSPasteboard.noteType),
+           let urls = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL],
+           let url = urls.first,
+           let note = Storage.shared().getBy(url: url) {
+
+            unLoadImages(note: note)
+            let replacementRange = NSRange(location: caretLocation, length: 0)
+
+            let title = "[[" + note.title + "]]"
+            NSApp.mainWindow?.makeFirstResponder(self)
+
+            DispatchQueue.main.async {
+                self.insertText(title, replacementRange: replacementRange)
+                self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
+            }
+
+            return true
+        }
         
         if let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
             urls.count > 0 {
-            
-            let dropPoint = convert(sender.draggingLocation, from: nil)
-            let caretLocation = characterIndexForInsertion(at: dropPoint)
             var offset = 0
 
             unLoadImages(note: note)
 
-            let urlType = NSPasteboard.PasteboardType(kUTTypeFileURL as String)
-
-            if let urlDataRepresentation = sender.draggingPasteboard.pasteboardItems?.first?.data(forType: urlType),
-                let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-                let note = Storage.sharedInstance().getBy(url: url) {
-
-                let replacementRange = NSRange(location: caretLocation, length: 0)
-
-                let title = "[[" + note.title + "]]"
-                NSApp.mainWindow?.makeFirstResponder(self)
-
-                DispatchQueue.main.async {
-                    self.insertText(title, replacementRange: replacementRange)
-                    self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
+            for url in urls {
+                do {
+                    data = try Data(contentsOf: url)
+                } catch {
+                    return false
                 }
 
+                guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return false }
 
-            } else {
+                let insertRange = NSRange(location: caretLocation + offset, length: 0)
 
-                for url in urls {
-                    do {
-                        data = try Data(contentsOf: url)
-                    } catch {
-                        return false
-                    }
+                if UserDefaultsManagement.liveImagesPreview {
+                    let cleanPath = filePath.removingPercentEncoding ?? filePath
+                    guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
 
-                    guard let filePath = ImagesProcessor.writeFile(data: data, url: url, note: note) else { return false }
+                    let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
+                    let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
 
-                    let insertRange = NSRange(location: caretLocation + offset, length: 0)
+                    if let string = attachment.getAttributedString() {
+                        EditTextView.shouldForceRescan = true
 
-                    if UserDefaultsManagement.liveImagesPreview {
-                        let cleanPath = filePath.removingPercentEncoding ?? filePath
-                        guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
-
-                        let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
-                        let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
-
-                        if let string = attachment.getAttributedString() {
-                            EditTextView.shouldForceRescan = true
-
-                            insertText(string, replacementRange: insertRange)
-                            insertNewline(nil)
-                            insertNewline(nil)
-
-                            offset += 3
-                        }
-                    } else {
-                        insertText("![](\(filePath))", replacementRange: insertRange)
+                        insertText(string, replacementRange: insertRange)
                         insertNewline(nil)
                         insertNewline(nil)
+
+                        offset += 3
                     }
+                } else {
+                    insertText("![](\(filePath))", replacementRange: insertRange)
+                    insertNewline(nil)
+                    insertNewline(nil)
                 }
             }
 
@@ -1361,6 +1360,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 note.save()
                 applyLeftParagraphStyle()
             }
+
             self.viewDelegate?.notesTableView.reloadRow(note: note)
 
             return true

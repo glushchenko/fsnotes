@@ -1726,6 +1726,7 @@ public class Note: NSObject  {
             self.decryptedTemporarySrc = nil
 
             load()
+            parseURL()
 
             return true
 
@@ -1755,7 +1756,8 @@ public class Note: NSObject  {
             convertTextBundleToFlat(name: name)
 
             load()
-
+            parseURL()
+            
             return true
 
         } catch {
@@ -1792,6 +1794,7 @@ public class Note: NSObject  {
             
             url = encryptedURL
             container = .encryptedTextPack
+            parseURL()
             
             try encrypted.write(to: encryptedURL)
             try FileManager.default.removeItem(at: originalSrc)
@@ -1838,7 +1841,7 @@ public class Note: NSObject  {
 
                 container = .encryptedTextPack
                 cleanOut()
-                loadTitle()
+                parseURL()
 
                 try? FileManager.default.removeItem(at: temporaryURL)
                 self.decryptedTemporarySrc = nil

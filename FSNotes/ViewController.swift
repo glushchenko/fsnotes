@@ -511,6 +511,10 @@ class ViewController: NSViewController,
                 continue
             }
 
+            if note.isEncrypted() {
+                _ = note.lock()
+            }
+
             let destination = project.url.appendingPathComponent(note.name, isDirectory: false)
 
             note.moveImages(to: project)

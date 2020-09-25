@@ -112,7 +112,7 @@ class SidebarProjectView: NSOutlineView,
         dataSource = self
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
-            NSPasteboard.PasteboardType(rawValue: "public.data")
+            NSPasteboard.noteType
         ])
         super.draw(dirtyRect)
     }
@@ -162,17 +162,20 @@ class SidebarProjectView: NSOutlineView,
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
         guard let vc = ViewController.shared() else { return false }
         let board = info.draggingPasteboard
-        let urlType = NSPasteboard.PasteboardType(kUTTypeFileURL as String)
 
-        if !UserDefaultsManagement.inlineTags, let sidebarItem = item as? Tag, let urlDataRepresentation = info.draggingPasteboard.pasteboardItems?.first?.data(forType: urlType),
-            let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-            let _ = Storage.sharedInstance().getBy(url: url),
-            let items = info.draggingPasteboard.pasteboardItems {
+        var urls = [URL]()
+        if let data = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
+           let unarchivedData = NSKeyedUnarchiver.unarchiveObject(with: data) as? [URL] {
+            urls = unarchivedData
+        }
 
-            for pastboardItem in items {
-                if let urlDataRepresentation = pastboardItem.data(forType: urlType),
-                    let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-                    let note = Storage.sharedInstance().getBy(url: url) {
+        if !UserDefaultsManagement.inlineTags,
+            let sidebarItem = item as? Tag,
+            urls.count > 0,
+            Storage.sharedInstance().getBy(url: urls.first!) != nil {
+
+            for url in urls {
+                if let note = Storage.sharedInstance().getBy(url: url) {
                     note.addTag(sidebarItem.getName())
                     selectTag(item: sidebarItem)
                 }
@@ -186,18 +189,11 @@ class SidebarProjectView: NSOutlineView,
         switch sidebarItem.type {
         case .Label, .Category, .Trash, .Archive, .Inbox:
 
-            let urlType = NSPasteboard.PasteboardType(kUTTypeFileURL as String)
-
-            if let urlDataRepresentation = info.draggingPasteboard.pasteboardItems?.first?.data(forType: urlType),
-                let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-                let _ = Storage.sharedInstance().getBy(url: url),
-                let items = info.draggingPasteboard.pasteboardItems {
+            if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
 
                 var notes = [Note]()
-                for pastboardItem in items {
-                    if let urlDataRepresentation = pastboardItem.data(forType: urlType),
-                        let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-                        let note = Storage.sharedInstance().getBy(url: url) {
+                for url in urls {
+                    if let note = Storage.sharedInstance().getBy(url: url) {
                         notes.append(note)
                     }
                 }
@@ -256,13 +252,16 @@ class SidebarProjectView: NSOutlineView,
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
         let board = info.draggingPasteboard
-
         var isLocalNote = false
-        let urlType = NSPasteboard.PasteboardType(kUTTypeFileURL as String)
-        if let urlDataRepresentation = info.draggingPasteboard.pasteboardItems?.first?.data(forType: urlType),
-            let url = URL(dataRepresentation: urlDataRepresentation, relativeTo: nil),
-            let _ = Storage.sharedInstance().getBy(url: url) {
-            isLocalNote = true
+        var urls = [URL]()
+
+        if let archivedData = info.draggingPasteboard.data(forType: NSPasteboard.noteType),
+           let urlsUnarchived = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL] {
+            urls = urlsUnarchived
+
+            if let url = urls.first, Storage.sharedInstance().getBy(url: url) != nil {
+                isLocalNote = true
+            }
         }
 
         if !UserDefaultsManagement.inlineTags, nil != item as? Tag {
