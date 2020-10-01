@@ -383,15 +383,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         let distance = string.distance(from: storageString.startIndex, to: to)
 
         if let result = isBetweenBraces(location: distance) {
-            if let notes = storage.getBy(startWith: result.0) {
-                let titles = notes.map{ String($0.title) }.filter({ $0.count > 0 }).filter({ $0 != result.0
+            let titles = storage.getFuzzyTitles(by: result.0).filter({ $0.count > 0 }).filter({ $0 != result.0
 
-                }).sorted()
+            }).sorted()
 
-                return titles
-            }
-
-            return nil
+            return titles
         }
 
         let mainWord = (string as NSString).substring(with: charRange)

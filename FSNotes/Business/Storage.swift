@@ -824,6 +824,11 @@ class Storage {
             }
     }
 
+    func getFuzzyTitles(by needle: String) -> [String] {
+        let titles = noteList.map(\.title)
+        return FuzzySearchHelper.search(needle, in: titles)
+    }
+
     public func getTitles(by word: String? = nil) -> [String]? {
         var notes = noteList
 
