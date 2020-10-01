@@ -79,14 +79,19 @@
             });
 
             preList[i].addEventListener("click", function(event) {
-                window.webkit.messageHandlers.clipboard.postMessage(event.target.innerText);
+                let target = event.target
+                if (event.target.nodeName == "SPAN") {
+                    target = event.target.parentElement
+                }
 
-                event.target.style.background = "#9c9c9c"
+                window.webkit.messageHandlers.clipboard.postMessage(target.innerText);
+
+                target.style.background = "#9c9c9c"
                 setTimeout(function() {
                     if (null == document.getElementById("darkModeStyles")) {
-                        event.target.style.background = "rgba(0, 0, 0, .04)";
+                        target.style.background = "rgba(0, 0, 0, .04)";
                     } else {
-                        event.target.style.background = "#454545";
+                        target.style.background = "#454545";
                     }
                 }, 150)
             });

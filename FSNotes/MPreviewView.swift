@@ -508,12 +508,17 @@ class HandlerClipboard: NSObject, WKScriptMessageHandler {
 
         guard let action = message.body as? String else { return }
 
+        var cleanText = action.trim()
+        if cleanText.last == "\n" {
+            cleanText.removeLast()
+        }
+
         #if os(OSX)
             NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(action, forType: .string)
+            NSPasteboard.general.setString(cleanText, forType: .string)
         #else
             UIPasteboard.general.setItems([
-                [kUTTypePlainText as String: action]
+                [kUTTypePlainText as String: cleanText]
             ])
         #endif
     }
