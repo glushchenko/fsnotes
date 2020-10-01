@@ -131,9 +131,13 @@ class NoteCellView: SwipeTableViewCell {
     }
 
     public func getPreviewImage(imageUrl: URL, note: Note) -> Image? {
-        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory())
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("MainNotesList")
 
-        if let cacheName = imageUrl.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+        if !FileManager.default.fileExists(atPath: tempURL.path) {
+            try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: false, attributes: nil)
+        }
+
+        if let cacheName = imageUrl.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)?.md5 {
 
             let file = tempURL.appendingPathComponent(cacheName)
             if FileManager.default.fileExists(atPath: file.path) {
