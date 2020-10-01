@@ -80,8 +80,8 @@
 
             preList[i].addEventListener("click", function(event) {
                 let target = event.target
-                if (event.target.nodeName == "SPAN") {
-                    target = event.target.parentElement
+                while (target && target.nodeName !== "CODE") {
+                    target = target.parentElement
                 }
 
                 window.webkit.messageHandlers.clipboard.postMessage(target.innerText);
