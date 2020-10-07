@@ -184,7 +184,7 @@ public class NotesTextProcessor {
             NSRegularExpression.Options.allowCommentsAndWhitespace,
             NSRegularExpression.Options.anchorsMatchLines
             ])
-        
+
         var foundRange: NSRange? = nil
         regex.enumerateMatches(
             in: string.string,
@@ -414,6 +414,8 @@ public class NotesTextProcessor {
                     fencedRanges.append(r.range)
 
                     NotesTextProcessor.highlightCode(attributedString: attributedString, range: r.range)
+
+                    NotesTextProcessor.highlightFencedBackTick(range: r.range, attributedString: attributedString)
             })
 
             // Indent code blocks
@@ -430,6 +432,27 @@ public class NotesTextProcessor {
                     }
                 }
             }
+        }
+    }
+
+    public static func highlightFencedBackTick(range: NSRange, attributedString: NSMutableAttributedString) {
+        let code = attributedString.mutableString.substring(with: range)
+        let language = NotesTextProcessor.getLanguage(code)
+
+        var length = 3
+        if let langLength = language?.count {
+            length += langLength
+        }
+
+        let openRange = NSRange(location: range.location, length: length)
+        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openRange)
+
+        let closeRange = NSRange(location: range.upperBound - 4, length: 3)
+        attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
+
+        if let langLength = language?.count {
+            let range = NSRange(location: range.location + 3, length: langLength)
+            attributedString.addAttribute(.foregroundColor, value: Color.red, range: range)
         }
     }
 

@@ -119,6 +119,8 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
 
+        NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage)
+
         if delta == 1 {
             let newChar = textStorage.mutableString.substring(with: editedRange)
             let isNewLine = newChar == "\n"
@@ -180,8 +182,12 @@ extension NSTextStorage: NSTextStorageDelegate {
         if let fencedRange = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: parRange, string: textStorage) {
             let code = textStorage.mutableString.substring(with: fencedRange)
             let language = NotesTextProcessor.getLanguage(code)
+
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
             textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)
+
+            NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage)
+
         } else if UserDefaultsManagement.indentedCodeBlockHighlighting, let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
             let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
