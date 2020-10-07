@@ -372,8 +372,9 @@ p,
 pre,
 table,
 ul {
+    line-height: 23px;
     margin-top: 0;
-    margin-bottom: 16px
+    margin-bottom: 16px;
 }
 hr {
     background: #e7e7e7;

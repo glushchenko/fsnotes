@@ -541,7 +541,9 @@ class ViewController: NSViewController,
         vc.checkSidebarConstraint()
                 
         if noteLoading != .incomplete {
-            refillEditArea()
+            DispatchQueue.main.async {
+                self.refillEditArea()
+            }
         }
     }
 
