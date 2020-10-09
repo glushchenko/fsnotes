@@ -24,7 +24,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 enum FuzzySearchHelper {
     static func search(_ needle: String, in strs: [String]) -> [String] {
-        strs.map({ Array($0.utf8) }).testFuzzyMatch(needle).sorted(by: { $0.score > $1.score }).prefix(30).compactMap({ String(bytes: $0.string, encoding: .utf8)})
+        return
+            strs
+                .map({ Array($0.lowercased().utf8) })
+                .testFuzzyMatch(needle.lowercased())
+                .sorted(by: { $0.score > $1.score })
+                .prefix(30)
+                .compactMap({ (index, _, _) -> String? in
+                    guard strs.indices.contains(index) else {
+                        assertionFailure()
+                        return nil
+                    }
+                    let str = strs[index]
+                    if str.isEmpty {
+                        return nil
+                    } else {
+                        return str
+                    }
+                })
     }
 }
 
@@ -72,18 +89,18 @@ private struct Matrix<A> {
 }
 
 private extension Array where Element == [UInt8] {
-    func testFuzzyMatch(_ needle: String) -> [(string: [UInt8], score: Int)] {
+    func testFuzzyMatch(_ needle: String) -> [(index: Int, string: [UInt8], score: Int)] {
         let n = Array<UInt8>(needle.utf8)
-        var result: [(string: [UInt8], score: Int)] = []
+        var result: [(index: Int, string: [UInt8], score: Int)] = []
         let resultQueue = DispatchQueue(label: "result")
         let cores = ProcessInfo.processInfo.activeProcessorCount
         let chunkSize = self.count/cores
         DispatchQueue.concurrentPerform(iterations: cores) { ix in
             let start = ix * chunkSize
             let end = Swift.min(start + chunkSize, endIndex)
-            let chunk: [([UInt8], Int)] = self[start..<end].compactMap {
-                guard let match = $0.fuzzyMatch3(n) else { return nil }
-                return ($0, match.score)
+            let chunk: [(Int, [UInt8], Int)] = self[start..<end].enumerated().compactMap { (index, element) -> (Int, [UInt8], Int)? in
+                guard let match = element.fuzzyMatch3(n) else { return nil }
+                return (start + index, element, match.score)
             }
             resultQueue.sync {
                 result.append(contentsOf: chunk)
