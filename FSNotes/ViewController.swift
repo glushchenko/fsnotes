@@ -2255,7 +2255,10 @@ class ViewController: NSViewController,
     
     @IBAction func shareSheet(_ sender: NSButton) {
         if let note = notesTableView.getSelectedNote() {
-            let sharingPicker = NSSharingServicePicker(items: [note.content])
+            let sharingPicker = NSSharingServicePicker(items: [
+                note.content,
+                note.url
+            ])
             sharingPicker.delegate = self
             sharingPicker.show(relativeTo: NSZeroRect, of: sender, preferredEdge: .minY)
         }
