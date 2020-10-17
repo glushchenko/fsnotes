@@ -213,7 +213,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
 #if os(iOS)
         if NightNight.theme == .night {
-            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+            template =
+                template
+                    .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
+                    .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
         if UserDataService.instance.isDark {
@@ -385,7 +388,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
 #if os(iOS)
         if NightNight.theme == .night {
-            template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
+            template = template
+                .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
+                .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
         if UserDataService.instance.isDark {

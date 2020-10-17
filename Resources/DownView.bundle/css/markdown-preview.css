@@ -22,7 +22,8 @@ html {
     -webkit-text-size-adjust: 115%
 }
 body {
-    margin: 0
+    margin: 0;
+    max-width: 100%;
 }
 article,
 aside,
@@ -253,11 +254,14 @@ img {
     background: none;
     border-radius: 3px;
     border-style: none;
+    width: auto;
+    height: auto;
     max-width: 100%;
     max-height: 90vh;
 }
 canvas {
     border-radius: 3px;
+    max-width: 100%;
 }
 h1,
 h2 {
