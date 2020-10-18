@@ -426,13 +426,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 if !UserDefaultsManagement.dynamicTypeFont {
                     let fs = UserDefaultsManagement.fontSize
 
-                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
                 } else if let font = UserDefaultsManagement.noteFont {
                     let fontMetrics = UIFontMetrics(forTextStyle: .body)
                     let fontSize = fontMetrics.scaledFont(for: font).pointSize
                     let fs = Int(fontSize) - 2
 
-                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle)"
+                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
                 }
             }
         #endif

@@ -492,9 +492,10 @@ class NotesTableView: UITableView,
             string = renderMarkdownHTML(markdown:  note.content.unLoadImages().string)!
         }
 
-        let objectsToShare = [string] as [Any]
+        let objectsToShare = [string, note.url] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+        activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList
+        ]
 
         presentController.present(activityVC, animated: true, completion: nil)
 
