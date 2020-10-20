@@ -122,6 +122,10 @@ class SidebarTableView: UITableView,
         let selectedSection = SidebarSection(rawValue: indexPath.section)
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
+        guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else {
+            return
+        }
+
         guard let vc = self.viewController else { return }
         vc.turnOffSearch()
         vc.notesTable.turnOffEditing()

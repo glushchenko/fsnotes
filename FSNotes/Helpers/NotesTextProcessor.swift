@@ -451,8 +451,9 @@ public class NotesTextProcessor {
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
 
         if let langLength = language?.count {
+            let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)
             let range = NSRange(location: range.location + 3, length: langLength)
-            attributedString.addAttribute(.foregroundColor, value: Color.red, range: range)
+            attributedString.addAttribute(.foregroundColor, value: color, range: range)
         }
     }
 

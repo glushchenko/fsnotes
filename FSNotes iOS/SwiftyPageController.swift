@@ -352,7 +352,11 @@ open class SwiftyPageController: UIViewController {
         if !isViewLoaded {
             return
         }
-        
+
+        if !viewControllers.indices.contains(index) {
+            return
+        }
+
         // setup first controller
         let controller = viewControllers[index]
 
@@ -370,7 +374,7 @@ open class SwiftyPageController: UIViewController {
         containerView.addSubview(controller.view)
         controller.didMove(toParent: self)
 
-        // call delegate 'didMoveToController' methode
+        // call delegate 'didMoveToController' method
         self.delegate?.swiftyPageController(self, didMoveToController: controller)
         isMoveFinished = true
     }

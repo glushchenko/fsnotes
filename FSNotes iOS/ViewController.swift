@@ -284,8 +284,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             resizeSidebar()
         }
 
-        let inboxIndex = IndexPath(row: 0, section: 0)
-        sidebarTableView.tableView(sidebarTableView, didSelectRowAt: inboxIndex)
+        DispatchQueue.main.async {
+            let inboxIndex = IndexPath(row: 0, section: 0)
+            self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
+        }
     }
 
     public func preLoadProjectsData() {
@@ -868,8 +870,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         // mark as read
         UserDefaultsManagement.lastNews = storage.getNewsDate()
-
-        AudioServicesPlaySystemSound(1519)
     }
 
     func createNote(content: String? = nil, pasteboard: Bool? = nil) {
