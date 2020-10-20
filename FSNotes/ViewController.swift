@@ -1748,7 +1748,7 @@ class ViewController: NSViewController,
             note.container != .encryptedTextPack
         else { return }
 
-        NSApp.mainWindow?.makeFirstResponder(editArea)
+        editArea.window?.makeFirstResponder(editArea)
 
         if (notesTableView.selectedRow > -1) {
             editArea.isEditable = true

@@ -188,6 +188,10 @@ class PreferencesGeneralViewController: NSViewController {
                 MASShortcutMonitor.shared().register(self.newNoteshortcutView.shortcutValue, withAction: {
                     vc.makeNoteShortcut()
                 })
+            } else {
+                mas?.unregisterShortcut(UserDefaultsManagement.newNoteShortcut)
+
+                UserDefaultsManagement.newNoteShortcut = nil
             }
         }
 
@@ -203,6 +207,10 @@ class PreferencesGeneralViewController: NSViewController {
                 MASShortcutMonitor.shared().register(self.searchNotesShortcut.shortcutValue, withAction: {
                     vc.searchShortcut()
                 })
+            } else {
+                mas?.unregisterShortcut(UserDefaultsManagement.searchNoteShortcut)
+
+                UserDefaultsManagement.searchNoteShortcut = nil
             }
         }
     }

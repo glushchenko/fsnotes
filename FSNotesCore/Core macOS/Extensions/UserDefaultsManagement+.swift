@@ -38,37 +38,53 @@ extension UserDefaultsManagement {
         }
     }
 
-    static var newNoteShortcut: MASShortcut {
+    static var newNoteShortcut: MASShortcut? {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.NewNoteKeyCode)
             let modifier = UserDefaults.standard.object(forKey: Constants.NewNoteKeyModifier)
 
             if code != nil && modifier != nil, let keyCode = code as? UInt, let modifierFlags = modifier as? UInt {
+
+                if (code as? Int) == 0 && (modifier as? Int) == 0 {
+                    return nil
+                }
+
                 return MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
             }
 
             return MASShortcut(keyCode: 45, modifierFlags: 917504)
         }
         set {
-            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.NewNoteKeyCode)
-            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.NewNoteKeyModifier)
+            let code = newValue?.keyCode ?? 0
+            let modifier = newValue?.modifierFlags ?? 0
+
+            UserDefaults.standard.set(code, forKey: Constants.NewNoteKeyCode)
+            UserDefaults.standard.set(modifier, forKey: Constants.NewNoteKeyModifier)
         }
     }
 
-    static var searchNoteShortcut: MASShortcut {
+    static var searchNoteShortcut: MASShortcut? {
         get {
             let code = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyCode)
             let modifier = UserDefaults.standard.object(forKey: Constants.SearchNoteKeyModifier)
 
             if code != nil && modifier != nil, let keyCode = code as? UInt, let modifierFlags = modifier as? UInt {
+
+                if (code as? Int) == 0 && (modifier as? Int) == 0 {
+                    return nil
+                }
+
                 return MASShortcut(keyCode: keyCode, modifierFlags: modifierFlags)
             }
 
             return MASShortcut(keyCode: 37, modifierFlags: 917504)
         }
         set {
-            UserDefaults.standard.set(newValue.keyCode, forKey: Constants.SearchNoteKeyCode)
-            UserDefaults.standard.set(newValue.modifierFlags, forKey: Constants.SearchNoteKeyModifier)
+            let code = newValue?.keyCode ?? 0
+            let modifier = newValue?.modifierFlags ?? 0
+
+            UserDefaults.standard.set(code, forKey: Constants.SearchNoteKeyCode)
+            UserDefaults.standard.set(modifier, forKey: Constants.SearchNoteKeyModifier)
         }
     }
 
