@@ -998,6 +998,26 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
+        if event.keyCode == kVK_ANSI_O && event.modifierFlags.contains(.command) {
+            guard let storage = textStorage else { return }
+
+            var location = selectedRange().location
+            if location == storage.length && location > 0 {
+                location = location - 1
+            }
+
+            if storage.length > location, let link = textStorage?.attribute(.link, at: location, effectiveRange: nil) as? String {
+
+                if link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
+                    NSWorkspace.shared.open(mail)
+                } else if let url = URL(string: link) {
+                    _ = try? NSWorkspace.shared.open(url, options: .default, configuration: [:])
+                }
+            }
+
+            return
+        }
+
         if note.type == .RichText {
             super.keyDown(with: event)
             saveCursorPosition()
