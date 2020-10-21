@@ -277,7 +277,7 @@ CA
                                         </menuItem>
                                         <menuItem title="Copy" keyEquivalent="c" id="x3v-GG-iWU">
                                             <connections>
-                                                <action selector="noteCopy:" target="Ady-hI-5gd" id="zTp-S5-AZJ"/>
+                                                <action selector="copy:" target="Ady-hI-5gd" id="lq4-pB-TEE"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Paste" keyEquivalent="v" id="gVA-U4-sdL">
@@ -3299,7 +3299,7 @@ Italian 🇮🇹</string>
         <image name="git" width="270" height="270"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="logoInCircle" width="250" height="250"/>
+        <image name="logoInCircle" width="500" height="500"/>
         <image name="new-note" width="128" height="128"/>
         <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>

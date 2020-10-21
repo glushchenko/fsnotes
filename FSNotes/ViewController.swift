@@ -2175,19 +2175,7 @@ class ViewController: NSViewController,
             }
         }
     }
-    
-    @IBAction func noteCopy(_ sender: Any) {
-        guard let fr = self.view.window?.firstResponder else { return }
         
-        if fr.isKind(of: EditTextView.self) {
-            self.editArea.copy(sender)
-        }
-        
-        if fr.isKind(of: NotesTableView.self) {
-            self.saveTextAtClipboard()
-        }
-    }
-    
     @IBAction func copyURL(_ sender: Any) {
         if let note = notesTableView.getSelectedNote(), let title = note.title.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
 

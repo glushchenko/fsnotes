@@ -249,6 +249,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         return true
     }
+
+    @IBAction func copy(_ sender: Any) {
+        guard let vc = ViewController.shared() else { return }
+
+        vc.saveTextAtClipboard()
+    }
     
     func getNoteFromSelectedRow() -> Note? {
         var note: Note? = nil
