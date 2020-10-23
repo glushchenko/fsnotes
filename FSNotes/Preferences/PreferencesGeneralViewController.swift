@@ -172,9 +172,12 @@ class PreferencesGeneralViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
 
         let mas = MASShortcutMonitor.shared()
-
+        
         newNoteshortcutView.shortcutValue = UserDefaultsManagement.newNoteShortcut
         searchNotesShortcut.shortcutValue = UserDefaultsManagement.searchNoteShortcut
+
+        newNoteshortcutView.shortcutValidator.allowAnyShortcutWithOptionModifier = true
+        searchNotesShortcut.shortcutValidator.allowAnyShortcutWithOptionModifier = true
 
         newNoteshortcutView.shortcutValueChange = { (sender) in
             if ((self.newNoteshortcutView.shortcutValue) != nil) {
