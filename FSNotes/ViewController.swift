@@ -823,7 +823,8 @@ class ViewController: NSViewController,
             var content = String()
 
             if UserDefaultsManagement.fileFormat == .Markdown,
-                UserDefaultsManagement.naming == .autoRename {
+                UserDefaultsManagement.naming == .autoRename,
+                UserDefaultsManagement.autoInsertHeader {
                 content.append("# \(value)\n\n")
             }
 

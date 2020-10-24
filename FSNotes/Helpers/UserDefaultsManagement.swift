@@ -42,6 +42,7 @@ public class UserDefaultsManagement {
         static let AllowTouchID = "allowTouchID"
         static let AppearanceTypeKey = "appearanceType"
         static let ArchiveDirectoryKey = "archiveDirectory"
+        static let AutoInsertHeader = "autoInsertHeader"
         static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
         static let AutomaticQuoteSubstitution = "automaticQuoteSubstitution"
         static let AutomaticDataDetection = "automaticDataDetection"
@@ -1386,6 +1387,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue.rawValue, forKey: "naming")
+        }
+    }
+
+    static var autoInsertHeader: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.AutoInsertHeader) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.AutoInsertHeader)
         }
     }
 }
