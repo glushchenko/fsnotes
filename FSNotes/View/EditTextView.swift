@@ -1187,6 +1187,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func restoreCursorPosition() {
         guard let storage = textStorage else { return }
 
+        if let searchQuery = viewDelegate?.search.stringValue,
+           searchQuery.count > 0 {
+            if let range = storage.string.range(of: searchQuery) {
+                let nsRange = NSRange(range, in: storage.string)
+                setSelectedRange(nsRange)
+            }
+            return
+        }
+
         guard UserDefaultsManagement.restoreCursorPosition else {
             setSelectedRange(NSMakeRange(0, 0))
             return
