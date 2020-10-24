@@ -41,11 +41,18 @@ extension ViewController {
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
         guard let commit = sender.representedObject as? Commit else { return }
         guard let note = EditTextView.note else { return }
+        let git = Git.sharedInstance()
 
         UserDataService.instance.fsUpdatesDisabled = true
 
-        let repository = Git.sharedInstance().getRepository(by: note.project.getParent())
+        let repository = git.getRepository(by: note.project.getParent())
+
+        if git.prevCommit == nil {
+            saveRevision(sender)
+        }
+
         repository.checkout(commit: commit, fileName: note.getGitPath())
+        git.prevCommit = commit
 
         _ = note.reload()
         NotesTextProcessor.highlight(note: note)

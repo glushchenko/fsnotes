@@ -1390,6 +1390,8 @@ class ViewController: NSViewController,
     func textDidChange(_ notification: Notification) {
         guard let note = getCurrentNote() else { return }
 
+        Git.sharedInstance().cleanCheckoutHistory()
+
         blockFSUpdates()
 
         if (

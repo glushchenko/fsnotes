@@ -15,6 +15,7 @@ class Git {
     private var home: URL
     private var repositories: URL
     private var debug: Bool = true
+    public var prevCommit: Commit?
 
     public static func sharedInstance() -> Git {
         guard let git = self.instance else {
@@ -128,5 +129,9 @@ class Git {
         repository.initialize(from: project)
 
         return repository
+    }
+
+    public func cleanCheckoutHistory() {
+        prevCommit = nil
     }
 }
