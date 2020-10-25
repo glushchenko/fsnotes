@@ -559,22 +559,14 @@ class ViewController: NSViewController,
         notesTableView.reloadData()
     }
     
-    func refillEditArea(cursor: Int? = nil, saveTyping: Bool = false, force: Bool = false) {
+    func refillEditArea(saveTyping: Bool = false, force: Bool = false) {
         noteLoading = .incomplete
         previewButton.state = self.currentPreviewState == .on ? .on : .off
-
-        var location: Int = 0
-        if let unwrappedCursor = cursor {
-            location = unwrappedCursor
-        } else {
-            location = editArea.selectedRanges[0].rangeValue.location
-        }
 
         let selected = notesTableView.selectedRow
         if (selected > -1 && notesTableView.noteList.indices.contains(selected)) {
             if let note = notesTableView.getSelectedNote() {
                 editArea.fill(note: note, saveTyping: saveTyping, force: force)
-                editArea.setSelectedRange(NSRange.init(location: location, length: 0))
             }
         }
 
@@ -2006,8 +1998,7 @@ class ViewController: NSViewController,
         guard let editor = editArea else { return }
         editor.subviews.removeAll(where: { $0.isKind(of: MPreviewView.self) })
 
-        let position = EditTextView.note?.getCursorPosition()
-        refillEditArea(cursor: position)
+        refillEditArea()
     }
     
     public func restoreCurrentPreviewState() {

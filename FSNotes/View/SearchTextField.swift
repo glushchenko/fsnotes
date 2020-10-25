@@ -94,9 +94,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 if vcDelegate.currentPreviewState == .on
                     && EditTextView.note?.container != .encryptedTextPack {
                     vcDelegate.currentPreviewState = .off
-
-                    let position = note.getCursorPosition()
-                    vcDelegate.refillEditArea(cursor: position)
+                    vcDelegate.refillEditArea()
 
                     NSApp.mainWindow?.makeFirstResponder(vcDelegate.editArea)
                 } else {

@@ -1192,7 +1192,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if let range = storage.string.range(of: searchQuery, options: .caseInsensitive) {
                 let nsRange = NSRange(range, in: storage.string)
                 setSelectedRange(nsRange)
+                scrollToCursor()
             }
+
             return
         }
 
@@ -1201,21 +1203,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        var position = storage.length
         
-        if let note = EditTextView.note {
-            if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.cursor") {
-                position = data.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> Int in
-                    ptr.load(as: Int.self)
-                }
-            }
-        }
-        
-        if position <= storage.length {
+        if let position = EditTextView.note?.getCursorPosition(), position <= storage.length {
             setSelectedRange(NSMakeRange(position, 0))
+            scrollToCursor()
         }
-        
-        scrollToCursor()
     }
     
     func saveTextStorageContent(to note: Note) {
