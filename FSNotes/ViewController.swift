@@ -535,11 +535,11 @@ class ViewController: NSViewController,
     }
 
     func viewDidResize() {
-        guard currentPreviewState == .on else { return }
-
         guard let vc = ViewController.shared() else { return }
         vc.checkSidebarConstraint()
-                
+
+        guard currentPreviewState == .on else { return }
+
         if noteLoading != .incomplete {
             DispatchQueue.main.async {
                 self.refillEditArea()
