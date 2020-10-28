@@ -1181,7 +1181,7 @@ public class Note: NSObject  {
         var removed = [String]()
 
         let matchingOptions = NSRegularExpression.MatchingOptions(rawValue: 0)
-        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,]+)"
+        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,\\`]+)"
 
         let options: NSRegularExpression.Options = [
             .allowCommentsAndWhitespace,
@@ -1204,9 +1204,24 @@ public class Note: NSObject  {
                     let cleanTag = content.mutableString.substring(with: range)
 
                     range = NSRange(location: range.location - 1, length: range.length + 1)
-                    
+
+                    // check code block
                     let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
-                    if codeBlock == nil && isValid(tag: cleanTag) {
+
+                    // check code span
+                    var codeSpan: NSRange?
+                    let paragraphRange = content.mutableString.paragraphRange(for: range)
+                    let paragraph = content.attributedSubstring(from: paragraphRange).string
+
+                    if paragraph.contains("`") {
+                        NotesTextProcessor.codeSpanRegex.matches(content.string, range: paragraphRange) { (result) -> Void in
+                            if let spanRange = result?.range, spanRange.intersection(range) != nil {
+                                codeSpan = spanRange
+                            }
+                        }
+                    }
+
+                    if codeBlock == nil && codeSpan == nil && isValid(tag: cleanTag) {
                         if ["/", "!", "?", ";", ":", ".", ","].contains(cleanTag.last) {
                             tags.append(String(cleanTag.dropLast()))
                         } else {

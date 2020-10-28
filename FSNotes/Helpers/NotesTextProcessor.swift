@@ -910,7 +910,7 @@ public class NotesTextProcessor {
                 .replacingOccurrences(of: "\n", with: "")
                 .trim()
 
-            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
+            if ["!", "?", ";", ":", ".", ",", "`"].contains(substring.last) {
                 range = NSRange(location: range.location, length: range.length - 1)
                 substring = String(substring.dropLast())
             }
