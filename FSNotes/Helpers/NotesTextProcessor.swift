@@ -210,6 +210,22 @@ public class NotesTextProcessor {
         return foundRange
     }
 
+    public static func getSpanCodeBlockRange(content: NSMutableAttributedString, range: NSRange) -> NSRange? {
+        var codeSpan: NSRange?
+        let paragraphRange = content.mutableString.paragraphRange(for: range)
+        let paragraph = content.attributedSubstring(from: paragraphRange).string
+
+        if paragraph.contains("`") {
+            NotesTextProcessor.codeSpanRegex.matches(content.string, range: paragraphRange) { (result) -> Void in
+                if let spanRange = result?.range, spanRange.intersection(range) != nil {
+                    codeSpan = spanRange
+                }
+            }
+        }
+        
+        return codeSpan
+    }
+
     public static var hl: Highlightr? = nil
     
     public static func getHighlighter() -> Highlightr? {
@@ -377,6 +393,15 @@ public class NotesTextProcessor {
                     .replacingOccurrences(of: tagQuery, with: "")
                     .removingPercentEncoding
                 {
+
+                    if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
+                        return
+                    }
+
+                    if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
+                        return
+                    }
+
                     let link = "[#\(tag)](\(value))"
                     attributedString.replaceCharacters(in: range, with: link)
                 }

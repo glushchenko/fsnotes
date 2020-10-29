@@ -1205,23 +1205,11 @@ public class Note: NSObject  {
 
                     range = NSRange(location: range.location - 1, length: range.length + 1)
 
-                    // check code block
                     let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
 
-                    // check code span
-                    var codeSpan: NSRange?
-                    let paragraphRange = content.mutableString.paragraphRange(for: range)
-                    let paragraph = content.attributedSubstring(from: paragraphRange).string
+                    let spanBlock = NotesTextProcessor.getSpanCodeBlockRange(content: content, range: range)
 
-                    if paragraph.contains("`") {
-                        NotesTextProcessor.codeSpanRegex.matches(content.string, range: paragraphRange) { (result) -> Void in
-                            if let spanRange = result?.range, spanRange.intersection(range) != nil {
-                                codeSpan = spanRange
-                            }
-                        }
-                    }
-
-                    if codeBlock == nil && codeSpan == nil && isValid(tag: cleanTag) {
+                    if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
                         if ["/", "!", "?", ";", ":", ".", ","].contains(cleanTag.last) {
                             tags.append(String(cleanTag.dropLast()))
                         } else {
