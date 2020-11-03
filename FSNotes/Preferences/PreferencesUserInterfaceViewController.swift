@@ -132,8 +132,6 @@ class PreferencesUserInterfaceViewController: NSViewController {
         UserDefaultsManagement.fontColor = sender.color
         vc.editArea.setEditorTextColor(sender.color)
         vc.refillEditArea()
-
-        restart()
     }
 
     @IBAction func setBgColor(_ sender: NSColorWell) {
@@ -143,8 +141,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
         UserDefaultsManagement.bgColor = sender.color
 
         vc.editArea.backgroundColor = sender.color
-
-        restart()
+        vc.titleBarView?.layer?.backgroundColor = sender.color.cgColor
+        vc.titleLabel.backgroundColor = sender.color
     }
 
     @IBAction func changeCellSpacing(_ sender: NSSlider) {

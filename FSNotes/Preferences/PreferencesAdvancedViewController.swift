@@ -69,8 +69,6 @@ class PreferencesAdvancedViewController: NSViewController {
 
         for language in languages {
             if let lang = language?.description, let id = language?.rawValue {
-                print(lang)
-
                 languagePopUp.addItem(withTitle: lang)
                 languagePopUp.lastItem?.state = (id == UserDefaultsManagement.defaultLanguage) ? .on : .off
 
