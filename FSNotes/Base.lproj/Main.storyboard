@@ -1524,14 +1524,14 @@ CA
                                                             <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
+                                                                <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" alternatingRowBackgroundColors="YES" columnSelection="YES" columnResizing="NO" autosaveColumns="NO" rowHeight="115" rowSizeStyle="automatic" viewBased="YES" id="8X8-yh-5EA" customClass="NotesTableView" customModule="FSNotes" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="237" height="542"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <size key="intercellSpacing" width="1" height="1"/>
                                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                     <tableColumns>
-                                                                        <tableColumn editable="NO" width="205" maxWidth="2000" id="aKf-mj-22P">
+                                                                        <tableColumn editable="NO" width="236" maxWidth="2000" id="aKf-mj-22P">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -1544,11 +1544,11 @@ CA
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView identifier="NoteCellView" id="8qL-z4-nzh" customClass="NoteCellView" customModule="FSNotes" customModuleProvider="target">
-                                                                                    <rect key="frame" x="10" y="0.0" width="216" height="115"/>
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="236" height="115"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField identifier="cellDate" autoresizesSubviews="NO" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="abw-Lq-K7d">
-                                                                                            <rect key="frame" x="147" y="99" width="48" height="16"/>
+                                                                                            <rect key="frame" x="167" y="99" width="48" height="16"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1561,7 +1561,7 @@ CA
                                                                                                 <fragment content="#bc-ignore!"/>
                                                                                             </attributedString>
                                                                                         </textField>
-                                                                                        <imageView identifier="pin" hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
+                                                                                        <imageView identifier="pin" hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9h5-Ob-Nej">
                                                                                             <rect key="frame" x="3" y="92" width="23" height="23"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="23" id="QQS-Ef-avR"/>
@@ -1580,7 +1580,7 @@ CA
                                                                                                 <fragment content="#bc-ignore!"/>
                                                                                             </attributedString>
                                                                                         </textField>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
+                                                                                        <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dN9-ig-hka">
                                                                                             <rect key="frame" x="26" y="26" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="48" id="3Ol-IX-621"/>
@@ -1588,7 +1588,7 @@ CA
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="fmy-oz-7CX"/>
                                                                                         </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
+                                                                                        <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ggY-RT-nIM">
                                                                                             <rect key="frame" x="80" y="26" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="width" constant="48" id="cyJ-09-oaf"/>
@@ -1596,7 +1596,7 @@ CA
                                                                                             </constraints>
                                                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="nOa-en-atB"/>
                                                                                         </imageView>
-                                                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
+                                                                                        <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HZg-Mu-dwG">
                                                                                             <rect key="frame" x="135" y="26" width="48" height="48"/>
                                                                                             <constraints>
                                                                                                 <constraint firstAttribute="height" constant="48" id="XSB-Gr-9r6"/>
@@ -1672,7 +1672,7 @@ CA
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="30" id="35K-8i-OMy"/>
                                                         </constraints>
-                                                        <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new-note" imagePosition="overlaps" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
+                                                        <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new_note_button" imagePosition="overlaps" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="cellTitle"/>
                                                         </buttonCell>
@@ -3294,8 +3294,8 @@ Italian 🇮🇹</string>
         <image name="NSShareTemplate" width="15" height="17"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
-        <image name="logoInCircle" width="250" height="250"/>
-        <image name="new-note" width="128" height="128"/>
+        <image name="logoInCircle" width="500" height="500"/>
+        <image name="new_note_button" width="512" height="512"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="128" height="128"/>
         <image name="prefsEditor" width="128" height="128"/>
