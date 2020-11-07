@@ -813,14 +813,14 @@ CA
             <objects>
                 <tabViewController title="Preferences" selectedTabViewItemIndex="0" tabStyle="toolbar" id="tR0-Uj-4tB" customClass="PrefsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
-                        <tabViewItem identifier="" image="NSPreferencesGeneral" id="rNR-GY-ptT" userLabel="General">
+                        <tabViewItem identifier="" image="prefsGeneral" id="rNR-GY-ptT" userLabel="General">
                             <nil key="label"/>
                         </tabViewItem>
-                        <tabViewItem identifier="ui" image="ui" id="sue-zm-fiI" userLabel="Layout"/>
-                        <tabViewItem image="editor" id="1OI-UI-JVH" userLabel="Editor"/>
-                        <tabViewItem identifier="security" image="padlock" id="eYm-FV-50h" userLabel="Security"/>
-                        <tabViewItem label="Git" identifier="git" image="git" id="wxM-bE-TE9"/>
-                        <tabViewItem identifier="advanced" image="NSAdvanced" id="0v6-hJ-g1F" userLabel="Advanced">
+                        <tabViewItem identifier="ui" image="prefsLayout" id="sue-zm-fiI" userLabel="Layout"/>
+                        <tabViewItem image="prefsEditor" id="1OI-UI-JVH" userLabel="Editor"/>
+                        <tabViewItem identifier="security" image="privacy" id="eYm-FV-50h" userLabel="Security"/>
+                        <tabViewItem label="Git" identifier="git" image="prefsGit" id="wxM-bE-TE9"/>
+                        <tabViewItem identifier="advanced" image="prefsAdvanced" id="0v6-hJ-g1F" userLabel="Advanced">
                             <nil key="label"/>
                         </tabViewItem>
                     </tabViewItems>
@@ -1363,14 +1363,14 @@ CA
                                         <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdT-Ac-GAV">
+                                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="57" horizontalPageScroll="10" verticalLineScroll="57" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BdT-Ac-GAV">
                                                 <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" drawsBackground="NO" id="ceg-yR-Ncf">
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
+                                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -3289,21 +3289,21 @@ Italian 🇮🇹</string>
     </scenes>
     <resources>
         <image name="NSAddTemplate" width="14" height="13"/>
-        <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
-        <image name="NSPreferencesGeneral" width="32" height="32"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="editor" width="384" height="384"/>
-        <image name="git" width="270" height="270"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
         <image name="icon_alt" width="256" height="256"/>
         <image name="logoInCircle" width="250" height="250"/>
         <image name="new-note" width="128" height="128"/>
-        <image name="padlock" width="405.09890747070312" height="405.09890747070312"/>
         <image name="pin" width="128" height="128"/>
+        <image name="prefsAdvanced" width="128" height="128"/>
+        <image name="prefsEditor" width="128" height="128"/>
+        <image name="prefsGeneral" width="128" height="128"/>
+        <image name="prefsGit" width="128" height="128"/>
+        <image name="prefsLayout" width="128" height="128"/>
+        <image name="privacy" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
-        <image name="ui" width="512" height="512"/>
         <namedColor name="mainBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

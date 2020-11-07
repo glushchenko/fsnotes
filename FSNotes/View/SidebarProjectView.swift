@@ -371,7 +371,7 @@ class SidebarProjectView: NSOutlineView,
                 cell.label.frame.origin.x = 25
                 
             case .Trash:
-                cell.icon.image = NSImage(imageLiteralResourceName: "trash.png")
+                cell.icon.image = NSImage(imageLiteralResourceName: "trashBin")
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
                 

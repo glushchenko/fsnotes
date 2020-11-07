@@ -274,8 +274,6 @@
 		D759D1FE2276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
 		D759D1FF2276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
 		D759D2002276D4C300961E90 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D759D1FD2276D4C200961E90 /* icon.png */; };
-		D75C903A223EDAFD002A9CAD /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
-		D75C903B223EDAFD002A9CAD /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
 		D75DF64121319994003C3059 /* todo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63E21319993003C3059 /* todo@2x.png */; };
 		D75DF64221319994003C3059 /* todo.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF63F21319993003C3059 /* todo.png */; };
 		D75DF64321319994003C3059 /* todo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D75DF64021319993003C3059 /* todo@3x.png */; };
@@ -372,7 +370,6 @@
 		D75E33DD22462442006AD1C1 /* AvenirNext-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18C21C503EF00E41811 /* AvenirNext-BoldItalic.ttf */; };
 		D75E33DE22462442006AD1C1 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD795A1F4E611200D5724B /* SourceCodePro-Regular.ttf */; };
 		D75E33DF22462442006AD1C1 /* lock-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD4A223837F300E69C93 /* lock-open.png */; };
-		D75E33E022462442006AD1C1 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
 		D75E33E122462442006AD1C1 /* AvenirNext-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18B21C503EF00E41811 /* AvenirNext-DemiItalic.ttf */; };
 		D75E33E222462442006AD1C1 /* AvenirNext-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18E21C503EF00E41811 /* AvenirNext-Light.ttf */; };
 		D75E33E322462442006AD1C1 /* tag_red.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CAD6A920DD509800FF4674 /* tag_red.png */; };
@@ -381,7 +378,6 @@
 		D75E33E622462442006AD1C1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7465F27207F2CD600E46A52 /* Images.xcassets */; };
 		D75E33E822462442006AD1C1 /* AvenirNext-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19321C503F000E41811 /* AvenirNext-Thin.ttf */; };
 		D75E33E922462442006AD1C1 /* repository_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7DF401720A37716000F8B13 /* repository_white.png */; };
-		D75E33EA22462442006AD1C1 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
 		D75E33EB22462442006AD1C1 /* new-note.png in Resources */ = {isa = PBXBuildFile; fileRef = D730BD56223AB54E00E69C93 /* new-note.png */; };
 		D75E33EC22462442006AD1C1 /* makeNote_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CDE9D82160C1D500DC5978 /* makeNote_white.png */; };
 		D75E33ED22462442006AD1C1 /* SourceCodePro-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7DD79561F4E606600D5724B /* SourceCodePro-Black.ttf */; };
@@ -400,7 +396,6 @@
 		D75E340122462442006AD1C1 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D75E340222462442006AD1C1 /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D75E340322462442006AD1C1 /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
-		D75E340422462442006AD1C1 /* padlock.png in Resources */ = {isa = PBXBuildFile; fileRef = D75C9039223EDAFD002A9CAD /* padlock.png */; };
 		D75E340522462442006AD1C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7793C781F211C6000CA39B7 /* Main.storyboard */; };
 		D75E340722462442006AD1C1 /* AvenirNext-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F18721C503EF00E41811 /* AvenirNext-MediumItalic.ttf */; };
 		D75E340C22462442006AD1C1 /* FSNotesCore_macOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6F13BB0420FEDDF40005E120 /* FSNotesCore_macOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -565,12 +560,12 @@
 		D7B6E59A207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59B207912E300FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
 		D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B6E599207912E300FE0E20 /* Project.swift */; };
+		D7B818FA2556B77300D4F61E /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B818F92556B77300D4F61E /* trash.png */; };
 		D7BA204D2186E3DD0064824B /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799407B218484C900727B20 /* TitleBarView.swift */; };
 		D7BAC62F249D11F8008D29AA /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
 		D7BAC630249D1203008D29AA /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
 		D7BAC631249D1204008D29AA /* SettingsFilesNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */; };
 		D7BAC633249E05B2008D29AA /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC632249E05B2008D29AA /* close.png */; };
-		D7BAC63824A35E11008D29AA /* trash.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC63424A35E11008D29AA /* trash.png */; };
 		D7BAC63A24A35EB0008D29AA /* trash_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC63924A35EB0008D29AA /* trash_white.png */; };
 		D7BAC63C24A35F73008D29AA /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC63B24A35F72008D29AA /* home.png */; };
 		D7BAC64D24A360E1008D29AA /* home_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D7BAC64C24A360E1008D29AA /* home_white.png */; };
@@ -673,9 +668,6 @@
 		D7CA7FCC2326519E00E9717A /* Git.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC42326519600E9717A /* Git.swift */; };
 		D7CA7FCD232651A000E9717A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* Repository.swift */; };
 		D7CA7FCE232651A100E9717A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FC52326519600E9717A /* Repository.swift */; };
-		D7CA7FD02326529300E9717A /* git.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CA7FCF2326529200E9717A /* git.png */; };
-		D7CA7FD12326529300E9717A /* git.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CA7FCF2326529200E9717A /* git.png */; };
-		D7CA7FD22326529300E9717A /* git.png in Resources */ = {isa = PBXBuildFile; fileRef = D7CA7FCF2326529200E9717A /* git.png */; };
 		D7CA7FD4232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
 		D7CA7FD5232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
 		D7CA7FD6232652E300E9717A /* PreferencesGitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */; };
@@ -892,10 +884,6 @@
 		D7F2F1C521C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */; };
 		D7F2F1C821C68B5700E41811 /* ProjectListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F2F1C721C68B5700E41811 /* ProjectListController.swift */; };
-		D7F5C0E6223EC1DB0038F172 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
-		D7F5C0E7223EC1DB0038F172 /* editor.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0E5223EC1DB0038F172 /* editor.png */; };
-		D7F5C0EC223EC5670038F172 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
-		D7F5C0ED223EC5670038F172 /* ui.png in Resources */ = {isa = PBXBuildFile; fileRef = D7F5C0EB223EC5670038F172 /* ui.png */; };
 		D7F5C0EF223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
 		D7F5C0F0223ED0570038F172 /* PreferencesGeneralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */; };
 		D7F5C0F2223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */; };
@@ -1259,7 +1247,6 @@
 		D7573D3C24465AE4005C0112 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D759D1F92276D25C00961E90 /* icon_alt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_alt.png; sourceTree = "<group>"; };
 		D759D1FD2276D4C200961E90 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		D75C9039223EDAFD002A9CAD /* padlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = padlock.png; sourceTree = "<group>"; };
 		D75DF63E21319993003C3059 /* todo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@2x.png"; sourceTree = "<group>"; };
 		D75DF63F21319993003C3059 /* todo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = todo.png; sourceTree = "<group>"; };
 		D75DF64021319993003C3059 /* todo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "todo@3x.png"; sourceTree = "<group>"; };
@@ -1378,9 +1365,9 @@
 		D7B34F9625195D7E0007877E /* PreviewState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewState.swift; sourceTree = "<group>"; };
 		D7B4AC5D2471253100F3888A /* NoteMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMeta.swift; sourceTree = "<group>"; };
 		D7B6E599207912E300FE0E20 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		D7B818F92556B77300D4F61E /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		D7BAC62E249D11F8008D29AA /* SettingsFilesNaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFilesNaming.swift; sourceTree = "<group>"; };
 		D7BAC632249E05B2008D29AA /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = close.png; sourceTree = "<group>"; };
-		D7BAC63424A35E11008D29AA /* trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash.png; sourceTree = "<group>"; };
 		D7BAC63924A35EB0008D29AA /* trash_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trash_white.png; sourceTree = "<group>"; };
 		D7BAC63B24A35F72008D29AA /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		D7BAC64C24A360E1008D29AA /* home_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home_white.png; sourceTree = "<group>"; };
@@ -1406,7 +1393,6 @@
 		D7CA7FC32326519500E9717A /* Commit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commit.swift; sourceTree = "<group>"; };
 		D7CA7FC42326519600E9717A /* Git.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Git.swift; sourceTree = "<group>"; };
 		D7CA7FC52326519600E9717A /* Repository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		D7CA7FCF2326529200E9717A /* git.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = git.png; sourceTree = "<group>"; };
 		D7CA7FD3232652E300E9717A /* PreferencesGitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesGitViewController.swift; sourceTree = "<group>"; };
 		D7CAD6A920DD509800FF4674 /* tag_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag_red.png; sourceTree = "<group>"; };
 		D7CAD81A231D44C10006BE1C /* CodeTextProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeTextProcessor.swift; sourceTree = "<group>"; };
@@ -1504,8 +1490,6 @@
 		D7F2F19521C503F000E41811 /* AvenirNext-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-LightItalic.ttf"; sourceTree = "<group>"; };
 		D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AvenirNext-UltraLightIt.ttf"; sourceTree = "<group>"; };
 		D7F2F1C721C68B5700E41811 /* ProjectListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListController.swift; sourceTree = "<group>"; };
-		D7F5C0E5223EC1DB0038F172 /* editor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = editor.png; sourceTree = "<group>"; };
-		D7F5C0EB223EC5670038F172 /* ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ui.png; sourceTree = "<group>"; };
 		D7F5C0EE223ED0570038F172 /* PreferencesGeneralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesGeneralViewController.swift; sourceTree = "<group>"; };
 		D7F5C0F1223ED0C00038F172 /* PreferencesUserInterfaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesUserInterfaceViewController.swift; sourceTree = "<group>"; };
 		D7F5C0F4223ED5620038F172 /* PreferencesEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesEditorViewController.swift; sourceTree = "<group>"; };
@@ -2113,7 +2097,6 @@
 			isa = PBXGroup;
 			children = (
 				D720240722A9410D000A7691 /* Icons */,
-				D7F5C0E4223EC1B30038F172 /* Preferences */,
 				D7F2F18521C5032D00E41811 /* Fonts */,
 				D76025B5204F071B000B9F59 /* Toolbar */,
 				D73CEC6D2278ECA500D549F7 /* iOS */,
@@ -2149,8 +2132,8 @@
 				D7BAC64C24A360E1008D29AA /* home_white.png */,
 				D7DF402920A377FE000F8B13 /* pin_white.png */,
 				D77B9E9A20DE53E0003FAA27 /* archive.png */,
+				D7B818F92556B77300D4F61E /* trash.png */,
 				D7BAC63924A35EB0008D29AA /* trash_white.png */,
-				D7BAC63424A35E11008D29AA /* trash.png */,
 				D798027D2137C3D5008D6200 /* uncheckedbox.png */,
 				D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */,
 				D71AA01B21439A8B004AFD2A /* archive_white.png */,
@@ -2288,17 +2271,6 @@
 				D7F2F19621C503F000E41811 /* AvenirNext-UltraLightIt.ttf */,
 			);
 			path = AvenirNext;
-			sourceTree = "<group>";
-		};
-		D7F5C0E4223EC1B30038F172 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				D7F5C0EB223EC5670038F172 /* ui.png */,
-				D75C9039223EDAFD002A9CAD /* padlock.png */,
-				D7F5C0E5223EC1DB0038F172 /* editor.png */,
-				D7CA7FCF2326529200E9717A /* git.png */,
-			);
-			path = Preferences;
 			sourceTree = "<group>";
 		};
 		D7F6CFEE2056ABDB008C584A /* Settings */ = {
@@ -2737,7 +2709,6 @@
 				D75E33DE22462442006AD1C1 /* SourceCodePro-Regular.ttf in Resources */,
 				D73A996C22FEC788002A7006 /* inbox.png in Resources */,
 				D75E33DF22462442006AD1C1 /* lock-open.png in Resources */,
-				D75E33E022462442006AD1C1 /* ui.png in Resources */,
 				D75E33E122462442006AD1C1 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D75E33E222462442006AD1C1 /* AvenirNext-Light.ttf in Resources */,
 				D75E33E322462442006AD1C1 /* tag_red.png in Resources */,
@@ -2748,9 +2719,7 @@
 				D7B1F6AE246895B000593001 /* new_note_ui.png in Resources */,
 				D7C690DB22AB075F00BFBBD1 /* italic@2x.png in Resources */,
 				D75E33E822462442006AD1C1 /* AvenirNext-Thin.ttf in Resources */,
-				D7CA7FD22326529300E9717A /* git.png in Resources */,
 				D75E33E922462442006AD1C1 /* repository_white.png in Resources */,
-				D75E33EA22462442006AD1C1 /* editor.png in Resources */,
 				D75E33EB22462442006AD1C1 /* new-note.png in Resources */,
 				D7C690DC22AB075F00BFBBD1 /* italic@3x.png in Resources */,
 				D75E33EC22462442006AD1C1 /* makeNote_white.png in Resources */,
@@ -2786,7 +2755,6 @@
 				D75E340322462442006AD1C1 /* makeNote.png in Resources */,
 				D7C690D822AB075F00BFBBD1 /* bold@2x.png in Resources */,
 				D70A727623944847006AF320 /* checkbox1012.png in Resources */,
-				D75E340422462442006AD1C1 /* padlock.png in Resources */,
 				D75E340522462442006AD1C1 /* Main.storyboard in Resources */,
 				D75E340722462442006AD1C1 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D720240E22A9412B000A7691 /* RTF.icns in Resources */,
@@ -2826,6 +2794,7 @@
 				D73CEC812278ECA500D549F7 /* checkbox_empty@3x.png in Resources */,
 				D78DC71E247AE47D00C5BB43 /* plus.png in Resources */,
 				D7BE112A22DB1C8600435866 /* padlock-locked-ios.png in Resources */,
+				D7B818FA2556B77300D4F61E /* trash.png in Resources */,
 				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
 				D7D0652D247AF6E900214326 /* basket.png in Resources */,
 				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
@@ -2902,7 +2871,6 @@
 				D73CEC822278ECA500D549F7 /* checkbox@3x.png in Resources */,
 				D7958A3C22EDA35700EDBDDC /* attach.png in Resources */,
 				D78115602153AE89004FA1CA /* back.png in Resources */,
-				D7BAC63824A35E11008D29AA /* trash.png in Resources */,
 				D7D03BBC205C6D1A00D96A6D /* redo@3x.png in Resources */,
 				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
 				D7B1F6B2246A686700593001 /* numbered_list.png in Resources */,
@@ -2997,7 +2965,6 @@
 				D7DD795B1F4E611D00D5724B /* SourceCodePro-Regular.ttf in Resources */,
 				D73A997022FEC78A002A7006 /* inbox.png in Resources */,
 				D730BD4B223837F300E69C93 /* lock-open.png in Resources */,
-				D7F5C0EC223EC5670038F172 /* ui.png in Resources */,
 				D7F2F1A321C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
 				D7F2F1AC21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7CAD6AA20DD509800FF4674 /* tag_red.png in Resources */,
@@ -3008,9 +2975,7 @@
 				D7C690E122AB076000BFBBD1 /* italic@2x.png in Resources */,
 				D7B1F6AC246895B000593001 /* new_note_ui.png in Resources */,
 				D7F2F1BB21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
-				D7CA7FD02326529300E9717A /* git.png in Resources */,
 				D7DF401C20A37717000F8B13 /* repository_white.png in Resources */,
-				D7F5C0E6223EC1DB0038F172 /* editor.png in Resources */,
 				D70A727423944847006AF320 /* checkbox1012.png in Resources */,
 				D730BD57223AB54F00E69C93 /* new-note.png in Resources */,
 				D7C690E222AB076000BFBBD1 /* italic@3x.png in Resources */,
@@ -3046,7 +3011,6 @@
 				D7D7CD5023278A2F0016AC15 /* Git.bundle in Resources */,
 				D7D3D5181F44799400D152FE /* makeNote.png in Resources */,
 				D7C690DE22AB076000BFBBD1 /* bold@2x.png in Resources */,
-				D75C903A223EDAFD002A9CAD /* padlock.png in Resources */,
 				D7166F541F32F75E001A883F /* Main.storyboard in Resources */,
 				D7F2F19721C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
 				D720240C22A9412B000A7691 /* RTF.icns in Resources */,
@@ -3107,7 +3071,6 @@
 				D720241022A9412B000A7691 /* Markdown.icns in Resources */,
 				D7ED6893200F87BD00FF975A /* Initial in Resources */,
 				D7F2F19B21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
-				D7F5C0ED223EC5670038F172 /* ui.png in Resources */,
 				D7E81C501F925B5F00416A91 /* SourceCodePro-It.ttf in Resources */,
 				D7BBCA7A208C74A0002CE3C3 /* repository.png in Resources */,
 				D7CDE9DA2160C1D500DC5978 /* makeNote_white.png in Resources */,
@@ -3120,13 +3083,10 @@
 				D73A996E22FEC789002A7006 /* inbox.png in Resources */,
 				D7F2F1AD21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
 				D7D79C29236798C300898A2D /* Welcome.bundle in Resources */,
-				D75C903B223EDAFD002A9CAD /* padlock.png in Resources */,
 				D7E81C521F925B5F00416A91 /* makeNote.png in Resources */,
 				D7C690AC22AA4AE500BFBBD1 /* bold@2x.png in Resources */,
 				D7F2F1B021C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
-				D7CA7FD12326529300E9717A /* git.png in Resources */,
 				D7FBBC2620F151F80014EC5B /* Localizable.strings in Resources */,
-				D7F5C0E7223EC1DB0038F172 /* editor.png in Resources */,
 				D7BAC64E24A360E1008D29AA /* home_white.png in Resources */,
 				D759D1FB2276D25C00961E90 /* icon_alt.png in Resources */,
 				D7C690B422AAE0D400BFBBD1 /* image.png in Resources */,
@@ -4374,7 +4334,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 431;
 				CURRENT_PROJECT_VERSION = 433;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4388,7 +4347,6 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.7.3;
 				MARKETING_VERSION = 4.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
 				PRODUCT_NAME = FSNotes;
@@ -4411,7 +4369,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 431;
 				CURRENT_PROJECT_VERSION = 433;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
@@ -4426,7 +4383,6 @@
 				INFOPLIST_FILE = "FSNotes Info (Notarized).plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.7.3;
 				MARKETING_VERSION = 4.7.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
@@ -4741,7 +4697,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 431;
 				CURRENT_PROJECT_VERSION = 433;
 				DEVELOPMENT_TEAM = 866P6MTE92;
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = YES;
@@ -4754,7 +4709,6 @@
 				INFOPLIST_FILE = FSNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.7.3;
 				MARKETING_VERSION = 4.7.6;
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
@@ -4777,7 +4731,6 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 431;
 				CURRENT_PROJECT_VERSION = 433;
 				DEPLOYMENT_LOCATION = NO;
 				DEVELOPMENT_TEAM = 866P6MTE92;
@@ -4791,7 +4744,6 @@
 				INFOPLIST_FILE = FSNotes/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MARKETING_VERSION = 4.7.3;
 				MARKETING_VERSION = 4.7.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = co.fluder.FSNotes;
