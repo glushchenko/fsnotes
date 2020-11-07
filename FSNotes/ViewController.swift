@@ -146,10 +146,10 @@ class ViewController: NSViewController,
         }
 
         newNoteButton.image =
-            NSImage(imageLiteralResourceName: "new_note_ui")
+            NSImage(imageLiteralResourceName: "new_note_button")
                 .resize(to: CGSize(width: 30, height: 30))
 
-        newNoteButton.setButtonType(.momentaryLight)
+        //newNoteButton.setButtonType(.momentaryLight)
 
         scheduleSnapshots()
         self.configureShortcuts()

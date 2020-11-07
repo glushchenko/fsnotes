@@ -1668,11 +1668,11 @@ CA
                                                         </scroller>
                                                     </scrollView>
                                                     <button verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TiA-aF-Uev">
-                                                        <rect key="frame" x="203" y="547" width="30" height="28"/>
+                                                        <rect key="frame" x="212" y="548" width="21" height="27"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="30" id="35K-8i-OMy"/>
+                                                            <constraint firstAttribute="width" constant="21" id="35K-8i-OMy"/>
                                                         </constraints>
-                                                        <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new_note_button" imagePosition="overlaps" alignment="center" borderStyle="border" transparent="YES" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
+                                                        <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="new_note_button" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="Y7B-FM-tuq">
                                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                             <font key="font" metaFont="cellTitle"/>
                                                         </buttonCell>
