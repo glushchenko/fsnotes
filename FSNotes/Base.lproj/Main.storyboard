@@ -2879,17 +2879,8 @@ Italian 🇮🇹</string>
                                     <action selector="inlineTags:" target="ssC-ed-19K" id="fuo-kZ-rZ9"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
-                                <rect key="frame" x="41" y="255" width="172" height="17"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Line width:" id="Izt-6v-pKO">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
-                                <rect key="frame" x="41" y="232" width="170" height="17"/>
+                                <rect key="frame" x="40" y="227" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Images width:" id="ltm-qj-nke">
                                     <font key="font" metaFont="system"/>
@@ -2898,7 +2889,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
-                                <rect key="frame" x="41" y="207" width="170" height="17"/>
+                                <rect key="frame" x="40" y="203" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Margin size: " id="r69-B6-vT3">
                                     <font key="font" metaFont="system"/>
@@ -2932,6 +2923,15 @@ Italian 🇮🇹</string>
                                 <rect key="frame" x="32" y="311" width="406" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
+                                <rect key="frame" x="41" y="251" width="172" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Line width:" id="Izt-6v-pKO">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </view>
                     <connections>
@@ -3074,12 +3074,12 @@ Italian 🇮🇹</string>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gGT-qO-FvD">
                                 <rect key="frame" x="164" y="116" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="39f-ji-gqR"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon4" id="39f-ji-gqR"/>
                             </imageView>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ia3-Pz-Sap">
                                 <rect key="frame" x="233" y="116" width="48" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon_alt" id="8UF-BS-zlW"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="dockIcon2" id="8UF-BS-zlW"/>
                             </imageView>
                             <button verticalHuggingPriority="750" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="vJo-sa-P9T">
                                 <rect key="frame" x="247" y="82" width="22" height="18"/>
@@ -3292,8 +3292,9 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
+        <image name="dockIcon2" width="86" height="86"/>
+        <image name="dockIcon4" width="67" height="67"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
-        <image name="icon_alt" width="256" height="256"/>
         <image name="logoInCircle" width="500" height="500"/>
         <image name="new_note_button" width="512" height="512"/>
         <image name="pin" width="128" height="128"/>
