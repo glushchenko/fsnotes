@@ -181,13 +181,14 @@ class ViewController: NSViewController,
         }
 
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate {
-            if let urls = appDelegate.urls {
-                appDelegate.importNotes(urls: urls)
+            if let url = appDelegate.searchQuery {
+                appDelegate.searchQuery = nil
+                appDelegate.search(url: url)
                 return
             }
 
-            if let query = appDelegate.searchQuery {
-                appDelegate.search(query: query)
+            if let urls = appDelegate.urls {
+                appDelegate.importNotes(urls: urls)
                 return
             }
 

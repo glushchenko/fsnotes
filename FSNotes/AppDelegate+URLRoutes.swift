@@ -111,12 +111,18 @@ extension AppDelegate {
     
     /// Handles URLs with the path /find/searchstring1%20searchstring2
     func RouteFSNotesFind(_ url: URL) {
-        var lastPath = url.lastPathComponent
-
-        guard let vc = ViewController.shared() else {
-            self.searchQuery = lastPath
+        guard ViewController.shared() != nil else {
+            self.searchQuery = url
             return
         }
+
+        search(url: url)
+    }
+
+    public func search(url: URL) {
+        guard let vc = ViewController.shared() else { return }
+
+        var lastPath = url.lastPathComponent
 
         if let wikiURL = url["id"] {
             if let note = Storage.sharedInstance().getBy(title: wikiURL) {

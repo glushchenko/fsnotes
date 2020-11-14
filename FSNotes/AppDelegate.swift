@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var statusItem: NSStatusItem?
 
     public var urls: [URL]? = nil
-    public var searchQuery: String? = nil
+    public var searchQuery: URL? = nil
     public var newName: String? = nil
     public var newContent: String? = nil
 
