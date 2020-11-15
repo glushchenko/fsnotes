@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -1551,8 +1551,8 @@ CA
                                                                                             <rect key="frame" x="167" y="99" width="48" height="16"/>
                                                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="2/23/11" id="9w3-fa-di3">
                                                                                                 <font key="font" metaFont="system"/>
-                                                                                                <color key="textColor" red="0.65995385362694303" green="0.1371187799261683" blue="0.15795969262071341" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                                                <color key="backgroundColor" name="controlHighlightColor" catalog="System" colorSpace="catalog"/>
+                                                                                                <color key="textColor" name="highlight"/>
+                                                                                                <color key="backgroundColor" name="selectedControlColor" catalog="System" colorSpace="catalog"/>
                                                                                                 <connections>
                                                                                                     <binding destination="8qL-z4-nzh" name="value" keyPath="objectValue.getDateForLabel" id="VH2-T1-K75"/>
                                                                                                 </connections>
@@ -1606,7 +1606,7 @@ CA
                                                                                         </imageView>
                                                                                         <textField identifier="cellName" autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UvD-jB-7Ok" customClass="NameTextField" customModule="FSNotes" customModuleProvider="target">
                                                                                             <rect key="frame" x="24" y="99" width="40" height="16"/>
-                                                                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
+                                                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" state="on" alignment="left" title="Name" usesSingleLineMode="YES" id="y7T-Rc-etT">
                                                                                                 <font key="font" metaFont="system"/>
                                                                                                 <color key="textColor" name="mainText"/>
                                                                                                 <color key="backgroundColor" name="mainBackground"/>
@@ -1621,7 +1621,6 @@ CA
                                                                                     </subviews>
                                                                                     <constraints>
                                                                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EXQ-Ld-D5r" secondAttribute="trailing" constant="12" id="3CN-df-5Zy"/>
-                                                                                        <constraint firstItem="abw-Lq-K7d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UvD-jB-7Ok" secondAttribute="trailing" priority="999" constant="5" id="5SO-gP-dp0"/>
                                                                                         <constraint firstItem="UvD-jB-7Ok" firstAttribute="top" secondItem="8qL-z4-nzh" secondAttribute="top" id="AtV-FX-Ffi"/>
                                                                                         <constraint firstItem="dN9-ig-hka" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="HkF-Wx-cmF"/>
                                                                                         <constraint firstItem="9h5-Ob-Nej" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="3" id="URX-w7-IXX"/>
@@ -1634,6 +1633,7 @@ CA
                                                                                         <constraint firstAttribute="trailing" secondItem="abw-Lq-K7d" secondAttribute="trailing" constant="23" id="ngR-5z-x5I"/>
                                                                                         <constraint firstItem="ggY-RT-nIM" firstAttribute="leading" secondItem="dN9-ig-hka" secondAttribute="trailing" constant="6" id="ou4-gb-PeG"/>
                                                                                         <constraint firstItem="HZg-Mu-dwG" firstAttribute="leading" secondItem="ggY-RT-nIM" secondAttribute="trailing" constant="7" id="rtM-JI-JMl"/>
+                                                                                        <constraint firstItem="abw-Lq-K7d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UvD-jB-7Ok" secondAttribute="trailing" constant="12" id="sjw-Vc-jfj"/>
                                                                                         <constraint firstItem="EXQ-Ld-D5r" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="xyO-Sr-YNv"/>
                                                                                         <constraint firstItem="UvD-jB-7Ok" firstAttribute="leading" secondItem="8qL-z4-nzh" secondAttribute="leading" constant="26" id="z9R-oc-Yoe"/>
                                                                                     </constraints>
@@ -3292,19 +3292,22 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="dockIcon2" width="86" height="86"/>
-        <image name="dockIcon4" width="67" height="67"/>
+        <image name="dockIcon2" width="85.5" height="85.5"/>
+        <image name="dockIcon4" width="66.5" height="66.5"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
-        <image name="logoInCircle" width="500" height="500"/>
-        <image name="new_note_button" width="512" height="512"/>
+        <image name="logoInCircle" width="250" height="250"/>
+        <image name="new_note_button" width="256" height="256"/>
         <image name="pin" width="128" height="128"/>
-        <image name="prefsAdvanced" width="128" height="128"/>
+        <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>
-        <image name="prefsGeneral" width="128" height="128"/>
+        <image name="prefsGeneral" width="120" height="120"/>
         <image name="prefsGit" width="128" height="128"/>
         <image name="prefsLayout" width="128" height="128"/>
         <image name="privacy" width="128" height="128"/>
         <image name="repository" width="40" height="40"/>
+        <namedColor name="highlight">
+            <color red="1" green="0.89999997615814209" blue="0.69999998807907104" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="mainBackground">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

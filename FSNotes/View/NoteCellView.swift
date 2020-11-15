@@ -47,6 +47,21 @@ class NoteCellView: NSTableCellView {
         super.draw(dirtyRect)
         
         renderPin()
+        name.layer?.zPosition = 1000
+
+        if #available(OSX 10.15, *) {
+            date.font = date.font?.withSize(11)
+        } else {
+            // Fallback on earlier versions
+        }
+
+        date.layer?.backgroundColor = UserDataService.instance.isDark
+            ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00).cgColor
+            : NSColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00).cgColor
+
+        date.layer?.cornerRadius = 5
+        date.layer?.zPosition = 1001
+        date.textColor = UserDataService.instance.isDark ? NSColor.white : NSColor.gray
 
         if (UserDefaultsManagement.horizontalOrientation) {
             preview.isHidden = true
@@ -184,8 +199,15 @@ class NoteCellView: NSTableCellView {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
             name.textColor = NSColor.white
+            
+            date.layer?.backgroundColor = NSColor(red: 0.36, green: 0.67, blue: 0.92, alpha: 1.00).cgColor
+
         } else {
             applyPreviewStyle(labelColor)
+            date.layer?.backgroundColor = UserDataService.instance.isDark
+                ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00).cgColor
+                : NSColor(red: 0.92, green: 0.94, blue: 0.92, alpha: 1.00).cgColor
+
             date.textColor = labelColor
 
             if self.name.stringValue == "Untitled Note" {
@@ -270,7 +292,7 @@ class NoteCellView: NSTableCellView {
                 }
 
                 if let item = item as? NSTextField, item.identifier?.rawValue == "cellDate" {
-                    constraint.constant = margin
+                    constraint.constant = margin + 2
                 }
             }
         }
