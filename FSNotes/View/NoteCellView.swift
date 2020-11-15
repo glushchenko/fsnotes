@@ -49,10 +49,8 @@ class NoteCellView: NSTableCellView {
         renderPin()
         name.layer?.zPosition = 1000
 
-        if #available(OSX 10.15, *) {
-            date.font = date.font?.withSize(11)
-        } else {
-            // Fallback on earlier versions
+        if let descriptor = date.font?.fontDescriptor {
+            date.font = NSFont.init(descriptor: descriptor, size: 11)
         }
 
         date.layer?.backgroundColor = UserDataService.instance.isDark
@@ -199,7 +197,7 @@ class NoteCellView: NSTableCellView {
             applyPreviewStyle(NSColor.white)
             date.textColor = NSColor.white
             name.textColor = NSColor.white
-            
+
             date.layer?.backgroundColor = NSColor(red: 0.36, green: 0.67, blue: 0.92, alpha: 1.00).cgColor
 
         } else {
