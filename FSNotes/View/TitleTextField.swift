@@ -63,6 +63,8 @@ class TitleTextField: NSTextField {
     public func rename(currentTitle: String, note: Note) {
         guard let vc = ViewController.shared() else { return }
 
+        _ = vc.lockUnlocked(notes: [note])
+
         let currentName = note.getFileName()
         let ext = note.url.pathExtension
         let dst = note.project.url.appendingPathComponent(currentTitle).appendingPathExtension(ext)

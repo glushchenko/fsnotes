@@ -1163,7 +1163,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if UserDefaultsManagement.naming == .autoRename {
             let title = note.title.withoutSpecialCharacters.trunc(length: 64)
 
-            if note.fileName != title && title.count > 0 {
+            if note.fileName != title && title.count > 0 && !note.isEncrypted() {
                 note.rename(to: title)
 
                 viewDelegate?.titleLabel.updateNotesTableView()

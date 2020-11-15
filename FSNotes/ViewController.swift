@@ -2461,7 +2461,7 @@ class ViewController: NSViewController,
         }
     }
 
-    private func lockUnlocked(notes: [Note]) -> [Note] {
+    public func lockUnlocked(notes: [Note]) -> [Note] {
         var notes = notes
         var isFirst = true
 
