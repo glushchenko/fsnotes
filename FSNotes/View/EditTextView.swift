@@ -1830,23 +1830,23 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     public func updateTextContainerInset() {
+        textContainerInset.width = getWidth()
+    }
+
+    public func getWidth() -> CGFloat {
         let lineWidth = UserDefaultsManagement.lineWidth
         let margin = UserDefaultsManagement.marginSize
         let width = frame.width
 
         if lineWidth == 1000 {
-            textContainerInset.width = CGFloat(margin)
-            return
+            return CGFloat(margin)
         }
 
         guard Float(width) - margin * 2 > lineWidth else {
-            textContainerInset.width = CGFloat(margin)
-            return
+            return CGFloat(margin)
         }
 
-        let inset = (Float(width) - lineWidth) / 2
-        
-        textContainerInset.width = CGFloat(inset)
+        return CGFloat((Float(width) - lineWidth) / 2)
     }
 
     private func deleteUnusedImages(checkRange: NSRange) {
