@@ -27,7 +27,7 @@ class PreferencesEditorViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 474, height: 480)
+        preferredContentSize = NSSize(width: 476, height: 480)
     }
 
     override func viewDidLoad() {
@@ -99,8 +99,9 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.codeTheme = item.title
 
+        MPreviewView.template = nil
         NotesTextProcessor.hl = nil
-        vc.refillEditArea()
+        vc.refillEditArea(force: true)
     }
 
     @IBAction func inEditorFocus(_ sender: NSButton) {

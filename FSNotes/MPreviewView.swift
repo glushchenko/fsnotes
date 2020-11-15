@@ -422,25 +422,24 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let familyName = UserDefaultsManagement.noteFont.familyName
 
         #if os(iOS)
-            if #available(iOS 11.0, *) {
-                if !UserDefaultsManagement.dynamicTypeFont {
-                    let fs = UserDefaultsManagement.fontSize
+            if !UserDefaultsManagement.dynamicTypeFont {
+                let fs = UserDefaultsManagement.fontSize
 
-                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
-                } else if let font = UserDefaultsManagement.noteFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    let fontSize = fontMetrics.scaledFont(for: font).pointSize
-                    let fs = Int(fontSize) - 2
+                return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
+            } else if let font = UserDefaultsManagement.noteFont {
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                let fontSize = fontMetrics.scaledFont(for: font).pointSize
+                let fs = Int(fontSize) - 2
 
-                    return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
-                }
+                return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
             }
+        #else
+            let width = ViewController.shared()!.editArea.getWidth()
+
+            return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
 
-        let family = familyName ?? "-apple-system"
-        let width = ViewController.shared()!.editArea.getWidth()
-
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(family)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        return String()
     }
 }
 

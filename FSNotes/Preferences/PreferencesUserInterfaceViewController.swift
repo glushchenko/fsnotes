@@ -27,7 +27,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 467, height: 460)
+        preferredContentSize = NSSize(width: 476, height: 460)
     }
 
     override func viewDidLoad() {

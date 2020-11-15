@@ -17,7 +17,6 @@ class PreferencesGitViewController: NSViewController {
     @IBOutlet weak var backupManually: NSButton!
     @IBOutlet weak var backupBySchedule: NSButton!
 
-
     override func viewWillAppear() {
         super.viewWillAppear()
         preferredContentSize = NSSize(width: 476, height: 352)
