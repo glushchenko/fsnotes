@@ -2458,8 +2458,12 @@ class ViewController: NSViewController,
 
         let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
 
+        var oldPassword = String()
         do {
-            let oldPassword = try item.readPassword()
+            oldPassword = try item.readPassword()
+        } catch {/*_*/}
+
+        do {
             guard oldPassword.count == 0 else { return }
 
             try item.savePassword(password)

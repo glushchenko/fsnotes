@@ -34,6 +34,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     ]
 
     override func draw(_ dirtyRect: NSRect) {
+        self.gridColor = NSColor.clear
         self.dataSource = self
         self.delegate = self
         super.draw(dirtyRect)
