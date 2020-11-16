@@ -9,6 +9,25 @@
 import Cocoa
 
 class OutlineHeaderView: NSView {
+    private var lastWindowSize: NSRect? = nil
+
+    override func mouseDown(with event: NSEvent) {
+        let currentSize = window?.frame
+
+        if event.clickCount == 2 {
+            if let screen = NSScreen.main {
+                let size = lastWindowSize ?? screen.visibleFrame
+                window?.setFrame(size, display: true, animate: true)
+
+                if lastWindowSize == nil {
+                    lastWindowSize = currentSize
+                } else {
+                    lastWindowSize = nil
+                }
+            }
+        }
+    }
+
     override func draw(_ dirtyRect: NSRect) {
        super.draw(dirtyRect)
 
