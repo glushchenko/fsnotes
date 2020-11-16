@@ -1389,7 +1389,7 @@ CA
                                                                     </textFieldCell>
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                     <prototypeCellViews>
-                                                                        <tableCellView identifier="DataCell" id="I0q-sX-uBq" customClass="SidebarCellView" customModule="FSNotes" customModuleProvider="target">
+                                                                        <tableCellView identifier="DataCell" misplaced="YES" id="I0q-sX-uBq" customClass="SidebarCellView" customModule="FSNotes" customModuleProvider="target">
                                                                             <rect key="frame" x="1" y="1" width="141" height="50"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
@@ -1416,7 +1416,7 @@ CA
                                                                                     </connections>
                                                                                 </textField>
                                                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gNt-mn-bYH">
-                                                                                    <rect key="frame" x="114" y="16" width="24" height="18"/>
+                                                                                    <rect key="frame" x="117" y="16" width="24" height="18"/>
                                                                                     <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSAddTemplate" imagePosition="overlaps" alignment="center" borderStyle="border" inset="2" id="b1m-o5-TLn">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                                                                         <font key="font" metaFont="systemBold" size="12"/>
@@ -1433,6 +1433,7 @@ CA
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="leading" secondItem="1dd-W4-MiY" secondAttribute="trailing" constant="5" id="bav-Au-PqY"/>
                                                                                 <constraint firstItem="kTp-qw-RCd" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="fox-W9-Kiy"/>
                                                                                 <constraint firstItem="gNt-mn-bYH" firstAttribute="top" secondItem="1dd-W4-MiY" secondAttribute="top" id="iFi-pd-z2i"/>
+                                                                                <constraint firstItem="gNt-mn-bYH" firstAttribute="leading" secondItem="kTp-qw-RCd" secondAttribute="trailing" id="jlc-Dd-Ttg"/>
                                                                                 <constraint firstItem="1dd-W4-MiY" firstAttribute="centerY" secondItem="I0q-sX-uBq" secondAttribute="centerY" id="slG-ke-sdb"/>
                                                                             </constraints>
                                                                             <connections>
