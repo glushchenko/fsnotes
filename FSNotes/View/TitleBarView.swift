@@ -35,5 +35,14 @@ class TitleBarView: NSView {
     override func mouseExited(with event: NSEvent) {
         onMouseExitedClosure?()
     }
+
+    override func mouseDown(with event: NSEvent) {
+        if event.clickCount == 2 {
+            if let appd = NSApplication.shared.delegate as? AppDelegate,
+                let md = appd.mainWindowController {
+                md.maximizeWindow()
+            }
+        }
+    }
     
 }

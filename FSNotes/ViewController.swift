@@ -1021,6 +1021,13 @@ class ViewController: NSViewController,
             if let note = EditTextView.note, note.getFileName().isValidUUID {
                 vc.titleLabel.stringValue = note.getFileName()
             }
+
+            return
+        }
+
+        if let appd = NSApplication.shared.delegate as? AppDelegate,
+            let md = appd.mainWindowController {
+            md.maximizeWindow()
         }
     }
 
