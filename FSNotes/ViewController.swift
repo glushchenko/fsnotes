@@ -30,6 +30,7 @@ class ViewController: NSViewController,
     var noteLoading: ProgressState = .none
     var timer = Timer()
     var sidebarTimer = Timer()
+    var previewResizeTimer = Timer()
     var rowUpdaterTimer = Timer()
     let searchQueue = OperationQueue()
     var printWebView: WebView?
@@ -542,9 +543,15 @@ class ViewController: NSViewController,
         guard currentPreviewState == .on else { return }
 
         if noteLoading != .incomplete {
-            DispatchQueue.main.async {
-                self.refillEditArea()
-            }
+            previewResizeTimer.invalidate()
+            previewResizeTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(reloadPreview), userInfo: nil, repeats: false)
+        }
+    }
+
+    @objc private func reloadPreview() {
+        DispatchQueue.main.async {
+            MPreviewView.template = nil
+            self.refillEditArea(force: true)
         }
     }
 
