@@ -35,7 +35,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userContentController
-
+        configuration.suppressesIncrementalRendering = true
+        
         super.init(frame: frame, configuration: configuration)
 
         navigationDelegate = self
