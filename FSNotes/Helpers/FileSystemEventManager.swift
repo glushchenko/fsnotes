@@ -190,7 +190,7 @@ class FileSystemEventManager {
     private func handleTextBundle(url: URL) -> URL {
         if ["text.markdown", "text.md", "text.txt", "text.rtf"].contains(url.lastPathComponent) && url.path.contains(".textbundle") {
             let path = url.deletingLastPathComponent().path
-            return URL(fileURLWithPath: path)
+            return URL(fileURLWithPath: path, isDirectory: false)
         }
         
         return url

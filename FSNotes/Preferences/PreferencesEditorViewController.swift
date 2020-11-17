@@ -143,8 +143,14 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.lineWidth = sender.floatValue
 
-        if let _ = EditTextView.note, vc.currentPreviewState == .off {
+        if let _ = EditTextView.note {
             vc.editArea.updateTextContainerInset()
+
+            MPreviewView.template = nil
+            NotesTextProcessor.hl = nil
+
+            vc.editArea.clear()
+            vc.refillEditArea(force: true)
         }
     }
 
@@ -177,8 +183,14 @@ class PreferencesEditorViewController: NSViewController {
 
         UserDefaultsManagement.marginSize = sender.floatValue
 
-        if let _ = EditTextView.note, vc.currentPreviewState == .off {
+        if let _ = EditTextView.note {
             vc.editArea.updateTextContainerInset()
+
+            MPreviewView.template = nil
+            NotesTextProcessor.hl = nil
+
+            vc.editArea.clear()
+            vc.refillEditArea(force: true)
         }
     }
 

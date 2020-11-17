@@ -1746,16 +1746,16 @@ CA
                                                                 </connections>
                                                             </textField>
                                                             <customView horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-RE-q01">
-                                                                <rect key="frame" x="377" y="0.0" width="85" height="38"/>
+                                                                <rect key="frame" x="372" y="0.0" width="90" height="38"/>
                                                                 <subviews>
                                                                     <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="9" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" horizontalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="shI-kr-3o8">
-                                                                        <rect key="frame" x="12" y="11" width="61" height="16"/>
+                                                                        <rect key="frame" x="12" y="11" width="66" height="16"/>
                                                                         <subviews>
                                                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="Ote-7U-BZm">
-                                                                                <rect key="frame" x="0.0" y="-2.5" width="10" height="22"/>
+                                                                                <rect key="frame" x="0.0" y="-2.5" width="16" height="22"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="16" id="KX9-jI-cyF"/>
-                                                                                    <constraint firstAttribute="width" constant="10" id="fyl-XF-faY"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="fyl-XF-faY"/>
                                                                                 </constraints>
                                                                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSLockLockedTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="aHW-dK-rqB">
                                                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1766,9 +1766,9 @@ CA
                                                                                 </connections>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Bn7-FD-jzc">
-                                                                                <rect key="frame" x="19" y="-2" width="22.5" height="20"/>
+                                                                                <rect key="frame" x="25" y="-2" width="16.5" height="20"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="22" id="cL1-PF-gSQ"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="cL1-PF-gSQ"/>
                                                                                     <constraint firstAttribute="height" constant="16" id="mhf-Ok-C0D"/>
                                                                                 </constraints>
                                                                                 <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSQuickLookTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Yk7-v6-QmI">
@@ -1780,9 +1780,9 @@ CA
                                                                                 </buttonCell>
                                                                             </button>
                                                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oDB-Y6-20P">
-                                                                                <rect key="frame" x="50" y="-3" width="11.5" height="24"/>
+                                                                                <rect key="frame" x="50" y="-3" width="16.5" height="24"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="11" id="FOv-xI-qeM"/>
+                                                                                    <constraint firstAttribute="width" constant="16" id="FOv-xI-qeM"/>
                                                                                     <constraint firstAttribute="height" constant="16" id="cQg-Gn-wlM"/>
                                                                                 </constraints>
                                                                                 <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSShareTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="vLT-o6-WGO">
@@ -1794,6 +1794,11 @@ CA
                                                                                 </connections>
                                                                             </button>
                                                                         </subviews>
+                                                                        <constraints>
+                                                                            <constraint firstItem="Ote-7U-BZm" firstAttribute="centerY" secondItem="shI-kr-3o8" secondAttribute="centerY" id="46U-0f-02D"/>
+                                                                            <constraint firstItem="oDB-Y6-20P" firstAttribute="centerY" secondItem="shI-kr-3o8" secondAttribute="centerY" id="m6N-dE-xpU"/>
+                                                                            <constraint firstItem="Bn7-FD-jzc" firstAttribute="centerY" secondItem="shI-kr-3o8" secondAttribute="centerY" id="nho-lq-yZa"/>
+                                                                        </constraints>
                                                                         <visibilityPriorities>
                                                                             <integer value="1000"/>
                                                                             <integer value="1000"/>
