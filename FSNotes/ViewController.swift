@@ -508,6 +508,8 @@ class ViewController: NSViewController,
     }
     
     public func move(notes: [Note], project: Project) {
+        let selectedRow = notesTableView.selectedRowIndexes.min()
+
         for note in notes {
             if note.project == project {
                 continue
@@ -528,6 +530,14 @@ class ViewController: NSViewController,
 
             if !show {
                 notesTableView.removeByNotes(notes: [note])
+
+                if let i = selectedRow, i > -1 {
+                    if notesTableView.noteList.count > i {
+                        notesTableView.selectRow(i)
+                    } else {
+                        notesTableView.selectRow(notesTableView.noteList.count - 1)
+                    }
+                }
             }
 
             note.invalidateCache()
