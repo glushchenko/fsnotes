@@ -333,6 +333,11 @@ public class Project: Equatable {
     }
 
     public func loadSettings() {
+        if label == "Welcome" {
+            sortBy = .title
+            sortDirection = .asc
+        }
+
         #if os(OSX)
         if let relativePath = getRelativePath() {
             let keyStore = NSUbiquitousKeyValueStore()
@@ -399,11 +404,6 @@ public class Project: Equatable {
         }
 
         self.firstLineAsTitle = UserDefaultsManagement.firstLineAsTitle
-
-        if label == "Welcome" {
-            sortBy = .title
-            sortDirection = .asc
-        }
     }
 
     public func getRelativePath() -> String? {

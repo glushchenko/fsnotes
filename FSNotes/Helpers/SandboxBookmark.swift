@@ -74,7 +74,7 @@ class SandboxBookmark {
         guard let url = restoredUrl else { return false }
 
         if isStale {
-            Swift.print("URL is stale")
+            Swift.print("URL is stale: \(url)")
             return false
         }
 
