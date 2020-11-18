@@ -69,6 +69,9 @@ class SandboxBookmark {
         } catch {
             Swift.print("Error restoring bookmarks: \(error)")
             restoredUrl = nil
+            
+            remove(url: bookmark.key)
+            save()
         }
 
         guard let url = restoredUrl else { return false }

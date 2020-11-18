@@ -352,7 +352,7 @@ public class UserDefaultsManagement {
             if let path = storagePath {
                 let expanded = NSString(string: path).expandingTildeInPath
 
-                return URL.init(fileURLWithPath: expanded).standardized
+                return URL.init(fileURLWithPath: expanded, isDirectory: true).standardized
             }
             
             return nil
@@ -682,14 +682,12 @@ public class UserDefaultsManagement {
     static var archiveDirectory: URL? {
         get {
             #if os(OSX)
-            if let path = shared?.object(forKey: Constants.ArchiveDirectoryKey) as? String,
-                let encodedPath = path.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
-                let archiveURL = URL(string: "file://" + encodedPath + "/") {
+            if let path = shared?.object(forKey: Constants.ArchiveDirectoryKey) as? String {
                 var isDirectory = ObjCBool(true)
                 let exists = FileManager.default.fileExists(atPath: path, isDirectory: &isDirectory)
 
                 if (exists && isDirectory.boolValue) {
-                    return archiveURL
+                    return URL(fileURLWithPath: path, isDirectory: true)
                 } else {
                     self.archiveDirectory = nil
                     print("Archive path not accessible, settings resetted to default")
