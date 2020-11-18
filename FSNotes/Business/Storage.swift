@@ -277,39 +277,29 @@ class Storage {
     }
 
     private func assignTrash(by url: URL) {
-        var trashURL = getTrash(url: url)
+        let trashURL = url.appendingPathComponent("Trash", isDirectory: true)
 
         do {
-            if let trashURL = trashURL {
-                try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
-            } else {
-                throw "Trash not found"
-            }
+            try FileManager.default.contentsOfDirectory(atPath: trashURL.path)
         } catch {
-            guard let trash = getDefault()?.url.appendingPathComponent("Trash") else { return }
-
             var isDir = ObjCBool(false)
-            if !FileManager.default.fileExists(atPath: trash.path, isDirectory: &isDir) && !isDir.boolValue {
+            if !FileManager.default.fileExists(atPath: trashURL.path, isDirectory: &isDir) && !isDir.boolValue {
                 do {
-                    try FileManager.default.createDirectory(at: trash, withIntermediateDirectories: false, attributes: nil)
+                    try FileManager.default.createDirectory(at: trashURL, withIntermediateDirectories: false, attributes: nil)
 
-                    print("New trash created: \(trash)")
+                    print("New trash created: \(trashURL)")
                 } catch {
                     print("Trash dir error: \(error)")
                 }
             }
-
-            trashURL = trash
         }
 
-        if let trashURL = trashURL {
-            guard !projectExist(url: trashURL) else { return }
-        
-            let project = Project(storage: self, url: trashURL, isTrash: true)
-            projects.append(project)
+        guard !projectExist(url: trashURL) else { return }
 
-            self.trashURL = trashURL
-        }
+        let project = Project(storage: self, url: trashURL, isTrash: true)
+        projects.append(project)
+
+        self.trashURL = trashURL
     }
     
     private func getCloudDrive() -> URL? {

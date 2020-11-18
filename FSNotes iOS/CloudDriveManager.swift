@@ -284,7 +284,7 @@ class CloudDriveManager {
             else { continue }
 
             if let note = storage.getBy(url: url) {
-                storage.removeNotes(notes: [note], completely: true) {_ in
+                storage.removeNotes(notes: [note], fsRemove: false) {_ in
                     self.notesDeletionQueue.append(note)
                 }
             }
