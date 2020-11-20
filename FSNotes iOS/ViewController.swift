@@ -284,6 +284,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             resizeSidebar()
         }
 
+        guard Storage.shared().getRoot() != nil else { return }
+
         DispatchQueue.main.async {
             let inboxIndex = IndexPath(row: 0, section: 0)
             self.sidebarTableView.tableView(self.sidebarTableView, didSelectRowAt: inboxIndex)
@@ -291,6 +293,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func preLoadProjectsData() {
+        guard Storage.shared().getRoot() != nil else { return }
+
         DispatchQueue.global(qos: .userInteractive).async {
             let storage = self.storage
 
