@@ -398,7 +398,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if UserDefaultsManagement.inlineTags {
             if (string as NSString).substring(with: charRange) == "#" {
-                if let tags = viewDelegate?.storageOutlineView.getAllTags() {
+                if let tags = viewDelegate?.sidebarOutlineView.getAllTags() {
                     let list = tags.compactMap({ "#\($0)"}).sorted { $0.count > $1.count }
 
                     return unfoldTags(list: list).sorted { $0.count < $1.count }
@@ -420,7 +420,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                         continue
                     }
 
-                    if let tags = viewDelegate?.storageOutlineView.getAllTags(),
+                    if let tags = viewDelegate?.sidebarOutlineView.getAllTags(),
                         let partialWord = textStorage?.mutableString.substring(with: NSRange(range.location..<charRange.upperBound)) {
 
                         var parts = partialWord.components(separatedBy: "/")
@@ -1147,7 +1147,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         guard let note = EditTextView.note else { return }
         let result = note.scanContentTags()
 
-        guard let outline = ViewController.shared()?.storageOutlineView else { return }
+        guard let outline = ViewController.shared()?.sidebarOutlineView else { return }
 
         let added = result.0
         let removed = result.1

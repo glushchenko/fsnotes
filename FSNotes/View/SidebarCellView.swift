@@ -20,54 +20,7 @@ class SidebarCellView: NSTableCellView {
 
         super.draw(dirtyRect)
     }
-    
-    private var trackingArea: NSTrackingArea?
-    
-    override func updateTrackingAreas() {
-        if let trackingArea = self.trackingArea {
-            self.removeTrackingArea(trackingArea)
-        }
-        
-        let options: NSTrackingArea.Options = [.mouseEnteredAndExited, .activeAlways]
-        let trackingArea = NSTrackingArea(rect: self.bounds, options: options, owner: self, userInfo: nil)
-        self.addTrackingArea(trackingArea)
-    }
-    
-    override func mouseEntered(with event: NSEvent) {
-        guard let vc = ViewController.shared() else { return }
 
-        guard let tag = objectValue as? Tag else { return }
-
-        if let note = vc.notesTableView.getSelectedNote() {
-            if UserDefaultsManagement.inlineTags {
-                plus.isHidden = true
-                return
-            }
-
-            if note.tagNames.contains(tag.getName()) {
-                plus.alternateTitle = tag.getName()
-                plus.image = NSImage.init(named: NSImage.stopProgressTemplateName)
-                plus.image?.size = NSSize(width: 10, height: 10)
-                plus.isHidden = false
-                plus.target = self
-                plus.action = #selector(removeTag(sender:))
-            } else {
-                plus.alternateTitle = tag.getName()
-                plus.image = NSImage.init(named: NSImage.addTemplateName)
-                plus.image?.size = NSSize(width: 10, height: 10)
-                plus.isHidden = false
-                plus.target = self
-                plus.action = #selector(addTag(sender:))
-            }
-        }
-    }
-    
-    override func mouseExited(with event: NSEvent) {
-        if objectValue as? Tag != nil {
-            plus.isHidden = true
-        }
-    }
-    
     @IBAction func projectName(_ sender: NSTextField) {
         let cell = sender.superview as? SidebarCellView
         guard let si = cell?.objectValue as? SidebarItem, let project = si.project else { return }
@@ -102,39 +55,6 @@ class SidebarCellView: NSTableCellView {
     
     @IBAction func add(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
-        vc.storageOutlineView.addProject(self)
+        vc.sidebarOutlineView.addProject(self)
     }
-        
-    @objc public func removeTag(sender: Any?) {
-        guard let button = sender as? NSButton else { return }
-        guard let vc = ViewController.shared() else { return }
-
-        if let note = vc.notesTableView.getSelectedNote() {
-            let tag = button.alternateTitle
-            note.removeTag(tag)
-
-            if let tagItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? Tag)?.getName() == tag }) as? Tag {
-                vc.storageOutlineView.deselectTag(item: tagItem)
-                
-                if !vc.storage.tagNames.contains(tag) {
-                    vc.storageOutlineView.remove(tag: tagItem)
-                }
-            }
-        }
-    }
-    
-    @objc public func addTag(sender: Any?) {
-        guard let button = sender as? NSButton else { return }
-        guard let vc = ViewController.shared() else { return }
-
-        if let note = vc.notesTableView.getSelectedNote() {
-            let tag = button.alternateTitle
-            note.addTag(tag)
-
-            if let sidebarItem = vc.storageOutlineView.sidebarItems?.first(where: {($0 as? Tag)?.getName() == tag}) as? Tag {
-                vc.storageOutlineView.selectTag(item: sidebarItem)
-            }
-        }
-    }
-
 }

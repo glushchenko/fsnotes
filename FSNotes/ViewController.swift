@@ -56,7 +56,7 @@ class ViewController: NSViewController,
     @IBOutlet weak var search: SearchTextField!
     @IBOutlet weak var notesTableView: NotesTableView!
     @IBOutlet var noteMenu: NSMenu!
-    @IBOutlet weak var storageOutlineView: SidebarProjectView!
+    @IBOutlet weak var sidebarOutlineView: SidebarOutlineView!
     @IBOutlet weak var sidebarSplitView: NSSplitView!
     @IBOutlet weak var notesListCustomView: NSView!
     @IBOutlet weak var outlineHeader: OutlineHeaderView!
@@ -338,9 +338,9 @@ class ViewController: NSViewController,
         
         self.shareButton.sendAction(on: .leftMouseDown)
         self.setTableRowHeight()
-        self.storageOutlineView.sidebarItems = Sidebar().getList()
+        self.sidebarOutlineView.sidebarItems = Sidebar().getList()
 
-        storageOutlineView.selectionHighlightStyle = .regular
+        sidebarOutlineView.selectionHighlightStyle = .regular
         
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
@@ -373,9 +373,9 @@ class ViewController: NSViewController,
     private func configureNotesList() {
         self.updateTable() {
             if UserDefaultsManagement.copyWelcome {
-                if let index = self.storageOutlineView.sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.getName() == "Welcome" }) {
+                if let index = self.sidebarOutlineView.sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.getName() == "Welcome" }) {
                     DispatchQueue.main.async {
-                        self.storageOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
                     }
                 }
 
@@ -384,9 +384,9 @@ class ViewController: NSViewController,
             }
 
             let lastSidebarItem = UserDefaultsManagement.lastProject
-            if let items = self.storageOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
+            if let items = self.sidebarOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
                 DispatchQueue.main.async {
-                    self.storageOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+                    self.sidebarOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
                 }
             }
         }
@@ -446,7 +446,7 @@ class ViewController: NSViewController,
         self.search.vcDelegate = self
         self.search.delegate = self.search
         self.sidebarSplitView.delegate = self
-        self.storageOutlineView.viewDelegate = self
+        self.sidebarOutlineView.viewDelegate = self
     }
     
     // MARK: - Actions
@@ -566,7 +566,7 @@ class ViewController: NSViewController,
     }
 
     func reloadSideBar() {
-        guard let outline = storageOutlineView else { return }
+        guard let outline = sidebarOutlineView else { return }
 
         sidebarTimer.invalidate()
         sidebarTimer = Timer.scheduledTimer(timeInterval: 1.2, target: outline, selector: #selector(outline.reloadSidebar), userInfo: nil, repeats: false)
@@ -613,7 +613,7 @@ class ViewController: NSViewController,
             if let fr = NSApp.mainWindow?.firstResponder, self.alert == nil {
                 if event.modifierFlags.contains(.command) {
                     if fr.isKind(of: NotesTableView.self) {
-                        NSApp.mainWindow?.makeFirstResponder(self.storageOutlineView)
+                        NSApp.mainWindow?.makeFirstResponder(self.sidebarOutlineView)
                         return false
                     }
                     
@@ -622,7 +622,7 @@ class ViewController: NSViewController,
                         return false
                     }
                 } else {
-                    if fr.isKind(of: SidebarProjectView.self) {
+                    if fr.isKind(of: SidebarOutlineView.self) {
                         self.notesTableView.selectNext()
                         NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
                         return false
@@ -696,7 +696,7 @@ class ViewController: NSViewController,
             notesTableView.scroll(.zero)
             
             let hasSelectedNotes = notesTableView.selectedRow > -1
-            let hasSelectedBarItem = storageOutlineView.selectedRow > -1
+            let hasSelectedBarItem = sidebarOutlineView.selectedRow > -1
             
             if hasSelectedBarItem && hasSelectedNotes {
                 UserDefaultsManagement.lastProject = 0
@@ -706,7 +706,7 @@ class ViewController: NSViewController,
                 return false
             }
 
-            storageOutlineView.deselectAll(nil)
+            sidebarOutlineView.deselectAll(nil)
             cleanSearchAndEditArea()
 
             return true
@@ -740,7 +740,7 @@ class ViewController: NSViewController,
                 titleLabel.window?.makeFirstResponder(nil)
             }
 
-            storageOutlineView.selectNext()
+            sidebarOutlineView.selectNext()
             return true
         }
 
@@ -755,7 +755,7 @@ class ViewController: NSViewController,
                 titleLabel.window?.makeFirstResponder(nil)
             }
 
-            storageOutlineView.selectPrev()
+            sidebarOutlineView.selectPrev()
             return true
         }
 
@@ -821,11 +821,11 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.storageOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAll(nil)
         }
 
         let value = sender.stringValue
-        let inlineTags = vc.storageOutlineView.getSelectedInlineTags()
+        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
 
         if (value.count > 0) {
             search.stringValue = String()
@@ -852,10 +852,10 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.storageOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAll(nil)
         }
 
-        let inlineTags = vc.storageOutlineView.getSelectedInlineTags()
+        let inlineTags = vc.sidebarOutlineView.getSelectedInlineTags()
 
         vc.createNote(content: inlineTags)
     }
@@ -882,7 +882,7 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.storageOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAll(nil)
         }
         
         vc.createNote(type: .RichText)
@@ -1003,7 +1003,7 @@ class ViewController: NSViewController,
         guard let vc = ViewController.shared() else { return }
         
         if let type = vc.getSidebarType(), type == .Trash {
-            vc.storageOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.deselectAll(nil)
         }
         
         vc.createNote()
@@ -1096,7 +1096,7 @@ class ViewController: NSViewController,
         if let project = storage.getArchive() {
             for note in notes {
                 let removed = note.removeAllTags()
-                vc.storageOutlineView.removeTags(removed)
+                vc.sidebarOutlineView.removeTags(removed)
             }
             
             move(notes: notes, project: project)
@@ -1137,10 +1137,10 @@ class ViewController: NSViewController,
                         deselected = r.1
                     }
                     
-                    vc.storageOutlineView.removeTags(removed)
-                    vc.storageOutlineView.deselectTags(deselected)
-                    vc.storageOutlineView.addTags(tags)
-                    vc.storageOutlineView.reloadSidebar()
+                    vc.sidebarOutlineView.removeTags(removed)
+                    vc.sidebarOutlineView.deselectTags(deselected)
+                    vc.sidebarOutlineView.addTags(tags)
+                    vc.sidebarOutlineView.reloadSidebar()
                 }
             }
             
@@ -1493,11 +1493,11 @@ class ViewController: NSViewController,
     }
     
     func getSidebarProject() -> Project? {
-        if storageOutlineView.selectedRow < 0 {
+        if sidebarOutlineView.selectedRow < 0 {
             return nil
         }
 
-        let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
+        let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem
         
         if let project = sidebarItem?.project {
             return project
@@ -1507,7 +1507,7 @@ class ViewController: NSViewController,
     }
     
     func getSidebarType() -> SidebarItemType? {
-        let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem
+        let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem
         
         if let type = sidebarItem?.type {
             return type
@@ -1517,12 +1517,12 @@ class ViewController: NSViewController,
     }
     
     public func getSidebarItem() -> SidebarItem? {
-        if let sidebarItem = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? SidebarItem {
+        if let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem {
         
             return sidebarItem
         }
 
-        if let tag = storageOutlineView.item(atRow: storageOutlineView.selectedRow) as? Tag {
+        if let tag = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? Tag {
             return SidebarItem(name: "", type: .Tag, icon: nil, tag: tag)
         }
         
@@ -1544,8 +1544,8 @@ class ViewController: NSViewController,
         self.searchQueue.cancelAllOperations()
 
         if searchText == nil {
-            projects = storageOutlineView.getSidebarProjects()
-            tags = storageOutlineView.getSidebarTags()
+            projects = sidebarOutlineView.getSidebarProjects()
+            tags = sidebarOutlineView.getSidebarTags()
             sidebarItem = getSidebarItem()
 
             if !UserDefaultsManagement.inlineTags {
@@ -1691,8 +1691,8 @@ class ViewController: NSViewController,
         var tags = tags
 
         if shouldLoadMain {
-            projects = storageOutlineView.getSidebarProjects()
-            tags = storageOutlineView.getSidebarTags()
+            projects = sidebarOutlineView.getSidebarProjects()
+            tags = sidebarOutlineView.getSidebarTags()
             
             filter = search.stringValue
             terms = search.stringValue.split(separator: " ")
@@ -1798,7 +1798,7 @@ class ViewController: NSViewController,
 
         self.updateTable(searchText: searchText) {
             DispatchQueue.main.async {
-                self.storageOutlineView.reloadTags()
+                self.sidebarOutlineView.reloadTags()
 
                 if let completion = completion {
                     completion()
@@ -1858,7 +1858,7 @@ class ViewController: NSViewController,
     func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false) {
         guard let vc = ViewController.shared() else { return }
 
-        let selectedProjects = vc.storageOutlineView.getSidebarProjects()
+        let selectedProjects = vc.sidebarOutlineView.getSidebarProjects()
         var sidebarProject = project ?? selectedProjects?.first
         var text = content
         
@@ -2000,7 +2000,7 @@ class ViewController: NSViewController,
         if let responder = firstResp, (
             search.currentEditor() == firstResp
             || responder.isKind(of: NotesTableView.self)
-            || responder.isKind(of: SidebarProjectView.self)
+            || responder.isKind(of: SidebarOutlineView.self)
         ) {
             NSApp.mainWindow?.makeFirstResponder(firstResp)
         } else {
@@ -2236,7 +2236,7 @@ class ViewController: NSViewController,
                 break
         }
 
-        ViewController.shared()?.storageOutlineView.reloadSidebar()
+        ViewController.shared()?.sidebarOutlineView.reloadSidebar()
     }
 
     func updateTitle(newTitle: String?) {

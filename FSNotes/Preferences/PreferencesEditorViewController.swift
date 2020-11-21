@@ -231,7 +231,7 @@ class PreferencesEditorViewController: NSViewController {
             }
         }
 
-        vc.storageOutlineView.reloadSidebar()
+        vc.sidebarOutlineView.reloadSidebar()
     }
 
     @IBAction func highlightIndentedCodeBlocks(_ sender: NSButton) {

@@ -95,14 +95,14 @@ class FileSystemEventManager {
 
                     // hack: occasionally get rename event when created
                     if !FileManager.default.fileExists(atPath: dirURL.path) {
-                        self.delegate.storageOutlineView.removeProject(project: project)
+                        self.delegate.sidebarOutlineView.removeProject(project: project)
                     }
                 }
             } else {
                 if srcProject != nil {
                     srcProject?.moveSrc = nil
                 } else {
-                    self.delegate.storageOutlineView.insertProject(url: dirURL)
+                    self.delegate.sidebarOutlineView.insertProject(url: dirURL)
                 }
             }
             return
@@ -110,13 +110,13 @@ class FileSystemEventManager {
 
         if event.dirRemoved  {
             if let project = project {
-                self.delegate.storageOutlineView.removeProject(project: project)
+                self.delegate.sidebarOutlineView.removeProject(project: project)
             }
             return
         }
 
         if event.dirCreated {
-            self.delegate.storageOutlineView.insertProject(url: dirURL)
+            self.delegate.sidebarOutlineView.insertProject(url: dirURL)
             return
         }
     }
@@ -235,13 +235,13 @@ class FileSystemEventManager {
             let result = note.scanContentTags()
             if result.0.count > 0 {
                 DispatchQueue.main.async {
-                    self.delegate.storageOutlineView.insertTags(note: note)
+                    self.delegate.sidebarOutlineView.insertTags(note: note)
                 }
             }
 
             if result.1.count > 0 {
                 DispatchQueue.main.async {
-                    self.delegate.storageOutlineView.removeTags(result.1)
+                    self.delegate.sidebarOutlineView.removeTags(result.1)
                 }
             }
 

@@ -12,7 +12,7 @@ import Carbon.HIToolbox
 
 import FSNotesCore_macOS
 
-class SidebarProjectView: NSOutlineView,
+class SidebarOutlineView: NSOutlineView,
     NSOutlineViewDelegate,
     NSOutlineViewDataSource,
     NSMenuItemValidation {
@@ -27,6 +27,8 @@ class SidebarProjectView: NSOutlineView,
     private var selectedProjects = [Project]()
     private var selectedTags: [String]?
     private var lastSelectedRow: Int?
+
+    private var cellView: SidebarCellView?
 
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -146,7 +148,7 @@ class SidebarProjectView: NSOutlineView,
 
         // Focus on note list
         if event.keyCode == kVK_RightArrow {
-            if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarProjectView.self) {
+            if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarOutlineView.self) {
 
                 guard let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable() else {
                     vc.notesTableView.selectNext()
@@ -683,7 +685,7 @@ class SidebarProjectView: NSOutlineView,
     }
     
     @IBAction func renameMenu(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems,
@@ -700,7 +702,7 @@ class SidebarProjectView: NSOutlineView,
     }
     
     @IBAction func deleteMenu(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems, si.indices.contains(selected) else { return }
@@ -736,7 +738,7 @@ class SidebarProjectView: NSOutlineView,
     }
     
     @IBAction func addProject(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
         
         var unwrappedProject: Project?
         if let si = v.getSidebarItem(),
@@ -904,7 +906,7 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func getSidebarProjects() -> [Project]? {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return nil }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
 
         var projects = [Project]()
         for i in v.selectedRowIndexes {
@@ -925,7 +927,7 @@ class SidebarProjectView: NSOutlineView,
     }
 
     public func getSidebarTags() -> [String]? {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return nil }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
 
         var tags = [String]()
         for i in v.selectedRowIndexes {
@@ -1004,7 +1006,7 @@ class SidebarProjectView: NSOutlineView,
     }
 
     private func getSidebarItem() -> SidebarItem? {
-        guard let vc = ViewController.shared(), let v = vc.storageOutlineView else { return nil }
+        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
         
         let selected = v.selectedRow
         guard let si = v.sidebarItems,
@@ -1025,12 +1027,12 @@ class SidebarProjectView: NSOutlineView,
 
         vc.loadMoveMenu()
 
-        let selected = vc.storageOutlineView.selectedRow
-        vc.storageOutlineView.sidebarItems = Sidebar().getList()
-        vc.storageOutlineView.reloadData()
-        vc.storageOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
+        let selected = vc.sidebarOutlineView.selectedRow
+        vc.sidebarOutlineView.sidebarItems = Sidebar().getList()
+        vc.sidebarOutlineView.reloadData()
+        vc.sidebarOutlineView.selectRowIndexes([selected], byExtendingSelection: false)
 
-        vc.storageOutlineView.loadAllTags()
+        vc.sidebarOutlineView.loadAllTags()
     }
     
     public func deselectTags(_ list: [String]) {
@@ -1101,7 +1103,7 @@ class SidebarProjectView: NSOutlineView,
 
         if let tag = sidebarItems?.first(where: {($0 as? Tag)?.getName() == parent }) as? Tag {
             if tags.count == 1 {
-                let allTags = ViewController.shared()?.storageOutlineView.getAllTags()
+                let allTags = ViewController.shared()?.sidebarOutlineView.getAllTags()
                 let count = allTags?.filter({ $0.starts(with: parent + "/") || $0 == parent }).count ?? 0
 
                 if count == 0 {

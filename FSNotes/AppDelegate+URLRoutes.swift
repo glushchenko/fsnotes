@@ -37,7 +37,7 @@ extension AppDelegate {
 
         if url.host == "open" {
             if let tag = url["tag"]?.removingPercentEncoding {
-                ViewController.shared()?.storageOutlineView.select(tag: tag)
+                ViewController.shared()?.sidebarOutlineView.select(tag: tag)
                 return
             }
         }
@@ -71,9 +71,9 @@ extension AppDelegate {
         var sidebarIndex: Int? = nil
 
         for url in urls {
-            if let items = vc.storageOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
+            if let items = vc.sidebarOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
                 if let sidebarItem = items.first(where: { ($0 as? SidebarItem)?.project == note.project || ($0 as? SidebarItem)?.project?.isArchive == note.isInArchive()}) {
-                    sidebarIndex = vc.storageOutlineView.row(forItem: sidebarItem)
+                    sidebarIndex = vc.sidebarOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }
             } else {
@@ -86,7 +86,7 @@ extension AppDelegate {
         }
 
         if let note = importedNote, let si = sidebarIndex {
-            vc.storageOutlineView.selectRowIndexes([si], byExtendingSelection: false)
+            vc.sidebarOutlineView.selectRowIndexes([si], byExtendingSelection: false)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35, execute: {
                 vc.notesTableView.setSelected(note: note)
