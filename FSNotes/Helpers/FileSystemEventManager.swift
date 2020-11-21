@@ -222,15 +222,36 @@ class FileSystemEventManager {
         
         let memoryContent = note.content.attributedSubstring(from: NSRange(0..<note.content.length))
         
-        if (note.isRTF() && fsContent != memoryContent)
-            || (!note.isRTF() && fsContent.string != memoryContent.string) {
+        if (
+            note.isRTF() && fsContent != memoryContent)
+            || (
+                !note.isRTF() && fsContent.string != memoryContent.string
+            )
+        {
             note.content = NSMutableAttributedString(attributedString: fsContent)
+
+            // tags changes
+
+            let result = note.scanContentTags()
+            if result.0.count > 0 {
+                DispatchQueue.main.async {
+                    self.delegate.storageOutlineView.insertTags(note: note)
+                }
+            }
+
+            if result.1.count > 0 {
+                DispatchQueue.main.async {
+                    self.delegate.storageOutlineView.removeTags(result.1)
+                }
+            }
+
+            // reload view
 
             self.delegate.notesTableView.reloadRow(note: note)
 
             if EditTextView.note == note {
                 DispatchQueue.main.async {
-                    self.delegate.refillEditArea()
+                    self.delegate.refillEditArea(force: true)
                 }
             }
         }
