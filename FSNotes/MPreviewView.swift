@@ -61,12 +61,29 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
 #if os(OSX)
     override func mouseDown(with event: NSEvent) {
-        if let note = EditTextView.note {
+        if let note = EditTextView.note, let vc = ViewController.shared() {
             if note.container == .encryptedTextPack && !note.isUnlocked() {
-                ViewController.shared()?.unLock(notes: [note])
+                vc.unLock(notes: [note])
+            } else if note.content.length == 0 {
+                vc.currentPreviewState = .off
+                vc.refillEditArea()
+                vc.focusEditArea()
             }
         }
         super.mouseDown(with: event)
+    }
+
+    override func keyDown(with event: NSEvent) {
+        if event.keyCode == kVK_Return {
+            DispatchQueue.main.async {
+                guard let vc = ViewController.shared() else { return }
+                vc.currentPreviewState = .off
+                vc.refillEditArea()
+                vc.focusEditArea()
+            }
+            return
+        }
+        super.keyDown(with: event)
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
