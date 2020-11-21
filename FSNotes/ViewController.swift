@@ -1059,10 +1059,6 @@ class ViewController: NSViewController,
         vc.notesTableView.removeByNotes(notes: notes)
 
         vc.storage.removeNotes(notes: notes) { urls in
-            if !UserDefaultsManagement.inlineTags {
-                vc.storageOutlineView.reloadSidebar()
-            }
-
             if let appd = NSApplication.shared.delegate as? AppDelegate,
                 let md = appd.mainWindowController
             {
@@ -1457,7 +1453,6 @@ class ViewController: NSViewController,
                 vc.editArea.clear()
                 vc.storage.removeNotes(notes: notes) { _ in
                     DispatchQueue.main.async {
-                        vc.storageOutlineView.reloadSidebar()
                         vc.notesTableView.removeByNotes(notes: notes)
                         if let i = selectedRow, i > -1 {
                             vc.notesTableView.selectRow(i)

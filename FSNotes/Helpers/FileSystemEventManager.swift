@@ -36,6 +36,13 @@ class FileSystemEventManager {
                 return
             }
 
+            if !event.path.contains(".textbundle") && (
+                event.dirRemoved || event.dirCreated || event.dirRenamed
+            ) {
+                self.handleDirEvents(event: event)
+                return
+            }
+
             if !self.storage.allowedExtensions.contains(url.pathExtension) && !self.storage.isValidUTI(url: url) {
                 return
             }
@@ -69,6 +76,49 @@ class FileSystemEventManager {
         }
         
         watcher?.start()
+    }
+
+    private func handleDirEvents(event: FileWatcherEvent) {
+        guard !event.path.contains("Trash") else { return }
+
+        let dirURL = URL(fileURLWithPath: event.path, isDirectory: true)
+        let project = self.storage.getProjectBy(url: dirURL)
+
+        let srcProject = self.storage.getProjects().first(where: { $0.moveSrc == dirURL })
+        let dstProject = self.storage.getProjects().first(where: { $0.moveDst == dirURL })
+
+        if event.dirRenamed {
+            if let project = project {
+                if dstProject != nil {
+                    dstProject?.moveDst = nil
+                } else {
+
+                    // hack: occasionally get rename event when created
+                    if !FileManager.default.fileExists(atPath: dirURL.path) {
+                        self.delegate.storageOutlineView.removeProject(project: project)
+                    }
+                }
+            } else {
+                if srcProject != nil {
+                    srcProject?.moveSrc = nil
+                } else {
+                    self.delegate.storageOutlineView.insertProject(url: dirURL)
+                }
+            }
+            return
+        }
+
+        if event.dirRemoved  {
+            if let project = project {
+                self.delegate.storageOutlineView.removeProject(project: project)
+            }
+            return
+        }
+
+        if event.dirCreated {
+            self.delegate.storageOutlineView.insertProject(url: dirURL)
+            return
+        }
     }
     
     private func moveHandler(url: URL, pathList: [String]) {
@@ -126,18 +176,17 @@ class FileSystemEventManager {
         self.storage.add(note)
         
         DispatchQueue.main.async {
-            if let url = UserDataService.instance.focusOnImport, let note = self.storage.getBy(url: url) {
+            if let url = UserDataService.instance.focusOnImport,
+               let note = self.storage.getBy(url: url)
+            {
                 self.delegate.updateTable() {
                     self.delegate.notesTableView.setSelected(note: note)
                     UserDataService.instance.focusOnImport = nil
-                    self.delegate.reloadSideBar()
                 }
             } else {
                 if !note.isTrash() {
                     self.delegate.notesTableView.insertNew(note: note)
                 }
-
-                self.delegate.reloadSideBar()
             }
         }
     }
@@ -200,5 +249,9 @@ class FileSystemEventManager {
         watcher?.stop()
         self.observedFolders = self.storage.getProjectPaths()
         start()
+    }
+
+    public func reloadObservedFolders() {
+        self.observedFolders = self.storage.getProjectPaths()
     }
 }

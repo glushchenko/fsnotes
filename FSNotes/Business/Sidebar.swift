@@ -54,7 +54,7 @@ class Sidebar {
         for project in rootProjects {
             let icon = getImage(named: "repository\(night).png")
             let type: SidebarItemType = .Label
-            
+
             list.append(SidebarItem(name: project.label, project: project, type: type, icon: icon))
             
             let childProjects = storage.getChildProjects(project: project)
@@ -62,7 +62,7 @@ class Sidebar {
                 if childProject.url == UserDefaultsManagement.archiveDirectory {
                     continue
                 }
-                
+
                 list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category, icon: icon))
             }
         }

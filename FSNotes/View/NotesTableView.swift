@@ -444,12 +444,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func removeByNotes(notes: [Note]) {
+        guard let vc = ViewController.shared() else { return }
+
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .slideDown)
             }
+        }
+
+        if UserDefaultsManagement.inlineTags {
+            vc.storageOutlineView.removeTags(notes: notes)
         }
     }
     
@@ -497,6 +503,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
         self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
         self.endUpdates()
+
+        vc.storageOutlineView.insertTags(note: note)
     }
 
     public func reloadRow(note: Note) {
