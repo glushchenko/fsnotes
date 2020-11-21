@@ -1308,6 +1308,7 @@ class ViewController: NSViewController,
                 if note.container == .encryptedTextPack {
                     success = note.unLock(password: password)
                     if success && notes.count == 0x01 {
+                        note.password = password
                         DispatchQueue.main.async {
                             self.refillEditArea(force: true)
                         }
@@ -1315,6 +1316,7 @@ class ViewController: NSViewController,
                 } else {
                     success = note.encrypt(password: password)
                     if success && notes.count == 0x01 {
+                        note.password = nil
                         DispatchQueue.main.async {
                             self.refillEditArea(force: true)
                         }
@@ -1344,6 +1346,7 @@ class ViewController: NSViewController,
                 if note.container == .encryptedTextPack {
                     let success = note.unEncrypt(password: password)
                     if success && notes.count == 0x01 {
+                        note.password = nil
                         DispatchQueue.main.async {
                             self.refillEditArea(force: true)
                         }
@@ -2394,6 +2397,8 @@ class ViewController: NSViewController,
             for note in notes {
                 let success = note.unLock(password: password)
                 if success, i == 0 {
+                    note.password = password
+
                     DispatchQueue.main.async {
                         self.refillEditArea(force: true)
                     }

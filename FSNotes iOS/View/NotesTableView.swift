@@ -261,10 +261,10 @@ class NotesTableView: UITableView,
             if note.container == .encryptedTextPack {
                 //Remove encryption
                 
-                let share = UIAlertAction(title: NSLocalizedString("Remove encryption", comment: ""), style: .default, handler: { _ in
-                    self.removeEncryption(note: note)
-                })
-                actionSheet.addAction(share)
+//                let share = UIAlertAction(title: NSLocalizedString("Remove encryption", comment: ""), style: .default, handler: { _ in
+//                    self.removeEncryption(note: note)
+//                })
+//                actionSheet.addAction(share)
             }
 
             let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in

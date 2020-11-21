@@ -54,6 +54,8 @@ public class Note: NSObject  {
     public var isLoaded = false
     public var isLoadedFromCache = false
 
+    public var password: String?
+
     // Load exist
     
     init(url: URL, with project: Project, modified: Date? = nil, created: Date? = nil) {
@@ -1638,15 +1640,20 @@ public class Note: NSObject  {
         guard let baseTextPack = self.decryptedTemporarySrc else { return }
 
         let textPackURL = baseTextPack.appendingPathExtension("textpack")
+        var password = self.password
 
         SSZipArchive.createZipFile(atPath: textPackURL.path, withContentsOfDirectory: baseTextPack.path)
 
         do {
-            let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-            let password = try item.readPassword()
+            if password == nil {
+                let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+                password = try item.readPassword()
+            }
+
+            guard let unwrappedPassword = password else { return }
 
             let data = try Data(contentsOf: textPackURL)
-            let encryptedData = RNCryptor.encrypt(data: data, withPassword: password)
+            let encryptedData = RNCryptor.encrypt(data: data, withPassword: unwrappedPassword)
             try encryptedData.write(to: self.url)
 
             let attributes = getFileAttributes()
