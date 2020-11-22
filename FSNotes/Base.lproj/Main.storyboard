@@ -782,7 +782,7 @@ CA
                     </connections>
                 </customObject>
                 <customObject id="3kq-Pd-JKK" customClass="SidebarCellView" customModule="FSNotes" customModuleProvider="target"/>
-                <customObject id="yxb-XH-bXh" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target"/>
+                <customObject id="yxb-XH-bXh" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="rlq-iU-PD6"/>
             </objects>
@@ -1370,7 +1370,7 @@ CA
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarProjectView" customModule="FSNotes" customModuleProvider="target">
+                                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1886,10 +1886,10 @@ CA
                         <outlet property="search" destination="bd7-O3-GQF" id="HjC-CH-gRR"/>
                         <outlet property="searchTopConstraint" destination="nXO-Fh-8nv" id="p8r-Pf-fo8"/>
                         <outlet property="shareButton" destination="oDB-Y6-20P" id="8bV-gW-UaW"/>
+                        <outlet property="sidebarOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
                         <outlet property="sidebarScrollView" destination="BdT-Ac-GAV" id="XbT-MU-nJA"/>
                         <outlet property="sidebarSplitView" destination="dO0-pK-Ktm" id="2FH-Og-FOV"/>
                         <outlet property="splitView" destination="yWu-3F-P62" id="IYq-T3-4b1"/>
-                        <outlet property="storageOutlineView" destination="urA-eK-bWB" id="ytX-z3-4Mi"/>
                         <outlet property="titleBarAdditionalView" destination="Ua8-RE-q01" id="CfN-3p-UH3"/>
                         <outlet property="titleBarView" destination="xSU-Mk-2F1" id="lbu-pA-1Hs"/>
                         <outlet property="titleLabel" destination="rZx-hk-GcJ" id="wKj-zD-Ovz"/>
@@ -3299,11 +3299,11 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="dockIcon2" width="86" height="86"/>
-        <image name="dockIcon4" width="67" height="67"/>
+        <image name="dockIcon2" width="85.5" height="85.5"/>
+        <image name="dockIcon4" width="66.5" height="66.5"/>
         <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
-        <image name="logoInCircle" width="500" height="500"/>
-        <image name="new_note_button" width="512" height="512"/>
+        <image name="logoInCircle" width="250" height="250"/>
+        <image name="new_note_button" width="256" height="256"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>

@@ -45,8 +45,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         }
         
         if (event.keyCode == kVK_LeftArrow && stringValue.count == 0) {
-            vcDelegate.storageOutlineView.window?.makeFirstResponder(vcDelegate.storageOutlineView)
-            vcDelegate.storageOutlineView.selectRowIndexes([1], byExtendingSelection: false)
+            vcDelegate.sidebarOutlineView.window?.makeFirstResponder(vcDelegate.sidebarOutlineView)
+            vcDelegate.sidebarOutlineView.selectRowIndexes([1], byExtendingSelection: false)
             return
         }
 
@@ -195,8 +195,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         self.lastQueryLength = searchText.count
 
-        let projects = vcDelegate.storageOutlineView.getSidebarProjects()
-        let tags = vcDelegate.storageOutlineView.getSidebarTags()
+        let projects = vcDelegate.sidebarOutlineView.getSidebarProjects()
+        let tags = vcDelegate.sidebarOutlineView.getSidebarTags()
 
         if projects == nil && tags == nil {
             sidebarItem = self.vcDelegate.getSidebarItem()

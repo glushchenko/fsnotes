@@ -13,6 +13,10 @@ public class Project: Equatable {
     var storage: Storage
 
     var url: URL
+
+    public var moveSrc: URL?
+    public var moveDst: URL?
+
     public var label: String
     var isTrash: Bool
     var isCloudDrive: Bool = false

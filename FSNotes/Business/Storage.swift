@@ -766,12 +766,12 @@ class Storage {
     }
     
     func getBy(url: URL) -> Note? {
-        let path = url.standardized
+        let standardized = url.standardized
 
         return
             noteList.first(where: {
                 return (
-                    $0.url == path
+                    $0.url.path == standardized.path
                 )
             })
     }

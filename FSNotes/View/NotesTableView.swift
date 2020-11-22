@@ -64,9 +64,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 return
             }
 
-            vc.storageOutlineView.window?.makeFirstResponder(vc.storageOutlineView)
-            if vc.storageOutlineView.selectedRowIndexes.count == 0 {
-                vc.storageOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+            vc.sidebarOutlineView.window?.makeFirstResponder(vc.sidebarOutlineView)
+            if vc.sidebarOutlineView.selectedRowIndexes.count == 0 {
+                vc.sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
             }
 
             return
@@ -171,12 +171,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
 
         if UserDataService.instance.isNotesTableEscape {
-            if vc.storageOutlineView.selectedRow == -1 {
+            if vc.sidebarOutlineView.selectedRow == -1 {
                 UserDataService.instance.isNotesTableEscape = false
             }
             
-            vc.storageOutlineView.deselectAll(nil)
-            vc.storageOutlineView.reloadTags()
+            vc.sidebarOutlineView.deselectAll(nil)
+            vc.sidebarOutlineView.reloadTags()
             vc.editArea.clear()
             return
         }
@@ -184,13 +184,13 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
 
-            if !UserDefaultsManagement.inlineTags, let items = vc.storageOutlineView.sidebarItems {
+            if !UserDefaultsManagement.inlineTags, let items = vc.sidebarOutlineView.sidebarItems {
                 for item in items {
                     if let tag = item as? Tag {
                         if note.tagNames.contains(tag.getName()) {
-                            vc.storageOutlineView.selectTag(item: tag)
+                            vc.sidebarOutlineView.selectTag(item: tag)
                         } else {
-                            vc.storageOutlineView.deselectTag(item: tag)
+                            vc.sidebarOutlineView.deselectTag(item: tag)
                         }
                     }
                 }
@@ -221,7 +221,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             vc.editArea.clear()
 
             if !UserDefaultsManagement.inlineTags {
-                vc.storageOutlineView.deselectAllTags()
+                vc.sidebarOutlineView.deselectAllTags()
             }
         }
     }
@@ -432,7 +432,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if let index = getIndex(note) {
             selectRow(index)
         } else {
-            vc.storageOutlineView.select(note: note)
+            vc.sidebarOutlineView.select(note: note)
         }
     }
 
@@ -444,12 +444,18 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     func removeByNotes(notes: [Note]) {
+        guard let vc = ViewController.shared() else { return }
+
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
                 noteList.remove(at: i)
                 removeRows(at: indexSet, withAnimation: .slideDown)
             }
+        }
+
+        if UserDefaultsManagement.inlineTags {
+            vc.sidebarOutlineView.removeTags(notes: notes)
         }
     }
     
@@ -497,6 +503,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)
         self.reloadData(forRowIndexes: IndexSet(integer: at), columnIndexes: [0])
         self.endUpdates()
+
+        vc.sidebarOutlineView.insertTags(note: note)
     }
 
     public func reloadRow(note: Note) {
