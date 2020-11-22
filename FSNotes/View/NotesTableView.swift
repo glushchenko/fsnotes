@@ -34,6 +34,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     ]
 
     override func draw(_ dirtyRect: NSRect) {
+        allowsTypeSelect = false
         self.gridColor = NSColor.clear
         self.dataSource = self
         self.delegate = self
@@ -302,7 +303,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if ([kVK_ANSI_8, kVK_ANSI_J, kVK_ANSI_K].contains(Int(event.keyCode)) && event.modifierFlags.contains(.command)) {
+        if let char = event.characters?.unicodeScalars.first,
+           ["j", "k"].contains(char) && event.modifierFlags.contains(.command)
+        {
             return true
         }
 
@@ -315,16 +318,8 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
             return true
         }
-        
-        if event.modifierFlags.contains(.control) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_B {
-            return true
-        }
-        
+
         if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
-            return true
-        }
-                
-        if (event.keyCode == kVK_ANSI_M && event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift)) {
             return true
         }
         

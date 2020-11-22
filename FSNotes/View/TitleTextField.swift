@@ -14,7 +14,7 @@ class TitleTextField: NSTextField {
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
         if event.modifierFlags.contains(.command)
-            && event.keyCode == kVK_ANSI_C
+            && event.characters?.unicodeScalars.first == "c"
             && !event.modifierFlags.contains(.shift)
             && !event.modifierFlags.contains(.control)
             && !event.modifierFlags.contains(.option) {

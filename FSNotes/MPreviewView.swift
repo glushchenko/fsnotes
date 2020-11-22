@@ -87,7 +87,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if event.keyCode == kVK_ANSI_C && event.modifierFlags.contains(.command) {
+        if event.characters?.unicodeScalars.first == "c" && event.modifierFlags.contains(.command) {
             DispatchQueue.main.async {
                 guard let string = HandlerSelection.selectionString else { return }
                 let pasteboard = NSPasteboard.general

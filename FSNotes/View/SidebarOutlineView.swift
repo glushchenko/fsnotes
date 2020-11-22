@@ -30,18 +30,16 @@ class SidebarOutlineView: NSOutlineView,
 
     private var cellView: SidebarCellView?
 
-    override class func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        if menuItem.title == NSLocalizedString("Attach storage...", comment: "") {
+        guard let id = menuItem.identifier?.rawValue else { return false }
+
+        if id == "folderMenu.attach" {
             return true
         }
 
         guard let sidebarItem = getSidebarItem() else { return false }
 
-        if menuItem.title == NSLocalizedString("Back up storage", comment: "") {
+        if id == "folderMenu.backup" {
 
             if sidebarItem.isTrash() || sidebarItem.tag != nil {
                 return false
@@ -50,13 +48,13 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
-        if menuItem.title == NSLocalizedString("Show in Finder", comment: "") {
+        if id == "folderMenu.reveal" {
             if let sidebarItem = getSidebarItem() {
                 return sidebarItem.project != nil || sidebarItem.isTrash()
             }
         }
 
-        if menuItem.title == NSLocalizedString("Rename folder", comment: "") {
+        if id == "folderMenu.rename" {
             if sidebarItem.isTrash() {
                 return false
             }
@@ -70,9 +68,7 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
-        if menuItem.title == NSLocalizedString("Delete folder", comment: "")
-            || menuItem.title == NSLocalizedString("Detach storage", comment: "") {
-
+        if id == "folderMenu.delete" {
             if sidebarItem.isTrash() {
                 return false
             }
@@ -88,7 +84,7 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
-        if menuItem.title == NSLocalizedString("Show view options", comment: "") {
+        if id == "folderMenu.options" {
             if sidebarItem.isTrash() {
                 return false
             }
@@ -96,7 +92,7 @@ class SidebarOutlineView: NSOutlineView,
             return nil != sidebarItem.project
         }
 
-        if menuItem.title == NSLocalizedString("New folder", comment: "") {
+        if id == "folderMenu.new" {
             if sidebarItem.isTrash() {
                 return false
             }
@@ -110,6 +106,7 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     override func draw(_ dirtyRect: NSRect) {
+        allowsTypeSelect = false
         delegate = self
         dataSource = self
         registerForDraggedTypes([
@@ -120,28 +117,8 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     override func keyDown(with event: NSEvent) {
-        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_N {
-            addProject("")
-            return
-        }
-        
-        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.command) && event.keyCode == kVK_ANSI_R {
-            revealInFinder("")
-            return
-        }
-        
-        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_ANSI_R {
-            renameMenu("")
-            return
-        }
-        
-        if event.modifierFlags.contains(.option) && event.modifierFlags.contains(.shift) && event.keyCode == kVK_Delete {
-            deleteMenu("")
-            return
-        }
-        
         // Tab to search
-        if event.keyCode == 48 {
+        if event.keyCode == kVK_Tab {
             self.viewDelegate?.search.becomeFirstResponder()
             return
         }
@@ -157,7 +134,7 @@ class SidebarOutlineView: NSOutlineView,
                 }
             }
         }
-        
+
         super.keyDown(with: event)
     }
     
@@ -448,51 +425,6 @@ class SidebarOutlineView: NSOutlineView,
         super.selectRowIndexes(indexes, byExtendingSelection: extend)
     }
 
-    private func tagExist() {
-
-    }
-
-    public func diffTags() {
-        guard let vc = ViewController.shared() else { return }
-
-        var tags: Set<String> = []
-        var sTags: Set<String> = []
-
-        if let allSidebarTags = sidebarItems?.filter({ ($0 as? Tag) != nil }).map({ ($0 as? Tag)!.getFullName() }) {
-            sTags = Set(allSidebarTags)
-        }
-
-        for note in vc.notesTableView.noteList {
-            for tag in note.tags {
-                if !tags.contains(tag) {
-                    tags.insert(tag)
-                }
-            }
-        }
-
-        var add = [String]()
-        var remove = [String]()
-        let common = tags.intersection(sTags)
-
-        for tag in tags {
-            if !common.contains(tag) {
-                print("insert \(tag)")
-                add.append(tag)
-            }
-        }
-
-        for tag in sTags {
-            if !common.contains(tag) {
-                print("remove \(tag)")
-                remove.append(tag)
-            }
-        }
-
-
-
-        //return Array(tags)
-    }
-
     public func removeTags(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 
@@ -684,7 +616,7 @@ class SidebarOutlineView: NSOutlineView,
         NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: p.url.path)
     }
     
-    @IBAction func renameMenu(_ sender: Any) {
+    @IBAction func renameFolderMenu(_ sender: Any) {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
         
         let selected = v.selectedRow
@@ -736,7 +668,7 @@ class SidebarOutlineView: NSOutlineView,
         SandboxBookmark().removeBy(project.url)
         v.removeProject(project: project)
     }
-    
+
     @IBAction func addProject(_ sender: Any) {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
         

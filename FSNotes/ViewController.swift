@@ -252,7 +252,22 @@ class ViewController: NSViewController,
                     }
                 }
 
-                if ["fileMenu.new", "fileMenu.newRtf", "fileMenu.searchAndCreate", "fileMenu.import"].contains(menuItem.identifier?.rawValue) {
+                if menuItem.identifier?.rawValue == "fileMenu.togglePin" {
+                    if vc.notesTableView.selectedRowIndexes.count < 1 {
+                        return false
+                    }
+
+                    if EditTextView.note != nil {
+                        return true
+                    }
+                }
+
+                if ["fileMenu.new",
+                    "fileMenu.newRtf",
+                    "fileMenu.searchAndCreate",
+                    "fileMenu.import"
+                   ].contains(menuItem.identifier?.rawValue)
+                {
                     return true
                 }
                 
@@ -270,7 +285,11 @@ class ViewController: NSViewController,
                     return false
                 }
             case "findMenu":
-                if ["findMenu.find", "findMenu.findAndReplace", "findMenu.next", "findMenu.prev"].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
+                if ["findMenu.find",
+                    "findMenu.findAndReplace",
+                    "findMenu.next",
+                    "findMenu.prev"
+                ].contains(menuItem.identifier?.rawValue), vc.notesTableView.selectedRow > -1 {
                     return true
                 }
 
@@ -713,7 +732,7 @@ class ViewController: NSViewController,
         }
 
         // Search cmd-f
-        if (event.keyCode == kVK_ANSI_F && event.modifierFlags.contains(.command) && !event.modifierFlags.contains(.control)) {
+        if (event.characters?.unicodeScalars.first == "f" && event.modifierFlags.contains(.command) && !event.modifierFlags.contains(.control)) {
             if self.notesTableView.getSelectedNote() != nil {
                 
                 //Turn off preview mode as text search works only in text editor
@@ -722,15 +741,9 @@ class ViewController: NSViewController,
             }
         }
 
-        // Pin note shortcut (cmd-8)
-        if (event.keyCode == kVK_ANSI_8 && event.modifierFlags.contains(.command)) {
-            pin(notesTableView.selectedRowIndexes)
-            return true
-        }
-
         // Next project cmd - shift - j
         if (
-            event.keyCode == kVK_ANSI_J
+            event.characters?.unicodeScalars.first == "j"
             && event.modifierFlags.contains([.command])
             && !event.modifierFlags.contains(.option)
             && event.modifierFlags.contains(.shift)
@@ -746,7 +759,7 @@ class ViewController: NSViewController,
 
         // Prev project cmd - shift - k
         if (
-            event.keyCode == kVK_ANSI_K
+            event.characters?.unicodeScalars.first == "k"
             && event.modifierFlags.contains(.command)
             && event.modifierFlags.contains(.shift)
         ) {
@@ -761,7 +774,7 @@ class ViewController: NSViewController,
 
         // Next note (cmd-j)
         if (
-            event.keyCode == kVK_ANSI_J
+            event.characters?.unicodeScalars.first == "j"
             && event.modifierFlags.contains([.command])
             && !event.modifierFlags.contains(.option)
         ) {
@@ -777,7 +790,7 @@ class ViewController: NSViewController,
         }
         
         // Prev note (cmd-k)
-        if (event.keyCode == kVK_ANSI_K && event.modifierFlags.contains(.command)) {
+        if (event.characters?.unicodeScalars.first == "k" && event.modifierFlags.contains(.command)) {
             NSApp.mainWindow?.makeFirstResponder(notesTableView)
 
             if titleLabel.isEditable {
@@ -787,12 +800,6 @@ class ViewController: NSViewController,
 
             notesTableView.selectPrev()
             return true
-        }
-
-        // Toggle sidebar cmd+shift+control+b
-        if event.modifierFlags.contains(.command) && event.modifierFlags.contains(.shift) && event.modifierFlags.contains(.control) && event.keyCode == kVK_ANSI_B {
-            toggleSidebar("")
-            return false
         }
 
         if let fr = mw.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
@@ -816,7 +823,7 @@ class ViewController: NSViewController,
         menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
         self.editArea.performTextFinderAction(menu)
     }
-    
+
     @IBAction func makeNote(_ sender: SearchTextField) {
         guard let vc = ViewController.shared() else { return }
         

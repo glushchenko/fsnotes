@@ -129,9 +129,9 @@ CA
                                                 <action selector="deleteNote:" target="L4m-js-agn" id="AiT-JP-62A"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Pin/unpin" keyEquivalent="8" id="You-zo-rbl">
+                                        <menuItem title="Pin/unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
-                                                <action selector="pinMenu:" target="L4m-js-agn" id="uSp-AH-paW"/>
+                                                <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Remove encryption" keyEquivalent="7" identifier="fileMenu.toggleLock" id="fkH-Wf-n87">
@@ -208,48 +208,48 @@ CA
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Folder" identifier="folderMenu" id="BYI-2F-BJo">
                                     <items>
-                                        <menuItem title="Attach storage..." identifier="folderMenu.attachStorage" id="S8Z-Js-fwB">
+                                        <menuItem title="Attach storage..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete folder" id="RuM-sf-kcZ">
+                                        <menuItem title="Delete folder" identifier="folderMenu.delete" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                                             <connections>
-                                                <action selector="deleteMenu:" target="yxb-XH-bXh" id="FWV-BA-fcU"/>
+                                                <action selector="deleteMenu:" target="yxb-XH-bXh" id="9eH-nN-saE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Back up storage" keyEquivalent="S" id="iIP-wI-OaZ">
+                                        <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
                                             <connections>
                                                 <action selector="makeSnapshot:" target="Ady-hI-5gd" id="DiC-Cc-5X3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show in Finder" keyEquivalent="R" id="F5A-zs-zwP">
+                                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="7V6-4X-pMA"/>
+                                                <action selector="revealInFinder:" target="yxb-XH-bXh" id="sAU-Li-Rhr"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New folder" keyEquivalent="N" id="SrH-fe-Hog">
+                                        <menuItem title="New folder" keyEquivalent="N" identifier="folderMenu.new" id="SrH-fe-Hog">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
-                                                <action selector="addProject:" target="yxb-XH-bXh" id="vwO-zV-96Q"/>
+                                                <action selector="addProject:" target="yxb-XH-bXh" id="txw-mB-jJk"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Rename folder" keyEquivalent="R" id="Tap-iY-hyA">
+                                        <menuItem title="Rename folder" keyEquivalent="R" identifier="folderMenu.rename" id="Tap-iY-hyA">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                                             <connections>
-                                                <action selector="renameMenu:" target="yxb-XH-bXh" id="fjN-9b-ISI"/>
+                                                <action selector="renameFolderMenu:" target="yxb-XH-bXh" id="mum-br-J1i"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show view options" keyEquivalent="," id="Tcg-83-bZN">
+                                        <menuItem title="Show view options" keyEquivalent="," identifier="folderMenu.options" id="Tcg-83-bZN">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
-                                                <action selector="openSettings:" target="yxb-XH-bXh" id="nhO-s5-Al8"/>
+                                                <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -481,53 +481,53 @@ CA
                                     <items>
                                         <menuItem title="Bold" keyEquivalent="b" id="LTw-w4-tEo">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="QE2-k3-TKm"/>
+                                                <action selector="boldMenu:" target="Ady-hI-5gd" id="iEg-Ph-IUa"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Italic" keyEquivalent="i" id="k32-YP-yyI">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="9uM-kR-oTc"/>
+                                                <action selector="italicMenu:" target="Ady-hI-5gd" id="NfW-nJ-p7S"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Strikethrough" keyEquivalent="y" id="EK1-kN-kK3">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="zer-XN-fHY"/>
+                                                <action selector="strikeMenu:" target="Ady-hI-5gd" id="ez5-KB-i65"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Underline" keyEquivalent="u" id="fCZ-JX-nxF">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="KfC-BC-ZQA"/>
+                                                <action selector="underlineMenu:" target="Ady-hI-5gd" id="um7-0T-RUM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="pUR-Y1-6Rc"/>
-                                        <menuItem title="Header 1" keyEquivalent="1" id="jRm-BN-BNK">
+                                        <menuItem title="Header 1" keyEquivalent="1" identifier="format.h1" id="jRm-BN-BNK">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="yjU-bd-D4V"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="ZMG-7U-hDJ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Header 2" keyEquivalent="2" id="cYB-6U-8ac">
+                                        <menuItem title="Header 2" keyEquivalent="2" identifier="format.h2" id="cYB-6U-8ac">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="fUE-a4-mhA"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="uk8-PE-ezN"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Header 3" keyEquivalent="3" id="Lmy-lE-9MZ">
+                                        <menuItem title="Header 3" keyEquivalent="3" identifier="format.h3" id="Lmy-lE-9MZ">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="RXN-Ql-Slz"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="7T9-eU-evK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Header 4" keyEquivalent="4" id="GhL-6I-558">
+                                        <menuItem title="Header 4" keyEquivalent="4" identifier="format.h4" id="GhL-6I-558">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="omS-On-xrU"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="xL5-Mc-FpK"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Header 5" keyEquivalent="5" id="DWe-bx-jfM">
+                                        <menuItem title="Header 5" keyEquivalent="5" identifier="format.h5" id="DWe-bx-jfM">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="un2-yq-mC0"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="VQ0-l4-gu2"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Header 6" keyEquivalent="6" id="cq7-SM-dez">
+                                        <menuItem title="Header 6" keyEquivalent="6" identifier="format.h6" id="cq7-SM-dez">
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="Uu9-mY-XHY"/>
+                                                <action selector="headerMenu:" target="Ady-hI-5gd" id="Ma4-If-e1Y"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="axj-Yd-h2p"/>
@@ -547,7 +547,7 @@ CA
                                         <menuItem title="Link" keyEquivalent="i" id="xfW-7n-cIw">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
-                                                <action selector="editorMenuItem:" target="N0L-g4-qwj" id="Px2-d1-in0"/>
+                                                <action selector="linkMenu:" target="Ady-hI-5gd" id="V6q-no-eC3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Image or file" keyEquivalent="I" id="yx6-SW-3vn">
@@ -1923,7 +1923,7 @@ CA
                         </menuItem>
                         <menuItem title="Pin/unpin" keyEquivalent="8" id="jFN-Dp-LON">
                             <connections>
-                                <action selector="pinMenu:" target="XfG-lQ-9wD" id="n3K-Qd-LrZ"/>
+                                <action selector="pinMenu:" target="rPt-NT-nkU" id="EyW-HI-rr9"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Remove encryption" keyEquivalent="7" identifier="note.toggleLock" id="5gL-j7-Zq8">
@@ -1991,39 +1991,39 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Back up storage" keyEquivalent="S" id="PvQ-Pd-zsZ">
+                        <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="PvQ-Pd-zsZ">
                             <connections>
                                 <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="New folder" keyEquivalent="N" id="3zv-SD-lSX">
+                        <menuItem title="New folder" keyEquivalent="N" identifier="folderMenu.new" id="3zv-SD-lSX">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename folder" keyEquivalent="R" id="fzU-ZR-Ubv">
+                        <menuItem title="Rename folder" keyEquivalent="R" identifier="folderMenu.rename" id="fzU-ZR-Ubv">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
-                                <action selector="renameMenu:" target="urA-eK-bWB" id="Jh4-4H-wc0"/>
+                                <action selector="renameFolderMenu:" target="rPt-NT-nkU" id="P1a-Na-Ngh"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show in Finder" keyEquivalent="R" id="goN-LO-L7l">
+                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">
                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                             <connections>
-                                <action selector="revealInFinder:" target="urA-eK-bWB" id="lPM-Ou-AK0"/>
+                                <action selector="revealInFinder:" target="rPt-NT-nkU" id="o9s-WD-Vqu"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Delete folder" id="RwR-P0-ycK">
+                        <menuItem title="Delete folder" identifier="folderMenu.delete" id="RwR-P0-ycK">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" option="YES"/>
                             <connections>
-                                <action selector="deleteMenu:" target="urA-eK-bWB" id="AFb-ct-LdH"/>
+                                <action selector="deleteMenu:" target="rPt-NT-nkU" id="U7D-ZD-89h"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show view options" keyEquivalent="," id="qs2-5J-Q3n">
+                        <menuItem title="Show view options" keyEquivalent="," identifier="folderMenu.options" id="qs2-5J-Q3n">
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="XfG-lQ-9wD" id="Ra3-fD-WCo"/>
