@@ -2496,7 +2496,7 @@ class ViewController: NSViewController,
         for note in notes {
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
-                    self.refillEditArea(force: true)
+                    self.editArea.clear()
                 }
                 notes.removeAll { $0 === note }
             }

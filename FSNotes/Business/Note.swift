@@ -1208,10 +1208,16 @@ public class Note: NSObject  {
                     range = NSRange(location: range.location - 1, length: range.length + 1)
 
                     let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
-
                     let spanBlock = NotesTextProcessor.getSpanCodeBlockRange(content: content, range: range)
 
                     if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
+
+                        let parRange = content.mutableString.paragraphRange(for: range)
+                        let par = content.mutableString.substring(with: parRange)
+                        if par.starts(with: "    ") || par.starts(with: "\t") {
+                            return
+                        }
+                        
                         if ["/", "!", "?", ";", ":", ".", ","].contains(cleanTag.last) {
                             tags.append(String(cleanTag.dropLast()))
                         } else {
