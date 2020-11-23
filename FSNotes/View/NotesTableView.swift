@@ -441,6 +441,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     func removeByNotes(notes: [Note]) {
         guard let vc = ViewController.shared() else { return }
 
+        beginUpdates()
         for note in notes {
             if let i = noteList.firstIndex(where: {$0 === note}) {
                 let indexSet = IndexSet(integer: i)
@@ -448,6 +449,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                 removeRows(at: indexSet, withAnimation: .slideDown)
             }
         }
+        endUpdates()
 
         if UserDefaultsManagement.inlineTags {
             vc.sidebarOutlineView.removeTags(notes: notes)

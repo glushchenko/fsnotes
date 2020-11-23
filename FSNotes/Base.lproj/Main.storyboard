@@ -3299,11 +3299,11 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="dockIcon2" width="85.5" height="85.5"/>
-        <image name="dockIcon4" width="66.5" height="66.5"/>
-        <image name="icon" width="198.19354248046875" height="198.19354248046875"/>
-        <image name="logoInCircle" width="250" height="250"/>
-        <image name="new_note_button" width="256" height="256"/>
+        <image name="dockIcon2" width="67" height="67"/>
+        <image name="dockIcon4" width="64" height="64"/>
+        <image name="icon" width="1024" height="1024"/>
+        <image name="logoInCircle" width="500" height="500"/>
+        <image name="new_note_button" width="512" height="512"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>

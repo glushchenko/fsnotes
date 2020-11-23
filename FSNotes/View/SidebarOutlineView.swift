@@ -1128,9 +1128,11 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
+        beginUpdates()
         for tag in removeTags {
             remove(tagName: tag)
         }
+        endUpdates()
 
         checkTagsHeaderState()
     }

@@ -16,7 +16,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     public var vcDelegate: ViewController!
     
     private var filterQueue = OperationQueue.init()
-    private var searchTimer = Timer()
 
     public var searchQuery = ""
     public var selectedRange = NSRange()
@@ -94,17 +93,19 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 if vcDelegate.currentPreviewState == .on
                     && EditTextView.note?.container != .encryptedTextPack {
                     vcDelegate.currentPreviewState = .off
-                    vcDelegate.refillEditArea()
-
-                    NSApp.mainWindow?.makeFirstResponder(vcDelegate.editArea)
+                    DispatchQueue.main.async {
+                        self.vcDelegate.refillEditArea()
+                        NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editArea)
+                    }
                 } else {
-                    vcDelegate.focusEditArea()
+                    DispatchQueue.main.async {
+                        self.vcDelegate.focusEditArea()
+                    }
                 }
             } else {
                 vcDelegate.makeNote(self)
             }
 
-            searchTimer.invalidate()
             return true
         case "insertTab:":
             markCompleteonAsSuccess()

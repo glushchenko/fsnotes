@@ -1,68 +1,68 @@
 {
   "images" : [
     {
-      "filename" : "AppIcon-16.0x16.0@1x.png",
+      "size" : "16x16",
       "idiom" : "mac",
-      "scale" : "1x",
-      "size" : "16x16"
+      "filename" : "icon-16.png",
+      "scale" : "1x"
     },
     {
-      "filename" : "AppIcon-16.0x16.0@2x.png",
+      "size" : "16x16",
       "idiom" : "mac",
-      "scale" : "2x",
-      "size" : "16x16"
+      "filename" : "icon-32.png",
+      "scale" : "2x"
     },
     {
-      "filename" : "AppIcon-32.0x32.0@1x.png",
+      "size" : "32x32",
       "idiom" : "mac",
-      "scale" : "1x",
-      "size" : "32x32"
+      "filename" : "icon-32.png",
+      "scale" : "1x"
     },
     {
-      "filename" : "AppIcon-32.0x32.0@2x.png",
+      "size" : "32x32",
       "idiom" : "mac",
-      "scale" : "2x",
-      "size" : "32x32"
+      "filename" : "icon-64.png",
+      "scale" : "2x"
     },
     {
-      "filename" : "AppIcon-128.0x128.0@1x.png",
+      "size" : "128x128",
       "idiom" : "mac",
-      "scale" : "1x",
-      "size" : "128x128"
+      "filename" : "icon-128.png",
+      "scale" : "1x"
     },
     {
-      "filename" : "AppIcon-128.0x128.0@2x.png",
+      "size" : "128x128",
       "idiom" : "mac",
-      "scale" : "2x",
-      "size" : "128x128"
+      "filename" : "icon-256.png",
+      "scale" : "2x"
     },
     {
-      "filename" : "AppIcon-256.0x256.0@1x.png",
+      "size" : "256x256",
       "idiom" : "mac",
-      "scale" : "1x",
-      "size" : "256x256"
+      "filename" : "icon-256.png",
+      "scale" : "1x"
     },
     {
-      "filename" : "AppIcon-256.0x256.0@2x.png",
+      "size" : "256x256",
       "idiom" : "mac",
-      "scale" : "2x",
-      "size" : "256x256"
+      "filename" : "icon-512.png",
+      "scale" : "2x"
     },
     {
-      "filename" : "AppIcon-512.0x512.0@1x.png",
+      "size" : "512x512",
       "idiom" : "mac",
-      "scale" : "1x",
-      "size" : "512x512"
+      "filename" : "icon-512.png",
+      "scale" : "1x"
     },
     {
-      "filename" : "AppIcon-512.0x512.0@2x.png",
+      "size" : "512x512",
       "idiom" : "mac",
-      "scale" : "2x",
-      "size" : "512x512"
+      "filename" : "icon-1024.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
-    "author" : "xcode",
-    "version" : 1
+    "version" : 1,
+    "author" : "xcode"
   }
 }
