@@ -214,10 +214,11 @@ extension NSTextStorage: NSTextStorageDelegate {
         let affectedRange = NSRange(start..<finish)
         textStorage.enumerateAttribute(.attachment, in: affectedRange) { (value, range, _) in
             if let value = value as? NSTextAttachment, textStorage.attribute(.todo, at: range.location, effectiveRange: nil) == nil {
-
-                let paragraph = NSMutableParagraphStyle()
-                paragraph.alignment = value.isFile() ? .left : .center
-                textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
+                #if os(iOS)
+                    let paragraph = NSMutableParagraphStyle()
+                    paragraph.alignment = value.isFile() ? .left : .center
+                    textStorage.addAttribute(.paragraphStyle, value: paragraph, range: range)
+                #endif
 
                 let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
                 if let url = textStorage.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL {

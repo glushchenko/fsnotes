@@ -19,7 +19,10 @@ extension NSTextStorage {
             let image = NoteAttachment.getImage(url: url, size: retinaSize)
 
             DispatchQueue.main.async {
-                let cell = NSTextAttachmentCell(imageCell: image)
+                guard let container = ViewController.shared()?.editArea.textContainer,
+                      let attachmentImage = image else { return }
+
+                let cell = FSNTextAttachmentCell(textContainer: container, image: attachmentImage)
                 cell.image?.size = size
                 attachment.image = nil
                 attachment.attachmentCell = cell

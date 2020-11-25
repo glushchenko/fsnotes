@@ -19,7 +19,7 @@ extension NSTextAttachment {
         #endif
 
         #if os(OSX)
-            return (attachmentCell?.cellSize().height == 40)
+            return (attachmentCell?.cellSize().height == 30)
         #endif
     }
 }

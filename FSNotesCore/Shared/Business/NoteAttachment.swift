@@ -65,19 +65,29 @@ class NoteAttachment {
 
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
-        let paragraphStyle = NSMutableParagraphStyle()
 
-        paragraphStyle.alignment = url.isImage ? .center : .left
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        #if os(OSX)
+            let attributes = [
+                titleKey: self.title,
+                pathKey: self.path,
+                imageKey: self.url,
+                .link: self.url,
+                .attachment: attachment
+            ] as [NSAttributedString.Key: Any]
+        #else
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = url.isImage ? .center : .left
+            paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
 
-        let attributes = [
-            titleKey: self.title,
-            pathKey: self.path,
-            imageKey: self.url,
-            .link: self.url,
-            .attachment: attachment,
-            .paragraphStyle: paragraphStyle
-        ] as [NSAttributedString.Key: Any]
+            let attributes = [
+                titleKey: self.title,
+                pathKey: self.path,
+                imageKey: self.url,
+                .link: self.url,
+                .attachment: attachment,
+                .paragraphStyle: paragraphStyle
+            ] as [NSAttributedString.Key: Any]
+        #endif
 
         mutableAttributedString.addAttributes(attributes, range: NSRange(0..<1))
 

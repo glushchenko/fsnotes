@@ -1288,7 +1288,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             mutable.loadCheckboxes()
 
             insertText(mutable, replacementRange: NSRange(location: caretLocation, length: 0))
-            storage.sizeAttachmentImages()
+
+            guard let container = textContainer else { return false }
+            storage.sizeAttachmentImages(container: container)
 
             DispatchQueue.main.async {
                 self.setSelectedRange(NSRange(location: caretLocation, length: mutable.length))
@@ -1392,7 +1394,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 NotesTextProcessor.highlightMarkdown(attributedString: storage, note: note)
                 saveTextStorageContent(to: note)
                 note.save()
-                applyLeftParagraphStyle()
             }
 
             self.viewDelegate?.notesTableView.reloadRow(note: note)
@@ -1495,21 +1496,16 @@ class EditTextView: NSTextView, NSTextFinderClient {
             if result.rawValue == NSFileHandlingPanelOKButton {
                 let urls = panel.urls
 
-                let last = urls.last
                 for url in urls {
-
                     if self.saveFile(url: url, in: note) {
-                        if last != url {
+                        if urls.count > 1 {
                             self.insertNewline(nil)
-                            if let vc = ViewController.shared() {
-                                vc.notesTableView.reloadRow(note: note)
-                            }
                         }
                     }
+                }
 
-                    if url != urls.last {
-                        self.insertNewline(nil)
-                    }
+                if let vc = ViewController.shared() {
+                    vc.notesTableView.reloadRow(note: note)
                 }
             }
         }
@@ -1657,7 +1653,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     public func applyLeftParagraphStyle() {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        paragraphStyle.alignment = .left
         typingAttributes[.paragraphStyle] = paragraphStyle
         defaultParagraphStyle = paragraphStyle
         textStorage?.updateParagraphStyle()
@@ -1777,7 +1772,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             saveTextStorageContent(to: note)
             note.save()
 
-            textStorage?.sizeAttachmentImages()
+            if let container = textContainer {
+                textStorage?.sizeAttachmentImages(container: container)
+            }
             return true
         }
 
@@ -1805,7 +1802,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             saveTextStorageContent(to: note)
             note.save()
 
-            textStorage?.sizeAttachmentImages()
+            if let container = textContainer {
+                textStorage?.sizeAttachmentImages(container: container)
+            }
 
             return true
         }
@@ -1835,6 +1834,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                     self.breakUndoCoalescing()
                     self.insertText(newLineImage, replacementRange: selectedRange())
+                    self.insertNewline(nil)
                     self.breakUndoCoalescing()
                     return
                 }

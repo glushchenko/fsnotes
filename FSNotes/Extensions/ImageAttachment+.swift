@@ -11,21 +11,29 @@ import AVKit
 
 extension NoteAttachment {
     public func load(lazy: Bool = true) -> NSTextAttachment? {
+        guard let container = ViewController.shared()?.editArea.textContainer else { return nil }
+
         let attachment = NSTextAttachment()
 
         let imageSize = getSize(url: self.url)
         var size = self.getSize(width: imageSize.width, height: imageSize.height)
 
         if url.isImage {
-            attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-            attachment.image = NSImage(size: size)
+            let cell = FSNTextAttachmentCell(textContainer: container, image: NSImage(size: size))
+            cell.image?.size = size
+            attachment.image = nil
+            attachment.attachmentCell = cell
+            attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
+
         } else {
-            size = NSSize(width: 40, height: 40)
+            size = NSSize(width: 35, height: 35)
 
             if let image = NSImage(named: "file") {
-                let cell = NSTextAttachmentCell(imageCell: image)
-                attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+                let cell = FSNTextAttachmentCell(textContainer: container, image: image)
+                cell.image?.size = size
+                attachment.image = nil
                 attachment.attachmentCell = cell
+                attachment.bounds = NSRect(x: 0, y: 0, width: size.width, height: size.height)
             }
         }
 
