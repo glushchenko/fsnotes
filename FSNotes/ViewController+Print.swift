@@ -35,7 +35,7 @@ extension ViewController {
         let baseURL = bundle.url(forResource: "index", withExtension: "html")!
 
         let markdownString = note.getPrettifiedContent()
-        let css = MPreviewView.getPreviewStyle(theme: "atom-one-light") + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
+        let css = MPreviewView.getPreviewStyle(theme: "atom-one-light", fullScreen: true) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
 
         var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString

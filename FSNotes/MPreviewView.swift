@@ -421,7 +421,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
 
-    public static func getPreviewStyle(theme: String? = nil) -> String {
+    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false) -> String {
         var css = String()
 
         if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
@@ -452,7 +452,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
             }
         #else
-            let width = ViewController.shared()!.editArea.getWidth()
+            var width = ViewController.shared()!.editArea.getWidth()
+
+            if fullScreen {
+                width = 0
+            }
 
             return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
