@@ -1744,6 +1744,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         UserDataService.instance.isDark = effectiveAppearance.isDark
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
+        // clear preview cache
+        MPreviewView.template = nil
+        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
+        try? FileManager.default.removeItem(at: webkitPreview)
+
         NotesTextProcessor.hl = nil
         NotesTextProcessor.highlight(note: note)
 
@@ -1753,7 +1758,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         downView?.evaluateJavaScript(switchScript)
 
         // TODO: implement code block live theme changer
-        viewDelegate?.refillEditArea()
+        viewDelegate?.refillEditArea(force: true)
     }
 
     private func pasteImageFromClipboard(in note: Note) -> Bool {
