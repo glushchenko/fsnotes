@@ -45,7 +45,7 @@ class NoteCellView: NSTableCellView {
     
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
-        
+
         renderPin()
         name.layer?.zPosition = 1000
 
@@ -60,6 +60,7 @@ class NoteCellView: NSTableCellView {
         date.layer?.cornerRadius = 5
         date.layer?.zPosition = 1001
         date.textColor = UserDataService.instance.isDark ? NSColor.white : NSColor.gray
+        date.isHidden = UserDefaultsManagement.hideDate
 
         if (UserDefaultsManagement.horizontalOrientation) {
             preview.isHidden = true
