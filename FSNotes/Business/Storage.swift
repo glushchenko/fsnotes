@@ -138,23 +138,28 @@ class Storage {
     public func getRoot() -> URL? {
         #if targetEnvironment(simulator)
             return UserDefaultsManagement.storageUrl
-        #else
-            guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized
-            else { return nil }
-
-            if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
-                do {
-                    try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
-
-                    return iCloudDocumentsURL.standardized
-                } catch {
-                    print("Home directory creation: \(error)")
-                }
-                return nil
-            } else {
-                return iCloudDocumentsURL.standardized
-            }
         #endif
+
+        guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized else { return getLocalDocuments() }
+
+        if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
+            do {
+                try FileManager.default.createDirectory(at: iCloudDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+
+                return iCloudDocumentsURL.standardized
+            } catch {
+                print("Home directory creation: \(error)")
+            }
+            return nil
+        } else {
+            return iCloudDocumentsURL.standardized
+        }
+    }
+
+    public func getLocalDocuments() -> URL? {
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.standardized
+
+        return url
     }
 
     // removes all caches after crash
@@ -1314,7 +1319,7 @@ class Storage {
             let urls = fetchAllDirectories(url: main.url)
         {
             for url in urls {
-                let standardizedURL = (url as URL).standardized
+                let standardizedURL = (url as URL).standardized.resolvingSymlinksInPath()
 
                 if standardizedURL == archiveURL
                     || standardizedURL == trashURL

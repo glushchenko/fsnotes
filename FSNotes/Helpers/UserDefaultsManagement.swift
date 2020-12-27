@@ -695,7 +695,12 @@ public class UserDefaultsManagement {
             }
             #endif
 
-            if let archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
+            if var archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
+                
+            #if os(iOS)
+                archive = archive.resolvingSymlinksInPath()
+            #endif
+                
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
