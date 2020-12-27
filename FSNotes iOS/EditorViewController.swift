@@ -883,8 +883,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     func addToolBar(textField: UITextView, toolbar: UIToolbar) {
-        let scroll = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height))
-        scroll.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x272829)
+        let scrollFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: toolbar.frame.height)
+        let scroll = UIScrollView(frame: scrollFrame)
         scroll.showsHorizontalScrollIndicator = false
         scroll.contentSize = CGSize(width: toolbar.frame.width, height: toolbar.frame.height)
         scroll.addSubview(toolbar)
@@ -899,6 +899,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             textField.endEditing(true)
         }
 
+        let inputAccView = UIInputView(frame: scrollFrame, inputViewStyle: .keyboard)
+        inputAccView.addSubview(scroll)
         textField.inputAccessoryView = scroll
 
         if isFirst {
@@ -979,8 +981,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
 
         let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 40))
+        toolBar.backgroundColor = .darkGray
         toolBar.isTranslucent = false
-        toolBar.mixedBarTintColor = MixedColor(normal: 0xffffff, night: 0x272829)
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
         toolBar.setItems(items, animated: false)
         toolBar.isUserInteractionEnabled = true
