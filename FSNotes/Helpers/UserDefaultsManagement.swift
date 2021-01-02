@@ -290,7 +290,14 @@ public class UserDefaultsManagement {
     
     static var localDocumentsContainer: URL? {
         get {
-            if let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+            if var path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
+
+#if os(iOS)
+                if path.starts(with: "/var") {
+                    path = "/private\(path)"
+                }
+#endif
+
                 return URL(fileURLWithPath: path, isDirectory: true)
             }
  
@@ -695,12 +702,7 @@ public class UserDefaultsManagement {
             }
             #endif
 
-            if var archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
-                
-            #if os(iOS)
-                archive = archive.resolvingSymlinksInPath()
-            #endif
-                
+            if let archive = storageUrl?.appendingPathComponent("Archive", isDirectory: true) {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)

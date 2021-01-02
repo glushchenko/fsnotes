@@ -140,7 +140,12 @@ class Storage {
             return UserDefaultsManagement.storageUrl
         #endif
 
-        guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents").standardized else { return getLocalDocuments() }
+        let ubiquityContainer = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+
+        guard let iCloudDocumentsURL = ubiquityContainer?
+            .appendingPathComponent("Documents")
+            .standardized
+        else { return getLocalDocuments() }
 
         if (!FileManager.default.fileExists(atPath: iCloudDocumentsURL.path, isDirectory: nil)) {
             do {
@@ -1319,7 +1324,7 @@ class Storage {
             let urls = fetchAllDirectories(url: main.url)
         {
             for url in urls {
-                let standardizedURL = (url as URL).standardized.resolvingSymlinksInPath()
+                let standardizedURL = (url as URL).standardized
 
                 if standardizedURL == archiveURL
                     || standardizedURL == trashURL
