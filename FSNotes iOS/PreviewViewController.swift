@@ -21,7 +21,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(returnBack))
 
-        self.navigationItem.rightBarButtonItem = getEditButton()
+        self.navigationItem.rightBarButtonItems = [getMoreButton(), getEditButton()]
 
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
@@ -45,7 +45,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
 
-        let image = UIImage(named: "edit_preview_controller")!.imageWithColor(color1: .white)
+        let image = UIImage(named: "editMode")!.imageWithColor(color1: .white)
 
         menuBtn.setImage(image, for: .normal)
         menuBtn.addTarget(self, action: #selector(editMode), for: UIControl.Event.touchUpInside)
@@ -145,6 +145,24 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         mPreview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
 
+    public func getMoreButton() -> UIBarButtonItem {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        let image = UIImage(named: "more_row_action")!.imageWithColor(color1: .white)
+
+        menuBtn.setImage(image, for: .normal)
+        menuBtn.addTarget(self, action: #selector(clickOnButton), for: UIControl.Event.touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+
+        menuBarItem.tintColor = UIColor.white
+        return menuBarItem
+    }
+
     @objc func clickOnButton() {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
             let vc = bvc.containerController.viewControllers[0] as? ViewController,
@@ -154,7 +172,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
             let navPVC = bvc.containerController.viewControllers[2] as? UINavigationController
         else { return }
 
-        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: navPVC)
+        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: navPVC, back: true)
     }
 
     public func setTitle(text: String) {

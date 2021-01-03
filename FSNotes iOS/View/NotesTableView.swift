@@ -227,7 +227,7 @@ class NotesTableView: UITableView,
         }
     }
 
-    public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController) {
+    public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController, back: Bool = false) {
         let note = notes.first!
         let actionSheet = UIAlertController(title: note.getShortTitle(), message: nil, preferredStyle: .actionSheet)
 
@@ -236,13 +236,17 @@ class NotesTableView: UITableView,
                 self.renameAction(note: note, presentController: presentController)
             })
             actionSheet.addAction(rename)
-        } else {
-            let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default, handler: { _ in
-                self.turnOffEditing()
-                self.removeAction(notes: notes, presentController: presentController)
-            })
-            actionSheet.addAction(remove)
         }
+
+        let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default, handler: { _ in
+           self.turnOffEditing()
+           self.removeAction(notes: notes, presentController: presentController)
+
+            if presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+                UIApplication.getEVC().cancel()
+            }
+        })
+        actionSheet.addAction(remove)
 
         let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
             self.turnOffEditing()
@@ -255,6 +259,10 @@ class NotesTableView: UITableView,
         if showAll {
             let encryption = UIAlertAction(title: NSLocalizedString("Lock/unlock", comment: ""), style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
+
+                if !note.isUnlocked(), presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+                    UIApplication.getEVC().cancel()
+                }
             })
             actionSheet.addAction(encryption)
 

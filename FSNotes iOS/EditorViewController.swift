@@ -48,7 +48,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
 
-        self.navigationItem.rightBarButtonItem = self.getPreviewButton()
+        self.navigationItem.rightBarButtonItems = [getMoreButton(), self.getPreviewButton()]
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
@@ -1545,6 +1545,24 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
         
         return false
+    }
+
+    public func getMoreButton() -> UIBarButtonItem {
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        let image = UIImage(named: "more_row_action")!.imageWithColor(color1: .white)
+
+        menuBtn.setImage(image, for: .normal)
+        menuBtn.addTarget(self, action: #selector(clickOnButton), for: UIControl.Event.touchUpInside)
+
+        let menuBarItem = UIBarButtonItem(customView: menuBtn)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        currHeight?.isActive = true
+
+        menuBarItem.tintColor = UIColor.white
+        return menuBarItem
     }
 
     public func getPreviewButton() -> UIBarButtonItem {
