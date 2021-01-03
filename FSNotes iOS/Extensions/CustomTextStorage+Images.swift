@@ -13,8 +13,9 @@ extension NSTextStorage {
     public func loadImage(attachment: NSTextAttachment, url: URL, range: NSRange) {
         EditTextView.imagesLoaderQueue.addOperation {
             guard let size = attachment.image?.size else { return }
+            let scale = UIScreen.main.scale
 
-            let retinaSize = CGSize(width: size.width * 2, height: size.height * 2)
+            let retinaSize = CGSize(width: size.width * scale, height: size.height * scale)
             attachment.image = NoteAttachment.getImage(url: url, size: retinaSize)
             
             DispatchQueue.main.async {

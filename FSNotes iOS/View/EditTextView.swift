@@ -255,7 +255,7 @@ class EditTextView: UITextView, UITextViewDelegate {
                 let range = NSRange(location: selectedRange.location, length: 1)
                 let attachment = NoteAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
 
-                if let attributedString = attachment.getAttributedString(lazy: false) {
+                if let attributedString = attachment.getAttributedString() {
 
                     undoManager?.beginUndoGrouping()
                     textStorage.replaceCharacters(in: selectedRange, with: attributedString)

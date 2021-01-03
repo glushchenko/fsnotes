@@ -11,18 +11,13 @@ import MobileCoreServices
 import AVKit
 
 extension NoteAttachment {
-    public func load(lazy: Bool = true) -> NSTextAttachment? {
+    public func load() -> NSTextAttachment? {
         let imageSize = getSize(url: self.url)
         guard let size = getImageSize(imageSize: imageSize) else { return nil }
 
         let attachment = NSTextAttachment()
         attachment.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-
-        if lazy {
-            attachment.image = UIImage.emptyImage(with: size)
-        } else {
-            attachment.image = NoteAttachment.getImage(url: self.url, size: size)
-        }
+        attachment.image = UIImage.emptyImage(with: size)
 
         return attachment
     }
@@ -76,12 +71,12 @@ extension NoteAttachment {
         guard let image = finalImage else { return nil }
         var thumbImage: UIImage?
 
-        if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBig"), FileManager.default.fileExists(atPath: cacheURL.path) {
+        if let cacheURL = self.getCacheUrl(from: url, prefix: "ThumbnailsBigInline"), FileManager.default.fileExists(atPath: cacheURL.path) {
             thumbImage = UIImage(contentsOfFile: cacheURL.path)
         } else if
             let resizedImage = self.resize(image: image, size: size) {
             thumbImage = resizedImage
-            self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBig")
+            self.savePreviewImage(url: url, image: resizedImage, prefix: "ThumbnailsBigInline")
         }
 
         return thumbImage

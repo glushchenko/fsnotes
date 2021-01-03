@@ -80,6 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let webkitPreview = URL(fileURLWithPath: temp).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
+        let imagesPreview = URL(fileURLWithPath: temp).appendingPathComponent("ThumbnailsBig")
+        try? FileManager.default.removeItem(at: imagesPreview)
+
         Storage.shared().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
 

@@ -10,7 +10,7 @@ import Cocoa
 import AVKit
 
 extension NoteAttachment {
-    public func load(lazy: Bool = true) -> NSTextAttachment? {
+    public func load() -> NSTextAttachment? {
         guard let container = ViewController.shared()?.editArea.textContainer else { return nil }
 
         let attachment = NSTextAttachment()

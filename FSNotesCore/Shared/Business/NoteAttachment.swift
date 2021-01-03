@@ -47,7 +47,7 @@ class NoteAttachment {
 
     weak var weakTimer: Timer?
 
-    public func getAttributedString(lazy: Bool = true) -> NSMutableAttributedString? {
+    public func getAttributedString() -> NSMutableAttributedString? {
         let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
@@ -61,7 +61,7 @@ class NoteAttachment {
         }
 
         guard FileManager.default.fileExists(atPath: self.url.path) else { return nil }
-        guard let attachment = load(lazy: lazy) else { return nil }
+        guard let attachment = load() else { return nil }
 
         let attributedString = NSAttributedString(attachment: attachment)
         let mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
