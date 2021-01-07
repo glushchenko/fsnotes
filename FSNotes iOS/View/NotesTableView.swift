@@ -235,23 +235,41 @@ class NotesTableView: UITableView,
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
                 self.renameAction(note: note, presentController: presentController)
             })
+            rename.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+            if let image = UIImage(named: "renameAction") {
+                rename.setValue(image, forKey: "image")
+            }
+
             actionSheet.addAction(rename)
         }
 
-        let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .default, handler: { _ in
-           self.turnOffEditing()
-           self.removeAction(notes: notes, presentController: presentController)
+        let remove = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive, handler: { _ in
+            self.turnOffEditing()
+            self.removeAction(notes: notes, presentController: presentController)
 
             if presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
                 UIApplication.getEVC().cancel()
             }
         })
+        remove.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+        if let image = UIImage(named: "removeAction") {
+            remove.setValue(image, forKey: "image")
+        }
+
         actionSheet.addAction(remove)
 
         let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
             self.turnOffEditing()
             self.moveAction(notes: notes, presentController: presentController)
         })
+        move.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+        if let image = UIImage(named: "moveAction") {
+            move.setValue(image, forKey: "image")
+        }
+
         actionSheet.addAction(move)
 
         // Old tags system removed
@@ -264,6 +282,10 @@ class NotesTableView: UITableView,
                     UIApplication.getEVC().cancel()
                 }
             })
+            encryption.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "lockAction") {
+                encryption.setValue(image, forKey: "image")
+            }
             actionSheet.addAction(encryption)
 
             if note.container == .encryptedTextPack {
@@ -278,16 +300,25 @@ class NotesTableView: UITableView,
             let copy = UIAlertAction(title: NSLocalizedString("Copy plain text", comment: ""), style: .default, handler: { _ in
                 self.copyAction(note: note, presentController: presentController)
             })
+            copy.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "copyAction") {
+                copy.setValue(image, forKey: "image")
+            }
             actionSheet.addAction(copy)
 
             let share = UIAlertAction(title: NSLocalizedString("Share", comment: ""), style: .default, handler: { _ in
                 self.shareAction(note: note, presentController: presentController)
             })
+            share.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+            if let image = UIImage(named: "shareAction") {
+                share.setValue(image, forKey: "image")
+            }
+
             actionSheet.addAction(share)
         }
 
-        let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .destructive, handler: { _ in
-
+        let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in
             if self.isEditing {
                 self.setEditing(false, animated: true)
             }
