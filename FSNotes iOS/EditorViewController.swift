@@ -925,48 +925,48 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             items.append(tagButton)
         }
 
-        let boldImage = UIImage(named: "toolbarBold")?.resize(maxWidthHeight: 19)
+        let boldImage = UIImage(named: "toolbarBold")?.resize(maxWidthHeight: 21)
         let boldButton = UIBarButtonItem(image: boldImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         items.append(boldButton)
 
-        let italicImage = UIImage(named: "toolbarItalic")?.resize(maxWidthHeight: 16)
+        let italicImage = UIImage(named: "toolbarItalic")?.resize(maxWidthHeight: 18)
         let italicButton = UIBarButtonItem(image: italicImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
         italicButton.tag = 0x03
         items.append(italicButton)
 
-        let headerImage = UIImage(named: "toolbarHeader")?.resize(maxWidthHeight: 20)
+        let headerImage = UIImage(named: "toolbarHeader")?.resize(maxWidthHeight: 22)
         let headerButton = UIBarButtonItem(image: headerImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
         items.append(headerButton)
 
-        let wikiImage = UIImage(named: "toolbarWiki")?.resize(maxWidthHeight: 23)
+        let wikiImage = UIImage(named: "toolbarWiki")?.resize(maxWidthHeight: 25)
         let wikiButton = UIBarButtonItem(image: wikiImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.wikilink))
         items.append(wikiButton)
 
-        let toolbarImage = UIImage(named: "toolbarImage")?.resize(maxWidthHeight: 23)
+        let toolbarImage = UIImage(named: "toolbarImage")?.resize(maxWidthHeight: 26)
         let imageButton = UIBarButtonItem(image: toolbarImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertImage))
         items.append(imageButton)
 
-        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 22)
+        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 24)
         let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
         items.append(codeblockButton)
 
-        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 19)
+        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 21)
         let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
         items.append(quoteButton)
 
-        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 23)
+        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 25)
         let orderedListButton = UIBarButtonItem(image: orderedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.orderedListPressed))
         items.append(orderedListButton)
 
-        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 23)
+        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 25)
         let numberedListButton = UIBarButtonItem(image: numberedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.numberedListPressed))
         items.append(numberedListButton)
 
-        let indentRightImage = UIImage(named: "toolbarIndentRight")?.resize(maxWidthHeight: 23)
+        let indentRightImage = UIImage(named: "toolbarIndentRight")?.resize(maxWidthHeight: 25)
         let indentButton = UIBarButtonItem(image: indentRightImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         items.append(indentButton)
 
-        let indentLeftImage = UIImage(named: "toolbarIndentLeft")?.resize(maxWidthHeight: 23)
+        let indentLeftImage = UIImage(named: "toolbarIndentLeft")?.resize(maxWidthHeight: 25)
         let unindentButton = UIBarButtonItem(image: indentLeftImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         items.append(unindentButton)
 
