@@ -915,52 +915,59 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     private func getMarkdownToolbar() -> UIToolbar {
         var items = [UIBarButtonItem]()
 
-        let todoButton = UIBarButtonItem(image: UIImage(named: "todo"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
+        let todoImage = UIImage(named: "toolbarTodo")?.resize(maxWidthHeight: 27)
+        let todoButton = UIBarButtonItem(image: todoImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.todoPressed))
         items.append(todoButton)
 
         if UserDefaultsManagement.inlineTags {
-            let tagImage = UIImage(named: "tag2")
+            let tagImage = UIImage(named: "toolbarTag")?.resize(maxWidthHeight: 25)
             let tagButton = UIBarButtonItem(image: tagImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.tagPressed))
             items.append(tagButton)
         }
 
-        let boldButton = UIBarButtonItem(image: #imageLiteral(resourceName: "bold.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
+        let boldImage = UIImage(named: "toolbarBold")?.resize(maxWidthHeight: 19)
+        let boldButton = UIBarButtonItem(image: boldImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.boldPressed))
         items.append(boldButton)
 
-        let italicButton = UIBarButtonItem(image: #imageLiteral(resourceName: "italic.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
+        let italicImage = UIImage(named: "toolbarItalic")?.resize(maxWidthHeight: 16)
+        let italicButton = UIBarButtonItem(image: italicImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.italicPressed))
         italicButton.tag = 0x03
         items.append(italicButton)
 
-        let headerButton = UIBarButtonItem(image: #imageLiteral(resourceName: "header.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
+        let headerImage = UIImage(named: "toolbarHeader")?.resize(maxWidthHeight: 20)
+        let headerButton = UIBarButtonItem(image: headerImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.headerPressed))
         items.append(headerButton)
 
-        let wikiImage = UIImage(named: "wikilink")?.resize(maxWidthHeight: 25)
+        let wikiImage = UIImage(named: "toolbarWiki")?.resize(maxWidthHeight: 23)
         let wikiButton = UIBarButtonItem(image: wikiImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.wikilink))
         items.append(wikiButton)
 
-        let imageButton = UIBarButtonItem(image: UIImage(named: "image"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertImage))
+        let toolbarImage = UIImage(named: "toolbarImage")?.resize(maxWidthHeight: 23)
+        let imageButton = UIBarButtonItem(image: toolbarImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.insertImage))
         items.append(imageButton)
 
-        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 30)
+        let codeBlockImage = UIImage(named: "codeBlockAsset")?.resize(maxWidthHeight: 22)
         let codeblockButton = UIBarButtonItem(image: codeBlockImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.codeBlockButton))
         items.append(codeblockButton)
 
-        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 25)
+        let quoteImage = UIImage(named: "quote")?.resize(maxWidthHeight: 19)
         let quoteButton = UIBarButtonItem(image: quoteImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.quotePressed))
         items.append(quoteButton)
 
-        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 25)
+        let orderedListImage = UIImage(named: "ordered_list")?.resize(maxWidthHeight: 23)
         let orderedListButton = UIBarButtonItem(image: orderedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.orderedListPressed))
         items.append(orderedListButton)
 
-        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 25)
+        let numberedListImage = UIImage(named: "numbered_list")?.resize(maxWidthHeight: 23)
         let numberedListButton = UIBarButtonItem(image: numberedListImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.numberedListPressed))
         items.append(numberedListButton)
 
-        let indentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "indent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
+        let indentRightImage = UIImage(named: "toolbarIndentRight")?.resize(maxWidthHeight: 23)
+        let indentButton = UIBarButtonItem(image: indentRightImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.indentPressed))
         items.append(indentButton)
 
-        let unindentButton = UIBarButtonItem(image: #imageLiteral(resourceName: "unindent.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
+        let indentLeftImage = UIImage(named: "toolbarIndentLeft")?.resize(maxWidthHeight: 23)
+        let unindentButton = UIBarButtonItem(image: indentLeftImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.unIndentPressed))
         items.append(unindentButton)
 
         let undoButton = UIBarButtonItem(image: #imageLiteral(resourceName: "undo.png"), landscapeImagePhone: nil, style: .done, target: self, action: #selector(EditorViewController.undoPressed))
