@@ -229,7 +229,7 @@ class NotesTableView: UITableView,
 
     public func actionsSheet(notes: [Note], showAll: Bool = false, presentController: UIViewController, back: Bool = false) {
         let note = notes.first!
-        let actionSheet = UIAlertController(title: note.getShortTitle(), message: nil, preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(title: note.project.getFullLabel() + " ➔ " + note.url.lastPathComponent, message: nil, preferredStyle: .actionSheet)
 
         if showAll {
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
