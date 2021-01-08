@@ -131,6 +131,9 @@
 "Live images preview" = "Toon afbeeldingen in de editor";
 
 /* No comment provided by engineer. */
+"Lock" = "Vergrendel";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Vergrendel/ontgrendel";
 
 /* No comment provided by engineer. */
@@ -180,6 +183,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Beoordeel FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Verwijder versleuteling";
 
 /* Main view popover table */
 "Remove folder" = "Verwijder map";
@@ -258,6 +264,9 @@
 
 /* Settings */
 "UI" = "UI";
+
+/* No comment provided by engineer. */
+"Unlock" = "Ontgrendel";
 
 /* Table row action */
 "UnPin" = "VerwijderPin";

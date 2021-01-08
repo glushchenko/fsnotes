@@ -132,6 +132,9 @@
 "Live images preview" = "Live images preview";
 
 /* No comment provided by engineer. */
+"Lock" = "Lock";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Lock/unlock";
 
 /* No comment provided by engineer. */
@@ -182,6 +185,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Rate FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Remove encryption";
 
 /* Main view popover table */
 "Remove folder" = "Remove folder";
@@ -261,6 +267,9 @@
 
 /* Settings */
 "UI" = "UI";
+
+/* No comment provided by engineer. */
+"Unlock" = "Unlock";
 
 /* Table row action */
 "UnPin" = "UnPin";

@@ -131,6 +131,9 @@
 "Live images preview" = "Показывать изображения";
 
 /* No comment provided by engineer. */
+"Lock" = "Заблокировать";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Заблокировать/разблокировать";
 
 /* No comment provided by engineer. */
@@ -180,6 +183,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Оценить FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Снять шифрование";
 
 /* Main view popover table */
 "Remove folder" = "Удалить папку";
@@ -258,6 +264,9 @@
 
 /* Settings */
 "UI" = "Интерфейс";
+
+/* No comment provided by engineer. */
+"Unlock" = "Разблокировать";
 
 /* Table row action */
 "UnPin" = "Открепить";

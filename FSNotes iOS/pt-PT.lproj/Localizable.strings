@@ -131,6 +131,9 @@
 "Live images preview" = "Pré-visualização de imagens";
 
 /* No comment provided by engineer. */
+"Lock" = "Trancar";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Trancar/destrancar";
 
 /* No comment provided by engineer. */
@@ -180,6 +183,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Avaliar FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Remover criptografia";
 
 /* Main view popover table */
 "Remove folder" = "Remover pasta";
@@ -258,6 +264,9 @@
 
 /* Settings */
 "UI" = "Interface";
+
+/* No comment provided by engineer. */
+"Unlock" = "Destrancar";
 
 /* Table row action */
 "UnPin" = "Soltar";

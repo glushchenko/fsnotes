@@ -131,6 +131,9 @@
 "Live images preview" = "Aperçu des images";
 
 /* No comment provided by engineer. */
+"Lock" = "Verrouiller";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Verrouiller/déverrouiller";
 
 /* No comment provided by engineer. */
@@ -180,6 +183,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Noter FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Supprimer le cryptage";
 
 /* Main view popover table */
 "Remove folder" = "Supprimer le dossier";
@@ -258,6 +264,9 @@
 
 /* Settings */
 "UI" = "Interface";
+
+/* No comment provided by engineer. */
+"Unlock" = "Déverrouiller";
 
 /* Table row action */
 "UnPin" = "Désépingler";

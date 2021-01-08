@@ -131,6 +131,9 @@
 "Live images preview" = "Antemprima delle immagini";
 
 /* No comment provided by engineer. */
+"Lock" = "Blocca";
+
+/* No comment provided by engineer. */
 "Lock/unlock" = "Blocca/sblocca";
 
 /* No comment provided by engineer. */
@@ -180,6 +183,9 @@
 
 /* Settings */
 "Rate FSNotes" = "Vota FSNotes";
+
+/* No comment provided by engineer. */
+"Remove encryption" = "Rimuovi la crittografia";
 
 /* Main view popover table */
 "Remove folder" = "Rimuovi cartella";
@@ -258,6 +264,9 @@
 
 /* Settings */
 "UI" = "Interfaccia utente";
+
+/* No comment provided by engineer. */
+"Unlock" = "Sblocca";
 
 /* Table row action */
 "UnPin" = "Sblocca";
