@@ -636,13 +636,13 @@ class NotesTableView: UITableView,
 
         // scroll to hack
         // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if note.project.sortBy == .modificationDate, let first = self.notes.first {
-                self.scrollTo(note: first)
-            } else {
-                self.scrollTo(note: note)
-            }
-        }
+        //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        //            if note.project.sortBy == .modificationDate, let first = self.notes.first {
+        //                self.scrollTo(note: first)
+        //            } else {
+        //                self.scrollTo(note: note)
+        //            }
+        //        }
     }
 
     @objc public func toggleSelectAll() {

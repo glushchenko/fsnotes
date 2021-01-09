@@ -147,16 +147,16 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
     public func getMoreButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        let image = UIImage(named: "more_row_action")!.imageWithColor(color1: .white)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
+        let image = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white)
 
         menuBtn.setImage(image, for: .normal)
         menuBtn.addTarget(self, action: #selector(clickOnButton), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 32)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 32)
         currHeight?.isActive = true
 
         menuBarItem.tintColor = UIColor.white
