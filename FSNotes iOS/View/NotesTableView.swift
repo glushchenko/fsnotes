@@ -351,7 +351,7 @@ class NotesTableView: UITableView,
         })
         actionSheet.addAction(dismiss)
 
-        if let view = self.superview {
+        if let view = UIApplication.getEVC().view {
             actionSheet.popoverPresentationController?.sourceView = view
             actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
         }

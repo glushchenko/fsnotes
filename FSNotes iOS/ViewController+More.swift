@@ -137,6 +137,9 @@ extension ViewController: UIDocumentPickerDelegate {
         let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
         actionSheet.addAction(dismiss)
 
+        actionSheet.popoverPresentationController?.sourceView = view
+        actionSheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.size.width / 2.0, y: view.bounds.size.height, width: 2.0, height: 1.0)
+
         present(actionSheet, animated: true, completion: nil)
     }
 
