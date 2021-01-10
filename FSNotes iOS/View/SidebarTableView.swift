@@ -141,10 +141,6 @@ class SidebarTableView: UITableView,
         }
 
         var name = sidebarItem.name
-        
-        if sidebarItem.type == .Category || sidebarItem.isSystem() {
-            name += " ▽"
-        }
 
         if sidebarItem.type == .Tag {
             name = "#\(name)"
@@ -202,7 +198,7 @@ class SidebarTableView: UITableView,
 
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
 
-        let name = sidebarItem.name + " ▽"
+        let name = sidebarItem.name
         let newQuery = SearchQuery()
         newQuery.setType(sidebarItem.type)
         newQuery.project = sidebarItem.project

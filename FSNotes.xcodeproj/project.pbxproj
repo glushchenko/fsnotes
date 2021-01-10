@@ -660,6 +660,7 @@
 		D7C690E022AB076000BFBBD1 /* italic.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955D2051D1AB009017EE /* italic.png */; };
 		D7C690E122AB076000BFBBD1 /* italic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955C2051D1AA009017EE /* italic@2x.png */; };
 		D7C690E222AB076000BFBBD1 /* italic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D739955B2051D1AA009017EE /* italic@3x.png */; };
+		D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */; };
 		D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */; };
 		D7C9029223547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
 		D7C9029323547A1E00A89BD8 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C9029123547A1E00A89BD8 /* Tag.swift */; };
@@ -1395,6 +1396,7 @@
 		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C690CF22AB025700BFBBD1 /* codeblock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = codeblock.png; sourceTree = "<group>"; };
 		D7C690D322AB033A00BFBBD1 /* tb_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tb_link.png; sourceTree = "<group>"; };
+		D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+More.swift"; sourceTree = "<group>"; };
 		D7C803ED2046DBBD005DA599 /* DefaultExtensionControllerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultExtensionControllerView.swift; sourceTree = "<group>"; };
 		D7C9029123547A1E00A89BD8 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		D7CA2DA620C9B6EF00717769 /* NSMutableAttributedString+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Font.swift"; sourceTree = "<group>"; };
@@ -1984,6 +1986,7 @@
 				D7679388201F21F5000F7BBF /* AppDelegate.swift */,
 				D73673A720D10CF2000BA61D /* CloudDriveManager.swift */,
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
+				D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */,
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
@@ -3709,6 +3712,7 @@
 				D712FED2206F67C500370BA4 /* NightMode.swift in Sources */,
 				D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */,
+				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
 				D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
 				D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */,

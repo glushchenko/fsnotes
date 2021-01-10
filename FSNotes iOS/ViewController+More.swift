@@ -1,67 +1,146 @@
 //
-//  FolderPopoverViewController.swift
+//  ViewController+More.swift
 //  FSNotes iOS
 //
-//  Created by Oleksandr Glushchenko on 1/7/19.
-//  Copyright © 2019 Oleksandr Glushchenko. All rights reserved.
+//  Created by Олександр Глущенко on 10.01.2021.
+//  Copyright © 2021 Oleksandr Glushchenko. All rights reserved.
 //
 
+import Foundation
 import UIKit
-import NightNight
 
-class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelegate {
-    public var actions: [FolderPopoverActions] = [FolderPopoverActions]()
+extension ViewController: UIDocumentPickerDelegate {
+    @IBAction public func openSidebarSettings() {
+        let sidebarItem = sidebarTableView.getSidebarItem()
+        let projectLabel = sidebarItem?.project?.getFullLabel() ?? String()
 
-    override func viewDidLoad() {
-        tableView.rowHeight = 44
-        tableView.separatorInset = UIEdgeInsets.zero
-    }
+        var type = sidebarItem?.type
+        var indexPath: IndexPath?
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return actions.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-
-        let action = actions[indexPath.row]
-        cell.textLabel?.text = action.getDescription()
-        cell.textLabel?.textAlignment = .center
-
-        let view = UIView()
-        view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
-        cell.selectedBackgroundView = view
-
-        return cell
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let action = actions[indexPath.row]
-
-        switch action {
-        case .importNote:
-            importNote()
-        case .settingsFolder:
-            openSettings()
-        case .createFolder:
-            createFolder()
-        case .removeFolder:
-            removeFolder()
-        case .renameFolder:
-            renameFolder()
-        case .removeTag:
-            removeTag()
-        case .renameTag:
-            renameTag()
+        if let tag = searchQuery.tag {
+            indexPath = sidebarTableView.getIndexPathBy(tag: tag)
         }
-    }
 
-    public func setActions(_ actions: [FolderPopoverActions]) {
-        self.actions = actions
+        if let path = indexPath, path.section == SidebarSection.Tags.rawValue {
+            type = .Tag
+        }
+
+        guard type != .Label else { return }
+
+        var actions = [FolderPopoverActions]()
+
+        switch type {
+        case .Inbox:
+            actions = [.importNote, .settingsFolder, .createFolder]
+        case .All, .Todo:
+            actions = [.settingsFolder]
+        case .Archive:
+            actions = [.importNote, .settingsFolder]
+        case .Trash:
+            actions = [.settingsFolder]
+        case .Category:
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
+        case .Tag:
+            actions = [.removeTag, .renameTag]
+        default: break
+        }
+
+        let mainTitle = type != .Tag ? projectLabel : sidebarItem?.getName()
+        let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
+
+        if actions.contains(.importNote) {
+            let title = NSLocalizedString("Import notes", comment: "Main view popover table")
+            let importNote = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.importNote()
+            })
+            importNote.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+            if let image = UIImage(named: "sidebarImport")?.resize(maxWidthHeight: 22) {
+                importNote.setValue(image, forKey: "image")
+            }
+
+            actionSheet.addAction(importNote)
+        }
+
+        if actions.contains(.settingsFolder) {
+            let title = NSLocalizedString("View settings", comment: "Main view popover table")
+            let settings = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.openProjectSettings()
+            })
+            settings.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarSettings")?.resize(maxWidthHeight: 23) {
+                settings.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(settings)
+        }
+
+        if actions.contains(.createFolder) {
+            let title = NSLocalizedString("Create folder", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.createFolder()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarCreateFolder")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.removeFolder) {
+            let title = NSLocalizedString("Remove folder", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.removeFolder()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRemoveFolder")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.renameFolder) {
+            let title = NSLocalizedString("Rename folder", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.renameFolder()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRenameFolder")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.removeTag) {
+            let title = NSLocalizedString("Remove tag", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.removeTag()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRemoveTag")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.renameTag) {
+            let title = NSLocalizedString("Rename tag", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.renameTag()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "sidebarRenameTag")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        let dismiss = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil)
+        actionSheet.addAction(dismiss)
+
+        present(actionSheet, animated: true, completion: nil)
     }
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-
         guard var projectURL = Storage.sharedInstance().getCurrentProject()?.url else { return }
 
         if let mvc = getVC(), let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
@@ -93,7 +172,7 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
         self.present(picker, animated: true, completion: nil)
     }
 
-    private func openSettings() {
+    @objc public func openProjectSettings() {
         guard let vc = getVC(),
             let sidebarItem = vc.sidebarTableView.getSidebarItem()
         else { return }
@@ -325,30 +404,5 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
         mvc.present(alertController, animated: true) {
             alertController.textFields![0].selectAll(nil)
         }
-    }
-}
-
-enum FolderPopoverActions: Int {
-    case importNote
-    case settingsFolder
-    case createFolder
-    case removeFolder
-    case renameFolder
-    case removeTag
-    case renameTag
-
-    static let description =
-        [
-            NSLocalizedString("Import notes", comment: "Main view popover table"),
-            NSLocalizedString("View settings", comment: "Main view popover table"),
-            NSLocalizedString("Create folder", comment: "Main view popover table"),
-            NSLocalizedString("Remove folder", comment: "Main view popover table"),
-            NSLocalizedString("Rename folder", comment: "Main view popover table"),
-            NSLocalizedString("Remove tag", comment: "Main view popover table"),
-            NSLocalizedString("Rename tag", comment: "Main view popover table")
-        ]
-
-    public func getDescription() -> String {
-        return FolderPopoverActions.description[self.rawValue]
     }
 }

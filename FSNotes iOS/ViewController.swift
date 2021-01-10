@@ -20,6 +20,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var search: UISearchBar!
+    @IBOutlet weak var bulkButton: UIButton!
     @IBOutlet weak var searchCancel: UIButton!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var searchView: UIView!
@@ -77,6 +78,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             }))
             self.present(alert, animated: true, completion: nil)
         }
+
+        bulkButton.imageView?.image = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
 
         super.viewDidAppear(animated)
     }
@@ -157,8 +160,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         self.indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
 
+        bulkButton.imageView?.image = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
-        self.settingsButton.setImage(UIImage(named: "more_white"), for: .normal)
+
+        let settingsIcon = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white)
+        self.settingsButton.setImage(settingsIcon, for: .normal)
 
         self.headerView.mixedBackgroundColor = Colors.Header
 
@@ -174,16 +180,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                    glassIconView.tintColor = .white
            }
 
-        self.currentFolder.text = NSLocalizedString("Inbox", comment: "") + " ▽"
-
+        self.currentFolder.text = NSLocalizedString("Inbox", comment: "")
         self.searchCancel.titleLabel?.text = NSLocalizedString("Cancel", comment: "")
-
         self.search.placeholder = NSLocalizedString("Search or create", comment: "")
-
         self.folderCapacity.mixedTextColor = Colors.titleText
         self.currentFolder.mixedTextColor = Colors.titleText
         self.currentFolder.isUserInteractionEnabled = true
-        self.currentFolder.addGestureRecognizer(UITapGestureRecognizer(target: self.notesTable, action: #selector(self.notesTable.toggleSelectAll)))
+        self.currentFolder.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.openSidebarSettings)))
 
         self.searchCancel.mixedTintColor = Colors.buttonText
         search.keyboardAppearance = NightNight.theme == .night ? .dark : .default
@@ -262,7 +265,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if gesture.state != .ended {
             sidebarTableView.tableView(sidebarTableView, didSelectRowAt: indexPath)
 
-            notesTable.openPopover(indexPath: indexPath)
+            openSidebarSettings()
         }
 
         gesture.state = .ended
@@ -520,7 +523,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @IBAction func bulkEditing(_ sender: Any) {
         if notesTable.isEditing {
-            self.settingsButton.setImage(UIImage(named: "more_white.png"), for: .normal)
+            let navImage = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
+            self.bulkButton.setImage(navImage, for: .normal)
 
             if let selectedRows = notesTable.selectedIndexPaths {
                 var notes = [Note]()
@@ -540,7 +544,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             notesTable.allowsMultipleSelectionDuringEditing = true
             notesTable.setEditing(true, animated: true)
-            self.settingsButton.setImage(UIImage(named: "done_white.png"), for: .normal)
+            self.bulkButton.setImage(UIImage(named: "done_white.png"), for: .normal)
         }
     }
 

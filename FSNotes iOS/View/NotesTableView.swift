@@ -241,7 +241,7 @@ class NotesTableView: UITableView,
         })
         remove.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-        if let image = UIImage(named: "removeAction") {
+        if let image = UIImage(named: "removeAction")?.resize(maxWidthHeight: 22) {
             remove.setValue(image, forKey: "image")
         }
 
@@ -253,11 +253,30 @@ class NotesTableView: UITableView,
             })
             rename.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "renameAction") {
+            if let image = UIImage(named: "renameAction")?.resize(maxWidthHeight: 23) {
                 rename.setValue(image, forKey: "image")
             }
 
             actionSheet.addAction(rename)
+
+            let title = note.isPinned ? NSLocalizedString("UnPin", comment: "") : NSLocalizedString("Pin", comment: "")
+            let pin = UIAlertAction(title: title, style: .default, handler: { _ in
+                if note.isPinned {
+                    note.removePin()
+                    self.removePins(notes: [note])
+                } else {
+                    note.addPin()
+                    self.addPins(notes: [note])
+                }
+            })
+
+            pin.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+
+            if let image = UIImage(named: "pinAction")?.resize(maxWidthHeight: 23) {
+                pin.setValue(image, forKey: "image")
+            }
+
+            actionSheet.addAction(pin)
         }
 
         let move = UIAlertAction(title: NSLocalizedString("Move", comment: ""), style: .default, handler: { _ in
@@ -266,7 +285,7 @@ class NotesTableView: UITableView,
         })
         move.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-        if let image = UIImage(named: "moveAction") {
+        if let image = UIImage(named: "moveAction")?.resize(maxWidthHeight: 23) {
             move.setValue(image, forKey: "image")
         }
 
@@ -286,7 +305,7 @@ class NotesTableView: UITableView,
                 }
             })
             encryption.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "lockAction") {
+            if let image = UIImage(named: "lockAction")?.resize(maxWidthHeight: 23) {
                 encryption.setValue(image, forKey: "image")
             }
             actionSheet.addAction(encryption)
@@ -308,7 +327,7 @@ class NotesTableView: UITableView,
                 self.copyAction(note: note, presentController: presentController)
             })
             copy.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-            if let image = UIImage(named: "copyAction") {
+            if let image = UIImage(named: "copyAction")?.resize(maxWidthHeight: 23) {
                 copy.setValue(image, forKey: "image")
             }
             actionSheet.addAction(copy)
@@ -318,7 +337,7 @@ class NotesTableView: UITableView,
             })
             share.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
 
-            if let image = UIImage(named: "shareAction") {
+            if let image = UIImage(named: "shareAction")?.resize(maxWidthHeight: 25) {
                 share.setValue(image, forKey: "image")
             }
 
