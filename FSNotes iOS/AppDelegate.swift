@@ -72,6 +72,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        UserDefaultsManagement.crashedLastTime = false
+        
+        saveEditorState()
+        
         let temp = NSTemporaryDirectory()
 
         let encryption = URL(fileURLWithPath: temp).appendingPathComponent("Encryption")
@@ -84,9 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try? FileManager.default.removeItem(at: imagesPreview)
 
         Storage.shared().saveProjectsCache()
-        UserDefaultsManagement.crashedLastTime = false
-
-        saveEditorState()
 
         print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
