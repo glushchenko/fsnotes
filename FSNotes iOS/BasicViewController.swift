@@ -112,10 +112,12 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
                let controller = UserDefaultsManagement.currentController,
                controller != 0
             {
-                if let project = Storage.shared().getProjectByNote(url: noteURL) {
+                if FileManager.default.fileExists(atPath: noteURL.path),
+                   let project = Storage.shared().getProjectByNote(url: noteURL)
+                {
                     let note = Note(url: noteURL, with: project)
 
-                    if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+                    if !note.isEncrypted(), let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
                         bvc.containerController.selectController(atIndex: controller, animated: false)
 
                         let evc = UIApplication.getEVC()
