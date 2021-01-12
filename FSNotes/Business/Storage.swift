@@ -44,6 +44,7 @@ class Storage {
 
     private let lastNewsDate = "2020-06-20"
     public var isFinishedTagsLoading = false
+    public var isCrashedLastTime = false
 
     init() {
         let storageType = UserDefaultsManagement.storageType
@@ -182,6 +183,8 @@ class Storage {
                 }
             }
         }
+
+        isCrashedLastTime = UserDefaultsManagement.crashedLastTime
 
         UserDefaultsManagement.crashedLastTime = true
     }

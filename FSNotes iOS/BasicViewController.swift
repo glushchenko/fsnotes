@@ -64,6 +64,7 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let containerController = segue.destination as? SwiftyPageController {
             setupContainerController(containerController)
+            restoreLastController()
         }
     }
 
@@ -100,6 +101,40 @@ class BasicViewController: UIViewController, SwiftyPageControllerDelegate {
     public func enableSwipe() {
         if let pan = containerController.panGesture {
             pan.isEnabled = true
+        }
+    }
+
+    private func restoreLastController() {
+        guard !Storage.shared().isCrashedLastTime else { return }
+
+        DispatchQueue.main.async {
+            if let noteURL = UserDefaultsManagement.currentNote,
+               let controller = UserDefaultsManagement.currentController,
+               controller != 0
+            {
+                if let project = Storage.shared().getProjectByNote(url: noteURL) {
+                    let note = Note(url: noteURL, with: project)
+
+                    if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+                        bvc.containerController.selectController(atIndex: controller, animated: false)
+
+                        let evc = UIApplication.getEVC()
+                        evc.fill(note: note)
+
+                        if UserDefaultsManagement.currentEditorState == true,
+                           let selectedRange = UserDefaultsManagement.currentRange
+                        {
+                            if selectedRange.upperBound <= note.content.length {
+                                evc.editArea.selectedRange = selectedRange
+                            }
+
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                evc.editArea.becomeFirstResponder()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

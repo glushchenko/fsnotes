@@ -86,6 +86,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Storage.shared().saveProjectsCache()
         UserDefaultsManagement.crashedLastTime = false
 
+        saveEditorState()
+
         print("Termination end, crash status: \(UserDefaultsManagement.crashedLastTime)")
     }
 
@@ -182,6 +184,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
         return true
+    }
+
+    private func saveEditorState() {
+        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+            let evc = UIApplication.getEVC()
+            let index = bvc.containerController.selectedIndex
+
+            UserDefaultsManagement.currentController = index
+
+            if let url = evc.note?.url {
+                if index == 1 {
+                    UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
+                    
+                    if evc.editArea.isFirstResponder {
+                        UserDefaultsManagement.currentRange = evc.editArea.selectedRange
+                    } else {
+                        UserDefaultsManagement.currentRange = nil
+                    }
+                }
+
+                if index != 0 {
+                    UserDefaultsManagement.currentNote = url
+                }
+            }
+        }
     }
 }
 
