@@ -11,6 +11,11 @@ import UIKit
 
 extension ViewController: UIDocumentPickerDelegate {
     @IBAction public func openSidebarSettings() {
+        if notesTable.isEditing {
+            notesTable.toggleSelectAll()
+            return
+        }
+
         let sidebarItem = sidebarTableView.getSidebarItem()
         let projectLabel = sidebarItem?.project?.getFullLabel() ?? String()
 
