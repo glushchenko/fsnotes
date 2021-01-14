@@ -298,9 +298,12 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         try? FileManager.default.createDirectory(at: webkitPreview, withIntermediateDirectories: true, attributes: nil)
 
         let indexURL = webkitPreview.appendingPathComponent("index.html")
+        let downJS = webkitPreview.appendingPathComponent("js/down.js")
 
         // If updating markdown contents, no need to re-copy bundle.
-        if !FileManager.default.fileExists(atPath: indexURL.path) {
+        if !FileManager.default.fileExists(atPath: indexURL.path)
+            || !FileManager.default.fileExists(atPath: downJS.path)
+        {
             // Copy bundle resources to temporary location.
             do {
                 let fileList = try FileManager.default.contentsOfDirectory(atPath: bundleResourceURL.path)
@@ -312,7 +315,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
                     let tmpURL = webkitPreview.appendingPathComponent(file)
 
-                    try FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
+                    if ["css", "js"].contains(file) {
+                        try? FileManager.default.removeItem(at: tmpURL)
+                    }
+
+                    try? FileManager.default.copyItem(atPath: bundleResourceURL.appendingPathComponent(file).path, toPath: tmpURL.path)
                 }
             } catch {
                 print(error)
