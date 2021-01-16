@@ -163,7 +163,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         bulkButton.imageView?.image = UIImage(named: "navigationBulk")?.imageWithColor(color1: .white)
         self.searchButton.setImage(UIImage(named: "search_white"), for: .normal)
 
-        let settingsIcon = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white)
+        let settingsIcon = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 34)?.imageWithColor(color1: .white)
         self.settingsButton.setImage(settingsIcon, for: .normal)
 
         self.headerView.mixedBackgroundColor = Colors.Header

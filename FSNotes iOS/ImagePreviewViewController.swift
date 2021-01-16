@@ -31,8 +31,8 @@ class ImagePreviewViewController: UIViewController {
 
         let doneString = NSLocalizedString("Done", comment: "")
         let moreButton = UIButton(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        moreButton.setBackgroundImage(UIImage(named: "share"), for: .normal)
-        navigationBar.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(share), imageName: "share", size: CGSize(width: 24, height: 24), tintColor: nil)
+        moreButton.setBackgroundImage(UIImage(named: "shareAction"), for: .normal)
+        navigationBar.rightBarButtonItem = UIBarButtonItem.menuButton(self, action: #selector(share), imageName: "share", size: CGSize(width: 30, height: 30), tintColor: nil)
         navigationBar.leftBarButtonItem = UIBarButtonItem(title: doneString, style: .done, target: self, action: #selector(done))
     }
 

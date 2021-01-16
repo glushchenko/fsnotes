@@ -43,17 +43,17 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
 
     public func getEditButton() -> UIBarButtonItem {
         let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
+        menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
 
-        let image = UIImage(named: "editMode")!.imageWithColor(color1: .white)
+        let image = UIImage(named: "editMode")!.imageWithColor(color1: .white).resize(maxWidthHeight: 18)
 
         menuBtn.setImage(image, for: .normal)
         menuBtn.addTarget(self, action: #selector(editMode), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 18)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 18)
         currHeight?.isActive = true
 
         menuBarItem.tintColor = UIColor.white

@@ -239,10 +239,10 @@
                                         </attributedString>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UUp-E6-rvb">
-                                        <rect key="frame" x="380" y="3" width="38" height="38"/>
+                                        <rect key="frame" x="378" y="1" width="40" height="40"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="38" id="Eme-RV-Jot"/>
-                                            <constraint firstAttribute="width" constant="38" id="XB0-Gh-Rhh"/>
+                                            <constraint firstAttribute="height" constant="40" id="Eme-RV-Jot"/>
+                                            <constraint firstAttribute="width" constant="40" id="XB0-Gh-Rhh"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                         <state key="normal" image="more_white.png"/>
@@ -251,7 +251,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wTh-sT-1Iy" userLabel="Bulk Button">
-                                        <rect key="frame" x="348" y="9" width="26" height="26"/>
+                                        <rect key="frame" x="346" y="9" width="26" height="26"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="26" id="TN4-4V-R6Z"/>
                                             <constraint firstAttribute="height" constant="26" id="wBN-nB-LZc"/>
@@ -320,7 +320,7 @@
                                     <constraint firstItem="yuS-7s-7qj" firstAttribute="bottom" secondItem="UUp-E6-rvb" secondAttribute="bottom" id="XCH-gW-usb"/>
                                     <constraint firstAttribute="height" constant="45" id="f3p-Br-Goh"/>
                                     <constraint firstItem="8VE-HM-shO" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="top" constant="8" id="kdk-x0-9VK"/>
-                                    <constraint firstItem="UUp-E6-rvb" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="top" constant="3" id="m4s-96-cCk"/>
+                                    <constraint firstItem="UUp-E6-rvb" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="top" constant="1" id="m4s-96-cCk"/>
                                     <constraint firstItem="m6a-dd-9sW" firstAttribute="centerX" secondItem="alp-5Z-1d9" secondAttribute="centerX" id="txa-PI-dmX"/>
                                     <constraint firstItem="wTh-sT-1Iy" firstAttribute="top" secondItem="alp-5Z-1d9" secondAttribute="top" constant="9" id="utk-4Q-LrJ"/>
                                     <constraint firstItem="UUp-E6-rvb" firstAttribute="leading" secondItem="wTh-sT-1Iy" secondAttribute="trailing" constant="6" id="vRP-wN-lLW"/>
