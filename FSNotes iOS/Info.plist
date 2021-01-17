@@ -9,17 +9,57 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/x-textbundle</string>
+			</array>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>textbundle</string>
+			</array>
 			<key>CFBundleTypeIconFiles</key>
 			<array>
 				<string>TextBundle.icns</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>TextBundle</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>LSHandlerRank</key>
 			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>textbundle</string>
+				<string>org.textbundle.package</string>
+			</array>
+		</dict>
+		<dict>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>md</string>
+				<string>markdown</string>
+				<string>mmd</string>
+				<string>multimarkdown</string>
+				<string>mdown</string>
+				<string>mkdn</string>
+				<string>mkd</string>
+				<string>mdwn</string>
+				<string>mdtxt</string>
+				<string>mdtext</string>
+				<string>mdml</string>
+			</array>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>text/x-markdown</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Markdown document</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>net.daringfireball.markdown</string>
 			</array>
 		</dict>
 	</array>
@@ -164,17 +204,40 @@
 			<string>TextBundle</string>
 			<key>UTTypeIconFiles</key>
 			<array>
-				<string>TextBundle</string>
+				<string>TextBundle.icns</string>
 			</array>
 			<key>UTTypeIdentifier</key>
 			<string>org.textbundle.package</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>textbundle</string>
+				<array>
+					<string>textbundle</string>
+				</array>
 			</dict>
 		</dict>
-		<dict/>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Markdown</string>
+			<key>UTTypeIconFiles</key>
+			<array>
+				<string>Markdown.icns</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>net.daringfireball.markdown</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>md</string>
+					<string>markdown</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

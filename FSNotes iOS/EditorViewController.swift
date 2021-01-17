@@ -13,6 +13,7 @@ import DKImagePickerController
 import MobileCoreServices
 import Photos
 import DropDown
+import CoreSpotlight
 
 class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate {
     public var note: Note?
@@ -797,6 +798,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 note.invalidateCache()
                 note.loadPreviewInfo()
             }
+
+            vc.updateSpotlightIndex(notes: [note])
 
             DispatchQueue.main.async {
                 self.rowUpdaterTimer.invalidate()
@@ -1720,6 +1723,19 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     override func restoreUserActivityState(_ activity: NSUserActivity) {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
             return
+        }
+
+        if let id = activity.userInfo?["kCSSearchableItemActivityIdentifier"] as? String {
+            let url = URL(fileURLWithPath: id)
+            if let note = Storage.shared().getBy(url: url) {
+                let index = UserDefaultsManagement.previewMode ? 2 : 1
+                let evc = UIApplication.getEVC()
+                evc.editArea.resignFirstResponder()
+                evc.fill(note: note, clearPreview: true, enableHandoff: false) {
+                    bvc.containerController.selectController(atIndex: index, animated: true)
+                }
+                return
+            }
         }
 
         guard let name = activity.userInfo?["note-file-name"] as? String,

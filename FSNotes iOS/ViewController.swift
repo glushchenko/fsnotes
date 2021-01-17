@@ -11,6 +11,7 @@ import NightNight
 import LocalAuthentication
 import WebKit
 import AudioToolbox
+import CoreSpotlight
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate {
 
@@ -332,7 +333,64 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.importSavedInSharedExtension()
                 self.sidebarTableView.loadAllTags()
             }
+
+            let spotlightPoint = Date()
+            self.reIndexSpotlight()
+            print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
         }
+    }
+
+    private func reIndexSpotlight() {
+        CSSearchableIndex.default().deleteAllSearchableItems { (error) in
+            if let error = error {
+                print("Spotlight \(error)")
+            }
+        }
+
+        var spotlightItems = [CSSearchableItem]()
+        for note in storage.noteList {
+            if note.project.isTrash {
+                continue
+            }
+
+            let attributed = CSSearchableItemAttributeSet(itemContentType: "Text")
+            attributed.title = note.title
+            attributed.contentDescription = note.content.string
+            attributed.lastUsedDate = note.modifiedLocalAt
+
+            let item = CSSearchableItem(uniqueIdentifier: note.url.path, domainIdentifier: "Notes", attributeSet: attributed)
+            spotlightItems.append(item)
+        }
+
+        CSSearchableIndex.default().indexSearchableItems(spotlightItems) { (error) in
+            if let error = error {
+                print("Spotlight \(error)")
+            }
+        }
+    }
+
+    public func updateSpotlightIndex(notes: [Note]) {
+        var items = [CSSearchableItem]()
+        for note in notes {
+            let attributed = CSSearchableItemAttributeSet(itemContentType: "Text")
+            attributed.title = note.title
+            attributed.contentDescription = note.content.string
+            attributed.lastUsedDate = note.modifiedLocalAt
+
+            let item = CSSearchableItem(uniqueIdentifier: note.url.path, domainIdentifier: "Notes", attributeSet: attributed)
+            items.append(item)
+        }
+
+        CSSearchableIndex.default().indexSearchableItems(items, completionHandler: nil)
+    }
+
+    public func removeSpotlightIndex(notes: [Note]) {
+        var idents = [String]()
+        for note in notes {
+            idents.append(note.url.path)
+        }
+
+        CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: idents, completionHandler: nil)
     }
 
     private func loadNews() {

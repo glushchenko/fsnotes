@@ -166,11 +166,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        let vc = UIApplication.getVC()
+        let storage = Storage.shared()
 
         if url.host == "open" {
             if let tag = url["tag"]?.removingPercentEncoding {
-                UIApplication.getVC().sidebarTableView.select(tag: tag)
+                vc.sidebarTableView.select(tag: tag)
+                return true
             }
+        }
+
+        var note = storage.getBy(url: url)
+        if note == nil, let inbox = storage.getDefault() {
+            guard url.startAccessingSecurityScopedResource() else {
+                return false
+            }
+
+            let dst = NameHelper.getUniqueFileName(name: "", project: inbox, ext: url.pathExtension)
+
+            do {
+                try FileManager.default.copyItem(at: url, to: dst)
+
+                note = storage.importNote(url: dst)
+
+                if let note = note {
+                    note.forceLoad()
+
+                    if !storage.contains(note: note) {
+                        storage.noteList.append(note)
+
+                        vc.notesTable.insertRows(notes: [note])
+                        vc.updateNotesCounter()
+                    }
+                }
+            } catch {
+                print("Note opening error: \(error)")
+            }
+        }
+
+        if let note = note {
+            UIApplication.getEVC().fill(note: note)
+
+            if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
+                bvc.containerController.selectController(atIndex: 1, animated: true)
+            }
+
+            print("File imported: \(note.url)")
         }
 
         return true

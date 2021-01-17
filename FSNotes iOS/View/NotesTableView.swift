@@ -362,6 +362,8 @@ class NotesTableView: UITableView,
     public func removeRows(notes: [Note]) {
         guard notes.count > 0, let vc = viewDelegate, vc.isNoteInsertionAllowed() else { return }
 
+        vc.removeSpotlightIndex(notes: notes)
+
         var indexPaths = [IndexPath]()
         var tags = [String]()
         for note in notes {
@@ -394,6 +396,8 @@ class NotesTableView: UITableView,
         }
 
         guard toInsert.count > 0 else { return }
+        vc.updateSpotlightIndex(notes: toInsert)
+
         let nonSorted = self.notes + toInsert
         let sorted = vc.storage.sortNotes(
             noteList: nonSorted,
@@ -425,6 +429,8 @@ class NotesTableView: UITableView,
                 }
             }
         }
+
+        viewDelegate?.updateSpotlightIndex(notes: notes)
     }
     
     public func reloadRow(note: Note) {
