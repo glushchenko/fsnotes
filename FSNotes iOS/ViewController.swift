@@ -63,6 +63,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     // Last selected project abd tag in sidebar
     public var searchQuery: SearchQuery = SearchQuery(type: .Inbox)
+    public var restoreActivity: URL?
 
     override func viewWillAppear(_ animated: Bool) {
         loadSidebarState()
@@ -334,6 +335,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 self.sidebarTableView.loadAllTags()
             }
 
+            // fill note from spotlight action
+            if let restore = self.restoreActivity {
+                if let note = Storage.shared().getBy(url: restore) {
+                    DispatchQueue.main.async {
+                        UIApplication.getEVC().load(note: note)
+                    }
+                }
+            }
+
             let spotlightPoint = Date()
             self.reIndexSpotlight()
             print("4. Spotlight indexation finished in \(spotlightPoint.timeIntervalSinceNow * -1) seconds")
@@ -349,7 +359,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         var spotlightItems = [CSSearchableItem]()
         for note in storage.noteList {
-            if note.project.isTrash {
+            if note.project.isTrash || !note.project.showInCommon {
                 continue
             }
 

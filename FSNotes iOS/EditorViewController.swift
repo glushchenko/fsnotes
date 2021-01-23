@@ -1720,6 +1720,18 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         self.userActivity?.becomeCurrent()
     }
 
+    public func load(note: Note) {
+        let index = UserDefaultsManagement.previewMode ? 2 : 1
+        let evc = UIApplication.getEVC()
+        evc.editArea.resignFirstResponder()
+        evc.fill(note: note, clearPreview: true, enableHandoff: false) {
+            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
+                return
+            }
+            bvc.containerController.selectController(atIndex: index, animated: true)
+        }
+    }
+
     override func restoreUserActivityState(_ activity: NSUserActivity) {
         guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
             return
@@ -1728,13 +1740,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if let id = activity.userInfo?["kCSSearchableItemActivityIdentifier"] as? String {
             let url = URL(fileURLWithPath: id)
             if let note = Storage.shared().getBy(url: url) {
-                let index = UserDefaultsManagement.previewMode ? 2 : 1
-                let evc = UIApplication.getEVC()
-                evc.editArea.resignFirstResponder()
-                evc.fill(note: note, clearPreview: true, enableHandoff: false) {
-                    bvc.containerController.selectController(atIndex: index, animated: true)
-                }
+                load(note: note)
                 return
+            } else {
+                UIApplication.getVC().restoreActivity = url
             }
         }
 
