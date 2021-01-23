@@ -11,6 +11,7 @@ import NightNight
 import MobileCoreServices
 import AudioToolbox
 import SwipeCellKit
+import SSZipArchive
 
 class NotesTableView: UITableView,
     UITableViewDelegate,
@@ -564,7 +565,13 @@ class NotesTableView: UITableView,
             string = renderMarkdownHTML(markdown:  note.content.unLoadImages().string)!
         }
 
-        let objectsToShare = [string, note.url] as [Any]
+        var tempURL = note.url
+        if note.isTextBundle() {
+            tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(note.getName()).zip")
+            SSZipArchive.createZipFile(atPath: tempURL.path, withContentsOfDirectory: note.url.path, keepParentDirectory: true)
+        }
+
+        let objectsToShare = [string, tempURL] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList
         ]
