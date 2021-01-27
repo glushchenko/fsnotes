@@ -222,6 +222,13 @@ class ViewController: NSViewController,
                     return false
                 }
 
+                if menuItem.identifier?.rawValue == "fileMenu.removeEncryption",
+                   let note = EditTextView.note,
+                   !note.isEncrypted()
+                {
+                    return false
+                }
+
                 if menuItem.identifier?.rawValue == "fileMenu.delete" {
                     menuItem.keyEquivalentModifierMask =
                         UserDefaultsManagement.focusInEditorOnNoteSelect

@@ -372,6 +372,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             {
                 menuItem.isEnabled = (vc.notesTableView.selectedRowIndexes.count == 1)
             }
+
+            if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
+                if let note = EditTextView.note {
+                    menuItem.isEnabled = note.isEncrypted()
+                }
+            }
         }
 
         vc.loadMoveMenu()
