@@ -552,6 +552,7 @@ class SidebarOutlineView: NSOutlineView,
 
             if !UserDataService.instance.firstNoteSelection {
                 vd.editArea.clear()
+                vd.notesTableView.deselectAll(nil)
             }
 
             if !isFirstLaunch {
