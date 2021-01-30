@@ -202,8 +202,8 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let rtfd = try? attributedString.data(from: NSMakeRange(0, attributedString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType:NSAttributedString.DocumentType.rtfd]) {
 
                 UIPasteboard.general.setItems([
-                    ["es.fsnot.attributed.text": rtfd],
                     [kUTTypePlainText as String: attributedString.string],
+                    ["es.fsnot.attributed.text": rtfd],
                     [kUTTypeFlatRTFD as String: rtfd]
                 ])
 
