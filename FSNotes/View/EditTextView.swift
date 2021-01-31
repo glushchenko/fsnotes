@@ -1456,10 +1456,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     @IBAction func wikiLinks(_ sender: Any) {
-        let range = selectedRange()
-        insertText("[[]]", replacementRange: range)
-        setSelectedRange(NSRange(location: range.location + 2, length: 0))
-        complete(nil)
+        guard let vc = ViewController.shared(),
+            let editArea = vc.editArea,
+            let note = vc.getCurrentNote(),
+            vc.currentPreviewState == .off,
+            editArea.isEditable else { return }
+
+        let formatter = TextFormatter(textView: editArea, note: note)
+        formatter.wikiLink()
     }
 
     @IBAction func pressBold(_ sender: Any) {
