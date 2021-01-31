@@ -824,7 +824,7 @@ class Storage {
     func getBy(startWith: String) -> [Note]? {
         return
             noteList.filter{
-                $0.title.starts(with: startWith)
+                $0.title.lowercased().starts(with: startWith.lowercased())
             }
     }
 
