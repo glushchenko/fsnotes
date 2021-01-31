@@ -274,13 +274,13 @@ public class Note: NSObject  {
                 .creationDate
     }
     
-    func move(to: URL, project: Project? = nil) -> Bool {
+    func move(to: URL, project: Project? = nil, forceRewrite: Bool = false) -> Bool {
         let sharedStorage = Storage.sharedInstance()
 
         do {
             var destination = to
 
-            if FileManager.default.fileExists(atPath: to.path) {
+            if FileManager.default.fileExists(atPath: to.path) && !forceRewrite {
                 guard let project = project ?? sharedStorage.getProjectByNote(url: to) else { return false }
 
                 let ext = getExtensionForContainer()
@@ -1361,8 +1361,7 @@ public class Note: NSObject  {
 
             if let url = self.getImageUrl(imageName: imagePath) {
                 if url.isRemote() {
-                    urls.append(url)
-                    i += 1
+                    return
                 } else if FileManager.default.fileExists(atPath: url.path), url.isImage || url.isVideo {
                     urls.append(url)
                     i += 1
