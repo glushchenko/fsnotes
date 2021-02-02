@@ -1688,7 +1688,8 @@ class ViewController: NSViewController,
 
     private func isMatched(note: Note, terms: [Substring]) -> Bool {
         for term in terms {
-            if note.name.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil || note.content.string.range(of: term, options: .caseInsensitive, range: nil, locale: nil) != nil {
+            if note.name.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil ||
+                note.content.string.range(of: term, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil {
                 continue
             }
             

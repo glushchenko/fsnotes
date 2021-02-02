@@ -1202,7 +1202,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
         if let searchQuery = viewDelegate?.search.stringValue,
            searchQuery.count > 0 {
-            if let range = storage.string.range(of: searchQuery, options: .caseInsensitive) {
+            if let range = storage.string.range(of: searchQuery, options: [.caseInsensitive, .diacriticInsensitive]) {
                 let nsRange = NSRange(range, in: storage.string)
                 setSelectedRange(nsRange)
                 scrollToCursor()

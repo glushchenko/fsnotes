@@ -127,7 +127,7 @@ public extension String {
     }
 
     func startsWith(string: String) -> Bool {
-        guard let range = range(of: string, options: [.caseInsensitive]) else {
+        guard let range = range(of: string, options: [.caseInsensitive, .diacriticInsensitive]) else {
             return false
         }
         return range.lowerBound == startIndex
