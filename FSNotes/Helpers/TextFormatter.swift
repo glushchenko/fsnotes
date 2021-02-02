@@ -506,6 +506,7 @@ public class TextFormatter {
         }
     }
 
+#if os(OSX)
     public func wikiLink() {
         let text = "[[" + attributedString.string + "]]"
         replaceWith(string: text, range: range)
@@ -517,6 +518,7 @@ public class TextFormatter {
             setSelectedRange(NSMakeRange(range.location + 2, text.count - 4))
         }
     }
+#endif
 
     public func image() {
         let text = "![" + attributedString.string + "]()"
