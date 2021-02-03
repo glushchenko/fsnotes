@@ -11,15 +11,8 @@ import Cocoa
 class SidebarCellView: NSTableCellView {
     @IBOutlet weak var icon: NSImageView!
     @IBOutlet weak var label: NSTextField!
-    @IBOutlet weak var plus: NSButton!
     
     var storage = Storage.sharedInstance()
-    
-    override func draw(_ dirtyRect: NSRect) {
-        plus.isHidden = true
-
-        super.draw(dirtyRect)
-    }
 
     @IBAction func projectName(_ sender: NSTextField) {
         let cell = sender.superview as? SidebarCellView
@@ -51,10 +44,5 @@ class SidebarCellView: NSTableCellView {
         vc.loadMoveMenu()
         
         vc.updateTable()
-    }
-    
-    @IBAction func add(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        vc.sidebarOutlineView.addProject(self)
     }
 }
