@@ -15,13 +15,15 @@ extension ViewController {
         guard let note = EditTextView.note else { return }
 
         let project = note.project.getParent()
-        let repository = Git.sharedInstance().getRepository(by: project)
-        let gitPath = note.getGitPath()
-
         isGitProcessLocked = true
-        repository.initialize(from: project)
-        repository.commit(fileName: gitPath)
-        isGitProcessLocked = false
+
+        DispatchQueue.global().async {
+            let repository = Git.sharedInstance().getRepository(by: project)
+            let gitPath = note.getGitPath()
+            repository.initialize(from: project)
+            repository.commit(fileName: gitPath)
+            self.isGitProcessLocked = false
+        }
     }
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
