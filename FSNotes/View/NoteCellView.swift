@@ -283,17 +283,17 @@ class NoteCellView: NSTableCellView {
         for constraint in self.constraints {
             if constraint.secondAttribute == .top, let item = constraint.firstItem {
                 if let firstItem = item as? NSImageView, firstItem.identifier?.rawValue == "pin" {
-                    constraint.constant = margin - 1
-                    continue
-                }
-
-                if item.isKind(of: NameTextField.self) {
                     constraint.constant = margin
                     continue
                 }
 
+                if item.isKind(of: NameTextField.self) {
+                    constraint.constant = margin + 1.5
+                    continue
+                }
+
                 if let item = item as? NSTextField, item.identifier?.rawValue == "cellDate" {
-                    constraint.constant = margin + 2
+                    constraint.constant = margin + 3.5
                 }
             }
         }
