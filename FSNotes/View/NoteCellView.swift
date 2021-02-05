@@ -15,6 +15,7 @@ class NoteCellView: NSTableCellView {
     @IBOutlet var date: NSTextField!
     @IBOutlet var pin: NSImageView!
     
+    @IBOutlet weak var titleConstraint: NSLayoutConstraint!
     @IBOutlet weak var imagePreview: NSImageView!
     @IBOutlet weak var imagePreviewSecond: NSImageView!
     @IBOutlet weak var imagePreviewThird: NSImageView!
@@ -61,6 +62,7 @@ class NoteCellView: NSTableCellView {
         date.layer?.zPosition = 1001
         date.textColor = UserDataService.instance.isDark ? NSColor.white : NSColor.gray
         date.isHidden = UserDefaultsManagement.hideDate
+        titleConstraint.constant = UserDefaultsManagement.hideDate ? 0 : 5
 
         if (UserDefaultsManagement.horizontalOrientation) {
             preview.isHidden = true
