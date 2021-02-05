@@ -200,12 +200,12 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
         }
 
-        pageHTMLString = pageHTMLString.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS())
+        pageHTMLString = pageHTMLString.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS())
 
         loadHTMLString(pageHTMLString, baseURL: baseURL)
     }
 
-    private func getMathJaxJS() -> String {
+    public static func getMathJaxJS() -> String {
         if !UserDefaultsManagement.mathJaxPreview {
             return String()
         }
@@ -423,7 +423,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 #endif
 
-        template = template.replacingOccurrences(of: "MATH_JAX_JS", with: getMathJaxJS()) as NSString
+        template = template.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
