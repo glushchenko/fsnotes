@@ -1272,7 +1272,9 @@ public class Note: NSObject  {
             return URL(string: imageName)
         }
 
-        if isEncrypted() && imageName.starts(with: "/i/") {
+        if isEncrypted() && (
+            imageName.starts(with: "/i/") || imageName.starts(with: "i/")
+        ) {
             return project.url.appendingPathComponent(imageName)
         }
         
@@ -1433,7 +1435,7 @@ public class Note: NSObject  {
             return "assets/\(name)"
         }
 
-        return "/i/\(name)"
+        return "i/\(name)"
     }
 
     public func isEqualURL(url: URL) -> Bool {
@@ -1576,10 +1578,10 @@ public class Note: NSObject  {
         for imageMeta in imagesMeta {
             let fileName = imageMeta.url.lastPathComponent
             var dst: URL?
-            var prefix = "/files/"
+            var prefix = "files/"
 
             if imageMeta.url.isImage {
-                prefix = "/i/"
+                prefix = "i/"
             }
 
             dst = project.url.appendingPathComponent(prefix + fileName)

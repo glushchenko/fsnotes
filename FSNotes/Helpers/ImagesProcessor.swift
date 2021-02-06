@@ -143,7 +143,11 @@ public class ImagesProcessor {
         var notePath: String
         let storagePath = noteStorage.url.path
         
-        if path.starts(with: "/i/") || path.starts(with: "/files/") {
+        if path.starts(with: "/i/")
+            || path.starts(with: "i/")
+            || path.starts(with: "/files/")
+            || path.starts(with: "files/")
+        {
             let path = getFilePath(innerRange: innerRange)
             return note.project.url.path + path
         }
@@ -231,13 +235,13 @@ public class ImagesProcessor {
             return "assets/\(fileName)"
         }
 
-        var prefix = "/i/"
+        var prefix = "i/"
         if let url = url, !url.isImage {
-            prefix = "/files/"
+            prefix = "files/"
         }
 
         let project = note.project
-        let destination = URL(fileURLWithPath: project.url.path + prefix)
+        let destination = URL(fileURLWithPath: project.url.path + "/" + prefix)
 
         do {
             try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: false, attributes: nil)

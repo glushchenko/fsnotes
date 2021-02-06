@@ -717,7 +717,12 @@ public class NotesTextProcessor {
                 guard substring.count > 0 else { return }
                 guard let note = EditTextView.note else { return }
 
-                if substring.starts(with: "/i/") || substring.starts(with: "/files/"), let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding {
+                if substring.starts(with: "/i/")
+                    || substring.starts(with: "i/")
+                    || substring.starts(with: "/files/")
+                    || substring.starts(with: "files/"),
+                    let path = note.project.url.appendingPathComponent(substring).path.removingPercentEncoding
+                {
                     substring = "file://" + path
                 } else if note.isTextBundle() && substring.starts(with: "assets/"), let path = note.getURL().appendingPathComponent(substring).path.removingPercentEncoding {
                     substring = "file://" + path
@@ -1025,10 +1030,10 @@ public class NotesTextProcessor {
 
     public static func getAttachPrefix(url: URL? = nil) -> String {
         if let url = url, !url.isImage {
-            return "/files/"
+            return "files/"
         }
 
-        return "/i/"
+        return "i/"
     }
 
     public static func isLink(attributedString: NSAttributedString, range: NSRange) -> Bool {
