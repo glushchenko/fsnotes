@@ -454,6 +454,10 @@ public class Note: NSObject  {
 
         if !FileManager.default.fileExists(atPath: dest.path) {
             try? FileManager.default.createDirectory(at: dest, withIntermediateDirectories: false, attributes: nil)
+
+            if let data = "true".data(using: .utf8) {
+                try? dest.setExtendedAttribute(data: data, forName: "es.fsnot.hidden.dir")
+            }
         }
 
         do {
@@ -493,6 +497,9 @@ public class Note: NSObject  {
         if type == .Markdown && container == .none {
             let imagesMeta = getAllImages()
             for imageMeta in imagesMeta {
+                let imagePath = project.url.appendingPathComponent(imageMeta.path).path
+                project.storage.hideImages(directory: imagePath, srcPath: imagePath)
+
                 move(from: imageMeta.url, imagePath: imageMeta.path, to: project)
             }
 
@@ -1365,6 +1372,18 @@ public class Note: NSObject  {
                 if url.isRemote() {
                     return
                 } else if FileManager.default.fileExists(atPath: url.path), url.isImage || url.isVideo {
+
+                    if container == .none && type == .Markdown {
+                        var prefix = imagePath
+                        if imagePath.first == "/" {
+                            prefix = String(imagePath.dropFirst())
+                        }
+                        let imageURL = project.url.appendingPathComponent(prefix)
+                        let mediaPath = imageURL.deletingLastPathComponent().path
+
+                        project.storage.hideImages(directory: mediaPath, srcPath: prefix)
+                    }
+
                     urls.append(url)
                     i += 1
                 }

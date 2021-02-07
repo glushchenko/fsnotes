@@ -37,7 +37,10 @@ class FileSystemEventManager {
             }
 
             if !event.path.contains(".textbundle") && (
-                event.dirRemoved || event.dirCreated || event.dirRenamed
+                    event.dirRemoved
+                    || event.dirCreated
+                    || event.dirRenamed
+                    || event.dirChange
             ) {
                 self.handleDirEvents(event: event)
                 return
@@ -84,6 +87,17 @@ class FileSystemEventManager {
         let dirURL = URL(fileURLWithPath: event.path, isDirectory: true)
         let project = self.storage.getProjectBy(url: dirURL)
 
+        guard !dirURL.isHidden() else {
+            // hide if exist and hidden (xattr "es.fsnot.hidden.dir")
+            if event.dirChange {
+                if let project = project {
+                    delegate.sidebarOutlineView.removeProject(project: project)
+                }
+            }
+            
+            return
+        }
+
         let srcProject = self.storage.getProjects().first(where: { $0.moveSrc == dirURL })
         let dstProject = self.storage.getProjects().first(where: { $0.moveDst == dirURL })
 
@@ -102,7 +116,9 @@ class FileSystemEventManager {
                 if srcProject != nil {
                     srcProject?.moveSrc = nil
                 } else {
-                    self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+                    if FileManager.default.directoryExists(atUrl: dirURL) {
+                        self.delegate.sidebarOutlineView.insertProject(url: dirURL)
+                    }
                 }
             }
             return
@@ -115,7 +131,10 @@ class FileSystemEventManager {
             return
         }
 
-        if event.dirCreated {
+        // dirChange on xattr "es.fsnot.hidden.dir" changed
+        if event.dirCreated || (
+            event.dirChange && dirURL.hasNonHiddenBit()
+        ) {
             self.delegate.sidebarOutlineView.insertProject(url: dirURL)
             return
         }
@@ -170,6 +189,7 @@ class FileSystemEventManager {
         
         guard let note = storage.initNote(url: url) else { return }
         note.load()
+        note.loadPreviewInfo()
         note.loadModifiedLocalAt()
         
         print("FSWatcher import note: \"\(note.name)\"")

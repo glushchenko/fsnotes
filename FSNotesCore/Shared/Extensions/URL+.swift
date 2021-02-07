@@ -99,6 +99,22 @@ public extension URL {
         return (self.absoluteString.starts(with: "http://") || self.absoluteString.starts(with: "https://"))
     }
 
+    func isHidden() -> Bool {
+        if let data = try? extendedAttribute(forName: "es.fsnot.hidden.dir"), String(data: data, encoding: .utf8) == "true" {
+           return true
+        }
+
+        return false
+    }
+
+    func hasNonHiddenBit() -> Bool {
+        if let data = try? extendedAttribute(forName: "es.fsnot.hidden.dir"), String(data: data, encoding: .utf8) == "false" {
+           return true
+        }
+
+        return false
+    }
+
     var attributes: [FileAttributeKey: Any]? {
         do {
             return try FileManager.default.attributesOfItem(atPath: path)

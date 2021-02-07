@@ -28,7 +28,8 @@ class Storage {
     var notesDict: [String: Note] = [:]
 
     public var allowedExtensions = [
-        "md", "markdown",
+        "md",
+        "markdown",
         "txt",
         "rtf",
         "fountain",
@@ -45,6 +46,8 @@ class Storage {
     private let lastNewsDate = "2020-06-20"
     public var isFinishedTagsLoading = false
     public var isCrashedLastTime = false
+
+    private var relativeInlineImagePaths = [String]()
 
     init() {
         let storageType = UserDefaultsManagement.storageType
@@ -952,6 +955,11 @@ class Storage {
 
                 if isDirectoryResourceValue as? Bool == true,
                     isPackageResourceValue as? Bool == false {
+
+                    if (url as URL).isHidden() {
+                        continue
+                    }
+
                     subdirs.append(url)
                 }
             }
@@ -1393,6 +1401,39 @@ class Storage {
         }
 
         return note
+    }
+
+    public func hideImages(directory: String, srcPath: String) {
+        if !relativeInlineImagePaths.contains(directory) {
+            let url = URL(fileURLWithPath: directory, isDirectory: true)
+
+            relativeInlineImagePaths.append(directory)
+
+            if !url.isHidden(),
+               FileManager.default.directoryExists(atUrl: url),
+               srcPath.contains("/"),
+               !srcPath.contains("..")
+            {
+                if let contentList = try? FileManager.default.contentsOfDirectory(atPath: url.path), containsTextFiles(contentList) {
+                    return
+                }
+
+                if let data = "true".data(using: .utf8) {
+                    try? url.setExtendedAttribute(data: data, forName: "es.fsnot.hidden.dir")
+                }
+            }
+        }
+    }
+
+    private func containsTextFiles(_ list: [String]) -> Bool {
+        for item in list {
+            let ext = (item as NSString).pathExtension.lowercased()
+            if allowedExtensions.contains(ext) {
+                return true
+            }
+        }
+
+        return false
     }
 }
 
