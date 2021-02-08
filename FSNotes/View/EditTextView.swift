@@ -1060,8 +1060,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             let distance = string.distance(from: storageString.startIndex, to: to)
 
             if isBetweenBraces(location: distance) != nil {
-                DispatchQueue.main.async {
-                    self.complete(nil)
+                if !hasMarkedText() {
+                    DispatchQueue.main.async {
+                        self.complete(nil)
+                    }
                 }
 
                 return super.shouldChangeText(in: affectedCharRange, replacementString: replacementString)
@@ -1092,9 +1094,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                         let hashRange = NSRange(location: range.location - 1, length: 1)
                         if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
-
-                            DispatchQueue.main.async {
-                                self.complete(nil)
+                            if !hasMarkedText() {
+                                DispatchQueue.main.async {
+                                    self.complete(nil)
+                                }
                             }
                             break
                         }
