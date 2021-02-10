@@ -691,9 +691,9 @@ public class Note: NSObject  {
     func getPrettifiedContent() -> String {
         #if NOT_EXTENSION || os(OSX)
             let mutable = NotesTextProcessor.convertAppTags(in: self.content)
-            let content = NotesTextProcessor.convertAppLinks(in: mutable.string)
+            let content = NotesTextProcessor.convertAppLinks(in: mutable)
 
-            return cleanMetaData(content: content)
+            return cleanMetaData(content: content.string)
         #else
             return cleanMetaData(content: self.content.string)
         #endif

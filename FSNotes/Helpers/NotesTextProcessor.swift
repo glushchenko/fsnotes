@@ -341,24 +341,47 @@ public class NotesTextProcessor {
      - returns: Content string with converted links
      */
 
-    public static func convertAppLinks(in content: String) -> String {
-        var resultString = content
-        NotesTextProcessor.appUrlRegex.matches(content, range: NSRange(location: 0, length: content.count), completion: { (result) -> (Void) in
+    public static func convertAppLinks(in content: NSMutableAttributedString) -> NSMutableAttributedString {
+        let attributedString = content.mutableCopy() as! NSMutableAttributedString
+        let range = NSRange(0..<content.string.count)
+        let tagQuery = "fsnotes://find?id="
+
+        NotesTextProcessor.appUrlRegex.matches(content.string, range: range, completion: { (result) -> (Void) in
             guard let innerRange = result?.range else { return }
-            var _range = innerRange
-            _range.location = _range.location + 2
-            _range.length = _range.length - 4
-            
-            let lintTitle = (content as NSString).substring(with: _range)
-            
-            let allowedCharacters = CharacterSet(bitmapRepresentation: CharacterSet.urlPathAllowed.bitmapRepresentation)
-            let escapedString = lintTitle.addingPercentEncoding(withAllowedCharacters: allowedCharacters)!
-            
-            let newLink = "[\(lintTitle)](fsnotes://find?id=\(escapedString))"
-            resultString = resultString.replacingOccurrences(of: "[[\(lintTitle)]]", with: newLink)
+
+            var substring = attributedString.mutableString.substring(with: innerRange)
+            substring = substring
+                .replacingOccurrences(of: "[[", with: "")
+                .replacingOccurrences(of: "]]", with: "")
+                .trim()
+
+            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+
+            attributedString.addAttribute(.link, value: "\(tagQuery)\(tag)", range: innerRange)
         })
+
+        attributedString.enumerateAttribute(.link, in: range) { (value, range, _) in
+            if let value = value as? String, value.starts(with: tagQuery) {
+                if let tag = value
+                    .replacingOccurrences(of: tagQuery, with: "")
+                    .removingPercentEncoding
+                {
+
+                    if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
+                        return
+                    }
+
+                    if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
+                        return
+                    }
+
+                    let link = "[\(tag)](\(value))"
+                    attributedString.replaceCharacters(in: range, with: link)
+                }
+            }
+        }
         
-        return resultString
+        return attributedString
     }
 
     public static func convertAppTags(in content: NSMutableAttributedString) -> NSMutableAttributedString {

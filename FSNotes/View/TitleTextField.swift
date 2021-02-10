@@ -123,7 +123,7 @@ class TitleTextField: NSTextField {
         }
 
         if let responder = restoreResponder {
-            window?.makeFirstResponder(responder)
+            NSApp.mainWindow?.makeFirstResponder(responder)
         }
     }
 }
