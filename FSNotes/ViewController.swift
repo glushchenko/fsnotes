@@ -1430,14 +1430,17 @@ class ViewController: NSViewController,
             editArea.saveImages()
 
             note.save(attributed: editArea.attributedString())
-
-            if !updateViews.contains(note) {
-                updateViews.append(note)
-            }
-
-            rowUpdaterTimer.invalidate()
-            rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateTableViews), userInfo: nil, repeats: false)
+            reSort(note: note)
         }
+    }
+
+    public func reSort(note: Note) {
+        if !updateViews.contains(note) {
+            updateViews.append(note)
+        }
+
+        rowUpdaterTimer.invalidate()
+        rowUpdaterTimer = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(updateTableViews), userInfo: nil, repeats: false)
     }
 
     public func getCurrentNote() -> Note? {

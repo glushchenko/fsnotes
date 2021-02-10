@@ -86,6 +86,8 @@ class TitleTextField: NSTextField {
             vc.updateTitle(newTitle: newTitle)
 
             updateNotesTableView()
+            
+            vc.reSort(note: note)
         } else {
             vc.updateTitle(newTitle: currentName)
             self.resignFirstResponder()
