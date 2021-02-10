@@ -500,7 +500,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         let at = self.countVisiblePinned()
         self.noteList.insert(note, at: at)
-        vc.filteredNoteList?.insert(note, at: at)
         
         self.beginUpdates()
         self.insertRows(at: IndexSet(integer: at), withAnimation: .effectFade)

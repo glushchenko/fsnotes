@@ -46,7 +46,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     private let metadataQueue = OperationQueue()
     private var delayedInsert: Note?
 
-    private var filteredNoteList: [Note]?
     private var maxSidebarWidth = CGFloat(0)
     private var accessTime = DispatchTime.now()
 

@@ -25,7 +25,6 @@ class ViewController: NSViewController,
     private var projectSettingsViewController: ProjectSettingsViewController?
 
     let storage = Storage.sharedInstance()
-    var filteredNoteList: [Note]?
     var alert: NSAlert?
     var noteLoading: ProgressState = .none
     var timer = Timer()
@@ -508,18 +507,16 @@ class ViewController: NSViewController,
             sender.state = NSControl.StateValue.on
             
             guard let controller = ViewController.shared() else { return }
-            
-            // Sort all notes
-            storage.noteList = storage.sortNotes(noteList: storage.noteList, filter: controller.search.stringValue)
-            
-            // Sort notes in the current project
-            if let filtered = controller.filteredNoteList {
-                controller.notesTableView.noteList = storage.sortNotes(noteList: filtered, filter: controller.search.stringValue)
-            } else {
-                controller.notesTableView.noteList = storage.noteList
+
+            var sidebarItem: SidebarItem? = nil
+            let projects = controller.sidebarOutlineView.getSidebarProjects()
+            let tags = controller.sidebarOutlineView.getSidebarTags()
+
+            if projects == nil && tags == nil {
+                sidebarItem = controller.getSidebarItem()
             }
-            
-            controller.notesTableView.reloadData()
+
+            controller.updateTable(search: true, searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
         }
     }
     
@@ -1614,12 +1611,11 @@ class ViewController: NSViewController,
             let orderedNotesList = self.storage.sortNotes(noteList: notes, filter: filter, project: projects?.first, operation: operation)
 
             // Check diff
-            if self.filteredNoteList == notes && orderedNotesList == self.notesTableView.noteList {
+            if orderedNotesList == self.notesTableView.noteList {
                 completion()
                 return
             }
 
-            self.filteredNoteList = notes
             self.notesTableView.noteList = orderedNotesList
 
             if operation.isCancelled {
@@ -1923,8 +1919,8 @@ class ViewController: NSViewController,
     }
 
     public func sortAndMove(note: Note, project: Project? = nil) {
-        guard let notes = filteredNoteList else { return }
         guard let srcIndex = notesTableView.noteList.firstIndex(of: note) else { return }
+        let notes = notesTableView.noteList
 
         let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue, project: project)
         guard let dstIndex = resorted.firstIndex(of: note) else { return }
@@ -1932,26 +1928,26 @@ class ViewController: NSViewController,
         if srcIndex != dstIndex {
             notesTableView.moveRow(at: srcIndex, to: dstIndex)
             notesTableView.noteList = resorted
-            filteredNoteList = resorted
         }
     }
     
     func pin(_ selectedRows: IndexSet) {
-        guard !selectedRows.isEmpty, let notes = filteredNoteList, var state = filteredNoteList else { return }
+        guard !selectedRows.isEmpty else { return }
 
+        var state = notesTableView.noteList
         var updatedNotes = [(Int, Note)]()
         for row in selectedRows {
             guard let rowView = notesTableView.rowView(atRow: row, makeIfNecessary: false) as? NoteRowView,
                 let cell = rowView.view(atColumn: 0) as? NoteCellView,
                 let note = cell.objectValue as? Note
-                else { continue }
+            else { continue }
 
             updatedNotes.append((row, note))
             note.togglePin()
             cell.renderPin()
         }
 
-        let resorted = storage.sortNotes(noteList: notes, filter: self.search.stringValue)
+        let resorted = storage.sortNotes(noteList: notesTableView.noteList, filter: self.search.stringValue)
         let indexes = updatedNotes.compactMap({ _, note in resorted.firstIndex(where: { $0 === note }) })
         let newIndexes = IndexSet(indexes)
 
@@ -1981,8 +1977,6 @@ class ViewController: NSViewController,
         notesTableView.reloadData(forRowIndexes: newIndexes, columnIndexes: [0])
         notesTableView.selectRowIndexes(newIndexes, byExtendingSelection: false)
         notesTableView.endUpdates()
-
-        filteredNoteList = resorted
     }
 
     func external(selectedRow: Int) {
