@@ -181,9 +181,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         let currentTextLength = searchText.count
         var sidebarItem: SidebarItem? = nil
 
-        if let location = currentEditor()?.selectedRange.location, !skipAutocomplete {
+        if !skipAutocomplete {
+            let safeLength = lastQuery.dropFirst(stringValue.count).utf16.count
+            let safeLocation = lastQuery.prefix(stringValue.count).utf16.count
+
             if lastQuery.startsWith(string: stringValue) {
-                let range = NSRange(location: location, length: lastQuery.utf16.count - location)
+                let range = NSRange(location: safeLocation, length: safeLength)
                 stringValue = lastQuery
                 currentEditor()?.selectedRange = range
                 return
