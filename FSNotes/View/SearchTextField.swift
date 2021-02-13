@@ -209,16 +209,10 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
             self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
-                if !UserDefaultsManagement.focusInEditorOnNoteSelect {
-                    UserDataService.instance.searchTrigger = false
-                }
-
-                if !self.skipAutocomplete {
-                    if let note = self.vcDelegate.notesTableView.noteList.first {
-                        DispatchQueue.main.async {
-                            if let searchQuery = self.getSearchTextExceptCompletion() {
-                                self.suggestAutocomplete(note, filter: searchQuery)
-                            }
+                if !self.skipAutocomplete, let note = self.vcDelegate.notesTableView.noteList.first {
+                    DispatchQueue.main.async {
+                        if let searchQuery = self.getSearchTextExceptCompletion() {
+                            self.suggestAutocomplete(note, filter: searchQuery)
                         }
                     }
                 }

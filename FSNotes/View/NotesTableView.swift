@@ -201,7 +201,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let operation = BlockOperation()
             operation.addExecutionBlock { [weak self] in        
                 DispatchQueue.main.async {
-
                     guard self?.selectedRowIndexes.count == 0x01 else {
                         vc.editArea.clear()
                         return
@@ -211,6 +210,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                           self?.fillTimestamp == timestamp else { return }
 
                     vc.editArea.fill(note: note, highlight: true)
+
                     if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
                         vc.focusEditArea()
                     }
