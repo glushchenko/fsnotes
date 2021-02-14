@@ -253,8 +253,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 content.replaceCheckboxes()
 
                 if UserDefaultsManagement.liveImagesPreview {
-                    let processor = ImagesProcessor(styleApplier: content, range: NSRange(0..<content.length), note: note)
-                    processor.load()
+                    content.loadImages(note: note)
                 }
 
                 editArea.attributedText = content

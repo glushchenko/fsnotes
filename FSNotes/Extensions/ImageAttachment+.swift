@@ -65,43 +65,6 @@ extension NoteAttachment {
         return size
     }
 
-    public static func getImageAndCacheData(url: URL, note: Note) -> Image? {
-        var data: Data?
-
-        let cacheDirectoryUrl = note.project.url.appendingPathComponent("/.cache/")
-
-        if url.isRemote() || url.pathExtension.lowercased() == "png", let cacheName = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-
-            let imageCacheUrl = cacheDirectoryUrl.appendingPathComponent(cacheName)
-
-            if !FileManager.default.fileExists(atPath: imageCacheUrl.path) {
-                var isDirectory = ObjCBool(true)
-                if !FileManager.default.fileExists(atPath: cacheDirectoryUrl.path, isDirectory: &isDirectory) || isDirectory.boolValue == false {
-                    do {
-                        try FileManager.default.createDirectory(at: imageCacheUrl.deletingLastPathComponent(), withIntermediateDirectories: false, attributes: nil)
-                    } catch {
-                        print(error)
-                    }
-                }
-
-                do {
-                    data = try Data(contentsOf: url)
-                } catch {
-                    print(error)
-                }
-
-            } else {
-                data = try? Data(contentsOf: imageCacheUrl)
-            }
-        } else {
-            data = try? Data(contentsOf: url)
-        }
-
-        guard let imageData = data else { return nil }
-
-        return Image(data: imageData)
-    }
-
     public static func getImage(url: URL, size: CGSize) -> NSImage? {
         let imageData = try? Data(contentsOf: url)
         var finalImage: NSImage?

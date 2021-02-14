@@ -1317,10 +1317,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
             
             guard let imageUrl = note.getImageUrl(imageName: path) else { return false }
 
-            let cacheUrl = note.getImageCacheUrl()
-
             let locationDiff = position > caretLocation ? caretLocation : caretLocation - 1
-            let attachment = NoteAttachment(title: title, path: path, url: imageUrl, cache: cacheUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
+            let attachment = NoteAttachment(title: title, path: path, url: imageUrl, invalidateRange: NSRange(location: locationDiff, length: 1))
 
             guard let attachmentText = attachment.getAttributedString() else { return false }
             guard locationDiff < storage.length else { return false }
@@ -1375,7 +1373,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     guard let url = note.getImageUrl(imageName: cleanPath) else { return false }
 
                     let invalidateRange = NSRange(location: caretLocation + offset, length: 1)
-                    let attachment = NoteAttachment(title: "", path: cleanPath, url: url, cache: nil, invalidateRange: invalidateRange, note: note)
+                    let attachment = NoteAttachment(title: "", path: cleanPath, url: url, invalidateRange: invalidateRange, note: note)
 
                     if let string = attachment.getAttributedString() {
                         EditTextView.shouldForceRescan = true
@@ -1839,7 +1837,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             
             if let imageUrl = note.getImageUrl(imageName: path) {
                 let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
+                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, invalidateRange: range, note: note)
 
                 if let attributedString = attachment.getAttributedString() {
                     let newLineImage = NSMutableAttributedString(attributedString: attributedString)

@@ -1296,10 +1296,6 @@ public class Note: NSObject  {
         return nil
     }
     
-    public func getImageCacheUrl() -> URL? {
-        return project.url.appendingPathComponent("/.cache/")
-    }
-
     public func getAllImages(content: NSMutableAttributedString? = nil) -> [(url: URL, path: String)] {
         let content = content ?? self.content
         var res = [(url: URL, path: String)]()

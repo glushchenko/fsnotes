@@ -21,28 +21,16 @@ class NoteAttachment {
 
     private var path: String
     public var url: URL
-    private var cacheDir: URL?
 
     public var note: Note?
-    public var shouldWriteCache = false
     public var imageCache: URL?
 
-    init(title: String, path: String, url: URL, cache: URL?, invalidateRange: NSRange? = nil, note: Note? = nil) {
+    init(title: String, path: String, url: URL, invalidateRange: NSRange? = nil, note: Note? = nil) {
         self.title = title
         self.url = url
         self.path = path
-        self.cacheDir = cache
         self.invalidateRange = invalidateRange
         self.note = note
-
-        if url.isRemote() {
-            let imageName = url.removingFragment().absoluteString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
-
-            if let directory = cache,
-                let imageName = imageName {
-                imageCache = directory.appendingPathComponent(imageName)
-            }
-        }
     }
 
     weak var weakTimer: Timer?
@@ -51,14 +39,6 @@ class NoteAttachment {
         let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         let titleKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.title")
-
-        if let dst = imageCache {
-            if FileManager.default.fileExists(atPath: dst.path) {
-                self.url = dst
-            } else {
-                shouldWriteCache = true
-            }
-        }
 
         guard FileManager.default.fileExists(atPath: self.url.path) else { return nil }
         guard let attachment = load() else { return nil }
@@ -92,23 +72,6 @@ class NoteAttachment {
         mutableAttributedString.addAttributes(attributes, range: NSRange(0..<1))
 
         return mutableAttributedString
-    }
-
-    public func cache(data: Data) {
-        guard shouldWriteCache, let url = imageCache else { return }
-
-        do {
-            var isDirectory = ObjCBool(true)
-
-            if let cacheDir = self.cacheDir,
-                !FileManager.default.fileExists(atPath: cacheDir.path, isDirectory: &isDirectory) || !isDirectory.boolValue {
-                try FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: false, attributes: nil)
-            }
-
-            try data.write(to: url, options: .atomic)
-        } catch {
-            print(error)
-        }
     }
 
     public func getSize(url: URL) -> CGSize {

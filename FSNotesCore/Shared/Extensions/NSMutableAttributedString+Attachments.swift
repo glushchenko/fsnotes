@@ -30,10 +30,11 @@ extension NSMutableAttributedString {
                 path = self.mutableString.substring(with: NSRange(location: linkRange.location - offset, length: linkRange.length))
             }
 
-            guard let cleanPath = path.removingPercentEncoding, let imageURL = note.getImageUrl(imageName: cleanPath) else { return }
+            guard let cleanPath = path.removingPercentEncoding,
+                  let imageURL = note.getImageUrl(imageName: cleanPath)
+            else { return }
 
-            let cacheUrl = note.project.url.appendingPathComponent("/.cache/")
-            let imageAttachment = NoteAttachment(title: title, path: cleanPath, url: imageURL, cache: cacheUrl, note: note)
+            let imageAttachment = NoteAttachment(title: title, path: cleanPath, url: imageURL, note: note)
 
             if let attributedStringWithImage = imageAttachment.getAttributedString() {
                 offset += mdLink.count - 1

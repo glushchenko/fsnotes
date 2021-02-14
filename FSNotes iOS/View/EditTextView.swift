@@ -253,7 +253,7 @@ class EditTextView: UITextView, UITextViewDelegate {
             if let imageUrl = note.getImageUrl(imageName: path) {
 
                 let range = NSRange(location: selectedRange.location, length: 1)
-                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, cache: nil, invalidateRange: range, note: note)
+                let attachment = NoteAttachment(title: "", path: path, url: imageUrl, invalidateRange: range, note: note)
 
                 if let attributedString = attachment.getAttributedString() {
 
