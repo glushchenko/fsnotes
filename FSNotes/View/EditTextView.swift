@@ -1326,7 +1326,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             textStorage?.deleteCharacters(in: NSRange(location: position, length: 1))
             textStorage?.replaceCharacters(in: NSRange(location: locationDiff, length: 0), with: attachmentText)
 
-            unLoadImages(note: note)
+            safeSave(note: note)
             setSelectedRange(NSRange(location: caretLocation, length: 0))
 
             return true
@@ -1335,17 +1335,17 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let archivedData = board.data(forType: NSPasteboard.noteType),
            let urls = NSKeyedUnarchiver.unarchiveObject(with: archivedData) as? [URL],
            let url = urls.first,
-           let note = Storage.shared().getBy(url: url) {
+           let draggableNote = Storage.shared().getBy(url: url) {
 
-            unLoadImages(note: note)
             let replacementRange = NSRange(location: caretLocation, length: 0)
-
-            let title = "[[" + note.title + "]]"
+            let title = "[[" + draggableNote.title + "]]"
             NSApp.mainWindow?.makeFirstResponder(self)
 
             DispatchQueue.main.async {
                 self.insertText(title, replacementRange: replacementRange)
                 self.setSelectedRange(NSRange(location: caretLocation + title.count, length: 0))
+
+                self.safeSave(note: note)
             }
 
             return true
@@ -1355,7 +1355,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             urls.count > 0 {
             var offset = 0
 
-            unLoadImages(note: note)
+            safeSave(note: note)
 
             for url in urls {
                 do {
@@ -1405,7 +1405,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return false
     }
     
-    public func unLoadImages(note: Note) {
+    public func safeSave(note: Note) {
         guard note.container != .encryptedTextPack else { return }
         
         note.save(attributed: attributedString())
