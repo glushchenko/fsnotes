@@ -1223,7 +1223,7 @@ public class Note: NSObject  {
                             return
                         }
                         
-                        if ["/"].contains(cleanTag.last) {
+                        if cleanTag.last == "/" {
                             tags.append(String(cleanTag.dropLast()))
                         } else {
                             tags.append(cleanTag)
