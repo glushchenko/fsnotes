@@ -392,18 +392,14 @@ public class NotesTextProcessor {
         NotesTextProcessor.tagsInlineRegex.matches(content.string, range: range) { (result) -> Void in
             guard var range = result?.range(at: 1) else { return }
 
-            range = NSRange(location: range.location - 1, length: range.length + 1)
             var substring = attributedString.mutableString.substring(with: range)
+            guard !substring.isNumber else { return }
 
-            substring = substring
+            range = NSRange(location: range.location - 1, length: range.length + 1)
+            substring = attributedString.mutableString.substring(with: range)
                 .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: "\n", with: "")
                 .trim()
-
-            if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
-                range = NSRange(location: range.location, length: range.length - 1)
-                substring = String(substring.dropLast())
-            }
 
             guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
@@ -955,18 +951,14 @@ public class NotesTextProcessor {
         NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range(at: 1) else { return }
 
-            range = NSRange(location: range.location - 1, length: range.length + 1)
             var substring = attributedString.mutableString.substring(with: range)
+            guard !substring.isNumber else { return }
 
-            substring = substring
+            range = NSRange(location: range.location - 1, length: range.length + 1)
+            substring = attributedString.mutableString.substring(with: range)
                 .replacingOccurrences(of: "#", with: "")
                 .replacingOccurrences(of: "\n", with: "")
                 .trim()
-
-            if ["!", "?", ";", ":", ".", ",", "`"].contains(substring.last) {
-                range = NSRange(location: range.location, length: range.length - 1)
-                substring = String(substring.dropLast())
-            }
 
             guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
@@ -1311,7 +1303,18 @@ public class NotesTextProcessor {
     
     public static let imageInlineRegex = MarklightRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
 
-    fileprivate static let tagsPattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,]+)"
+    public static let tagsPattern = ###"""
+        (?:\A|\s)
+        \#(
+            [^
+                \s          # no whitespace
+                \#          # no hashes
+                ,?!"`';:\.  # no punctuation
+                \\          # no backslash
+                (){}\[\]    # no bracket pairs
+            ]+
+        )
+    """###
 
     public static let tagsInlineRegex = MarklightRegex(pattern: tagsPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 

@@ -1190,8 +1190,6 @@ public class Note: NSObject  {
         var removed = [String]()
 
         let matchingOptions = NSRegularExpression.MatchingOptions(rawValue: 0)
-        let pattern = "(?:\\A|\\s)\\#([^\\s\\!\\#\\:\\[\\\"\\(\\;\\,\\`]+)"
-
         let options: NSRegularExpression.Options = [
             .allowCommentsAndWhitespace,
             .anchorsMatchLines
@@ -1201,7 +1199,7 @@ public class Note: NSObject  {
 
         do {
             let range = NSRange(location: 0, length: content.length)
-            let re = try NSRegularExpression(pattern: pattern, options: options)
+            let re = try NSRegularExpression(pattern: NotesTextProcessor.tagsPattern, options: options)
 
             re.enumerateMatches(
                 in: content.string,
@@ -1225,7 +1223,7 @@ public class Note: NSObject  {
                             return
                         }
                         
-                        if ["/", "!", "?", ";", ":", ".", ","].contains(cleanTag.last) {
+                        if cleanTag.last == "/" {
                             tags.append(String(cleanTag.dropLast()))
                         } else {
                             tags.append(cleanTag)
@@ -1265,8 +1263,6 @@ public class Note: NSObject  {
     private var excludeRanges = [NSRange]()
 
     public func isValid(tag: String) -> Bool {
-        //let isHEX = (tag.matchingStrings(regex: "^[A-Fa-f0-9]{6}$").last != nil)
-        
         if tag.isNumber {
             return false
         }
