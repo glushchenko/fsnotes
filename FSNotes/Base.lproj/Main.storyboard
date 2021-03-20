@@ -1073,7 +1073,7 @@ CA
                 <customObject id="o4P-dg-Cec" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="gPl-hR-49I"/>
             </objects>
-            <point key="canvasLocation" x="675" y="598.5"/>
+            <point key="canvasLocation" x="709" y="621"/>
         </scene>
         <!--Layout-->
         <scene sceneID="vmk-ef-Yif">
@@ -1326,7 +1326,7 @@ CA
                 <customObject id="7Tr-yU-uWi" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="feO-BX-gQb"/>
             </objects>
-            <point key="canvasLocation" x="1261" y="815"/>
+            <point key="canvasLocation" x="1267" y="610"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -2678,18 +2678,18 @@ Italian 🇮🇹</string>
                 </viewController>
                 <customObject id="sHj-M9-56t" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1813" y="76"/>
+            <point key="canvasLocation" x="2362" y="556"/>
         </scene>
         <!--Editor-->
         <scene sceneID="cwg-C1-p0s">
             <objects>
                 <viewController title="Editor" id="ssC-ed-19K" customClass="PreferencesEditorViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="GY1-6c-5uL">
-                        <rect key="frame" x="0.0" y="0.0" width="474" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="474" height="495"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1k-4N-l26">
-                                <rect key="frame" x="134" y="439" width="4" height="17"/>
+                                <rect key="frame" x="134" y="454" width="4" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="vNg-wB-rdP">
                                     <font key="font" metaFont="system"/>
@@ -2698,7 +2698,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kcg-vn-Dwj">
-                                <rect key="frame" x="41" y="428" width="399" height="18"/>
+                                <rect key="frame" x="41" y="443" width="399" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Code block live highlighting (app restart required)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="xX0-9b-KDq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2709,7 +2709,7 @@ Italian 🇮🇹</string>
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMm-a9-mcN">
-                                <rect key="frame" x="41" y="274" width="170" height="17"/>
+                                <rect key="frame" x="40" y="288" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Line spacing:" id="iUm-Zm-zeg">
                                     <font key="font" metaFont="system"/>
@@ -2718,7 +2718,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2k-ya-69N">
-                                <rect key="frame" x="215" y="272" width="168" height="19"/>
+                                <rect key="frame" x="215" y="285" width="168" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" maxValue="50" tickMarkPosition="above" sliderType="linear" id="fZA-cO-0ac"/>
                                 <connections>
@@ -2726,11 +2726,11 @@ Italian 🇮🇹</string>
                                 </connections>
                             </slider>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2ZF-VY-6Ij">
-                                <rect key="frame" x="32" y="176" width="406" height="5"/>
+                                <rect key="frame" x="32" y="193" width="406" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UiV-vt-WHK">
-                                <rect key="frame" x="41" y="376" width="172" height="17"/>
+                                <rect key="frame" x="41" y="380" width="172" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Code Theme:" id="6F0-Cb-DVX">
                                     <font key="font" metaFont="system"/>
@@ -2739,7 +2739,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-5j-kY7">
-                                <rect key="frame" x="217" y="224" width="166" height="19"/>
+                                <rect key="frame" x="217" y="237" width="166" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="311" maxValue="1000" doubleValue="1000" tickMarkPosition="above" sliderType="linear" id="csk-Ct-cff"/>
                                 <connections>
@@ -2747,7 +2747,7 @@ Italian 🇮🇹</string>
                                 </connections>
                             </slider>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xZA-pB-1nm">
-                                <rect key="frame" x="216" y="371" width="169" height="26"/>
+                                <rect key="frame" x="216" y="375" width="169" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -2774,70 +2774,15 @@ Italian 🇮🇹</string>
                                 </connections>
                             </popUpButton>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gl0-rI-S66">
-                                <rect key="frame" x="217" y="200" width="168" height="19"/>
+                                <rect key="frame" x="217" y="213" width="168" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="10" maxValue="200" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="UC2-tH-UtC"/>
                                 <connections>
                                     <action selector="marginSize:" target="ssC-ed-19K" id="Hhx-hm-H5O"/>
                                 </connections>
                             </slider>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
-                                <rect key="frame" x="41" y="134" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="liveImagesPreview:" target="ssC-ed-19K" id="za5-Br-D6z"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
-                                <rect key="frame" x="41" y="114" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Focus in editor when selecting note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="inEditorFocus:" target="ssC-ed-19K" id="c82-YY-k8f"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
-                                <rect key="frame" x="41" y="94" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Restore cursor position" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3iM-ZV-3Gf">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="restoreCursor:" target="ssC-ed-19K" id="jkE-NK-ZKJ"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gk5-il-WSG">
-                                <rect key="frame" x="41" y="74" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Automatically insert closing braces and close quotes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ypO-g0-1Xo">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="autocloseBrackets:" target="ssC-ed-19K" id="uQX-DB-DoZ"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SmD-r7-dGK">
-                                <rect key="frame" x="41" y="54" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Use 4 spaces instead tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Poh-KB-4ws">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="spacesInsteadTab:" target="ssC-ed-19K" id="yhE-pe-9gN"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rmv-ik-PYa">
-                                <rect key="frame" x="41" y="342" width="159" height="17"/>
+                                <rect key="frame" x="41" y="351" width="159" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Code Font:" id="63m-us-3j9">
                                     <font key="font" metaFont="system"/>
@@ -2846,7 +2791,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B07-UG-KXb">
-                                <rect key="frame" x="157" y="340" width="126" height="22"/>
+                                <rect key="frame" x="157" y="349" width="126" height="22"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="Code Font" drawsBackground="YES" usesSingleLineMode="YES" id="Shc-VO-eTc" customClass="VerticallyAlignedTextFieldCell" customModule="FSNotes" customModuleProvider="target">
                                     <font key="font" metaFont="system"/>
@@ -2855,26 +2800,15 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DQU-Se-i0R">
-                                <rect key="frame" x="217" y="248" width="168" height="19"/>
+                                <rect key="frame" x="217" y="261" width="168" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <sliderCell key="cell" state="on" alignment="left" minValue="100" maxValue="1000" doubleValue="300" tickMarkPosition="above" sliderType="linear" id="w1e-Tq-0qv"/>
                                 <connections>
                                     <action selector="lineWidth:" target="ssC-ed-19K" id="sMF-LC-b8U"/>
                                 </connections>
                             </slider>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XOm-C4-sCs">
-                                <rect key="frame" x="41" y="34" width="378" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Scan inline tags" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="g5W-YF-jAC">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="inlineTags:" target="ssC-ed-19K" id="fuo-kZ-rZ9"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vrr-sG-fOD">
-                                <rect key="frame" x="40" y="227" width="170" height="17"/>
+                                <rect key="frame" x="40" y="240" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Images width:" id="ltm-qj-nke">
                                     <font key="font" metaFont="system"/>
@@ -2883,7 +2817,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3el-ze-TIn">
-                                <rect key="frame" x="40" y="203" width="170" height="17"/>
+                                <rect key="frame" x="41" y="216" width="170" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Margin size: " id="r69-B6-vT3">
                                     <font key="font" metaFont="system"/>
@@ -2892,7 +2826,7 @@ Italian 🇮🇹</string>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fYl-Tw-kcO">
-                                <rect key="frame" x="285" y="333" width="103" height="32"/>
+                                <rect key="frame" x="287" y="343" width="103" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7od-TM-cUB">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2903,7 +2837,7 @@ Italian 🇮🇹</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JQw-9h-UpN">
-                                <rect key="frame" x="41" y="408" width="399" height="18"/>
+                                <rect key="frame" x="41" y="423" width="399" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Highlight indented code blocks" bezelStyle="regularSquare" imagePosition="left" inset="2" id="7D9-lM-GXX">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2914,11 +2848,11 @@ Italian 🇮🇹</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="BAc-kR-eMo">
-                                <rect key="frame" x="32" y="311" width="406" height="5"/>
+                                <rect key="frame" x="32" y="326" width="406" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bEN-ep-bl6">
-                                <rect key="frame" x="41" y="251" width="172" height="17"/>
+                                <rect key="frame" x="41" y="264" width="172" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Line width:" id="Izt-6v-pKO">
                                     <font key="font" metaFont="system"/>
@@ -2926,6 +2860,83 @@ Italian 🇮🇹</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ons-S0-fcz">
+                                <rect key="frame" x="40" y="152" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Live images preview" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="wG8-3A-BMJ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="liveImagesPreview:" target="ssC-ed-19K" id="za5-Br-D6z"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cj1-ab-Sv6">
+                                <rect key="frame" x="40" y="132" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Focus in editor when selecting note" bezelStyle="regularSquare" imagePosition="left" inset="2" id="r2R-xe-eCA">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="inEditorFocus:" target="ssC-ed-19K" id="c82-YY-k8f"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="APN-cG-GJc">
+                                <rect key="frame" x="40" y="112" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Restore cursor position" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="3iM-ZV-3Gf">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="restoreCursor:" target="ssC-ed-19K" id="jkE-NK-ZKJ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gk5-il-WSG">
+                                <rect key="frame" x="40" y="92" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Automatically insert closing braces and close quotes" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ypO-g0-1Xo">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="autocloseBrackets:" target="ssC-ed-19K" id="uQX-DB-DoZ"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SmD-r7-dGK">
+                                <rect key="frame" x="40" y="72" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Use 4 spaces instead tab" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Poh-KB-4ws">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="spacesInsteadTab:" target="ssC-ed-19K" id="yhE-pe-9gN"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XOm-C4-sCs">
+                                <rect key="frame" x="40" y="52" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Scan inline tags" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="g5W-YF-jAC">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="inlineTags:" target="ssC-ed-19K" id="fuo-kZ-rZ9"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NBH-vK-ACu">
+                                <rect key="frame" x="40" y="30" width="162" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Non contiguous layout" bezelStyle="regularSquare" imagePosition="left" inset="2" id="81v-W9-dUW">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="nonContiguousLayout:" target="ssC-ed-19K" id="hMr-HL-9sk"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2941,13 +2952,14 @@ Italian 🇮🇹</string>
                         <outlet property="liveImagesPreview" destination="ons-S0-fcz" id="jhA-O4-Jo7"/>
                         <outlet property="marginSize" destination="gl0-rI-S66" id="Apd-uE-KF3"/>
                         <outlet property="markdownCodeTheme" destination="xZA-pB-1nm" id="lkX-04-F8B"/>
+                        <outlet property="nonContiguousLayout" destination="81v-W9-dUW" id="hRK-Mh-Tqp"/>
                         <outlet property="restoreCursorButton" destination="APN-cG-GJc" id="oUp-xe-mh0"/>
                         <outlet property="spacesInsteadTab" destination="SmD-r7-dGK" id="SRs-jA-N48"/>
                     </connections>
                 </viewController>
                 <customObject id="bsT-UP-VdO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1825" y="625"/>
+            <point key="canvasLocation" x="1826" y="627.5"/>
         </scene>
         <!--Advanced-->
         <scene sceneID="GUW-JY-WNb">
@@ -3154,7 +3166,7 @@ Italian 🇮🇹</string>
                 </viewController>
                 <customObject id="uuN-ji-W5S" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2399" y="592"/>
+            <point key="canvasLocation" x="2893" y="600"/>
         </scene>
         <!--Security-->
         <scene sceneID="dgo-jz-dll">

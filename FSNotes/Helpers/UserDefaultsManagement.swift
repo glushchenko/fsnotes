@@ -96,6 +96,7 @@ public class UserDefaultsManagement {
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
+        static let NonContiguousLayout = "nonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let PinListKey = "pinList"
         static let Preview = "preview"
@@ -1404,6 +1405,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.AutoInsertHeader)
+        }
+    }
+
+    static var nonContiguousLayout: Bool {
+        get {
+            if let highlight = shared?.object(forKey: Constants.NonContiguousLayout) {
+                return highlight as! Bool
+            }
+            return false
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.NonContiguousLayout)
         }
     }
 }

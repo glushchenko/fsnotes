@@ -342,7 +342,8 @@ class ViewController: NSViewController,
 
         editArea.textContainerInset.height = 10
         editArea.isEditable = false
-        //editArea.layoutManager?.allowsNonContiguousLayout = false
+
+        editArea.layoutManager?.allowsNonContiguousLayout = UserDefaultsManagement.nonContiguousLayout
 
         if #available(OSX 10.13, *) {} else {
             self.editArea.backgroundColor = UserDefaultsManagement.bgColor

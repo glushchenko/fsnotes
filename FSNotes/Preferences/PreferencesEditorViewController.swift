@@ -24,10 +24,11 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var spacesInsteadTab: NSButton!
     @IBOutlet weak var marginSize: NSSlider!
     @IBOutlet weak var inlineTags: NSButton!
+    @IBOutlet weak var nonContiguousLayout: NSButtonCell!
 
     override func viewWillAppear() {
         super.viewWillAppear()
-        preferredContentSize = NSSize(width: 476, height: 480)
+        preferredContentSize = NSSize(width: 476, height: 495)
     }
 
     override func viewDidLoad() {
@@ -61,6 +62,8 @@ class PreferencesEditorViewController: NSViewController {
         marginSize.floatValue = UserDefaultsManagement.marginSize
 
         inlineTags.state = UserDefaultsManagement.inlineTags ? .on : .off
+
+        nonContiguousLayout.state = UserDefaultsManagement.nonContiguousLayout ? .on : .off
     }
 
     //MARK: global variables
@@ -241,4 +244,14 @@ class PreferencesEditorViewController: NSViewController {
         vc.refillEditArea()
     }
 
+    @IBAction func nonContiguousLayout(_ sender: NSButton) {
+        UserDefaultsManagement.nonContiguousLayout = (sender.state == NSControl.StateValue.on)
+
+        guard let vc = ViewController.shared() else { return }
+        vc.editArea.layoutManager?.allowsNonContiguousLayout = (sender.state == NSControl.StateValue.on)
+
+        DispatchQueue.main.async {
+            vc.refillEditArea()
+        }
+    }
 }
