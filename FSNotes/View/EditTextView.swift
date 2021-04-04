@@ -535,6 +535,24 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     // Copy empty string
     override func copy(_ sender: Any?) {
+        if selectedRanges.count > 1, let note = EditTextView.note {
+            var combined = String()
+            for range in selectedRanges {
+                if let range = range as? NSRange, let sub = attributedSubstring(forProposedRange: range, actualRange: nil) as? NSMutableAttributedString {
+                    if note.isMarkdown() {
+                        combined.append(sub.unLoadCheckboxes().unLoadImages().string + "\n")
+                    } else {
+                        combined.append(sub.string + "\n")
+                    }
+                }
+            }
+
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(combined.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
+            return
+        }
+
         if self.selectedRange.length == 0, let paragraphRange = self.getParagraphRange(), let paragraph = attributedSubstring(forProposedRange: paragraphRange, actualRange: nil) {
             let pasteboard = NSPasteboard.general
             pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
