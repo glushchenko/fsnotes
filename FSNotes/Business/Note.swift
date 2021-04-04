@@ -1860,6 +1860,10 @@ public class Note: NSObject  {
         return (container == .encryptedTextPack || isUnlocked())
     }
 
+    public func isEncryptedAndLocked() -> Bool {
+        return container == .encryptedTextPack && decryptedTemporarySrc == nil
+    }
+
     public func lock() -> Bool {
         guard let temporaryURL = self.decryptedTemporarySrc else { return false }
 

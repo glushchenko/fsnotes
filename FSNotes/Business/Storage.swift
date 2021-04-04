@@ -621,7 +621,20 @@ class Storage {
             case .modificationDate, .none:
                 return sortDirection == .asc && note.modifiedLocalAt < next.modifiedLocalAt || sortDirection == .desc && note.modifiedLocalAt > next.modifiedLocalAt
             case .title:
-                return sortDirection == .asc && note.title.lowercased() < next.title.lowercased() || sortDirection == .desc && note.title.lowercased() > next.title.lowercased()
+                var title = note.title.lowercased()
+                var nextTitle = next.title.lowercased()
+
+                if note.isEncryptedAndLocked() {
+                    title = note.fileName.lowercased()
+                }
+
+                if next.isEncryptedAndLocked() {
+                    nextTitle = next.fileName.lowercased()
+                }
+
+                return
+                    sortDirection == .asc && title < nextTitle ||
+                    sortDirection == .desc && title > nextTitle
             }
         }
         
