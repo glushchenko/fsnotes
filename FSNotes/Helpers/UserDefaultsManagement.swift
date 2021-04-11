@@ -57,6 +57,7 @@ public class UserDefaultsManagement {
         static let CodeFontNameKey = "codeFont"
         static let CodeFontSizeKey = "codeFontSize"
         static let codeBlockHighlight = "codeBlockHighlight"
+        static let CodeBlocksWithSyntaxHighlighting = "codeBlocksWithSyntaxHighlighting"
         static let codeTheme = "codeTheme"
         static let ContinuousSpellChecking = "continuousSpellChecking"
         static let CrashedLastTime = "crashedLastTime"
@@ -1410,13 +1411,22 @@ public class UserDefaultsManagement {
 
     static var nonContiguousLayout: Bool {
         get {
-            if let highlight = shared?.object(forKey: Constants.NonContiguousLayout) {
-                return highlight as! Bool
-            }
             return false
         }
         set {
             shared?.set(newValue, forKey: Constants.NonContiguousLayout)
+        }
+    }
+
+    static var codeBlocksWithSyntaxHighlighting: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.CodeBlocksWithSyntaxHighlighting) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.CodeBlocksWithSyntaxHighlighting)
         }
     }
 }

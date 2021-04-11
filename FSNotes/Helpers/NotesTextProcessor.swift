@@ -263,7 +263,9 @@ public class NotesTextProcessor {
 
         let preDefinedLanguage = language ?? getLanguage(codeString)
 
-        if let code = highlighter.highlight(codeString, as: preDefinedLanguage) {
+        if UserDefaultsManagement.codeBlocksWithSyntaxHighlighting,
+           let code = highlighter.highlight(codeString, as: preDefinedLanguage)
+        {
             if (range.location + range.length) > attributedString.length {
                 return
             }
@@ -283,17 +285,17 @@ public class NotesTextProcessor {
                     for (key, value) in attrs {
                         attributedString.addAttribute(key, value: value, range: fixedRange)
                     }
-
-                    guard let font = NotesTextProcessor.codeFont else { return }
-                    attributedString.addAttribute(.font, value: font, range: fixedRange)
-                    attributedString.fixAttributes(in: fixedRange)
                 }
             )
+        }
 
-            attributedString.mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { string, range, _, _ in
-                let rangeNewline = range.upperBound == attributedString.length ? range : NSRange(range.location..<range.upperBound + 1)
-                attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: rangeNewline)
-            }
+        attributedString.mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { string, range, _, _ in
+            let rangeNewline = range.upperBound == attributedString.length ? range : NSRange(range.location..<range.upperBound + 1)
+            attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: rangeNewline)
+
+            guard let font = NotesTextProcessor.codeFont else { return }
+            attributedString.addAttribute(.font, value: font, range: rangeNewline)
+            attributedString.fixAttributes(in: rangeNewline)
         }
     }
 
