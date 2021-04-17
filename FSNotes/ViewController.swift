@@ -173,6 +173,7 @@ class ViewController: NSViewController,
         searchQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.maxConcurrentOperationCount = 1
         notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
+        notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
 
     override func viewDidAppear() {
@@ -2583,5 +2584,17 @@ class ViewController: NSViewController,
      */
     func textViewDidChangeSelection(_ notification: Notification) {
         editArea.userActivity?.needsSave = true
+    }
+
+    @objc func doubleClickOnNotesTable() {
+        let selected = notesTableView.clickedRow
+
+        if (selected < 0) {
+            return
+        }
+
+        if (notesTableView.noteList.indices.contains(selected)) {
+            external(selectedRow: selected)
+        }
     }
 }
