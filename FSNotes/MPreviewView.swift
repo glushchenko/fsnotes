@@ -457,6 +457,8 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 let fs = Int(fontSize) - 2
 
                 return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
+            } else {
+                return String()
             }
         #else
             var width = ViewController.shared()!.editArea.getWidth()
@@ -467,8 +469,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
             return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
-
-        return String()
     }
 }
 

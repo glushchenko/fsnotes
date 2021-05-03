@@ -189,7 +189,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 let range = NSRange(location: safeLocation, length: safeLength)
                 stringValue = lastQuery
                 currentEditor()?.selectedRange = range
-                return
             }
         }
 
