@@ -1404,9 +1404,13 @@ public class Note: NSObject  {
 
         if let first = components.first {
             if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
-                self.title = first.trim()
-                self.preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
-                firstLineAsTitle = true
+                loadYaml(components: components)
+
+                if title.count == 0 {
+                    title = first.trim()
+                    preview = getPreviewLabel(with: components.dropFirst().joined(separator: " "))
+                    firstLineAsTitle = true
+                }
             } else {
                 loadTitleFromFileName()
                 self.preview = getPreviewLabel(with: components.joined(separator: " "))
@@ -1421,6 +1425,37 @@ public class Note: NSObject  {
 
         self.imageUrl = urls
         self.isParsed = true
+    }
+
+    private func loadYaml(components: [String]) {
+        var tripleMinus = 0
+
+        if components.first == "---", components.count > 1 {
+            for string in components {
+                if string == "---" {
+                    tripleMinus += 1
+                }
+
+                let res = string.matchingStrings(regex: "(?:title: [\"\'”“])([^\\n]*)(?:[\"\'”“])")
+
+                if res.count > 0 {
+                    title = res[0][1].trim()
+
+                    let previewString = components
+                        .dropFirst()
+                        .dropFirst()
+                        .joined(separator: " ")
+
+                    preview = getPreviewLabel(with: previewString)
+                    firstLineAsTitle = true
+                    break
+                }
+
+                if tripleMinus == 2 {
+                    break
+                }
+            }
+        }
     }
 
     private func loadTitleFromFileName() {
