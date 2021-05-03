@@ -665,9 +665,16 @@ class SidebarOutlineView: NSOutlineView,
             }
             return
         }
-        
-        SandboxBookmark().removeBy(project.url)
-        v.removeProject(project: project)
+
+        let projects = storage.getAvailableProjects().filter({ $0.url.path.starts(with: project.url.path) })
+
+        for item in projects {
+            SandboxBookmark().removeBy(item.url)
+            v.removeProject(project: item)
+        }
+
+        selectRowIndexes([0], byExtendingSelection: false)
+        vc.notesTableView.reloadData()
     }
 
     @IBAction func addProject(_ sender: Any) {
