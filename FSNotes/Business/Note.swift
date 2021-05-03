@@ -1429,6 +1429,7 @@ public class Note: NSObject  {
 
     private func loadYaml(components: [String]) {
         var tripleMinus = 0
+        var previewFragments = [String]()
 
         if components.first == "---", components.count > 1 {
             for string in components {
@@ -1440,21 +1441,21 @@ public class Note: NSObject  {
 
                 if res.count > 0 {
                     title = res[0][1].trim()
-
-                    let previewString = components
-                        .dropFirst()
-                        .dropFirst()
-                        .joined(separator: " ")
-
-                    preview = getPreviewLabel(with: previewString)
                     firstLineAsTitle = true
-                    break
                 }
 
-                if tripleMinus == 2 {
-                    break
+                if tripleMinus > 1 {
+                    previewFragments.append(string)
                 }
             }
+        }
+
+        if previewFragments.count > 0 {
+            let previewString = previewFragments
+                .joined(separator: " ")
+                .replacingOccurrences(of: "---", with: "")
+
+            preview = getPreviewLabel(with: previewString)
         }
     }
 
