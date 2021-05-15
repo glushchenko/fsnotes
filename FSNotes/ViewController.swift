@@ -1814,7 +1814,9 @@ class ViewController: NSViewController,
 
         self.updateTable(searchText: searchText) {
             DispatchQueue.main.async {
-                self.sidebarOutlineView.reloadTags()
+                if shouldBecomeFirstResponder {
+                    self.sidebarOutlineView.reloadTags()
+                }
 
                 if let completion = completion {
                     completion()
