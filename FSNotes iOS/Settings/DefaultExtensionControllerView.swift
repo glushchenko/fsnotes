@@ -10,7 +10,7 @@ import UIKit
 import NightNight
 
 class DefaultExtensionViewController: UITableViewController {
-    private var extensions = ["md", "rtf"]
+    private var extensions = ["markdown", "md", "txt", "rtf"]
     
     override func viewDidLoad() {
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
@@ -31,8 +31,9 @@ class DefaultExtensionViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let text = label.text {
-            UserDefaultsManagement.fileFormat = NoteType.withExt(rawValue: text)
+        if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let ext = label.text {
+            UserDefaultsManagement.noteExtension = ext
+            UserDefaultsManagement.fileFormat = NoteType.withExt(rawValue: ext)
 
             self.navigationController?.popViewController(animated: true)
         }
@@ -44,7 +45,7 @@ class DefaultExtensionViewController: UITableViewController {
 
         guard let text = cell.textLabel?.text else { return }
 
-        if NoteType.withExt(rawValue: text).tag == UserDefaultsManagement.fileFormat.tag {
+        if UserDefaultsManagement.noteExtension == text {
             cell.accessoryType = .checkmark
         }
     }
