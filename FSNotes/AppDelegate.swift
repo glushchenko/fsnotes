@@ -103,6 +103,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
         temporary.appendPathComponent("ThumbnailsBig")
         try? FileManager.default.removeItem(at: temporary)
+
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        guard let mainWC = storyboard.instantiateController(withIdentifier: "MainWindowController") as? MainWindowController else {
+            fatalError("Error getting main window controller")
+        }
+
+        if let x = mainWC.window?.frame.origin.x, let y = mainWC.window?.frame.origin.y {
+            UserDefaultsManagement.lastScreenX = Int(x)
+            UserDefaultsManagement.lastScreenY = Int(y)
+        }
     }
     
     private func applyAppearance() {

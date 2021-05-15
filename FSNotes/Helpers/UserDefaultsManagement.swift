@@ -82,6 +82,8 @@ public class UserDefaultsManagement {
         static let InlineTags = "inlineTags"
         static let LastNews = "lastNews"
         static let LastSelectedPath = "lastSelectedPath"
+        static let LastScreenX = "lastScreenX"
+        static let LastScreenY = "lastScreenY"
         static let LastProject = "lastProject"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
@@ -1427,6 +1429,32 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.CodeBlocksWithSyntaxHighlighting)
+        }
+    }
+
+    static var lastScreenX: Int? {
+        get {
+            if let value = shared?.object(forKey: Constants.LastScreenX) as? Int {
+                return value
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LastScreenX)
+        }
+    }
+
+    static var lastScreenY: Int? {
+        get {
+            if let value = shared?.object(forKey: Constants.LastScreenY) as? Int {
+                return value
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LastScreenY)
         }
     }
 }

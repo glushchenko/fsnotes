@@ -11,6 +11,7 @@ import MASShortcut
 import FSNotesCore_macOS
 import WebKit
 import LocalAuthentication
+import Foundation
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
@@ -177,6 +178,12 @@ class ViewController: NSViewController,
     }
 
     override func viewDidAppear() {
+        // Restore window position
+
+        if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
+            view.window?.setFrameOrigin(NSPoint(x: x, y: y))
+        }
+
         if UserDefaultsManagement.fullScreen {
             view.window?.toggleFullScreen(nil)
         }
@@ -1851,7 +1858,10 @@ class ViewController: NSViewController,
             NSApplication.shared.hide(nil)
             return
         }
-                
+
+        UserDefaultsManagement.lastScreenX = nil
+        UserDefaultsManagement.lastScreenY = nil
+
         NSApp.activate(ignoringOtherApps: true)
         mainWindow.makeKeyAndOrderFront(self)
         
