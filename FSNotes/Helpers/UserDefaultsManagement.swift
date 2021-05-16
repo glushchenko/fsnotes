@@ -665,13 +665,13 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var lastProject: Int {
+    static var lastProject: Int? {
         get {
-            if let lastProject = shared?.object(forKey: Constants.LastProject) {
-                return lastProject as! Int
-            } else {
-                return 0
+            if let lastProject = shared?.object(forKey: Constants.LastProject) as? Int {
+                return lastProject
             }
+
+            return nil
         }
         set {
             shared?.set(newValue, forKey: Constants.LastProject)

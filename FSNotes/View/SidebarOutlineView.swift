@@ -576,9 +576,8 @@ class SidebarOutlineView: NSOutlineView,
                         DispatchQueue.main.async {
                             vd.notesTableView.scrollRowToVisible(i)
                         }
-                    } else if vd.notesTableView.noteList.count > 0 {
-                        vd.focusTable()
                     }
+
                     self.isFirstLaunch = false
                 }
 

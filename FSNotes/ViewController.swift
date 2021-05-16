@@ -405,6 +405,12 @@ class ViewController: NSViewController,
     }
 
     private func configureNotesList() {
+
+        // When opened via fsnotes:// scheme – skip (use viewDidAppear)
+        if let appDelegate = NSApplication.shared.delegate as? AppDelegate, appDelegate.searchQuery != nil {
+            return
+        }
+
         self.updateTable() {
             if UserDefaultsManagement.copyWelcome {
                 if let index = self.sidebarOutlineView.sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.getName() == "Welcome" }) {
@@ -417,10 +423,22 @@ class ViewController: NSViewController,
                 return
             }
 
-            let lastSidebarItem = UserDefaultsManagement.lastProject
-            if let items = self.sidebarOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
+            if let lastSidebarItem = UserDefaultsManagement.lastProject {
+                if let items = self.sidebarOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
+                    DispatchQueue.main.async {
+                        self.sidebarOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+                    }
+                }
+            } else if let url = UserDefaultsManagement.lastSelectedURL,
+                      let lastNote = self.storage.getBy(url: url),
+                      let i = self.notesTableView.getIndex(lastNote)
+            {
+
+                self.notesTableView.saveNavigationHistory(note: lastNote)
+                self.notesTableView.selectRow(i)
+
                 DispatchQueue.main.async {
-                    self.sidebarOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
+                    self.notesTableView.scrollRowToVisible(i)
                 }
             }
         }
@@ -722,7 +740,7 @@ class ViewController: NSViewController,
 
             restoreCurrentPreviewState()
 
-            UserDefaultsManagement.lastProject = 0
+            UserDefaultsManagement.lastProject = nil
             UserDefaultsManagement.lastSelectedURL = nil
 
             notesTableView.scroll(.zero)
@@ -731,7 +749,6 @@ class ViewController: NSViewController,
             let hasSelectedBarItem = sidebarOutlineView.selectedRow > -1
             
             if hasSelectedBarItem && hasSelectedNotes {
-                UserDefaultsManagement.lastProject = 0
                 UserDataService.instance.isNotesTableEscape = true
                 notesTableView.deselectAll(nil)
                 NSApp.mainWindow?.makeFirstResponder(search)
