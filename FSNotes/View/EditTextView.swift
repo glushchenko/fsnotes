@@ -578,12 +578,15 @@ class EditTextView: NSTextView, NSTextFinderClient {
         }
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
+            let attributed = NSMutableAttributedString(string: clipboard)
+            attributed.loadCheckboxes()
+
             EditTextView.shouldForceRescan = true
 
             let currentRange = selectedRange()
 
             self.breakUndoCoalescing()
-            self.insertText(clipboard, replacementRange: currentRange)
+            self.insertText(attributed, replacementRange: currentRange)
             self.breakUndoCoalescing()
 
             saveTextStorageContent(to: note)
