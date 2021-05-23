@@ -873,3 +873,6 @@
 
 /* Class = "NSButtonCell"; title = "Show notes in \"Notes\" and \"Todo\" lists"; ObjectID = "Zzw-01-JH7"; */
 "Zzw-01-JH7.title" = "在\"笔记\"和\"待办事项\"列表中显示备注";
+
+/* Class = "NSButtonCell"; title = "Keep showing original note when clicking tag"; ObjectID = "LWq-lx-lmT"; */
+"LWq-lx-lmT.title" = "点击标签时保持展示已选中的笔记";

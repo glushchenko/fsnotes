@@ -122,6 +122,7 @@ public class UserDefaultsManagement {
         static let TextMatchAutoSelection = "textMatchAutoSelection"
         static let AutocloseBrackets = "autocloseBrackets"
         static let Welcome = "welcome"
+        static let OriginalNote = "originalNote"
     }
 
     static var codeFontName: String {
@@ -1455,6 +1456,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastScreenY)
+        }
+    }
+    
+    static var originalNote: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.OriginalNote) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.OriginalNote)
         }
     }
 }

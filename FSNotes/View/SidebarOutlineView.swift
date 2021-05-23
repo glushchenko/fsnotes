@@ -550,7 +550,8 @@ class SidebarOutlineView: NSOutlineView,
                 UserDataService.instance.lastName = item.name
             }
 
-            if !UserDataService.instance.firstNoteSelection {
+            // not render if config keep showing original note
+            if !UserDataService.instance.firstNoteSelection && !UserDefaultsManagement.originalNote{
                 vd.editArea.clear()
                 vd.notesTableView.deselectAll(nil)
             }
@@ -586,14 +587,13 @@ class SidebarOutlineView: NSOutlineView,
                         self.selectNote = nil
                         vd.notesTableView.setSelected(note: note)
                     }
-                } else if UserDataService.instance.firstNoteSelection {
+                }else if !UserDefaultsManagement.originalNote && UserDataService.instance.firstNoteSelection{
                     if let note = vd.notesTableView.noteList.first {
                         DispatchQueue.main.async {
                             vd.selectNullTableRow(note: note)
                             vd.editArea.fill(note: note)
                         }
                     }
-
                     UserDataService.instance.firstNoteSelection = false
                 }
             }

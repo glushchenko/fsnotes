@@ -2926,6 +2926,17 @@ Italian 🇮🇹</string>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MoP-74-f43">
+                                <rect key="frame" x="40" y="13" width="378" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Keep showing original note when clicking tag" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="LWq-lx-lmT">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="originalNote:" target="ssC-ed-19K" id="InP-yj-xKo"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2941,6 +2952,7 @@ Italian 🇮🇹</string>
                         <outlet property="liveImagesPreview" destination="ons-S0-fcz" id="jhA-O4-Jo7"/>
                         <outlet property="marginSize" destination="gl0-rI-S66" id="Apd-uE-KF3"/>
                         <outlet property="markdownCodeTheme" destination="xZA-pB-1nm" id="lkX-04-F8B"/>
+                        <outlet property="originalNote" destination="MoP-74-f43" id="7Fk-Ua-wo3"/>
                         <outlet property="restoreCursorButton" destination="APN-cG-GJc" id="oUp-xe-mh0"/>
                         <outlet property="spacesInsteadTab" destination="SmD-r7-dGK" id="SRs-jA-N48"/>
                     </connections>
