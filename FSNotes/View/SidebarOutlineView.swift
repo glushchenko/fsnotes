@@ -1243,9 +1243,40 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func select(tag: String) {
-        guard let i = sidebarItems?.firstIndex(where: {($0 as? Tag)?.getName() == tag }) else { return }
+            let fullTags = tag.split(separator: "/").map(String.init);
+            var items = sidebarItems;
+            var tagDepth:Int = 0;
+            var tagIndexArr = [Int]();
+            for tagIndex in 0..<fullTags.count{
+                guard let index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) else { break }
+                items = (items?[index] as? Tag)?.getChild();
+                tagDepth += tagIndex == 0 ? index : index+1;
+                tagIndexArr.append(tagDepth)
+            }
+            
+            UserDataService.instance.firstNoteSelection = true
+            selectRowIndexes([tagDepth], byExtendingSelection: false, tagIndexArr)
+        }
+        
+    //    select and open rowIndexes
+        func selectRowIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool, _ tagIndexArr : [Int]) {
+            guard let index = indexes.first else { return }
 
-        UserDataService.instance.firstNoteSelection = true
-        selectRowIndexes([i], byExtendingSelection: false)
-    }
+            var extend = extend
+
+            if (item(atRow: index) as? Tag) != nil {
+                for i in selectedRowIndexes {
+                    if nil != item(atRow: i) as? Tag {
+                        deselectRow(i)
+                    }
+                }
+                extend = true
+            }
+            
+            tagIndexArr.forEach { tagIndex in
+                self.expandItem(item(atRow: tagIndex))
+            }
+
+            super.selectRowIndexes(indexes, byExtendingSelection: extend)
+        }
 }
