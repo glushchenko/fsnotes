@@ -42,6 +42,8 @@ class ViewController: NSViewController,
 
     private var updateViews = [Note]()
 
+    public var breakUndoTimer = Timer()
+
     override var representedObject: Any? {
         didSet { }  // Update the view, if already loaded.
     }
@@ -1458,6 +1460,9 @@ class ViewController: NSViewController,
             note.save(attributed: editArea.attributedString())
             reSort(note: note)
         }
+
+        breakUndoTimer.invalidate()
+        breakUndoTimer = Timer.scheduledTimer(timeInterval: 30, target: self, selector: #selector(breakUndo), userInfo: nil, repeats: true)
     }
 
     public func reSort(note: Note) {
@@ -2624,6 +2629,15 @@ class ViewController: NSViewController,
 
         if (notesTableView.noteList.indices.contains(selected)) {
             external(selectedRow: selected)
+        }
+    }
+
+    @objc func breakUndo() {
+        if (
+           currentPreviewState == .off
+           && editArea.isEditable
+        ) {
+            editArea.breakUndoCoalescing()
         }
     }
 }

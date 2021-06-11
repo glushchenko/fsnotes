@@ -652,6 +652,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
         registerHandoff(note: note)
 
+        // resets timer if editor refilled 
+        viewDelegate?.breakUndoTimer.invalidate()
+
         unregisterDraggedTypes()
         registerForDraggedTypes([
             NSPasteboard.PasteboardType(kUTTypeFileURL as String),
@@ -1923,7 +1926,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
         }
 
-        note.undoManager.registerUndo(withTarget: self, selector: #selector(unDeleteImages), object: removedImages)
+        if removedImages.count > 0 {
+            note.undoManager.registerUndo(withTarget: self, selector: #selector(unDeleteImages), object: removedImages)
+        }
     }
 
     @objc public func unDeleteImages(_ urls: [URL: URL]) {
