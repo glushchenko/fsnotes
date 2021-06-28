@@ -49,62 +49,27 @@ class Sidebar {
             list = system
         }
 
+        let projectsLabel = NSLocalizedString("Projects", comment: "Sidebar label")
+        list.append(SidebarItem(name: "\(projectsLabel)", type: .Label))
+
         let rootProjects = storage.getRootProjects()
-
         for project in rootProjects {
-            let icon = getImage(named: "repository\(night).png")
-            let type: SidebarItemType = .Label
-
-            list.append(SidebarItem(name: project.label, project: project, type: type, icon: icon))
-            
-            let childProjects = storage.getChildProjects(project: project)
-            for childProject in childProjects {
-                if childProject.url == UserDefaultsManagement.archiveDirectory {
-                    continue
-                }
-
-                list.append(SidebarItem(name: childProject.label, project: childProject, type: .Category, icon: icon))
-            }
+            list.append(project)
         }
 
-        let icon = getImage(named: "tag\(night).png")
         let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
-
-        list.append(SidebarItem(name: "# \(tagsLabel)", type: .Label, icon: icon))
-
-        if !UserDefaultsManagement.inlineTags {
-            let tags = storage.getTags()
-
-            if tags.count > 0 {
-                for tag in tags {
-                    list.append(Tag(name: tag))
-                }
-            }
-        }
+        list.append(SidebarItem(name: tagsLabel, type: .Label))
     }
     
     public func getList() -> [Any] {
         return list
     }
-    
-    public func getTags() -> [Tag] {
-        return list.filter({ ($0 as? Tag) != nil }) as! [Tag]
-    }
-    
-    public func getProjects() -> [SidebarItem] {
-        return list.filter({ ($0 as? SidebarItem)?.type == .Category && ($0 as? SidebarItem)?.type != .Archive && ($0 as? SidebarItem)?.project != nil && ($0 as? SidebarItem)!.project!.showInSidebar }) as! [SidebarItem]
-    }
-        
+
     private func getImage(named: String) -> Image? {
         if let image = NSImage(named: named) {
             return image
         }
         
         return nil
-    }
-
-    public func add(tag: Tag, section: Int) {
-        let si = SidebarItem(name: tag.getName(), type: .Tag)
-        items[section].append(si)
     }
 }

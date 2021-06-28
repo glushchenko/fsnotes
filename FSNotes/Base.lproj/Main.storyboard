@@ -156,12 +156,6 @@ CA
                                                 <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Tags" keyEquivalent="t" identifier="fileMenu.tags" id="XZ6-FD-yro">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                                            <connections>
-                                                <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Change creation date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                                             <attributedString key="userComments">
@@ -1370,7 +1364,7 @@ CA
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target">
+                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" autosaveExpandedItems="YES" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1936,12 +1930,6 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
-                        <menuItem title="Tags" keyEquivalent="t" id="f2h-Tl-AHi">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                            <connections>
-                                <action selector="tagNote:" target="XfG-lQ-9wD" id="Xu2-Mz-4PC"/>
-                            </connections>
-                        </menuItem>
                         <menuItem title="Change creation date" keyEquivalent="d" id="QdU-og-lQH">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <attributedString key="userComments">

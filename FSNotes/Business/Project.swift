@@ -48,7 +48,10 @@ public class Project: Equatable {
 
     // if notes loaded from cache validation with fs needed
     public var cacheUsedDiffValidationNeeded = false
-    
+
+    public var child = [Project]()
+    public var isExpanded = false
+
     init(storage: Storage,
          url: URL,
          label: String? = nil,
@@ -522,5 +525,13 @@ public class Project: Equatable {
 
         isReadyForCacheSaving = true
         return (foundRemoved, foundAdded, foundChanged)
+    }
+
+    public func addChild(project: Project) {
+        child.append(project)
+    }
+
+    public func isExpandable() -> Bool {
+        return child.count > 0
     }
 }

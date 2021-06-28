@@ -16,7 +16,8 @@ class SidebarCellView: NSTableCellView {
 
     @IBAction func projectName(_ sender: NSTextField) {
         let cell = sender.superview as? SidebarCellView
-        guard let si = cell?.objectValue as? SidebarItem, let project = si.project else { return }
+
+        guard let project = cell?.objectValue as? Project else { return }
 
         let src = project.url
         let dst = project.url.deletingLastPathComponent().appendingPathComponent(sender.stringValue, isDirectory: true)

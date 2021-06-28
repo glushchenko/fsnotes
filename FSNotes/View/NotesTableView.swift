@@ -185,18 +185,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
 
-            if !UserDefaultsManagement.inlineTags, let items = vc.sidebarOutlineView.sidebarItems {
-                for item in items {
-                    if let tag = item as? Tag {
-                        if note.tagNames.contains(tag.getName()) {
-                            vc.sidebarOutlineView.selectTag(item: tag)
-                        } else {
-                            vc.sidebarOutlineView.deselectTag(item: tag)
-                        }
-                    }
-                }
-            }
-
             self.loadingQueue.cancelAllOperations()
             let operation = BlockOperation()
             operation.addExecutionBlock { [weak self] in        

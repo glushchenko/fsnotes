@@ -233,11 +233,17 @@ class Storage {
     }
     
     private func chechSub(url: URL, parent: Project) -> [Project] {
+        var parent = parent
         var added = [Project]()
 
         if let urls = getSubFolders(url: url) {
             for url in urls {
                 let standardizedURL = (url as URL).standardized
+                let parentURL = standardizedURL.deletingLastPathComponent()
+
+                if let foundParent = projects.first(where: { $0.url == parentURL}) {
+                    parent = foundParent
+                }
 
                 if let project = addProject(url: standardizedURL, parent: parent) {
                     added.append(project)
@@ -289,6 +295,7 @@ class Storage {
         )
 
         projects.append(project)
+        parent?.child.append(project)
 
         return project
     }
@@ -920,13 +927,6 @@ class Storage {
         
         for note in notes {
             note.removeCacheForPreviewImages()
-            
-            #if os(OSX)
-                for tag in note.tagNames {
-                    _ = removeTag(tag)
-                }
-            #endif
-
             removeBy(note: note)
         }
         
@@ -1050,27 +1050,6 @@ class Storage {
     
     public func getCurrentProject() -> Project? {
         return projects.first
-    }
-    
-    public func getTags() -> [String] {
-        return tagNames.sorted { $0 < $1 }
-    }
-
-    public func addTag(_ string: String) {
-        if !tagNames.contains(string) {
-            tagNames.append(string)
-        }
-    }
-
-    public func removeTag(_ string: String) -> Bool {
-        if noteList.filter({ $0.tagNames.contains(string) && !$0.isTrash() }).count < 2 {
-            if let i = tagNames.firstIndex(of: string) {
-                tagNames.remove(at: i)
-                return true
-            }
-        }
-        
-        return false
     }
 
     public func getAllTrash() -> [Note] {
@@ -1451,6 +1430,43 @@ class Storage {
         }
 
         return false
+    }
+
+    public func findParent(url: URL) -> Project? {
+        let parentURL = url.deletingLastPathComponent()
+
+        if let foundParent = projects.first(where: { $0.url == parentURL}) {
+            return foundParent
+        }
+
+        return nil
+    }
+
+    public func saveProjectsExpandState() {
+        var urls = [URL]()
+        for project in projects {
+            if project.isExpanded {
+                urls.append(project.url)
+            }
+        }
+
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("projects.state")
+
+        NSKeyedArchiver.archiveRootObject(urls, toFile: temporary.path)
+    }
+
+    public func restoreProjectsExpandState() {
+        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+        temporary.appendPathComponent("projects.state")
+
+        guard let urls = NSKeyedUnarchiver.unarchiveObject(withFile: temporary.path) as? [URL] else { return }
+
+        for project in projects {
+            if urls.contains(project.url) {
+                project.isExpanded = true
+            }
+        }
     }
 }
 

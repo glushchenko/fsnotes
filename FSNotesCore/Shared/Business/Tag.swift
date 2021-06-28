@@ -10,8 +10,9 @@ import Foundation
 
 class Tag {
     private var name: String
-    private var child = [Tag]()
     private var parent: Tag?
+
+    public var child = [Tag]()
 
     init(name: String, parent: Tag? = nil) {
         self.name = name
@@ -69,10 +70,6 @@ class Tag {
         child.removeAll(where: { $0 === tag })
     }
 
-    public func getChild() -> [Tag] {
-        return child
-    }
-
     public func removeParent() {
         parent = nil
     }
@@ -98,7 +95,7 @@ class Tag {
             return "\(parentTag)/\(name)"
         }
 
-        if name == "# \(NSLocalizedString("Tags", comment: "Sidebar label")))" {
+        if name == NSLocalizedString("Tags", comment: "Sidebar label") {
             return String()
         }
 

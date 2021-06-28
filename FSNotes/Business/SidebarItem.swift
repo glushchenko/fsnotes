@@ -28,17 +28,11 @@ class SidebarItem {
     }
 
     public func getName() -> String {
-        if type == .Tag, let tag = tag {
-            return tag.getFullName()
-        }
-
         return name
     }
         
     public func isSelectable() -> Bool {
-        let tagsLabel = NSLocalizedString("Tags", comment: "Sidebar label")
-        
-        if type == .Label && ["# \(tagsLabel)"].contains(name) {
+        if type == .Label {
             return false
         }
         
@@ -63,13 +57,5 @@ class SidebarItem {
         let system: [SidebarItemType] = [.Inbox, .All, .Archive, .Trash, .Todo]
 
         return system.contains(type)
-    }
-
-    public func isProject() -> Bool {
-        return type == .Category
-    }
-
-    public func isTag() -> Bool {
-        return type == .Tag
     }
 }

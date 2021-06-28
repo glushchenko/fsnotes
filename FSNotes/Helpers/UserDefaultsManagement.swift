@@ -85,6 +85,7 @@ public class UserDefaultsManagement {
         static let LastScreenX = "lastScreenX"
         static let LastScreenY = "lastScreenY"
         static let LastProject = "lastProject"
+        static let LastProjectURL = "lastProjectUrl"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
         static let LiveImagesPreview = "liveImagesPreview"
@@ -675,6 +676,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastProject)
+        }
+    }
+
+    static var lastProjectURL: URL? {
+        get {
+            if let lastProject = shared?.url(forKey: Constants.LastProjectURL) {
+                return lastProject
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LastProjectURL)
         }
     }
     

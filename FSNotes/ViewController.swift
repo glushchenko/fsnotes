@@ -155,19 +155,20 @@ class ViewController: NSViewController,
         //newNoteButton.setButtonType(.momentaryLight)
 
         scheduleSnapshots()
-        self.configureShortcuts()
-        self.configureDelegates()
-        self.configureLayout()
-        self.configureNotesList()
-        self.configureEditor()
+        configureShortcuts()
+        configureDelegates()
+        configureLayout()
+        configureNotesList()
+        configureSidebar()
+        configureEditor()
 
-        self.fsManager = FileSystemEventManager(storage: storage, delegate: self)
-        self.fsManager?.start()
+        fsManager = FileSystemEventManager(storage: storage, delegate: self)
+        fsManager?.start()
 
         configureTranslation()
-        self.loadMoveMenu()
-        self.loadSortBySetting()
-        self.checkSidebarConstraint()
+        loadMoveMenu()
+        loadSortBySetting()
+        checkSidebarConstraint()
         
         #if CLOUDKIT
             self.registerKeyValueObserver()
@@ -377,7 +378,7 @@ class ViewController: NSViewController,
         self.sidebarOutlineView.sidebarItems = Sidebar().getList()
 
         sidebarOutlineView.selectionHighlightStyle = .regular
-        
+
         self.sidebarSplitView.autosaveName = "SidebarSplitView"
         self.splitView.autosaveName = "EditorSplitView"
 
@@ -425,12 +426,16 @@ class ViewController: NSViewController,
                 return
             }
 
-            if let lastSidebarItem = UserDefaultsManagement.lastProject {
-                if let items = self.sidebarOutlineView.sidebarItems, items.indices.contains(lastSidebarItem) {
-                    DispatchQueue.main.async {
-                        self.sidebarOutlineView.selectRowIndexes([lastSidebarItem], byExtendingSelection: false)
-                    }
+
+            if let lastURL = UserDefaultsManagement.lastProjectURL,
+               let project = self.storage.getProjectBy(url: lastURL) {
+
+                let items = self.sidebarOutlineView.row(forItem: project)
+
+                DispatchQueue.main.async {
+                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
                 }
+
             } else if let url = UserDefaultsManagement.lastSelectedURL,
                       let lastNote = self.storage.getBy(url: url),
                       let i = self.notesTableView.getIndex(lastNote)
@@ -441,6 +446,17 @@ class ViewController: NSViewController,
 
                 DispatchQueue.main.async {
                     self.notesTableView.scrollRowToVisible(i)
+                }
+            }
+        }
+    }
+
+    private func configureSidebar() {
+        DispatchQueue.main.async {
+            self.storage.restoreProjectsExpandState()
+            for project in self.storage.getProjects() {
+                if project.isExpanded {
+                    self.sidebarOutlineView.expandItem(project)
                 }
             }
         }
@@ -742,7 +758,7 @@ class ViewController: NSViewController,
 
             restoreCurrentPreviewState()
 
-            UserDefaultsManagement.lastProject = nil
+            UserDefaultsManagement.lastProjectURL = nil
             UserDefaultsManagement.lastSelectedURL = nil
 
             notesTableView.scroll(.zero)
@@ -1133,60 +1149,8 @@ class ViewController: NSViewController,
         }
         
         if let project = storage.getArchive() {
-            for note in notes {
-                let removed = note.removeAllTags()
-                vc.sidebarOutlineView.removeTags(removed)
-            }
-            
             move(notes: notes, project: project)
         }
-    }
-
-    @IBAction func tagNote(_ sender: Any) {
-        guard let vc = ViewController.shared() else { return }
-        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
-        guard let note = notes.first else { return }
-        guard let window = MainWindowController.shared() else { return }
-
-        vc.alert = NSAlert()
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-
-        #if CLOUDKIT
-            field.placeholderString = "fun, health, life"
-        #else
-            field.placeholderString = "sex, drugs, rock and roll"
-        #endif
-
-        field.stringValue = note.getCommaSeparatedTags()
-        
-        vc.alert?.messageText = NSLocalizedString("Tags", comment: "Menu")
-        vc.alert?.informativeText = NSLocalizedString("Please enter tags (comma separated):", comment: "Menu")
-        vc.alert?.accessoryView = field
-        vc.alert?.alertStyle = .informational
-        vc.alert?.addButton(withTitle: "OK")
-        vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                if let tags = TagList(tags: field.stringValue).get() {
-                    var removed = [String]()
-                    var deselected = [String]()
-                    
-                    for note in notes {
-                        let r = note.saveTags(tags)
-                        removed = r.0
-                        deselected = r.1
-                    }
-                    
-                    vc.sidebarOutlineView.removeTags(removed)
-                    vc.sidebarOutlineView.deselectTags(deselected)
-                    vc.sidebarOutlineView.addTags(tags)
-                    vc.sidebarOutlineView.reloadSidebar()
-                }
-            }
-            
-            vc.alert = nil
-        }
-        
-        field.becomeFirstResponder()
     }
 
     @IBAction func changeCreationDate(_ sender: Any) {
@@ -1541,10 +1505,13 @@ class ViewController: NSViewController,
         if sidebarOutlineView.selectedRow < 0 {
             return nil
         }
-
-        let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem
         
-        if let project = sidebarItem?.project {
+        if let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem,
+           sidebarItem.project != nil {
+            return sidebarItem.project
+        }
+
+        if let project = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? Project {
             return project
         }
         
@@ -1563,12 +1530,7 @@ class ViewController: NSViewController,
     
     public func getSidebarItem() -> SidebarItem? {
         if let sidebarItem = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? SidebarItem {
-        
             return sidebarItem
-        }
-
-        if let tag = sidebarOutlineView.item(atRow: sidebarOutlineView.selectedRow) as? Tag {
-            return SidebarItem(name: "", type: .Tag, icon: nil, tag: tag)
         }
         
         return nil
@@ -1607,7 +1569,7 @@ class ViewController: NSViewController,
         // Global search if sidebar not checked
         if type == nil && (
             projects == nil || (
-                projects!.count < 2 && projects!.first!.isRoot
+                projects!.count < 2 && projects!.first!.isRoot && projects!.first!.isDefault
             )
         ) {
             type = filter.count > 0 ? .All : .Inbox
@@ -1776,7 +1738,6 @@ class ViewController: NSViewController,
             ) && (
                 tags == nil
                 || UserDefaultsManagement.inlineTags && tags != nil && note.tags.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
-                || !UserDefaultsManagement.inlineTags && tags != nil && note.tagNames.filter({ tags != nil && self.contains(tag: $0, in: tags!) }).count > 0
             )
     }
 
@@ -1937,10 +1898,6 @@ class ViewController: NSViewController,
         notesTableView.deselectNotes()
         editArea.string = text
         EditTextView.note = note
-        
-        if let si = getSidebarItem(), si.type == .Tag {
-            note.addTag(si.name)
-        }
 
         search.stringValue.removeAll()
 

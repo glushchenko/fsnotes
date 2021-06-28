@@ -37,11 +37,10 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
-        guard let sidebarItem = getSidebarItem() else { return false }
+        guard let project = getSelectedProject() else { return false }
 
         if id == "folderMenu.backup" {
-
-            if sidebarItem.isTrash() || sidebarItem.tag != nil {
+            if project.isTrash {
                 return false
             }
 
@@ -49,55 +48,46 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         if id == "folderMenu.reveal" {
-            if let sidebarItem = getSidebarItem() {
-                return sidebarItem.project != nil || sidebarItem.isTrash()
-            }
+            return true
         }
 
         if id == "folderMenu.rename" {
-            if sidebarItem.isTrash() {
+            if project.isTrash {
                 return false
             }
 
-            if let project = sidebarItem.project {
-                menuItem.isHidden = project.isRoot
-            }
+            menuItem.isHidden = project.isRoot
 
-            if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
+            if !project.isDefault, !project.isArchive {
                 return true
             }
         }
 
         if id == "folderMenu.delete" {
-            if sidebarItem.isTrash() {
+            if project.isTrash {
                 return false
             }
 
-            if let project = sidebarItem.project {
-                menuItem.title = project.isRoot
-                    ? NSLocalizedString("Detach storage", comment: "")
-                    : NSLocalizedString("Delete folder", comment: "")
-            }
+            menuItem.title = project.isRoot
+                ? NSLocalizedString("Detach storage", comment: "")
+                : NSLocalizedString("Delete folder", comment: "")
 
-            if let project = sidebarItem.project, !project.isDefault, !project.isArchive {
+
+            if !project.isDefault, !project.isArchive {
                 return true
             }
         }
 
         if id == "folderMenu.options" {
-            if sidebarItem.isTrash() {
-                return false
-            }
-
-            return nil != sidebarItem.project
+            return !project.isTrash
         }
 
         if id == "folderMenu.new" {
-            if sidebarItem.isTrash() {
+            if project.isTrash {
                 return false
             }
             
-            if let project = sidebarItem.project, !project.isArchive {
+            if !project.isArchive {
                 return true
             }
         }
@@ -127,15 +117,43 @@ class SidebarOutlineView: NSOutlineView,
         if event.keyCode == kVK_RightArrow {
             if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarOutlineView.self) {
 
-                guard let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable() else {
-                    vc.notesTableView.selectNext()
-                    NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
+                if let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable() {
+                    super.keyDown(with: event)
                     return
                 }
+
+                if let project = item(atRow: selectedRow) as? Project, project.isExpandable() {
+                    super.keyDown(with: event)
+                    return
+                }
+
+                vc.notesTableView.selectNext()
+                NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
+                return
             }
         }
 
         super.keyDown(with: event)
+    }
+
+    override func expandItem(_ item: Any?, expandChildren: Bool) {
+        if let project = item as? Project {
+            project.isExpanded = true
+        }
+
+        super.expandItem(item, expandChildren: expandChildren)
+
+        storage.saveProjectsExpandState()
+    }
+
+    override func collapseItem(_ item: Any?, collapseChildren: Bool) {
+        if let project = item as? Project {
+            project.isExpanded = false
+        }
+
+        super.collapseItem(item, collapseChildren: collapseChildren)
+
+        storage.saveProjectsExpandState()
     }
     
     func outlineView(_ outlineView: NSOutlineView, acceptDrop info: NSDraggingInfo, item: Any?, childIndex index: Int) -> Bool {
@@ -148,84 +166,69 @@ class SidebarOutlineView: NSOutlineView,
             urls = unarchivedData
         }
 
-        if !UserDefaultsManagement.inlineTags,
-            let sidebarItem = item as? Tag,
-            urls.count > 0,
-            Storage.sharedInstance().getBy(url: urls.first!) != nil {
+        var project: Project?
 
+        if let sidebarItem = item as? SidebarItem, let sidebarProject = sidebarItem.project {
+            project = sidebarProject
+        }
+
+        if let sidebarProject = item as? Project {
+            project = sidebarProject
+        }
+
+        guard let project = project else { return false }
+
+        if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+            var notes = [Note]()
             for url in urls {
                 if let note = Storage.sharedInstance().getBy(url: url) {
-                    note.addTag(sidebarItem.getName())
-                    selectTag(item: sidebarItem)
+                    notes.append(note)
                 }
+            }
+
+            if project.isTrash {
+                vc.editArea.clear()
+                vc.storage.removeNotes(notes: notes) { _ in
+                    DispatchQueue.main.async {
+                        vc.notesTableView.removeByNotes(notes: notes)
+                    }
+                }
+            } else {
+                vc.move(notes: notes, project: project)
             }
 
             return true
         }
 
-        guard let sidebarItem = item as? SidebarItem else { return false }
+        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
 
-        switch sidebarItem.type {
-        case .Label, .Category, .Trash, .Archive, .Inbox:
+        for url in urls {
+            var isDirectory = ObjCBool(true)
+            if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
 
-            if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+                let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
+                let newProject =
+                    Project(
+                        storage: self.storage,
+                        url: newSub,
+                        parent: project
+                    )
 
-                var notes = [Note]()
-                for url in urls {
-                    if let note = Storage.sharedInstance().getBy(url: url) {
-                        notes.append(note)
-                    }
+                newProject.create()
+
+                self.storage.assignTree(for: newProject)
+                self.reloadSidebar()
+
+                let validFiles = self.storage.readDirectory(url)
+                for file in validFiles {
+                    _ = vc.copy(project: newProject, url: file.0)
                 }
-
-                if let project = sidebarItem.project {
-                    vc.move(notes: notes, project: project)
-                } else if sidebarItem.isTrash() {
-                    vc.editArea.clear()
-                    vc.storage.removeNotes(notes: notes) { _ in
-                        DispatchQueue.main.async {
-                            vc.notesTableView.removeByNotes(notes: notes)
-                        }
-                    }
-                }
-
-                return true
+            } else {
+                _ = vc.copy(project: project, url: url)
             }
-            
-            guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL],
-                let project = sidebarItem.project else { return false }
-            
-            for url in urls {
-                var isDirectory = ObjCBool(true)
-                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
-
-                    let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
-                    let newProject =
-                        Project(
-                            storage: self.storage,
-                            url: newSub,
-                            parent: project
-                        )
-
-                    newProject.create()
-
-                    self.storage.assignTree(for: newProject)
-                    self.reloadSidebar()
-
-                    let validFiles = self.storage.readDirectory(url)
-                    for file in validFiles {
-                        _ = vc.copy(project: newProject, url: file.0)
-                    }
-                } else {
-                    _ = vc.copy(project: project, url: url)
-                }
-            }
-            
-            return true
-        default:
-            break
         }
 
-        return false
+        return true
     }
     
     func outlineView(_ outlineView: NSOutlineView, validateDrop info: NSDraggingInfo, proposedItem item: Any?, proposedChildIndex index: Int) -> NSDragOperation {
@@ -248,6 +251,10 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
+        if item as? Project != nil {
+            return .copy
+        }
+
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
         switch sidebarItem.type {
         case .Trash:
@@ -255,7 +262,7 @@ class SidebarOutlineView: NSOutlineView,
                 return .copy
             }
             break
-        case .Category, .Label, .Archive, .Inbox:
+        case .Label, .Archive, .Inbox:
             guard sidebarItem.isSelectable() else { break }
             
             if isLocalNote {
@@ -275,11 +282,11 @@ class SidebarOutlineView: NSOutlineView,
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         if let tag = item as? Tag {
-            return tag.getChild().count
+            return tag.child.count
         }
 
-        if let item = item as? SidebarItem, let tag = item.tag {
-            return tag.getChild().count
+        if let project = item as? Project {
+            return project.child.count
         }
 
         if let sidebar = sidebarItems, item == nil {
@@ -291,7 +298,7 @@ class SidebarOutlineView: NSOutlineView,
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if let si = item as? SidebarItem, si.type == .Label {
-            return 45
+            return 15
         }
         return 25
     }
@@ -301,8 +308,8 @@ class SidebarOutlineView: NSOutlineView,
             return tag.isExpandable()
         }
 
-        if let item = item as? SidebarItem, item.type == .Tag, let tag = item.tag {
-            return tag.isExpandable()
+        if let project = item as? Project {
+            return project.isExpandable()
         }
 
         return false
@@ -310,18 +317,18 @@ class SidebarOutlineView: NSOutlineView,
     
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
         if let tag = item as? Tag {
-            return tag.getChild()[index]
+            return tag.child[index]
         }
 
-        if let si = item as? SidebarItem, si.type == .Tag, let tag = si.tag {
-            return tag.getChild()[index]
+        if let project = item as? Project {
+            return project.child[index]
         }
 
         if let sidebar = sidebarItems, item == nil {
             return sidebar[index]
         }
         
-        return ""
+        return String()
     }
     
     func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
@@ -334,15 +341,28 @@ class SidebarOutlineView: NSOutlineView,
 
         if let tag = item as? Tag {
             
-            cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
+            cell.icon.image = NSImage(named: "tag")
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = tag.getName()
+
+        } else if let project = item as? Project {
+
+            cell.icon.image = NSImage(named: "project")
+            cell.icon.isHidden = false
+            cell.label.frame.origin.x = 25
+            cell.textField?.stringValue = project.label
 
         } else if let si = item as? SidebarItem {
             cell.textField?.stringValue = si.name
 
             switch si.type {
+            case .Label:
+                if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self) as? SidebarHeaderCellView {
+                    cell.title.stringValue = ""
+                    return cell
+                }
+
             case .All:
                 cell.icon.image = NSImage(imageLiteralResourceName: "home.png")
                 cell.icon.isHidden = false
@@ -353,21 +373,6 @@ class SidebarOutlineView: NSOutlineView,
                 cell.icon.isHidden = false
                 cell.label.frame.origin.x = 25
                 
-            case .Label:
-                if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self) as? SidebarHeaderCellView {
-                    cell.title.stringValue = si.name
-                    return cell
-                }
-            case .Category:
-                cell.icon.image = NSImage(imageLiteralResourceName: "repository.png")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-                
-            case .Tag:
-                cell.icon.image = NSImage(imageLiteralResourceName: "tag.png")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-
             case .Archive:
                 cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
                 cell.icon.isHidden = false
@@ -396,11 +401,15 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
-        guard let sidebarItem = item as? SidebarItem else {
-            return false
+        if nil != item as? Project {
+            return true
+        }
+
+        if let sidebarItem = item as? SidebarItem {
+            return sidebarItem.isSelectable()
         }
         
-        return sidebarItem.isSelectable()
+        return false
     }
 
     func outlineView(_ outlineView: NSOutlineView, rowViewForItem item: Any) -> NSTableRowView? {
@@ -513,8 +522,6 @@ class SidebarOutlineView: NSOutlineView,
             UserDataService.instance.isNotesTableEscape = false
         }
 
-        guard let sidebarItems = sidebarItems else { return }
-
         let tags = getSidebarTags()
         let hasChangedTags = tags?.count != selectedTags?.count
 
@@ -523,31 +530,41 @@ class SidebarOutlineView: NSOutlineView,
         selectedTags = tags
 
         if let view = notification.object as? NSOutlineView {
-            let sidebar = sidebarItems
             let i = view.selectedRow
 
-            if let cell = view.item(atRow: i) as? SidebarItem {
-                let isTag = cell.type == .Tag
-                if UserDefaultsManagement.inlineTags, isChangedSelectedProjectsState() || (lastSelectedRow != lastRow && !isTag) {
+            if UserDefaultsManagement.inlineTags,
+                view.item(atRow: i) as? Tag == nil,
+                storage.isFinishedTagsLoading,
+                isChangedSelectedProjectsState() || (lastSelectedRow != lastRow) {
 
-                    if storage.isFinishedTagsLoading {
-                        reloadTags()
-                    }
-                }
+                reloadTags()
             }
-            
-            if sidebar.indices.contains(i), let item = sidebar[i] as? SidebarItem {
-                if UserDataService.instance.lastType == item.type.rawValue && UserDataService.instance.lastProject == item.project?.url &&
-                    UserDataService.instance.lastName == item.name &&
-                    !hasChangedTags {
+
+            if let item = view.item(atRow: i) as? SidebarItem {
+                if UserDataService.instance.lastType == item.type.rawValue
+                    && UserDataService.instance.lastName == item.name
+                    && !hasChangedTags {
                     return
                 }
 
-                UserDefaultsManagement.lastProject = i
+                if let project = item.project {
+                    UserDefaultsManagement.lastProjectURL = project.url
+                }
 
                 UserDataService.instance.lastType = item.type.rawValue
                 UserDataService.instance.lastProject = item.project?.url
                 UserDataService.instance.lastName = item.name
+            }
+
+            if let selectedProject = view.item(atRow: i) as? Project {
+                if UserDataService.instance.lastProject == selectedProject.url && !hasChangedTags {
+                    return
+                }
+
+                UserDefaultsManagement.lastProjectURL = selectedProject.url
+
+                UserDataService.instance.lastType = nil
+                UserDataService.instance.lastProject = selectedProject.url
             }
 
             if !UserDataService.instance.firstNoteSelection {
@@ -611,38 +628,30 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     @IBAction func revealInFinder(_ sender: Any) {
-        guard let si = getSidebarItem(), let p = si.project else { return }
+        guard let project = getSelectedProject() else { return }
 
-        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: p.url.path)
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: project.url.path)
     }
     
     @IBAction func renameFolderMenu(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
-        
-        let selected = v.selectedRow
-        guard let si = v.sidebarItems,
-            si.indices.contains(selected) else { return }
-        
-        guard
-            let sidebarItem = si[selected] as? SidebarItem,
-            sidebarItem.type == .Category,
-            let projectRow = v.rowView(atRow: selected, makeIfNecessary: false),
-            let cell = projectRow.view(atColumn: 0) as? SidebarCellView else { return }
+        guard let vc = ViewController.shared(),
+              let sidebarOutlineView = vc.sidebarOutlineView,
+              sidebarOutlineView.getSelectedProject() != nil else { return }
+
+        guard let projectRow = sidebarOutlineView.rowView(atRow: sidebarOutlineView.selectedRow, makeIfNecessary: false),
+              let cell = projectRow.view(atColumn: 0) as? SidebarCellView else { return }
         
         cell.label.isEditable = true
         cell.label.becomeFirstResponder()
     }
     
     @IBAction func deleteMenu(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
-        
-        let selected = v.selectedRow
-        guard let si = v.sidebarItems, si.indices.contains(selected) else { return }
-        
-        guard let sidebarItem = si[selected] as? SidebarItem, let project = sidebarItem.project, !project.isDefault && sidebarItem.type != .All && sidebarItem.type != .Trash  else { return }
-        
-        if !project.isRoot && sidebarItem.type == .Category {
-            guard let w = v.superview?.window else {
+        guard let vc = ViewController.shared(),
+              let sidebarOutlineView = vc.sidebarOutlineView,
+              let project = sidebarOutlineView.getSelectedProject() else { return }
+
+        if !project.isRoot {
+            guard let w = sidebarOutlineView.superview?.window else {
                 return
             }
             
@@ -669,7 +678,7 @@ class SidebarOutlineView: NSOutlineView,
 
         for item in projects {
             SandboxBookmark().removeBy(item.url)
-            v.removeProject(project: item)
+            sidebarOutlineView.removeProject(project: item)
         }
 
         selectRowIndexes([0], byExtendingSelection: false)
@@ -677,30 +686,27 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     @IBAction func addProject(_ sender: Any) {
-        guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return }
-        
-        var unwrappedProject: Project?
-        if let si = v.getSidebarItem(),
-            let p = si.project {
-            unwrappedProject = p
-        }
-        
+        guard let vc = ViewController.shared(),
+              let sidebarOutlineView = vc.sidebarOutlineView else { return }
+
+        var project = sidebarOutlineView.getSelectedProject()
+
         if sender is NSMenuItem,
             let mi = sender as? NSMenuItem,
             mi.title == NSLocalizedString("Attach storage...", comment: "") {
-            unwrappedProject = nil
+            project = nil
         }
         
-        if sender is SidebarCellView, let cell = sender as? SidebarCellView, let si = cell.objectValue as? SidebarItem {
-            if let p = si.project {
-                unwrappedProject = p
+        if sender is SidebarCellView, let cell = sender as? SidebarCellView {
+            if let objectProject = cell.objectValue as? Project {
+                project = objectProject
             } else {
                 addRoot()
                 return
             }
         }
         
-        guard let project = unwrappedProject else {
+        guard let project = project else {
             addRoot()
             return
         }
@@ -744,41 +750,38 @@ class SidebarOutlineView: NSOutlineView,
 
         self.storage.removeBy(project: project)
 
-        if let si = sidebarItems?.first(where: { ($0 as? SidebarItem)?.project === project }) {
-            let i = row(forItem: si)
-            guard i > -1 else { return }
+        if let parent = project.parent {
+            if let index = parent.child.firstIndex(of: project) {
+                parent.child.removeAll(where: { $0 == project })
 
-            sidebarItems?.remove(at: i)
-            removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+                removeItems(at: [index], inParent: parent, withAnimation: .effectFade)
+                reloadItem(parent)
+            }
+        } else {
+            let i = row(forItem: project)
+            if i > -1 {
+                sidebarItems?.remove(at: i)
+                removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+            }
         }
     }
 
     public func insertProject(url: URL) {
         guard !storage.projectExist(url: url) else { return }
 
-        guard let parent = self.storage.getProjects().first(where: { $0.isRoot && url.path.contains($0.url.path) }) else { return }
+        guard let parent = storage.findParent(url: url) else { return }
+        let project = Project(storage: storage, url: url, parent: parent)
+        parent.child.insert(project, at: 0)
 
-        let newProject =
-            Project(
-                storage: self.storage,
-                url: url,
-                parent: parent
-            )
+        storage.assignTree(for: project)
 
-        self.storage.assignTree(for: newProject)
-
-        let notes = newProject.fetchNotes()
+        let notes = project.fetchNotes()
         for note in notes {
             note.forceLoad()
         }
-        self.storage.noteList.append(contentsOf: notes)
 
-        let list = Sidebar().getList()
-        if let index = list.firstIndex(where: { ($0 as? SidebarItem)?.project === newProject }) {
-            sidebarItems = list
-            let set = IndexSet(integer: index)
-            insertItems(at: set, inParent: nil, withAnimation: .effectFade)
-        }
+        storage.noteList.append(contentsOf: notes)
+        insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
 
         viewDelegate?.fsManager?.reloadObservedFolders()
     }
@@ -790,14 +793,15 @@ class SidebarOutlineView: NSOutlineView,
             let projectURL = parent.url.appendingPathComponent(name, isDirectory: true)
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
             
-            let newProject =
-                Project(
-                    storage: storage,
-                    url: projectURL,
-                    parent: parent.getParent()
-                )
-            storage.assignTree(for: newProject)
-            reloadSidebar()
+            let project = Project(storage: storage, url: projectURL, parent: parent)
+
+            storage.assignTree(for: project)
+
+            parent.child.insert(project, at: 0)
+            insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+
+            viewDelegate?.fsManager?.reloadObservedFolders()
+
         } catch {
             let alert = NSAlert()
             alert.messageText = error.localizedDescription
@@ -854,6 +858,12 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
+        for i in v.selectedRowIndexes {
+            if let project = item(atRow: i) as? Project {
+                projects.append(project)
+            }
+        }
+
         if projects.count > 0 {
             return projects
         }
@@ -902,15 +912,11 @@ class SidebarOutlineView: NSOutlineView,
 
                 guard let si = sidebarItems, si.indices.contains(j) else { return }
 
-                if let next = si[j] as? SidebarItem, next.type != .Tag && next.type != .Label {
+                if let next = si[j] as? SidebarItem, next.type != .Label {
                     selectRowIndexes([j], byExtendingSelection: false)
                     return
                 }
 
-                return
-            }
-
-            if next.type == .Tag {
                 return
             }
         }
@@ -928,15 +934,11 @@ class SidebarOutlineView: NSOutlineView,
 
                 guard let si = sidebarItems, si.indices.contains(j) else { return }
 
-                if let next = si[j] as? SidebarItem, next.type != .Tag && next.type != .Label {
+                if let next = si[j] as? SidebarItem, next.type != .Label {
                     selectRowIndexes([j], byExtendingSelection: false)
                     return
                 }
 
-                return
-            }
-
-            if next.type == .Tag {
                 return
             }
         }
@@ -944,15 +946,10 @@ class SidebarOutlineView: NSOutlineView,
         selectRowIndexes([i], byExtendingSelection: false)
     }
 
-    private func getSidebarItem() -> SidebarItem? {
+    private func getSelectedProject() -> Project? {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
-        
-        let selected = v.selectedRow
-        guard let si = v.sidebarItems,
-            si.indices.contains(selected) else { return nil }
-        
-        let sidebarItem = si[selected] as? SidebarItem
-        return sidebarItem
+
+        return v.item(atRow: v.selectedRow) as? Project
     }
     
     @objc public func reloadSidebar(reloadManager: Bool = false) {
@@ -973,19 +970,7 @@ class SidebarOutlineView: NSOutlineView,
 
         vc.sidebarOutlineView.loadAllTags()
     }
-    
-    public func deselectTags(_ list: [String]) {
-        for tag in list {
-            if
-                let i = sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.type == .Tag && ($0 as? SidebarItem)?.name == tag }),
-                let row = self.rowView(atRow: i, makeIfNecessary: false),
-                let cell = row.view(atColumn: 0) as? SidebarCellView {
-                
-                cell.icon.image = NSImage(named: "tag.png")
-            }
-        }
-    }
-    
+        
     public func selectTag(item: Tag) {
         let i = self.row(forItem: item)
         guard i > -1 else { return }
@@ -1000,7 +985,7 @@ class SidebarOutlineView: NSOutlineView,
         guard i > -1 else { return }
 
         if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: "tag.png")
+            cell.icon.image = NSImage(named: "tag")
         }
     }
     
@@ -1011,7 +996,7 @@ class SidebarOutlineView: NSOutlineView,
             guard i > -1 else { continue }
 
             if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                cell.icon.image = NSImage(named: "tag.png")
+                cell.icon.image = NSImage(named: "tag")
             }
         }
     }
@@ -1063,7 +1048,7 @@ class SidebarOutlineView: NSOutlineView,
 
                     if
                         parent.getParent() == nil
-                        && parent.getChild().count == 0,
+                        && parent.child.count == 0,
                         let i = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent.getName() })
                     {
                         if isAllowTagRemoving(parent.getName()) {
@@ -1105,7 +1090,7 @@ class SidebarOutlineView: NSOutlineView,
                         tag = tagItem
 
                         if !isExist, let parent = tagItem.getParent() {
-                            let count = parent.getChild().count - 1
+                            let count = parent.child.count - 1
                             self.insertItems(at: [count], inParent: tagItem.getParent(), withAnimation: .slideDown)
                         }
                     })
@@ -1178,7 +1163,7 @@ class SidebarOutlineView: NSOutlineView,
         var tags: Set<String> = []
         var projects: [Project]? = nil
 
-        if let item = getSidebarItem(), item.type == .All {
+        if let item = item(atRow: selectedRow) as? SidebarItem, item.type == .All {
             projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive })
         } else {
             projects = getSidebarProjects()
@@ -1223,7 +1208,7 @@ class SidebarOutlineView: NSOutlineView,
     private func showTagsHeader() {
         let localized = NSLocalizedString("Tags", comment: "Sidebar label")
 
-        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) as? SidebarItem {
+        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == localized}) as? SidebarItem {
             let index = self.row(forItem: item)
             if index > -1, let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
                 cell.isHidden = false
@@ -1234,7 +1219,7 @@ class SidebarOutlineView: NSOutlineView,
     public func hideTagsHeader() {
         let localized = NSLocalizedString("Tags", comment: "Sidebar label")
 
-        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == "# \(localized)"}) as? SidebarItem {
+        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == localized}) as? SidebarItem {
             let index = self.row(forItem: item)
             if index > -1, let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
                 cell.isHidden = true
@@ -1243,40 +1228,40 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func select(tag: String) {
-            let fullTags = tag.split(separator: "/").map(String.init);
-            var items = sidebarItems;
-            var tagDepth:Int = 0;
-            var tagIndexArr = [Int]();
-            for tagIndex in 0..<fullTags.count{
-                guard let index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) else { break }
-                items = (items?[index] as? Tag)?.getChild();
-                tagDepth += tagIndex == 0 ? index : index+1;
-                tagIndexArr.append(tagDepth)
-            }
-            
-            UserDataService.instance.firstNoteSelection = true
-            selectRowIndexes([tagDepth], byExtendingSelection: false, tagIndexArr)
+        let fullTags = tag.split(separator: "/").map(String.init);
+        var items = sidebarItems;
+        var tagDepth:Int = 0;
+        var tagIndexArr = [Int]();
+        for tagIndex in 0..<fullTags.count{
+            guard let index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) else { break }
+            items = (items?[index] as? Tag)?.child;
+            tagDepth += tagIndex == 0 ? index : index+1;
+            tagIndexArr.append(tagDepth)
         }
+
+        UserDataService.instance.firstNoteSelection = true
+        selectRowIndexes([tagDepth], byExtendingSelection: false, tagIndexArr)
+    }
         
-    //    select and open rowIndexes
-        func selectRowIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool, _ tagIndexArr : [Int]) {
-            guard let index = indexes.first else { return }
+    // select and open rowIndexes
+    func selectRowIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool, _ tagIndexArr : [Int]) {
+        guard let index = indexes.first else { return }
 
-            var extend = extend
+        var extend = extend
 
-            if (item(atRow: index) as? Tag) != nil {
-                for i in selectedRowIndexes {
-                    if nil != item(atRow: i) as? Tag {
-                        deselectRow(i)
-                    }
+        if (item(atRow: index) as? Tag) != nil {
+            for i in selectedRowIndexes {
+                if nil != item(atRow: i) as? Tag {
+                    deselectRow(i)
                 }
-                extend = true
             }
-            
-            tagIndexArr.forEach { tagIndex in
-                self.expandItem(item(atRow: tagIndex))
-            }
-
-            super.selectRowIndexes(indexes, byExtendingSelection: extend)
+            extend = true
         }
+
+        tagIndexArr.forEach { tagIndex in
+            self.expandItem(item(atRow: tagIndex))
+        }
+
+        super.selectRowIndexes(indexes, byExtendingSelection: extend)
+    }
 }

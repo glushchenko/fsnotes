@@ -21,7 +21,7 @@ public class Note: NSObject  {
 
     var content: NSMutableAttributedString = NSMutableAttributedString()
     var creationDate: Date? = Date()
-    var tagNames = [String]()
+
     let dateFormatter = DateFormatter()
     let undoManager = UndoManager()
 
@@ -1057,115 +1057,11 @@ public class Note: NSObject  {
         return name.localizedStandardContains(terms) || content.string.localizedStandardContains(terms)
     }
 
-    public func getCommaSeparatedTags() -> String {
-        return tagNames.map { String($0) }.joined(separator: ", ")
-    }
-
-    public func saveTags(_ string: [String]) -> ([String], [String]) {
-        let newTagsClean = string
-        var new = [String]()
-        var removed = [String]()
-        
-        for tag in tagNames {
-            if !newTagsClean.contains(tag) {
-                removed.append(tag)
-            }
-        }
-        
-        for newTagClean in newTagsClean {
-            if !tagNames.contains(newTagClean) {
-                new.append(newTagClean)
-            }
-        }
-
-        let sharedStorage = Storage.sharedInstance()
-
-        for n in new { sharedStorage.addTag(n) }
-        
-        var removedFromStorage = [String]()
-        for r in removed {
-            if sharedStorage.removeTag(r) {
-                removedFromStorage.append(r)
-            }
-        }
-        
-        tagNames = newTagsClean
-
-        #if os(OSX)
-            try? (url as NSURL).setResourceValue(newTagsClean, forKey: .tagNamesKey)
-        #else
-            let data = NSKeyedArchiver.archivedData(withRootObject: NSMutableArray(array: newTagsClean))
-            do {
-                try self.url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
-            } catch {
-                print(error)
-            }
-        #endif
-        
-        return (removedFromStorage, removed)
-    }
-    
-    public func removeAllTags() -> [String] {
-        let result = saveTags([])
-        
-        return result.0
-    }
-    
-    public func addTag(_ name: String) {
-        guard !tagNames.contains(name) else { return }
-        
-        tagNames.append(name)
-
-        #if os(OSX)
-            try? (url as NSURL).setResourceValue(tagNames, forKey: .tagNamesKey)
-        #else
-        let data = NSKeyedArchiver.archivedData(withRootObject: NSMutableArray(array: self.tagNames))
-            do {
-                try url.setExtendedAttribute(data: data, forName: "com.apple.metadata:_kMDItemUserTags")
-            } catch {
-                print(error)
-            }
-        #endif
-    }
-
-    public func removeTag(_ name: String) {
-        guard tagNames.contains(name) else { return }
-
-        let sharedStorage = Storage.sharedInstance()
-        
-        if let i = tagNames.firstIndex(of: name) {
-            tagNames.remove(at: i)
-        }
-        
-        if sharedStorage.noteList.first(where: {$0.tagNames.contains(name)}) == nil {
-            if let i = sharedStorage.tagNames.firstIndex(of: name) {
-                sharedStorage.tagNames.remove(at: i)
-            }
-        }
-        
-        _ = saveTags(tagNames)
-    }
-
 #if os(OSX)
     public func loadTags() {
-        let sharedStorage = Storage.sharedInstance()
-
         if UserDefaultsManagement.inlineTags {
             _ = scanContentTags()
             return
-        }
-
-        let tags = try? url.resourceValues(forKeys: [.tagNamesKey])
-        if let tagNames = tags?.tagNames {
-            for tag in tagNames {
-                if !self.tagNames.contains(tag) {
-                    self.tagNames.append(tag)
-                }
-
-                if !project.isTrash {
-                    sharedStorage.addTag(tag)
-                }
-            }
         }
     }
 #else
