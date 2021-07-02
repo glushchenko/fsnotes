@@ -117,12 +117,12 @@ class SidebarOutlineView: NSOutlineView,
         if event.keyCode == kVK_RightArrow {
             if let fr = NSApp.mainWindow?.firstResponder, let vc = self.viewDelegate, fr.isKind(of: SidebarOutlineView.self) {
 
-                if let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable() {
+                if let tag = item(atRow: selectedRow) as? Tag, tag.isExpandable(), !isItemExpanded(tag) {
                     super.keyDown(with: event)
                     return
                 }
 
-                if let project = item(atRow: selectedRow) as? Project, project.isExpandable() {
+                if let project = item(atRow: selectedRow) as? Project, project.isExpandable(), !isItemExpanded(project) {
                     super.keyDown(with: event)
                     return
                 }
@@ -541,30 +541,22 @@ class SidebarOutlineView: NSOutlineView,
             }
 
             if let item = view.item(atRow: i) as? SidebarItem {
-                if UserDataService.instance.lastType == item.type.rawValue
-                    && UserDataService.instance.lastName == item.name
-                    && !hasChangedTags {
+                if UserDefaultsManagement.lastSidebarItem == item.type.rawValue
+                    && !hasChangedTags && !isFirstLaunch {
                     return
                 }
 
-                if let project = item.project {
-                    UserDefaultsManagement.lastProjectURL = project.url
-                }
-
-                UserDataService.instance.lastType = item.type.rawValue
-                UserDataService.instance.lastProject = item.project?.url
-                UserDataService.instance.lastName = item.name
+                UserDefaultsManagement.lastSidebarItem = item.type.rawValue
+                UserDefaultsManagement.lastProjectURL = nil
             }
 
             if let selectedProject = view.item(atRow: i) as? Project {
-                if UserDataService.instance.lastProject == selectedProject.url && !hasChangedTags {
+                if UserDefaultsManagement.lastProjectURL == selectedProject.url && !hasChangedTags && !isFirstLaunch {
                     return
                 }
 
                 UserDefaultsManagement.lastProjectURL = selectedProject.url
-
-                UserDataService.instance.lastType = nil
-                UserDataService.instance.lastProject = selectedProject.url
+                UserDefaultsManagement.lastSidebarItem = nil
             }
 
             if !UserDataService.instance.firstNoteSelection {
@@ -949,7 +941,15 @@ class SidebarOutlineView: NSOutlineView,
     private func getSelectedProject() -> Project? {
         guard let vc = ViewController.shared(), let v = vc.sidebarOutlineView else { return nil }
 
-        return v.item(atRow: v.selectedRow) as? Project
+        if let project = v.item(atRow: v.selectedRow) as? Project {
+            return project
+        }
+
+        if let sidebarItem = v.item(atRow: v.selectedRow) as? SidebarItem, let project = sidebarItem.project {
+            return project
+        }
+
+        return nil
     }
     
     @objc public func reloadSidebar(reloadManager: Bool = false) {

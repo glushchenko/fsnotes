@@ -84,7 +84,7 @@ public class UserDefaultsManagement {
         static let LastSelectedPath = "lastSelectedPath"
         static let LastScreenX = "lastScreenX"
         static let LastScreenY = "lastScreenY"
-        static let LastProject = "lastProject"
+        static let LastSidebarItem = "lastSidebarItem"
         static let LastProjectURL = "lastProjectUrl"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
@@ -666,19 +666,6 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var lastProject: Int? {
-        get {
-            if let lastProject = shared?.object(forKey: Constants.LastProject) as? Int {
-                return lastProject
-            }
-
-            return nil
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.LastProject)
-        }
-    }
-
     static var lastProjectURL: URL? {
         get {
             if let lastProject = shared?.url(forKey: Constants.LastProjectURL) {
@@ -689,6 +676,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastProjectURL)
+        }
+    }
+
+    static var lastSidebarItem: Int? {
+        get {
+            if let index = shared?.object(forKey: Constants.LastSidebarItem) as? Int {
+                return index
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LastSidebarItem)
         }
     }
     

@@ -158,8 +158,7 @@ class ViewController: NSViewController,
         configureShortcuts()
         configureDelegates()
         configureLayout()
-        configureNotesList()
-        configureSidebar()
+        configureSidebarAndNotesList()
         configureEditor()
 
         fsManager = FileSystemEventManager(storage: storage, delegate: self)
@@ -407,44 +406,51 @@ class ViewController: NSViewController,
         )
     }
 
-    private func configureNotesList() {
+    private func configureSidebarAndNotesList() {
 
         // When opened via fsnotes:// scheme – skip (use viewDidAppear)
         if let appDelegate = NSApplication.shared.delegate as? AppDelegate, appDelegate.searchQuery != nil {
             return
         }
 
-        self.updateTable() {
-            if UserDefaultsManagement.copyWelcome {
-                if let index = self.sidebarOutlineView.sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.getName() == "Welcome" }) {
-                    DispatchQueue.main.async {
-                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
-                    }
-                }
+        DispatchQueue.main.async {
+            self.configureSidebar()
 
-                UserDefaultsManagement.copyWelcome = false
+            if UserDefaultsManagement.lastSidebarItem != nil || UserDefaultsManagement.lastProjectURL != nil {
+                if let lastSidebarItem = UserDefaultsManagement.lastSidebarItem {
+                    let sidebarItem = self.sidebarOutlineView.sidebarItems?.first(where: { ($0 as? SidebarItem)?.type.rawValue == lastSidebarItem })
+
+                    let index = self.sidebarOutlineView.row(forItem: sidebarItem)
+                    self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                } else if let lastURL = UserDefaultsManagement.lastProjectURL,
+                    let project = self.storage.getProjectBy(url: lastURL) {
+
+                    let items = self.sidebarOutlineView.row(forItem: project)
+                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                }
+                
                 return
             }
 
+            self.updateTable() {
+                if UserDefaultsManagement.copyWelcome {
+                    DispatchQueue.main.async {
+                        self.sidebarOutlineView.expandItem(self.storage.getRootProject)
+                        let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
+                        let index = self.sidebarOutlineView.row(forItem: welcome)
+                        self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)
+                    }
 
-            if let lastURL = UserDefaultsManagement.lastProjectURL,
-               let project = self.storage.getProjectBy(url: lastURL) {
-
-                let items = self.sidebarOutlineView.row(forItem: project)
-
-                DispatchQueue.main.async {
-                    self.sidebarOutlineView.selectRowIndexes([items], byExtendingSelection: false)
+                    UserDefaultsManagement.copyWelcome = false
+                    return
                 }
 
-            } else if let url = UserDefaultsManagement.lastSelectedURL,
-                      let lastNote = self.storage.getBy(url: url),
-                      let i = self.notesTableView.getIndex(lastNote)
-            {
+                if let url = UserDefaultsManagement.lastSelectedURL,
+                    let lastNote = self.storage.getBy(url: url),
+                    let i = self.notesTableView.getIndex(lastNote) {
 
-                self.notesTableView.saveNavigationHistory(note: lastNote)
-                self.notesTableView.selectRow(i)
-
-                DispatchQueue.main.async {
+                    self.notesTableView.saveNavigationHistory(note: lastNote)
+                    self.notesTableView.selectRow(i)
                     self.notesTableView.scrollRowToVisible(i)
                 }
             }
@@ -452,12 +458,10 @@ class ViewController: NSViewController,
     }
 
     private func configureSidebar() {
-        DispatchQueue.main.async {
-            self.storage.restoreProjectsExpandState()
-            for project in self.storage.getProjects() {
-                if project.isExpanded {
-                    self.sidebarOutlineView.expandItem(project)
-                }
+        self.storage.restoreProjectsExpandState()
+        for project in self.storage.getProjects() {
+            if project.isExpanded {
+                self.sidebarOutlineView.expandItem(project)
             }
         }
     }
@@ -736,8 +740,6 @@ class ViewController: NSViewController,
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
             && UserDefaultsManagement.shouldFocusSearchOnESCKeyDown
         ) {
-            UserDataService.instance.resetLastSidebar()
-            
             if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {
                 NSApp.mainWindow?.makeFirstResponder( self.notesTableView)
                 return false
@@ -758,6 +760,7 @@ class ViewController: NSViewController,
 
             restoreCurrentPreviewState()
 
+            UserDefaultsManagement.lastSidebarItem = nil
             UserDefaultsManagement.lastProjectURL = nil
             UserDefaultsManagement.lastSelectedURL = nil
 
