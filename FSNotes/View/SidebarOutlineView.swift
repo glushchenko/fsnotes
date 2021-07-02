@@ -750,10 +750,9 @@ class SidebarOutlineView: NSOutlineView,
                 reloadItem(parent)
             }
         } else {
-            let i = row(forItem: project)
-            if i > -1 {
-                sidebarItems?.remove(at: i)
-                removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+            if let index = sidebarItems?.firstIndex(where: { ($0 as? Project) == project }) {
+                sidebarItems?.remove(at: index)
+                removeItems(at: [index], inParent: nil, withAnimation: .effectFade)
             }
         }
     }
@@ -970,24 +969,6 @@ class SidebarOutlineView: NSOutlineView,
 
         vc.sidebarOutlineView.loadAllTags()
     }
-        
-    public func selectTag(item: Tag) {
-        let i = self.row(forItem: item)
-        guard i > -1 else { return }
-
-        if let row = self.rowView(atRow: i, makeIfNecessary: true), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: "tag_red.png")
-        }
-    }
-    
-    public func deselectTag(item: Tag) {
-        let i = self.row(forItem: item)
-        guard i > -1 else { return }
-
-        if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-            cell.icon.image = NSImage(named: "tag")
-        }
-    }
     
     public func deselectAllTags() {
         guard let items = self.sidebarItems?.filter({($0 as? Tag) != nil}) else { return }
@@ -1031,12 +1012,9 @@ class SidebarOutlineView: NSOutlineView,
                 let count = allTags?.filter({ $0.starts(with: parent + "/") || $0 == parent }).count ?? 0
 
                 if count == 0 {
-                    let i = row(forItem: tag)
-                    guard i > -1 else { return }
-
-                    if let ind = sidebarItems?.indices, ind.contains(i) {
-                        removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
-                        sidebarItems?.remove(at: i)
+                    if let index = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent }) {
+                        removeItems(at: [index], inParent: nil, withAnimation: .effectFade)
+                        sidebarItems?.remove(at: index)
                     }
                 }
             } else if var foundTag = tag.find(name: tagName) {

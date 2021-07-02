@@ -730,7 +730,6 @@ public class UserDefaultsManagement {
                         print(error)
                     }
                 } else {
-                    self.archiveDirectory = archive.standardized
                     return archive
                 }
             }
