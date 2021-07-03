@@ -997,13 +997,9 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if event.keyCode == kVK_Tab {
-            if event.modifierFlags.contains(.shift) {
-                let formatter = TextFormatter(textView: self, note: note)
-                formatter.unTab()
-                saveCursorPosition()
-                return
-            }
+        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.shift) {
+            shiftLeft(NSMenuItem())
+            return
         }
 
         // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
@@ -1016,8 +1012,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
 
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.tabKey()
+            shiftRight(NSMenuItem())
             breakUndoCoalescing()
             return
         }
