@@ -416,16 +416,26 @@ public class TextFormatter {
         var result = String()
         var lineQty = 0
 
+        var location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
         string.enumerateLines { (line, _) in
             result.append(padding + line + "\n")
             lineQty += 1
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
+        var diff = result.count - string.count
+
+        if length == 0 {
+            location += diff
+            diff = 0
+        }
+
+        let selectRange = NSRange(location: location, length: length + diff)
 
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
@@ -435,14 +445,21 @@ public class TextFormatter {
         var result = String()
         var lineQty = 0
 
+        var dropChars = 0
+
+        var location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
         string.enumerateLines { (line, _) in
             var line = line
 
             if !line.isEmpty {
                 if line.first == "\t" {
                     line = String(line.dropFirst())
+                    dropChars += 1
                 } else if line.starts(with: "    ") {
                     line = String(line.dropFirst(4))
+                    dropChars += 4
                 }
             }
             
@@ -450,11 +467,18 @@ public class TextFormatter {
             lineQty += 1
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
+        var diff = string.count - result.count
+
+        if length == 0 {
+            location -= diff
+            diff = 0
+        }
+
+        let selectRange = NSRange(location: location, length: length - diff)
 
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {

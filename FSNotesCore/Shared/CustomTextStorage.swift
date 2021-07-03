@@ -146,6 +146,8 @@ extension NSTextStorage: NSTextStorageDelegate {
         var parRange = textStorage.mutableString.paragraphRange(for: editedRange)
         let paragraph = textStorage.mutableString.substring(with: parRange)
 
+        textStorage.updateParagraphStyle(range: parRange)
+
         if paragraph.count == 2, textStorage.attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
             if let ranges = codeTextProcessor.getCodeBlockRanges(parRange: parRange) {
                 let invalidateBackgroundRange =

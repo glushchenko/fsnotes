@@ -29,14 +29,37 @@ extension NSTextStorage {
         endEditing()
     }
 
-    public func updateParagraphStyle() {
+    public func updateParagraphStyle(range: NSRange? = nil) {
         beginEditing()
 
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        var paragraph = NSMutableParagraphStyle()
+        let scanRange = range ?? NSRange(0..<length)
 
-        mutableString.enumerateSubstrings(in: NSRange(0..<length), options: .byParagraphs) { _, range, _, _ in
+        mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, range, _, _ in
             let rangeNewline = range.upperBound == self.length ? range : NSRange(range.location..<range.upperBound + 1)
+
+            if let value = value,
+                value.count > 1,
+
+                value.starts(with: "    ")
+                || value.starts(with: "\t")
+                || value.starts(with: "* ")
+                || value.starts(with: "- ")
+                || value.starts(with: "+ ") {
+
+                let result = value.getSpacePrefix() + " *"
+                let width = result.widthOfString(usingFont: UserDefaultsManagement.noteFont)
+
+                paragraph = NSMutableParagraphStyle()
+                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                paragraph.alignment = .left
+                paragraph.headIndent = width
+            } else {
+                paragraph = NSMutableParagraphStyle()
+                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                paragraph.alignment = .left
+            }
+
             self.addAttribute(.paragraphStyle, value: paragraph, range: rangeNewline)
         }
 

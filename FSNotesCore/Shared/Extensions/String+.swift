@@ -132,6 +132,24 @@ public extension String {
         }
         return range.lowerBound == startIndex
     }
+
+    func widthOfString(usingFont font: NSFont) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font]
+        let size = self.size(withAttributes: fontAttributes)
+        return size.width
+    }
+
+    func getSpacePrefix() -> String {
+        var prefix = String()
+        for char in unicodeScalars {
+            if char == "\t" || char == " " {
+                prefix += String(char)
+            } else {
+                break
+            }
+        }
+        return prefix
+    }
 }
 
 extension StringProtocol where Index == String.Index {
