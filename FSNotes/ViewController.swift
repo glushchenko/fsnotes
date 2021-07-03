@@ -344,7 +344,7 @@ class ViewController: NSViewController,
     // MARK: - Initial configuration
     
     private func configureLayout() {
-        updateTitle(newTitle: nil)
+        dropTitle()
 
         DispatchQueue.main.async {
             self.editArea.updateTextContainerInset()
@@ -1397,8 +1397,9 @@ class ViewController: NSViewController,
             view.window?.makeFirstResponder(notesTableView)
         }
         else {
-            let currentNote = notesTableView.getSelectedNote()
-            updateTitle(newTitle: currentNote?.getTitleWithoutLabel() ?? NSLocalizedString("Untitled Note", comment: "Untitled Note"))
+            if let currentNote = notesTableView.getSelectedNote() {
+                updateTitle(note: currentNote)
+            }
         }
     }
 
@@ -2247,21 +2248,29 @@ class ViewController: NSViewController,
         ViewController.shared()?.sidebarOutlineView.reloadSidebar()
     }
 
-    func updateTitle(newTitle: String?) {
-        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "FSNotes"
+    func updateTitle(note: Note) {
+        var titleString = note.getFileName()
 
-        let noteTitle: String = newTitle ?? appName
-        var titleString = noteTitle
-
-        if noteTitle.isValidUUID {
+        if titleString.isValidUUID {
             titleString = String()
         }
 
-        titleLabel.stringValue = titleString
+        if titleString.count > 0 {
+            titleLabel.stringValue = note.project.getNestedLabel() + " › " + titleString
+        } else {
+            titleLabel.stringValue = note.project.getNestedLabel()
+        }
+
         titleLabel.currentEditor()?.selectedRange = NSRange(location: 0, length: 0)
         
-        let title = newTitle != nil ? "\(appName) - \(noteTitle)" : appName
-        MainWindowController.shared()?.title = title
+        MainWindowController.shared()?.title = titleLabel.stringValue
+    }
+
+    public func dropTitle() {
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? "FSNotes"
+
+        titleLabel.stringValue = appName
+        MainWindowController.shared()?.title = appName
     }
     
     //MARK: Share Service

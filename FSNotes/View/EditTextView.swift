@@ -675,7 +675,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
 
-        viewController.updateTitle(newTitle: note.getFileName())
+        viewController.updateTitle(note: note)
 
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {
@@ -814,7 +814,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let viewController = self.window?.contentViewController as? ViewController {
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
             viewController.emptyEditAreaImage.isHidden = false
-            viewController.updateTitle(newTitle: nil)
+            viewController.dropTitle()
         }
         
         EditTextView.note = nil
@@ -1207,7 +1207,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 note.rename(to: title)
 
                 viewDelegate?.titleLabel.updateNotesTableView()
-                viewDelegate?.updateTitle(newTitle: note.fileName)
+                viewDelegate?.updateTitle(note: note)
             }
         }
     }

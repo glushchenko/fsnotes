@@ -295,7 +295,28 @@ public class Project: Equatable {
         
         return self
     }
-    
+
+    public func getNestedLabel() -> String {
+        var project: Project? = self
+        var result = String()
+
+        while project != nil {
+            if let unwrappedProject = project {
+                if result.count > 0 {
+                    result = unwrappedProject.label + " › " + result
+                } else {
+                    result = unwrappedProject.label
+                }
+                
+                project = unwrappedProject.parent
+            } else {
+                project = nil
+            }
+        }
+
+        return result
+    }
+
     public func getFullLabel() -> String {
         if isRoot  {
             if isExternal {
