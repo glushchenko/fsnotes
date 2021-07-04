@@ -410,29 +410,28 @@ public class TextFormatter {
     
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
+        
         let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
-
         let string = getAttributedString().attributedSubstring(from: pRange).string
-        var result = String()
-        var lineQty = 0
 
-        var location = textView.selectedRange.location
+        var result = String()
+        var addsChars = 0
+
+        let location = textView.selectedRange.location
         let length = textView.selectedRange.length
 
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             result.append(padding + line + "\n")
-            lineQty += 1
+
+            if isFirstLine {
+                isFirstLine = false
+            } else {
+                addsChars += padding.count
+            }
         }
 
-        var diff = result.count - string.count
-
-        if length == 0 {
-            location += diff
-            diff = 0
-        }
-
-        let selectRange = NSRange(location: location, length: length + diff)
-
+        let selectRange = NSRange(location: location + padding.count, length: length + addsChars)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
 
         storage.updateParagraphStyle(range: selectRange)
@@ -443,39 +442,55 @@ public class TextFormatter {
 
         let string = storage.attributedSubstring(from: pRange).string
         var result = String()
-        var lineQty = 0
 
-        var dropChars = 0
-
-        var location = textView.selectedRange.location
+        let location = textView.selectedRange.location
         let length = textView.selectedRange.length
 
+        var padding = 0
+        var dropChars = 0
+
+        if string.starts(with: "\t") {
+            padding = 1
+        } else if string.starts(with: "   ") {
+            padding = 4
+        }
+
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             var line = line
 
             if !line.isEmpty {
                 if line.first == "\t" {
                     line = String(line.dropFirst())
-                    dropChars += 1
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 1
+                        }
+                    }
                 } else if line.starts(with: "    ") {
                     line = String(line.dropFirst(4))
-                    dropChars += 4
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 4
+                        }
+                    }
                 }
             }
             
             result.append(line + "\n")
-            lineQty += 1
         }
 
-        var diff = string.count - result.count
-
-        if length == 0 {
-            location -= diff
-            diff = 0
-        }
-
-        let selectRange = NSRange(location: location, length: length - diff)
-
+        let selectRange = NSRange(location: location - padding, length: length - dropChars)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
 
         storage.updateParagraphStyle(range: selectRange)
