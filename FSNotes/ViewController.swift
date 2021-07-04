@@ -863,6 +863,30 @@ class ViewController: NSViewController,
                 }
             }
         }
+
+        if event.modifierFlags.contains(.control)
+            && !event.modifierFlags.contains(.shift)
+            && !event.modifierFlags.contains(.option) {
+
+            switch event.characters?.unicodeScalars.first {
+            case "1":
+                sidebarOutlineView.selectSidebar(type: .Inbox)
+            case "2":
+                sidebarOutlineView.selectSidebar(type: .All)
+            case "3":
+                sidebarOutlineView.selectSidebar(type: .Todo)
+            case "4":
+                sidebarOutlineView.selectSidebar(type: .Archive)
+            case "5":
+                sidebarOutlineView.selectSidebar(type: .Trash)
+            case "6":
+                sidebarOutlineView.selectSidebarRoot()
+            default:
+                return true
+            }
+
+            return false
+        }
         
         return true
     }

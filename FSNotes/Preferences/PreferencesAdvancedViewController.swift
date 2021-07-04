@@ -138,7 +138,7 @@ class PreferencesAdvancedViewController: NSViewController {
                     vc.fsManager?.restart()
                     vc.notesTableView.reloadData()
                     vc.sidebarOutlineView.reloadData()
-                    vc.sidebarOutlineView.selectArchive()
+                    vc.sidebarOutlineView.selectSidebar(type: .Archive)
                 }
             }
         }

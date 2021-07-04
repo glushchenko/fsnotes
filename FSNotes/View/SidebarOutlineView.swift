@@ -982,8 +982,14 @@ class SidebarOutlineView: NSOutlineView,
         }
     }
 
-    public func selectArchive() {
-        if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.type == .Archive }) {
+    public func selectSidebar(type: SidebarItemType) {
+        if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.type == type }) {
+            selectRowIndexes([i], byExtendingSelection: false)
+        }
+    }
+
+    public func selectSidebarRoot() {
+        if let i = sidebarItems?.firstIndex(where: { ($0 as? Project)?.isDefault == true }) {
             selectRowIndexes([i], byExtendingSelection: false)
         }
     }
