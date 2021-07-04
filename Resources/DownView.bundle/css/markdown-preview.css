@@ -556,7 +556,7 @@ input[type='checkbox'] {
     }
 
 li {
-    list-style-position: inside;
+    list-style-position: outside;
     line-height: 28px;
 }
 
