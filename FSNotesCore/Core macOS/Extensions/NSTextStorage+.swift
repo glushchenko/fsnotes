@@ -47,7 +47,24 @@ extension NSTextStorage {
                 || value.starts(with: "- ")
                 || value.starts(with: "+ ") {
 
-                let result = value.getSpacePrefix() + " *"
+                let prefix = value.getSpacePrefix()
+                let checkList = [
+                    prefix + "* ",
+                    prefix + "- ",
+                    prefix + "+ ",
+                    "* ",
+                    "- ",
+                    "+ "
+                ]
+
+                var result = String()
+                for checkItem in checkList {
+                    if value.starts(with: checkItem) {
+                        result = checkItem
+                        break
+                    }
+                }
+
                 let width = result.widthOfString(usingFont: UserDefaultsManagement.noteFont)
 
                 paragraph = NSMutableParagraphStyle()
