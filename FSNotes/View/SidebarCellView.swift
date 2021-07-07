@@ -11,8 +11,9 @@ import Cocoa
 class SidebarCellView: NSTableCellView {
     @IBOutlet weak var icon: NSImageView!
     @IBOutlet weak var label: NSTextField!
-    
-    var storage = Storage.sharedInstance()
+
+    public var type: SidebarItemType?
+    public var storage = Storage.sharedInstance()
 
     @IBAction func projectName(_ sender: NSTextField) {
         let cell = sender.superview as? SidebarCellView
@@ -45,5 +46,43 @@ class SidebarCellView: NSTableCellView {
         vc.loadMoveMenu()
         
         vc.updateTable()
+    }
+
+    override var backgroundStyle: NSView.BackgroundStyle {
+        set {
+            applyBackgroundAndTextColors()
+        }
+        get {
+            return super.backgroundStyle;
+        }
+    }
+
+    public func applyBackgroundAndTextColors() {
+        guard let rowView = self.superview as? NSTableRowView else { return }
+
+        if rowView.isSelected {
+
+            // first responder
+
+            if window?.firstResponder == superview?.superview {
+                label.textColor = .white
+                icon.image = type?.getIcon(white: true)
+                rowView.backgroundColor = NSColor(named: "background_selected_fr")!
+
+            // no first responder
+
+            } else {
+                label.textColor = NSColor(named: "color_selected_not_fr")
+                icon.image = type?.getIcon()
+                rowView.backgroundColor = NSColor(named: "background_selected_not_fr")!
+            }
+
+        // not selected
+
+        } else {
+            label.textColor = NSColor(named: "color_not_selected")
+            icon.image = type?.getIcon()
+            rowView.backgroundColor = NSColor(named: "background_not_selected")!
+        }
     }
 }

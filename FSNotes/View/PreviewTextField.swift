@@ -18,4 +18,19 @@ class PreviewTextField: NSTextField {
 
         return super.intrinsicContentSize
     }
+
+    override var textColor: NSColor? {
+        set {
+            super.textColor = newValue
+
+            if attributedStringValue.length > 0 {
+                var attributes = attributedStringValue.attributes(at: 0, effectiveRange: nil)
+                attributes[.foregroundColor] = newValue
+                attributedStringValue = NSAttributedString.init(string: self.stringValue, attributes: attributes)
+            }
+        }
+        get {
+            return super.textColor
+        }
+    }
 }

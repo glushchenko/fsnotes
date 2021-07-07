@@ -45,7 +45,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         
         if (event.keyCode == kVK_LeftArrow && stringValue.count == 0) {
             vcDelegate.sidebarOutlineView.window?.makeFirstResponder(vcDelegate.sidebarOutlineView)
-            vcDelegate.sidebarOutlineView.selectRowIndexes([1], byExtendingSelection: false)
+
+            let index = vcDelegate.sidebarOutlineView.selectedRowIndexes.count > 0
+                ? vcDelegate.sidebarOutlineView.selectedRowIndexes
+                : [0]
+
+            vcDelegate.sidebarOutlineView.selectRowIndexes(index, byExtendingSelection: false)
             return
         }
 

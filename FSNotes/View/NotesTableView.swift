@@ -377,7 +377,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         return nil
     }
-    
+
+    public func selectCurrent() {
+        guard let vc = ViewController.shared() else { return }
+        guard noteList.count > 0 else { return }
+
+        vc.restoreCurrentPreviewState()
+
+        UserDataService.instance.searchTrigger = false
+
+        let i = selectedRowIndexes.count > 0 ? selectedRowIndexes : [0]
+
+        if let first = i.first {
+            saveNavigationHistory(note: noteList[first])
+            selectRowIndexes(i, byExtendingSelection: false)
+            scrollRowToVisible(first)
+        }
+    }
+
     public func selectNext() {
         guard let vc = ViewController.shared() else { return }
         vc.restoreCurrentPreviewState()

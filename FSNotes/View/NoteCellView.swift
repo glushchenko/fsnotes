@@ -24,7 +24,6 @@ class NoteCellView: NSTableCellView {
     public var contentLength: Int = 0
     public var timestamp: Int64?
 
-    private let labelColor = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
     private var previewMaximumLineHeight: CGFloat = 12
     private let previewLineSpacing: CGFloat = 3
 
@@ -54,14 +53,10 @@ class NoteCellView: NSTableCellView {
             date.font = NSFont.init(descriptor: descriptor, size: 11)
         }
 
-        date.layer?.backgroundColor = UserDataService.instance.isDark
-            ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00).cgColor
-            : NSColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00).cgColor
-
         date.layer?.cornerRadius = 5
         date.layer?.zPosition = 1001
-        date.textColor = UserDataService.instance.isDark ? NSColor.white : NSColor.gray
         date.isHidden = UserDefaultsManagement.hideDate
+
         titleConstraint.constant = UserDefaultsManagement.hideDate ? 0 : 5
 
         if (UserDefaultsManagement.horizontalOrientation) {
@@ -76,7 +71,8 @@ class NoteCellView: NSTableCellView {
             imagePreviewThird.isHidden = true
         }
 
-        udpateSelectionHighlight()
+        applyPreviewStyle()
+        applyTextColors()
 
         var margin = 0
         if !UserDefaultsManagement.horizontalOrientation && !UserDefaultsManagement.hidePreviewImages{
@@ -93,11 +89,11 @@ class NoteCellView: NSTableCellView {
         self.note = note
     }
     
-    func applyPreviewStyle(_ color: NSColor) {
+    func applyPreviewStyle() {
         let additionalHeight = CGFloat(UserDefaultsManagement.cellSpacing)
 
         guard additionalHeight >= 0 else {
-            applyPreviewAttributes(color: color)
+            applyPreviewAttributes()
             return
         }
 
@@ -148,19 +144,16 @@ class NoteCellView: NSTableCellView {
             UserDefaultsManagement.cellViewFrameOriginY = y
         }
 
-
         // apply font and max lines numbers
-        applyPreviewAttributes(numberOfLines, color: color)
+        applyPreviewAttributes(numberOfLines)
     }
     
-    func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1, color: NSColor) {
+    func applyPreviewAttributes(_ maximumNumberOfLines: Int = 1) {
         let string = preview.stringValue
         let fontName = UserDefaultsManagement.noteFont.fontName
 
         let previewFontSize = CGFloat(UserDefaultsManagement.previewFontSize)
         guard let font = NSFont(name: fontName, size: previewFontSize) else { return }
-
-        let textColor = color
         
         let textParagraph = NSMutableParagraphStyle()
         textParagraph.lineSpacing = previewLineSpacing
@@ -168,7 +161,6 @@ class NoteCellView: NSTableCellView {
 
         let attribs = [
             NSAttributedString.Key.font: font,
-            NSAttributedString.Key.foregroundColor: textColor,
             NSAttributedString.Key.paragraphStyle: textParagraph
         ]
 
@@ -181,47 +173,50 @@ class NoteCellView: NSTableCellView {
         }
     }
 
-    // This NoteCellView has multiple contained views; this method changes
-    // these views' color when the cell is selected.
     override var backgroundStyle: NSView.BackgroundStyle {
         set {
-            if let rowView = self.superview as? NSTableRowView {
-                super.backgroundStyle = rowView.isSelected ? NSView.BackgroundStyle.dark : NSView.BackgroundStyle.light
-            }
-            self.udpateSelectionHighlight()
+            applyTextColors()
         }
         get {
             return super.backgroundStyle;
         }
     }
     
-    public func udpateSelectionHighlight() {
-        if ( self.backgroundStyle == NSView.BackgroundStyle.dark ) {
-            applyPreviewStyle(NSColor.white)
-            date.textColor = NSColor.white
-            name.textColor = NSColor.white
+    public func applyTextColors() {
+        if let rowView = self.superview as? NSTableRowView, rowView.isSelected {
 
-            date.layer?.backgroundColor = NSColor(red: 0.36, green: 0.67, blue: 0.92, alpha: 1.00).cgColor
+            // first responder
 
-        } else {
-            applyPreviewStyle(labelColor)
-            date.layer?.backgroundColor = UserDataService.instance.isDark
-                ? NSColor(red: 0.16, green: 0.17, blue: 0.18, alpha: 1.00).cgColor
-                : NSColor(red: 0.92, green: 0.94, blue: 0.92, alpha: 1.00).cgColor
+            if window?.firstResponder == superview?.superview {
+                name.textColor = NSColor.white
+                date.textColor = NSColor.white
+                preview.textColor = NSColor.white
 
-            date.textColor = labelColor
+            // no first responder
 
-            if self.name.stringValue == "Untitled Note" {
-                name.textColor = NSColor(red:0.41, green:0.42, blue:0.46, alpha:1.0)
-                return
-            }
-
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                name.textColor = NSColor.init(named: "mainText")
             } else {
-                name.textColor = NSColor.black
+                let color = NSColor(named: "color_selected_not_fr")!
+
+                name.textColor = color
+                date.textColor = color
+                preview.textColor = color
             }
+
+            return
         }
+
+        // reset to not selected
+
+        let color = NSColor(deviceRed: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+        date.textColor = color
+
+        if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
+            name.textColor = NSColor.black
+        } else {
+            name.textColor = NSColor(named: "color_not_selected")!
+        }
+
+        preview.textColor = color
     }
     
     func renderPin() {
@@ -383,6 +378,6 @@ class NoteCellView: NSTableCellView {
             self.date.stringValue = note.getDateForLabel()
         }
 
-        self.udpateSelectionHighlight()
+        self.applyTextColors()
     }
 }

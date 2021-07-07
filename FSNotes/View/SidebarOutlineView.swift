@@ -127,7 +127,7 @@ class SidebarOutlineView: NSOutlineView,
                     return
                 }
 
-                vc.notesTableView.selectNext()
+                vc.notesTableView.selectCurrent()
                 NSApp.mainWindow?.makeFirstResponder(vc.notesTableView)
                 return
             }
@@ -340,55 +340,28 @@ class SidebarOutlineView: NSOutlineView,
         let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self) as! SidebarCellView
 
         if let tag = item as? Tag {
-            
-            cell.icon.image = NSImage(named: "tag")
+            cell.type = .Tag
+            cell.icon.image = NSImage(named: "sidebar_tag")
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = tag.getName()
 
         } else if let project = item as? Project {
 
-            cell.icon.image = NSImage(named: "project")
+            cell.type = .Project
+            cell.icon.image = NSImage(named: "sidebar_project")
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
             cell.textField?.stringValue = project.label
 
         } else if let si = item as? SidebarItem {
             cell.textField?.stringValue = si.name
-
-            switch si.type {
-            case .Label:
-                if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self) as? SidebarHeaderCellView {
-                    cell.title.stringValue = ""
-                    return cell
-                }
-
-            case .All:
-                cell.icon.image = NSImage(imageLiteralResourceName: "home.png")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-                
-            case .Trash:
-                cell.icon.image = NSImage(imageLiteralResourceName: "trashBin")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-                
-            case .Archive:
-                cell.icon.image = NSImage(imageLiteralResourceName: "archive.png")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-            
-            case .Todo:
-                cell.icon.image = NSImage(imageLiteralResourceName: "todo_sidebar.png")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-
-            case .Inbox:
-                cell.icon.image = NSImage(imageLiteralResourceName: "sidebarInbox")
-                cell.icon.isHidden = false
-                cell.label.frame.origin.x = 25
-            }
+            cell.type = si.type
+            cell.icon.image = si.type.getIcon()
+            cell.icon.isHidden = false
+            cell.label.frame.origin.x = 25
         }
+
         return cell
     }
     
@@ -977,7 +950,7 @@ class SidebarOutlineView: NSOutlineView,
             guard i > -1 else { continue }
 
             if let row = self.rowView(atRow: i, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
-                cell.icon.image = NSImage(named: "tag")
+                cell.icon.image = NSImage(named: "sidebar_tag")
             }
         }
     }

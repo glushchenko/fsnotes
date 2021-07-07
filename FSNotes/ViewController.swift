@@ -695,7 +695,7 @@ class ViewController: NSViewController,
                     }
                 } else {
                     if fr.isKind(of: SidebarOutlineView.self) {
-                        self.notesTableView.selectNext()
+                        self.notesTableView.selectCurrent()
                         NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
                         return false
                     }
@@ -886,6 +886,18 @@ class ViewController: NSViewController,
             }
 
             return false
+        }
+
+        if event.keyCode == kVK_RightArrow {
+            if let fr = mw.firstResponder, fr.isKind(of: NotesTableView.self) {
+                if currentPreviewState == .on {
+                    NSApp.mainWindow?.makeFirstResponder(editArea.markdownView)
+                } else {
+                    focusEditArea()
+                }
+
+                return false
+            }
         }
         
         return true

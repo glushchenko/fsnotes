@@ -1419,7 +1419,6 @@ CA
                                                                             </constraints>
                                                                             <connections>
                                                                                 <outlet property="icon" destination="1dd-W4-MiY" id="cb4-9r-kd2"/>
-                                                                                <outlet property="imageView" destination="1dd-W4-MiY" id="B95-xv-93h"/>
                                                                                 <outlet property="label" destination="kTp-qw-RCd" id="72n-qf-ujw"/>
                                                                                 <outlet property="textField" destination="kTp-qw-RCd" id="2KP-pc-Kir"/>
                                                                             </connections>
@@ -1441,9 +1440,6 @@ CA
                                                                                     </attributedString>
                                                                                 </textField>
                                                                             </subviews>
-                                                                            <connections>
-                                                                                <outlet property="title" destination="a5J-Ua-Hnz" id="iCd-St-m3q"/>
-                                                                            </connections>
                                                                         </tableCellView>
                                                                     </prototypeCellViews>
                                                                 </tableColumn>
