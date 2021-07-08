@@ -899,6 +899,24 @@ class ViewController: NSViewController,
                 return false
             }
         }
+
+        if event.keyCode == kVK_LeftArrow {
+            if let fr = mw.firstResponder {
+                if fr.isKind(of: MPreviewView.self) {
+                    NSApp.mainWindow?.makeFirstResponder(notesTableView)
+                    return true
+                }
+
+                if fr.isKind(of: NotesTableView.self) {
+                    sidebarOutlineView.window?.makeFirstResponder(sidebarOutlineView)
+
+                    if sidebarOutlineView.selectedRowIndexes.count == 0 {
+                        sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+                    }
+                    return true
+                }
+            }
+        }
         
         return true
     }
@@ -961,7 +979,7 @@ class ViewController: NSViewController,
         panel.canChooseFiles = true
         panel.canCreateDirectories = false
         panel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
                 let project = self.getSidebarProject() ?? self.storage.getMainProject()
 

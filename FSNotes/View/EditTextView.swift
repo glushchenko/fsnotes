@@ -1763,8 +1763,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func viewDidChangeEffectiveAppearance() {
-        guard let note = EditTextView.note else { return }
-        
         UserDataService.instance.isDark = effectiveAppearance.isDark
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
@@ -1774,6 +1772,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         try? FileManager.default.removeItem(at: webkitPreview)
 
         NotesTextProcessor.hl = nil
+
+        guard let note = EditTextView.note else { return }
         NotesTextProcessor.highlight(note: note)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"

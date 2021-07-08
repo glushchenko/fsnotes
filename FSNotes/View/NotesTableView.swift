@@ -59,20 +59,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if (event.keyCode == kVK_LeftArrow) {
-            if let fr = self.window?.firstResponder, fr.isKind(of: NSTextView.self) {
-                super.keyUp(with: event)
-                return
-            }
-
-            vc.sidebarOutlineView.window?.makeFirstResponder(vc.sidebarOutlineView)
-            if vc.sidebarOutlineView.selectedRowIndexes.count == 0 {
-                vc.sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
-            }
-
-            return
-        }
-
         super.keyUp(with: event)
     }
     
