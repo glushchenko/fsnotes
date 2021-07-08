@@ -223,7 +223,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             }
         }
 
-        let pb = NSPasteboard(name: .findPboard)
+        let pb = NSPasteboard(name: NSPasteboard.Name.find)
         pb.declareTypes([.textFinderOptions, .string], owner: nil)
         pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
     }

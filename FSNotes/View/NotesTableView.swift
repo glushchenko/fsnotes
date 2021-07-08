@@ -289,10 +289,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             ViewController.shared()?.restoreCurrentPreviewState()
         }
 
-        if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
-            return true
-        }
-
         if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
             return true
         }

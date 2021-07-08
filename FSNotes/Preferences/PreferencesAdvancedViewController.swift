@@ -152,7 +152,7 @@ class PreferencesAdvancedViewController: NSViewController {
         openPanel.canChooseFiles = true
         openPanel.allowedFileTypes = ["css"]
         openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == .OK {
                 guard let url = openPanel.url else { return }
 
                 let bookmark = SandboxBookmark.sharedInstance()

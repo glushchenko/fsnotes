@@ -129,6 +129,15 @@ CA
                                                 <action selector="deleteNote:" target="L4m-js-agn" id="AiT-JP-62A"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Force Delete" alternate="YES" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="deleteNote:" target="L4m-js-agn" id="NiM-WS-564"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Pin/unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
                                                 <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
@@ -1896,6 +1905,15 @@ CA
 </string>
                             <connections>
                                 <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Force Delete" alternate="YES" identifier="context.fileMenu.forceRemove" id="70b-Zr-aVK">
+                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="deleteNote:" target="rPt-NT-nkU" id="utQ-Hf-HAy"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Pin/unpin" keyEquivalent="8" id="jFN-Dp-LON">

@@ -780,7 +780,7 @@ class SidebarOutlineView: NSOutlineView,
         openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = false
         openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == .OK {
                 guard let url = openPanel.url else {
                     return
                 }

@@ -50,7 +50,7 @@ class PreferencesGitViewController: NSViewController {
         openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = false
         openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == .OK {
                 guard let url = openPanel.url?.standardized,
                     url != UserDefaultsManagement.storageUrl else {
                         let alert = NSAlert()

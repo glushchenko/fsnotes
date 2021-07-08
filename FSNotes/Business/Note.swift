@@ -403,7 +403,7 @@ public class Note: NSObject  {
     func removeFile(completely: Bool = false) -> Array<URL>? {
         guard FileManager.default.fileExists(atPath: url.path) else { return nil }
 
-        if isTrash() {
+        if isTrash() || completely {
             try? FileManager.default.removeItem(at: url)
 
             if type == .Markdown && container == .none {

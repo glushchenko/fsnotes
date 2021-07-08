@@ -509,7 +509,6 @@ class ViewController: NSViewController,
             if self.keyDown(with: $0) {
                 return $0
             }
-            //return NSEvent()
 
             return nil
         }
@@ -901,8 +900,8 @@ class ViewController: NSViewController,
         if event.keyCode == kVK_LeftArrow {
             if let fr = mw.firstResponder {
                 if fr.isKind(of: MPreviewView.self) {
-                    NSApp.mainWindow?.makeFirstResponder(notesTableView)
-                    return true
+                    sidebarOutlineView.window?.makeFirstResponder(notesTableView)
+                    return false
                 }
 
                 if fr.isKind(of: NotesTableView.self) {
@@ -911,6 +910,7 @@ class ViewController: NSViewController,
                     if sidebarOutlineView.selectedRowIndexes.count == 0 {
                         sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
                     }
+                    
                     return true
                 }
             }
@@ -1152,12 +1152,21 @@ class ViewController: NSViewController,
     }
 
     @IBAction func deleteNote(_ sender: Any) {
+        var forceRemove = false
+
+        if let menuItem = sender as? NSMenuItem,
+            menuItem.identifier?.rawValue == "fileMenu.forceRemove" ||
+            menuItem.identifier?.rawValue == "context.fileMenu.forceRemove" {
+            forceRemove = true
+        }
+
         guard let vc = ViewController.shared() else { return }
         guard let notes = vc.notesTableView.getSelectedNotes() else {
             return
         }
 
-        if let si = vc.getSidebarItem(), si.isTrash() {
+        let si = vc.getSidebarItem()
+        if si?.isTrash() == true || forceRemove {
             removeForever()
             return
         }
@@ -1516,7 +1525,7 @@ class ViewController: NSViewController,
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                 let selectedRow = vc.notesTableView.selectedRowIndexes.min()
                 vc.editArea.clear()
-                vc.storage.removeNotes(notes: notes) { _ in
+                vc.storage.removeNotes(notes: notes, completely: true) { _ in
                     DispatchQueue.main.async {
                         vc.notesTableView.removeByNotes(notes: notes)
                         if let i = selectedRow, i > -1 {
@@ -1524,9 +1533,9 @@ class ViewController: NSViewController,
                         }
                     }
                 }
-            } else {
-                self.alert = nil
             }
+
+            vc.alert = nil
         }
     }
     
@@ -2528,9 +2537,9 @@ class ViewController: NSViewController,
             alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     completion(field.stringValue, true)
-                } else {
-                    self.alert = nil
                 }
+
+                ViewController.shared()?.alert = nil
             }
 
             field.becomeFirstResponder()
