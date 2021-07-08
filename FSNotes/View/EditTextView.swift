@@ -1397,16 +1397,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     if let string = attachment.getAttributedString() {
                         EditTextView.shouldForceRescan = true
 
+                        setSelectedRange(insertRange)
                         insertText(string, replacementRange: insertRange)
-                        insertNewline(nil)
-                        insertNewline(nil)
 
                         offset += 3
                     }
                 } else {
+                    setSelectedRange(insertRange)
                     insertText("![](\(filePath))", replacementRange: insertRange)
-                    insertNewline(nil)
-                    insertNewline(nil)
                 }
             }
 
