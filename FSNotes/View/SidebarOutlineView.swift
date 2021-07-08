@@ -262,7 +262,7 @@ class SidebarOutlineView: NSOutlineView,
                 return .copy
             }
             break
-        case .Label, .Archive, .Inbox:
+        case .Label, .Archive:
             guard sidebarItem.isSelectable() else { break }
             
             if isLocalNote {

@@ -17,11 +17,6 @@ class Sidebar {
     init() {
         var system = [SidebarItem]()
 
-        if UserDefaultsManagement.sidebarVisibilityInbox, let project = Storage.sharedInstance().getDefault() {
-            let inbox = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), project: project, type: .Inbox)
-            system.append(inbox)
-        }
-
         if UserDefaultsManagement.sidebarVisibilityNotes {
             let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
             system.append(notes)

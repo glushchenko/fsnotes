@@ -54,7 +54,7 @@ class SidebarItem {
     }
 
     public func isSystem() -> Bool {
-        let system: [SidebarItemType] = [.Inbox, .All, .Archive, .Trash, .Todo]
+        let system: [SidebarItemType] = [.All, .Archive, .Trash, .Todo]
 
         return system.contains(type)
     }

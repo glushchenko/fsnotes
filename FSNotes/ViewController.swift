@@ -597,7 +597,7 @@ class ViewController: NSViewController,
             
             _ = note.move(to: destination, project: project)
 
-            let type = getSidebarType() ?? .Inbox
+            let type = getSidebarType() ?? .All
             let show = isFit(note: note, shouldLoadMain: true, type: type)
 
             if !show {
@@ -870,16 +870,14 @@ class ViewController: NSViewController,
 
             switch event.characters?.unicodeScalars.first {
             case "1":
-                sidebarOutlineView.selectSidebar(type: .Inbox)
-            case "2":
                 sidebarOutlineView.selectSidebar(type: .All)
-            case "3":
+            case "2":
                 sidebarOutlineView.selectSidebar(type: .Todo)
-            case "4":
+            case "3":
                 sidebarOutlineView.selectSidebar(type: .Archive)
-            case "5":
+            case "4":
                 sidebarOutlineView.selectSidebar(type: .Trash)
-            case "6":
+            case "5":
                 sidebarOutlineView.selectSidebarRoot()
             default:
                 return true
@@ -1630,7 +1628,7 @@ class ViewController: NSViewController,
                 projects!.count < 2 && projects!.first!.isRoot && projects!.first!.isDefault
             )
         ) {
-            type = filter.count > 0 ? .All : .Inbox
+            type = .All
         }
 
         let operation = BlockOperation()
@@ -1775,8 +1773,7 @@ class ViewController: NSViewController,
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                || type != .Inbox &&
-                    type != .All &&
+                || type != .All &&
                     type != .Todo &&
                     projects != nil && (
                         projects!.contains(note.project)
@@ -1788,7 +1785,6 @@ class ViewController: NSViewController,
                 || type == .Trash
                 || type == .Todo && note.project.showInCommon
                 || type == .Archive && note.project.isArchive
-                || type == .Inbox && note.project.isRoot && note.project.isDefault
                 || !UserDefaultsManagement.inlineTags && tags != nil
             ) && (
                 type == .Trash && note.isTrash()
