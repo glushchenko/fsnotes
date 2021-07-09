@@ -35,6 +35,9 @@ extension NSTextStorage {
         var paragraph = NSMutableParagraphStyle()
         let scanRange = range ?? NSRange(0..<length)
 
+        // https://github.com/glushchenko/fsnotes/issues/311
+        let tabs = getTabStops()
+
         mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, range, _, _ in
             let rangeNewline = range.upperBound == self.length ? range : NSRange(range.location..<range.upperBound + 1)
 
@@ -77,10 +80,24 @@ extension NSTextStorage {
                 paragraph.alignment = .left
             }
 
+            paragraph.tabStops = tabs
+
             self.addAttribute(.paragraphStyle, value: paragraph, range: rangeNewline)
         }
 
         endEditing()
+    }
+
+    public func getTabStops() -> [NSTextTab] {
+        var tabs = [NSTextTab]()
+        let tabInterval = 40
+
+        for index in 1...12 {
+            let tab = NSTextTab(textAlignment: .left, location: CGFloat(tabInterval * index), options: [:])
+            tabs.append(tab)
+        }
+
+        return tabs
     }
 
     public func sizeAttachmentImages(container: NSTextContainer) {

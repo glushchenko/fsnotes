@@ -997,10 +997,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.shift) {
-            shiftLeft(NSMenuItem())
-            return
-        }
+//        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.shift) {
+//            shiftLeft(NSMenuItem())
+//            return
+//        }
 
         // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
         if event.keyCode == kVK_Tab && !hasMarkedText(){
@@ -1012,8 +1012,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
 
-            shiftRight(NSMenuItem())
-            breakUndoCoalescing()
+            super.keyDown(with: event)
+
+//            shiftRight(NSMenuItem())
+//            breakUndoCoalescing()
+            
             return
         }
 
