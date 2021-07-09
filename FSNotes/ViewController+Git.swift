@@ -61,7 +61,7 @@ extension ViewController {
         refillEditArea(force: true)
         notesTableView.reloadRow(note: note)
 
-        editArea.scanTags()
+        editArea.scanTagsAndAutoRename()
 
         UserDataService.instance.fsUpdatesDisabled = false
     }

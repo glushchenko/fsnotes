@@ -1125,7 +1125,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             tagsTimer?.invalidate()
-            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTags), userInfo: nil, repeats: false)
+            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
         }
 
         guard let note = EditTextView.note else {
@@ -1178,7 +1178,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: final)
     }
 
-    @objc public func scanTags() {
+    @objc public func scanTagsAndAutoRename() {
         guard let note = EditTextView.note else { return }
         let result = note.scanContentTags()
 

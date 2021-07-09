@@ -1035,13 +1035,22 @@ CA
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UbX-Sa-Jtd">
                                 <rect key="frame" x="266" y="233" width="136" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="UUID" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="cmH-fQ-bVK" id="3k2-O8-Jza">
+                                <popUpButtonCell key="cell" type="push" title="Auto Rename By Title" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="wW6-4n-sve" id="3k2-O8-Jza">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Ilk-gp-eEJ">
                                         <items>
-                                            <menuItem title="UUID" state="on" id="cmH-fQ-bVK"/>
-                                            <menuItem title="Auto rename by title" tag="1" id="wW6-4n-sve"/>
+                                            <menuItem title="Auto Rename By Title" tag="1" id="wW6-4n-sve"/>
+                                            <menuItem title="Format: UUID" state="on" id="cmH-fQ-bVK"/>
+                                            <menuItem title="Format: Untitled Note" tag="2" id="IWL-lp-G1M">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Format: yyyyMMddHHmmss" tag="3" id="aVa-yH-IpC">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Format: yyyy-MM-dd hh.mm.ss a" tag="4" id="qn1-vy-8oB">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
