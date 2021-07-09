@@ -798,67 +798,6 @@ class ViewController: NSViewController,
             }
         }
 
-        // Next project cmd - shift - j
-        if (
-            event.characters?.unicodeScalars.first == "j"
-            && event.modifierFlags.contains([.command])
-            && !event.modifierFlags.contains(.option)
-            && event.modifierFlags.contains(.shift)
-        ) {
-            if titleLabel.isEditable {
-                titleLabel.editModeOff()
-                titleLabel.window?.makeFirstResponder(nil)
-            }
-
-            sidebarOutlineView.selectNext()
-            return true
-        }
-
-        // Prev project cmd - shift - k
-        if (
-            event.characters?.unicodeScalars.first == "k"
-            && event.modifierFlags.contains(.command)
-            && event.modifierFlags.contains(.shift)
-        ) {
-            if titleLabel.isEditable {
-                titleLabel.editModeOff()
-                titleLabel.window?.makeFirstResponder(nil)
-            }
-
-            sidebarOutlineView.selectPrev()
-            return true
-        }
-
-        // Next note (cmd-j)
-        if (
-            event.characters?.unicodeScalars.first == "j"
-            && event.modifierFlags.contains([.command])
-            && !event.modifierFlags.contains(.option)
-        ) {
-            NSApp.mainWindow?.makeFirstResponder(notesTableView)
-
-            if titleLabel.isEditable {
-                titleLabel.editModeOff()
-                titleLabel.window?.makeFirstResponder(nil)
-            }
-
-            notesTableView.selectNext()
-            return true
-        }
-        
-        // Prev note (cmd-k)
-        if (event.characters?.unicodeScalars.first == "k" && event.modifierFlags.contains(.command)) {
-            NSApp.mainWindow?.makeFirstResponder(notesTableView)
-
-            if titleLabel.isEditable {
-                titleLabel.editModeOff()
-                titleLabel.window?.makeFirstResponder(nil)
-            }
-
-            notesTableView.selectPrev()
-            return true
-        }
-
         if let fr = mw.firstResponder, !fr.isKind(of: EditTextView.self), !fr.isKind(of: NSTextView.self), !event.modifierFlags.contains(.command),
             !event.modifierFlags.contains(.control) {
 
@@ -933,6 +872,56 @@ class ViewController: NSViewController,
         let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         menu.tag = NSTextFinder.Action.hideFindInterface.rawValue
         self.editArea.performTextFinderAction(menu)
+    }
+
+    @IBAction func noteUp(_ sender: NSMenuItem) {
+        NSApp.mainWindow?.makeFirstResponder(notesTableView)
+
+        if titleLabel.isEditable {
+            titleLabel.editModeOff()
+            titleLabel.window?.makeFirstResponder(nil)
+        }
+
+        notesTableView.selectPrev()
+    }
+
+    @IBAction func noteDown(_ sender: NSMenuItem) {
+        NSApp.mainWindow?.makeFirstResponder(notesTableView)
+
+        if titleLabel.isEditable {
+            titleLabel.editModeOff()
+            titleLabel.window?.makeFirstResponder(nil)
+        }
+
+        notesTableView.selectNext()
+    }
+
+    @IBAction func sidebarUp(_ sender: NSMenuItem) {
+        if titleLabel.isEditable {
+            titleLabel.editModeOff()
+            titleLabel.window?.makeFirstResponder(nil)
+        }
+
+        NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+
+        guard let cgEvent = CGEvent(keyboardEventSource: .none, virtualKey: 126, keyDown: true) else { return }
+        cgEvent.flags.remove(.maskShift)
+        guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
+        sidebarOutlineView.keyDown(with: nsEvent)
+    }
+
+    @IBAction func sidebarDown(_ sender: NSMenuItem) {
+        if titleLabel.isEditable {
+            titleLabel.editModeOff()
+            titleLabel.window?.makeFirstResponder(nil)
+        }
+
+        NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+
+        guard let cgEvent = CGEvent(keyboardEventSource: .none, virtualKey: 125, keyDown: true) else { return }
+        cgEvent.flags.remove(.maskShift)
+        guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
+        sidebarOutlineView.keyDown(with: nsEvent)
     }
 
     @IBAction func makeNote(_ sender: SearchTextField) {

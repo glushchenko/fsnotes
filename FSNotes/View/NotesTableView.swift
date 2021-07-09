@@ -277,12 +277,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if let char = event.characters?.unicodeScalars.first,
-           ["j", "k"].contains(char) && event.modifierFlags.contains(.command)
-        {
-            return true
-        }
-
         if self.window?.firstResponder == self,
            !event.modifierFlags.contains(.shift),
            event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {

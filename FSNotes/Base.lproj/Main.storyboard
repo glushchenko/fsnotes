@@ -614,6 +614,7 @@ CA
                                                 <action selector="toggleMathJax:" target="N0L-g4-qwj" id="M4h-TJ-TiH"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
                                         <menuItem title="Hide/show note list" keyEquivalent="B" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
@@ -625,6 +626,42 @@ CA
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
+                                        <menuItem title="Back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="iip-ri-cBa"/>
+                                        <menuItem title="Move Down In The Notes List" keyEquivalent="j" id="BtV-Z4-7Vq">
+                                            <connections>
+                                                <action selector="noteDown:" target="Ady-hI-5gd" id="WHy-qc-OvH"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Move Up In The Notes List" keyEquivalent="k" id="Hqu-Sx-xgo">
+                                            <connections>
+                                                <action selector="noteUp:" target="Ady-hI-5gd" id="gfc-6f-Jom"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem title="Move Down In The Sidebar" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
+                                            <connections>
+                                                <action selector="sidebarDown:" target="Ady-hI-5gd" id="87t-Yf-dii"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Move Up In The Sidebar" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
+                                            <connections>
+                                                <action selector="sidebarUp:" target="Ady-hI-5gd" id="8dT-Az-Nv2"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Ljl-jP-3qX"/>
                                         <menuItem title="Sort by" id="rHB-xF-GgG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Sort by" id="05n-RU-nOV">
@@ -654,12 +691,6 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Show in sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
-                                                    <menuItem title="Inbox" state="on" tag="1" id="NUu-C6-n14">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Kgb-pp-IKp"/>
-                                                        </connections>
-                                                    </menuItem>
                                                     <menuItem title="Notes" state="on" tag="2" id="xPz-yo-VwM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
@@ -687,20 +718,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
-                                        <menuItem title="Back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem isSeparatorItem="YES" id="XWg-CY-0hh"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
@@ -1035,13 +1053,13 @@ CA
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UbX-Sa-Jtd">
                                 <rect key="frame" x="266" y="233" width="136" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="Auto Rename By Title" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="wW6-4n-sve" id="3k2-O8-Jza">
+                                <popUpButtonCell key="cell" type="push" title="Auto Rename By Title" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="wW6-4n-sve" id="3k2-O8-Jza">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Ilk-gp-eEJ">
                                         <items>
-                                            <menuItem title="Auto Rename By Title" tag="1" id="wW6-4n-sve"/>
-                                            <menuItem title="Format: UUID" state="on" id="cmH-fQ-bVK"/>
+                                            <menuItem title="Auto Rename By Title" state="on" tag="1" id="wW6-4n-sve"/>
+                                            <menuItem title="Format: UUID" id="cmH-fQ-bVK"/>
                                             <menuItem title="Format: Untitled Note" tag="2" id="IWL-lp-G1M">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
