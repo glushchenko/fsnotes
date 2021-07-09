@@ -9,7 +9,7 @@
 import Foundation
 
 class NameHelper {
-    public static func getUniqueFileName(name: String, postfix: Int = 0, project: Project, ext: String) -> URL {
+    public static func getUniqueFileName(name: String, postfix: Int = 1, project: Project, ext: String) -> URL {
 
         var defaultName = UUID().uuidString
         if let naming = SettingsFilesNaming(rawValue: UserDefaultsManagement.naming.rawValue) {

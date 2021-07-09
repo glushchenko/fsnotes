@@ -1214,25 +1214,49 @@ public class Note: NSObject  {
         let ext = url.pathExtension
         url.deletePathExtension()
 
-        let name = url.lastPathComponent
+        var name = url.lastPathComponent
         url.deleteLastPathComponent()
 
-        let now = dateFormatter.formatForDuplicate(Date())
-        url.appendPathComponent(name + " " + now)
-        url.appendPathExtension(ext)
+        let regex = try? NSRegularExpression(pattern: "(.+)\\sCopy\\s(\\d)+$", options: .caseInsensitive)
+        if let result = regex?.firstMatch(in: name, range: NSRange(0..<name.count)) {
+            if let range = Range(result.range(at: 1), in: name) {
+                name = String(name[range])
+            }
+        }
 
-        try? FileManager.default.copyItem(at: self.url, to: url)
+        var endName = name
+        if !endName.hasSuffix(" Copy") {
+            endName += " Copy"
+        }
+
+        let dstUrl = NameHelper.getUniqueFileName(name: endName, project: project, ext: ext)
+
+        try? FileManager.default.copyItem(at: self.url, to: dstUrl)
     }
 
     public func getDupeName() -> String? {
         var url = self.url
+        let ext = url.pathExtension
         url.deletePathExtension()
 
-        let name = url.lastPathComponent
+        var name = url.lastPathComponent
         url.deleteLastPathComponent()
 
-        let now = dateFormatter.formatForDuplicate(Date())
-        return name + " " + now
+        let regex = try? NSRegularExpression(pattern: "(.+)\\sCopy\\s(\\d)+$", options: .caseInsensitive)
+        if let result = regex?.firstMatch(in: name, range: NSRange(0..<name.count)) {
+            if let range = Range(result.range(at: 1), in: name) {
+                name = String(name[range])
+            }
+        }
+
+        var endName = name
+        if !endName.hasSuffix(" Copy") {
+            endName += " Copy"
+        }
+
+        let dstUrl = NameHelper.getUniqueFileName(name: endName, project: project, ext: ext)
+
+        return dstUrl.deletingPathExtension().lastPathComponent
     }
     #endif
 
