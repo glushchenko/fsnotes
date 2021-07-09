@@ -685,6 +685,13 @@ class ViewController: NSViewController,
                 if event.modifierFlags.contains(.command) {
                     if fr.isKind(of: NotesTableView.self) {
                         NSApp.mainWindow?.makeFirstResponder(self.sidebarOutlineView)
+
+                        if sidebarOutlineView.selectedRowIndexes.count == 0 {
+                            sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+                        } else {
+                            sidebarOutlineView.selectRowIndexes(sidebarOutlineView.selectedRowIndexes, byExtendingSelection: false)
+                        }
+
                         return false
                     }
                     
@@ -907,11 +914,12 @@ class ViewController: NSViewController,
                 if fr.isKind(of: NotesTableView.self) {
                     sidebarOutlineView.window?.makeFirstResponder(sidebarOutlineView)
 
-                    if sidebarOutlineView.selectedRowIndexes.count == 0 {
-                        sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
-                    }
-                    
-                    return true
+                    let indexes = sidebarOutlineView.selectedRowIndexes.count == 0
+                        ? [0]
+                        : sidebarOutlineView.selectedRowIndexes
+
+                    sidebarOutlineView.selectRowIndexes(indexes, byExtendingSelection: false)
+                    return false
                 }
             }
         }
