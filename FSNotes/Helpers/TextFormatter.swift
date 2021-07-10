@@ -675,7 +675,11 @@ public class TextFormatter {
 
                 if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
                     let selectRange = NSRange(location: currentParagraphRange.location, length: 0)
-                    insertText("\n", replacementRange: currentParagraphRange, selectRange: selectRange)
+
+                    insertText("", replacementRange: currentParagraphRange, selectRange: selectRange)
+                    textView.insertNewline(nil)
+
+                    textView.setSelectedRange(selectRange)
                     return
                 }
             }
@@ -792,9 +796,17 @@ public class TextFormatter {
                 var scanFinished = false
 
                 if line.count > 0 {
+                    var j = 0
                     for char in line {
-                        if char.isWhitespace && !scanFinished {
-                            empty.append(char)
+                        j += 1
+
+                        if (char.isWhitespace || char == "\t")
+                            && !scanFinished {
+                            if j == line.count {
+                                empty.append("\(char)" + task)
+                            } else {
+                                empty.append(char)
+                            }
                         } else {
                             if !scanFinished {
                                 empty.append(task + "\(char)")
