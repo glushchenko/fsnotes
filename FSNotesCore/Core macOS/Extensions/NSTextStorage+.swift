@@ -68,7 +68,7 @@ extension NSTextStorage {
                     }
                 }
 
-                let width = result.widthOfString(usingFont: UserDefaultsManagement.noteFont)
+                let width = result.widthOfString(usingFont: UserDefaultsManagement.noteFont, tabs: tabs)
 
                 paragraph = NSMutableParagraphStyle()
                 paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)

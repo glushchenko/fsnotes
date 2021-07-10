@@ -133,8 +133,17 @@ public extension String {
         return range.lowerBound == startIndex
     }
 
-    func widthOfString(usingFont font: NSFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
+    func widthOfString(usingFont font: NSFont, tabs: [NSTextTab]? = nil) -> CGFloat {
+        let paragraph = NSMutableParagraphStyle()
+        if let tabs = tabs {
+            paragraph.tabStops = tabs
+        }
+
+        let fontAttributes = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.paragraphStyle: paragraph
+        ]
+
         let size = self.size(withAttributes: fontAttributes)
         return size.width
     }
