@@ -2228,17 +2228,16 @@ class ViewController: NSViewController,
     @IBAction func duplicate(_ sender: Any) {
         if let notes = notesTableView.getSelectedNotes() {
             for note in notes {
-                if note.isUnlocked() {
-
-                }
+                let src = note.url
+                let dst = NameHelper.generateCopy(file: note.url)
 
                 if note.isTextBundle() || note.isEncrypted() {
-                    note.duplicate()
+                    try? FileManager.default.copyItem(at: src, to: dst)
+                    
                     continue
                 }
 
-                guard let name = note.getDupeName() else { continue }
-
+                let name = dst.deletingPathExtension().lastPathComponent
                 let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
                 noteDupe.content = NSMutableAttributedString(string: note.content.string)
 
@@ -2434,26 +2433,15 @@ class ViewController: NSViewController,
 
     public func copy(project: Project, url: URL) -> URL {
         let fileName = url.lastPathComponent
+        let destination = project.url.appendingPathComponent(fileName)
 
         do {
-            let destination = project.url.appendingPathComponent(fileName)
             try FileManager.default.copyItem(at: url, to: destination)
             return destination
         } catch {
-            var tempUrl = url
-
-            let ext = tempUrl.pathExtension
-            tempUrl.deletePathExtension()
-
-            let name = tempUrl.lastPathComponent
-            tempUrl.deleteLastPathComponent()
-
-            let now = DateFormatter().formatForDuplicate(Date())
-            let baseUrl = project.url.appendingPathComponent(name + " " + now + "." + ext)
-
-            try? FileManager.default.copyItem(at: url, to: baseUrl)
-
-            return baseUrl
+            let dst = NameHelper.generateCopy(file: url, dstDir: project.url)
+            try? FileManager.default.copyItem(at: url, to: dst)
+            return dst
         }
     }
     

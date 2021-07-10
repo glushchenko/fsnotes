@@ -55,4 +55,34 @@ class NameHelper {
 
         return fileUrl
     }
+
+    public static func generateCopy(file: URL, dstDir: URL? = nil, number: Int = 1) -> URL {
+        let dst = dstDir ?? file.deletingLastPathComponent()
+        let ext = file.pathExtension
+        var name = file.deletingPathExtension().lastPathComponent
+
+        let regex = try? NSRegularExpression(pattern: "(.+)\\s(?:Copy\\s)+(?:\\d)+$", options: .caseInsensitive)
+        if let result = regex?.firstMatch(in: name, range: NSRange(0..<name.count)) {
+            if let range = Range(result.range(at: 1), in: name) {
+                name = String(name[range])
+            }
+        }
+
+        var endName = name
+        if !endName.hasSuffix(" Copy") {
+            endName += " Copy"
+        }
+
+        if number > 1 {
+            endName += " " + String(number)
+        }
+
+        let newDst = dst.appendingPathComponent(endName + "." + ext, isDirectory: false)
+
+        if !FileManager.default.fileExists(atPath: newDst.path) {
+            return newDst
+        }
+
+        return generateCopy(file: file, dstDir: dst, number: number + 1)
+    }
 }
