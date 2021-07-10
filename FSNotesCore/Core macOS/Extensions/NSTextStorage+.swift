@@ -37,10 +37,9 @@ extension NSTextStorage {
 
         // https://github.com/glushchenko/fsnotes/issues/311
         let tabs = getTabStops()
+        let font = UserDefaultsManagement.noteFont!
 
-        mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, range, _, _ in
-            let rangeNewline = range.upperBound == self.length ? range : NSRange(range.location..<range.upperBound + 1)
-
+        mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, parRange, _, _ in
             if let value = value,
                 value.count > 1,
 
@@ -68,7 +67,7 @@ extension NSTextStorage {
                     }
                 }
 
-                let width = result.widthOfString(usingFont: UserDefaultsManagement.noteFont, tabs: tabs)
+                let width = result.widthOfString(usingFont: font, tabs: tabs)
 
                 paragraph = NSMutableParagraphStyle()
                 paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
@@ -82,7 +81,19 @@ extension NSTextStorage {
 
             paragraph.tabStops = tabs
 
-            self.addAttribute(.paragraphStyle, value: paragraph, range: rangeNewline)
+            self.addAttribute(.paragraphStyle, value: paragraph, range: parRange)
+        }
+
+        let spaceWidth = " ".widthOfString(usingFont: font, tabs: tabs)
+
+        // Todo head indents
+        enumerateAttribute(.paragraphStyle, in: scanRange, options: .init()) { value, range, _ in
+            if attributedSubstring(from: range).attribute(.todo, at: 0, effectiveRange: nil) != nil,
+                let parStyle = value as? NSMutableParagraphStyle {
+
+                parStyle.headIndent = font.pointSize + font.pointSize / 2 + spaceWidth
+                self.addAttribute(.paragraphStyle, value: parStyle, range: range)
+            }
         }
 
         endEditing()
