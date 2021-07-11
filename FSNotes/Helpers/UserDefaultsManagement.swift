@@ -1475,4 +1475,17 @@ public class UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.RecentSearches)
         }
     }
+
+    static var pinList: [String] {
+        get {
+            if let value = shared?.array(forKey: Constants.PinListKey) as? [String] {
+                return value
+            }
+
+            return [String]()
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.PinListKey)
+        }
+    }
 }

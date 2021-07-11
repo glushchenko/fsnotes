@@ -620,17 +620,16 @@ public class Note: NSObject  {
     func addPin(cloudSave: Bool = true) {
         isPinned = true
         
-        #if CLOUDKIT || os(iOS)
+    #if CLOUDKIT || os(iOS)
         if cloudSave {
             Storage.sharedInstance().saveCloudPins()
         }
-        #elseif os(OSX)
-            var pin = true
-            let data = Data(bytes: &pin, count: 1)
-            try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
-        #endif
+    #elseif os(OSX)
+        addLocalPin(url: url)
+    #endif
+
     }
-    
+
     func removePin(cloudSave: Bool = true) {
         if isPinned {
             isPinned = false
@@ -640,11 +639,31 @@ public class Note: NSObject  {
                 Storage.sharedInstance().saveCloudPins()
             }
             #elseif os(OSX)
-                var pin = false
-                let data = Data(bytes: &pin, count: 1)
-                try? url.setExtendedAttribute(data: data, forName: "co.fluder.fsnotes.pin")
+                removeLocalPin(url: url)
             #endif
         }
+    }
+
+    public func addLocalPin(url: URL) {
+        var pins = UserDefaultsManagement.pinList
+
+        if !pins.contains(url.path) {
+            pins.append(url.path)
+        }
+
+        UserDefaultsManagement.pinList = pins
+    }
+
+    public func removeLocalPin(url: URL) {
+        var pins = UserDefaultsManagement.pinList
+
+        if pins.contains(url.path) {
+            if let index = pins.firstIndex(of: url.path) {
+                pins.remove(at: index)
+            }
+        }
+
+        UserDefaultsManagement.pinList = pins
     }
     
     func togglePin() {

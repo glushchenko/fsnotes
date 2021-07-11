@@ -651,6 +651,8 @@ class Storage {
     func loadLabel(_ item: Project, loadContent: Bool = false) {
         let documents = readDirectory(item.url)
 
+        let pins = UserDefaultsManagement.pinList
+
         for document in documents {
             #if os(OSX)
             if let url = EditTextView.note?.url,
@@ -670,12 +672,8 @@ class Storage {
             
             #if CLOUDKIT
             #else
-                if let data = try? note.url.extendedAttribute(forName: "co.fluder.fsnotes.pin") {
-                    let isPinned = data.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> Bool in
-                        ptr.load(as: Bool.self)
-                    }
-
-                    note.isPinned = isPinned
+                if pins.contains(note.url.path) {
+                    note.isPinned = true
                 }
             #endif
 
