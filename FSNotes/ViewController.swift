@@ -390,6 +390,11 @@ class ViewController: NSViewController,
             titleLabel.backgroundColor = UserDefaultsManagement.bgColor
         }
 
+        if let cell = search.cell as? NSSearchFieldCell {
+            cell.searchButtonCell?.target = self
+            cell.searchButtonCell?.action = #selector(openRecentPopup(_:))
+        }
+
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
             name: NSWorkspace.willSleepNotification, object: nil)
@@ -491,7 +496,7 @@ class ViewController: NSViewController,
         self.editArea.textStorage?.delegate = self.editArea.textStorage
         self.editArea.viewDelegate = self
     }
-    
+
     private func configureShortcuts() {
         MASShortcutMonitor.shared().register(UserDefaultsManagement.newNoteShortcut, withAction: {
             self.makeNoteShortcut()
@@ -523,9 +528,26 @@ class ViewController: NSViewController,
     }
     
     // MARK: - Actions
-    
+
+    @IBAction public func openRecentPopup(_ sender: Any) {
+        search.searchesMenu = search.generateRecentMenu()
+        let general = search.searchesMenu!.item(at: 0)
+        search.searchesMenu!.popUp(positioning: general, at: NSPoint(x: 5, y: search.frame.height + 7), in: search)
+    }
+
     @IBAction func searchAndCreate(_ sender: Any) {
         guard let vc = ViewController.shared() else { return }
+
+        if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview {
+
+            if textField.isKind(of: SearchTextField.self) {
+                vc.search.searchesMenu = vc.search.generateRecentMenu()
+                let general = vc.search.searchesMenu!.item(at: 0)
+                vc.search.searchesMenu!.popUp(positioning: general, at: NSPoint(x: 5, y: vc.search.frame.height + 7), in: vc.search)
+
+                return
+            }
+        }
 
         let size = UserDefaultsManagement.horizontalOrientation
             ? vc.splitView.subviews[0].frame.height
@@ -746,6 +768,8 @@ class ViewController: NSViewController,
             && NSApplication.shared.mainWindow == NSApplication.shared.keyWindow
             && UserDefaultsManagement.shouldFocusSearchOnESCKeyDown
         ) {
+            search.searchesMenu = nil
+
             if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {
                 NSApp.mainWindow?.makeFirstResponder( self.notesTableView)
                 return false

@@ -106,6 +106,7 @@ public class UserDefaultsManagement {
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
+        static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
         static let SharedContainerKey = "sharedContainer"
@@ -325,22 +326,13 @@ public class UserDefaultsManagement {
                 storageType = .iCloudDrive
                 return iCloudDocumentsURL.path
             }
-            
-        #if os(iOS)
+
             if let localDocumentsContainer = localDocumentsContainer {
                 storageType = .local
                 return localDocumentsContainer.path
             }
+
             return nil
-        #elseif CLOUDKIT && os(macOS)
-            return nil
-        #else
-            if let localDocumentsContainer = localDocumentsContainer {
-                storageType = .local
-                return localDocumentsContainer.path
-            }
-            return nil
-        #endif
         }
         set {
             shared?.set(newValue, forKey: Constants.StoragePathKey)
@@ -1468,6 +1460,19 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastScreenY)
+        }
+    }
+
+    static var recentSearches: [String]? {
+        get {
+            if let value = shared?.array(forKey: Constants.RecentSearches) as? [String] {
+                return value
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.RecentSearches)
         }
     }
 }

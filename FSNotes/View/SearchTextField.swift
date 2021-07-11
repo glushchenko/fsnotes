@@ -25,6 +25,37 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     private var lastQueryLength: Int = 0
     private var lastQuery = String()
 
+    public var searchesMenu: NSMenu? = nil
+
+    public func generateRecentMenu() -> NSMenu {
+        let menu = NSMenu(title: "Recents")
+        menu.autoenablesItems = true
+
+        if let recent = UserDefaultsManagement.recentSearches, recent.count > 0 {
+            menu.addItem(withTitle: "Recents Search", action: nil, keyEquivalent: "")
+
+            var i = 1
+            for title in recent {
+                let menuItem = NSMenuItem(title: title, action: #selector(selectRecent(_:)), keyEquivalent: String(i))
+                menuItem.target = self
+                menu.addItem(menuItem)
+                i += 1
+            }
+
+            menu.addItem(NSMenuItem.separator())
+
+            let menuItem = NSMenuItem(title: "Clear", action: #selector(cleanRecents(_:)), keyEquivalent: "d")
+            menuItem.target = self
+            menu.addItem(menuItem)
+
+            return menu
+        }
+
+        menu.addItem(withTitle: "No Recent Search", action: nil, keyEquivalent: "")
+
+        return menu
+    }
+
     override func textDidEndEditing(_ notification: Notification) {
         if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
             editor.replaceCharacters(in: editor.selectedRange, with: "")
@@ -34,6 +65,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0
+
+        addRecent(query: stringValue)
     }
 
     override func keyUp(with event: NSEvent) {
@@ -70,6 +103,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
                 self.stringValue = String(query)
             }
+
+            addRecent(query: stringValue)
+
             return true
         case "cancelOperation:":
             self.skipAutocomplete = true
@@ -110,6 +146,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             } else {
                 vcDelegate.makeNote(self)
             }
+
+            addRecent(query: stringValue)
 
             return true
         case "insertTab:":
@@ -244,5 +282,33 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0
+    }
+
+    @IBAction public func selectRecent(_ sender: NSMenuItem) {
+        stringValue = sender.title
+
+        vcDelegate.restoreCurrentPreviewState()
+        search()
+    }
+
+    @IBAction public func cleanRecents(_ sender: NSMenuItem) {
+        UserDefaultsManagement.recentSearches = nil
+        searchesMenu = generateRecentMenu()
+    }
+
+    public func addRecent(query: String) {
+        let query = query.trim()
+
+        guard query.trim().count > 0 else { return }
+
+        var recents = UserDefaultsManagement.recentSearches ?? [String]()
+        recents.insert(query, at: 0)
+
+        if recents.count > 9 {
+            recents = recents.dropLast()
+        }
+
+        UserDefaultsManagement.recentSearches = recents
+        searchesMenu = generateRecentMenu()
     }
 }
