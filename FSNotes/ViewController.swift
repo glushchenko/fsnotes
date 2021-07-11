@@ -440,7 +440,7 @@ class ViewController: NSViewController,
             self.updateTable() {
                 if UserDefaultsManagement.copyWelcome {
                     DispatchQueue.main.async {
-                        self.sidebarOutlineView.expandItem(self.storage.getRootProject)
+                        self.sidebarOutlineView.expandItem(self.storage.getRootProject())
                         let welcome = self.storage.getProjects().first(where: { $0.label == "Welcome" })
                         let index = self.sidebarOutlineView.row(forItem: welcome)
                         self.sidebarOutlineView.selectRowIndexes([index], byExtendingSelection: false)

@@ -302,6 +302,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         guard query.trim().count > 0 else { return }
 
         var recents = UserDefaultsManagement.recentSearches ?? [String]()
+
+        if recents.contains(query) {
+            if let index = recents.firstIndex(of: query) {
+                recents.remove(at: index)
+            }
+        }
+        
         recents.insert(query, at: 0)
 
         if recents.count > 9 {

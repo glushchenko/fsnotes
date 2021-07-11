@@ -716,7 +716,7 @@ public class UserDefaultsManagement {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
-                        self.archiveDirectory = archive
+                        
                         return archive
                     } catch {
                         print(error)

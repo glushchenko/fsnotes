@@ -341,34 +341,80 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+    private func isCustomArchive() -> Bool {
+        if let defaultArchive = UserDefaultsManagement.storageUrl?.appendingPathComponent("Archive", isDirectory: true), defaultArchive == UserDefaultsManagement.archiveDirectory {
+            return false
+        }
+
+        return true
+    }
+
     public func promptToMoveDatabase(from currentURL: URL, to url : URL, messageText: String) {
-           let alert = NSAlert()
-           alert.messageText = messageText
-           alert.informativeText =
-                NSLocalizedString("Otherwise, the database of your notes will be available at: ", comment: "") + currentURL.path
+        let alert = NSAlert()
+        alert.messageText = messageText
+        alert.informativeText =
+            NSLocalizedString("Otherwise, the database of your notes will be available at: ", comment: "") + currentURL.path
 
-           alert.alertStyle = .warning
-           alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
-           alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
-           if alert.runModal() == .alertSecondButtonReturn {
-               if let list = try? FileManager.default.contentsOfDirectory(at: currentURL, includingPropertiesForKeys: nil, options: .init()) {
-                   for item in list {
-                       do {
-                            let dst = url.appendingPathComponent(item.lastPathComponent)
-                            try FileManager.default.moveItem(at: item, to: dst)
-                       } catch {
-                            let exist = NSAlert()
-                            var message = NSLocalizedString("We can not move \"{DST_PATH}\" because this item already exist in selected destination.", comment: "")
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: NSLocalizedString("No", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Yes", comment: ""))
 
-                            message = message.replacingOccurrences(of: "{DST_PATH}", with: item.path)
+        if alert.runModal() == .alertSecondButtonReturn {
+            move(from: currentURL, to: url)
 
-                            exist.messageText = message
-                            exist.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-                            exist.runModal()
-                       }
-                   }
-               }
-           }
+            if !isCustomArchive(),
+               let localArchive =
+                    UserDefaultsManagement.localDocumentsContainer?
+                    .appendingPathComponent("Archive", isDirectory: true),
+
+               let cloudArchive =
+                    UserDefaultsManagement.iCloudDocumentsContainer?
+                    .appendingPathComponent("Archive", isDirectory: true) {
+
+                move(from: localArchive, to: cloudArchive)
+            }
+
+            let localTrash = currentURL.appendingPathComponent("Trash", isDirectory: true)
+            let cloudTrash = url.appendingPathComponent("Trash", isDirectory: true)
+
+            move(from: localTrash, to: cloudTrash)
+        }
+    }
+
+    private func move(from currentURL: URL, to url: URL) {
+        if let list = try? FileManager.default.contentsOfDirectory(at: currentURL, includingPropertiesForKeys: nil, options: .init()) {
+
+            if !FileManager.default.fileExists(atPath: currentURL.path) {
+                return
+            }
+
+            if !FileManager.default.fileExists(atPath: url.path) {
+                try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            for item in list {
+                let fileName = item.lastPathComponent
+
+                do {
+                    let dst = url.appendingPathComponent(fileName)
+                    try FileManager.default.moveItem(at: item, to: dst)
+                } catch {
+
+                    if ["Archive", "Trash", "Welcome"].contains(fileName) {
+                        continue
+                    }
+
+                    let exist = NSAlert()
+                    var message = NSLocalizedString("We can not move \"{DST_PATH}\" because this item already exist in selected destination.", comment: "")
+
+                    message = message.replacingOccurrences(of: "{DST_PATH}", with: item.path)
+
+                    exist.messageText = message
+                    exist.addButton(withTitle: NSLocalizedString("OK", comment: ""))
+                    exist.runModal()
+                }
+            }
+        }
     }
 
     func application(_ application: NSApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([NSUserActivityRestoring]) -> Void) -> Bool {
