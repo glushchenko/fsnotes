@@ -103,7 +103,7 @@ extension NSTextStorage {
         var tabs = [NSTextTab]()
         let tabInterval = 40
 
-        for index in 1...12 {
+        for index in 1...25 {
             let tab = NSTextTab(textAlignment: .left, location: CGFloat(tabInterval * index), options: [:])
             tabs.append(tab)
         }
