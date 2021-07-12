@@ -959,9 +959,12 @@ class ViewController: NSViewController,
             editArea.clear()
             var content = String()
 
+            let selectedProject = sidebarOutlineView.getSidebarProjects()?.first ?? Storage.sharedInstance().getRootProject()
+
             if UserDefaultsManagement.fileFormat == .Markdown,
-                UserDefaultsManagement.naming != .uuid,
-                UserDefaultsManagement.autoInsertHeader {
+                UserDefaultsManagement.naming == .autoRename,
+                UserDefaultsManagement.autoInsertHeader,
+                UserDefaultsManagement.firstLineAsTitle || selectedProject?.firstLineAsTitle == true {
                 content.append("# \(value)\n\n")
             }
 
