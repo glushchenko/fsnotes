@@ -206,22 +206,16 @@ class SidebarOutlineView: NSOutlineView,
             var isDirectory = ObjCBool(true)
             if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
 
-                let newSub = project.url.appendingPathComponent(url.lastPathComponent, isDirectory: true)
-                let newProject =
-                    Project(
-                        storage: self.storage,
-                        url: newSub,
-                        parent: project
-                    )
+                let dirName = url.lastPathComponent
+                let dirDst = project.url.appendingPathComponent(dirName)
 
-                newProject.create()
-
-                self.storage.assignTree(for: newProject)
-                self.reloadSidebar()
-
-                let validFiles = self.storage.readDirectory(url)
-                for file in validFiles {
-                    _ = vc.copy(project: newProject, url: file.0)
+                if !FileManager.default.fileExists(atPath: dirDst.path) {
+                    try? FileManager.default.copyItem(at: url, to: dirDst)
+                } else {
+                    let alert = NSAlert()
+                    alert.alertStyle = .critical
+                    alert.informativeText = NSLocalizedString("Folder with name '\(dirName)' already exist", comment: "")
+                    alert.runModal()
                 }
             } else {
                 _ = vc.copy(project: project, url: url)
@@ -245,21 +239,15 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
-        if !UserDefaultsManagement.inlineTags, nil != item as? Tag {
-            if isLocalNote {
-                return .copy
-            }
-        }
-
         if item as? Project != nil {
-            return .copy
+            return isLocalNote ? .move : .copy
         }
 
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
         switch sidebarItem.type {
         case .Trash:
             if isLocalNote {
-                return .copy
+                return .move
             }
             break
         case .Label, .Archive:
@@ -595,7 +583,7 @@ class SidebarOutlineView: NSOutlineView,
     @IBAction func revealInFinder(_ sender: Any) {
         guard let project = getSelectedProject() else { return }
 
-        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: project.url.path)
+        NSWorkspace.shared.selectFile(project.url.path, inFileViewerRootedAtPath: project.url.deletingLastPathComponent().path)
     }
     
     @IBAction func renameFolderMenu(_ sender: Any) {
@@ -616,25 +604,29 @@ class SidebarOutlineView: NSOutlineView,
               let project = sidebarOutlineView.getSelectedProject() else { return }
 
         if !project.isRoot {
-            guard let w = sidebarOutlineView.superview?.window else {
-                return
-            }
-            
+            guard let window = MainWindowController.shared() else { return }
+
             let alert = NSAlert.init()
+            vc.alert = alert
+
             let messageText = NSLocalizedString("Are you sure you want to remove project \"%@\" and all files inside?", comment: "")
             
             alert.messageText = String(format: messageText, project.label)
             alert.informativeText = NSLocalizedString("This action cannot be undone.", comment: "Delete menu")
             alert.addButton(withTitle: NSLocalizedString("Remove", comment: "Delete menu"))
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Delete menu"))
-            alert.beginSheetModal(for: w) { (returnCode: NSApplication.ModalResponse) -> Void in
+            alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
                 if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
                     do {
                         try FileManager.default.removeItem(at: project.url)
                     } catch {
                         print(error)
                     }
+
+                    NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
                 }
+
+                vc.alert = nil
             }
             return
         }
@@ -679,6 +671,8 @@ class SidebarOutlineView: NSOutlineView,
         guard let window = MainWindowController.shared() else { return }
         
         let alert = NSAlert()
+        vc.alert = alert
+
         let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
         alert.messageText = NSLocalizedString("New project", comment: "")
         alert.informativeText = NSLocalizedString("Please enter project name:", comment: "")
@@ -691,6 +685,9 @@ class SidebarOutlineView: NSOutlineView,
                 let name = field.stringValue
                 self.createProject(name: name, parent: project)
             }
+
+            NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+            vc.alert = nil
         }
         
         field.becomeFirstResponder()
@@ -732,8 +729,9 @@ class SidebarOutlineView: NSOutlineView,
 
     public func insertProject(url: URL) {
         guard !storage.projectExist(url: url) else { return }
-
+        guard !["assets", ".cache", "i", ".Trash"].contains(url.lastPathComponent) else { return }
         guard let parent = storage.findParent(url: url) else { return }
+        
         let project = Project(storage: storage, url: url, parent: parent)
         parent.child.insert(project, at: 0)
 
@@ -756,16 +754,6 @@ class SidebarOutlineView: NSOutlineView,
         do {
             let projectURL = parent.url.appendingPathComponent(name, isDirectory: true)
             try FileManager.default.createDirectory(at: projectURL, withIntermediateDirectories: false, attributes: nil)
-            
-            let project = Project(storage: storage, url: projectURL, parent: parent)
-
-            storage.assignTree(for: project)
-
-            parent.child.insert(project, at: 0)
-            insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
-
-            viewDelegate?.fsManager?.reloadObservedFolders()
-
         } catch {
             let alert = NSAlert()
             alert.messageText = error.localizedDescription

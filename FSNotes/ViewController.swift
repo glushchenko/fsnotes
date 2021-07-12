@@ -618,10 +618,7 @@ class ViewController: NSViewController,
             
             _ = note.move(to: destination, project: project)
 
-            let type = getSidebarType() ?? .All
-            let show = isFit(note: note, shouldLoadMain: true, type: type)
-
-            if !show {
+            if !isFit(note: note, shouldLoadMain: true) {
                 notesTableView.removeByNotes(notes: [note])
 
                 if let i = selectedRow, i > -1 {
@@ -877,11 +874,10 @@ class ViewController: NSViewController,
                 if fr.isKind(of: NotesTableView.self) {
                     sidebarOutlineView.window?.makeFirstResponder(sidebarOutlineView)
 
-                    let indexes = sidebarOutlineView.selectedRowIndexes.count == 0
-                        ? [0]
-                        : sidebarOutlineView.selectedRowIndexes
+                    if sidebarOutlineView.selectedRowIndexes.count == 0 {
+                        sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
+                    }
 
-                    sidebarOutlineView.selectRowIndexes(indexes, byExtendingSelection: false)
                     return false
                 }
             }
@@ -1782,10 +1778,17 @@ class ViewController: NSViewController,
         var terms = terms
         var projects = projects
         var tags = tags
+        var type = type
 
         if shouldLoadMain {
+
             projects = sidebarOutlineView.getSidebarProjects()
             tags = sidebarOutlineView.getSidebarTags()
+
+            type = getSidebarType()
+            if type == nil && projects == nil && tags == nil {
+                type = .All
+            }
             
             filter = search.stringValue
             terms = search.stringValue.split(separator: " ")

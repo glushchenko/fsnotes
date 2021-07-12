@@ -954,7 +954,11 @@ class Storage {
         }
         let lastPatch = ["assets", ".cache", "i", ".Trash"]
 
-        let urls = fileEnumerator.allObjects.filter { !extensions.contains(($0 as? NSURL)!.pathExtension!) && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!) } as! [NSURL]
+        let urls = fileEnumerator.allObjects.filter {
+            !extensions.contains(($0 as? NSURL)!.pathExtension!)
+            && !lastPatch.contains(($0 as? NSURL)!.lastPathComponent!)
+        } as! [NSURL]
+
         var subdirs = [NSURL]()
         var i = 0
 

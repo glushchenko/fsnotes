@@ -509,12 +509,13 @@ pre > .copyCode {
 }
 
 body > ul, body > ol {
-    margin-left: 0;
+    margin-left: 20px;
     padding: 0;
 
 }
     ul.cb  {
         list-style-type: none;
+        margin-left: 25px;
     }
 
 input[type='checkbox'] {
@@ -526,7 +527,7 @@ input[type='checkbox'] {
     background: white;
     border:1px solid #555;
     vertical-align: middle;
-    margin: 0 5px 0 0;
+    margin: 0 5px 0 -28px;
     transform: scale(1.1);
 }
     input[type='checkbox'][disabled][checked]:after {

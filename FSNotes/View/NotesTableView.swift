@@ -476,8 +476,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         guard noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil else { return }
 
-        let type = vc.getSidebarType() ?? .All
-        guard vc.isFit(note: note, shouldLoadMain: true, type: type) else { return }
+        guard vc.isFit(note: note, shouldLoadMain: true) else { return }
 
         let at = self.countVisiblePinned()
         self.noteList.insert(note, at: at)

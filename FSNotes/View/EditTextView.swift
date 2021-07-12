@@ -1110,9 +1110,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                         i += word.count + 1
 
-                        if word == "" || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
+                        if word == ""
+                            || affectedCharRange.location >= range.upperBound
+                            || affectedCharRange.location < range.lowerBound
+                            || range.location <= 0 {
                             continue
                         }
+
 
                         let hashRange = NSRange(location: range.location - 1, length: 1)
                         if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
