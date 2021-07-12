@@ -820,10 +820,6 @@ class SidebarOutlineView: NSOutlineView,
             return projects
         }
 
-        if let root = Storage.sharedInstance().getRootProject() {
-            return [root]
-        }
-
         return nil
     }
 
@@ -1106,12 +1102,12 @@ class SidebarOutlineView: NSOutlineView,
 
     public func getAllTags() -> [String] {
         var tags: Set<String> = []
-        var projects: [Project]? = nil
+        var projects: [Project]? = getSidebarProjects()
+        let item = item(atRow: selectedRow) as? SidebarItem
 
-        if let item = item(atRow: selectedRow) as? SidebarItem, item.type == .All {
-            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive })
-        } else {
-            projects = getSidebarProjects()
+
+        if item?.type == .All || projects == nil {
+            projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.showInCommon })
         }
 
         if let projects = projects {

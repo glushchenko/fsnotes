@@ -1952,8 +1952,7 @@ class ViewController: NSViewController,
         }
         
         if sidebarProject == nil {
-            let projects = storage.getProjects()
-            sidebarProject = projects.first
+            sidebarProject = Storage.sharedInstance().getRootProject()
         }
         
         guard let project = sidebarProject else { return }
