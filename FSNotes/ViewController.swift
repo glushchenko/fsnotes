@@ -1649,11 +1649,7 @@ class ViewController: NSViewController,
         var type = sidebarItem?.type
 
         // Global search if sidebar not checked
-        if type == nil && (
-            projects == nil || (
-                projects!.count < 2 && projects!.first!.isRoot && projects!.first!.isDefault
-            )
-        ) {
+        if type == nil && projects == nil {
             type = .All
         }
 
@@ -1801,20 +1797,11 @@ class ViewController: NSViewController,
         return !note.name.isEmpty
             && (
                 filter.isEmpty && type != .Todo
-                    || type == .Todo
-                    && self.isMatched(note: note, terms: ["- [ ]"])
+                    || type == .Todo && self.isMatched(note: note, terms: ["- [ ]"])
                     || self.isMatched(note: note, terms: terms!)
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
-                || type != .All &&
-                    type != .Todo &&
-                    projects != nil && (
-                        projects!.contains(note.project)
-                        || (
-                            note.project.parent != nil &&
-                            projects!.contains(note.project.parent!)
-                        )
-                    )
+                || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
                 || type == .Trash
                 || type == .Todo && note.project.showInCommon
                 || type == .Archive && note.project.isArchive
