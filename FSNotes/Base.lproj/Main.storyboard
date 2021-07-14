@@ -261,7 +261,7 @@ CA
 </string>
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <action selector="removeTags:" target="Ady-hI-5gd" id="2FG-2C-lgU"/>
+                                                <action selector="removeTags:" target="yxb-XH-bXh" id="evt-6I-6mN"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -2051,7 +2051,7 @@ CA
                         <menuItem title="Show view options" keyEquivalent="," identifier="folderMenu.options" id="qs2-5J-Q3n">
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
-                                <action selector="openProjectViewSettings:" target="XfG-lQ-9wD" id="Ra3-fD-WCo"/>
+                                <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Remove Tags" identifier="folder.removeTags" id="nmM-LW-LBc">

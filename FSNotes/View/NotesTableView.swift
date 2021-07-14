@@ -84,22 +84,23 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     override func rightMouseDown(with event: NSEvent) {
         UserDataService.instance.searchTrigger = false
 
-        let point = self.convert(event.locationInWindow, from: nil)
-        let i = row(at: point)
-        
-        if noteList.indices.contains(i) {
-            saveNavigationHistory(note: noteList[i])
+        let point = convert(event.locationInWindow, from: nil)
+        let rowIndex = row(at: point)
+        if (rowIndex < 0 || self.numberOfRows < rowIndex) {
+            return
+        }
 
-            DispatchQueue.main.async {
-                let selectedRows = self.selectedRowIndexes
-                if !selectedRows.contains(i) {
-                    self.selectRowIndexes(IndexSet(integer: i), byExtendingSelection: false)
-                    self.scrollRowToVisible(i)
-                    return
-                }
+        saveNavigationHistory(note: noteList[rowIndex])
+
+        if !selectedRowIndexes.contains(rowIndex) {
+            selectRowIndexes(IndexSet(integer: rowIndex), byExtendingSelection: false)
+            scrollRowToVisible(rowIndex)
+        }
+
+        if rowView(atRow: rowIndex, makeIfNecessary: false) as? NoteRowView != nil {
+            if let menu = menu {
+                NSMenu.popUpContextMenu(menu, with: event, for: self)
             }
-
-            super.rightMouseDown(with: event)
         }
     }
         

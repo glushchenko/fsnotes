@@ -23,7 +23,7 @@ class ViewController: NSViewController,
     NSMenuItemValidation {
     // MARK: - Properties
     public var fsManager: FileSystemEventManager?
-    private var projectSettingsViewController: ProjectSettingsViewController?
+    public var projectSettingsViewController: ProjectSettingsViewController?
 
     let storage = Storage.sharedInstance()
     var alert: NSAlert?
@@ -1438,22 +1438,6 @@ class ViewController: NSViewController,
                 self.notesTableView.reloadRow(note: note)
             }
             UserDataService.instance.fsUpdatesDisabled = false
-        }
-    }
-
-    @IBAction func openProjectViewSettings(_ sender: NSMenuItem) {
-        guard let vc = ViewController.shared() else {
-            return
-        }
-
-        if let controller = vc.storyboard?.instantiateController(withIdentifier: "ProjectSettingsViewController")
-            as? ProjectSettingsViewController {
-                self.projectSettingsViewController = controller
-
-            if let project = vc.getSidebarProject() {
-                vc.presentAsSheet(controller)
-                controller.load(project: project)
-            }
         }
     }
 

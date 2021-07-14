@@ -52,7 +52,7 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
-        if id == "folderMenu.backup" {
+        if id == "folderMenu.backup" || id == "context.folderMenu.backup" {
             if tags != nil || project == nil {
                 menuItem.isHidden = true
                 return false
@@ -152,7 +152,27 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
+        menuItem.isHidden = true
         return false
+    }
+
+    override func rightMouseDown(with event: NSEvent) {
+        let point = convert(event.locationInWindow, from: nil)
+        let rowIndex = row(at: point)
+        if (rowIndex < 0 || self.numberOfRows < rowIndex) {
+            return
+        }
+
+        if !selectedRowIndexes.contains(rowIndex) {
+            selectRowIndexes(IndexSet(integer: rowIndex), byExtendingSelection: false)
+            scrollRowToVisible(rowIndex)
+        }
+
+        if rowView(atRow: rowIndex, makeIfNecessary: false) as? SidebarTableRowView != nil {
+            if let menu = menu {
+                NSMenu.popUpContextMenu(menu, with: event, for: self)
+            }
+        }
     }
 
     override func draw(_ dirtyRect: NSRect) {
@@ -780,7 +800,7 @@ class SidebarOutlineView: NSOutlineView,
     @IBAction func openSettings(_ sender: NSMenuItem) {
         guard let vc = ViewController.shared() else { return }
 
-        vc.openProjectViewSettings(sender)
+        vc.sidebarOutlineView.openProjectViewSettings(sender)
     }
 
     @IBAction func makeSnapshot(_ sender: NSMenuItem) {
@@ -1325,6 +1345,22 @@ class SidebarOutlineView: NSOutlineView,
 
             NSApp.mainWindow?.makeFirstResponder(vc.sidebarOutlineView)
             vc.alert = nil
+        }
+    }
+
+    @IBAction func openProjectViewSettings(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else {
+            return
+        }
+
+        if let controller = vc.storyboard?.instantiateController(withIdentifier: "ProjectSettingsViewController")
+            as? ProjectSettingsViewController {
+                vc.projectSettingsViewController = controller
+
+            if let project = vc.getSidebarProject() {
+                vc.presentAsSheet(controller)
+                controller.load(project: project)
+            }
         }
     }
 
