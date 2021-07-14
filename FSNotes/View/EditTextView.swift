@@ -675,7 +675,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         EditTextView.note = note
         UserDefaultsManagement.lastSelectedURL = note.url
 
-        viewController.updateTitle(newTitle: note.getFileName())
+        viewController.updateTitle(note: note)
 
         if let appd = NSApplication.shared.delegate as? AppDelegate,
             let md = appd.mainWindowController {
@@ -814,7 +814,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if let viewController = self.window?.contentViewController as? ViewController {
             viewController.emptyEditAreaImage.image = NSImage(imageLiteralResourceName: "logoInCircle")
             viewController.emptyEditAreaImage.isHidden = false
-            viewController.updateTitle(newTitle: nil)
+            viewController.dropTitle()
         }
         
         EditTextView.note = nil
@@ -997,14 +997,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if event.keyCode == kVK_Tab {
-            if event.modifierFlags.contains(.shift) {
-                let formatter = TextFormatter(textView: self, note: note)
-                formatter.unTab()
-                saveCursorPosition()
-                return
-            }
-        }
+//        if event.keyCode == kVK_Tab && event.modifierFlags.contains(.shift) {
+//            shiftLeft(NSMenuItem())
+//            return
+//        }
 
         // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
         if event.keyCode == kVK_Tab && !hasMarkedText(){
@@ -1016,9 +1012,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 return
             }
 
-            let formatter = TextFormatter(textView: self, note: note, shouldScanMarkdown: false)
-            formatter.tabKey()
-            breakUndoCoalescing()
+            super.keyDown(with: event)
+
+//            shiftRight(NSMenuItem())
+//            breakUndoCoalescing()
+            
             return
         }
 
@@ -1112,9 +1110,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
                         i += word.count + 1
 
-                        if word == "" || affectedCharRange.location > range.upperBound || affectedCharRange.location < range.lowerBound || range.location <= 0 {
+                        if word == ""
+                            || affectedCharRange.location >= range.upperBound
+                            || affectedCharRange.location < range.lowerBound
+                            || range.location <= 0 {
                             continue
                         }
+
 
                         let hashRange = NSRange(location: range.location - 1, length: 1)
                         if (self.string as NSString).substring(with: hashRange) == "#", nextChar.isWhitespace {
@@ -1130,7 +1132,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             }
 
             tagsTimer?.invalidate()
-            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTags), userInfo: nil, repeats: false)
+            tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
         }
 
         guard let note = EditTextView.note else {
@@ -1183,7 +1185,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: final)
     }
 
-    @objc public func scanTags() {
+    @objc public func scanTagsAndAutoRename() {
         guard let note = EditTextView.note else { return }
         let result = note.scanContentTags()
 
@@ -1207,7 +1209,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 note.rename(to: title)
 
                 viewDelegate?.titleLabel.updateNotesTableView()
-                viewDelegate?.updateTitle(newTitle: note.fileName)
+                viewDelegate?.updateTitle(note: note)
             }
         }
     }
@@ -1402,16 +1404,14 @@ class EditTextView: NSTextView, NSTextFinderClient {
                     if let string = attachment.getAttributedString() {
                         EditTextView.shouldForceRescan = true
 
+                        setSelectedRange(insertRange)
                         insertText(string, replacementRange: insertRange)
-                        insertNewline(nil)
-                        insertNewline(nil)
 
                         offset += 3
                     }
                 } else {
+                    setSelectedRange(insertRange)
                     insertText("![](\(filePath))", replacementRange: insertRange)
-                    insertNewline(nil)
-                    insertNewline(nil)
                 }
             }
 
@@ -1768,8 +1768,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     override func viewDidChangeEffectiveAppearance() {
-        guard let note = EditTextView.note else { return }
-        
         UserDataService.instance.isDark = effectiveAppearance.isDark
         UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
@@ -1779,6 +1777,8 @@ class EditTextView: NSTextView, NSTextFinderClient {
         try? FileManager.default.removeItem(at: webkitPreview)
 
         NotesTextProcessor.hl = nil
+
+        guard let note = EditTextView.note else { return }
         NotesTextProcessor.highlight(note: note)
 
         let funcName = effectiveAppearance.isDark ? "switchToDarkMode" : "switchToLightMode"

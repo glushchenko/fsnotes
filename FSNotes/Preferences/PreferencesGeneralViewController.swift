@@ -67,7 +67,7 @@ class PreferencesGeneralViewController: NSViewController {
         openPanel.canCreateDirectories = true
         openPanel.canChooseFiles = false
         openPanel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == .OK {
                 guard let url = openPanel.url else { return }
                 guard let currentURL = UserDefaultsManagement.storageUrl else { return }
 

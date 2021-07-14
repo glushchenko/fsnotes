@@ -410,22 +410,31 @@ public class TextFormatter {
     
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
+        
         let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
-
         let string = getAttributedString().attributedSubstring(from: pRange).string
-        var result = String()
-        var lineQty = 0
 
+        var result = String()
+        var addsChars = 0
+
+        let location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             result.append(padding + line + "\n")
-            lineQty += 1
+
+            if isFirstLine {
+                isFirstLine = false
+            } else {
+                addsChars += padding.count
+            }
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
-
+        let selectRange = NSRange(location: location + padding.count, length: length + addsChars)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
@@ -433,28 +442,58 @@ public class TextFormatter {
 
         let string = storage.attributedSubstring(from: pRange).string
         var result = String()
-        var lineQty = 0
 
+        let location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
+        var padding = 0
+        var dropChars = 0
+
+        if string.starts(with: "\t") {
+            padding = 1
+        } else if string.starts(with: "   ") {
+            padding = 4
+        }
+
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             var line = line
 
             if !line.isEmpty {
                 if line.first == "\t" {
                     line = String(line.dropFirst())
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 1
+                        }
+                    }
                 } else if line.starts(with: "    ") {
                     line = String(line.dropFirst(4))
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 4
+                        }
+                    }
                 }
             }
             
             result.append(line + "\n")
-            lineQty += 1
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
-
+        let selectRange = NSRange(location: location - padding, length: length - dropChars)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
+
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {
@@ -636,7 +675,11 @@ public class TextFormatter {
 
                 if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
                     let selectRange = NSRange(location: currentParagraphRange.location, length: 0)
-                    insertText("\n", replacementRange: currentParagraphRange, selectRange: selectRange)
+
+                    insertText("", replacementRange: currentParagraphRange, selectRange: selectRange)
+                    textView.insertNewline(nil)
+
+                    textView.setSelectedRange(selectRange)
                     return
                 }
             }
@@ -753,9 +796,17 @@ public class TextFormatter {
                 var scanFinished = false
 
                 if line.count > 0 {
+                    var j = 0
                     for char in line {
-                        if char.isWhitespace && !scanFinished {
-                            empty.append(char)
+                        j += 1
+
+                        if (char.isWhitespace || char == "\t")
+                            && !scanFinished {
+                            if j == line.count {
+                                empty.append("\(char)" + task)
+                            } else {
+                                empty.append(char)
+                            }
                         } else {
                             if !scanFinished {
                                 empty.append(task + "\(char)")

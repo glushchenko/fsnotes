@@ -59,20 +59,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             return
         }
         
-        if (event.keyCode == kVK_LeftArrow) {
-            if let fr = self.window?.firstResponder, fr.isKind(of: NSTextView.self) {
-                super.keyUp(with: event)
-                return
-            }
-
-            vc.sidebarOutlineView.window?.makeFirstResponder(vc.sidebarOutlineView)
-            if vc.sidebarOutlineView.selectedRowIndexes.count == 0 {
-                vc.sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
-            }
-
-            return
-        }
-
         super.keyUp(with: event)
     }
     
@@ -185,18 +171,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
 
-            if !UserDefaultsManagement.inlineTags, let items = vc.sidebarOutlineView.sidebarItems {
-                for item in items {
-                    if let tag = item as? Tag {
-                        if note.tagNames.contains(tag.getName()) {
-                            vc.sidebarOutlineView.selectTag(item: tag)
-                        } else {
-                            vc.sidebarOutlineView.deselectTag(item: tag)
-                        }
-                    }
-                }
-            }
-
             self.loadingQueue.cancelAllOperations()
             let operation = BlockOperation()
             operation.addExecutionBlock { [weak self] in        
@@ -303,20 +277,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     }
     
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
-        if let char = event.characters?.unicodeScalars.first,
-           ["j", "k"].contains(char) && event.modifierFlags.contains(.command)
-        {
-            return true
-        }
-
         if self.window?.firstResponder == self,
            !event.modifierFlags.contains(.shift),
            event.keyCode == kVK_DownArrow || event.keyCode == kVK_UpArrow {
             ViewController.shared()?.restoreCurrentPreviewState()
-        }
-
-        if event.keyCode == kVK_LeftArrow, let fr = self.window?.firstResponder, fr.isKind(of: NotesTableView.self) {
-            return true
         }
 
         if event.modifierFlags.contains(.control) && event.keyCode == kVK_Tab {
@@ -389,7 +353,24 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
         }
         return nil
     }
-    
+
+    public func selectCurrent() {
+        guard let vc = ViewController.shared() else { return }
+        guard noteList.count > 0 else { return }
+
+        vc.restoreCurrentPreviewState()
+
+        UserDataService.instance.searchTrigger = false
+
+        let i = selectedRowIndexes.count > 0 ? selectedRowIndexes : [0]
+
+        if let first = i.first {
+            saveNavigationHistory(note: noteList[first])
+            selectRowIndexes(i, byExtendingSelection: false)
+            scrollRowToVisible(first)
+        }
+    }
+
     public func selectNext() {
         guard let vc = ViewController.shared() else { return }
         vc.restoreCurrentPreviewState()
@@ -495,8 +476,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
 
         guard noteList.first(where: { $0.isEqualURL(url: note.url) }) == nil else { return }
 
-        let type = vc.getSidebarType() ?? .Inbox
-        guard vc.isFit(note: note, shouldLoadMain: true, type: type) else { return }
+        guard vc.isFit(note: note, shouldLoadMain: true) else { return }
 
         let at = self.countVisiblePinned()
         self.noteList.insert(note, at: at)

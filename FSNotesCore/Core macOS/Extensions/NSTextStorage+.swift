@@ -29,18 +29,86 @@ extension NSTextStorage {
         endEditing()
     }
 
-    public func updateParagraphStyle() {
+    public func updateParagraphStyle(range: NSRange? = nil) {
         beginEditing()
 
-        let paragraph = NSMutableParagraphStyle()
-        paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        var paragraph = NSMutableParagraphStyle()
+        let scanRange = range ?? NSRange(0..<length)
 
-        mutableString.enumerateSubstrings(in: NSRange(0..<length), options: .byParagraphs) { _, range, _, _ in
-            let rangeNewline = range.upperBound == self.length ? range : NSRange(range.location..<range.upperBound + 1)
-            self.addAttribute(.paragraphStyle, value: paragraph, range: rangeNewline)
+        // https://github.com/glushchenko/fsnotes/issues/311
+        let tabs = getTabStops()
+        let font = UserDefaultsManagement.noteFont!
+
+        mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, parRange, _, _ in
+            if let value = value,
+                value.count > 1,
+
+                value.starts(with: "    ")
+                || value.starts(with: "\t")
+                || value.starts(with: "* ")
+                || value.starts(with: "- ")
+                || value.starts(with: "+ ") {
+
+                let prefix = value.getSpacePrefix()
+                let checkList = [
+                    prefix + "* ",
+                    prefix + "- ",
+                    prefix + "+ ",
+                    "* ",
+                    "- ",
+                    "+ "
+                ]
+
+                var result = String()
+                for checkItem in checkList {
+                    if value.starts(with: checkItem) {
+                        result = checkItem
+                        break
+                    }
+                }
+
+                let width = result.widthOfString(usingFont: font, tabs: tabs)
+
+                paragraph = NSMutableParagraphStyle()
+                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                paragraph.alignment = .left
+                paragraph.headIndent = width
+            } else {
+                paragraph = NSMutableParagraphStyle()
+                paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                paragraph.alignment = .left
+            }
+
+            paragraph.tabStops = tabs
+
+            self.addAttribute(.paragraphStyle, value: paragraph, range: parRange)
+        }
+
+        let spaceWidth = " ".widthOfString(usingFont: font, tabs: tabs)
+
+        // Todo head indents
+        enumerateAttribute(.paragraphStyle, in: scanRange, options: .init()) { value, range, _ in
+            if attributedSubstring(from: range).attribute(.todo, at: 0, effectiveRange: nil) != nil,
+                let parStyle = value as? NSMutableParagraphStyle {
+
+                parStyle.headIndent = font.pointSize + font.pointSize / 2 + spaceWidth
+                self.addAttribute(.paragraphStyle, value: parStyle, range: range)
+            }
         }
 
         endEditing()
+    }
+
+    public func getTabStops() -> [NSTextTab] {
+        var tabs = [NSTextTab]()
+        let tabInterval = 40
+
+        for index in 1...25 {
+            let tab = NSTextTab(textAlignment: .left, location: CGFloat(tabInterval * index), options: [:])
+            tabs.append(tab)
+        }
+
+        return tabs
     }
 
     public func sizeAttachmentImages(container: NSTextContainer) {

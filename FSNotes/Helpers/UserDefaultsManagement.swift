@@ -84,7 +84,8 @@ public class UserDefaultsManagement {
         static let LastSelectedPath = "lastSelectedPath"
         static let LastScreenX = "lastScreenX"
         static let LastScreenY = "lastScreenY"
-        static let LastProject = "lastProject"
+        static let LastSidebarItem = "lastSidebarItem"
+        static let LastProjectURL = "lastProjectUrl"
         static let LineSpacingEditorKey = "lineSpacingEditor"
         static let LineWidthKey = "lineWidth"
         static let LiveImagesPreview = "liveImagesPreview"
@@ -105,6 +106,7 @@ public class UserDefaultsManagement {
         static let Preview = "preview"
         static let PreviewFontSize = "previewFontSize"
         static let ProjectsKey = "projects"
+        static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
         static let SharedContainerKey = "sharedContainer"
@@ -324,22 +326,13 @@ public class UserDefaultsManagement {
                 storageType = .iCloudDrive
                 return iCloudDocumentsURL.path
             }
-            
-        #if os(iOS)
+
             if let localDocumentsContainer = localDocumentsContainer {
                 storageType = .local
                 return localDocumentsContainer.path
             }
+
             return nil
-        #elseif CLOUDKIT && os(macOS)
-            return nil
-        #else
-            if let localDocumentsContainer = localDocumentsContainer {
-                storageType = .local
-                return localDocumentsContainer.path
-            }
-            return nil
-        #endif
         }
         set {
             shared?.set(newValue, forKey: Constants.StoragePathKey)
@@ -665,16 +658,29 @@ public class UserDefaultsManagement {
         }
     }
     
-    static var lastProject: Int? {
+    static var lastProjectURL: URL? {
         get {
-            if let lastProject = shared?.object(forKey: Constants.LastProject) as? Int {
+            if let lastProject = shared?.url(forKey: Constants.LastProjectURL) {
                 return lastProject
             }
 
             return nil
         }
         set {
-            shared?.set(newValue, forKey: Constants.LastProject)
+            shared?.set(newValue, forKey: Constants.LastProjectURL)
+        }
+    }
+
+    static var lastSidebarItem: Int? {
+        get {
+            if let index = shared?.object(forKey: Constants.LastSidebarItem) as? Int {
+                return index
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.LastSidebarItem)
         }
     }
     
@@ -710,13 +716,12 @@ public class UserDefaultsManagement {
                 if !FileManager.default.fileExists(atPath: archive.path) {
                     do {
                         try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: false, attributes: nil)
-                        self.archiveDirectory = archive
+                        
                         return archive
                     } catch {
                         print(error)
                     }
                 } else {
-                    self.archiveDirectory = archive.standardized
                     return archive
                 }
             }
@@ -1455,6 +1460,32 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.LastScreenY)
+        }
+    }
+
+    static var recentSearches: [String]? {
+        get {
+            if let value = shared?.array(forKey: Constants.RecentSearches) as? [String] {
+                return value
+            }
+
+            return nil
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.RecentSearches)
+        }
+    }
+
+    static var pinList: [String] {
+        get {
+            if let value = shared?.array(forKey: Constants.PinListKey) as? [String] {
+                return value
+            }
+
+            return [String]()
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.PinListKey)
         }
     }
 }

@@ -17,11 +17,31 @@ class NoteRowView: NSTableRowView {
     override func drawSelection(in dirtyRect: NSRect) {
         if self.selectionHighlightStyle != .none {
             let selectionRect = NSInsetRect(self.bounds, 0, 0)
-            NSColor(calibratedWhite: 0.55, alpha: 1).setStroke()
-            NSColor(calibratedRed: 0.3, green: 0.6, blue: 0.9, alpha: 1).setFill()
-            let selectionPath = NSBezierPath.init(roundedRect: selectionRect, xRadius: 2, yRadius: 2)
-            selectionPath.fill()
-            selectionPath.stroke()
+
+            if isSelected {
+                if window?.firstResponder == superview {
+
+                    if let color = NSColor.init(named: "background_selected_fr") {
+                        color.setStroke()
+                        color.setFill()
+                    }
+
+                    let selectionPath = NSBezierPath.init(roundedRect: selectionRect, xRadius: 2, yRadius: 2)
+                    selectionPath.fill()
+                    selectionPath.stroke()
+
+                } else {
+
+                    if let color = NSColor.init(named: "background_selected_not_fr") {
+                        color.setStroke()
+                        color.setFill()
+                    }
+
+                    let selectionPath = NSBezierPath.init(roundedRect: selectionRect, xRadius: 2, yRadius: 2)
+                    selectionPath.fill()
+                    selectionPath.stroke()
+                }
+            }
         }
     }
 }

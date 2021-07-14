@@ -129,6 +129,15 @@ CA
                                                 <action selector="deleteNote:" target="L4m-js-agn" id="AiT-JP-62A"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Force Delete" alternate="YES" identifier="fileMenu.forceRemove" id="zd2-Rs-DPm">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="deleteNote:" target="L4m-js-agn" id="NiM-WS-564"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Pin/unpin" keyEquivalent="8" identifier="fileMenu.togglePin" id="You-zo-rbl">
                                             <connections>
                                                 <action selector="pinMenu:" target="Ady-hI-5gd" id="5kK-KD-hhk"/>
@@ -154,12 +163,6 @@ CA
                                         <menuItem title="Reveal in Finder" keyEquivalent="R" id="rXU-X3-UjC">
                                             <connections>
                                                 <action selector="finderMenu:" target="Ady-hI-5gd" id="Ift-tc-85m"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Tags" keyEquivalent="t" identifier="fileMenu.tags" id="XZ6-FD-yro">
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                                            <connections>
-                                                <action selector="tagNote:" target="L4m-js-agn" id="QxF-4a-2pc"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Change creation date" keyEquivalent="d" identifier="fileMenu.changeCreationDate" id="49W-tO-6Vu">
@@ -225,7 +228,7 @@ CA
                                         </menuItem>
                                         <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
                                             <connections>
-                                                <action selector="makeSnapshot:" target="Ady-hI-5gd" id="DiC-Cc-5X3"/>
+                                                <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
@@ -250,6 +253,15 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="cYe-fZ-e9N">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="removeTags:" target="Ady-hI-5gd" id="2FG-2C-lgU"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -611,6 +623,7 @@ CA
                                                 <action selector="toggleMathJax:" target="N0L-g4-qwj" id="M4h-TJ-TiH"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="sLG-sQ-Yi1"/>
                                         <menuItem title="Hide/show note list" keyEquivalent="B" id="WHt-T4-l9c">
                                             <connections>
                                                 <action selector="toggleNoteList:" target="L4m-js-agn" id="G22-P2-hks"/>
@@ -622,6 +635,42 @@ CA
                                                 <action selector="toggleSidebar:" target="L4m-js-agn" id="MRM-fh-zTo"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
+                                        <menuItem title="Back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="iip-ri-cBa"/>
+                                        <menuItem title="Move Down In The Notes List" keyEquivalent="j" id="BtV-Z4-7Vq">
+                                            <connections>
+                                                <action selector="noteDown:" target="Ady-hI-5gd" id="WHy-qc-OvH"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Move Up In The Notes List" keyEquivalent="k" id="Hqu-Sx-xgo">
+                                            <connections>
+                                                <action selector="noteUp:" target="Ady-hI-5gd" id="gfc-6f-Jom"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem title="Move Down In The Sidebar" keyEquivalent="J" identifier="folderMenu.down" id="vrs-XL-lyE">
+                                            <connections>
+                                                <action selector="sidebarDown:" target="Ady-hI-5gd" id="87t-Yf-dii"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Move Up In The Sidebar" keyEquivalent="K" identifier="folderMenu.up" id="sdE-ZM-6cq">
+                                            <connections>
+                                                <action selector="sidebarUp:" target="Ady-hI-5gd" id="8dT-Az-Nv2"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Ljl-jP-3qX"/>
                                         <menuItem title="Sort by" id="rHB-xF-GgG">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Sort by" id="05n-RU-nOV">
@@ -651,12 +700,6 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Show in sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
-                                                    <menuItem title="Inbox" state="on" tag="1" id="NUu-C6-n14">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Kgb-pp-IKp"/>
-                                                        </connections>
-                                                    </menuItem>
                                                     <menuItem title="Notes" state="on" tag="2" id="xPz-yo-VwM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
@@ -684,20 +727,7 @@ CA
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="2A1-iA-fhx"/>
-                                        <menuItem title="Back" keyEquivalent="[" identifier="viewMenu.historyBack" id="qNE-oZ-zJr">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="prevHistory:" target="L4m-js-agn" id="o7w-Hu-ldI"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Forward" keyEquivalent="]" identifier="viewMenu.historyForward" id="oQE-3t-6pa">
-                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="nextHistory:" target="L4m-js-agn" id="D4W-nU-AEU"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="hB3-LF-h0Y"/>
+                                        <menuItem isSeparatorItem="YES" id="XWg-CY-0hh"/>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
@@ -1032,13 +1062,22 @@ CA
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UbX-Sa-Jtd">
                                 <rect key="frame" x="266" y="233" width="136" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <popUpButtonCell key="cell" type="push" title="UUID" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="cmH-fQ-bVK" id="3k2-O8-Jza">
+                                <popUpButtonCell key="cell" type="push" title="Auto Rename By Title" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="wW6-4n-sve" id="3k2-O8-Jza">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Ilk-gp-eEJ">
                                         <items>
-                                            <menuItem title="UUID" state="on" id="cmH-fQ-bVK"/>
-                                            <menuItem title="Auto rename by title" tag="1" id="wW6-4n-sve"/>
+                                            <menuItem title="Auto Rename By Title" state="on" tag="1" id="wW6-4n-sve"/>
+                                            <menuItem title="Format: UUID" id="cmH-fQ-bVK"/>
+                                            <menuItem title="Format: Untitled Note" tag="2" id="IWL-lp-G1M">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Format: yyyyMMddHHmmss" tag="3" id="aVa-yH-IpC">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="Format: yyyy-MM-dd hh.mm.ss a" tag="4" id="qn1-vy-8oB">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -1370,7 +1409,7 @@ CA
                                                     <rect key="frame" x="0.0" y="0.0" width="144" height="600"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target">
+                                                        <outlineView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" tableStyle="plain" autosaveColumns="NO" rowHeight="55" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" autosaveExpandedItems="YES" outlineTableColumn="Gwp-vX-YaR" id="urA-eK-bWB" customClass="SidebarOutlineView" customModule="FSNotes" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="144" height="562"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -1425,7 +1464,6 @@ CA
                                                                             </constraints>
                                                                             <connections>
                                                                                 <outlet property="icon" destination="1dd-W4-MiY" id="cb4-9r-kd2"/>
-                                                                                <outlet property="imageView" destination="1dd-W4-MiY" id="B95-xv-93h"/>
                                                                                 <outlet property="label" destination="kTp-qw-RCd" id="72n-qf-ujw"/>
                                                                                 <outlet property="textField" destination="kTp-qw-RCd" id="2KP-pc-Kir"/>
                                                                             </connections>
@@ -1447,9 +1485,6 @@ CA
                                                                                     </attributedString>
                                                                                 </textField>
                                                                             </subviews>
-                                                                            <connections>
-                                                                                <outlet property="title" destination="a5J-Ua-Hnz" id="iCd-St-m3q"/>
-                                                                            </connections>
                                                                         </tableCellView>
                                                                     </prototypeCellViews>
                                                                 </tableColumn>
@@ -1499,7 +1534,7 @@ CA
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="22" id="Ptr-z2-0T0"/>
                                                         </constraints>
-                                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search or create" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" sendsWholeSearchString="YES" id="B7t-9v-bSk">
+                                                        <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search or create" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" sendsWholeSearchString="YES" recentsAutosaveName="recentFSearch" id="B7t-9v-bSk">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1908,6 +1943,15 @@ CA
                                 <action selector="deleteNote:" target="XfG-lQ-9wD" id="WOk-2N-rha"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Force Delete" alternate="YES" identifier="context.fileMenu.forceRemove" id="70b-Zr-aVK">
+                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="deleteNote:" target="rPt-NT-nkU" id="utQ-Hf-HAy"/>
+                            </connections>
+                        </menuItem>
                         <menuItem title="Pin/unpin" keyEquivalent="8" id="jFN-Dp-LON">
                             <connections>
                                 <action selector="pinMenu:" target="rPt-NT-nkU" id="EyW-HI-rr9"/>
@@ -1936,12 +1980,6 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="Fj3-MU-qJ9"/>
-                        <menuItem title="Tags" keyEquivalent="t" id="f2h-Tl-AHi">
-                            <modifierMask key="keyEquivalentModifierMask" control="YES"/>
-                            <connections>
-                                <action selector="tagNote:" target="XfG-lQ-9wD" id="Xu2-Mz-4PC"/>
-                            </connections>
-                        </menuItem>
                         <menuItem title="Change creation date" keyEquivalent="d" id="QdU-og-lQH">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES" command="YES"/>
                             <attributedString key="userComments">
@@ -1978,7 +2016,7 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="PvQ-Pd-zsZ">
+                        <menuItem title="Back up storage" keyEquivalent="S" identifier="context.folderMenu.backup" id="PvQ-Pd-zsZ">
                             <connections>
                                 <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
                             </connections>
@@ -2014,6 +2052,15 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="XfG-lQ-9wD" id="Ra3-fD-WCo"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="nmM-LW-LBc">
+                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                            <connections>
+                                <action selector="removeTags:" target="rPt-NT-nkU" id="Qxv-wR-6oh"/>
                             </connections>
                         </menuItem>
                     </items>

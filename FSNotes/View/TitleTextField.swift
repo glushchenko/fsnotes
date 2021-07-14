@@ -53,7 +53,7 @@ class TitleTextField: NSTextField {
             return
         }
 
-        vc.updateTitle(newTitle: currentName)
+        vc.updateTitle(note: note)
         self.resignFirstResponder()
         updateNotesTableView()
         vc.titleLabel.isEditable = false
@@ -83,13 +83,13 @@ class TitleTextField: NSTextField {
             _ = note.move(to: dst, forceRewrite: hasCaseSensitiveDiffOnly)
 
             let newTitle = currentTitle.replacingOccurrences(of: ":", with: "-")
-            vc.updateTitle(newTitle: newTitle)
+            vc.updateTitle(note: note)
 
             updateNotesTableView()
             
             vc.reSort(note: note)
         } else {
-            vc.updateTitle(newTitle: currentName)
+            vc.updateTitle(note: note)
             self.resignFirstResponder()
             updateNotesTableView()
             vc.titleLabel.isEditable = false
@@ -113,6 +113,11 @@ class TitleTextField: NSTextField {
     public func editModeOff() {
         self.isEnabled = false
         self.isEditable = false
+
+        guard let vc = ViewController.shared(),
+              let note = EditTextView.note else { return }
+
+        vc.updateTitle(note: note)
     }
     
     public func updateNotesTableView() {

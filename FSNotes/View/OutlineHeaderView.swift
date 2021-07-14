@@ -16,11 +16,14 @@ class OutlineHeaderView: NSView {
                 let md = appd.mainWindowController {
                 md.maximizeWindow()
             }
+        } else {
+            super.mouseDown(with: event)
         }
     }
 
     override func draw(_ dirtyRect: NSRect) {
        super.draw(dirtyRect)
+
 
        let lightColor = NSColor(red:1.00, green:1.00, blue:1.00, alpha:1.0)
        let darkColor = NSColor(red:0.16, green:0.17, blue:0.18, alpha:1.0)
@@ -32,5 +35,9 @@ class OutlineHeaderView: NSView {
        }
 
        dirtyRect.fill()
+    }
+
+    override var mouseDownCanMoveWindow: Bool {
+        return true
     }
 }
