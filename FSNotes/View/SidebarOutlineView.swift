@@ -31,65 +31,125 @@ class SidebarOutlineView: NSOutlineView,
     private var cellView: SidebarCellView?
 
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
-        guard let id = menuItem.identifier?.rawValue else { return false }
+        guard let id = menuItem.identifier?.rawValue else {
+            return false
+        }
+
+        let tags = ViewController.shared()?.sidebarOutlineView.getSidebarTags()
+        let project = ViewController.shared()?.sidebarOutlineView.getSelectedProject()
+
+        if id == "folder.removeTags" {
+            if tags == nil {
+                menuItem.isHidden = true
+                return false
+            }
+
+            menuItem.isHidden = false
+            return true
+        }
 
         if id == "folderMenu.attach" {
             return true
         }
 
-        guard let project = getSelectedProject() else { return false }
-
         if id == "folderMenu.backup" {
-            if project.isTrash {
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
                 return false
             }
 
+            if let project = project, project.isTrash {
+                menuItem.isHidden = true
+                return false
+            }
+
+            menuItem.isHidden = false
             return true
         }
 
         if id == "folderMenu.reveal" {
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
+                return false
+            }
+
+            menuItem.isHidden = false
             return true
         }
 
         if id == "folderMenu.rename" {
-            if project.isTrash {
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
                 return false
             }
 
-            menuItem.isHidden = project.isRoot
-
-            if !project.isDefault, !project.isArchive {
-                return true
+            if let project = project,
+                project.isTrash
+                || project.isArchive
+                || project.isDefault
+                || project.isRoot
+            {
+                menuItem.isHidden = true
+                return false
             }
+
+            menuItem.isHidden = false
+            return true
         }
 
         if id == "folderMenu.delete" {
-            if project.isTrash {
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
                 return false
             }
 
-            menuItem.title = project.isRoot
-                ? NSLocalizedString("Detach storage", comment: "")
-                : NSLocalizedString("Delete folder", comment: "")
-
-
-            if !project.isDefault, !project.isArchive {
-                return true
+            if let project = project,
+                project.isTrash
+                || project.isArchive
+                || project.isDefault
+            {
+                menuItem.isHidden = true
+                return false
             }
+
+            if let project = project {
+                menuItem.title = project.isRoot
+                    ? NSLocalizedString("Detach storage", comment: "")
+                    : NSLocalizedString("Delete folder", comment: "")
+            }
+
+            menuItem.isHidden = false
+            return true
         }
 
         if id == "folderMenu.options" {
-            return !project.isTrash
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
+                return false
+            }
+
+            if let project = project, project.isTrash {
+                menuItem.isHidden = true
+                return false
+            }
+
+            menuItem.isHidden = false
+            return true
         }
 
         if id == "folderMenu.new" {
-            if project.isTrash {
+            if tags != nil || project == nil {
+                menuItem.isHidden = true
+                return false
+            }
+
+            if let project = project, project.isTrash || project.isArchive {
+                menuItem.isHidden = true
                 return false
             }
             
-            if !project.isArchive {
-                return true
-            }
+            menuItem.isHidden = false
+            return true
         }
 
         return false
@@ -166,6 +226,26 @@ class SidebarOutlineView: NSOutlineView,
             urls = unarchivedData
         }
 
+        // tags
+        if let tag = item as? Tag {
+            if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
+                for url in urls {
+                    if let note = Storage.sharedInstance().getBy(url: url) {
+                        note.addTag(tag.getFullName())
+                        _ = note.scanContentTags()
+                        viewDelegate?.notesTableView.reloadRow(note: note)
+
+                        if EditTextView.note == note {
+                            viewDelegate?.refillEditArea()
+                        }
+                    }
+                }
+            }
+
+            return true
+        }
+
+        // projects
         var project: Project?
 
         if let sidebarItem = item as? SidebarItem, let sidebarProject = sidebarItem.project {
@@ -241,6 +321,10 @@ class SidebarOutlineView: NSOutlineView,
 
         if item as? Project != nil {
             return isLocalNote ? .move : .copy
+        }
+
+        if item as? Tag != nil {
+            return .copy
         }
 
         guard let sidebarItem = item as? SidebarItem else { return NSDragOperation() }
@@ -572,7 +656,7 @@ class SidebarOutlineView: NSOutlineView,
 
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         if (clickedRow > -1) {
-            selectRowIndexes([clickedRow], byExtendingSelection: false)
+            //selectRowIndexes([clickedRow], byExtendingSelection: false)
 
             for item in menu.items {
                 item.isHidden = !validateMenuItem(item)
@@ -697,6 +781,21 @@ class SidebarOutlineView: NSOutlineView,
         guard let vc = ViewController.shared() else { return }
 
         vc.openProjectViewSettings(sender)
+    }
+
+    @IBAction func makeSnapshot(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+        guard !vc.isGitProcessLocked else { return }
+
+        guard let project = ViewController.shared()?.getSidebarProject() else { return }
+
+        vc.isGitProcessLocked = true
+        DispatchQueue.global(qos: .background).async {
+            let repository = Git.sharedInstance().getRepository(by: project.getParent())
+            repository.initialize(from: project.getParent())
+            repository.commitAll()
+            vc.isGitProcessLocked = false
+        }
     }
 
     public func removeProject(project: Project) {
@@ -1204,5 +1303,69 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         super.selectRowIndexes(indexes, byExtendingSelection: extend)
+    }
+
+    @IBAction public func removeTags(_ sender: NSMenuItem) {
+        guard let vc = ViewController.shared() else { return }
+        guard let window = MainWindowController.shared() else { return }
+        guard let selectedTags = vc.sidebarOutlineView.getSidebarTags() else { return }
+
+        let alert = NSAlert()
+        vc.alert = alert
+
+        alert.messageText = NSLocalizedString("Remove Tags", comment: "")
+        alert.informativeText = NSLocalizedString("Are you really want to remove \(selectedTags.count) tags? This action can not be undone.", comment: "")
+        alert.alertStyle = .informational
+        alert.addButton(withTitle: NSLocalizedString("Remove", comment: ""))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                vc.sidebarOutlineView.removeSelectedTags()
+            }
+
+            NSApp.mainWindow?.makeFirstResponder(vc.sidebarOutlineView)
+            vc.alert = nil
+        }
+    }
+
+    public func removeSelectedTags() {
+        guard let notesTableView = viewDelegate?.notesTableView else { return }
+
+        let notes = notesTableView.noteList
+        var tags = [Tag]()
+
+        for index in selectedRowIndexes {
+            if let tag = item(atRow: index) as? Tag {
+                tags.append(tag)
+
+                for note in notes {
+                    let tagName = tag.getFullName()
+
+                    note.replace(tag: "#\(tagName)", with: "")
+                    note.tags.removeAll(where: { $0 == tagName })
+                    _ = note.scanContentTags()
+
+                    DispatchQueue.main.async {
+                        notesTableView.reloadRow(note: note)
+                    }
+                }
+            }
+        }
+
+        beginUpdates()
+        for index in selectedRowIndexes.reversed() {
+            if let tag = item(atRow: index) as? Tag {
+                if let parentTag = tag.getParent() {
+                    if let childIndex = tag.getParent()?.child.firstIndex(where: { $0 === tag }) {
+                        tag.parent?.removeChild(tag: tag)
+                        removeItems(at: [childIndex], inParent: parentTag, withAnimation: .effectFade)
+                    }
+                } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
+                    sidebarItems?.remove(at: sidebarIndex)
+                    removeItems(at: [sidebarIndex], inParent: nil, withAnimation: .effectFade)
+                }
+            }
+        }
+        endUpdates()
     }
 }

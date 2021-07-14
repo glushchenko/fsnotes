@@ -809,7 +809,6 @@ public class Note: NSObject  {
         }
 
         content.replace(string: tag, with: replaceWith)
-        
         save()
     }
         
@@ -1950,5 +1949,24 @@ public class Note: NSObject  {
         }
 
         return nil
+    }
+
+    public func addTag(_ name: String) {
+        guard !tags.contains(name) else { return }
+
+        let lastParRange = content.mutableString.paragraphRange(for: NSRange(location: content.length, length: 0))
+        let string = content.attributedSubstring(from: lastParRange).string.trim()
+
+        if string.count != 0 && !string.starts(with: "#") {
+            content.append(NSAttributedString(string: "\n\n"))
+        }
+
+        var prefix = String()
+        if string.starts(with: "#") {
+            prefix += " "
+        }
+
+        content.append(NSAttributedString(string: prefix + "#" + name))
+        save()
     }
 }

@@ -228,7 +228,7 @@ CA
                                         </menuItem>
                                         <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
                                             <connections>
-                                                <action selector="makeSnapshot:" target="Ady-hI-5gd" id="DiC-Cc-5X3"/>
+                                                <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
@@ -253,6 +253,15 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="cYe-fZ-e9N">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="removeTags:" target="Ady-hI-5gd" id="2FG-2C-lgU"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -2007,7 +2016,7 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="PvQ-Pd-zsZ">
+                        <menuItem title="Back up storage" keyEquivalent="S" identifier="context.folderMenu.backup" id="PvQ-Pd-zsZ">
                             <connections>
                                 <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
                             </connections>
@@ -2043,6 +2052,15 @@ CA
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="XfG-lQ-9wD" id="Ra3-fD-WCo"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="nmM-LW-LBc">
+                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                            <connections>
+                                <action selector="removeTags:" target="rPt-NT-nkU" id="Qxv-wR-6oh"/>
                             </connections>
                         </menuItem>
                     </items>

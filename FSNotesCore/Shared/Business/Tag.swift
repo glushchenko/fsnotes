@@ -10,7 +10,7 @@ import Foundation
 
 class Tag {
     private var name: String
-    private var parent: Tag?
+    public var parent: Tag?
 
     public var child = [Tag]()
 

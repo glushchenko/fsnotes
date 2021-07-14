@@ -26,20 +26,6 @@ extension ViewController {
         }
     }
 
-    @IBAction func makeSnapshot(_ sender: NSMenuItem) {
-        guard !isGitProcessLocked else { return }
-
-        guard let project = ViewController.shared()?.getSidebarProject() else { return }
-
-        isGitProcessLocked = true
-        DispatchQueue.global(qos: .background).async {
-            let repository = Git.sharedInstance().getRepository(by: project.getParent())
-            repository.initialize(from: project.getParent())
-            repository.commitAll()
-            self.isGitProcessLocked = false
-        }
-    }
-
     @IBAction func checkoutRevision(_ sender: NSMenuItem) {
         guard let commit = sender.representedObject as? Commit else { return }
         guard let note = EditTextView.note else { return }
