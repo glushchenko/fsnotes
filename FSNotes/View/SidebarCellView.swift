@@ -65,9 +65,7 @@ class SidebarCellView: NSTableCellView {
             // first responder
 
             if window?.firstResponder == superview?.superview {
-                label.textColor = .white
-                icon.image = type?.getIcon(white: true)
-                rowView.backgroundColor = NSColor(named: "background_selected_fr")!
+                applySelectedFirstResponder()
 
             // no first responder
 
@@ -84,5 +82,13 @@ class SidebarCellView: NSTableCellView {
             icon.image = type?.getIcon()
             rowView.backgroundColor = NSColor(named: "background_not_selected")!
         }
+    }
+
+    public func applySelectedFirstResponder() {
+        label.textColor = .white
+        icon.image = type?.getIcon(white: true)
+
+        guard let rowView = self.superview as? NSTableRowView else { return }
+        rowView.backgroundColor = NSColor(named: "background_selected_fr")!
     }
 }

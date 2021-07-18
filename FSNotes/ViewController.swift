@@ -34,6 +34,7 @@ class ViewController: NSViewController,
     var rowUpdaterTimer = Timer()
     let searchQueue = OperationQueue()
     var printWebView: WebView?
+    var tagsScannerQueue = [Note]()
 
     /* Git */
     public var snapshotsTimer = Timer()

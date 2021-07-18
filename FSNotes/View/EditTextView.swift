@@ -1131,6 +1131,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
                 }
             }
 
+            if let note = EditTextView.note,
+               let vc = ViewController.shared(),
+               !vc.tagsScannerQueue.contains(note) {
+                vc.tagsScannerQueue.append(note)
+            }
+
             tagsTimer?.invalidate()
             tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(scanTagsAndAutoRename), userInfo: nil, repeats: false)
         }
@@ -1186,31 +1192,36 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     @objc public func scanTagsAndAutoRename() {
-        guard let note = EditTextView.note else { return }
-        let result = note.scanContentTags()
+        guard let vc = ViewController.shared() else { return }
+        let notes = vc.tagsScannerQueue
 
-        guard let outline = ViewController.shared()?.sidebarOutlineView else { return }
+        for note in notes {
+            let result = note.scanContentTags()
+            guard let outline = ViewController.shared()?.sidebarOutlineView else { return }
 
-        let added = result.0
-        let removed = result.1
+            let added = result.0
+            let removed = result.1
 
-        if removed.count > 0 {
-            outline.removeTags(removed)
-        }
-
-        if added.count > 0 {
-            outline.addTags(added)
-        }
-
-        if UserDefaultsManagement.naming == .autoRename {
-            let title = note.title.withoutSpecialCharacters.trunc(length: 64)
-
-            if note.fileName != title && title.count > 0 && !note.isEncrypted() {
-                note.rename(to: title)
-
-                viewDelegate?.titleLabel.updateNotesTableView()
-                viewDelegate?.updateTitle(note: note)
+            if removed.count > 0 {
+                outline.removeTags(removed)
             }
+
+            if added.count > 0 {
+                outline.addTags(added)
+            }
+
+            if UserDefaultsManagement.naming == .autoRename {
+                let title = note.title.withoutSpecialCharacters.trunc(length: 64)
+
+                if note.fileName != title && title.count > 0 && !note.isEncrypted() {
+                    note.rename(to: title)
+
+                    viewDelegate?.titleLabel.updateNotesTableView()
+                    viewDelegate?.updateTitle(note: note)
+                }
+            }
+
+            ViewController.shared()?.tagsScannerQueue.removeAll(where: { $0 === note })
         }
     }
 

@@ -706,7 +706,7 @@ class SidebarOutlineView: NSOutlineView,
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
         alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let name = field.stringValue
+                let name = field.stringValue.replacingOccurrences(of: "\\s", with: "", options: NSString.CompareOptions.regularExpression, range: nil)
                 self.rename(tags: tags, name: name)
             }
 
@@ -1495,7 +1495,7 @@ class SidebarOutlineView: NSOutlineView,
         let rootTag = Tag(name: tag)
         let position = getRootTagPosition(for: rootTag)
         sidebarItems?.insert(rootTag, at: position)
-        self.insertItems(at: [position], inParent: nil, withAnimation: .slideDown)
+        self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
     }
 
     public func getRootTagPosition(for tag: Tag) -> Int {
@@ -1635,11 +1635,19 @@ class SidebarOutlineView: NSOutlineView,
 
         endUpdates()
 
+        // select inserted
         if let tag = insertTags.first?.components(separatedBy: "/").first {
             if let tag = sidebarItems?.first(where: { ($0 as? Tag)?.name == tag }) {
                 let index = row(forItem: tag)
-                selectRowIndexes([index], byExtendingSelection: true)
+
                 scrollRowToVisible(index)
+                selectRowIndexes([index], byExtendingSelection: true)
+
+                if let row = rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarCellView {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        cell.applySelectedFirstResponder()
+                    }
+                }
             }
         }
     }
