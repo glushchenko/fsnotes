@@ -1198,6 +1198,13 @@ class ViewController: NSViewController,
 
         vc.notesTableView.removeByNotes(notes: notes)
 
+        // Delete tags
+        for note in notes {
+            let tags = note.tags
+            note.tags.removeAll()
+            vc.sidebarOutlineView.removeTags(tags)
+        }
+
         vc.storage.removeNotes(notes: notes) { urls in
             if let appd = NSApplication.shared.delegate as? AppDelegate,
                 let md = appd.mainWindowController
