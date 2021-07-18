@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Are you sure you want to remove project \"%@\" and all files inside?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Attacher un stockage...";
+"Add External Folder..." = "Attacher un stockage...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Sauvegarder le stockage";
@@ -62,7 +62,7 @@
 "Delete" = "Delete";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Supprimer le dossier";
+"Delete Folder" = "Supprimer le dossier";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Detach storage";

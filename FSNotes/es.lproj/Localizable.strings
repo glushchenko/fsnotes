@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Adjuntar almacenamiento...";
+"Add External Folder..." = "Adjuntar almacenamiento...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Almacenamiento de respaldo";
@@ -62,7 +62,7 @@
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Eliminar carpeta";
+"Delete Folder" = "Eliminar carpeta";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Separar el almacenamiento";

@@ -13,7 +13,7 @@
 "Attach storage" = "Collega archivio";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Collega archivio...";
+"Add External Folder..." = "Collega archivio...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Salva archivio";
@@ -64,7 +64,7 @@
 "Delete" = "Elimina";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Elimina cartella";
+"Delete Folder" = "Elimina cartella";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Scollega archivio";

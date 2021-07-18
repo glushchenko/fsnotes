@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "هل انت متأكد من حذف المشروع \"%@\" وكل المفات التي بداخله";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "ارفاق تخزين...";
+"Add External Folder..." = "ارفاق تخزين...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Back up storage";
@@ -62,7 +62,7 @@
 "Delete" = "حذف";
 
 /* No comment provided by engineer. */
-"Delete folder" = "حذف المجلد";
+"Delete Folder" = "حذف المجلد";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Detach storage";

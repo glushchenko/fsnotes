@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "프로젝트 \"%@\"를 영구적으로 지우겠습니까？";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "저장소 추가...";
+"Add External Folder..." = "저장소 추가...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "저장소 백업";
@@ -62,7 +62,7 @@
 "Delete" = "삭제";
 
 /* No comment provided by engineer. */
-"Delete folder" = "폴더 삭제";
+"Delete Folder" = "폴더 삭제";
 
 /* No comment provided by engineer. */
 "Detach storage" = "저장소 분리";

@@ -146,14 +146,69 @@ extension NSMutableAttributedString {
         #endif
     }
 
-    public func replace(string: String, with attributedString: NSAttributedString? = nil) {
-        let content = attributedString ?? NSAttributedString()
-
-        while mutableString.contains(string) {
-            let range = mutableString.range(of: string)
-            if length >= range.upperBound {
-                replaceCharacters(in: range, with: content)
+    public func replaceTag(name: String, with replaceString: String) {
+        var scanRange = NSRange(location: 0, length: mutableString.length)
+        while true {
+            let searchRange = mutableString.range(of: name, options: .caseInsensitive, range: scanRange)
+            if searchRange.upperBound > mutableString.length {
+                break
             }
+
+            var location = searchRange.location
+            var prepend = 0
+
+            if searchRange.location > 0 {
+                prepend = 1
+                location -= 1
+            }
+
+            var length = searchRange.length + prepend
+            var append = 0
+
+            if searchRange.location + searchRange.length < mutableString.length {
+                append = 1
+                length += 1
+            }
+
+            let correctedRange = NSRange(location: location, length: length)
+            let result = mutableString.substring(with: correctedRange)
+
+            var replaceRange = searchRange
+
+            // drop string
+            if replaceString.count == 0 {
+                // space OR new line OR start position
+                if [" ", "\t", "\n"].contains(result.first) || prepend == 0 {
+                    if replaceString.count == 0 {
+                        if result.last == "/" {
+                            let scanLength = mutableString.length - searchRange.upperBound
+                            scanRange = NSRange(location: searchRange.upperBound, length: scanLength)
+
+                            continue
+                        }
+
+                        if [" ", "\n"].contains(result.last) {
+                            replaceRange = NSRange(location: searchRange.location, length: searchRange.length + 1)
+                        }
+                    }
+                }
+
+                // just replace
+                mutableString.replaceCharacters(in: replaceRange, with: replaceString)
+            } else {
+
+                // replace only if no tag chars
+                if ["/", " ", "\t", "\n"].contains(result.last) || append == 0 {
+                    mutableString.replaceCharacters(in: replaceRange, with: replaceString)
+                }
+            }
+
+            let scanLength = mutableString.length - (searchRange.location + append + replaceString.count)
+            if  scanLength <= 0 {
+                break
+            }
+
+            scanRange = NSRange(location: searchRange.location + replaceString.count + append, length: scanLength)
         }
     }
 }

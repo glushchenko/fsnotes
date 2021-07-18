@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Подключить хранилище...";
+"Add External Folder..." = "Подключить хранилище...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Создать резервную копию";
@@ -62,7 +62,7 @@
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Удалить директорию";
+"Delete Folder" = "Удалить директорию";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Отключить хранилище";

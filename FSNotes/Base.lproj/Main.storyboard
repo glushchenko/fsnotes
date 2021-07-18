@@ -207,17 +207,34 @@ CA
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Folder" id="Fuh-qO-nt2">
+                            <menuItem title="Sidebar" id="Fuh-qO-nt2">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Folder" identifier="folderMenu" id="BYI-2F-BJo">
+                                <menu key="submenu" title="Sidebar" identifier="folderMenu" id="BYI-2F-BJo">
                                     <items>
-                                        <menuItem title="Attach storage..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
+                                        <menuItem title="Add External Folder..." identifier="folderMenu.attach" id="S8Z-Js-fwB">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="addProject:" target="yxb-XH-bXh" id="TqX-mx-eLd"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Delete folder" identifier="folderMenu.delete" id="RuM-sf-kcZ">
+                                        <menuItem title="Back Up Now" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
+                                            <connections>
+                                                <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenu.new" id="SrH-fe-Hog">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="addProject:" target="yxb-XH-bXh" id="txw-mB-jJk"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="Tap-iY-hyA">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
+                                            <connections>
+                                                <action selector="renameFolderMenu:" target="yxb-XH-bXh" id="mum-br-J1i"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Delete Folder" identifier="folderMenu.delete" id="RuM-sf-kcZ">
                                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -226,42 +243,16 @@ CA
                                                 <action selector="deleteMenu:" target="yxb-XH-bXh" id="9eH-nN-saE"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Back up storage" keyEquivalent="S" identifier="folderMenu.backup" id="iIP-wI-OaZ">
-                                            <connections>
-                                                <action selector="makeSnapshot:" target="yxb-XH-bXh" id="N8G-4B-6U3"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="F5A-zs-zwP">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>
                                                 <action selector="revealInFinder:" target="yxb-XH-bXh" id="sAU-Li-Rhr"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New folder" keyEquivalent="N" identifier="folderMenu.new" id="SrH-fe-Hog">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                                            <connections>
-                                                <action selector="addProject:" target="yxb-XH-bXh" id="txw-mB-jJk"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Rename folder" keyEquivalent="R" identifier="folderMenu.rename" id="Tap-iY-hyA">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES"/>
-                                            <connections>
-                                                <action selector="renameFolderMenu:" target="yxb-XH-bXh" id="mum-br-J1i"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Show view options" keyEquivalent="," identifier="folderMenu.options" id="Tcg-83-bZN">
+                                        <menuItem title="Show Options" keyEquivalent="," identifier="folderMenu.options" id="Tcg-83-bZN">
                                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                                             <connections>
                                                 <action selector="openSettings:" target="yxb-XH-bXh" id="0rs-lb-8mh"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="cYe-fZ-e9N">
-                                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="removeTags:" target="yxb-XH-bXh" id="evt-6I-6mN"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -2016,30 +2007,24 @@ CA
                 </menu>
                 <menu id="nuz-kc-UUC">
                     <items>
-                        <menuItem title="Back up storage" keyEquivalent="S" identifier="context.folderMenu.backup" id="PvQ-Pd-zsZ">
+                        <menuItem title="Back Up Now" keyEquivalent="S" identifier="context.folderMenu.backup" id="PvQ-Pd-zsZ">
                             <connections>
                                 <action selector="makeSnapshot:" target="rPt-NT-nkU" id="cLp-f1-6Ua"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="New folder" keyEquivalent="N" identifier="folderMenu.new" id="3zv-SD-lSX">
+                        <menuItem title="Create Folder" keyEquivalent="N" identifier="folderMenu.new" id="3zv-SD-lSX">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="addProject:" target="rPt-NT-nkU" id="yjG-Jc-AJN"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Rename folder" keyEquivalent="R" identifier="folderMenu.rename" id="fzU-ZR-Ubv">
+                        <menuItem title="Rename Folder" keyEquivalent="R" identifier="folderMenu.rename" id="fzU-ZR-Ubv">
                             <modifierMask key="keyEquivalentModifierMask" option="YES"/>
                             <connections>
                                 <action selector="renameFolderMenu:" target="rPt-NT-nkU" id="P1a-Na-Ngh"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">
-                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                            <connections>
-                                <action selector="revealInFinder:" target="rPt-NT-nkU" id="o9s-WD-Vqu"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Delete folder" identifier="folderMenu.delete" id="RwR-P0-ycK">
+                        <menuItem title="Delete Folder" identifier="folderMenu.delete" id="RwR-P0-ycK">
                             <string key="keyEquivalent" base64-UTF8="YES">
 CA
 </string>
@@ -2048,19 +2033,16 @@ CA
                                 <action selector="deleteMenu:" target="rPt-NT-nkU" id="U7D-ZD-89h"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Show view options" keyEquivalent="," identifier="folderMenu.options" id="qs2-5J-Q3n">
+                        <menuItem title="Show in Finder" keyEquivalent="R" identifier="folderMenu.reveal" id="goN-LO-L7l">
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                            <connections>
+                                <action selector="revealInFinder:" target="rPt-NT-nkU" id="o9s-WD-Vqu"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Show Options" keyEquivalent="," identifier="folderMenu.options" id="qs2-5J-Q3n">
                             <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
                             <connections>
                                 <action selector="openProjectViewSettings:" target="rPt-NT-nkU" id="kzR-77-haW"/>
-                            </connections>
-                        </menuItem>
-                        <menuItem title="Remove Tags" identifier="folder.removeTags" id="nmM-LW-LBc">
-                            <string key="keyEquivalent" base64-UTF8="YES">
-CA
-</string>
-                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
-                            <connections>
-                                <action selector="removeTags:" target="rPt-NT-nkU" id="Qxv-wR-6oh"/>
                             </connections>
                         </menuItem>
                     </items>

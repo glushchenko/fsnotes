@@ -802,13 +802,16 @@ public class Note: NSObject  {
             self.content = content.unLoad()
         }
 
-        let replaceWith = NSAttributedString(string: string)
-        if string.count == 0 {
-            content.replace(string: tag + " ", with: replaceWith)
-            content.replace(string: tag, with: replaceWith)
+        content.replaceTag(name: tag, with: string)
+        save()
+    }
+
+    public func delete(tag: String) {
+        if isMarkdown() {
+            self.content = content.unLoad()
         }
 
-        content.replace(string: tag, with: replaceWith)
+        content.replaceTag(name: tag, with: "")
         save()
     }
         

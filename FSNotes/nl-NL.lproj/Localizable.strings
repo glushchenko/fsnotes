@@ -11,7 +11,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Weet je zeker dat je project \"%@\" en alle bestanden daarin wilt verwijderen?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Koppelen opslag...";
+"Add External Folder..." = "Koppelen opslag...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Back-up opslag";
@@ -62,7 +62,7 @@
 "Delete" = "Verwijder";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Verwijder map";
+"Delete Folder" = "Verwijder map";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Ontkoppelen opslag";
