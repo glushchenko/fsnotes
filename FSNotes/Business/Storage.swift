@@ -1452,17 +1452,18 @@ class Storage {
             }
         }
 
-        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent("projects.state")
-
-        NSKeyedArchiver.archiveRootObject(urls, toFile: temporary.path)
+        if var documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            documentDir.appendPathComponent("projects.state")
+            NSKeyedArchiver.archiveRootObject(urls, toFile: documentDir.path)
+        }
     }
 
     public func restoreProjectsExpandState() {
-        var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
-        temporary.appendPathComponent("projects.state")
+        guard var documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 
-        guard let urls = NSKeyedUnarchiver.unarchiveObject(withFile: temporary.path) as? [URL] else { return }
+        documentDir.appendPathComponent("projects.state")
+
+        guard let urls = NSKeyedUnarchiver.unarchiveObject(withFile: documentDir.path) as? [URL] else { return }
 
         for project in projects {
             if urls.contains(project.url) {
