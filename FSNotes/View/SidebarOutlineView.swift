@@ -433,6 +433,7 @@ class SidebarOutlineView: NSOutlineView,
         if let si = item as? SidebarItem, si.type == .Label {
             return 15
         }
+
         return 25
     }
     
@@ -493,6 +494,16 @@ class SidebarOutlineView: NSOutlineView,
             cell.icon.image = si.type.getIcon()
             cell.icon.isHidden = false
             cell.label.frame.origin.x = 25
+
+            if si.type == .Header {
+                let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self) as! SidebarHeaderCellView
+
+                cell.label.frame.origin.x = 2
+                cell.label.stringValue = si.name
+                //cell.icon.image = si.icon?.tint(color: .gray)
+
+                return cell
+            }
         }
 
         return cell
@@ -765,6 +776,19 @@ class SidebarOutlineView: NSOutlineView,
 
         selectRowIndexes([0], byExtendingSelection: false)
         vc.notesTableView.reloadData()
+
+        // Remove unused header
+        if storage.getExternalProjects().count == 0 {
+            let name = NSLocalizedString("External Folders", comment: "")
+            if let index = sidebarItems?.firstIndex(where: {
+                ($0 as? SidebarItem)?.type == .Header &&
+                ($0 as? SidebarItem)?.name == name
+            }) {
+
+                sidebarItems?.remove(at: index)
+                removeItems(at: [index], inParent: nil, withAnimation: .effectFade)
+            }
+        }
     }
 
     @IBAction func addProject(_ sender: Any) {
@@ -964,7 +988,7 @@ class SidebarOutlineView: NSOutlineView,
 
         self.storage.removeBy(project: project)
 
-        if let parent = project.parent {
+        if let parent = project.parent, !parent.isRoot {
             if let index = parent.child.firstIndex(of: project) {
                 parent.child.removeAll(where: { $0 == project })
 
@@ -995,7 +1019,14 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         storage.noteList.append(contentsOf: notes)
-        insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+
+        if !parent.isRoot {
+            insertItems(at: [0], inParent: parent, withAnimation: .effectFade)
+        } else {
+            let position = getRootProjectPosition(for: project)
+            sidebarItems?.insert(project, at: position)
+            self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
+        }
 
         viewDelegate?.fsManager?.reloadObservedFolders()
     }
@@ -1038,7 +1069,8 @@ class SidebarOutlineView: NSOutlineView,
                     Project(
                         storage: self.storage,
                         url: url,
-                        isRoot: true
+                        isRoot: true,
+                        isExternal: true
                     )
                 
                 self.storage.assignTree(for: newProject) { projects in
@@ -1077,6 +1109,16 @@ class SidebarOutlineView: NSOutlineView,
         for i in v.selectedRowIndexes {
             if let project = item(atRow: i) as? Project {
                 projects.append(project)
+            }
+        }
+
+        for project in projects {
+            if let child = project.getAllChild() {
+                for item in child {
+                    if !projects.contains(item) {
+                        projects.append(item)
+                    }
+                }
             }
         }
 
@@ -1311,7 +1353,6 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         endUpdates()
-        checkTagsHeaderState()
     }
 
     public func removeTags(_ tags: [String]) {
@@ -1328,8 +1369,6 @@ class SidebarOutlineView: NSOutlineView,
             remove(tagName: tag)
         }
         endUpdates()
-
-        checkTagsHeaderState()
     }
 
     public func isAllowTagRemoving(_ name: String) -> Bool {
@@ -1389,45 +1428,7 @@ class SidebarOutlineView: NSOutlineView,
     private func loadAllTags() {
         let tags = getAllTags()
 
-        if tags.count > 0 {
-            showTagsHeader()
-        } else {
-            hideTagsHeader()
-        }
-
         addTags(tags.sorted(), shouldUnloadOld: true)
-    }
-
-    private func checkTagsHeaderState() {
-        let qty = sidebarItems?.filter({ ($0 as? Tag) != nil }).count ?? 0
-
-        if qty > 0 {
-            showTagsHeader()
-        } else {
-            hideTagsHeader()
-        }
-    }
-
-    private func showTagsHeader() {
-        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
-
-        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == localized}) as? SidebarItem {
-            let index = self.row(forItem: item)
-            if index > -1, let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
-                cell.isHidden = false
-            }
-        }
-    }
-
-    public func hideTagsHeader() {
-        let localized = NSLocalizedString("Tags", comment: "Sidebar label")
-
-        if let item = sidebarItems?.first(where: {($0 as? SidebarItem)?.name == localized}) as? SidebarItem {
-            let index = self.row(forItem: item)
-            if index > -1, let row = self.rowView(atRow: index, makeIfNecessary: false), let cell = row.view(atColumn: 0) as? SidebarHeaderCellView {
-                cell.isHidden = true
-            }
-        }
     }
 
     public func select(tag: String) {
@@ -1512,6 +1513,31 @@ class SidebarOutlineView: NSOutlineView,
         let sorted = tags.sorted(by: { $0.name.lowercased() < $1.name.lowercased() })
         if let index = sorted.firstIndex(where: { $0 === tag }) {
             return index + offset
+        }
+
+        return sidebarItems?.count ?? 0
+    }
+
+    public func getRootProjectPosition(for project: Project) -> Int {
+        guard let offset = sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.project?.isDefault == true }) else {
+            return sidebarItems?.count ?? 0
+        }
+
+        guard var projects = sidebarItems?
+            .filter({
+                ($0 as? Project) !== nil &&
+                ($0 as? Project)?.isExternal == false &&
+                ($0 as? Project)?.isArchive == false &&
+                ($0 as? Project)?.isTrash == false
+            }) as? [Project] else {
+            return sidebarItems?.count ?? 0
+        }
+
+        projects.append(project)
+
+        let sorted = projects.sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+        if let index = sorted.firstIndex(where: { $0 === project }) {
+            return index + offset + 1
         }
 
         return sidebarItems?.count ?? 0

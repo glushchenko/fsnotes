@@ -44,9 +44,28 @@ class Sidebar {
 
         list.append(SidebarItem(name: "", type: .Label))
 
-        let rootProjects = storage.getRootProjects()
-        for project in rootProjects {
-            list.append(project)
+
+        if let defaultProject = storage.getDefault() {
+            let name = getDefaultLabelName(project: defaultProject)
+            let icon = NSImage(named: "sidebar_icloud_drive")
+            list.append(SidebarItem(name: name, project: defaultProject, type: .Header, icon: icon))
+
+            let subDefault = defaultProject.child.sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+            for project in subDefault {
+                list.append(project)
+            }
+        }
+
+        let externalProjects = storage.getExternalProjects()
+        if externalProjects.count > 0 {
+            let icon = NSImage(named: "sidebar_external")
+            let name = NSLocalizedString("External Folders", comment: "")
+            list.append(SidebarItem(name: "", type: .Label))
+            list.append(SidebarItem(name: name, type: .Header, icon: icon))
+
+            for project in externalProjects {
+                list.append(project)
+            }
         }
 
         list.append(SidebarItem(name: "", type: .Label))
@@ -54,5 +73,21 @@ class Sidebar {
     
     public func getList() -> [Any] {
         return list
+    }
+
+    private func getDefaultLabelName(project: Project) -> String {
+        var name = project.label
+
+        let iCloudPath = "/Users/\(NSUserName())/Library/Mobile Documents"
+        if project.url.path.starts(with: iCloudPath) {
+            name = NSLocalizedString("iCloud Drive", comment: "")
+        }
+
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.path
+        if let path = documentsPath, project.url.path.starts(with: path) {
+            name = NSLocalizedString("Documents", comment: "")
+        }
+
+        return name
     }
 }

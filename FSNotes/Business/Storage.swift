@@ -88,7 +88,7 @@ class Storage {
                 continue
             }
 
-            let project = Project(storage: self, url: url, label: url.lastPathComponent, isRoot: true)
+            let project = Project(storage: self, url: url, label: url.lastPathComponent, isRoot: true, isExternal: true)
             assignTree(for: project)
         }
 
@@ -225,7 +225,11 @@ class Storage {
     }
     
     public func getRootProjects() -> [Project] {
-        return projects.filter({ $0.isRoot && $0.url != UserDefaultsManagement.archiveDirectory }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+        return projects.filter({ $0.isRoot && !$0.isExternal && $0.url != UserDefaultsManagement.archiveDirectory }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
+    }
+
+    public func getExternalProjects() -> [Project] {
+        return projects.filter({ $0.isExternal && $0.url != UserDefaultsManagement.archiveDirectory }).sorted(by: { $0.label.lowercased() < $1.label.lowercased() })
     }
 
     public func getDefaultTrash() -> Project? {

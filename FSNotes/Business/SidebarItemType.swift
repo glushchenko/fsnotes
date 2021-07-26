@@ -19,6 +19,7 @@ enum SidebarItemType: Int {
     case Inbox = 0x07
     case Tag = 0x08
     case Project = 0x09
+    case Header = 0x10
 
     #if os(OSX)
     public func getIcon(white: Bool = false) -> NSImage? {
@@ -39,6 +40,8 @@ enum SidebarItemType: Int {
             return NSImage(named: "sidebar_tag" + postfix)
         case 0x09:
             return NSImage(named: "sidebar_project" + postfix)
+        case 0x10:
+            return NSImage(named: "sidebar_icloud_drive");
         default:
             return nil
         }

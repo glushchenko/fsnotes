@@ -1801,6 +1801,7 @@ class ViewController: NSViewController,
                 || type == .Todo && note.project.showInCommon
                 || type == .Archive && note.project.isArchive
                 || !UserDefaultsManagement.inlineTags && tags != nil
+                || projects?.contains(note.project) == true
             ) && (
                 type == .Trash && note.isTrash()
                     || type != .Trash && !note.isTrash()

@@ -32,6 +32,10 @@ class SidebarItem {
     }
         
     public func isSelectable() -> Bool {
+        if type == .Header && project == nil {
+            return false
+        }
+
         if type == .Label {
             return false
         }

@@ -555,4 +555,21 @@ public class Project: Equatable {
     public func isExpandable() -> Bool {
         return child.count > 0
     }
+
+    public func getAllChild() -> [Project]? {
+        var projects = [Project]()
+        projects.append(self)
+
+        for item in child {
+            if item.child.count > 0 {
+                if let sub = item.getAllChild() {
+                    projects.append(contentsOf: sub)
+                }
+            } else {
+                projects.append(item)
+            }
+        }
+
+        return projects
+    }
 }
