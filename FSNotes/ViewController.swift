@@ -768,6 +768,11 @@ class ViewController: NSViewController,
         ) {
             search.searchesMenu = nil
 
+            if NSApplication.shared.mainWindow?.firstResponder === editArea, editArea.selectedRange().length > 0 {
+                editArea.selectedRange = NSRange(location: editArea.selectedRange().upperBound, length: 0)
+                return false
+            }
+
             if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview, textField.isKind(of: NameTextField.self) {
                 NSApp.mainWindow?.makeFirstResponder( self.notesTableView)
                 return false

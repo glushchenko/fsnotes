@@ -86,8 +86,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         if (!flag) {
             mainWindowController?.makeNew()
-        } else {
-            mainWindowController?.refreshEditArea()
         }
                 
         return true

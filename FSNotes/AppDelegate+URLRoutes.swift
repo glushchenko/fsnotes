@@ -145,10 +145,11 @@ extension AppDelegate {
     func search(query: String) {
         guard let controller = ViewController.shared() else { return }
 
-        controller.search.stringValue = query
         controller.updateTable(search: true, searchText: query, saveHistory: true) {
-            if let note = controller.notesTableView.noteList.first {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                controller.search.stringValue = query
+
+                if let note = controller.notesTableView.noteList.first {
                     controller.search.suggestAutocomplete(note, filter: query)
                 }
             }

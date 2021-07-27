@@ -430,8 +430,14 @@ class SidebarOutlineView: NSOutlineView,
     }
     
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
-        if let si = item as? SidebarItem, si.type == .Label {
-            return 15
+        if let si = item as? SidebarItem {
+            if si.type == .Label {
+                return 15
+            }
+
+            if si.type == .Header {
+                return 35
+            }
         }
 
         return 25
