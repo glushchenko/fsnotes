@@ -1342,6 +1342,18 @@ public class UserDefaultsManagement {
         }
     }
 
+    static var sidebarVisibilityUntagged: Bool {
+        get {
+            if let result = shared?.object(forKey: "sidebarVisibilityUntagged") as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: "sidebarVisibilityUntagged")
+        }
+    }
+
     static var sidebarVisibilityArchive: Bool {
         get {
             if let result = shared?.object(forKey: "sidebarVisibilityArchive") as? Bool {

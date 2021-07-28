@@ -17,13 +17,18 @@ class Sidebar {
     init() {
         var system = [SidebarItem]()
 
-        if UserDefaultsManagement.sidebarVisibilityNotes {
-            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
-            system.append(notes)
-        }
+//        if UserDefaultsManagement.sidebarVisibilityNotes {
+//            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
+//            system.append(notes)
+//        }
 
         if UserDefaultsManagement.sidebarVisibilityTodo {
             let todo = SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo)
+            system.append(todo)
+        }
+
+        if UserDefaultsManagement.sidebarVisibilityUntagged {
+            let todo = SidebarItem(name: NSLocalizedString("Untagged", comment: ""), type: .Untagged)
             system.append(todo)
         }
 
@@ -42,7 +47,7 @@ class Sidebar {
             list = system
         }
 
-        list.append(SidebarItem(name: "", type: .Label))
+        //list.append(SidebarItem(name: "", type: .Label))
 
 
         if let defaultProject = storage.getDefault() {

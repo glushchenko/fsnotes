@@ -297,7 +297,7 @@ class SidebarOutlineView: NSOutlineView,
                         viewDelegate?.notesTableView.reloadRow(note: note)
 
                         if EditTextView.note == note {
-                            viewDelegate?.refillEditArea()
+                            viewDelegate?.refillEditArea(force: true)
                         }
                     }
                 }
@@ -380,7 +380,7 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
 
-        if item as? Project != nil {
+        if item as? Project != nil || (item as? SidebarItem)?.project != nil {
             return isLocalNote ? .move : .copy
         }
 
@@ -436,7 +436,7 @@ class SidebarOutlineView: NSOutlineView,
             }
 
             if si.type == .Header {
-                return 35
+                return 50
             }
         }
 

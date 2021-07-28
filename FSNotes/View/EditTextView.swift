@@ -1533,7 +1533,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
         panel.canChooseFiles = true
         panel.canCreateDirectories = true
         panel.begin { (result) -> Void in
-            if result.rawValue == NSFileHandlingPanelOKButton {
+            if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
 
                 for url in urls {

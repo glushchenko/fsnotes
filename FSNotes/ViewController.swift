@@ -810,6 +810,7 @@ class ViewController: NSViewController,
             }
 
             sidebarOutlineView.deselectAll(nil)
+            sidebarOutlineView.scrollRowToVisible(0)
             cleanSearchAndEditArea()
 
             return true
@@ -1803,6 +1804,7 @@ class ViewController: NSViewController,
                 type == .All && !note.project.isArchive && note.project.showInCommon
                 || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
                 || type == .Trash
+                || type == .Untagged && note.tags.count == 0
                 || type == .Todo && note.project.showInCommon
                 || type == .Archive && note.project.isArchive
                 || !UserDefaultsManagement.inlineTags && tags != nil

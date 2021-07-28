@@ -503,6 +503,7 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
                     cell.loadImagesPreview(position: i, urls: urls)
                     cell.attachHeaders(note: note)
                     cell.renderPin()
+                    cell.applyPreviewStyle()
 
                     self.noteHeightOfRows(withIndexesChanged: [i])
                 }

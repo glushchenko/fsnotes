@@ -1961,7 +1961,8 @@ public class Note: NSObject  {
         let string = content.attributedSubstring(from: lastParRange).string.trim()
 
         if string.count != 0 && !string.starts(with: "#") {
-            content.append(NSAttributedString(string: "\n\n"))
+            let newLine = NSAttributedString(string: "\n\n")
+            content.append(newLine)
         }
 
         var prefix = String()

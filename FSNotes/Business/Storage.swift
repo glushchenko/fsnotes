@@ -384,7 +384,7 @@ class Storage {
             note.load()
 
             if !note.isTrash() && !note.project.isArchive {
-                _ = note.loadTags()
+                note.loadTags()
             }
         }
 
@@ -394,7 +394,7 @@ class Storage {
     public func loadAllTagsOnly() {
         for note in noteList {
             if !note.isTrash() && !note.project.isArchive {
-                _ = note.loadTags()
+                note.loadTags()
             }
         }
 
