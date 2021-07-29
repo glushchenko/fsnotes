@@ -650,6 +650,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     func fill(note: Note, highlight: Bool = false, saveTyping: Bool = false, force: Bool = false) {
+
+        // Hack for invalidate prev layout data (order is important, only before fill)
+        if let length = textStorage?.length {
+            textStorage?.layoutManagers.first?.invalidateDisplay(forGlyphRange: NSRange(location: 0, length: length))
+        }
+
         registerHandoff(note: note)
 
         // resets timer if editor refilled 

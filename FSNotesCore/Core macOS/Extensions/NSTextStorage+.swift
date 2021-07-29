@@ -40,6 +40,8 @@ extension NSTextStorage {
         let font = UserDefaultsManagement.noteFont!
 
         mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, parRange, _, _ in
+            var parRange = parRange
+
             if let value = value,
                 value.count > 1,
 
@@ -74,6 +76,12 @@ extension NSTextStorage {
                 paragraph.alignment = .left
                 paragraph.headIndent = width
             } else {
+
+                // Fixes new line size (proper line spacing)
+                if parRange.length == 0 && parRange.location > 0 {
+                    parRange = NSRange(location: parRange.location, length: 1)
+                }
+
                 paragraph = NSMutableParagraphStyle()
                 paragraph.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
                 paragraph.alignment = .left
