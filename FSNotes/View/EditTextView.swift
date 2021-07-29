@@ -573,10 +573,6 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return
         }
 
-        if pasteImageFromClipboard(in: note) {
-            return
-        }
-
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
             let attributed = NSMutableAttributedString(string: clipboard)
             attributed.loadCheckboxes()
@@ -590,6 +586,10 @@ class EditTextView: NSTextView, NSTextFinderClient {
             self.breakUndoCoalescing()
 
             saveTextStorageContent(to: note)
+            return
+        }
+
+        if pasteImageFromClipboard(in: note) {
             return
         }
 
@@ -1816,16 +1816,30 @@ class EditTextView: NSTextView, NSTextFinderClient {
             return saveFile(url: url as URL, in: note)
         }
 
-        if let clipboard = NSPasteboard.general.data(forType: .tiff), let image = NSImage(data: clipboard), let jpgData = image.jpgData {
+        if NSPasteboard.general.data(forType: .png) != nil ||
+            NSPasteboard.general.data(forType: .tiff) != nil {
+
             EditTextView.shouldForceRescan = true
 
-            saveClipboard(data: jpgData, note: note)
+            var ext = "png"
+            var data = NSPasteboard.general.data(forType: .png)
+
+            if data == nil {
+                data = NSPasteboard.general.data(forType: .tiff)
+                ext = "jpg"
+            }
+
+            if let data = data {
+                saveClipboard(data: data, note: note, ext: ext)
+            }
+
             saveTextStorageContent(to: note)
             note.save()
 
             if let container = textContainer {
                 textStorage?.sizeAttachmentImages(container: container)
             }
+
             return true
         }
 
