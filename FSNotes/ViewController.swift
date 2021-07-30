@@ -1467,6 +1467,7 @@ class ViewController: NSViewController,
 
         editArea.clear()
         refillEditArea(force: true)
+        NSApp.mainWindow?.makeFirstResponder(notesTableView)
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {
@@ -2576,6 +2577,8 @@ class ViewController: NSViewController,
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
                     self.editArea.clear()
+                    self.refillEditArea()
+                    NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
                 }
                 notes.removeAll { $0 === note }
             }

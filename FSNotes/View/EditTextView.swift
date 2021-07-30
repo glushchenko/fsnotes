@@ -212,10 +212,13 @@ class EditTextView: NSTextView, NSTextFinderClient {
         if glyphRect.contains(properPoint), isTodo(index) {
             guard let f = self.getTextFormatter() else { return }
             f.toggleTodo(index)
-            
+
+            NSApp.mainWindow?.makeFirstResponder(nil)
+
             DispatchQueue.main.async {
                 NSCursor.pointingHand.set()
             }
+            
             return
         }
         
