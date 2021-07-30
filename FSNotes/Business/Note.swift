@@ -1960,7 +1960,9 @@ public class Note: NSObject  {
         let lastParRange = content.mutableString.paragraphRange(for: NSRange(location: content.length, length: 0))
         let string = content.attributedSubstring(from: lastParRange).string.trim()
 
-        if string.count != 0 && !string.starts(with: "#") {
+        if string.count != 0 && (
+            !string.starts(with: "#") || string.starts(with: "# ")
+        ) {
             let newLine = NSAttributedString(string: "\n\n")
             content.append(newLine)
         }

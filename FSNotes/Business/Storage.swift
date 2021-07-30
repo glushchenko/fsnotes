@@ -382,10 +382,7 @@ class Storage {
     public func loadAllTags() {
         for note in noteList {
             note.load()
-
-            if !note.isTrash() && !note.project.isArchive {
-                note.loadTags()
-            }
+            note.loadTags()
         }
 
         isFinishedTagsLoading = true
@@ -393,9 +390,7 @@ class Storage {
 
     public func loadAllTagsOnly() {
         for note in noteList {
-            if !note.isTrash() && !note.project.isArchive {
-                note.loadTags()
-            }
+            note.loadTags()
         }
 
         isFinishedTagsLoading = true
