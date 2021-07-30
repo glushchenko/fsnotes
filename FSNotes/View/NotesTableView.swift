@@ -216,7 +216,9 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             let note = noteList[row]
             urls.append(note.url)
 
-            title = note.title
+            if let unwarpped = note.title.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                title = "fsnotes://find/" +  unwarpped
+            }
         }
 
         pboard.setString(title, forType: NSPasteboard.PasteboardType.string)

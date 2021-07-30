@@ -1681,7 +1681,23 @@ class EditTextView: NSTextView, NSTextFinderClient {
         return true
     }
 
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        if sender.draggingPasteboard.data(forType: NSPasteboard.noteType) != nil {
+            let dropPoint = convert(sender.draggingLocation, from: nil)
+            let caretLocation = characterIndexForInsertion(at: dropPoint)
+            setSelectedRange(NSRange(location: caretLocation, length: 0))
+            return .copy
+        }
+
+        return super.draggingUpdated(sender)
+    }
+
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        if sender.draggingPasteboard.data(forType: NSPasteboard.noteType) != nil {
+            NSApp.mainWindow?.makeFirstResponder(self)
+            return .copy
+        }
+
         guard let selected = attributedSubstring(forProposedRange: selectedRange(), actualRange: nil) else { return .generic }
         
         let attributedString = NSMutableAttributedString(attributedString: selected)

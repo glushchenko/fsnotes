@@ -351,6 +351,8 @@ class ViewController: NSViewController,
             self.editArea.updateTextContainerInset()
         }
 
+        notesTableView.setDraggingSourceOperationMask(.every, forLocal: false)
+
         editArea.textContainerInset.height = 10
         editArea.isEditable = false
 
