@@ -434,8 +434,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
 
-    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false) -> String {
-        var css = String()
+    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false, useFixedImageHeight: Bool = true) -> String {
+        var css =
+            useFixedImageHeight
+                ? String("img { max-width: 100%; max-height: 90vh; }")
+                : String()
 
         if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
             if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {

@@ -256,8 +256,6 @@ img {
     border-style: none;
     width: auto;
     height: auto;
-    max-width: 100%;
-    max-height: 90vh;
 }
 canvas {
     border-radius: 3px;

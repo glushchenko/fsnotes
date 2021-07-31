@@ -95,6 +95,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
 
+        let printDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Print")
+        try? FileManager.default.removeItem(at: printDir)
+
         let encryption = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Encryption")
         try? FileManager.default.removeItem(at: encryption)
 
