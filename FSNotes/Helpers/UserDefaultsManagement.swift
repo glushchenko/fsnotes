@@ -1311,7 +1311,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: "sidebarVisibilityInbox") as? Bool {
                 return result
             }
-            return true
+            return false
         }
         set {
             shared?.set(newValue, forKey: "sidebarVisibilityInbox")
@@ -1323,7 +1323,7 @@ public class UserDefaultsManagement {
             if let result = shared?.object(forKey: "sidebarVisibilityNotes") as? Bool {
                 return result
             }
-            return true
+            return false
         }
         set {
             shared?.set(newValue, forKey: "sidebarVisibilityNotes")

@@ -17,10 +17,10 @@ class Sidebar {
     init() {
         var system = [SidebarItem]()
 
-//        if UserDefaultsManagement.sidebarVisibilityNotes {
-//            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
-//            system.append(notes)
-//        }
+        if UserDefaultsManagement.sidebarVisibilityNotes {
+            let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
+            system.append(notes)
+        }
 
         if UserDefaultsManagement.sidebarVisibilityTodo {
             let todo = SidebarItem(name: NSLocalizedString("Todo", comment: ""), type: .Todo)

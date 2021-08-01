@@ -697,6 +697,12 @@ CA
                                                             <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="9eO-fj-M9I"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem title="Untagged" state="on" tag="6" id="BX0-nb-tVk">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="L4m-js-agn" id="Je9-DX-4lc"/>
+                                                        </connections>
+                                                    </menuItem>
                                                     <menuItem title="Todo" state="on" tag="3" id="e0G-y0-N0C">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>

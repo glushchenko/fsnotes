@@ -323,6 +323,8 @@ class ViewController: NSViewController,
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityArchive ? .on : .off
                 case 5:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
+                case 6:
+                    menuItem.state =     UserDefaultsManagement.sidebarVisibilityUntagged ? .on : .off
                 default:
                     break
                 }
@@ -2315,6 +2317,8 @@ class ViewController: NSViewController,
                 UserDefaultsManagement.sidebarVisibilityArchive = isChecked
             case 5:
                 UserDefaultsManagement.sidebarVisibilityTrash = isChecked
+            case 6:
+                UserDefaultsManagement.sidebarVisibilityUntagged = isChecked
             default:
                 break
         }
