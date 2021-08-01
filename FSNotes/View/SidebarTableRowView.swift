@@ -10,6 +10,11 @@ import Cocoa
 
 class SidebarTableRowView: NSTableRowView {
     override func drawSelection(in dirtyRect: NSRect) {
+        guard UserDefaults.standard.value(forKey: "AppleAccentColor") == nil else {
+            super.drawSelection(in: dirtyRect)
+            return
+        }
+
         if self.selectionHighlightStyle != .none {
             let selectionRect = NSInsetRect(self.bounds, 0, 0)
 
