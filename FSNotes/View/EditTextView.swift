@@ -37,8 +37,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
     
     override func becomeFirstResponder() -> Bool {
-        if let note = EditTextView.note, note.container == .encryptedTextPack {
-            return false
+        if let note = EditTextView.note {
+            if note.container == .encryptedTextPack {
+                return false
+            }
+
+            removeHighlight()
         }
         
         return super.becomeFirstResponder()
@@ -1467,7 +1471,12 @@ class EditTextView: NSTextView, NSTextFinderClient {
 
     public func scrollToCursor() {
         let cursorRange = NSMakeRange(self.selectedRange().location, 0)
-        scrollRangeToVisible(cursorRange)
+
+        // DispatchQueue fixes rare bug when textStorage invalidation not working (blank page instead text)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.scrollRangeToVisible(cursorRange)
+        }
     }
     
     public func hasFocus() -> Bool {
