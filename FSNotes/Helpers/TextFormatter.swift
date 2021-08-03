@@ -500,6 +500,7 @@ public class TextFormatter {
     }
     
     public func header(_ string: String) {
+        let fullSelection = selectedRange.length > 0
         guard let pRange = getParagraphRange() else { return }
 
 #if os(iOS)
@@ -532,7 +533,13 @@ public class TextFormatter {
         }
 
         let diff = paragraph.contains("\n") ? 1 : 0
-        let selectRange = NSRange(location: pRange.location + paragraph.count - diff, length: 0)
+
+        var selectRange = NSRange(location: pRange.location + paragraph.count - diff, length: 0)
+
+        if fullSelection {
+            selectRange = NSRange(location: pRange.location, length: paragraph.count - diff)
+        }
+
         insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
 #endif
     }
@@ -793,6 +800,25 @@ public class TextFormatter {
 
         var result = String()
         for line in lines {
+
+            // Removes extra chars identified as list items start
+
+            var line = line
+
+            let digitRegex = try! NSRegularExpression(pattern: "^([0-9]+\\. )")
+            let digitRegexResult = digitRegex.firstMatch(in: line, range: NSRange(0..<line.count))
+
+            let charRegex = try! NSRegularExpression(pattern: "^([-*–+]+ )")
+            let charRegexResult = charRegex.firstMatch(in: line, range: NSRange(0..<line.count))
+
+            if let result = digitRegexResult {
+                let qty = result.range.length
+                line = String(line.dropFirst(qty))
+            } else if let result = charRegexResult, !line.contains("- [") {
+                let qty = result.range.length
+                line = String(line.dropFirst(qty))
+            }
+
             if addPrefixes {
                 let task = addCompleted ? "- [x] " : "- [ ] "
                 var empty = String()
@@ -882,7 +908,6 @@ public class TextFormatter {
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
             guard let attributedText = AttributedBox.getUnChecked() else { return }
-
 
             // Toggle render if exist in current paragraph
             var rangeFound = false
@@ -1292,7 +1317,9 @@ public class TextFormatter {
     public func list() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let attributedString = getAttributedString().attributedSubstring(from: pRange)
+        let mutable = NSMutableAttributedString(attributedString: attributedString)
+        let string = mutable.unLoadCheckboxes().string
 
         guard string.isContainsLetters else {
             insertText("- ")
@@ -1343,7 +1370,9 @@ public class TextFormatter {
     public func orderedList() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let attributedString = getAttributedString().attributedSubstring(from: pRange)
+        let mutable = NSMutableAttributedString(attributedString: attributedString)
+        let string = mutable.unLoadCheckboxes().string
 
         guard string.isContainsLetters else {
             insertText("1. ")
@@ -1406,75 +1435,25 @@ public class TextFormatter {
     }
 
     private func cleanListItem(line: String) -> String {
-        var cleanLine = String()
-        var prefixFound = false
+        var line = line
 
-        var numberCheck = false
-        var spaceCheck = false
-        var dotCheck = false
+        let digitRegex = try! NSRegularExpression(pattern: "^([0-9]+\\. )")
+        let digitRegexResult = digitRegex.firstMatch(in: line, range: NSRange(0..<line.count))
 
-        var skipped = String()
+        let charRegex = try! NSRegularExpression(pattern: "^([-*–+]+ )")
+        let charRegexResult = charRegex.firstMatch(in: line, range: NSRange(0..<line.count))
 
-        for char in line {
-            if numberCheck {
-                if char.isNumber {
-                    skipped.append(char)
-                    continue
-                } else {
-                    numberCheck = false
-                    dotCheck = true
-                }
-            }
-
-            if dotCheck {
-                if char == "." {
-                    skipped.append(char)
-                    spaceCheck = true
-                } else {
-                    cleanLine.append(skipped)
-                    cleanLine.append(char)
-                    skipped = ""
-                }
-
-                dotCheck = false
-                continue
-            }
-
-            if spaceCheck {
-                if char.isWhitespace {
-                } else {
-                    cleanLine.append(skipped)
-                    cleanLine.append(char)
-                }
-
-                spaceCheck = false
-                skipped = ""
-                continue
-            }
-
-            if char.isWhitespace && !prefixFound {
-                cleanLine.append(char)
-            } else if !prefixFound {
-                if char.isNumber {
-                    numberCheck = true
-                    skipped.append(char)
-                } else if char == "-" {
-                    spaceCheck = true
-                    skipped.append(char)
-                } else {
-                    cleanLine.append(char)
-                }
-                prefixFound = true
-            } else {
-                cleanLine.append(char)
-            }
+        if line.starts(with: "- [ ] ") || line.starts(with: "- [x] ") {
+            line = String(line.dropFirst(6))
+        } else if let result = digitRegexResult {
+            let qty = result.range.length
+            line = String(line.dropFirst(qty))
+        } else if let result = charRegexResult, !line.contains("- [") {
+            let qty = result.range.length
+            line = String(line.dropFirst(qty))
         }
 
-        if skipped.count > 0 {
-            cleanLine.append(skipped)
-        }
-
-        return cleanLine
+        return line
     }
 
     private func parseTodo(line: String) -> (Bool, Bool, String) {
@@ -1514,6 +1493,10 @@ public class TextFormatter {
     }
 
     private func hasPrefix(line: String, numbers: Bool) -> Bool {
+        if line.starts(with: "- [ ] ") || line.starts(with: "- [x] ") {
+            return false
+        }
+
         var checkNumberDot = false
 
         for char in line {
