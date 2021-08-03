@@ -490,7 +490,10 @@ public class TextFormatter {
             result.append(line + "\n")
         }
 
-        let selectRange = NSRange(location: location - padding, length: length - dropChars)
+        let diffLocation = location - padding
+        let selectLocation = diffLocation > 0 ? diffLocation : 0
+        
+        let selectRange = NSRange(location: selectLocation, length: length - dropChars)
         insertText(result, replacementRange: pRange, selectRange: selectRange)
 
         storage.updateParagraphStyle(range: selectRange)
