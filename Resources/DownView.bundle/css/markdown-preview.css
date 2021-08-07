@@ -254,7 +254,9 @@ img {
     background: none;
     border-radius: 3px;
     border-style: none;
-    width: auto;
+    width: auto !important;
+    width: 100%;
+    max-width: 678px;
     height: auto;
 }
 canvas {
