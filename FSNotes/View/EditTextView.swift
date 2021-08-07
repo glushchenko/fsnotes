@@ -603,6 +603,24 @@ class EditTextView: NSTextView, NSTextFinderClient {
         super.paste(sender)
     }
 
+    override func cut(_ sender: Any?) {
+        guard nil != EditTextView.note else {
+            super.cut(sender)
+            return
+        }
+
+        if self.selectedRange.length == 0, let paragraphRange = self.getParagraphRange(), let paragraph = attributedSubstring(forProposedRange: paragraphRange, actualRange: nil) {
+            let pasteboard = NSPasteboard.general
+            pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
+            pasteboard.setString(paragraph.string.trim().removeLastNewLine(), forType: NSPasteboard.PasteboardType.string)
+
+            insertText(String(), replacementRange: paragraphRange)
+            return
+        }
+
+        super.cut(sender)
+    }
+
     public func saveImages() {
         guard let storage = textStorage else { return }
 
