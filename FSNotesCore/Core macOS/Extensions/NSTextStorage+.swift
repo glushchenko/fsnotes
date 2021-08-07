@@ -30,10 +30,14 @@ extension NSTextStorage {
     }
 
     public func updateParagraphStyle(range: NSRange? = nil) {
-        beginEditing()
-
         var paragraph = NSMutableParagraphStyle()
         let scanRange = range ?? NSRange(0..<length)
+
+        if scanRange.length == 0 {
+            return
+        }
+
+        beginEditing()
 
         // https://github.com/glushchenko/fsnotes/issues/311
         let tabs = getTabStops()

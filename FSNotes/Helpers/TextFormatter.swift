@@ -412,8 +412,9 @@ public class TextFormatter {
         guard let pRange = getParagraphRange() else { return }
         
         let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unLoadCheckboxes()
 
+        let string = mutable.string
         var result = String()
         var addsChars = 0
 
@@ -432,7 +433,12 @@ public class TextFormatter {
         }
 
         let selectRange = NSRange(location: location + padding.count, length: length + addsChars)
-        insertText(result, replacementRange: pRange, selectRange: selectRange)
+        
+        let mutableResult = NSMutableAttributedString(string: result)
+        mutableResult.loadCheckboxes()
+
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
 
         storage.updateParagraphStyle(range: selectRange)
     }
@@ -440,7 +446,9 @@ public class TextFormatter {
     public func unTab() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = storage.attributedSubstring(from: pRange).string
+        let mutable = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: pRange)).unLoadCheckboxes()
+        let string = mutable.string
+
         var result = String()
 
         let location = textView.selectedRange.location
@@ -494,8 +502,13 @@ public class TextFormatter {
         let selectLocation = diffLocation > 0 ? diffLocation : 0
         
         let selectRange = NSRange(location: selectLocation, length: length - dropChars)
-        insertText(result, replacementRange: pRange, selectRange: selectRange)
 
+        let mutableResult = NSMutableAttributedString(string: result)
+        mutableResult.loadCheckboxes()
+
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+        
         storage.updateParagraphStyle(range: selectRange)
     }
     
