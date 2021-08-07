@@ -879,11 +879,17 @@ public class NotesTextProcessor {
         NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range(at: 3) else { return }
 
+            let boldString = attributedString.attributedSubstring(from: range)
+            if boldString.string.contains("__") || boldString.string == "_" {
+                return
+            }
+
+            print(attributedString.attributedSubstring(from: range))
             if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
                 return
             }
 
-            if let font = attributedString.attributedSubstring(from: range).attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
+            if let font = boldString.attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
             } else {
                 attributedString.addAttribute(.font, value: boldFont, range: range)
 
