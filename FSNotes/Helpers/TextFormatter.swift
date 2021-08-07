@@ -879,9 +879,11 @@ public class TextFormatter {
 
             self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
+
             self.textView.undoManager?.endUndoGrouping()
 
             guard let paragraph = getParagraphRange(for: location) else { return }
+            self.storage.updateParagraphStyle(range: paragraph)
             
             if todoAttr == 0 {
                 self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
