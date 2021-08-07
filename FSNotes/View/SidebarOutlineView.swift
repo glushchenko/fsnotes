@@ -580,11 +580,6 @@ class SidebarOutlineView: NSOutlineView,
             UserDefaultsManagement.lastSidebarItem = nil
         }
 
-        if !UserDataService.instance.firstNoteSelection {
-            vd.editArea.clear()
-            vd.notesTableView.deselectAll(nil)
-        }
-
         if !isFirstLaunch {
             vd.search.stringValue = ""
         }
@@ -612,19 +607,16 @@ class SidebarOutlineView: NSOutlineView,
             }
 
             if let note = self.selectNote {
-                DispatchQueue.main.async {
-                    self.selectNote = nil
-                    vd.notesTableView.setSelected(note: note)
-                }
-            } else if UserDataService.instance.firstNoteSelection {
-                if let note = vd.notesTableView.noteList.first {
-                    DispatchQueue.main.async {
-                        vd.selectNullTableRow(note: note)
-                        vd.editArea.fill(note: note)
+                if let i = vd.notesTableView.getIndex(note) {
+                    if vd.notesTableView.noteList.indices.contains(i) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            vd.notesTableView.selectRowIndexes([i], byExtendingSelection: false)
+                            vd.notesTableView.scrollRowToVisible(i)
+                        }
                     }
                 }
 
-                UserDataService.instance.firstNoteSelection = false
+                self.selectNote = nil
             }
         }
     }
@@ -1440,17 +1432,29 @@ class SidebarOutlineView: NSOutlineView,
     public func select(tag: String) {
         let fullTags = tag.split(separator: "/").map(String.init);
         var items = sidebarItems;
-        var tagDepth:Int = 0;
-        var tagIndexArr = [Int]();
+        var tagDepth: Int = 0
+
+        let currentNote = EditTextView.note
+        selectNote = currentNote
+
         for tagIndex in 0..<fullTags.count{
-            guard let index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) else { break }
-            items = (items?[index] as? Tag)?.child;
-            tagDepth += tagIndex == 0 ? index : index+1;
-            tagIndexArr.append(tagDepth)
+            guard let tag = items?.first(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) as? Tag else { break }
+            var index = row(forItem: tag)
+
+            if index < 0 {
+                index = items?.firstIndex(where: {($0 as? Tag)?.getName() == fullTags[tagIndex]}) ?? 0
+                tagDepth += index + 1
+            } else {
+                tagDepth = index
+            }
+
+            expandItem(item(atRow: tagDepth))
+            scrollRowToVisible(tagDepth)
+
+            items = tag.child
         }
 
-        UserDataService.instance.firstNoteSelection = true
-        selectRowIndexes([tagDepth], byExtendingSelection: false, tagIndexArr)
+        super.selectRowIndexes([tagDepth], byExtendingSelection: false)
     }
         
     // select and open rowIndexes

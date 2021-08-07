@@ -18,9 +18,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     var pinnedCell = NoteCellView()
     var storage = Storage.sharedInstance()
 
-    public var loadingQueue = OperationQueue.init()
-    public var fillTimestamp: Int64?
-
     public var history = [URL]()
     public var historyPosition = 0
 
@@ -147,9 +144,6 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
     
     // On selected row show notes in right panel
     func tableViewSelectionDidChange(_ notification: Notification) {
-        let timestamp = Date().toMillis()
-        self.fillTimestamp = timestamp
-
         let vc = self.window?.contentViewController as! ViewController
 
         if vc.editAreaScroll.isFindBarVisible {
@@ -168,37 +162,30 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             vc.editArea.clear()
             return
         }
-        
+
+        // Select row
         if (noteList.indices.contains(selectedRow)) {
             let note = noteList[selectedRow]
 
-            self.loadingQueue.cancelAllOperations()
-            let operation = BlockOperation()
-            operation.addExecutionBlock { [weak self] in        
-                DispatchQueue.main.async {
-                    guard self?.selectedRowIndexes.count == 0x01 else {
-                        vc.editArea.clear()
-                        return
-                    }
-
-                    guard !operation.isCancelled,
-                          self?.fillTimestamp == timestamp else { return }
-
-                    vc.editArea.fill(note: note, highlight: true)
-
-                    if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
-                        vc.focusEditArea()
-                    }
-                }
+            guard selectedRowIndexes.count == 0x01 else {
+                vc.editArea.clear()
+                return
             }
-            self.loadingQueue.addOperation(operation)
 
-        } else {
-            vc.editArea.clear()
+            vc.editArea.fill(note: note, highlight: true)
 
-            if !UserDefaultsManagement.inlineTags {
-                vc.sidebarOutlineView.deselectAllTags()
+            if UserDefaultsManagement.focusInEditorOnNoteSelect && !UserDataService.instance.searchTrigger {
+                vc.focusEditArea()
             }
+
+            return
+        }
+
+        // Clean
+        vc.editArea.clear()
+
+        if !UserDefaultsManagement.inlineTags {
+            vc.sidebarOutlineView.deselectAllTags()
         }
     }
     
@@ -385,7 +372,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             saveNavigationHistory(note: noteList[i])
         }
 
-        selectRow(selectedRow + 1)
+        if (noteList.indices.contains(i)) {
+            self.selectRowIndexes([i], byExtendingSelection: false)
+            self.scrollRowToVisible(i)
+        }
     }
     
     public func selectPrev() {
@@ -399,7 +389,10 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             saveNavigationHistory(note: noteList[i])
         }
 
-        selectRow(selectedRow - 1)
+        if (noteList.indices.contains(i)) {
+            self.selectRowIndexes([i], byExtendingSelection: false)
+            self.scrollRowToVisible(i)
+        }
     }
     
     public func selectRow(_ i: Int) {

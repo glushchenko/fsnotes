@@ -175,8 +175,6 @@ class ViewController: NSViewController,
         #endif
         
         searchQueue.maxConcurrentOperationCount = 1
-        notesTableView.loadingQueue.maxConcurrentOperationCount = 1
-        notesTableView.loadingQueue.qualityOfService = QualityOfService.userInteractive
         notesTableView.doubleAction = #selector(self.doubleClickOnNotesTable)
     }
 
