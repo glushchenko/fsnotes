@@ -11,7 +11,7 @@ import Highlightr
 import Carbon.HIToolbox
 import FSNotesCore_macOS
 
-class EditTextView: NSTextView, NSTextFinderClient {
+class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelegate {
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
     public static var shouldForceRescan: Bool = false
@@ -49,6 +49,69 @@ class EditTextView: NSTextView, NSTextFinderClient {
     }
 
     //MARK: caret width
+
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+
+        let range = NSRange(location: 0, length: textStorage!.length)
+        attributedString().enumerateAttributes(in: range, options: .reverse) {
+            attributes, range, stop in
+
+            let tag = attributedString().attributedSubstring(from: range).string
+            guard attributes.index(forKey: .tag) != nil, let font = attributes[.font] as? NSFont else { return }
+
+            guard let container = self.textContainer else { return }
+            guard let activeRange = self.layoutManager?.glyphRange(forCharacterRange: range, actualCharacterRange: nil) else { return }
+
+            guard var tagRect = self.layoutManager?.boundingRect(forGlyphRange: activeRange, in: container) else { return }
+
+            tagRect.origin.x += self.textContainerOrigin.x;
+            tagRect.origin.y += self.textContainerOrigin.y;
+            tagRect = self.convertToLayer(tagRect)
+
+            let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
+            let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
+            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y+1), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: 17))
+
+            NSGraphicsContext.saveGraphicsState()
+
+            let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
+            let fillColor = NSColor(red: 0.47, green: 0.66, blue: 0.92, alpha: 1.00)
+            let strokeColor = NSColor.gray
+            let textColor = NSColor.white
+
+            path.addClip()
+            fillColor.setFill()
+            strokeColor.setStroke()
+            tagBorderRect.fill(using: .sourceOver)
+
+//            let transform = NSAffineTransform()
+//            transform.translateX(by: 0.5, yBy: 0.5)
+//            path.transform(using: transform as AffineTransform)
+//            path.stroke()
+//            transform.translateX(by: -1.5, yBy: -1.5)
+//            path.transform(using: transform as AffineTransform)
+//            path.stroke()
+
+            NSGraphicsContext.restoreGraphicsState()
+
+            let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize - 1)
+            let dict = NSMutableDictionary(dictionary: tagAttributes)
+            dict.addEntries(from: [NSAttributedString.Key.font: resFont, NSAttributedString.Key.foregroundColor: textColor])
+            dict.removeObject(forKey: NSAttributedString.Key.link)
+            (tag as NSString).draw(in: tagRect, withAttributes: dict as! [NSAttributedString.Key : Any])
+        }
+    }
+
+    public func invalidateLayout() {
+        if let length = self.textStorage?.length {
+            self.textStorage?.layoutManagers.first?.invalidateLayout(forCharacterRange: NSRange(location: 0, length: length), actualCharacterRange: nil)
+        }
+    }
+
+    func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, sharingServicesForItems items: [Any], proposedSharingServices proposedServices: [NSSharingService]) -> [NSSharingService] {
+        return []
+    }
 
     override func drawInsertionPoint(in rect: NSRect, color: NSColor, turnedOn flag: Bool) {
         var newRect = NSRect(origin: rect.origin, size: rect.size)
@@ -679,8 +742,11 @@ class EditTextView: NSTextView, NSTextFinderClient {
         // Hack for invalidate prev layout data (order is important, only before fill)
         if let length = textStorage?.length {
             textStorage?.layoutManagers.first?.invalidateDisplay(forGlyphRange: NSRange(location: 0, length: length))
+
+            invalidateLayout()
         }
 
+        undoManager?.removeAllActions()
         registerHandoff(note: note)
 
         // resets timer if editor refilled 
@@ -1187,6 +1253,7 @@ class EditTextView: NSTextView, NSTextFinderClient {
             deleteUnusedImages(checkRange: affectedCharRange)
 
             typingAttributes.removeValue(forKey: .todo)
+            typingAttributes.removeValue(forKey: .tag)
 
             if let paragraphStyle = typingAttributes[.paragraphStyle] as? NSMutableParagraphStyle {
                 paragraphStyle.alignment = .left

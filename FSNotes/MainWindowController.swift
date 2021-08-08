@@ -96,4 +96,8 @@ class MainWindowController: NSWindowController, NSWindowDelegate {
             }
         }
     }
+
+    func windowDidUpdate(_ notification: Notification) {
+        ViewController.shared()?.editArea.invalidateLayout()
+    }
 }

@@ -1592,6 +1592,8 @@ class SidebarOutlineView: NSOutlineView,
             }
         }
         endUpdates()
+
+        viewDelegate?.editArea.clear()
     }
 
     public func rename(tags: [Tag], name: String) {

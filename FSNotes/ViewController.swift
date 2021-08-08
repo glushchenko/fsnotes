@@ -398,6 +398,9 @@ class ViewController: NSViewController,
             cell.searchButtonCell?.action = #selector(openRecentPopup(_:))
         }
 
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(onWakeNote(note:)),
+            name: NSWorkspace.didWakeNotification, object: nil)
+
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
             name: NSWorkspace.willSleepNotification, object: nil)
@@ -895,8 +898,10 @@ class ViewController: NSViewController,
         return true
     }
 
+    @objc func onWakeNote(note: NSNotification) {
+        editArea.invalidateLayout()
+    }
 
-    
     func cancelTextSearch() {
         let menu = NSMenuItem(title: "", action: nil, keyEquivalent: "")
         menu.tag = NSTextFinder.Action.hideFindInterface.rawValue

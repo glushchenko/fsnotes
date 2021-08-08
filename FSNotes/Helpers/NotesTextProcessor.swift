@@ -971,6 +971,7 @@ public class NotesTextProcessor {
             guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
             attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
+            attributedString.addAttribute(.tag, value: "\(tag)", range: range)
         }
 
         if !UserDefaultsManagement.liveImagesPreview {

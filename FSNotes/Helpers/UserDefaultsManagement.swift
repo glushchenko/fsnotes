@@ -202,7 +202,12 @@ public class UserDefaultsManagement {
 
     static var noteFont: Font! {
         get {
+            if let name = fontName, name.starts(with: ".") {
+                return Font.systemFont(ofSize: CGFloat(self.fontSize))
+            }
+
             if let fontName = self.fontName, let font = Font(name: fontName, size: CGFloat(self.fontSize)) {
+                print(fontName)
                 return font
             }
 
