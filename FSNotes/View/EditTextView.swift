@@ -71,12 +71,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
             let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
-            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y+1), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: 17))
+            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y+1), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: oneCharSize.height))
 
             NSGraphicsContext.saveGraphicsState()
 
             let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
-            let fillColor = NSColor(red: 0.47, green: 0.66, blue: 0.92, alpha: 1.00)
+            let fillColor = NSColor(named: "background_tag")!
             let strokeColor = NSColor.gray
             let textColor = NSColor.white
 
@@ -93,13 +93,13 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 //            path.transform(using: transform as AffineTransform)
 //            path.stroke()
 
-            NSGraphicsContext.restoreGraphicsState()
-
             let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize - 1)
             let dict = NSMutableDictionary(dictionary: tagAttributes)
             dict.addEntries(from: [NSAttributedString.Key.font: resFont, NSAttributedString.Key.foregroundColor: textColor])
             dict.removeObject(forKey: NSAttributedString.Key.link)
             (tag as NSString).draw(in: tagRect, withAttributes: dict as! [NSAttributedString.Key : Any])
+
+            NSGraphicsContext.restoreGraphicsState()
         }
     }
 
