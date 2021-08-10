@@ -86,7 +86,7 @@
 "63m-us-3j9.title" = "Шрифт кода:";
 
 /* Class = "NSButtonCell"; title = "Hide images preview"; ObjectID = "6AI-tL-TDI"; */
-"6AI-tL-TDI.title" = "Спрять превью изображений";
+"6AI-tL-TDI.title" = "Спрятать превью изображений";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "6dh-zS-Vam"; */
 "6dh-zS-Vam.title" = "Вперёд";
@@ -248,7 +248,7 @@
 "e0G-y0-N0C.title" = "Todo";
 
 /* Class = "NSButtonCell"; title = "Hide date"; ObjectID = "e15-ps-th1"; */
-"e15-ps-th1.title" = "Спрять дату";
+"e15-ps-th1.title" = "Спрятать дату";
 
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "E6I-n5-dsi"; */
 "E6I-n5-dsi.title" = "Создать копию";

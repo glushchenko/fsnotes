@@ -10,23 +10,7 @@ import WebKit
 
 extension ViewController {
 
-    @objc func allImagesLoaded(_ message: String) {}
-
-    override class func isSelectorExcluded(fromWebScript sel: Selector) -> Bool {
-        if sel == #selector(ViewController.allImagesLoaded(_:)) {
-            return false
-        }
-        return true
-    }
-
-    override class func webScriptName(for sel: Selector) -> String? {
-        if sel == #selector(ViewController.allImagesLoaded(_:)) {
-            return "allImagesLoaded";
-        }
-        return nil
-    }
-
-    public func printMarkdownPreview(webView: WebView?) {
+    public func printMarkdownPreview() {
         guard let note = EditTextView.note else { return }
 
         let classBundle = Bundle(for: MPreviewView.self)
@@ -49,13 +33,13 @@ extension ViewController {
         try? FileManager.default.removeItem(at: printDir)
 
         copyInitialFiles(printDir: printDir)
-        copyImages(note: note, dst: printDir)
+        htmlString = assignBase64Images(note: note, html: htmlString)
 
-        webView?.frameLoadDelegate = self
-        webView?.mainFrame.loadHTMLString(htmlString, baseURL: printDir)
+        self.printWebView.frameLoadDelegate = self
+        self.printWebView.mainFrame.loadHTMLString(htmlString, baseURL: printDir)
 
         if UserDataService.instance.isDark {
-            webView?.stringByEvaluatingJavaScript(from: "switchToDarkMode();")
+            self.printWebView.stringByEvaluatingJavaScript(from: "switchToDarkMode();")
         }
     }
 
@@ -91,13 +75,16 @@ extension ViewController {
         }
     }
 
-    public func copyImages(note: Note, dst: URL) {
+    public func assignBase64Images(note: Note, html: String) -> String {
+        var html = html
+
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
                 {(result, flags, stop) -> Void in
 
             guard let range = result?.range(at: 3), note.content.length >= range.location else { return }
 
-            guard let imagePath = note.content.attributedSubstring(from: range).string.removingPercentEncoding else { return }
+            let path = note.content.attributedSubstring(from: range).string
+            guard let imagePath = path.removingPercentEncoding else { return }
 
             if let url = note.getImageUrl(imageName: imagePath) {
                 if url.isRemote() {
@@ -105,16 +92,15 @@ extension ViewController {
                 }
 
                 if FileManager.default.fileExists(atPath: url.path), url.isImage {
-                    let result = dst.appendingPathComponent(imagePath)
-                    let dstDir = result.deletingLastPathComponent()
-
-                    try? FileManager.default.createDirectory(at:dstDir, withIntermediateDirectories: true, attributes: nil)
-
-                    try? FileManager.default.copyItem(at: url, to: result)
+                    if let image = try? Data(contentsOf: url) {
+                        let base64 = image.base64EncodedString()
+                        html = html.replacingOccurrences(of: path, with: "data:image;base64," + base64)
+                    }
                 }
             }
         })
 
+        return html
     }
 
     func webView(_ sender: WebView!, didFinishLoadFor frame: WebFrame!) {

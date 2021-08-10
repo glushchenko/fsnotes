@@ -257,7 +257,8 @@ img {
     width: auto !important;
     width: 100%;
     max-width: 678px;
-    height: auto;
+    height: auto !important;
+    max-height: 900px;
 }
 canvas {
     border-radius: 3px;

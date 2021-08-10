@@ -207,7 +207,6 @@ public class UserDefaultsManagement {
             }
 
             if let fontName = self.fontName, let font = Font(name: fontName, size: CGFloat(self.fontSize)) {
-                print(fontName)
                 return font
             }
 

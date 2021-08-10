@@ -71,7 +71,9 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
             let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
-            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y+1), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: oneCharSize.height))
+
+            let height = oneCharSize.height > tagRect.size.height ? tagRect.size.height : oneCharSize.height
+            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: height))
 
             NSGraphicsContext.saveGraphicsState()
 
@@ -95,9 +97,10 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize - 1)
             let dict = NSMutableDictionary(dictionary: tagAttributes)
+
             dict.addEntries(from: [NSAttributedString.Key.font: resFont, NSAttributedString.Key.foregroundColor: textColor])
             dict.removeObject(forKey: NSAttributedString.Key.link)
-            (tag as NSString).draw(in: tagRect, withAttributes: dict as! [NSAttributedString.Key : Any])
+            (tag as NSString).draw(in: tagRect, withAttributes: (dict as! [NSAttributedString.Key : Any]))
 
             NSGraphicsContext.restoreGraphicsState()
         }
@@ -746,7 +749,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             invalidateLayout()
         }
 
-        undoManager?.removeAllActions()
+        undoManager?.removeAllActions(withTarget: self)
         registerHandoff(note: note)
 
         // resets timer if editor refilled 
@@ -1546,6 +1549,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     func getSearchText() -> String {
         guard let search = ViewController.shared()?.search else { return String() }
+
+        let pb = NSPasteboard(name: NSPasteboard.Name.find)
+        if let string = pb.string(forType: NSPasteboard.PasteboardType.string) {
+            return string
+        }
 
         if let editor = search.currentEditor(), editor.selectedRange.length > 0 {
             return (search.stringValue as NSString).substring(with: NSRange(0..<editor.selectedRange.location))

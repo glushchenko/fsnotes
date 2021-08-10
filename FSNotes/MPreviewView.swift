@@ -453,7 +453,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        let familyName = UserDefaultsManagement.noteFont.familyName
+        var familyName = UserDefaultsManagement.noteFont.familyName
 
         #if os(iOS)
             if !UserDefaultsManagement.dynamicTypeFont {
@@ -476,7 +476,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 width = 0
             }
 
-            return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        if familyName!.starts(with: ".") {
+            familyName = "Helvetica Neue";
+        }
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName!)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
     }
 }

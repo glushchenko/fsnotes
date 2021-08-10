@@ -33,7 +33,7 @@ class ViewController: NSViewController,
     var previewResizeTimer = Timer()
     var rowUpdaterTimer = Timer()
     let searchQueue = OperationQueue()
-    var printWebView: WebView?
+    var printWebView = WebView()
     var tagsScannerQueue = [Note]()
 
     /* Git */
@@ -398,8 +398,7 @@ class ViewController: NSViewController,
             cell.searchButtonCell?.action = #selector(openRecentPopup(_:))
         }
 
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(onWakeNote(note:)),
-            name: NSWorkspace.didWakeNotification, object: nil)
+        DistributedNotificationCenter.default().addObserver(self, selector: #selector(onWakeNote(note:)), name: Notification.Name("com.apple.screenIsUnlocked"), object: nil)
 
         NSWorkspace.shared.notificationCenter.addObserver(
             self, selector: #selector(onSleepNote(note:)),
@@ -547,11 +546,15 @@ class ViewController: NSViewController,
         if let view = NSApplication.shared.mainWindow?.firstResponder as? NSTextView, let textField = view.superview?.superview {
 
             if textField.isKind(of: SearchTextField.self) {
-                vc.search.searchesMenu = vc.search.generateRecentMenu()
-                let general = vc.search.searchesMenu!.item(at: 0)
-                vc.search.searchesMenu!.popUp(positioning: general, at: NSPoint(x: 5, y: vc.search.frame.height + 7), in: vc.search)
+                if vc.search.searchesMenu != nil {
+                    vc.search.searchesMenu = nil
+                } else {
+                    vc.search.searchesMenu = vc.search.generateRecentMenu()
+                    let general = vc.search.searchesMenu!.item(at: 0)
+                    vc.search.searchesMenu!.popUp(positioning: general, at: NSPoint(x: 5, y: vc.search.frame.height + 7), in: vc.search)
 
-                return
+                    return
+                }
             }
         }
 
@@ -899,7 +902,7 @@ class ViewController: NSViewController,
     }
 
     @objc func onWakeNote(note: NSNotification) {
-        editArea.invalidateLayout()
+        refillEditArea()
     }
 
     func cancelTextSearch() {
@@ -1373,8 +1376,7 @@ class ViewController: NSViewController,
     
     @IBAction func printNotes(_ sender: NSMenuItem) {
         if let note = EditTextView.note, note.isMarkdown() {
-            self.printWebView = WebView()
-            printMarkdownPreview(webView: self.printWebView)
+            printMarkdownPreview()
             return
         }
 
