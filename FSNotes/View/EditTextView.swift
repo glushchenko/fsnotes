@@ -78,7 +78,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             NSGraphicsContext.saveGraphicsState()
 
             let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
-            let fillColor = NSColor(named: "background_tag")!
+
+            let fillColor = NSColor.tagColor
             let strokeColor = NSColor.gray
             let textColor = NSColor.white
 

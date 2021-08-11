@@ -582,6 +582,7 @@ class SidebarOutlineView: NSOutlineView,
 
         if !isFirstLaunch {
             vd.search.stringValue = ""
+            vd.search.cleanFindPasteboard()
         }
 
         guard !UserDataService.instance.skipSidebarSelection else {

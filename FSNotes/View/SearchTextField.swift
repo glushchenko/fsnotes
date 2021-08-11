@@ -261,9 +261,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             }
         }
 
+        cleanFindPasteboard()
+    }
+
+    public func cleanFindPasteboard() {
         let pb = NSPasteboard(name: NSPasteboard.Name.find)
         pb.declareTypes([.textFinderOptions, .string], owner: nil)
-        pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
+        pb.setString("", forType: NSPasteboard.PasteboardType.string)
     }
 
     private func getSearchTextExceptCompletion() -> String? {

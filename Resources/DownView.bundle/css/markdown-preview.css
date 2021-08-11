@@ -586,3 +586,12 @@ code.language-mermaid {
     display: block;
     text-align: center;
 }
+
+a[href^="fsnotes://open/?tag="] {
+    border-radius: 4px;
+    color: white;
+    padding: 2px;
+}
+    a[href^="fsnotes://open/?tag="]:hover {
+        text-decoration: none;
+    }
