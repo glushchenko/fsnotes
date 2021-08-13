@@ -138,8 +138,6 @@ extension AppDelegate {
         }
 
         search(query: lastPath)
-
-        vc.search.becomeFirstResponder()
     }
 
     func search(query: String) {
@@ -150,7 +148,12 @@ extension AppDelegate {
                 controller.search.stringValue = query
 
                 if let note = controller.notesTableView.noteList.first {
-                    controller.search.suggestAutocomplete(note, filter: query)
+                    if note.title.lowercased() == query.lowercased() {
+                        controller.notesTableView.setSelected(note: note)
+                        controller.view.window?.makeFirstResponder(controller.editArea)
+                    } else {
+                        controller.search.suggestAutocomplete(note, filter: query)
+                    }
                 }
             }
         }
