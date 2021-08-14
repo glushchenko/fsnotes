@@ -1908,7 +1908,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func viewDidChangeEffectiveAppearance() {
         UserDataService.instance.isDark = effectiveAppearance.isDark
-        UserDefaultsManagement.codeTheme = effectiveAppearance.isDark ? "monokai-sublime" : "atom-one-light"
 
         // clear preview cache
         MPreviewView.template = nil
