@@ -959,6 +959,13 @@ public class NotesTextProcessor {
         NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range(at: 1) else { return }
 
+            // Skip if indented code block
+            let parRange = attributedString.mutableString.paragraphRange(for: range)
+            let parString = attributedString.mutableString.substring(with: parRange)
+            if parString.starts(with: "    ") || parString.starts(with: "\t") {
+                return
+            }
+
             var substring = attributedString.mutableString.substring(with: range)
             guard !substring.isNumber else { return }
 
