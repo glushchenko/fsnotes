@@ -1325,7 +1325,7 @@ public class NotesTextProcessor {
             [^
                 \s          # no whitespace
                 \#          # no hashes
-                ,?!"`';:\.  # no punctuation
+                ,?!"`;:\.   # no punctuation
                 \\          # no backslash
                 (){}\[\]    # no bracket pairs
             ]+

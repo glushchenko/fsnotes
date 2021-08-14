@@ -73,7 +73,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
 
             let height = oneCharSize.height > tagRect.size.height ? tagRect.size.height : oneCharSize.height
-            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.25, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.33, height: height))
+            let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.1, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.3, height: height))
 
             NSGraphicsContext.saveGraphicsState()
 
@@ -96,12 +96,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 //            path.transform(using: transform as AffineTransform)
 //            path.stroke()
 
-            let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize - 1)
+            let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize)
             let dict = NSMutableDictionary(dictionary: tagAttributes)
 
-            dict.addEntries(from: [NSAttributedString.Key.font: resFont, NSAttributedString.Key.foregroundColor: textColor])
+            dict.addEntries(from: [
+                NSAttributedString.Key.font: resFont,
+                NSAttributedString.Key.foregroundColor: textColor
+            ])
             dict.removeObject(forKey: NSAttributedString.Key.link)
-            (tag as NSString).draw(in: tagRect, withAttributes: (dict as! [NSAttributedString.Key : Any]))
+
+            let newRect = tagRect.offsetBy(dx: 0, dy: -1)
+            (tag as NSString).draw(in: newRect, withAttributes: (dict as! [NSAttributedString.Key : Any]))
 
             NSGraphicsContext.restoreGraphicsState()
         }
@@ -444,6 +449,31 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             let replacementRange = NSRange(location: startRange.lowerBound, length: result.0.count)
 
             return replacementRange
+        }
+
+        if UserDefaultsManagement.inlineTags {
+            var location = distance
+            var length = 0
+
+            while true {
+                if location - 1 < 0 {
+                    break
+                }
+
+                let scanRange = NSRange(location: location - 1, length: 1)
+                let char = textStorage?.attributedSubstring(from: scanRange).string
+
+                if char?.isWhitespace != nil {
+                    break
+                }
+
+                if char == "#" {
+                    return NSRange(location: location, length: length)
+                }
+
+                length += 1
+                location = location - 1
+            }
         }
 
         return super.rangeForUserCompletion
