@@ -17,9 +17,6 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "Присоединить хранилище ...";
-
-/* No comment provided by engineer. */
 "Back up storage" = "Создать резервную копию";
 
 /* Delete menu */
@@ -71,9 +68,6 @@
 "Delete Folder" = "Удалить директорию";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Удалить директорию";
-
-/* No comment provided by engineer. */
 "Delete Tag" = "Удалить тег";
 
 /* No comment provided by engineer. */
@@ -96,9 +90,6 @@
 
 /* No comment provided by engineer. */
 "External Folders" = "Внешние директории";
-
-/* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
 
 /* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Директория с названием '%@' уже существует";
@@ -140,9 +131,6 @@
 "Inbox" = "Входящие";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "Ссылка";
 
 /* No comment provided by engineer. */
@@ -168,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "Нет";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Заметка с названием \"%@\" уже существует в выбранной директории.";
 
 /* Sidebar label */
 "Notes" = "Заметки";
@@ -219,9 +210,6 @@
 
 /* No comment provided by engineer. */
 "Remove Tags" = "Удалить теги";
-
-/* No comment provided by engineer. */
-"Rename folder" = "Переименовать директорию";
 
 /* No comment provided by engineer. */
 "Rename Folder" = "Переименовать директорию";
@@ -307,11 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Да";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

@@ -92,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -134,9 +131,6 @@
 "Inbox" = "Inbox";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "Enlace";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "Notas";
@@ -212,19 +209,16 @@
 "Remove note(s)" = "Eliminar nota(s)";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "Eliminar etiquetas";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Renombar carpeta";
+"Rename Folder" = "Renombar carpeta";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "Renombar etiqueta";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "Renombar etiqueta";
 
 /* No comment provided by engineer. */
 "Search and create" = "Buscar y crear";
@@ -279,7 +273,7 @@
 "Underline" = "Subrayar";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "Sin etiquetar";
 
 /* Untitled Note */
 "Untitled Note" = "Nota sin título";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

@@ -16,8 +16,6 @@
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Sei sicuro di voler eliminare il progetto \"%@\" e tutti i file al suo interno?";
 
-"Attach storage" = "Collega archivio";
-
 /* No comment provided by engineer. */
 "Back up storage" = "Salva archivio";
 
@@ -94,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "Il file con il nome \"\(currentTitle)\" esiste già!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -126,8 +121,6 @@
 /* No comment provided by engineer. */
 "History" = "Cronologia";
 
-"Hmm, something goes wrong 🙈" = "Hmm, qualcosa è andato storto 🙈";
-
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
 
@@ -136,9 +129,6 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "In Entrata";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Nome file non corretto";
 
 /* No comment provided by engineer. */
 "Link" = "Link";
@@ -167,7 +157,8 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
-"Note with name \"%@\" already exists in selected storage." = "La nota con il nome \"%@\" esiste già nella memoria selezionata.";
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "Note";
@@ -218,19 +209,16 @@
 "Remove note(s)" = "Rimuovi nota/e";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "Rimuovi tag";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Rinomina cartella";
+"Rename Folder" = "Rinomina cartella";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "Rinomina tag";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "Rinomina tag";
 
 /* No comment provided by engineer. */
 "Search and create" = "Cerca e crea";
@@ -255,8 +243,6 @@
 
 /* View menu */
 "Sort by" = "Ordina per";
-
-"Sort By" = "Ordina per";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Ortografia e Grammatica";
@@ -286,7 +272,7 @@
 "Underline" = "Sottolinea";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "Senza Tag";
 
 /* Untitled Note */
 "Untitled Note" = "Nota senza titolo";
@@ -308,9 +294,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Si";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";

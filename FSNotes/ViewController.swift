@@ -1097,8 +1097,10 @@ class ViewController: NSViewController,
             self.alert = NSAlert()
             guard let alert = self.alert else { return }
 
-            alert.messageText = "Hmm, something goes wrong 🙈"
-            alert.informativeText = "Note with name \"\(value)\" already exists in selected storage."
+            let informativeText = NSLocalizedString("Note with name \"%@\" already exists in selected directory.", comment: "")
+
+            alert.alertStyle = .critical
+            alert.informativeText = String(format: informativeText, value)
             alert.runModal()
             
             note.parseURL()

@@ -92,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -134,9 +131,6 @@
 "Inbox" = "收件箱";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "链接";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "笔记";
@@ -212,19 +209,16 @@
 "Remove note(s)" = "移除笔记";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "删除标签";
 
 /* No comment provided by engineer. */
-"Rename folder" = "重命名文件夹";
+"Rename Folder" = "重命名文件夹";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "重命名标签";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "重命名标签";
 
 /* No comment provided by engineer. */
 "Search and create" = "搜索或创建（按下回车即可创建）";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

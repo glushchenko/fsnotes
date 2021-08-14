@@ -92,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -134,9 +131,6 @@
 "Inbox" = "Posteingang";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "Link";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "Notizen";
@@ -212,19 +209,16 @@
 "Remove note(s)" = "Notiz (en) entfernen";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "Tags entfernen";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Ordner umbenennen";
+"Rename Folder" = "Ordner umbenennen";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "Tag umbenennen";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "Tags umbenennen";
 
 /* No comment provided by engineer. */
 "Search and create" = "Suchen und ersetzen";
@@ -279,7 +273,7 @@
 "Underline" = "Unterstrichen";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "Ungetaggt";
 
 /* Untitled Note */
 "Untitled Note" = "Unbenannte Notiz";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

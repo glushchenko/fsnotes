@@ -92,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -134,9 +131,6 @@
 "Inbox" = "Inbox";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "링크";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "모든 노트";
@@ -212,19 +209,16 @@
 "Remove note(s)" = "노트 삭제";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "태그 제거";
 
 /* No comment provided by engineer. */
-"Rename folder" = "노트 이름 변경";
+"Rename Folder" = "노트 이름 변경";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "태그 이름 바꾸기";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "태그 이름 바꾸기";
 
 /* No comment provided by engineer. */
 "Search and create" = "검색 및 추가";
@@ -279,7 +273,7 @@
 "Underline" = "밑줄체";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "태그가 없는";
 
 /* Untitled Note */
 "Untitled Note" = "무제";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

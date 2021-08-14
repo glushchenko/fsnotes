@@ -16,11 +16,6 @@
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
 
-"Attach storage" = "Подключить хранилище";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "Attach storage...";
-
 /* No comment provided by engineer. */
 "Back up storage" = "Back up storage";
 
@@ -70,9 +65,6 @@
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Delete folder";
-
-/* No comment provided by engineer. */
 "Delete Folder" = "Delete Folder";
 
 /* No comment provided by engineer. */
@@ -100,16 +92,7 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
-
-/* No comment provided by engineer. */
-"Folder with name '%s' already exist" = "Folder with name '%s' already exist";
-
-/* No comment provided by engineer. */
-"Folder with name '\(dirName)' already exist" = "Folder with name '\(dirName)' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
@@ -138,8 +121,6 @@
 /* No comment provided by engineer. */
 "History" = "History";
 
-"Hmm, something goes wrong 🙈" = "Что-то пошло не так";
-
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
 
@@ -148,9 +129,6 @@
 
 /* No comment provided by engineer. */
 "Inbox" = "Inbox";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Link";
@@ -179,7 +157,8 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
-"Note with name \"%@\" already exists in selected storage." = "Заметка с именем \"%@\" уже существует в выбранном хранилище.";
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "Заметки";
@@ -239,9 +218,6 @@
 "Remove Tags" = "Remove Tags";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Rename folder";
-
-/* No comment provided by engineer. */
 "Rename Folder" = "Rename Folder";
 
 /* No comment provided by engineer. */
@@ -271,10 +247,8 @@
 /* No comment provided by engineer. */
 "Smart Quotes" = "Смарт-кавычки";
 
-"Sort By" = "Упорядочить по";
-
 /* View menu */
-"Sort by" = "Sort by";
+"Sort by" = "Упорядочить по";
 
 /* No comment provided by engineer. */
 "Spelling and Grammar" = "Орфография и грамматика";

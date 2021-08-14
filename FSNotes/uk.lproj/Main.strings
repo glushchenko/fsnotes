@@ -16,6 +16,9 @@
 /* Class = "NSMenuItem"; title = "FSNotes"; ObjectID = "1Xt-HY-uBw"; */
 "1Xt-HY-uBw.title" = "FSNotes";
 
+/* Class = "NSTextFieldCell"; placeholderString = "TextEdit"; ObjectID = "1XY-bI-DX7"; */
+"1XY-bI-DX7.placeholderString" = "TextEdit";
+
 /* Class = "NSTextFieldCell"; title = "Dock icon:"; ObjectID = "2CI-mu-aiB"; */
 "2CI-mu-aiB.title" = "Док іконка:";
 
@@ -427,6 +430,9 @@
 /* Class = "NSMenuItem"; title = "Shift Right"; ObjectID = "IPu-Ll-IBE"; */
 "IPu-Ll-IBE.title" = "Зміщення вправо";
 
+/* Class = "NSWindow"; title = "FSNotes"; ObjectID = "IQv-IB-iLA"; */
+"IQv-IB-iLA.title" = "FSNotes";
+
 /* Class = "NSTextFieldCell"; title = "Line spacing:"; ObjectID = "iUm-Zm-zeg"; */
 "iUm-Zm-zeg.title" = "Міжрядковий інтервал:";
 
@@ -709,6 +715,9 @@
 /* Class = "NSMenuItem"; title = "History"; ObjectID = "Snd-dJ-uj5"; */
 "Snd-dJ-uj5.title" = "Історія";
 
+/* Class = "NSMenuItem"; title = "solarized-light"; ObjectID = "SpX-N8-9td"; */
+"SpX-N8-9td.title" = "solarized-light";
+
 /* Class = "NSMenuItem"; title = "Create Folder"; ObjectID = "SrH-fe-Hog"; */
 "SrH-fe-Hog.title" = "Нова директорія";
 
@@ -762,6 +771,9 @@
 
 /* Class = "NSMenuItem"; title = "Copy URL"; ObjectID = "uQ1-ej-ufE"; */
 "uQ1-ej-ufE.title" = "Скопіювати посилання";
+
+/* Class = "NSMenu"; title = "FSNotes"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "FSNotes";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "uRl-iY-unG"; */
 "uRl-iY-unG.title" = "Вирізати";
@@ -882,15 +894,3 @@
 
 /* Class = "NSButtonCell"; title = "Show notes in \"Notes\" and \"Todo\" lists"; ObjectID = "Zzw-01-JH7"; */
 "Zzw-01-JH7.title" = "Показувати у \"Нотатках\" і \"Завданнях\"";
-
-/* Class = "NSTextFieldCell"; placeholderString = "TextEdit"; ObjectID = "1XY-bI-DX7"; */
-"1XY-bI-DX7.placeholderString" = "";
-
-/* Class = "NSWindow"; title = "FSNotes"; ObjectID = "IQv-IB-iLA"; */
-"IQv-IB-iLA.title" = "";
-
-/* Class = "NSMenuItem"; title = "solarized-light"; ObjectID = "SpX-N8-9td"; */
-"SpX-N8-9td.title" = "";
-
-/* Class = "NSMenu"; title = "FSNotes"; ObjectID = "uQy-DD-JDr"; */
-"uQy-DD-JDr.title" = "";

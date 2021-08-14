@@ -96,9 +96,10 @@ class TitleTextField: NSTextField {
             vc.titleLabel.isEnabled = false
 
             let alert = NSAlert()
+            let informativeText = NSLocalizedString("Note with name \"%@\" already exists in selected directory.", comment: "")
+
             alert.alertStyle = .critical
-            alert.informativeText = NSLocalizedString("File with name \"\(currentTitle)\" already exists!", comment: "")
-            alert.messageText = NSLocalizedString("Incorrect file name", comment: "")
+            alert.informativeText = String(format: informativeText, currentTitle)
             alert.runModal()
         }
     }
@@ -128,7 +129,7 @@ class TitleTextField: NSTextField {
         }
 
         if let responder = restoreResponder {
-            NSApp.mainWindow?.makeFirstResponder(responder)
+            window?.makeFirstResponder(responder)
         }
     }
 }

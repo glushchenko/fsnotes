@@ -1,5 +1,5 @@
 /* No comment provided by engineer. */
-"Add" = "Добавить";
+"Add" = "يضيف";
 
 /* No comment provided by engineer. */
 "Add External Folder..." = "ارفاق تخزين...";
@@ -17,7 +17,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "هل انت متأكد من حذف المشروع \"%@\" وكل المفات التي بداخله";
 
 /* No comment provided by engineer. */
-"Back up storage" = "Back up storage";
+"Back up storage" = "تخزين النسخ الاحتياطي";
 
 /* Delete menu */
 "Cancel" = "الغاء";
@@ -92,9 +92,6 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
 "Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
@@ -134,9 +131,6 @@
 "Inbox" = "الوارد";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "رابط";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "No";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
 
 /* Sidebar label */
 "Notes" = "ملاحظات";
@@ -212,19 +209,16 @@
 "Remove note(s)" = "حذف ملاحظة/ملاحظات";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "إزالة العلامات";
 
 /* No comment provided by engineer. */
-"Rename folder" = "اعادة تسمية المجلد";
+"Rename Folder" = "اعادة تسمية المجلد";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "إعادة تسمية العلامة";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "إعادة تسمية العلامات";
 
 /* No comment provided by engineer. */
 "Search and create" = "بحث  و انشاء";
@@ -279,7 +273,7 @@
 "Underline" = "خط تحت";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "بدون علامات";
 
 /* Untitled Note */
 "Untitled Note" = "ملاحظة بدون عنوان";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

@@ -59,7 +59,7 @@
 "Data Detectors" = "Детектори даних";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Шлях зберігання за умовчанням не повинен дорівнювати шляху Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "Видалити";
@@ -92,10 +92,7 @@
 "External Folders" = "External Folders";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
-
-/* No comment provided by engineer. */
-"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
+"Folder with name '%@' already exist" = "Папка з назвою '%@' вже існує";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редагування]";
@@ -134,9 +131,6 @@
 "Inbox" = "Вхідні";
 
 /* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
-
-/* No comment provided by engineer. */
 "Link" = "Посилання";
 
 /* No comment provided by engineer. */
@@ -162,6 +156,9 @@
 
 /* No comment provided by engineer. */
 "No" = "Ні";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Нотатка з назвою \"%@\" вже існує у вибраной директорії.";
 
 /* Sidebar label */
 "Notes" = "Нотатки";
@@ -215,16 +212,13 @@
 "Remove Tags" = "Remove Tags";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Перейменувати директорію";
+"Rename Folder" = "Перейменувати директорію";
 
 /* No comment provided by engineer. */
-"Rename Folder" = "Rename Folder";
+"Rename Tag" = "Перейменувати тег";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Rename Tag";
-
-/* No comment provided by engineer. */
-"Rename Tags" = "Rename Tags";
+"Rename Tags" = "Перейменувати теги";
 
 /* No comment provided by engineer. */
 "Search and create" = "Знайти або створити";
@@ -279,7 +273,7 @@
 "Underline" = "Підкреслений";
 
 /* No comment provided by engineer. */
-"Untagged" = "Untagged";
+"Untagged" = "Без тегів";
 
 /* Untitled Note */
 "Untitled Note" = "Без назви";
@@ -301,17 +295,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Так";
-
-"Attach storage" = "";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "";
-
-/* No comment provided by engineer. */
-"Delete folder" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";
