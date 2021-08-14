@@ -992,7 +992,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="TextBundle" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="3" imageScaling="proportionallyDown" inset="2" selectedItem="MCR-1v-3Wc" id="u6Y-Is-Nwm">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="kGi-nO-Y2a">
                                         <items>
                                             <menuItem title="TextBundle" state="on" tag="3" id="MCR-1v-3Wc"/>
@@ -1040,7 +1040,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title=".markdown" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="HK7-Qq-ilB" id="SNo-Pc-VFy">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="5cf-YK-mN9">
                                         <items>
                                             <menuItem title=".markdown" state="on" id="HK7-Qq-ilB"/>
@@ -1061,7 +1061,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Auto Rename By Title" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" selectedItem="wW6-4n-sve" id="3k2-O8-Jza">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="Ilk-gp-eEJ">
                                         <items>
                                             <menuItem title="Auto Rename By Title" state="on" tag="1" id="wW6-4n-sve"/>
@@ -1243,7 +1243,7 @@ CA
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="Small" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="11" imageScaling="proportionallyDown" inset="2" selectedItem="8AQ-IN-Edm" id="Wo8-7N-6sB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="h03-jd-8ll">
                                         <items>
                                             <menuItem title="Big" tag="13" id="cUI-cw-eo5"/>
@@ -2778,7 +2778,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="github" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="v1K-9W-2aB" id="ai1-t2-fc1">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="OOr-cO-sjv">
                                         <items>
                                             <menuItem title="github" state="on" id="v1K-9W-2aB"/>
@@ -3043,7 +3043,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" title="System" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="rSZ-Wo-Rtj" id="BZN-Xe-Atr">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="iLc-AS-AqE">
                                         <items>
                                             <menuItem title="System" state="on" id="rSZ-Wo-Rtj"/>
@@ -3068,7 +3068,7 @@ Italian 🇮🇹</string>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="cmQ-0I-gTB">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
+                                    <font key="font" usesAppearanceFont="YES"/>
                                     <menu key="menu" id="IQ9-BV-ooL"/>
                                 </popUpButtonCell>
                                 <connections>

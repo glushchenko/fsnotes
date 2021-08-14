@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "Додати";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Підключити сховище...";
+
 /* Sidebar label */
 "Archive" = "Архів";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы впевнені що хочете назавжди видалити %d нотатку(ок)? ";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы впевнені що хочете видалити директорію \"%@\"?";
-
-/* No comment provided by engineer. */
-"Add External Folder..." = "Підключити сховище...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Зробити резервну копію";
@@ -65,10 +68,16 @@
 "Delete Folder" = "Видалити директорію";
 
 /* No comment provided by engineer. */
+"Delete Tag" = "Delete Tag";
+
+/* No comment provided by engineer. */
 "Detach storage" = "Відключити сховище";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Ви хочете перемістити поточні нотатки до нового сховища?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +89,13 @@
 "Enter Master Password" = "Введіть мастер пароль";
 
 /* No comment provided by engineer. */
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
 "File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редагування]";
@@ -108,6 +123,9 @@
 
 /* No comment provided by engineer. */
 "History" = "Історія";
+
+/* No comment provided by engineer. */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Image or file" = "Image or file";
@@ -169,6 +187,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Будь ласка, введіть назву директорії:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Будь ласка, введіть теги (розділити комою):";
 
@@ -191,7 +212,19 @@
 "Remove note(s)" = "Видалити нотатку(ок)";
 
 /* No comment provided by engineer. */
+"Remove Tags" = "Remove Tags";
+
+/* No comment provided by engineer. */
 "Rename folder" = "Перейменувати директорію";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Rename Folder";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Rename Tag";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Rename Tags";
 
 /* No comment provided by engineer. */
 "Search and create" = "Знайти або створити";
@@ -245,6 +278,9 @@
 /* No comment provided by engineer. */
 "Underline" = "Підкреслений";
 
+/* No comment provided by engineer. */
+"Untagged" = "Untagged";
+
 /* Untitled Note */
 "Untitled Note" = "Без назви";
 
@@ -267,6 +303,12 @@
 "Yes" = "Так";
 
 "Attach storage" = "";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "";
+
+/* No comment provided by engineer. */
+"Delete folder" = "";
 
 "Hmm, something goes wrong 🙈" = "";
 

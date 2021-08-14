@@ -355,7 +355,9 @@ class SidebarOutlineView: NSOutlineView,
                 } else {
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.informativeText = NSLocalizedString("Folder with name '\(dirName)' already exist", comment: "")
+
+                    let information = NSLocalizedString("Folder with name '%@' already exist", comment: "")
+                    alert.informativeText = String(format: information, dirName)
                     alert.runModal()
                 }
             } else {
@@ -671,8 +673,11 @@ class SidebarOutlineView: NSOutlineView,
         let alert = NSAlert()
         vc.alert = alert
 
+        let messageText = NSLocalizedString("Are you really want to remove %d tag(s)? This action can not be undone.", comment: "")
+
         alert.messageText = NSLocalizedString("Remove Tags", comment: "")
-        alert.informativeText = NSLocalizedString("Are you really want to remove \(selectedTags.count) tags? This action can not be undone.", comment: "")
+        alert.informativeText = String(format: messageText, selectedTags.count)
+
         alert.alertStyle = .informational
         alert.addButton(withTitle: NSLocalizedString("Remove", comment: ""))
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))

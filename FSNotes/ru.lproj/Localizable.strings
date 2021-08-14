@@ -1,8 +1,14 @@
 /* No comment provided by engineer. */
 "Add" = "Добавить";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Подключить хранилище...";
+
 /* Sidebar label */
 "Archive" = "Архив";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Вы действительно хотите удалить %d тег(ов)? Это действие не может быть отменено.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
@@ -11,7 +17,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
 
 /* No comment provided by engineer. */
-"Add External Folder..." = "Подключить хранилище...";
+"Attach storage..." = "Присоединить хранилище ...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Создать резервную копию";
@@ -56,7 +62,7 @@
 "Data Detectors" = "Детекторы данных";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Путь к хранилищу по умолчанию не должен совпадать с путем Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "Удаление";
@@ -65,10 +71,19 @@
 "Delete Folder" = "Удалить директорию";
 
 /* No comment provided by engineer. */
+"Delete folder" = "Удалить директорию";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "Удалить тег";
+
+/* No comment provided by engineer. */
 "Detach storage" = "Отключить хранилище";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Вы хотите переместить текущие заметки в новое место назначения?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +95,13 @@
 "Enter Master Password" = "Введите мастер пароль";
 
 /* No comment provided by engineer. */
+"External Folders" = "Внешние директории";
+
+/* No comment provided by engineer. */
 "File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Директория с названием '%@' уже существует";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
@@ -108,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "History" = "История";
+
+/* No comment provided by engineer. */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Image or file" = "Image or file";
@@ -169,6 +193,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Пожалуйста, введите название директории:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Введите название тега:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
 
@@ -191,7 +218,19 @@
 "Remove note(s)" = "Удалить";
 
 /* No comment provided by engineer. */
+"Remove Tags" = "Удалить теги";
+
+/* No comment provided by engineer. */
 "Rename folder" = "Переименовать директорию";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Переименовать директорию";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Переименовать тег";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Переименовать теги";
 
 /* No comment provided by engineer. */
 "Search and create" = "Найти и создать";
@@ -234,7 +273,7 @@
 "This action cannot be undone." = "Это действие не может быть отменено.";
 
 /* No comment provided by engineer. */
-"Todo" = "Todo";
+"Todo" = "Задачи";
 
 /* No comment provided by engineer. */
 "Toggle preview" = "Переключить предпросмотр";
@@ -244,6 +283,9 @@
 
 /* No comment provided by engineer. */
 "Underline" = "Подчёркнутый";
+
+/* No comment provided by engineer. */
+"Untagged" = "Без тегов";
 
 /* Untitled Note */
 "Untitled Note" = "Без названия";

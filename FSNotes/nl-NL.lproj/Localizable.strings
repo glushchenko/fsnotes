@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "Toevoegen";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Koppelen opslag...";
+
 /* Sidebar label */
 "Archive" = "Archief";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Weet je zeker dat je %d notitie(s) definitief wilt wissen?";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Weet je zeker dat je project \"%@\" en alle bestanden daarin wilt verwijderen?";
-
-/* No comment provided by engineer. */
-"Add External Folder..." = "Koppelen opslag...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Back-up opslag";
@@ -65,10 +68,16 @@
 "Delete Folder" = "Verwijder map";
 
 /* No comment provided by engineer. */
+"Delete Tag" = "Delete Tag";
+
+/* No comment provided by engineer. */
 "Detach storage" = "Ontkoppelen opslag";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Bewerk Link...";
@@ -80,7 +89,13 @@
 "Enter Master Password" = "Voer Hoofdwachtwoord in";
 
 /* No comment provided by engineer. */
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
 "File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [bewerk]";
@@ -108,6 +123,9 @@
 
 /* No comment provided by engineer. */
 "History" = "Geschiedenis";
+
+/* No comment provided by engineer. */
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Image or file" = "Afbeelding of bestand";
@@ -169,6 +187,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Voer a.u.b. projectnaam in:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Voer a.u.b. tags (kommagescheiden) in:";
 
@@ -191,7 +212,19 @@
 "Remove note(s)" = "Verwijder notitie(s)";
 
 /* No comment provided by engineer. */
+"Remove Tags" = "Remove Tags";
+
+/* No comment provided by engineer. */
 "Rename folder" = "Hernoem map";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Rename Folder";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Rename Tag";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Rename Tags";
 
 /* No comment provided by engineer. */
 "Search and create" = "Zoek en creëer";
@@ -245,6 +278,9 @@
 /* No comment provided by engineer. */
 "Underline" = "Onderstrepen";
 
+/* No comment provided by engineer. */
+"Untagged" = "Untagged";
+
 /* Untitled Note */
 "Untitled Note" = "Naamloze notitie";
 
@@ -267,6 +303,12 @@
 "Yes" = "Yes";
 
 "Attach storage" = "";
+
+/* No comment provided by engineer. */
+"Attach storage..." = "";
+
+/* No comment provided by engineer. */
+"Delete folder" = "";
 
 "Hmm, something goes wrong 🙈" = "";
 
