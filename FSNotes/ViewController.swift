@@ -598,7 +598,7 @@ class ViewController: NSViewController,
                 sidebarItem = controller.getSidebarItem()
             }
 
-            controller.updateTable(search: true, searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
+            controller.updateTable(searchText: controller.search.stringValue, sidebarItem: sidebarItem, projects: projects, tags: tags)
         }
     }
     
@@ -1636,7 +1636,7 @@ class ViewController: NSViewController,
 
     private var selectRowTimer = Timer()
 
-    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, saveHistory: Bool = false, completion: @escaping () -> Void = {}) {
+    func updateTable(search: Bool = false, searchText: String? = nil, sidebarItem: SidebarItem? = nil, projects: [Project]? = nil, tags: [String]? = nil, completion: @escaping () -> Void = {}) {
 
         var sidebarItem: SidebarItem? = sidebarItem
         var projects: [Project]? = projects
@@ -1722,37 +1722,8 @@ class ViewController: NSViewController,
                 return
             }
 
-            let note = self.notesTableView.noteList[0]
-
             DispatchQueue.main.async {
                 self.notesTableView.reloadData()
-
-                if search {
-                    if (self.notesTableView.noteList.count > 0) {
-                        if filter.count > 0 && (
-                            UserDefaultsManagement.textMatchAutoSelection
-                            || note.title.lowercased().startsWith(string: self.search.stringValue.lowercased())
-                            || note.fileName.lowercased().startsWith(string: self.search.stringValue.lowercased())
-                        ) {
-
-                            let note = self.notesTableView.noteList.first(where: { $0.title == originalFilter })
-                                ?? self.notesTableView.noteList.first
-
-                            if let note = note {
-                                if saveHistory {
-                                    self.notesTableView.saveNavigationHistory(note: note)
-                                }
-
-                                self.selectNullTableRow(note: note)
-                            }
-                        } else {
-                            self.editArea.clear()
-                        }
-                    } else {
-                        self.editArea.clear()
-                    }
-                } 
-
                 completion()
             }
         }

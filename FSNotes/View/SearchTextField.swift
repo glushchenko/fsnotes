@@ -24,6 +24,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     public var timestamp: Int64?
     private var lastQueryLength: Int = 0
     private var lastQuery = String()
+    private var lastSearchQuery = String()
 
     public var searchesMenu: NSMenu? = nil
 
@@ -248,13 +249,32 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             sidebarItem = self.vcDelegate.getSidebarItem()
         }
 
+        if let query = getSearchTextExceptCompletion() {
+            self.lastSearchQuery = query
+        }
+
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
-            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
+            self.vcDelegate.updateTable(searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
                 if !self.skipAutocomplete, let note = self.vcDelegate.notesTableView.noteList.first {
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async() {
                         if let searchQuery = self.getSearchTextExceptCompletion() {
-                            self.suggestAutocomplete(note, filter: searchQuery)
+                            if self.lastSearchQuery != searchQuery {
+                                return
+                            }
+
+                            let search = searchQuery.lowercased()
+                            if note.title.lowercased() == search || UserDefaultsManagement.textMatchAutoSelection {
+                                self.vcDelegate.notesTableView.setSelected(note: note)
+                                self.stringValue = searchQuery
+                            } else if (note.title.lowercased().starts(with: search)
+                                || note.fileName.lowercased().starts(with: search))
+                            {
+                                self.vcDelegate.notesTableView.setSelected(note: note)
+                                self.suggestAutocomplete(note, filter: searchQuery)
+                            } else {
+                                self.vcDelegate.editArea.clear()
+                            }
                         }
                     }
                 }
@@ -274,7 +294,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         guard let editor = currentEditor() else { return nil }
 
         if editor.selectedRange.location > 0 {
-            return String(editor.string.suffix(editor.selectedRange.location))
+            return String(editor.string.prefix(editor.selectedRange.location))
         }
 
         return nil
