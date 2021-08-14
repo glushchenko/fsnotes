@@ -328,8 +328,12 @@ class NotesTableView: NSTableView, NSTableViewDataSource,
             }
 
             if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
-                if let note = EditTextView.note {
-                    menuItem.isEnabled = note.isEncrypted()
+                if let note = EditTextView.note, note.isEncrypted() {
+                    menuItem.isEnabled = true
+                    menuItem.isHidden = false
+                } else {
+                    menuItem.isEnabled = false
+                    menuItem.isHidden = true
                 }
             }
         }

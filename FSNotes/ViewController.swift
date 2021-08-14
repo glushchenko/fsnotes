@@ -230,11 +230,14 @@ class ViewController: NSViewController,
                     return false
                 }
 
-                if menuItem.identifier?.rawValue == "fileMenu.removeEncryption",
-                   let note = EditTextView.note,
-                   !note.isEncrypted()
-                {
-                    return false
+                if menuItem.identifier?.rawValue == "fileMenu.removeEncryption" {
+                    if let note = EditTextView.note, note.isEncrypted() {
+                        menuItem.isHidden = false
+                        return true
+                    } else {
+                        menuItem.isHidden = true
+                        return false
+                    }
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.delete" {
