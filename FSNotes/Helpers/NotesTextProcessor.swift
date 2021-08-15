@@ -884,7 +884,6 @@ public class NotesTextProcessor {
                 return
             }
 
-            print(attributedString.attributedSubstring(from: range))
             if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
                 return
             }
@@ -1637,6 +1636,7 @@ public class NotesTextProcessor {
                         if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedString.Key.backgroundColor) {
                             attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
                         }
+
                         attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: highlightColor, range: subRange)
                     }
                 }

@@ -138,14 +138,17 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                     DispatchQueue.main.async {
                         self.vcDelegate.refillEditArea()
                         NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editArea)
+                        self.cleanFindPasteboard()
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.vcDelegate.focusEditArea()
+                        self.cleanFindPasteboard()
                     }
                 }
             } else {
                 vcDelegate.makeNote(self)
+                cleanFindPasteboard()
             }
 
             addRecent(query: stringValue)
@@ -160,6 +163,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 vcDelegate.focusEditArea()
             }
 
+            cleanFindPasteboard()
             vcDelegate.editArea.scrollToCursor()
             return true
         case "deleteWordBackward:":
@@ -251,6 +255,14 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         if let query = getSearchTextExceptCompletion() {
             self.lastSearchQuery = query
+
+            let pb = NSPasteboard(name: NSPasteboard.Name.find)
+            pb.setString(query, forType: .string)
+        } else if stringValue.count > 0 {
+            let pb = NSPasteboard(name: NSPasteboard.Name.find)
+            pb.setString(stringValue, forType: .string)
+        } else {
+            cleanFindPasteboard()
         }
 
         self.filterQueue.cancelAllOperations()
@@ -267,11 +279,13 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                             if note.title.lowercased() == search || UserDefaultsManagement.textMatchAutoSelection {
                                 self.vcDelegate.notesTableView.setSelected(note: note)
                                 self.stringValue = searchQuery
+                                return
                             } else if (note.title.lowercased().starts(with: search)
                                 || note.fileName.lowercased().starts(with: search))
                             {
                                 self.vcDelegate.notesTableView.setSelected(note: note)
                                 self.suggestAutocomplete(note, filter: searchQuery)
+                                return
                             } else {
                                 self.vcDelegate.editArea.clear()
                             }
@@ -280,8 +294,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
             }
         }
-
-        cleanFindPasteboard()
     }
 
     public func cleanFindPasteboard() {

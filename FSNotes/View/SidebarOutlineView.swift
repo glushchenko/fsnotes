@@ -620,6 +620,8 @@ class SidebarOutlineView: NSOutlineView,
                 }
 
                 self.selectNote = nil
+            } else {
+                vd.editArea.clear()
             }
         }
     }
