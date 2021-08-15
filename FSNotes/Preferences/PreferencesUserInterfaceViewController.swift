@@ -129,6 +129,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBAction func setFontColor(_ sender: NSColorWell) {
         guard let vc = ViewController.shared() else { return }
 
+        vc.storage.resetCacheAttributes()
+        
         UserDefaultsManagement.appearanceType = .Custom
         UserDefaultsManagement.fontColor = sender.color
         vc.editArea.setEditorTextColor(sender.color)
@@ -213,6 +215,8 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("wkPreview")
         try? FileManager.default.removeItem(at: webkitPreview)
+
+        vc.storage.resetCacheAttributes()
 
         MPreviewView.template = nil
         NotesTextProcessor.hl = nil

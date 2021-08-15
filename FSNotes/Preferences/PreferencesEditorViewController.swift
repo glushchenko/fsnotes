@@ -88,6 +88,8 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.codeBlockHighlight = (sender.state == NSControl.StateValue.on)
 
         guard let vc = ViewController.shared() else { return }
+        vc.storage.resetCacheAttributes()
+
         vc.refillEditArea()
     }
 
@@ -97,6 +99,7 @@ class PreferencesEditorViewController: NSViewController {
             return
         }
 
+        vc.storage.resetCacheAttributes()
         UserDefaultsManagement.codeTheme = item.title
 
         MPreviewView.template = nil
@@ -205,6 +208,7 @@ class PreferencesEditorViewController: NSViewController {
         MPreviewView.template = nil
         NotesTextProcessor.hl = nil
 
+        vc.storage.resetCacheAttributes()
         vc.editArea.clear()
         vc.refillEditArea(force: true)
 
@@ -238,6 +242,7 @@ class PreferencesEditorViewController: NSViewController {
         UserDefaultsManagement.indentedCodeBlockHighlighting = (sender.state == NSControl.StateValue.on)
 
         guard let vc = ViewController.shared() else { return }
+        vc.storage.resetCacheAttributes()
         vc.refillEditArea()
     }
 }

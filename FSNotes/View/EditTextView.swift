@@ -273,7 +273,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard note.container != .encryptedTextPack else {
             vc.unLock(notes: [note])
             vc.emptyEditAreaImage.isHidden = false
-            return super.mouseDown(with: event)
+            return
         }
         
         guard let container = self.textContainer, let manager = self.layoutManager else { return super.mouseDown(with: event) }
@@ -295,7 +295,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 NSCursor.pointingHand.set()
             }
             
-            return super.mouseDown(with: event)
+            return
         }
         
         super.mouseDown(with: event)

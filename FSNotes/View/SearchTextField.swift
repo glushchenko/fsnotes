@@ -268,7 +268,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
             self.vcDelegate.updateTable(searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
-                if !self.skipAutocomplete, let note = self.vcDelegate.notesTableView.noteList.first {
+                if let note = self.vcDelegate.notesTableView.noteList.first {
                     DispatchQueue.main.async() {
                         if let searchQuery = self.getSearchTextExceptCompletion() {
                             if self.lastSearchQuery != searchQuery {
@@ -280,7 +280,7 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                                 self.vcDelegate.notesTableView.setSelected(note: note)
                                 self.stringValue = searchQuery
                                 return
-                            } else if (note.title.lowercased().starts(with: search)
+                            } else if !self.skipAutocomplete && (note.title.lowercased().starts(with: search)
                                 || note.fileName.lowercased().starts(with: search))
                             {
                                 self.vcDelegate.notesTableView.setSelected(note: note)
@@ -290,6 +290,10 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                                 self.vcDelegate.editArea.clear()
                             }
                         }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.vcDelegate.editArea.clear()
                     }
                 }
             }
