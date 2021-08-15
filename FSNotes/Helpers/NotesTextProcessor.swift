@@ -432,8 +432,6 @@ public class NotesTextProcessor {
         return attributedString
     }
 
-
-
     public static func highlight(note: Note) {
         highlightMarkdown(attributedString: note.content, note: note)
         highlightFencedAndIndentCodeBlocks(attributedString: note.content)
@@ -962,6 +960,14 @@ public class NotesTextProcessor {
             let parRange = attributedString.mutableString.paragraphRange(for: range)
             let parString = attributedString.mutableString.substring(with: parRange)
             if parString.starts(with: "    ") || parString.starts(with: "\t") {
+                return
+            }
+
+            if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
+                return
+            }
+
+            if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
                 return
             }
 

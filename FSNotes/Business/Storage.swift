@@ -493,6 +493,24 @@ class Storage {
         print("Loaded \(noteList.count) notes for \(startingPoint.timeIntervalSinceNow * -1) seconds")
 
         noteList = sortNotes(noteList: noteList, filter: "")
+
+        cacheAttributes()
+    }
+
+    public func resetCacheAttributes() {
+        for note in self.noteList {
+            note.cacheHash = nil
+        }
+    }
+
+    public func cacheAttributes() {
+        DispatchQueue.global(qos: .background).async {
+            for note in self.noteList {
+                note.cache()
+            }
+
+            print("Notes attributes cache: \(self.noteList.count)")
+        }
     }
 
     public func getMainProject() -> Project {

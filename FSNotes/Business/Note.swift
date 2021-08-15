@@ -56,6 +56,9 @@ public class Note: NSObject  {
 
     public var password: String?
 
+    public var cachingInProgress: Bool = false
+    public var cacheHash: String?
+
     // Load exist
     
     init(url: URL, with project: Project, modified: Date? = nil, created: Date? = nil) {
@@ -1974,5 +1977,20 @@ public class Note: NSObject  {
 
         content.append(NSAttributedString(string: prefix + "#" + name))
         save()
+    }
+
+    public func cache() {
+        if cachingInProgress {
+            return
+        }
+
+        cachingInProgress = true
+        let hash = content.string.md5
+
+        NotesTextProcessor.highlightMarkdown(attributedString: content, note: self)
+        NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: content)
+
+        cacheHash = hash
+        cachingInProgress = false
     }
 }

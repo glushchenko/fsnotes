@@ -1354,6 +1354,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             ViewController.shared()?.tagsScannerQueue.removeAll(where: { $0 === note })
+            note.cache()
         }
     }
 
@@ -1376,7 +1377,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             setSelectedRange(NSMakeRange(0, 0))
             return
         }
-        
+
         if let position = EditTextView.note?.getCursorPosition(), position <= storage.length {
             setSelectedRange(NSMakeRange(position, 0))
             scrollToCursor()
@@ -1926,6 +1927,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override func viewDidChangeEffectiveAppearance() {
         UserDataService.instance.isDark = effectiveAppearance.isDark
+        storage.resetCacheAttributes()
 
         // clear preview cache
         MPreviewView.template = nil

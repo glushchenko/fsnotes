@@ -40,15 +40,17 @@ extension NSTextStorage: NSTextStorageDelegate {
         guard let note = EditTextView.note, note.isMarkdown() else { return }
         guard delta != 0 || EditTextView.shouldForceRescan else { return }
 
-        if editedRange.length > 300000 {
-            NotesTextProcessor.minimalHighlight(attributedString: textStorage, note: note)
-            return
-        }
+        if note.content.string.md5 != note.cacheHash {
+            if editedRange.length > 300000 {
+                NotesTextProcessor.minimalHighlight(attributedString: textStorage, note: note)
+                return
+            }
 
-        if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
-            rescanAll(textStorage: textStorage)
-        } else {
-            rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
+            if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
+                rescanAll(textStorage: textStorage)
+            } else {
+                rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
+            }
         }
 
         loadImages(textStorage: textStorage, checkRange: editedRange)
