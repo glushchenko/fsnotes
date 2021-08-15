@@ -269,14 +269,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func mouseDown(with event: NSEvent) {
         let vc = self.window?.contentViewController as! ViewController
         
-        guard let note = EditTextView.note else { return }
+        guard let note = EditTextView.note else { return super.mouseDown(with: event) }
         guard note.container != .encryptedTextPack else {
             vc.unLock(notes: [note])
             vc.emptyEditAreaImage.isHidden = false
-            return
+            return super.mouseDown(with: event)
         }
         
-        guard let container = self.textContainer, let manager = self.layoutManager else { return }
+        guard let container = self.textContainer, let manager = self.layoutManager else { return super.mouseDown(with: event) }
 
         let point = self.convert(event.locationInWindow, from: nil)
         let properPoint = NSPoint(x: point.x - textContainerInset.width, y: point.y)
@@ -286,7 +286,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         let glyphRect = manager.boundingRect(forGlyphRange: NSRange(location: index, length: 1), in: container)
 
         if glyphRect.contains(properPoint), isTodo(index) {
-            guard let f = self.getTextFormatter() else { return }
+            guard let f = self.getTextFormatter() else { return super.mouseDown(with: event) }
             f.toggleTodo(index)
 
             NSApp.mainWindow?.makeFirstResponder(nil)
@@ -295,7 +295,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 NSCursor.pointingHand.set()
             }
             
-            return
+            return super.mouseDown(with: event)
         }
         
         super.mouseDown(with: event)
