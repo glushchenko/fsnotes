@@ -32,6 +32,9 @@
 "Check Spelling While Typing" = "Перевіряти правопис під час набору";
 
 /* No comment provided by engineer. */
+"Clear" = "Очистити";
+
+/* No comment provided by engineer. */
 "Code Block" = "Блок коду";
 
 /* No comment provided by engineer. */
@@ -199,6 +202,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Завершити роботу FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Останні";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Останні запити";
+
 /* Delete menu */
 "Remove" = "Видалити";
 
@@ -209,7 +218,7 @@
 "Remove note(s)" = "Видалити нотатку(ок)";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Remove Tags";
+"Remove Tags" = "Видалити теги";
 
 /* No comment provided by engineer. */
 "Rename Folder" = "Перейменувати директорію";

@@ -53,16 +53,20 @@ extension NSTextStorage {
                 || value.starts(with: "\t")
                 || value.starts(with: "* ")
                 || value.starts(with: "- ")
-                || value.starts(with: "+ ") {
+                || value.starts(with: "+ ")
+                || value.starts(with: "> ")
+                || self.getNumberListPrefix(paragraph: value) != nil {
 
                 let prefix = value.getSpacePrefix()
                 let checkList = [
                     prefix + "* ",
                     prefix + "- ",
                     prefix + "+ ",
+                    prefix + "> ",
                     "* ",
                     "- ",
-                    "+ "
+                    "+ ",
+                    "> "
                 ]
 
                 var result = String()
@@ -71,6 +75,10 @@ extension NSTextStorage {
                         result = checkItem
                         break
                     }
+                }
+
+                if let prefix = self.getNumberListPrefix(paragraph: value) {
+                    result = prefix
                 }
 
                 let width = result.widthOfString(usingFont: font, tabs: tabs)
@@ -109,6 +117,39 @@ extension NSTextStorage {
         }
 
         endEditing()
+    }
+
+    public func getNumberListPrefix(paragraph: String) -> String? {
+        var result = String()
+        var numberFound = false
+        var dotFound = false
+
+        for char in paragraph {
+            if char.isWhitespace {
+                result.append(char)
+                if dotFound && numberFound {
+                    return result
+                }
+                continue
+            } else if char.isNumber {
+                numberFound = true
+                result.append(char)
+                continue
+            } else if char == "." {
+                if !numberFound {
+                    return nil
+                }
+                dotFound = true
+                result.append(char)
+                continue
+            }
+
+            if !numberFound || !dotFound {
+                return nil
+            }
+        }
+
+        return nil
     }
 
     public func getTabStops() -> [NSTextTab] {

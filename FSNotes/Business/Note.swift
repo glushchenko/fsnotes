@@ -176,6 +176,7 @@ public class Note: NSObject  {
 
     func fastLoad() {
         if let attributedString = getContent() {
+            cacheHash = nil
             content = NSMutableAttributedString(attributedString: attributedString)
         }
 
@@ -183,8 +184,9 @@ public class Note: NSObject  {
         isLoaded = true
     }
 
-    func load() {
+    func load(tags: Bool = true) {
         if let attributedString = getContent() {
+            cacheHash = nil
             content = NSMutableAttributedString(attributedString: attributedString)
         }
 
@@ -193,7 +195,7 @@ public class Note: NSObject  {
         #if os(iOS)
             loadPreviewInfo()
         #else
-            if !isTrash() && !project.isArchive {
+            if !isTrash() && !project.isArchive && tags {
                 _ = loadTags()
             }
         #endif
@@ -218,6 +220,7 @@ public class Note: NSObject  {
                         
         if (modifiedAt != modifiedLocalAt) {
             if let attributedString = getContent() {
+                cacheHash = nil
                 content = NSMutableAttributedString(attributedString: attributedString)
             }
             loadModifiedLocalAt()
@@ -229,7 +232,8 @@ public class Note: NSObject  {
 
     public func forceReload() {
         if container != .encryptedTextPack, let attributedString = getContent() {
-            self.content = NSMutableAttributedString(attributedString: attributedString)
+            cacheHash = nil
+            content = NSMutableAttributedString(attributedString: attributedString)
         }
     }
     
@@ -1666,7 +1670,7 @@ public class Note: NSObject  {
                 return false
             }
 
-            load()
+            load(tags: false)
             loadTitle()
             
             invalidateCache()
@@ -1795,6 +1799,7 @@ public class Note: NSObject  {
 
     public func cleanOut() {
         imageUrl = nil
+        cacheHash = nil
         content = NSMutableAttributedString(string: String())
         preview = String()
         title = String()
@@ -1984,13 +1989,19 @@ public class Note: NSObject  {
             return
         }
 
-        cachingInProgress = true
         let hash = content.string.md5
+        cachingInProgress = true
 
-        NotesTextProcessor.highlightMarkdown(attributedString: content, note: self)
+        content.removeAttribute(.backgroundColor, range: NSRange(0..<content.length))
+        
+        NotesTextProcessor.highlightMarkdown(attributedString: content, paragraphRange: NSRange(location: 0, length: content.length), note: self)
         NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: content)
 
         cacheHash = hash
         cachingInProgress = false
+    }
+
+    public func resetAttributesCache() {
+        cacheHash = nil
     }
 }

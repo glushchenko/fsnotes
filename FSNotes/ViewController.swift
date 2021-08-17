@@ -145,7 +145,7 @@ class ViewController: NSViewController,
             self.storage.loadAllTagsOnly()
 
             DispatchQueue.main.async {
-                self.reloadSideBar()
+                self.sidebarOutlineView.loadAllTags()
             }
         }
 
@@ -356,6 +356,7 @@ class ViewController: NSViewController,
 
         notesTableView.setDraggingSourceOperationMask(.every, forLocal: false)
 
+        editArea.attributesCachingQueue.qualityOfService = .background
         editArea.textContainerInset.height = 10
         editArea.isEditable = false
 
@@ -830,7 +831,12 @@ class ViewController: NSViewController,
         // Search cmd-f
         if (event.characters?.unicodeScalars.first == "f" && event.modifierFlags.contains(.command) && !event.modifierFlags.contains(.control)) {
             if self.notesTableView.getSelectedNote() != nil {
-                
+                if search.stringValue.count > 0 {
+                    let pb = NSPasteboard(name: NSPasteboard.Name.find)
+                    pb.declareTypes([.textFinderOptions, .string], owner: nil)
+                    pb.setString(search.stringValue, forType: NSPasteboard.PasteboardType.string)
+                }
+
                 //Turn off preview mode as text search works only in text editor
                 disablePreview()
                 return true
@@ -1418,20 +1424,28 @@ class ViewController: NSViewController,
 
                 if note.container == .encryptedTextPack {
                     success = note.unLock(password: password)
-                    if success && notes.count == 0x01 {
-                        note.password = password
+                    if success {
+                        if notes.count == 0x01 {
+                            note.password = password
+                            DispatchQueue.main.async {
+                                self.refillEditArea(force: true)
+                            }
+                        }
+
+                        let insertTags = note.scanContentTags().0
                         DispatchQueue.main.async {
-                            self.refillEditArea(force: true)
+                            self.sidebarOutlineView.addTags(insertTags)
                         }
                     }
                 } else {
                     success = note.encrypt(password: password)
-                    if success && notes.count == 0x01 {
+                    if success {
                         note.password = nil
+
                         DispatchQueue.main.async {
-                            self.refillEditArea(force: true)
+                            self.editArea.clear()
+                            self.focusTable()
                         }
-                        self.focusTable()
                     }
                 }
 
@@ -1473,6 +1487,7 @@ class ViewController: NSViewController,
         let notes = storage.noteList.filter({ $0.isUnlocked() })
         for note in notes {
             if note.lock() {
+                removeTags(note: note)
                 notesTableView.reloadRow(note: note)
             }
         }
@@ -1495,6 +1510,12 @@ class ViewController: NSViewController,
                 updateTitle(note: currentNote)
             }
         }
+    }
+
+    public func removeTags(note: Note) {
+        let tags = note.tags
+        note.tags = []
+        sidebarOutlineView.removeTags(tags)
     }
 
     public func blockFSUpdates() {
@@ -1855,7 +1876,6 @@ class ViewController: NSViewController,
     
     func cleanSearchAndEditArea(shouldBecomeFirstResponder: Bool = true, completion: (() -> ())? = nil) {
         search.stringValue = ""
-        search.cleanFindPasteboard()
 
         if shouldBecomeFirstResponder {
             search.becomeFirstResponder()
@@ -2457,15 +2477,23 @@ class ViewController: NSViewController,
             var i = 0
             for note in notes {
                 let success = note.unLock(password: password)
-                if success, i == 0 {
-                    note.password = password
+                if success {
 
+                    let insertTags = note.scanContentTags().0
                     DispatchQueue.main.async {
-                        self.refillEditArea(force: true)
+                        self.sidebarOutlineView.addTags(insertTags)
                     }
 
-                    if isTypedByUser {
-                        self.save(password: password)
+                    if i == 0 {
+                        note.password = password
+
+                        DispatchQueue.main.async {
+                            self.refillEditArea(force: true)
+                        }
+
+                        if isTypedByUser {
+                            self.save(password: password)
+                        }
                     }
                 }
 
@@ -2563,13 +2591,14 @@ class ViewController: NSViewController,
             if note.isUnlocked() && note.isEncrypted() {
                 if note.lock() && isFirst {
                     self.editArea.clear()
-                    self.refillEditArea()
                     NSApp.mainWindow?.makeFirstResponder(self.notesTableView)
                 }
+
+                removeTags(note: note)
                 notes.removeAll { $0 === note }
             }
-            isFirst = false
 
+            isFirst = false
             self.notesTableView.reloadRow(note: note)
         }
 

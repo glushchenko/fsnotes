@@ -553,6 +553,10 @@ class SidebarOutlineView: NSOutlineView,
         let hasChangedProjectsState = isChangedProjectsState()
         let hasChangedTagsState = isChangedTagsState()
 
+        if hasChangedTagsState || hasChangedProjectsState || hasChangedSidebarItemsState {
+            vd.editArea.clear()
+        }
+
         let i = view.selectedRow
 
         if UserDefaultsManagement.inlineTags,
@@ -584,7 +588,6 @@ class SidebarOutlineView: NSOutlineView,
 
         if !isFirstLaunch {
             vd.search.stringValue = ""
-            vd.search.cleanFindPasteboard()
         }
 
         guard !UserDataService.instance.skipSidebarSelection else {
@@ -620,8 +623,6 @@ class SidebarOutlineView: NSOutlineView,
                 }
 
                 self.selectNote = nil
-            } else {
-                vd.editArea.clear()
             }
         }
     }
@@ -1348,6 +1349,8 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func addTags(_ tags: [String], shouldUnloadOld: Bool = false) {
+        guard tags.count > 0 else { return }
+        
         beginUpdates()
 
         if shouldUnloadOld {
@@ -1431,7 +1434,7 @@ class SidebarOutlineView: NSOutlineView,
         return Array(tags)
     }
 
-    private func loadAllTags() {
+    public func loadAllTags() {
         let tags = getAllTags()
 
         addTags(tags.sorted(), shouldUnloadOld: true)

@@ -734,7 +734,6 @@ public class NotesTextProcessor {
                 var substring = attributedString.mutableString.substring(with: linkRange)
 
                 guard substring.count > 0 else { return }
-                guard let note = EditTextView.note else { return }
 
                 if substring.starts(with: "/i/")
                     || substring.starts(with: "i/")
@@ -838,7 +837,6 @@ public class NotesTextProcessor {
             attributedString.addAttribute(.font, value: quoteFont, range: range)
             attributedString.fixAttributes(in: range)
             attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
-            attributedString.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)

@@ -24,16 +24,18 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     public var timestamp: Int64?
     private var lastQueryLength: Int = 0
     private var lastQuery = String()
-    private var lastSearchQuery = String()
+    public var lastSearchQuery = String()
 
     public var searchesMenu: NSMenu? = nil
 
     public func generateRecentMenu() -> NSMenu {
-        let menu = NSMenu(title: "Recents")
+        let recentsTitle = NSLocalizedString("Recents", comment: "")
+        let menu = NSMenu(title: recentsTitle)
         menu.autoenablesItems = true
 
         if let recent = UserDefaultsManagement.recentSearches, recent.count > 0 {
-            menu.addItem(withTitle: "Recents Search", action: nil, keyEquivalent: "")
+            let recentsSearchTitle = NSLocalizedString("Recents Search", comment: "")
+            menu.addItem(withTitle: recentsSearchTitle, action: nil, keyEquivalent: "")
 
             var i = 1
             for title in recent {
@@ -45,7 +47,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
             menu.addItem(NSMenuItem.separator())
 
-            let menuItem = NSMenuItem(title: "Clear", action: #selector(cleanRecents(_:)), keyEquivalent: "d")
+            let clearTitle = NSLocalizedString("Clear", comment: "")
+            let menuItem = NSMenuItem(title: clearTitle, action: #selector(cleanRecents(_:)), keyEquivalent: "d")
             menuItem.target = self
             menu.addItem(menuItem)
 
@@ -138,17 +141,14 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                     DispatchQueue.main.async {
                         self.vcDelegate.refillEditArea()
                         NSApp.mainWindow?.makeFirstResponder(self.vcDelegate.editArea)
-                        self.cleanFindPasteboard()
                     }
                 } else {
                     DispatchQueue.main.async {
                         self.vcDelegate.focusEditArea()
-                        self.cleanFindPasteboard()
                     }
                 }
             } else {
                 vcDelegate.makeNote(self)
-                cleanFindPasteboard()
             }
 
             addRecent(query: stringValue)
@@ -163,7 +163,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 vcDelegate.focusEditArea()
             }
 
-            cleanFindPasteboard()
             vcDelegate.editArea.scrollToCursor()
             return true
         case "deleteWordBackward:":
@@ -255,14 +254,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
 
         if let query = getSearchTextExceptCompletion() {
             self.lastSearchQuery = query
-
-            let pb = NSPasteboard(name: NSPasteboard.Name.find)
-            pb.setString(query, forType: .string)
-        } else if stringValue.count > 0 {
-            let pb = NSPasteboard(name: NSPasteboard.Name.find)
-            pb.setString(stringValue, forType: .string)
-        } else {
-            cleanFindPasteboard()
         }
 
         self.filterQueue.cancelAllOperations()
@@ -298,12 +289,6 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
             }
         }
-    }
-
-    public func cleanFindPasteboard() {
-        let pb = NSPasteboard(name: NSPasteboard.Name.find)
-        pb.declareTypes([.textFinderOptions, .string], owner: nil)
-        pb.setString("", forType: NSPasteboard.PasteboardType.string)
     }
 
     private func getSearchTextExceptCompletion() -> String? {

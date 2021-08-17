@@ -31,6 +31,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     @IBOutlet weak var previewMathJax: NSMenuItem!
 
     public static var imagesLoaderQueue = OperationQueue.init()
+    public var attributesCachingQueue = OperationQueue.init()
     
     override func willOpenMenu(_ menu: NSMenu, with event: NSEvent) {
         validateSubmenu(menu)
@@ -923,10 +924,11 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         // save cursor position
         let cursorLocation = selectedRanges[0].rangeValue.location
-        
-        let search = getSearchText()
-        let processor = NotesTextProcessor(storage: textStorage)
-        processor.highlightKeyword(search: search, remove: true)
+
+        if let search = viewDelegate?.search.lastSearchQuery {
+            let processor = NotesTextProcessor(storage: textStorage)
+            processor.highlightKeyword(search: search, remove: true)
+        }
         
         // restore cursor
         setSelectedRange(NSRange.init(location: cursorLocation, length: 0))
@@ -1204,7 +1206,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     override func shouldChangeText(in affectedCharRange: NSRange, replacementString: String?) -> Bool {
-
+        EditTextView.note?.resetAttributesCache()
+        
         if let par = getParagraphRange(),
             let text = textStorage?.mutableString.substring(with: par), text.contains("[["), text.contains("]]") {
 
@@ -1327,6 +1330,12 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let vc = ViewController.shared() else { return }
         let notes = vc.tagsScannerQueue
 
+        attributesCachingQueue.addOperation {
+            for note in notes {
+                note.cache()
+            }
+        }
+        
         for note in notes {
             let result = note.scanContentTags()
             guard let outline = ViewController.shared()?.sidebarOutlineView else { return }
@@ -1354,7 +1363,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             }
 
             ViewController.shared()?.tagsScannerQueue.removeAll(where: { $0 === note })
-            note.cache()
         }
     }
 
@@ -1569,11 +1577,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     
     func getSearchText() -> String {
         guard let search = ViewController.shared()?.search else { return String() }
-
-        let pb = NSPasteboard(name: NSPasteboard.Name.find)
-        if let string = pb.string(forType: NSPasteboard.PasteboardType.string) {
-            return string
-        }
 
         if let editor = search.currentEditor(), editor.selectedRange.length > 0 {
             return (search.stringValue as NSString).substring(with: NSRange(0..<editor.selectedRange.location))

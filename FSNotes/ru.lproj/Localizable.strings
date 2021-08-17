@@ -32,6 +32,9 @@
 "Check Spelling While Typing" = "Проверять во время набора";
 
 /* No comment provided by engineer. */
+"Clear" = "Очистить";
+
+/* No comment provided by engineer. */
 "Code Block" = "Блок кода";
 
 /* No comment provided by engineer. */
@@ -198,6 +201,12 @@
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Выйти из FSNotes";
+
+/* No comment provided by engineer. */
+"Recents" = "Недавние";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Недавние запросы";
 
 /* Delete menu */
 "Remove" = "Удалить";

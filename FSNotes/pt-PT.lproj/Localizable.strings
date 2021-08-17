@@ -32,6 +32,9 @@
 "Check Spelling While Typing" = "Verificar gramática durante a escrita";
 
 /* No comment provided by engineer. */
+"Clear" = "Clear";
+
+/* No comment provided by engineer. */
 "Code Block" = "Bloco de código";
 
 /* No comment provided by engineer. */
@@ -198,6 +201,12 @@
 
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Sair do FSNotes";
+
+/* No comment provided by engineer. */
+"Recents" = "Recents";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Recents Search";
 
 /* Delete menu */
 "Remove" = "Remover";
