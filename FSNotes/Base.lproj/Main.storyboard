@@ -2252,7 +2252,7 @@ Gw
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3f9-vz-qWm">
                                 <rect key="frame" x="68" y="370" width="316" height="35"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" selectable="YES" alignment="center" title="Copyright © 2017-2020 Oleksandr Hlushchenko. All rights reserved." id="0f7-Za-V0B">
+                                <textFieldCell key="cell" selectable="YES" alignment="center" title="Copyright © 2017-2021 Oleksandr Hlushchenko. All rights reserved." id="0f7-Za-V0B">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

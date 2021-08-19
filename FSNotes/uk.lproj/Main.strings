@@ -626,10 +626,10 @@
 "Q9n-yE-Ul0.title" = "Повідомити про помилки або запитати про нові функції";
 
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
-"qiO-vb-B9L.title" = "Вресія Git:";
+"qiO-vb-B9L.title" = "Версія Git:";
 
 /* Class = "NSMenuItem"; title = "Format: yyyy-MM-dd hh.mm.ss a"; ObjectID = "qn1-vy-8oB"; */
-"qn1-vy-8oB.title" = "Format: yyyy-MM-dd hh.mm.ss a";
+"qn1-vy-8oB.title" = "Формат: yyyy-MM-dd hh.mm.ss a";
 
 /* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
 "qNE-oZ-zJr.title" = "Назад";

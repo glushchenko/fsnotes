@@ -860,15 +860,15 @@ class ViewController: NSViewController,
 
             switch event.characters?.unicodeScalars.first {
             case "1":
-                sidebarOutlineView.selectSidebar(type: .All)
+                sidebarOutlineView.selectRowIndexes([0], byExtendingSelection: false)
             case "2":
-                sidebarOutlineView.selectSidebar(type: .Todo)
+                sidebarOutlineView.selectRowIndexes([1], byExtendingSelection: false)
             case "3":
-                sidebarOutlineView.selectSidebar(type: .Archive)
+                sidebarOutlineView.selectRowIndexes([2], byExtendingSelection: false)
             case "4":
-                sidebarOutlineView.selectSidebar(type: .Trash)
+                sidebarOutlineView.selectRowIndexes([3], byExtendingSelection: false)
             case "5":
-                sidebarOutlineView.selectSidebarRoot()
+                sidebarOutlineView.selectRowIndexes([4], byExtendingSelection: false)
             default:
                 return true
             }
