@@ -185,7 +185,7 @@
 "buJ-ug-pKt.title" = "선택 부분으로 찾기";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
-"BX0-nb-tVk.title" = "Untagged";
+"BX0-nb-tVk.title" = "태그가 없는";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "노트 목록 간격:";

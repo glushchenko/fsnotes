@@ -179,13 +179,13 @@
 "Bri-cl-z86.title" = "хвилин";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Notes List"; ObjectID = "BtV-Z4-7Vq"; */
-"BtV-Z4-7Vq.title" = "Move Down In The Notes List";
+"BtV-Z4-7Vq.title" = "Перейти вниз у списку нотаток";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Використати вибране для пошуку";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
-"BX0-nb-tVk.title" = "Untagged";
+"BX0-nb-tVk.title" = "Без тегів";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "Відстань між нотатками:";
@@ -401,7 +401,7 @@
 "hqQ-4C-VJL.title" = "Вікіпосилання";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Notes List"; ObjectID = "Hqu-Sx-xgo"; */
-"Hqu-Sx-xgo.title" = "Move Up In The Notes List";
+"Hqu-Sx-xgo.title" = "Перейти вгору у списку нотаток";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
 "HyV-fh-RgO.title" = "Вигляд";
@@ -623,7 +623,7 @@
 "q7c-Fz-aaj.title" = "Збоку";
 
 /* Class = "NSMenuItem"; title = "Report Bugs or Feature Requests"; ObjectID = "Q9n-yE-Ul0"; */
-"Q9n-yE-Ul0.title" = "Report Bugs or Feature Requests";
+"Q9n-yE-Ul0.title" = "Повідомити про помилки або запитати про нові функції";
 
 /* Class = "NSTextFieldCell"; title = "Git version:"; ObjectID = "qiO-vb-B9L"; */
 "qiO-vb-B9L.title" = "Вресія Git:";
@@ -698,7 +698,7 @@
 "Scc-aD-CFQ.title" = "Лист нотаток:";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Sidebar"; ObjectID = "sdE-ZM-6cq"; */
-"sdE-ZM-6cq.title" = "Move Up In The Sidebar";
+"sdE-ZM-6cq.title" = "Перейти вгору на бічній панелі";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "SdL-vK-KjH"; */
 "SdL-vK-KjH.title" = "Вікно";
@@ -791,7 +791,7 @@
 "vmV-6d-7jI.title" = "Верхній регістр";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Sidebar"; ObjectID = "vrs-XL-lyE"; */
-"vrs-XL-lyE.title" = "Move Down In The Sidebar";
+"vrs-XL-lyE.title" = "Перейти вниз на бічній панелі";
 
 /* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
 "Vwq-Ek-K2v.title" = "Фокус на пошуку по ESC";

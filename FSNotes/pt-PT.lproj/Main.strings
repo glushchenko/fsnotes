@@ -185,7 +185,7 @@
 "buJ-ug-pKt.title" = "Utilizar selecção para Procura";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
-"BX0-nb-tVk.title" = "Untagged";
+"BX0-nb-tVk.title" = "Sem tag";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "Espaçamento da lista:";
