@@ -18,8 +18,11 @@ extension ViewController {
         let bundle = Bundle(url: url)!
         let baseURL = bundle.url(forResource: "index", withExtension: "html")!
 
+        let cssURL = bundle.url(forResource: "css/markdown-preview", withExtension: "css")!
+        var css = try! String(contentsOf: cssURL)
         let markdownString = note.getPrettifiedContent()
-        let css = MPreviewView.getPreviewStyle(theme: "atom-one-light", fullScreen: true, useFixedImageHeight: false) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
+
+        css += MPreviewView.getPreviewStyle(theme: "atom-one-light", fullScreen: true, useFixedImageHeight: false) + "  .copyCode { display: none; } body { -webkit-text-size-adjust: none; font-size: 1.0em;} pre, code { border: 1px solid #c0c4ce; border-radius: 3px; } pre, pre code { word-wrap: break-word; }";
 
         var template = try! NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
