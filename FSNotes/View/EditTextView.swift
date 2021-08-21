@@ -172,21 +172,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         if note.isRTF() {
             let disableRTF = [
-                NSLocalizedString("Header 1", comment: ""),
-                NSLocalizedString("Header 2", comment: ""),
-                NSLocalizedString("Header 3", comment: ""),
-                NSLocalizedString("Header 4", comment: ""),
-                NSLocalizedString("Header 5", comment: ""),
-                NSLocalizedString("Header 6", comment: ""),
-                NSLocalizedString("Link", comment: ""),
-                NSLocalizedString("Image or file", comment: ""),
-                NSLocalizedString("Toggle preview", comment: ""),
-                NSLocalizedString("Code Block", comment: ""),
-                NSLocalizedString("Code Span", comment: ""),
-                NSLocalizedString("Todo", comment: "")
+                "format.h1",
+                "format.h2",
+                "format.h3",
+                "format.h4",
+                "format.h5",
+                "format.h6",
+                "format.codeBlock",
+                "format.codeSpan",
+                "format.image",
+                "format.todo"
             ]
 
-            if disableRTF.contains(menuItem.title) {
+            if let ident = menuItem.identifier?.rawValue, disableRTF.contains(ident) {
                 menuItem.isHidden = true
             }
             
@@ -272,7 +270,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func mouseDown(with event: NSEvent) {
         let vc = self.window?.contentViewController as! ViewController
         
-        guard let note = EditTextView.note else { return super.mouseDown(with: event) }
+        guard let note = EditTextView.note, note.type == .Markdown else { return super.mouseDown(with: event) }
         guard note.container != .encryptedTextPack else {
             vc.unLock(notes: [note])
             vc.emptyEditAreaImage.isHidden = false
@@ -606,7 +604,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
     override var writablePasteboardTypes: [NSPasteboard.PasteboardType] {
         get {
-            return [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string]
+            return
+                [NSPasteboard.PasteboardType.rtfd, NSPasteboard.PasteboardType.string, NSPasteboard.attributedTextType]
+        }
+    }
+
+    override var readablePasteboardTypes: [NSPasteboard.PasteboardType] {
+        get {
+            return super.readablePasteboardTypes + [NSPasteboard.attributedTextType]
         }
     }
 
@@ -622,6 +627,35 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             pboard.setString(plainText, forType: .string)
             return true
+        }
+
+        if type == NSPasteboard.attributedTextType {
+            let richString = attributedString.unLoadCheckboxes()
+
+            let imageKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
+            let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
+
+            richString.enumerateAttribute(.attachment, in: NSMakeRange(0,(richString.length)), options: .reverse, using:  {(_ value: Any?, _ range: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+
+                guard let textAttachment = value as? NSTextAttachment,
+                      let url = richString.attribute(imageKey, at: range.location, effectiveRange: nil) as? URL,
+                      let image = try? Data(contentsOf: url) else { return }
+
+                richString.removeAttribute(pathKey, range: range)
+                richString.removeAttribute(imageKey, range: range)
+
+                let imageWrapper = FileWrapper(regularFileWithContents: image)
+                let fileExtension = ImageFormat.get(from: image).rawValue
+
+                imageWrapper.preferredFilename = "\(UUID()).\(fileExtension)"
+                textAttachment.fileWrapper = imageWrapper
+            })
+
+            if let rtfd = try? richString.data(from: NSMakeRange(0, richString.length), documentAttributes: [NSAttributedString.DocumentAttributeKey.documentType: NSAttributedString.DocumentType.rtfd]) {
+                pboard.setData(rtfd, forType: NSPasteboard.attributedTextType)
+
+                return super.writeSelection(to: pboard, type: type)
+            }
         }
 
         if type == .rtfd {
@@ -678,6 +712,31 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
             fillPlainAndRTFStyle(note: note, saveTyping: false)
             return
+        }
+
+        if let rtfd = NSPasteboard.general.data(forType: NSPasteboard.attributedTextType) {
+            let options = [
+                NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtfd
+            ] as [NSAttributedString.DocumentReadingOptionKey : Any]
+
+            let attributedString = try? NSMutableAttributedString(data: rtfd, options: options, documentAttributes: nil)
+
+            attributedString?.loadCheckboxes()
+
+            if let attributedString = attributedString {
+                let currentRange = selectedRange()
+
+                insertText(attributedString, replacementRange: currentRange)
+                breakUndoCoalescing()
+
+                guard let container = textContainer else { return }
+                textStorage?.sizeAttachmentImages(container: container)
+
+                saveImages()
+                saveTextStorageContent(to: note)
+
+                return
+            }
         }
 
         if let clipboard = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
@@ -1622,8 +1681,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     }
 
     @IBAction func todo(_ sender: Any) {
-        guard let f = self.getTextFormatter() else { return }
-
+        guard let f = self.getTextFormatter(),
+              let vc = ViewController.shared(),
+              let editArea = vc.editArea,
+              let note = vc.getCurrentNote(),
+              vc.currentPreviewState == .off,
+              note.type == .Markdown,
+              editArea.isEditable else { return }
+        
         f.todo()
     }
 

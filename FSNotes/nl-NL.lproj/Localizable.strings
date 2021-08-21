@@ -35,12 +35,6 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Code Block" = "Codeblok";
-
-/* No comment provided by engineer. */
-"Code Span" = "Code inline";
-
-/* No comment provided by engineer. */
 "Copy HTML" = "Kopieer HTML";
 
 /* No comment provided by engineer. */
@@ -104,31 +98,10 @@
 "FSNotes [preview]" = "FSNotes [voorvertoning]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Kop 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Kop 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Kop 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Kop 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Kop 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Kop 6";
-
-/* No comment provided by engineer. */
 "History" = "Geschiedenis";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
-
-/* No comment provided by engineer. */
-"Image or file" = "Afbeelding of bestand";
 
 /* No comment provided by engineer. */
 "Inbox" = "Postvak In";

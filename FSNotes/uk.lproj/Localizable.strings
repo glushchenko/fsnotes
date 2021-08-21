@@ -35,12 +35,6 @@
 "Clear" = "Очистити";
 
 /* No comment provided by engineer. */
-"Code Block" = "Блок коду";
-
-/* No comment provided by engineer. */
-"Code Span" = "Проміжок коду";
-
-/* No comment provided by engineer. */
 "Copy HTML" = "Скопіювати HTML";
 
 /* No comment provided by engineer. */
@@ -104,31 +98,10 @@
 "FSNotes [preview]" = "FSNotes [попередній перегляд]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Заголовок 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Заголовок 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Заголовок 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Заголовок 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Заголовок 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Заголовок 6";
-
-/* No comment provided by engineer. */
 "History" = "Історія";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
-
-/* No comment provided by engineer. */
-"Image or file" = "Image or file";
 
 /* No comment provided by engineer. */
 "Inbox" = "Вхідні";

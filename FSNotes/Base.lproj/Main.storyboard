@@ -553,18 +553,18 @@ CA
                                                 <action selector="linkMenu:" target="Ady-hI-5gd" id="V6q-no-eC3"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Image or file" keyEquivalent="I" id="yx6-SW-3vn">
+                                        <menuItem title="Image or file" keyEquivalent="I" identifier="format.image" id="yx6-SW-3vn">
                                             <connections>
                                                 <action selector="insertFileOrImage:" target="Ady-hI-5gd" id="2EE-rd-dsJ"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Code Block" keyEquivalent="c" id="OOL-dM-zIE">
+                                        <menuItem title="Code Block" keyEquivalent="c" identifier="format.codeBlock" id="OOL-dM-zIE">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
                                                 <action selector="insertCodeBlock:" target="Ady-hI-5gd" id="dB1-yF-DnW"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Code Span" keyEquivalent="C" id="Ukg-MO-eaB">
+                                        <menuItem title="Code Span" keyEquivalent="C" identifier="format.codeSpan" id="Ukg-MO-eaB">
                                             <connections>
                                                 <action selector="insertCodeSpan:" target="Ady-hI-5gd" id="zP1-Kg-gh9"/>
                                             </connections>
@@ -591,7 +591,7 @@ CA
                                                 <action selector="wikiLinks:" target="Ady-hI-5gd" id="gT7-1q-B11"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Toggle Todo" keyEquivalent="t" id="n0M-SN-fzg">
+                                        <menuItem title="Toggle Todo" keyEquivalent="t" identifier="format.todo" id="n0M-SN-fzg">
                                             <connections>
                                                 <action selector="todo:" target="Ady-hI-5gd" id="tNn-G1-JVu"/>
                                             </connections>

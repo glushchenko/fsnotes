@@ -293,7 +293,7 @@
 "F6G-ua-MNX.title" = "Отключить предпросмотр";
 
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "fCZ-JX-nxF"; */
-"fCZ-JX-nxF.title" = "Подчёркнтуый";
+"fCZ-JX-nxF.title" = "Подчёркнутый";
 
 /* Class = "NSMenu"; title = "Substitutions"; ObjectID = "FeM-D8-WVr"; */
 "FeM-D8-WVr.title" = "Подстановка";

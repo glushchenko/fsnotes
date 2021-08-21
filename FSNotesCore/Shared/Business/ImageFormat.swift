@@ -1,6 +1,5 @@
 //
 //  ImageFormat.swift
-//  FSNotes iOS
 //
 //  Created by Олександр Глущенко on 08.06.2020.
 //  Copyright © 2020 Oleksandr Glushchenko. All rights reserved.

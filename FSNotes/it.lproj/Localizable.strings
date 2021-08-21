@@ -35,12 +35,6 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Code Block" = "Blocco di Codice";
-
-/* No comment provided by engineer. */
-"Code Span" = "Intervallo di Codice";
-
-/* No comment provided by engineer. */
 "Copy HTML" = "Copia HTML";
 
 /* No comment provided by engineer. */
@@ -104,31 +98,10 @@
 "FSNotes [preview]" = "FSNotes [anteprima]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Intestazione 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Intestazione 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Intestazione 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Intestazione 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Intestazione 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Intestazione 6";
-
-/* No comment provided by engineer. */
 "History" = "Cronologia";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
-
-/* No comment provided by engineer. */
-"Image or file" = "Immagine o file";
 
 /* No comment provided by engineer. */
 "Inbox" = "In Entrata";

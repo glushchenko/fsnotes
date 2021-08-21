@@ -35,12 +35,6 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Code Block" = "الاكواد البرمجية";
-
-/* No comment provided by engineer. */
-"Code Span" = "امتداد الرمز";
-
-/* No comment provided by engineer. */
 "Copy HTML" = "نسخ HTML";
 
 /* No comment provided by engineer. */
@@ -104,31 +98,10 @@
 "FSNotes [preview]" = "FSNotes [المعاينة]";
 
 /* No comment provided by engineer. */
-"Header 1" = "عنوان ١";
-
-/* No comment provided by engineer. */
-"Header 2" = "عنوان ٢";
-
-/* No comment provided by engineer. */
-"Header 3" = "عنوان ٣";
-
-/* No comment provided by engineer. */
-"Header 4" = "عنوان ٤";
-
-/* No comment provided by engineer. */
-"Header 5" = "عنوان ٥";
-
-/* No comment provided by engineer. */
-"Header 6" = "عنوان ٦";
-
-/* No comment provided by engineer. */
 "History" = "تاريخ";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
-
-/* No comment provided by engineer. */
-"Image or file" = "Image or file";
 
 /* No comment provided by engineer. */
 "Inbox" = "الوارد";

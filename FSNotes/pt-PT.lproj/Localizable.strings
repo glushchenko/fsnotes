@@ -35,12 +35,6 @@
 "Clear" = "Clear";
 
 /* No comment provided by engineer. */
-"Code Block" = "Bloco de código";
-
-/* No comment provided by engineer. */
-"Code Span" = "Lapso de código";
-
-/* No comment provided by engineer. */
 "Copy HTML" = "Copiar HTML";
 
 /* No comment provided by engineer. */
@@ -104,31 +98,10 @@
 "FSNotes [preview]" = "FSNotes [pré-visualizar]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Cabeçalho 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Cabeçalho 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Cabeçalho 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Cabeçalho 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Cabeçalho 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Cabeçalho 6";
-
-/* No comment provided by engineer. */
 "History" = "Histórico";
 
 /* No comment provided by engineer. */
 "iCloud Drive" = "iCloud Drive";
-
-/* No comment provided by engineer. */
-"Image or file" = "Imagem ou ficheiro";
 
 /* No comment provided by engineer. */
 "Inbox" = "Caixa de entrada";

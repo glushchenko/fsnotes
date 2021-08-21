@@ -12,4 +12,8 @@ extension NSPasteboard {
     public static var noteType: PasteboardType {
         return NSPasteboard.PasteboardType("es.fsnot.pasteboard.note")
     }
+
+    public static var attributedTextType: PasteboardType {
+        return NSPasteboard.PasteboardType("es.fsnot.pasteboard.attributedText")
+    }
 }
