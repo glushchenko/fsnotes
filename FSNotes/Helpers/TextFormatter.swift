@@ -410,54 +410,110 @@ public class TextFormatter {
     
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
+        
         let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
+        let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unLoadCheckboxes()
 
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let string = mutable.string
         var result = String()
-        var lineQty = 0
+        var addsChars = 0
 
+        let location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             result.append(padding + line + "\n")
-            lineQty += 1
+
+            if isFirstLine {
+                isFirstLine = false
+            } else {
+                addsChars += padding.count
+            }
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
+        let selectRange = NSRange(location: location + padding.count, length: length + addsChars)
+        
+        let mutableResult = NSMutableAttributedString(string: result)
+        mutableResult.loadCheckboxes()
 
-        insertText(result, replacementRange: pRange, selectRange: selectRange)
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = storage.attributedSubstring(from: pRange).string
-        var result = String()
-        var lineQty = 0
+        let mutable = NSMutableAttributedString(attributedString: storage.attributedSubstring(from: pRange)).unLoadCheckboxes()
+        let string = mutable.string
 
+        var result = String()
+
+        let location = textView.selectedRange.location
+        let length = textView.selectedRange.length
+
+        var padding = 0
+        var dropChars = 0
+
+        if string.starts(with: "\t") {
+            padding = 1
+        } else if string.starts(with: "   ") {
+            padding = 4
+        }
+
+        var isFirstLine = true
         string.enumerateLines { (line, _) in
             var line = line
 
             if !line.isEmpty {
                 if line.first == "\t" {
                     line = String(line.dropFirst())
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 1
+                        }
+                    }
                 } else if line.starts(with: "    ") {
                     line = String(line.dropFirst(4))
+
+                    if length == 0 {
+                        dropChars = 0
+                    } else {
+                        if isFirstLine {
+                            isFirstLine = false
+                        } else {
+                            dropChars += 4
+                        }
+                    }
                 }
             }
             
             result.append(line + "\n")
-            lineQty += 1
         }
 
-        let selectRange = textView.selectedRange.length == 0 || lineQty == 1
-            ? NSRange(location: pRange.location + result.count - 1, length: 0)
-            : NSRange(location: pRange.location, length: result.count)
+        let diffLocation = location - padding
+        let selectLocation = diffLocation > 0 ? diffLocation : 0
+        
+        let selectRange = NSRange(location: selectLocation, length: length - dropChars)
 
-        insertText(result, replacementRange: pRange, selectRange: selectRange)
+        let mutableResult = NSMutableAttributedString(string: result)
+        mutableResult.loadCheckboxes()
+
+        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+        
+        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {
+        let fullSelection = selectedRange.length > 0
         guard let pRange = getParagraphRange() else { return }
 
 #if os(iOS)
@@ -490,7 +546,13 @@ public class TextFormatter {
         }
 
         let diff = paragraph.contains("\n") ? 1 : 0
-        let selectRange = NSRange(location: pRange.location + paragraph.count - diff, length: 0)
+
+        var selectRange = NSRange(location: pRange.location + paragraph.count - diff, length: 0)
+
+        if fullSelection {
+            selectRange = NSRange(location: pRange.location, length: paragraph.count - diff)
+        }
+
         insertText(paragraph, replacementRange: pRange, selectRange: selectRange)
 #endif
     }
@@ -636,7 +698,11 @@ public class TextFormatter {
 
                 if let _ = char.attribute(.todo, at: 0, effectiveRange: nil) {
                     let selectRange = NSRange(location: currentParagraphRange.location, length: 0)
-                    insertText("\n", replacementRange: currentParagraphRange, selectRange: selectRange)
+
+                    insertText("", replacementRange: currentParagraphRange, selectRange: selectRange)
+                    textView.insertNewline(nil)
+
+                    textView.setSelectedRange(selectRange)
                     return
                 }
             }
@@ -747,15 +813,42 @@ public class TextFormatter {
 
         var result = String()
         for line in lines {
+
+            // Removes extra chars identified as list items start
+
+            var line = line
+
+            let digitRegex = try! NSRegularExpression(pattern: "^([0-9]+\\. )")
+            let digitRegexResult = digitRegex.firstMatch(in: line, range: NSRange(0..<line.count))
+
+            let charRegex = try! NSRegularExpression(pattern: "^([-*–+]+ )")
+            let charRegexResult = charRegex.firstMatch(in: line, range: NSRange(0..<line.count))
+
+            if let result = digitRegexResult {
+                let qty = result.range.length
+                line = String(line.dropFirst(qty))
+            } else if let result = charRegexResult, !line.contains("- [") {
+                let qty = result.range.length
+                line = String(line.dropFirst(qty))
+            }
+
             if addPrefixes {
                 let task = addCompleted ? "- [x] " : "- [ ] "
                 var empty = String()
                 var scanFinished = false
 
                 if line.count > 0 {
+                    var j = 0
                     for char in line {
-                        if char.isWhitespace && !scanFinished {
-                            empty.append(char)
+                        j += 1
+
+                        if (char.isWhitespace || char == "\t")
+                            && !scanFinished {
+                            if j == line.count {
+                                empty.append("\(char)" + task)
+                            } else {
+                                empty.append(char)
+                            }
                         } else {
                             if !scanFinished {
                                 empty.append(task + "\(char)")
@@ -799,9 +892,11 @@ public class TextFormatter {
 
             self.textView.undoManager?.beginUndoGrouping()
             self.storage.replaceCharacters(in: NSRange(location: location, length: 1), with: (attributedText?.attributedSubstring(from: NSRange(0..<1)))!)
+
             self.textView.undoManager?.endUndoGrouping()
 
             guard let paragraph = getParagraphRange(for: location) else { return }
+            self.storage.updateParagraphStyle(range: paragraph)
             
             if todoAttr == 0 {
                 self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
@@ -828,7 +923,6 @@ public class TextFormatter {
             paragraphRange = string.paragraphRange(for: NSRange(location: location, length: 0))
         } else {
             guard let attributedText = AttributedBox.getUnChecked() else { return }
-
 
             // Toggle render if exist in current paragraph
             var rangeFound = false
@@ -1238,7 +1332,9 @@ public class TextFormatter {
     public func list() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let attributedString = getAttributedString().attributedSubstring(from: pRange)
+        let mutable = NSMutableAttributedString(attributedString: attributedString)
+        let string = mutable.unLoadCheckboxes().string
 
         guard string.isContainsLetters else {
             insertText("- ")
@@ -1289,7 +1385,9 @@ public class TextFormatter {
     public func orderedList() {
         guard let pRange = getParagraphRange() else { return }
 
-        let string = getAttributedString().attributedSubstring(from: pRange).string
+        let attributedString = getAttributedString().attributedSubstring(from: pRange)
+        let mutable = NSMutableAttributedString(attributedString: attributedString)
+        let string = mutable.unLoadCheckboxes().string
 
         guard string.isContainsLetters else {
             insertText("1. ")
@@ -1352,75 +1450,25 @@ public class TextFormatter {
     }
 
     private func cleanListItem(line: String) -> String {
-        var cleanLine = String()
-        var prefixFound = false
+        var line = line
 
-        var numberCheck = false
-        var spaceCheck = false
-        var dotCheck = false
+        let digitRegex = try! NSRegularExpression(pattern: "^([0-9]+\\. )")
+        let digitRegexResult = digitRegex.firstMatch(in: line, range: NSRange(0..<line.count))
 
-        var skipped = String()
+        let charRegex = try! NSRegularExpression(pattern: "^([-*–+]+ )")
+        let charRegexResult = charRegex.firstMatch(in: line, range: NSRange(0..<line.count))
 
-        for char in line {
-            if numberCheck {
-                if char.isNumber {
-                    skipped.append(char)
-                    continue
-                } else {
-                    numberCheck = false
-                    dotCheck = true
-                }
-            }
-
-            if dotCheck {
-                if char == "." {
-                    skipped.append(char)
-                    spaceCheck = true
-                } else {
-                    cleanLine.append(skipped)
-                    cleanLine.append(char)
-                    skipped = ""
-                }
-
-                dotCheck = false
-                continue
-            }
-
-            if spaceCheck {
-                if char.isWhitespace {
-                } else {
-                    cleanLine.append(skipped)
-                    cleanLine.append(char)
-                }
-
-                spaceCheck = false
-                skipped = ""
-                continue
-            }
-
-            if char.isWhitespace && !prefixFound {
-                cleanLine.append(char)
-            } else if !prefixFound {
-                if char.isNumber {
-                    numberCheck = true
-                    skipped.append(char)
-                } else if char == "-" {
-                    spaceCheck = true
-                    skipped.append(char)
-                } else {
-                    cleanLine.append(char)
-                }
-                prefixFound = true
-            } else {
-                cleanLine.append(char)
-            }
+        if line.starts(with: "- [ ] ") || line.starts(with: "- [x] ") {
+            line = String(line.dropFirst(6))
+        } else if let result = digitRegexResult {
+            let qty = result.range.length
+            line = String(line.dropFirst(qty))
+        } else if let result = charRegexResult, !line.contains("- [") {
+            let qty = result.range.length
+            line = String(line.dropFirst(qty))
         }
 
-        if skipped.count > 0 {
-            cleanLine.append(skipped)
-        }
-
-        return cleanLine
+        return line
     }
 
     private func parseTodo(line: String) -> (Bool, Bool, String) {
@@ -1460,6 +1508,10 @@ public class TextFormatter {
     }
 
     private func hasPrefix(line: String, numbers: Bool) -> Bool {
+        if line.starts(with: "- [ ] ") || line.starts(with: "- [x] ") {
+            return false
+        }
+
         var checkNumberDot = false
 
         for char in line {

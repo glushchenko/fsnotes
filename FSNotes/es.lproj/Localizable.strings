@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "Añadir";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Adjuntar almacenamiento...";
+
 /* Sidebar label */
 "Archive" = "Archivo";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "¿Seguro que quieres borrar definitivamente %d notas?";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "¿Seguro que quieres borrar el proyecto \"%@\" con todo su contenido?";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "Adjuntar almacenamiento...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Almacenamiento de respaldo";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "Comprobar ortografía mientras se escribe";
 
 /* No comment provided by engineer. */
-"Code Block" = "Bloque de código";
-
-/* No comment provided by engineer. */
-"Code Span" = "lapso de código";
+"Clear" = "Clear";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Copiar HTML";
@@ -62,13 +62,19 @@
 "Delete" = "Eliminar";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Eliminar carpeta";
+"Delete Folder" = "Eliminar carpeta";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "Eliminar etiqueta";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Separar el almacenamiento";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "Introduce la contraseña maestra";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [edición]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [previsualización]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Header 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Header 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Header 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Header 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Header 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Header 6";
-
-/* No comment provided by engineer. */
 "History" = "Historia";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "Inbox";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Enlace";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+
 /* Sidebar label */
 "Notes" = "Notas";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Por favor, introduce un nombre para el proyecto:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Por favor, introduce las etiquetas (separadas por comas):";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Salir de FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Recents";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Recents Search";
+
 /* Delete menu */
 "Remove" = "Borrar";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "Eliminar nota(s)";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Renombar carpeta";
+"Remove Tags" = "Eliminar etiquetas";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Renombar carpeta";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Renombar etiqueta";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Renombar etiqueta";
 
 /* No comment provided by engineer. */
 "Search and create" = "Buscar y crear";
@@ -245,6 +254,9 @@
 /* No comment provided by engineer. */
 "Underline" = "Subrayar";
 
+/* No comment provided by engineer. */
+"Untagged" = "Sin etiquetar";
+
 /* Untitled Note */
 "Untitled Note" = "Nota sin título";
 
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

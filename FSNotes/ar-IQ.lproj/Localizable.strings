@@ -1,8 +1,14 @@
 /* No comment provided by engineer. */
-"Add" = "Добавить";
+"Add" = "يضيف";
+
+/* No comment provided by engineer. */
+"Add External Folder..." = "ارفاق تخزين...";
 
 /* Sidebar label */
 "Archive" = "ارشيف";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "هل انت متأكد من  حذف الملفات %d بشكل نهائي   ؟";
@@ -11,10 +17,7 @@
 "Are you sure you want to remove project \"%@\" and all files inside?" = "هل انت متأكد من حذف المشروع \"%@\" وكل المفات التي بداخله";
 
 /* No comment provided by engineer. */
-"Attach storage..." = "ارفاق تخزين...";
-
-/* No comment provided by engineer. */
-"Back up storage" = "Back up storage";
+"Back up storage" = "تخزين النسخ الاحتياطي";
 
 /* Delete menu */
 "Cancel" = "الغاء";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "تحقق من التدقيق الإملائي أثناء الكتابة";
 
 /* No comment provided by engineer. */
-"Code Block" = "الاكواد البرمجية";
-
-/* No comment provided by engineer. */
-"Code Span" = "امتداد الرمز";
+"Clear" = "Clear";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "نسخ HTML";
@@ -62,13 +62,19 @@
 "Delete" = "حذف";
 
 /* No comment provided by engineer. */
-"Delete folder" = "حذف المجلد";
+"Delete Folder" = "حذف المجلد";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "حذف العلامة";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Detach storage";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "ادخل كلمة المرور الاساسية";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [تعديل]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [المعاينة]";
 
 /* No comment provided by engineer. */
-"Header 1" = "عنوان ١";
-
-/* No comment provided by engineer. */
-"Header 2" = "عنوان ٢";
-
-/* No comment provided by engineer. */
-"Header 3" = "عنوان ٣";
-
-/* No comment provided by engineer. */
-"Header 4" = "عنوان ٤";
-
-/* No comment provided by engineer. */
-"Header 5" = "عنوان ٥";
-
-/* No comment provided by engineer. */
-"Header 6" = "عنوان ٦";
-
-/* No comment provided by engineer. */
 "History" = "تاريخ";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "الوارد";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "رابط";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+
 /* Sidebar label */
 "Notes" = "ملاحظات";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "الرجاء إدخال اسم المشروع:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "رجاءً ادخل  وسوم (مفصولة بفارزة)";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "اغلاق FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Recents";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Recents Search";
+
 /* Delete menu */
 "Remove" = "حذف";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "حذف ملاحظة/ملاحظات";
 
 /* No comment provided by engineer. */
-"Rename folder" = "اعادة تسمية المجلد";
+"Remove Tags" = "إزالة العلامات";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "اعادة تسمية المجلد";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "إعادة تسمية العلامة";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "إعادة تسمية العلامات";
 
 /* No comment provided by engineer. */
 "Search and create" = "بحث  و انشاء";
@@ -245,6 +254,9 @@
 /* No comment provided by engineer. */
 "Underline" = "خط تحت";
 
+/* No comment provided by engineer. */
+"Untagged" = "بدون علامات";
+
 /* Untitled Note */
 "Untitled Note" = "ملاحظة بدون عنوان";
 
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

@@ -139,6 +139,10 @@ class CodeTextProcessor {
 
         let string = textStorage.string as NSString
         string.enumerateSubstrings(in: NSRange(0..<string.length), options: .byParagraphs) {value, range, _, _ in
+            if let value = value, (value.starts(with: "    ") || value.starts(with: "\t")), self.textStorage.attributedSubstring(from: range).hasTodoAttribute() {
+                return
+            }
+
             paragraphRanges.append(range)
             paragraphList.append(value!)
         }

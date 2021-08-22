@@ -45,6 +45,12 @@ public class ImagesProcessor {
     
     public static func writeFile(data: Data, url: URL? = nil, note: Note, ext: String? = nil) -> String? {
         if note.isTextBundle() {
+            var ext = ext
+            
+            if ext == nil {
+                ext = ImageFormat.get(from: data).rawValue
+            }
+
             let assetsUrl = note.getURL().appendingPathComponent("assets")
             
             if !FileManager.default.fileExists(atPath: assetsUrl.path, isDirectory: nil) {

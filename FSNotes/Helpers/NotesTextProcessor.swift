@@ -432,8 +432,6 @@ public class NotesTextProcessor {
         return attributedString
     }
 
-
-
     public static func highlight(note: Note) {
         highlightMarkdown(attributedString: note.content, note: note)
         highlightFencedAndIndentCodeBlocks(attributedString: note.content)
@@ -736,7 +734,6 @@ public class NotesTextProcessor {
                 var substring = attributedString.mutableString.substring(with: linkRange)
 
                 guard substring.count > 0 else { return }
-                guard let note = EditTextView.note else { return }
 
                 if substring.starts(with: "/i/")
                     || substring.starts(with: "i/")
@@ -840,7 +837,6 @@ public class NotesTextProcessor {
             attributedString.addAttribute(.font, value: quoteFont, range: range)
             attributedString.fixAttributes(in: range)
             attributedString.addAttribute(.foregroundColor, value: quoteColor, range: range)
-            attributedString.addAttribute(.paragraphStyle, value: quoteIndendationStyle, range: range)
             NotesTextProcessor.blockQuoteOpeningRegex.matches(string, range: range) { (innerResult) -> Void in
                 guard let innerRange = innerResult?.range else { return }
                 attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
@@ -879,11 +875,16 @@ public class NotesTextProcessor {
         NotesTextProcessor.strictBoldRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard let range = result?.range(at: 3) else { return }
 
+            let boldString = attributedString.attributedSubstring(from: range)
+            if boldString.string.contains("__") || boldString.string == "_" {
+                return
+            }
+
             if NotesTextProcessor.isLink(attributedString: attributedString, range: range) {
                 return
             }
 
-            if let font = attributedString.attributedSubstring(from: range).attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
+            if let font = boldString.attribute(.font, at: 0, effectiveRange: nil) as? Font, font.isItalic {
             } else {
                 attributedString.addAttribute(.font, value: boldFont, range: range)
 
@@ -953,6 +954,21 @@ public class NotesTextProcessor {
         NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range(at: 1) else { return }
 
+            // Skip if indented code block
+            let parRange = attributedString.mutableString.paragraphRange(for: range)
+            let parString = attributedString.mutableString.substring(with: parRange)
+            if parString.starts(with: "    ") || parString.starts(with: "\t") {
+                return
+            }
+
+            if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
+                return
+            }
+
+            if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
+                return
+            }
+
             var substring = attributedString.mutableString.substring(with: range)
             guard !substring.isNumber else { return }
 
@@ -965,6 +981,7 @@ public class NotesTextProcessor {
             guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
             attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
+            attributedString.addAttribute(.tag, value: "\(tag)", range: range)
         }
 
         if !UserDefaultsManagement.liveImagesPreview {
@@ -1311,7 +1328,7 @@ public class NotesTextProcessor {
             [^
                 \s          # no whitespace
                 \#          # no hashes
-                ,?!"`';:\.  # no punctuation
+                ,?!"`;:\.   # no punctuation
                 \\          # no backslash
                 (){}\[\]    # no bracket pairs
             ]+
@@ -1623,6 +1640,7 @@ public class NotesTextProcessor {
                         if attributedString.attributes(at: subRange.location, effectiveRange: nil).keys.contains(NSAttributedString.Key.backgroundColor) {
                             attributedString.addAttribute(NoteAttribute.highlight, value: true, range: subRange)
                         }
+
                         attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: highlightColor, range: subRange)
                     }
                 }

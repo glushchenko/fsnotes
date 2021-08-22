@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "添加";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "添加多个文件夹";
+
 /* Sidebar label */
 "Archive" = "存档";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "确定要永久删除%d个笔记？此操作无法恢复！";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "您确定要删除项目\"%@\"和它下面的所有文件吗？";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "添加多个文件夹";
 
 /* No comment provided by engineer. */
 "Back up storage" = "提交git的存储库中的所有文件";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "键入时检查拼写";
 
 /* No comment provided by engineer. */
-"Code Block" = "代码块";
-
-/* No comment provided by engineer. */
-"Code Span" = "代码缩进";
+"Clear" = "Clear";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "拷贝HTML";
@@ -62,13 +62,19 @@
 "Delete" = "删除";
 
 /* No comment provided by engineer. */
-"Delete folder" = "删除文件夹";
+"Delete Folder" = "删除文件夹";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "删除标签";
 
 /* No comment provided by engineer. */
 "Detach storage" = "分离存储";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "输入管理员密码";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [编辑]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [预览]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Header 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Header 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Header 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Header 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Header 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Header 6";
-
-/* No comment provided by engineer. */
 "History" = "历史";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "收件箱";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "链接";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+
 /* Sidebar label */
 "Notes" = "笔记";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "请输入项目名称：";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "请输入标签（使用英文逗号分隔）：";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "退出FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Recents";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Recents Search";
+
 /* Delete menu */
 "Remove" = "移除";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "移除笔记";
 
 /* No comment provided by engineer. */
-"Rename folder" = "重命名文件夹";
+"Remove Tags" = "删除标签";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "重命名文件夹";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "重命名标签";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "重命名标签";
 
 /* No comment provided by engineer. */
 "Search and create" = "搜索或创建（按下回车即可创建）";
@@ -245,6 +254,9 @@
 /* No comment provided by engineer. */
 "Underline" = "下划线";
 
+/* No comment provided by engineer. */
+"Untagged" = "无标签";
+
 /* Untitled Note */
 "Untitled Note" = "无标题";
 
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

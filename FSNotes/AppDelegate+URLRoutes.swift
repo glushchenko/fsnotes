@@ -138,18 +138,23 @@ extension AppDelegate {
         }
 
         search(query: lastPath)
-
-        vc.search.becomeFirstResponder()
     }
 
     func search(query: String) {
         guard let controller = ViewController.shared() else { return }
 
-        controller.search.stringValue = query
-        controller.updateTable(search: true, searchText: query, saveHistory: true) {
-            if let note = controller.notesTableView.noteList.first {
-                DispatchQueue.main.async {
-                    controller.search.suggestAutocomplete(note, filter: query)
+        controller.updateTable(searchText: query) {
+            DispatchQueue.main.async {
+                controller.search.stringValue = query
+
+                if let note = controller.notesTableView.noteList.first {
+                    if note.title.lowercased() == query.lowercased() {
+                        controller.notesTableView.saveNavigationHistory(note: note)
+                        controller.notesTableView.setSelected(note: note)
+                        controller.view.window?.makeFirstResponder(controller.editArea)
+                    } else {
+                        controller.search.suggestAutocomplete(note, filter: query)
+                    }
                 }
             }
         }

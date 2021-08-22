@@ -53,7 +53,7 @@ class TitleTextField: NSTextField {
             return
         }
 
-        vc.updateTitle(newTitle: currentName)
+        vc.updateTitle(note: note)
         self.resignFirstResponder()
         updateNotesTableView()
         vc.titleLabel.isEditable = false
@@ -83,22 +83,23 @@ class TitleTextField: NSTextField {
             _ = note.move(to: dst, forceRewrite: hasCaseSensitiveDiffOnly)
 
             let newTitle = currentTitle.replacingOccurrences(of: ":", with: "-")
-            vc.updateTitle(newTitle: newTitle)
+            vc.updateTitle(note: note)
 
             updateNotesTableView()
             
             vc.reSort(note: note)
         } else {
-            vc.updateTitle(newTitle: currentName)
+            vc.updateTitle(note: note)
             self.resignFirstResponder()
             updateNotesTableView()
             vc.titleLabel.isEditable = false
             vc.titleLabel.isEnabled = false
 
             let alert = NSAlert()
+            let informativeText = NSLocalizedString("Note with name \"%@\" already exists in selected directory.", comment: "")
+
             alert.alertStyle = .critical
-            alert.informativeText = NSLocalizedString("File with name \"\(currentTitle)\" already exists!", comment: "")
-            alert.messageText = NSLocalizedString("Incorrect file name", comment: "")
+            alert.informativeText = String(format: informativeText, currentTitle)
             alert.runModal()
         }
     }
@@ -113,6 +114,11 @@ class TitleTextField: NSTextField {
     public func editModeOff() {
         self.isEnabled = false
         self.isEditable = false
+
+        guard let vc = ViewController.shared(),
+              let note = EditTextView.note else { return }
+
+        vc.updateTitle(note: note)
     }
     
     public func updateNotesTableView() {
@@ -123,7 +129,7 @@ class TitleTextField: NSTextField {
         }
 
         if let responder = restoreResponder {
-            NSApp.mainWindow?.makeFirstResponder(responder)
+            window?.makeFirstResponder(responder)
         }
     }
 }

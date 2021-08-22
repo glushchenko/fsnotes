@@ -40,15 +40,17 @@ extension NSTextStorage: NSTextStorageDelegate {
         guard let note = EditTextView.note, note.isMarkdown() else { return }
         guard delta != 0 || EditTextView.shouldForceRescan else { return }
 
-        if editedRange.length > 300000 {
-            NotesTextProcessor.minimalHighlight(attributedString: textStorage, note: note)
-            return
-        }
+        if note.content.string.md5 != note.cacheHash {
+            if editedRange.length > 300000 {
+                NotesTextProcessor.minimalHighlight(attributedString: textStorage, note: note)
+                return
+            }
 
-        if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
-            rescanAll(textStorage: textStorage)
-        } else {
-            rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
+            if shouldScanСompletely(textStorage: textStorage, editedRange: editedRange) {
+                rescanAll(textStorage: textStorage)
+            } else {
+                rescanPartial(textStorage: textStorage, delta: delta, editedRange: editedRange)
+            }
         }
 
         loadImages(textStorage: textStorage, checkRange: editedRange)
@@ -145,6 +147,8 @@ extension NSTextStorage: NSTextStorageDelegate {
         let codeTextProcessor = CodeTextProcessor(textStorage: textStorage)
         var parRange = textStorage.mutableString.paragraphRange(for: editedRange)
         let paragraph = textStorage.mutableString.substring(with: parRange)
+
+        textStorage.updateParagraphStyle(range: parRange)
 
         if paragraph.count == 2, textStorage.attributedSubstring(from: parRange).attribute(.backgroundColor, at: 1, effectiveRange: nil) != nil {
             if let ranges = codeTextProcessor.getCodeBlockRanges(parRange: parRange) {

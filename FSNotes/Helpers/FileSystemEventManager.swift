@@ -248,6 +248,7 @@ class FileSystemEventManager {
                 !note.isRTF() && fsContent.string != memoryContent.string
             )
         {
+            note.cacheHash = nil
             note.content = NSMutableAttributedString(attributedString: fsContent)
 
             // tags changes

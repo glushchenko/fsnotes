@@ -48,7 +48,10 @@ public class Project: Equatable {
 
     // if notes loaded from cache validation with fs needed
     public var cacheUsedDiffValidationNeeded = false
-    
+
+    public var child = [Project]()
+    public var isExpanded = false
+
     init(storage: Storage,
          url: URL,
          label: String? = nil,
@@ -292,7 +295,28 @@ public class Project: Equatable {
         
         return self
     }
-    
+
+    public func getNestedLabel() -> String {
+        var project: Project? = self
+        var result = String()
+
+        while project != nil {
+            if let unwrappedProject = project {
+                if result.count > 0 {
+                    result = unwrappedProject.label + " › " + result
+                } else {
+                    result = unwrappedProject.label
+                }
+                
+                project = unwrappedProject.parent
+            } else {
+                project = nil
+            }
+        }
+
+        return result
+    }
+
     public func getFullLabel() -> String {
         if isRoot  {
             if isExternal {
@@ -522,5 +546,30 @@ public class Project: Equatable {
 
         isReadyForCacheSaving = true
         return (foundRemoved, foundAdded, foundChanged)
+    }
+
+    public func addChild(project: Project) {
+        child.append(project)
+    }
+
+    public func isExpandable() -> Bool {
+        return child.count > 0
+    }
+
+    public func getAllChild() -> [Project]? {
+        var projects = [Project]()
+        projects.append(self)
+
+        for item in child {
+            if item.child.count > 0 {
+                if let sub = item.getAllChild() {
+                    projects.append(contentsOf: sub)
+                }
+            } else {
+                projects.append(item)
+            }
+        }
+
+        return projects
     }
 }

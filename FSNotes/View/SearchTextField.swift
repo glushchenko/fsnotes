@@ -24,6 +24,41 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
     public var timestamp: Int64?
     private var lastQueryLength: Int = 0
     private var lastQuery = String()
+    public var lastSearchQuery = String()
+
+    public var searchesMenu: NSMenu? = nil
+
+    public func generateRecentMenu() -> NSMenu {
+        let recentsTitle = NSLocalizedString("Recents", comment: "")
+        let menu = NSMenu(title: recentsTitle)
+        menu.autoenablesItems = true
+
+        if let recent = UserDefaultsManagement.recentSearches, recent.count > 0 {
+            let recentsSearchTitle = NSLocalizedString("Recents Search", comment: "")
+            menu.addItem(withTitle: recentsSearchTitle, action: nil, keyEquivalent: "")
+
+            var i = 1
+            for title in recent {
+                let menuItem = NSMenuItem(title: title, action: #selector(selectRecent(_:)), keyEquivalent: String(i))
+                menuItem.target = self
+                menu.addItem(menuItem)
+                i += 1
+            }
+
+            menu.addItem(NSMenuItem.separator())
+
+            let clearTitle = NSLocalizedString("Clear", comment: "")
+            let menuItem = NSMenuItem(title: clearTitle, action: #selector(cleanRecents(_:)), keyEquivalent: "d")
+            menuItem.target = self
+            menu.addItem(menuItem)
+
+            return menu
+        }
+
+        menu.addItem(withTitle: "No Recent Search", action: nil, keyEquivalent: "")
+
+        return menu
+    }
 
     override func textDidEndEditing(_ notification: Notification) {
         if let editor = self.currentEditor(), editor.selectedRange.length > 0 {
@@ -34,6 +69,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0
+
+        addRecent(query: stringValue)
     }
 
     override func keyUp(with event: NSEvent) {
@@ -45,7 +82,12 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         
         if (event.keyCode == kVK_LeftArrow && stringValue.count == 0) {
             vcDelegate.sidebarOutlineView.window?.makeFirstResponder(vcDelegate.sidebarOutlineView)
-            vcDelegate.sidebarOutlineView.selectRowIndexes([1], byExtendingSelection: false)
+
+            let index = vcDelegate.sidebarOutlineView.selectedRowIndexes.count > 0
+                ? vcDelegate.sidebarOutlineView.selectedRowIndexes
+                : [0]
+
+            vcDelegate.sidebarOutlineView.selectRowIndexes(index, byExtendingSelection: false)
             return
         }
 
@@ -65,6 +107,9 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
                 }
                 self.stringValue = String(query)
             }
+
+            addRecent(query: stringValue)
+
             return true
         case "cancelOperation:":
             self.skipAutocomplete = true
@@ -105,6 +150,8 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             } else {
                 vcDelegate.makeNote(self)
             }
+
+            addRecent(query: stringValue)
 
             return true
         case "insertTab:":
@@ -205,29 +252,50 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
             sidebarItem = self.vcDelegate.getSidebarItem()
         }
 
+        if let query = getSearchTextExceptCompletion() {
+            self.lastSearchQuery = query
+        }
+
         self.filterQueue.cancelAllOperations()
         self.filterQueue.addOperation {
-            self.vcDelegate.updateTable(search: true, searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
-                if !self.skipAutocomplete, let note = self.vcDelegate.notesTableView.noteList.first {
-                    DispatchQueue.main.async {
+            self.vcDelegate.updateTable(searchText: searchText, sidebarItem: sidebarItem, projects: projects, tags: tags) {
+                if let note = self.vcDelegate.notesTableView.noteList.first {
+                    DispatchQueue.main.async() {
                         if let searchQuery = self.getSearchTextExceptCompletion() {
-                            self.suggestAutocomplete(note, filter: searchQuery)
+                            if self.lastSearchQuery != searchQuery {
+                                return
+                            }
+
+                            let search = searchQuery.lowercased()
+                            if note.title.lowercased() == search || UserDefaultsManagement.textMatchAutoSelection {
+                                self.vcDelegate.notesTableView.setSelected(note: note)
+                                self.stringValue = searchQuery
+                                return
+                            } else if !self.skipAutocomplete && (note.title.lowercased().starts(with: search)
+                                || note.fileName.lowercased().starts(with: search))
+                            {
+                                self.vcDelegate.notesTableView.setSelected(note: note)
+                                self.suggestAutocomplete(note, filter: searchQuery)
+                                return
+                            } else {
+                                self.vcDelegate.editArea.clear()
+                            }
                         }
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.vcDelegate.editArea.clear()
                     }
                 }
             }
         }
-
-        let pb = NSPasteboard(name: .findPboard)
-        pb.declareTypes([.textFinderOptions, .string], owner: nil)
-        pb.setString(searchText, forType: NSPasteboard.PasteboardType.string)
     }
 
     private func getSearchTextExceptCompletion() -> String? {
         guard let editor = currentEditor() else { return nil }
 
         if editor.selectedRange.location > 0 {
-            return String(editor.string.suffix(editor.selectedRange.location))
+            return String(editor.string.prefix(editor.selectedRange.location))
         }
 
         return nil
@@ -239,5 +307,40 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         self.skipAutocomplete = false
         self.lastQuery = String()
         self.lastQueryLength = 0
+    }
+
+    @IBAction public func selectRecent(_ sender: NSMenuItem) {
+        stringValue = sender.title
+
+        vcDelegate.restoreCurrentPreviewState()
+        search()
+    }
+
+    @IBAction public func cleanRecents(_ sender: NSMenuItem) {
+        UserDefaultsManagement.recentSearches = nil
+        searchesMenu = generateRecentMenu()
+    }
+
+    public func addRecent(query: String) {
+        let query = query.trim()
+
+        guard query.trim().count > 0 else { return }
+
+        var recents = UserDefaultsManagement.recentSearches ?? [String]()
+
+        if recents.contains(query) {
+            if let index = recents.firstIndex(of: query) {
+                recents.remove(at: index)
+            }
+        }
+        
+        recents.insert(query, at: 0)
+
+        if recents.count > 9 {
+            recents = recents.dropLast()
+        }
+
+        UserDefaultsManagement.recentSearches = recents
+        searchesMenu = generateRecentMenu()
     }
 }

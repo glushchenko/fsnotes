@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "Добавить";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Подключить хранилище...";
+
 /* Sidebar label */
 "Archive" = "Архив";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Вы действительно хотите удалить %d тег(ов)? Это действие не может быть отменено.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы уверены что хотите выполнить необратимое удаление %d заметки(ок)?";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы уверены что хотите удалить директорию \"%@\"?";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "Подключить хранилище...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Создать резервную копию";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "Проверять во время набора";
 
 /* No comment provided by engineer. */
-"Code Block" = "Блок кода";
-
-/* No comment provided by engineer. */
-"Code Span" = "Диапазон кода";
+"Clear" = "Очистить";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Скопировать HTML";
@@ -56,19 +56,25 @@
 "Data Detectors" = "Детекторы данных";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Путь к хранилищу по умолчанию не должен совпадать с путем Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "Удаление";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Удалить директорию";
+"Delete Folder" = "Удалить директорию";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "Удалить тег";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Отключить хранилище";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Вы хотите переместить текущие заметки в новое место назначения?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "Введите мастер пароль";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "Внешние директории";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Директория с названием '%@' уже существует";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редактирование]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [предпросмотр]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Header 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Header 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Header 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Header 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Header 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Header 6";
-
-/* No comment provided by engineer. */
 "History" = "История";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "Входящие";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Ссылка";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "Нет";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Заметка с названием \"%@\" уже существует в выбранной директории.";
+
 /* Sidebar label */
 "Notes" = "Заметки";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Пожалуйста, введите название директории:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Введите название тега:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Пожалуйста введите теги (через запятую):";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Выйти из FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Недавние";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Недавние запросы";
+
 /* Delete menu */
 "Remove" = "Удалить";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "Удалить";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Переименовать директорию";
+"Remove Tags" = "Удалить теги";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Переименовать директорию";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Переименовать тег";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Переименовать теги";
 
 /* No comment provided by engineer. */
 "Search and create" = "Найти и создать";
@@ -234,7 +243,7 @@
 "This action cannot be undone." = "Это действие не может быть отменено.";
 
 /* No comment provided by engineer. */
-"Todo" = "Todo";
+"Todo" = "Задачи";
 
 /* No comment provided by engineer. */
 "Toggle preview" = "Переключить предпросмотр";
@@ -244,6 +253,9 @@
 
 /* No comment provided by engineer. */
 "Underline" = "Подчёркнутый";
+
+/* No comment provided by engineer. */
+"Untagged" = "Без тегов";
 
 /* Untitled Note */
 "Untitled Note" = "Без названия";
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Да";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

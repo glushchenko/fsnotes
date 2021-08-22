@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "추가";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "저장소 추가...";
+
 /* Sidebar label */
 "Archive" = "아카이브";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "%d개의 노트를 영구적으로 지우겠습니까?";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "프로젝트 \"%@\"를 영구적으로 지우겠습니까？";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "저장소 추가...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "저장소 백업";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "입력하는 동안 맞춤법 검사";
 
 /* No comment provided by engineer. */
-"Code Block" = "코드 영역";
-
-/* No comment provided by engineer. */
-"Code Span" = "코드 들여쓰기";
+"Clear" = "Clear";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "HTML 복사하기";
@@ -62,13 +62,19 @@
 "Delete" = "삭제";
 
 /* No comment provided by engineer. */
-"Delete folder" = "폴더 삭제";
+"Delete Folder" = "폴더 삭제";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "태그 삭제";
 
 /* No comment provided by engineer. */
 "Detach storage" = "저장소 분리";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "마스터 암호 입력";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [수정]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [미리보기]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Header 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Header 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Header 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Header 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Header 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Header 6";
-
-/* No comment provided by engineer. */
 "History" = "변경 이력";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "Inbox";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "링크";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "No";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+
 /* Sidebar label */
 "Notes" = "모든 노트";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "프로젝트 이름을 입력하십시오：";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "태그를 입력하십시오（콤마로 구분）：";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "FSNotes 종료";
 
+/* No comment provided by engineer. */
+"Recents" = "Recents";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Recents Search";
+
 /* Delete menu */
 "Remove" = "삭제";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "노트 삭제";
 
 /* No comment provided by engineer. */
-"Rename folder" = "노트 이름 변경";
+"Remove Tags" = "태그 제거";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "노트 이름 변경";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "태그 이름 바꾸기";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "태그 이름 바꾸기";
 
 /* No comment provided by engineer. */
 "Search and create" = "검색 및 추가";
@@ -245,6 +254,9 @@
 /* No comment provided by engineer. */
 "Underline" = "밑줄체";
 
+/* No comment provided by engineer. */
+"Untagged" = "태그가 없는";
+
 /* Untitled Note */
 "Untitled Note" = "무제";
 
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Yes";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

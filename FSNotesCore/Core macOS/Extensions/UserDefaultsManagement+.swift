@@ -14,6 +14,8 @@ extension UserDefaultsManagement {
     private struct Constants {
         static let AppearanceTypeKey = "appearanceType"
         static let codeTheme = "codeTheme"
+        static let codeThemeDark = "codeThemeDark"
+        static let darkMode = "darkMode"
         static let dockIcon = "dockIcon"
         static let NewNoteKeyModifier = "newNoteKeyModifier"
         static let NewNoteKeyCode = "newNoteKeyCode"
@@ -90,21 +92,31 @@ extension UserDefaultsManagement {
 
     static var codeTheme: String {
         get {
-            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
-                return theme
-            }
-
             if #available(OSX 10.14, *) {
-                if NSAppearance.current.isDark {
-                    UserDefaults.standard.set("monokai-sublime", forKey: Constants.codeTheme)
+                if UserDataService.instance.isDark {
+                    if let theme = UserDefaults.standard.object(forKey: Constants.codeThemeDark) as? String {
+                        return theme
+                    }
 
                     return "monokai-sublime"
                 }
             }
 
+            if let theme = UserDefaults.standard.object(forKey: Constants.codeTheme) as? String {
+                return theme
+            }
+
             return "atom-one-light"
         }
         set {
+            if #available(OSX 10.14, *) {
+                if UserDataService.instance.isDark {
+                    UserDefaults.standard.set(newValue, forKey: Constants.codeThemeDark)
+
+                    return
+                }
+            }
+
             UserDefaults.standard.set(newValue, forKey: Constants.codeTheme)
         }
     }

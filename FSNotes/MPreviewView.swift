@@ -210,17 +210,28 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             return String()
         }
 
+    #if os(OSX)
+        let inline = "['$', '$'], ['$$', '$$'], ['\\((', '\\))']"
+    #else
+        let inline = "['$$', '$$'], ['\\((', '\\))']"
+    #endif
+
         return """
             <script src="js/MathJax-2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
             <script type="text/x-mathjax-config">
                 MathJax.Hub.Config({ showMathMenu: false, tex2jax: {
-                    inlineMath: [ ['$$', '$$'], ['\\((', '\\))'] ],
+                    inlineMath: [ \(inline) ],
                 }, messageStyle: "none", showProcessingMessages: true });
             </script>
         """
     }
 
     private func getTemplate(css: String) -> String? {
+        var css = css
+
+        let tagColor = NSColor.tagColor.hexString
+        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
@@ -403,6 +414,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     func htmlFromTemplate(_ htmlString: String, css: String) throws -> String {
+        var css = css
+        let tagColor = NSColor.tagColor.hexString
+        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
         let bundle = Bundle(url: url)
@@ -428,8 +443,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }
 
-    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false) -> String {
-        var css = String()
+    public static func getPreviewStyle(theme: String? = nil, fullScreen: Bool = false, useFixedImageHeight: Bool = true) -> String {
+        var css =
+            useFixedImageHeight
+                ? String("img { max-width: 100%; max-height: 90vh; }")
+                : String()
 
         if let cssURL = UserDefaultsManagement.markdownPreviewCSS {
             if FileManager.default.fileExists(atPath: cssURL.path), let content = try? String(contentsOf: cssURL) {
@@ -444,7 +462,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        let familyName = UserDefaultsManagement.noteFont.familyName
+        var familyName = UserDefaultsManagement.noteFont.familyName
 
         #if os(iOS)
             if !UserDefaultsManagement.dynamicTypeFont {
@@ -467,7 +485,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 width = 0
             }
 
-            return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        if familyName!.starts(with: ".") {
+            familyName = "Helvetica Neue";
+        }
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName!)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
     }
 }

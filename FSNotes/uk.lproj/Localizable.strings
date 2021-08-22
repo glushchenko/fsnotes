@@ -1,17 +1,20 @@
 /* No comment provided by engineer. */
 "Add" = "Додати";
 
+/* No comment provided by engineer. */
+"Add External Folder..." = "Підключити сховище...";
+
 /* Sidebar label */
 "Archive" = "Архів";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Вы впевнені що хочете назавжди видалити %d нотатку(ок)? ";
 
 /* No comment provided by engineer. */
 "Are you sure you want to remove project \"%@\" and all files inside?" = "Вы впевнені що хочете видалити директорію \"%@\"?";
-
-/* No comment provided by engineer. */
-"Attach storage..." = "Підключити сховище...";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Зробити резервну копію";
@@ -29,10 +32,7 @@
 "Check Spelling While Typing" = "Перевіряти правопис під час набору";
 
 /* No comment provided by engineer. */
-"Code Block" = "Блок коду";
-
-/* No comment provided by engineer. */
-"Code Span" = "Проміжок коду";
+"Clear" = "Очистити";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Скопіювати HTML";
@@ -56,19 +56,25 @@
 "Data Detectors" = "Детектори даних";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "Шлях зберігання за умовчанням не повинен дорівнювати шляху Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "Видалити";
 
 /* No comment provided by engineer. */
-"Delete folder" = "Видалити директорію";
+"Delete Folder" = "Видалити директорію";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "Видалити тег";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Відключити сховище";
 
 /* No comment provided by engineer. */
 "Do you want to move current notes in the new destination?" = "Ви хочете перемістити поточні нотатки до нового сховища?";
+
+/* No comment provided by engineer. */
+"Documents" = "Documents";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Edit Link…";
@@ -80,7 +86,10 @@
 "Enter Master Password" = "Введіть мастер пароль";
 
 /* No comment provided by engineer. */
-"File with name \"\(currentTitle)\" already exists!" = "File with name \"\(currentTitle)\" already exists!";
+"External Folders" = "External Folders";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "Папка з назвою '%@' вже існує";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [редагування]";
@@ -89,34 +98,13 @@
 "FSNotes [preview]" = "FSNotes [попередній перегляд]";
 
 /* No comment provided by engineer. */
-"Header 1" = "Заголовок 1";
-
-/* No comment provided by engineer. */
-"Header 2" = "Заголовок 2";
-
-/* No comment provided by engineer. */
-"Header 3" = "Заголовок 3";
-
-/* No comment provided by engineer. */
-"Header 4" = "Заголовок 4";
-
-/* No comment provided by engineer. */
-"Header 5" = "Заголовок 5";
-
-/* No comment provided by engineer. */
-"Header 6" = "Заголовок 6";
-
-/* No comment provided by engineer. */
 "History" = "Історія";
 
 /* No comment provided by engineer. */
-"Image or file" = "Image or file";
+"iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
 "Inbox" = "Вхідні";
-
-/* No comment provided by engineer. */
-"Incorrect file name" = "Incorrect file name";
 
 /* No comment provided by engineer. */
 "Link" = "Посилання";
@@ -145,6 +133,9 @@
 /* No comment provided by engineer. */
 "No" = "Ні";
 
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "Нотатка з назвою \"%@\" вже існує у вибраной директорії.";
+
 /* Sidebar label */
 "Notes" = "Нотатки";
 
@@ -169,6 +160,9 @@
 /* No comment provided by engineer. */
 "Please enter project name:" = "Будь ласка, введіть назву директорії:";
 
+/* No comment provided by engineer. */
+"Please enter tag name:" = "Please enter tag name:";
+
 /* Menu */
 "Please enter tags (comma separated):" = "Будь ласка, введіть теги (розділити комою):";
 
@@ -181,6 +175,12 @@
 /* No comment provided by engineer. */
 "Quit FSNotes" = "Завершити роботу FSNotes";
 
+/* No comment provided by engineer. */
+"Recents" = "Останні";
+
+/* No comment provided by engineer. */
+"Recents Search" = "Останні запити";
+
 /* Delete menu */
 "Remove" = "Видалити";
 
@@ -191,7 +191,16 @@
 "Remove note(s)" = "Видалити нотатку(ок)";
 
 /* No comment provided by engineer. */
-"Rename folder" = "Перейменувати директорію";
+"Remove Tags" = "Видалити теги";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "Перейменувати директорію";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "Перейменувати тег";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "Перейменувати теги";
 
 /* No comment provided by engineer. */
 "Search and create" = "Знайти або створити";
@@ -245,6 +254,9 @@
 /* No comment provided by engineer. */
 "Underline" = "Підкреслений";
 
+/* No comment provided by engineer. */
+"Untagged" = "Без тегів";
+
 /* Untitled Note */
 "Untitled Note" = "Без назви";
 
@@ -265,11 +277,3 @@
 
 /* No comment provided by engineer. */
 "Yes" = "Так";
-
-"Attach storage" = "";
-
-"Hmm, something goes wrong 🙈" = "";
-
-"Note with name \"%@\" already exists in selected storage." = "";
-
-"Sort By" = "";

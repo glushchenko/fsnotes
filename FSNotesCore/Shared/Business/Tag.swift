@@ -9,9 +9,10 @@
 import Foundation
 
 class Tag {
-    private var name: String
-    private var child = [Tag]()
-    private var parent: Tag?
+    public var name: String
+    public var parent: Tag?
+
+    public var child = [Tag]()
 
     init(name: String, parent: Tag? = nil) {
         self.name = name
@@ -19,42 +20,51 @@ class Tag {
 
         let tags = name.components(separatedBy: "/")
         if tags.count > 1, let parent = tags.first {
-            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_, _) in })
+            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_, _, _) in })
             self.name = parent
             return
         }
     }
 
-    public func appendChild(tag: Tag) {
-        child.append(tag)
+    public func load(name: String) {
+        self.name = name
+
+        let tags = name.components(separatedBy: "/")
+        if tags.count > 1, let parent = tags.first {
+            addChild(name: tags.dropFirst().joined(separator: "/"), completion: {(_, _, _) in })
+            self.name = parent
+            return
+        }
     }
 
     public func isExpandable() -> Bool {
         return child.count > 0
     }
 
-    public func addChild(name: String, completion: (_ tag: Tag, _ isExist: Bool) -> Void) {
+    public func addChild(name: String, completion: (_ tag: Tag, _ isExist: Bool, _ position: Int) -> Void) {
         let tags = name.components(separatedBy: "/")
 
-        if tags.count > 1, let parent = tags.first {
-            if let tag = child.first(where: { $0.name == parent }) {
-                completion(tag, true)
-            } else {
-                let tagObject = Tag(name: name, parent: self)
-                appendChild(tag: tagObject)
-                completion(tagObject, false)
-            }
-            return
+        if let index = child.firstIndex(where: { $0.name == tags.first }) {
+            completion(child[index], true, index)
+        } else {
+            let newTag = Tag(name: name, parent: self)
+
+            let index = getChildPosition(for: newTag)
+            child.insert(newTag, at: index)
+            completion(newTag, false, index)
+        }
+    }
+
+    public func getChildPosition(for tag: Tag) -> Int {
+        var tags = child
+        tags.append(tag)
+
+        let sorted = tags.sorted(by: { $0.name.lowercased() < $1.name.lowercased() })
+        if let index = sorted.firstIndex(where: { $0 === tag }) {
+            return index
         }
 
-        if let first = child.first(where: { $0.name == name }) {
-            completion(first, true)
-            return
-        }
-
-        let tag = Tag(name: name, parent: self)
-        child.append(tag)
-        completion(tag, false)
+        return 0
     }
 
     public func indexOf(child tag: Tag) -> Int? {
@@ -67,10 +77,6 @@ class Tag {
 
     public func removeChild(tag: Tag) {
         child.removeAll(where: { $0 === tag })
-    }
-
-    public func getChild() -> [Tag] {
-        return child
     }
 
     public func removeParent() {
@@ -98,7 +104,7 @@ class Tag {
             return "\(parentTag)/\(name)"
         }
 
-        if name == "# \(NSLocalizedString("Tags", comment: "Sidebar label")))" {
+        if name == NSLocalizedString("Tags", comment: "Sidebar label") {
             return String()
         }
 
@@ -142,5 +148,29 @@ class Tag {
         if child.count < 2 {
             child.removeAll()
         }
+    }
+
+    public func getAllChild() -> [String] {
+        var tags = [String]()
+        tags.append(getFullName())
+
+        var queue = [Tag]()
+        queue.append(contentsOf: child)
+
+        while queue.count > 0 {
+            for item in queue {
+                tags.append(item.getFullName())
+                if item.child.count > 0 {
+                    queue.append(contentsOf: item.child)
+                }
+                queue.removeAll(where: { $0 === item })
+            }
+
+            if queue.count == 0 {
+                break
+            }
+        }
+
+        return tags
     }
 }
