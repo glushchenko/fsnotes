@@ -46,7 +46,9 @@ public class Note: NSObject  {
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
+    
     public var ciphertextWriter = OperationQueue.init()
+    public var plainWriter = OperationQueue.init()
 
     private var firstLineAsTitle = false
     private var lastSelectedRange: NSRange?
@@ -62,9 +64,6 @@ public class Note: NSObject  {
     // Load exist
     
     init(url: URL, with project: Project, modified: Date? = nil, created: Date? = nil) {
-        self.ciphertextWriter.maxConcurrentOperationCount = 1
-        self.ciphertextWriter.qualityOfService = .userInteractive
-
         if let modified = modified {
             modifiedLocalAt = modified
         }
@@ -78,14 +77,12 @@ public class Note: NSObject  {
         super.init()
 
         self.parseURL(loadProject: false)
+        initWriters()
     }
     
     // Make new
     
     init(name: String? = nil, project: Project? = nil, type: NoteType? = nil, cont: NoteContainer? = nil) {
-        self.ciphertextWriter.maxConcurrentOperationCount = 1
-        self.ciphertextWriter.qualityOfService = .userInteractive
-
         let project = project ?? Storage.sharedInstance().getMainProject()
         let name = name ?? String()
 
@@ -102,13 +99,12 @@ public class Note: NSObject  {
         url = NameHelper.getUniqueFileName(name: name, project: project, ext: ext)
 
         super.init()
+
         self.parseURL()
+        initWriters()
     }
 
     init(meta: NoteMeta, project: Project) {
-        ciphertextWriter.maxConcurrentOperationCount = 1
-        ciphertextWriter.qualityOfService = .userInteractive
-
         isLoadedFromCache = true
         isParsed = true
         
@@ -124,6 +120,15 @@ public class Note: NSObject  {
         super.init()
 
         parseURL(loadProject: false)
+        initWriters()
+    }
+
+    private func initWriters() {
+        ciphertextWriter.maxConcurrentOperationCount = 1
+        ciphertextWriter.qualityOfService = .userInteractive
+
+        plainWriter.maxConcurrentOperationCount = 1
+        plainWriter.qualityOfService = .userInteractive
     }
 
     func getMeta() -> NoteMeta {
@@ -785,9 +790,12 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
-        let mutable = NSMutableAttributedString(attributedString: attributed)
-
-        save(content: mutable)
+        plainWriter.cancelAllOperations()
+        plainWriter.addOperation {
+            let mutable = NSMutableAttributedString(attributedString: attributed)
+            self.save(content: mutable)
+            usleep(100000)
+        }
     }
 
     public func save(content: NSMutableAttributedString) {
