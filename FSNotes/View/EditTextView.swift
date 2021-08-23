@@ -181,7 +181,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 "format.codeBlock",
                 "format.codeSpan",
                 "format.image",
-                "format.todo"
+                "format.todo",
+                "format.link"
             ]
 
             if let ident = menuItem.identifier?.rawValue, disableRTF.contains(ident) {
@@ -1018,7 +1019,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            vc.currentPreviewState == .off,
+            vc.currentPreviewState == .off || note.type == .RichText,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1029,7 +1030,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            vc.currentPreviewState == .off,
+            vc.currentPreviewState == .off  || note.type == .RichText,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1051,7 +1052,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            vc.currentPreviewState == .off,
+            vc.currentPreviewState == .off || note.type == .RichText,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)
@@ -1062,7 +1063,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         guard let vc = ViewController.shared(),
             let editArea = vc.editArea,
             let note = vc.getCurrentNote(),
-            vc.currentPreviewState == .off,
+            vc.currentPreviewState == .off || note.type == .RichText,
             editArea.isEditable else { return }
 
         let formatter = TextFormatter(textView: editArea, note: note)

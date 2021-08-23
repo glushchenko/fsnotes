@@ -506,7 +506,9 @@ class Storage {
     public func cacheAttributes() {
         DispatchQueue.global(qos: .background).async {
             for note in self.noteList {
-                note.cache()
+                if note.type == .Markdown {
+                    note.cache()
+                }
             }
 
             print("Notes attributes cache: \(self.noteList.count)")
