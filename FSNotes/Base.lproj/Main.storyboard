@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1192,9 +1193,9 @@ CA
                                 </connections>
                             </colorWell>
                             <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X4v-hO-tFb">
-                                <rect key="frame" x="232" y="373" width="178" height="19"/>
+                                <rect key="frame" x="232" y="367" width="178" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="65" tickMarkPosition="above" sliderType="linear" id="hkY-Mc-VIz">
+                                <sliderCell key="cell" continuous="YES" alignment="left" maxValue="60" doubleValue="15" tickMarkPosition="above" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hkY-Mc-VIz">
                                     <connections>
                                         <binding destination="feO-BX-gQb" name="value" keyPath="values.cellSpacing" id="Ixh-K9-pnZ"/>
                                     </connections>
@@ -3337,11 +3338,11 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="dockIcon2" width="67" height="67"/>
+        <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>
-        <image name="logoInCircle" width="500" height="500"/>
-        <image name="new_note_button" width="512" height="512"/>
+        <image name="logoInCircle" width="250" height="250"/>
+        <image name="new_note_button" width="256" height="256"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>

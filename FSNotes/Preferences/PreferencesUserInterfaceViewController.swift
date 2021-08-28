@@ -52,7 +52,9 @@ class PreferencesUserInterfaceViewController: NSViewController {
 
         hidePreview.state = UserDefaultsManagement.hidePreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        // * 15.0 here, and below, because the cellSpacing slider, width 60, is divided
+        // into 4 cells, each width 15. maybe there's a better way to do this?
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing) / Double(UserDefaultsManagement.previewFontSize) * 15.0
 
         noteFontColor.color = UserDefaultsManagement.fontColor
         backgroundColor.color = UserDefaultsManagement.bgColor
@@ -96,7 +98,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.splitView.setPosition(215, ofDividerAt: 0)
 
         UserDefaultsManagement.cellSpacing = 38
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing) / Double(UserDefaultsManagement.previewFontSize) * 15.0
         vc.setTableRowHeight()
     }
 
@@ -110,7 +112,7 @@ class PreferencesUserInterfaceViewController: NSViewController {
         vc.splitView.setPosition(145, ofDividerAt: 0)
 
         UserDefaultsManagement.cellSpacing = 12
-        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing)
+        cellSpacing.doubleValue = Double(UserDefaultsManagement.cellSpacing) / Double(UserDefaultsManagement.previewFontSize) * 15.0
 
         vc.setTableRowHeight()
         vc.notesTableView.reloadData()
@@ -151,7 +153,14 @@ class PreferencesUserInterfaceViewController: NSViewController {
     @IBAction func changeCellSpacing(_ sender: NSSlider) {
         guard let vc = ViewController.shared() else { return }
 
+        //let previewFontSize = Double(UserDefaultsManagement.previewFontSize)
+        //let sliderFraction = sender.doubleValue / previewFontSize
+        //let roundedCellSpacing = round(sliderFraction) * previewFontSize
+        //sender.doubleValue = roundedCellSpacing
 
+        let sliderPos = sender.doubleValue / sender.maxValue * 5.0
+        let newSpacing = sliderPos * Double(UserDefaultsManagement.previewFontSize)
+        UserDefaultsManagement.cellSpacing = Int(newSpacing)
         vc.setTableRowHeight()
     }
 
@@ -177,6 +186,10 @@ class PreferencesUserInterfaceViewController: NSViewController {
         guard let tag = sender.selectedItem?.tag else { return }
 
         UserDefaultsManagement.previewFontSize = tag
+
+        let sliderPos = cellSpacing.doubleValue / cellSpacing.maxValue * 5.0
+        let newSpacing = sliderPos * Double(UserDefaultsManagement.previewFontSize)
+        UserDefaultsManagement.cellSpacing = Int(newSpacing)
 
         guard let vc = ViewController.shared() else { return }
         vc.notesTableView.reloadData()
