@@ -2000,12 +2000,18 @@ public class Note: NSObject  {
         let hash = content.string.md5
         cachingInProgress = true
 
-        content.removeAttribute(.backgroundColor, range: NSRange(0..<content.length))
+        if let copy = content.mutableCopy() as? NSMutableAttributedString {
+            copy.removeAttribute(.backgroundColor, range: NSRange(0..<copy.length))
         
-        NotesTextProcessor.highlightMarkdown(attributedString: content, paragraphRange: NSRange(location: 0, length: content.length), note: self)
-        NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: content)
+            NotesTextProcessor.highlightMarkdown(attributedString: copy, paragraphRange: NSRange(location: 0, length: copy.length), note: self)
+            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy)
 
-        cacheHash = hash
+            if content.string.md5 == copy.string.md5 {
+                content = copy
+                cacheHash = hash
+            }
+        }
+
         cachingInProgress = false
     }
 
