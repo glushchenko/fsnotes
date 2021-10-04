@@ -49,6 +49,9 @@ class Storage {
 
     private var relativeInlineImagePaths = [String]()
 
+    public var plainWriter = OperationQueue.init()
+    public var ciphertextWriter = OperationQueue.init()
+
     init() {
         let storageType = UserDefaultsManagement.storageType
         let bookmark = SandboxBookmark.sharedInstance()
@@ -98,6 +101,12 @@ class Storage {
             let project = Project(storage: self, url: archive, label: archiveLabel, isRoot: false, isDefault: false, isArchive: true)
             assignTree(for: project)
         }
+
+        plainWriter.maxConcurrentOperationCount = 1
+        plainWriter.qualityOfService = .userInteractive
+
+        ciphertextWriter.maxConcurrentOperationCount = 1
+        ciphertextWriter.qualityOfService = .userInteractive
     }
 
     init(micro: Bool) {
@@ -121,6 +130,12 @@ class Storage {
 
         loadCachedProjects()
         checkWelcome()
+
+        plainWriter.maxConcurrentOperationCount = 1
+        plainWriter.qualityOfService = .userInteractive
+
+        ciphertextWriter.maxConcurrentOperationCount = 1
+        ciphertextWriter.qualityOfService = .userInteractive
     }
 
     public static func shared() -> Storage {

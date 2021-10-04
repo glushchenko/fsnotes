@@ -46,9 +46,6 @@ public class Note: NSObject  {
     public var isParsed = false
 
     private var decryptedTemporarySrc: URL?
-    
-    public var ciphertextWriter = OperationQueue.init()
-    public var plainWriter = OperationQueue.init()
 
     private var firstLineAsTitle = false
     private var lastSelectedRange: NSRange?
@@ -77,7 +74,6 @@ public class Note: NSObject  {
         super.init()
 
         self.parseURL(loadProject: false)
-        initWriters()
     }
     
     // Make new
@@ -101,7 +97,6 @@ public class Note: NSObject  {
         super.init()
 
         self.parseURL()
-        initWriters()
     }
 
     init(meta: NoteMeta, project: Project) {
@@ -120,15 +115,6 @@ public class Note: NSObject  {
         super.init()
 
         parseURL(loadProject: false)
-        initWriters()
-    }
-
-    private func initWriters() {
-        ciphertextWriter.maxConcurrentOperationCount = 1
-        ciphertextWriter.qualityOfService = .userInteractive
-
-        plainWriter.maxConcurrentOperationCount = 1
-        plainWriter.qualityOfService = .userInteractive
     }
 
     func getMeta() -> NoteMeta {
@@ -201,7 +187,7 @@ public class Note: NSObject  {
             loadPreviewInfo()
         #else
             if !isTrash() && !project.isArchive && tags {
-                _ = loadTags()
+                loadTags()
             }
         #endif
 
@@ -790,8 +776,8 @@ public class Note: NSObject  {
     }
 
     public func save(attributed: NSAttributedString) {
-        plainWriter.cancelAllOperations()
-        plainWriter.addOperation {
+        Storage.sharedInstance().plainWriter.cancelAllOperations()
+        Storage.sharedInstance().plainWriter.addOperation {
             let mutable = NSMutableAttributedString(attributedString: attributed)
             self.save(content: mutable)
             usleep(100000)
@@ -869,9 +855,9 @@ public class Note: NSObject  {
             try FileManager.default.setAttributes(attributes, ofItemAtPath: dst.path)
 
             if decryptedTemporarySrc != nil {
-                self.ciphertextWriter.cancelAllOperations()
-                self.ciphertextWriter.addOperation {
-                    guard self.ciphertextWriter.operationCount == 1 else { return }
+                Storage.sharedInstance().ciphertextWriter.cancelAllOperations()
+                Storage.sharedInstance().ciphertextWriter.addOperation {
+                    guard Storage.sharedInstance().ciphertextWriter.operationCount == 1 else { return }
                     self.writeEncrypted()
                 }
             } else {
@@ -1835,7 +1821,7 @@ public class Note: NSObject  {
         guard let temporaryURL = self.decryptedTemporarySrc else { return false }
 
         while true {
-            if ciphertextWriter.operationCount == 0 {
+            if Storage.sharedInstance().ciphertextWriter.operationCount == 0 {
                 print("Note \"\(title)\" successfully locked.")
 
                 container = .encryptedTextPack

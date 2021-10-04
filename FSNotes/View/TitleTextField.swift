@@ -82,11 +82,9 @@ class TitleTextField: NSTextField {
         if !FileManager.default.fileExists(atPath: dst.path) || hasCaseSensitiveDiffOnly {
             _ = note.move(to: dst, forceRewrite: hasCaseSensitiveDiffOnly)
 
-            let newTitle = currentTitle.replacingOccurrences(of: ":", with: "-")
             vc.updateTitle(note: note)
-
             updateNotesTableView()
-            
+
             vc.reSort(note: note)
         } else {
             vc.updateTitle(note: note)
