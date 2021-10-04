@@ -1316,7 +1316,7 @@ public class Note: NSObject  {
                 .replacingOccurrences(of: "[[", with: "")
                 .replacingOccurrences(of: "]]", with: "")
 
-        let components = cleanText.trim().components(separatedBy: "\n").filter({ $0 != "" })
+        let components = cleanText.trim().components(separatedBy: NSCharacterSet.newlines).filter({ $0 != "" })
 
         if let first = components.first {
             if UserDefaultsManagement.firstLineAsTitle || project.firstLineAsTitle {
