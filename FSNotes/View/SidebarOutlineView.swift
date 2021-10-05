@@ -307,17 +307,17 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         // projects
-        var project: Project?
+        var maybeProject: Project?
 
         if let sidebarItem = item as? SidebarItem, let sidebarProject = sidebarItem.project {
-            project = sidebarProject
+            maybeProject = sidebarProject
         }
 
         if let sidebarProject = item as? Project {
-            project = sidebarProject
+            maybeProject = sidebarProject
         }
 
-        guard let project = project else { return false }
+        guard let project = maybeProject else { return false }
 
         if urls.count > 0, Storage.sharedInstance().getBy(url: urls.first!) != nil {
             var notes = [Note]()
@@ -341,9 +341,9 @@ class SidebarOutlineView: NSOutlineView,
             return true
         }
 
-        guard let urls = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
+        guard let draggedURLs = board.readObjects(forClasses: [NSURL.self], options: nil) as? [URL] else { return false }
 
-        for url in urls {
+        for url in draggedURLs {
             var isDirectory = ObjCBool(true)
             if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory), isDirectory.boolValue && !url.path.contains(".textbundle") {
 
@@ -819,35 +819,34 @@ class SidebarOutlineView: NSOutlineView,
                 return
             }
         }
-        
-        guard let project = project else {
-            addRoot()
-            return
-        }
-        
-        guard let window = MainWindowController.shared() else { return }
-        
-        let alert = NSAlert()
-        vc.alert = alert
+      
+        if let project = project {
+          guard let window = MainWindowController.shared() else { return }
+          
+          let alert = NSAlert()
+          vc.alert = alert
 
-        let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
-        alert.messageText = NSLocalizedString("New project", comment: "")
-        alert.informativeText = NSLocalizedString("Please enter project name:", comment: "")
-        alert.accessoryView = field
-        alert.alertStyle = .informational
-        alert.addButton(withTitle: NSLocalizedString("Add", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
-        alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
-            if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let name = field.stringValue
-                self.createProject(name: name, parent: project)
-            }
+          let field = NSTextField(frame: NSRect(x: 0, y: 0, width: 290, height: 20))
+          alert.messageText = NSLocalizedString("New project", comment: "")
+          alert.informativeText = NSLocalizedString("Please enter project name:", comment: "")
+          alert.accessoryView = field
+          alert.alertStyle = .informational
+          alert.addButton(withTitle: NSLocalizedString("Add", comment: ""))
+          alert.addButton(withTitle: NSLocalizedString("Cancel", comment: ""))
+          alert.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
+              if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
+                  let name = field.stringValue
+                  self.createProject(name: name, parent: project)
+              }
 
-            NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
-            vc.alert = nil
+              NSApp.mainWindow?.makeFirstResponder(sidebarOutlineView)
+              vc.alert = nil
+          }
+          
+          field.becomeFirstResponder()
+        } else {
+          addRoot()
         }
-        
-        field.becomeFirstResponder()
     }
 
     @IBAction func openSettings(_ sender: NSMenuItem) {
@@ -1414,10 +1413,10 @@ class SidebarOutlineView: NSOutlineView,
     public func getAllTags() -> [String] {
         var tags: Set<String> = []
         var projects: [Project]? = getSidebarProjects()
-        let item = item(atRow: selectedRow) as? SidebarItem
+        let selectedItem = item(atRow: selectedRow) as? SidebarItem
 
 
-        if item?.type == .All || projects == nil {
+        if selectedItem?.type == .All || projects == nil {
             projects = storage.getProjects().filter({ !$0.isTrash && !$0.isArchive && $0.showInCommon })
         }
 
