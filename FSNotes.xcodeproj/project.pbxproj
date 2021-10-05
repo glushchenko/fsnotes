@@ -1106,6 +1106,11 @@
 		312443807E38E0E5C6679DC9 /* Pods-FSNotes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes.release.xcconfig"; path = "Target Support Files/Pods-FSNotes/Pods-FSNotes.release.xcconfig"; sourceTree = "<group>"; };
 		3CD37DA957EBBE76F7C571B5 /* Pods_FSNotes__Notarized_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotes__Notarized_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4814DCE21024B8A59E025E8F /* Pods-FSNotes iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS.release.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS/Pods-FSNotes iOS.release.xcconfig"; sourceTree = "<group>"; };
+		49B03F0A26F25D5500850658 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Main.strings; sourceTree = "<group>"; };
+		49B03F0B26F25D5500850658 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		49B03F0C26F25D5500850658 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		49B03F0D26F25D5600850658 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		49B03F0E26F25D5600850658 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4E660BC0A8D6C2DF205438E7 /* Pods-FSNotes iOS Share Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes iOS Share Extension.debug.xcconfig"; path = "Target Support Files/Pods-FSNotes iOS Share Extension/Pods-FSNotes iOS Share Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		51D964A002DBB29FD9DBE33F /* Pods_FSNotesCore_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FSNotesCore_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F5CE55D61ADD91D70DAEB0D /* Pods-FSNotes (iCloud Documents).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FSNotes (iCloud Documents).debug.xcconfig"; path = "Target Support Files/Pods-FSNotes (iCloud Documents)/Pods-FSNotes (iCloud Documents).debug.xcconfig"; sourceTree = "<group>"; };
@@ -2663,6 +2668,7 @@
 				"nl-NL",
 				"pt-PT",
 				it,
+				he,
 			);
 			mainGroup = D7793C661F211C6000CA39B7;
 			productRefGroup = D7793C701F211C6000CA39B7 /* Products */;
@@ -4087,6 +4093,7 @@
 				D7163D3924E82C2F00B1FC05 /* it */,
 				D7163D4B24E92E7B00B1FC05 /* en */,
 				D7A5B5B224F3D281007AE746 /* de */,
+				49B03F0D26F25D5600850658 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4102,6 +4109,7 @@
 				D7163D3824E82C2F00B1FC05 /* it */,
 				D7163D4C24E92EA600B1FC05 /* en */,
 				D7A5B5B324F3D284007AE746 /* de */,
+				49B03F0C26F25D5500850658 /* he */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -4117,6 +4125,7 @@
 				D7163D3A24E82C2F00B1FC05 /* it */,
 				D7163D4D24E92EBC00B1FC05 /* en */,
 				D7A5B5B424F3D28D007AE746 /* de */,
+				49B03F0E26F25D5600850658 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -4136,6 +4145,7 @@
 				D7B1F6AA2468718F00593001 /* nl-NL */,
 				D774761624ACC814003E43D1 /* pt-PT */,
 				D7163D4A24E9247400B1FC05 /* it */,
+				49B03F0A26F25D5500850658 /* he */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -4154,6 +4164,7 @@
 				D7B1F6A82468718F00593001 /* nl-NL */,
 				D774761424ACC814003E43D1 /* pt-PT */,
 				D7163D4824E9244400B1FC05 /* it */,
+				49B03F0B26F25D5500850658 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
