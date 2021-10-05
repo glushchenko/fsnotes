@@ -109,6 +109,7 @@ public class UserDefaultsManagement {
         static let RecentSearches = "recentSearches"
         static let RestoreCursorPosition = "restoreCursorPosition"
         static let SaveInKeychain = "saveInKeychain"
+        static let SearchHighlight = "searchHighlighting"
         static let SharedContainerKey = "sharedContainer"
         static let ShowDockIcon = "showDockIcon"
         static let shouldFocusSearchOnESCKeyDown = "shouldFocusSearchOnESCKeyDown"
@@ -1502,6 +1503,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.PinListKey)
+        }
+    }
+
+    static var searchHighlight: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.SearchHighlight) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.SearchHighlight)
         }
     }
 }
