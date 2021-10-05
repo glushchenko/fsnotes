@@ -17,6 +17,11 @@ class Sidebar {
     init() {
         var system = [SidebarItem]()
 
+        if UserDefaultsManagement.sidebarVisibilityInbox {
+            let notes = SidebarItem(name: NSLocalizedString("Inbox", comment: ""), type: .Inbox)
+            system.append(notes)
+        }
+
         if UserDefaultsManagement.sidebarVisibilityNotes {
             let notes = SidebarItem(name: NSLocalizedString("Notes", comment: ""), type: .All)
             system.append(notes)

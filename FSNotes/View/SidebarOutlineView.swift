@@ -1121,7 +1121,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         for project in projects {
-            if let child = project.getAllChild() {
+            if project.showNestedFoldersContent, let child = project.getAllChild() {
                 for item in child {
                     if !projects.contains(item) {
                         projects.append(item)

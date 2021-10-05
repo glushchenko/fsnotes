@@ -325,7 +325,7 @@ class ViewController: NSViewController,
                 case 5:
                     menuItem.state = UserDefaultsManagement.sidebarVisibilityTrash ? .on : .off
                 case 6:
-                    menuItem.state =     UserDefaultsManagement.sidebarVisibilityUntagged ? .on : .off
+                    menuItem.state = UserDefaultsManagement.sidebarVisibilityUntagged ? .on : .off
                 default:
                     break
                 }
@@ -1810,6 +1810,7 @@ class ViewController: NSViewController,
             ) && (
                 type == .All && !note.project.isArchive && note.project.showInCommon
                 || type != .All && type != .Todo && projects != nil && projects!.contains(note.project)
+                || type == .Inbox && note.project.isDefault
                 || type == .Trash
                 || type == .Untagged && note.tags.count == 0
                 || type == .Todo && note.project.showInCommon

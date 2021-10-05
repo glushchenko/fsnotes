@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -691,6 +691,12 @@ CA
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Show in sidebar" identifier="showInSidebar" id="xjf-5G-e5Q">
                                                 <items>
+                                                    <menuItem title="Inbox" state="on" tag="1" id="IHG-4U-pF1">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="sidebarItemVisibility:" target="Ady-hI-5gd" id="fCX-Hw-xKB"/>
+                                                        </connections>
+                                                    </menuItem>
                                                     <menuItem title="Notes" state="on" tag="2" id="xPz-yo-VwM">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
@@ -2425,7 +2431,7 @@ Italian 🇮🇹</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pbJ-GR-hHs">
-                                <rect key="frame" x="150" y="53" width="252" height="18"/>
+                                <rect key="frame" x="150" y="90" width="252" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Use first line as title" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kbK-Um-cQk">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2435,16 +2441,12 @@ Italian 🇮🇹</string>
                                     <action selector="firstLineAsTitle:" target="JOV-dV-hyG" id="6tE-fm-7hd"/>
                                 </connections>
                             </button>
-                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9Ag-KN-R7v">
-                                <rect key="frame" x="36" y="90" width="364" height="5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            </box>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Xlx-2b-uqS">
                                 <rect key="frame" x="38" y="154" width="366" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eOj-jC-ndy">
-                                <rect key="frame" x="34" y="53" width="112" height="17"/>
+                                <rect key="frame" x="34" y="90" width="112" height="17"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Notes list:" id="Scc-aD-CFQ">
                                     <font key="font" metaFont="system"/>
@@ -2473,7 +2475,7 @@ Italian 🇮🇹</string>
                                 </connections>
                             </button>
                             <button identifier="desc" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HIU-aj-0cI">
-                                <rect key="frame" x="153" y="175" width="253" height="18"/>
+                                <rect key="frame" x="152" y="175" width="253" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="radio" title="Descending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="TCI-Xs-mwm">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2531,6 +2533,26 @@ Italian 🇮🇹</string>
                                     <action selector="sortBy:" target="JOV-dV-hyG" id="tq9-Nn-S8l"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uGt-vx-czG">
+                                <rect key="frame" x="34" y="66" width="117" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Level:" id="HOY-N3-iyl">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-2x-rJD">
+                                <rect key="frame" x="150" y="65" width="258" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="Show nested folders content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f33-1h-Hvh">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showNestedFoldersContent:" target="JOV-dV-hyG" id="TWp-Ha-Q5a"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -2539,6 +2561,7 @@ Italian 🇮🇹</string>
                         <outlet property="directionDESC" destination="HIU-aj-0cI" id="x94-Ms-POU"/>
                         <outlet property="firstLineAsTitle" destination="pbJ-GR-hHs" id="ue5-hc-jLA"/>
                         <outlet property="modificationDate" destination="qfE-2B-PiS" id="GzG-Jq-tKk"/>
+                        <outlet property="nestedFoldersContent" destination="Mi8-2x-rJD" id="PgD-aR-zj8"/>
                         <outlet property="showInAll" destination="DQw-2B-ocF" id="Sti-yU-e3J"/>
                         <outlet property="sortByGlobal" destination="lRQ-kL-8RA" id="7az-vA-Nhu"/>
                         <outlet property="titleButton" destination="G4r-zr-CMm" id="yw8-7Y-QMx"/>
@@ -3337,11 +3360,11 @@ Italian 🇮🇹</string>
         <image name="NSLockLockedTemplate" width="14" height="15"/>
         <image name="NSQuickLookTemplate" width="21" height="13"/>
         <image name="NSShareTemplate" width="15" height="17"/>
-        <image name="dockIcon2" width="67" height="67"/>
+        <image name="dockIcon2" width="66.5" height="66.5"/>
         <image name="dockIcon4" width="64" height="64"/>
         <image name="icon" width="1024" height="1024"/>
-        <image name="logoInCircle" width="500" height="500"/>
-        <image name="new_note_button" width="512" height="512"/>
+        <image name="logoInCircle" width="250" height="250"/>
+        <image name="new_note_button" width="256" height="256"/>
         <image name="pin" width="128" height="128"/>
         <image name="prefsAdvanced" width="171" height="171"/>
         <image name="prefsEditor" width="128" height="128"/>
