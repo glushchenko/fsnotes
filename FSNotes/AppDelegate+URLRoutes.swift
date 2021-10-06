@@ -134,6 +134,7 @@ extension AppDelegate {
                 return
             } else {
                 lastPath = wikiURL
+                vc.search.window?.makeFirstResponder(vc.search)
             }
         }
 
