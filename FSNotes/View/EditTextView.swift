@@ -1922,6 +1922,19 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
             return
         }
 
+        // Scroll to [TestJump](#TestJump) link
+        if let link = link as? String, link.startsWith(string: "#") {
+            let title = String(link.dropFirst())
+
+            if let index = textStorage?.string.range(of: "# " + title) {
+                if let range = textStorage?.string.nsRange(from: index) {
+                    setSelectedRange(range)
+                    scrollRangeToVisible(range)
+                    return
+                }
+            }
+        }
+
         let range = NSRange(location: charIndex, length: 1)
         
         let char = attributedSubstring(forProposedRange: range, actualRange: nil)

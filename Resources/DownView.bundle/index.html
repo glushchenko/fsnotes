@@ -23,6 +23,10 @@
     <script>hljs.initHighlightingOnLoad();</script>
 
     <script>
+        function getElementsByText(str, tag = 'h1') {
+            return Array.prototype.slice.call(document.getElementsByTagName(tag)).filter(el => el.textContent.trim() === str.trim());
+        }
+
         function getSelectionAndSendMessage() {
             var txt = document.getSelection().toString();
             window.webkit.messageHandlers.newSelectionDetected.postMessage(txt);
