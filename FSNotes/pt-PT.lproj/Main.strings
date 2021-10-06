@@ -286,6 +286,9 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "Ajuda";
 
+/* Class = "NSButtonCell"; title = "Show nested folders content"; ObjectID = "f33-1h-Hvh"; */
+"f33-1h-Hvh.title" = "Show nested folders content";
+
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "Mostrar no Finder";
 
@@ -414,6 +417,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "Ver CSS em Markdown:";
+
+/* Class = "NSMenuItem"; title = "Inbox"; ObjectID = "IHG-4U-pF1"; */
+"IHG-4U-pF1.title" = "Caixa de entrada";
 
 /* Class = "NSMenuItem"; title = "Back Up Now"; ObjectID = "iIP-wI-OaZ"; */
 "iIP-wI-OaZ.title" = "Cópia de segurança de armazenamento";
