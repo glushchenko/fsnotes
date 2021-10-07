@@ -1120,7 +1120,7 @@ class SidebarOutlineView: NSOutlineView,
         }
 
         for project in projects {
-            if let child = project.getAllChild() {
+            if project.showNestedFoldersContent, let child = project.getAllChild() {
                 for item in child {
                     if !projects.contains(item) {
                         projects.append(item)
@@ -1294,9 +1294,13 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func select(note: Note) {
-        if let i = sidebarItems?.firstIndex(where: {($0 as? SidebarItem)?.project == note.project }) {
+        let index = row(forItem: note.project)
+
+        if index > -1 {
             selectNote = note
-            selectRowIndexes([i], byExtendingSelection: false)
+
+            scrollRowToVisible(index)
+            selectRowIndexes([index], byExtendingSelection: false)
         }
     }
     
@@ -1540,7 +1544,7 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func getRootProjectPosition(for project: Project) -> Int {
-        guard let offset = sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.project?.isDefault == true }) else {
+        guard let offset = sidebarItems?.firstIndex(where: { ($0 as? SidebarItem)?.project?.isDefault == true || ($0 as? Project)?.isDefault == true }) else {
             return sidebarItems?.count ?? 0
         }
 

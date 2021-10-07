@@ -257,16 +257,17 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     }
 
     private func isFootNotes(url: URL) -> Bool {
-        let webkitPreview = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("wkPreview")
-            .appendingPathComponent("index.html")
-            .absoluteString
+        let link = url.absoluteString.components(separatedBy: "/index.html#")
+        if link.count == 2 {
+            let anchor = link[1]
 
-        let link = url.absoluteString.replacingOccurrences(of: webkitPreview, with: "")
-        if link.starts(with: "#") {
-            let anchor = link.dropFirst()
-            let javascript = "document.getElementById('\(anchor)').offsetTop"
-            evaluateJavaScript(javascript) { [weak self] (result, error) in
+            evaluateJavaScript("document.getElementById('\(anchor)').offsetTop") { [weak self] (result, error) in
+                if let offset = result as? CGFloat {
+                    self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
+                }
+            }
+
+            evaluateJavaScript("getElementsByText('\(anchor)')[0].offsetTop") { [weak self] (result, error) in
                 if let offset = result as? CGFloat {
                     self?.evaluateJavaScript("window.scrollTo(0,\(offset))", completionHandler: nil)
                 }

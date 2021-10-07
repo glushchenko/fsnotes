@@ -32,6 +32,7 @@ public class Project: Equatable {
 
     public var showInCommon: Bool
     public var showInSidebar: Bool = true
+    public var showNestedFoldersContent: Bool = true
 
     #if os(iOS)
     public var firstLineAsTitle: Bool = true
@@ -343,7 +344,8 @@ public class Project: Equatable {
             "sortDirection": sortDirection.rawValue,
             "showInCommon": showInCommon,
             "showInSidebar": showInSidebar,
-            "firstLineAsTitle": firstLineAsTitle
+            "firstLineAsTitle": firstLineAsTitle,
+            "showNestedFoldersContent": showNestedFoldersContent
         ] as [String : Any]
 
         #if os(OSX)
@@ -380,6 +382,10 @@ public class Project: Equatable {
                     self.showInSidebar = sidebar
                 }
 
+                if let sidebar = settings["showNestedFoldersContent"] as? Bool {
+                    self.showNestedFoldersContent = sidebar
+                }
+
                 if let sortString = settings["sortBy"] as? String, let sort = SortBy(rawValue: sortString) {
                     if sort != .none {
                         sortBy = sort
@@ -407,6 +413,10 @@ public class Project: Equatable {
 
             if let sidebar = settings.value(forKey: "showInSidebar") as? Bool {
                 self.showInSidebar = sidebar
+            }
+
+            if let sidebar = settings.value(forKey: "showNestedFoldersContent") as? Bool {
+                self.showNestedFoldersContent = sidebar
             }
 
             if let sortString = settings.value(forKey: "sortBy") as? String,

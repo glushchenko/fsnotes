@@ -1413,7 +1413,7 @@ public class NotesTextProcessor {
     // MARK: App url
     
     fileprivate static let appUrlPattern = "(\\[\\[)(.+?[\\[\\]]*)(\\]\\])"
-    
+
     public static let appUrlRegex = MarklightRegex(pattern: appUrlPattern, options: [.anchorsMatchLines])
     
     // MARK: Bold
@@ -1608,7 +1608,7 @@ public class NotesTextProcessor {
 
 
     func highlightKeyword(search: String = "", remove: Bool = false) {
-        guard let storage = self.storage, search.count > 0 else { return }
+        guard let storage = self.storage, search.count > 0, UserDefaultsManagement.searchHighlight else { return }
 
         let searchTerm = NSRegularExpression.escapedPattern(for: search)
         let attributedString = NSMutableAttributedString(attributedString: storage)

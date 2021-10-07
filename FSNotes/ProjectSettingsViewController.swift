@@ -23,6 +23,7 @@ class ProjectSettingsViewController: NSViewController {
 
     @IBOutlet weak var showInAll: NSButton!
     @IBOutlet weak var firstLineAsTitle: NSButton!
+    @IBOutlet weak var nestedFoldersContent: NSButton!
 
     @IBAction func sortBy(_ sender: NSButton) {
         guard let project = project else { return }
@@ -74,6 +75,16 @@ class ProjectSettingsViewController: NSViewController {
         self.dismiss(nil)
     }
 
+    @IBAction func showNestedFoldersContent(_ sender: NSButton) {
+        guard let project = self.project else { return }
+
+        project.showNestedFoldersContent = sender.state == .on
+        project.saveSettings()
+
+        guard let vc = ViewController.shared() else { return }
+        vc.updateTable()
+    }
+
     override func keyDown(with event: NSEvent) {
         if event.keyCode == kVK_Return || event.keyCode == kVK_Escape {
             self.dismiss(nil)
@@ -83,6 +94,7 @@ class ProjectSettingsViewController: NSViewController {
     public func load(project: Project) {
         showInAll.state = project.showInCommon ? .on : .off
         firstLineAsTitle.state = project.firstLineAsTitle ? .on : .off
+        nestedFoldersContent.state = project.showNestedFoldersContent ? .on : .off
 
         modificationDate.state = project.sortBy == .modificationDate ? .on : .off
         creationDate.state = project.sortBy == .creationDate ? .on : .off

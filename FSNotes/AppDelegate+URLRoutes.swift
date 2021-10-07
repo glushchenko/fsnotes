@@ -72,7 +72,7 @@ extension AppDelegate {
 
         for url in urls {
             if let items = vc.sidebarOutlineView.sidebarItems, let note = Storage.sharedInstance().getBy(url: url) {
-                if let sidebarItem = items.first(where: { ($0 as? SidebarItem)?.project == note.project || ($0 as? SidebarItem)?.project?.isArchive == note.isInArchive()}) {
+                if let sidebarItem = items.first(where: { ($0 as? SidebarItem)?.project == note.project || $0 as? Project == note.project }) {
                     sidebarIndex = vc.sidebarOutlineView.row(forItem: sidebarItem)
                     importedNote = note
                 }
@@ -134,6 +134,7 @@ extension AppDelegate {
                 return
             } else {
                 lastPath = wikiURL
+                vc.search.window?.makeFirstResponder(vc.search)
             }
         }
 
