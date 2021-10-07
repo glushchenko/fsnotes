@@ -187,23 +187,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     
     func constructMenu() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        
+
         if let button = statusItem?.button, let image = NSImage(named: "menuBar") {
             image.size.width = 20
             image.size.height = 20
             button.image = image
         }
 
+        statusItem?.button?.action = #selector(AppDelegate.clickStatusBarItem(sender:))
+        statusItem?.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
+    }
+
+    public func attachMenu() {
         let menu = NSMenu()
         menu.addItem(NSMenuItem(title: NSLocalizedString("New", comment: ""), action: #selector(AppDelegate.new(_:)), keyEquivalent: "n"))
-        
+
         let rtf = NSMenuItem(title: NSLocalizedString("New RTF", comment: ""), action: #selector(AppDelegate.newRTF(_:)), keyEquivalent: "n")
         var modifier = NSEvent.modifierFlags
         modifier.insert(.command)
         modifier.insert(.shift)
         rtf.keyEquivalentModifierMask = modifier
         menu.addItem(rtf)
-        
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: NSLocalizedString("Search and create", comment: ""), action: #selector(AppDelegate.searchAndCreate(_:)), keyEquivalent: "l"))
         menu.addItem(NSMenuItem(title: NSLocalizedString("Preferences", comment: ""), action: #selector(AppDelegate.openPreferences(_:)), keyEquivalent: ","))
@@ -211,12 +216,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let lock = NSMenuItem(title: NSLocalizedString("Lock All Encrypted", comment: ""), action: #selector(ViewController.shared()?.lockAll(_:)), keyEquivalent: "l")
         lock.keyEquivalentModifierMask = [.command, .shift]
         menu.addItem(lock)
-        
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: NSLocalizedString("Quit FSNotes", comment: ""), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
 
         menu.delegate = self
         statusItem?.menu = menu
+    }
+
+    @objc func clickStatusBarItem(sender: NSStatusItem) {
+        let event = NSApp.currentEvent!
+
+        if event.type == NSEvent.EventType.leftMouseUp{
+            NSApp.activate(ignoringOtherApps: true)
+        }
+
+        attachMenu()
+
+        DispatchQueue.main.async {
+            self.statusItem?.popUpMenu(self.statusItem!.menu!)
+        }
+    }
+
+    func menuDidClose(_ menu: NSMenu) {
+        statusItem?.menu = nil
     }
     
     // MARK: IBActions
@@ -297,14 +320,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         aboutWindowController.window?.makeKeyAndOrderFront(aboutWindowController)
 
         NSApp.activate(ignoringOtherApps: true)
-    }
-
-    func menuWillOpen(_ menu: NSMenu) {
-        guard let event = NSApp.currentEvent else { return }
-
-        if event.type == NSEvent.EventType.leftMouseDown {
-            mainWindowController?.makeNew()
-        }
     }
 
     public func loadDockIcon() {
