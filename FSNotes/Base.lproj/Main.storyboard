@@ -2553,11 +2553,11 @@ Will Pazner (github.com/pazner)</string>
             <objects>
                 <viewController storyboardIdentifier="ProjectSettingsViewController" id="JOV-dV-hyG" customClass="ProjectSettingsViewController" customModule="FSNotes" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="MgV-BT-LsD">
-                        <rect key="frame" x="0.0" y="0.0" width="411" height="354"/>
+                        <rect key="frame" x="0.0" y="0.0" width="411" height="362"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button identifier="creationDate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VM6-1W-eJP">
-                                <rect key="frame" x="100" y="273" width="104" height="18"/>
+                                <rect key="frame" x="100" y="281" width="104" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Creation date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="PY8-lr-5qr">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2567,7 +2567,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lRQ-kL-8RA">
-                                <rect key="frame" x="100" y="317" width="184" height="18"/>
+                                <rect key="frame" x="100" y="325" width="184" height="18"/>
                                 <buttonCell key="cell" type="radio" title="None (Use global settings)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="oer-ZB-VOx">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2577,10 +2577,10 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="opy-8T-bfQ">
-                                <rect key="frame" x="20" y="229" width="371" height="5"/>
+                                <rect key="frame" x="20" y="237" width="371" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yJO-Hj-7Bf">
-                                <rect key="frame" x="20" y="195" width="63" height="16"/>
+                                <rect key="frame" x="20" y="203" width="63" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Direction:" id="QxK-39-9yF">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2596,13 +2596,13 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Xlx-2b-uqS">
-                                <rect key="frame" x="20" y="150" width="371" height="5"/>
+                                <rect key="frame" x="20" y="158" width="371" height="5"/>
                             </box>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="9Ag-KN-R7v">
                                 <rect key="frame" x="20" y="94" width="371" height="5"/>
                             </box>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i67-zB-31s">
-                                <rect key="frame" x="24" y="116" width="59" height="16"/>
+                                <rect key="frame" x="24" y="124" width="59" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Visibility:" id="jrj-ea-xmm">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2610,7 +2610,7 @@ Will Pazner (github.com/pazner)</string>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cFW-mP-L5G">
-                                <rect key="frame" x="31" y="318" width="52" height="16"/>
+                                <rect key="frame" x="31" y="326" width="52" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Sort by:" id="4cz-zj-dkH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -2628,7 +2628,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="modificationDate" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qfE-2B-PiS">
-                                <rect key="frame" x="100" y="295" width="128" height="18"/>
+                                <rect key="frame" x="100" y="303" width="128" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Modification date" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="GCG-C6-9cg">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2638,7 +2638,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="desc" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HIU-aj-0cI">
-                                <rect key="frame" x="100" y="172" width="94" height="18"/>
+                                <rect key="frame" x="100" y="180" width="94" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Descending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="TCI-Xs-mwm">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2648,7 +2648,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="asc" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cG6-mW-iPi">
-                                <rect key="frame" x="100" y="194" width="86" height="18"/>
+                                <rect key="frame" x="100" y="202" width="86" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Ascending" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="EYG-WM-BFN">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2668,7 +2668,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DQw-2B-ocF">
-                                <rect key="frame" x="99" y="115" width="257" height="18"/>
+                                <rect key="frame" x="99" y="123" width="257" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show notes in &quot;Notes&quot; and &quot;Todo&quot; lists" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Zzw-01-JH7">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2678,7 +2678,7 @@ Will Pazner (github.com/pazner)</string>
                                 </connections>
                             </button>
                             <button identifier="title" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="G4r-zr-CMm">
-                                <rect key="frame" x="100" y="251" width="49" height="18"/>
+                                <rect key="frame" x="100" y="259" width="49" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Title" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="LPT-uW-BtF">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2687,9 +2687,8 @@ Will Pazner (github.com/pazner)</string>
                                     <action selector="sortBy:" target="JOV-dV-hyG" id="tq9-Nn-S8l"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-2x-rJD">
-                                <rect key="frame" x="150" y="93" width="258" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Mi8-2x-rJD">
+                                <rect key="frame" x="99" y="103" width="196" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show nested folders content" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="f33-1h-Hvh">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -2708,12 +2707,15 @@ Will Pazner (github.com/pazner)</string>
                             <constraint firstItem="i67-zB-31s" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" symbolic="YES" id="6CI-nm-ttk"/>
                             <constraint firstAttribute="bottom" secondItem="lhi-dw-WFN" secondAttribute="bottom" constant="20" symbolic="YES" id="7mD-cn-Nv6"/>
                             <constraint firstItem="yJO-Hj-7Bf" firstAttribute="top" secondItem="opy-8T-bfQ" secondAttribute="bottom" constant="20" id="AWS-Hw-coS"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Mi8-2x-rJD" secondAttribute="trailing" constant="20" symbolic="YES" id="Adc-hR-fGi"/>
+                            <constraint firstItem="Mi8-2x-rJD" firstAttribute="top" secondItem="DQw-2B-ocF" secondAttribute="bottom" constant="6" symbolic="YES" id="Aih-rS-fw0"/>
                             <constraint firstItem="9Ag-KN-R7v" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" symbolic="YES" id="BqT-se-lOr"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="HIU-aj-0cI" secondAttribute="trailing" constant="20" symbolic="YES" id="CQA-xM-V8s"/>
-                            <constraint firstItem="9Ag-KN-R7v" firstAttribute="top" secondItem="DQw-2B-ocF" secondAttribute="bottom" constant="20" id="DZG-p0-4r5"/>
+                            <constraint firstItem="9Ag-KN-R7v" firstAttribute="top" secondItem="Mi8-2x-rJD" secondAttribute="bottom" constant="8" symbolic="YES" id="DZG-p0-4r5"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="trailing" secondItem="i67-zB-31s" secondAttribute="trailing" id="Eoq-Ca-gYc"/>
                             <constraint firstItem="cFW-mP-L5G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" symbolic="YES" id="EpB-bA-iuX"/>
                             <constraint firstItem="yJO-Hj-7Bf" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" priority="10" constant="20" symbolic="YES" id="Gid-WW-sOZ"/>
+                            <constraint firstItem="Mi8-2x-rJD" firstAttribute="leading" secondItem="DQw-2B-ocF" secondAttribute="leading" id="HiY-81-gwL"/>
                             <constraint firstItem="VM6-1W-eJP" firstAttribute="top" secondItem="qfE-2B-PiS" secondAttribute="bottom" constant="6" symbolic="YES" id="Hur-79-TmG"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="leading" secondItem="MgV-BT-LsD" secondAttribute="leading" priority="10" constant="20" symbolic="YES" id="Kpx-6h-FZk"/>
                             <constraint firstItem="eOj-jC-ndy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MgV-BT-LsD" secondAttribute="leading" constant="20" symbolic="YES" id="MaR-y1-Lok"/>
