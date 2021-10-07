@@ -220,6 +220,9 @@
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "עזרה";
 
+/* Class = "NSButtonCell"; title = "Show nested folders content"; ObjectID = "f33-1h-Hvh"; */
+"f33-1h-Hvh.title" = "הצג תכני תיקיה מקוננים";
+
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "הצג ב-Finder";
 
@@ -300,6 +303,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Markdown Preview CSS:"; ObjectID = "Icf-3C-atz"; */
 "Icf-3C-atz.title" = "CSS לתצוגת Markdown:";
+
+/* Class = "NSMenuItem"; title = "Inbox"; ObjectID = "IHG-4U-pF1"; */
+"IHG-4U-pF1.title" = "תיבת דואר נכנס";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "נעל בהפעלת שומר מסך";
