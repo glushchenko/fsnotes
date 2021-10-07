@@ -1301,7 +1301,7 @@ class Storage {
     }
 
     public func cleanUnlocked() {
-        noteList.filter({ $0.isUnlocked() }).map({ $0.cleanOut() })
+        noteList.filter({ $0.isUnlocked() }).forEach({ $0.cleanOut() })
     }
 
     private func checkWelcome() {
