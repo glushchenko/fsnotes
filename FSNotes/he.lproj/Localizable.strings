@@ -1,0 +1,279 @@
+/* No comment provided by engineer. */
+"Add" = "הוסף";
+
+/* No comment provided by engineer. */
+"Add External Folder..." = "הוסף תיקיה חיצונית...";
+
+/* Sidebar label */
+"Archive" = "ארכיון";
+
+/* No comment provided by engineer. */
+"Are you really want to remove %d tag(s)? This action can not be undone." = "האם ברצונך להסיר %d תג(ים)? לא ניתן לבטל פעולה זו.";
+
+/* No comment provided by engineer. */
+"Are you sure you want to irretrievably delete %d note(s)?" = "האם ברצונך למחוק %d פתק(ים) באופן בלתי הפיך?";
+
+/* No comment provided by engineer. */
+"Are you sure you want to remove project \"%@\" and all files inside?" = "האם ברצונך להסיר פרוייקט \"%@\" ואת כל הקבצים שבתוכו?";
+
+/* No comment provided by engineer. */
+"Back up storage" = "גבה אחסון";
+
+/* Delete menu */
+"Cancel" = "ביטול";
+
+/* Menu */
+"Change creation date" = "שנה תאריך יצירה";
+
+/* No comment provided by engineer. */
+"Check Grammar With Spelling" = "בדוק דקדוק ביחד עם איות";
+
+/* No comment provided by engineer. */
+"Check Spelling While Typing" = "בדוק איות תוך כדי הקלדה";
+
+/* No comment provided by engineer. */
+"Clear" = "נקה";
+
+/* No comment provided by engineer. */
+"Copy HTML" = "העתק HTML";
+
+/* No comment provided by engineer. */
+"Copy Link" = "העתק קישור";
+
+/* No comment provided by engineer. */
+"Copy Plain Text" = "העתק מלל פשוט";
+
+/* No comment provided by engineer. */
+"Correct Spelling Automatically" = "תקן איות באופן אוטומטי";
+
+/* Menu */
+"Creation date:" = "תאריך יצירה:";
+
+/* No comment provided by engineer. */
+"Current password does not match with password in keychain" = "הסיסמה הנוכחית לא תואמת עם הסיסמה בצרור";
+
+/* No comment provided by engineer. */
+"Data Detectors" = "גלאי נתונים";
+
+/* No comment provided by engineer. */
+"Default storage path should not be equal to Git path." = "נתיב האחסון צריך לא להיות שווה לנתיב Git.";
+
+/* No comment provided by engineer. */
+"Delete" = "מחק";
+
+/* No comment provided by engineer. */
+"Delete Folder" = "מחק תיקיה";
+
+/* No comment provided by engineer. */
+"Delete Tag" = "מחק תג";
+
+/* No comment provided by engineer. */
+"Detach storage" = "נתק אחסון";
+
+/* No comment provided by engineer. */
+"Do you want to move current notes in the new destination?" = "האם ברצונך להעביר את הפתקים הנוכחים ליעד החדש?";
+
+/* No comment provided by engineer. */
+"Documents" = "מסמכים";
+
+/* No comment provided by engineer. */
+"Edit Link…" = "ערוך קישור...";
+
+/* No comment provided by engineer. */
+"Empty password" = "הסיסמה ריקה";
+
+/* No comment provided by engineer. */
+"Enter Master Password" = "הכנס סיסמה ראשית";
+
+/* No comment provided by engineer. */
+"External Folders" = "תיקיות חיצוניות";
+
+/* No comment provided by engineer. */
+"Folder with name '%@' already exist" = "תיקיה בשם \"%@\" כבר קיימת.";
+
+/* No comment provided by engineer. */
+"FSNotes [edit]" = "FSNotes [עריכה]";
+
+/* No comment provided by engineer. */
+"FSNotes [preview]" = "FSNotes [תצוגה]";
+
+/* No comment provided by engineer. */
+"History" = "היסטוריה";
+
+/* No comment provided by engineer. */
+"iCloud Drive" = "iCloud Drive";
+
+/* No comment provided by engineer. */
+"Inbox" = "תיבת דואר נכנס";
+
+/* No comment provided by engineer. */
+"Link" = "קישור";
+
+/* No comment provided by engineer. */
+"Lock All Encrypted" = "נעל פתקים מוצפנים";
+
+/* No comment provided by engineer. */
+"Master password:" = "סיסמה ראשית:";
+
+/* Menu */
+"Move" = "העבר";
+
+/* No comment provided by engineer. */
+"New" = "חדש";
+
+/* No comment provided by engineer. */
+"New folder" = "תיקיה חדשה";
+
+/* No comment provided by engineer. */
+"New project" = "פרויקט חדש";
+
+/* No comment provided by engineer. */
+"New RTF" = "RTF חדש";
+
+/* No comment provided by engineer. */
+"No" = "לא";
+
+/* No comment provided by engineer. */
+"Note with name \"%@\" already exists in selected directory." = "פתק בשם \"%@\" כבר קיים בתיקיה הנבחרת.";
+
+/* Sidebar label */
+"Notes" = "פתקים";
+
+/* No comment provided by engineer. */
+"OK" = "אישור";
+
+/* Document opened */
+"Open note" = "פתח פתק";
+
+/* No comment provided by engineer. */
+"Otherwise, the database of your notes will be available at: " = "אחרת, אחסון פתקיך יהיה נגיש ב:";
+
+/* No comment provided by engineer. */
+"Path not available" = "הנתיב אינו זמין";
+
+/* Edit area */
+"Please enter image title:" = "נא הכנס כותרת תמונה:";
+
+/* No comment provided by engineer. */
+"Please enter password for current note" = "נא הכבס סיסמה לפתק הנוכחי";
+
+/* No comment provided by engineer. */
+"Please enter project name:" = "נא הכנב שם פרויקט:";
+
+/* No comment provided by engineer. */
+"Please enter tag name:" = "נא הכנס שם תג:";
+
+/* Menu */
+"Please enter tags (comma separated):" = "נא הכנס תגים (מופרדים בפסיק):";
+
+/* No comment provided by engineer. */
+"Please try again" = "נסה שוב";
+
+/* No comment provided by engineer. */
+"Preferences" = "העדפות";
+
+/* No comment provided by engineer. */
+"Quit FSNotes" = "סיים את FSNotes";
+
+/* No comment provided by engineer. */
+"Recents" = "אחרונים";
+
+/* No comment provided by engineer. */
+"Recents Search" = "חיפושים אחרונים";
+
+/* Delete menu */
+"Remove" = "הסר";
+
+/* No comment provided by engineer. */
+"Remove Link" = "הסר קישור";
+
+/* No comment provided by engineer. */
+"Remove note(s)" = "הסר פתקים";
+
+/* No comment provided by engineer. */
+"Remove Tags" = "הסר תגים";
+
+/* No comment provided by engineer. */
+"Rename Folder" = "שנה שם תיקיה";
+
+/* No comment provided by engineer. */
+"Rename Tag" = "שנה שם תג";
+
+/* No comment provided by engineer. */
+"Rename Tags" = "שנה שמות תגים";
+
+/* No comment provided by engineer. */
+"Search and create" = "חיפוש ויצירה";
+
+/* No comment provided by engineer. */
+"Show in Finder" = "הצג ב-Finder";
+
+/* No comment provided by engineer. */
+"Show view options" = "הצג אפשרויות תצוגה";
+
+/* No comment provided by engineer. */
+"Smart Copy/Paste" = "העתקה והדבקה חכמות";
+
+/* No comment provided by engineer. */
+"Smart Dashes" = "מיקוף חכם";
+
+/* No comment provided by engineer. */
+"Smart Links" = "קישורים חכמים";
+
+/* No comment provided by engineer. */
+"Smart Quotes" = "מרכאות חכמות";
+
+/* View menu */
+"Sort by" = "מיין לפי";
+
+/* No comment provided by engineer. */
+"Spelling and Grammar" = "איות ודקדוק";
+
+/* No comment provided by engineer. */
+"Substitutions" = "החלפות";
+
+/* Menu
+   Sidebar label */
+"Tags" = "תגים";
+
+/* No comment provided by engineer. */
+"Text Replacement" = "מלל חלופי";
+
+/* Delete menu */
+"This action cannot be undone." = "לא ניתן לבטל פעולה זו.";
+
+/* No comment provided by engineer. */
+"Todo" = "מטלות";
+
+/* No comment provided by engineer. */
+"Toggle preview" = "הצג/הסתר תצוגה מקדימה";
+
+/* Sidebar label */
+"Trash" = "פח אשפה";
+
+/* No comment provided by engineer. */
+"Underline" = "קו תחתון";
+
+/* No comment provided by engineer. */
+"Untagged" = "ללא תגים";
+
+/* Untitled Note */
+"Untitled Note" = "פתק ללא שם";
+
+/* No comment provided by engineer. */
+"URL has been copied to clipboard" = "הכתובת הועתקה";
+
+/* Menu */
+"View" = "תצוגה";
+
+/* No comment provided by engineer. */
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "שמנו לב שהתקנת FSNotes מה-App Store עם אחסון ב-iCloud Drive. האם ברצונך להעביר את המאגר הקודם ל-iCloud Drive?";
+
+/* No comment provided by engineer. */
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "לא ניתן להעביר \\\"{DST_PATH}\\\" מפני שקובץ באותו שם כבר קיים ביעד הנבחר.";
+
+/* No comment provided by engineer. */
+"Wrong repeated password" = "הסיסמאות לא תואמות";
+
+/* No comment provided by engineer. */
+"Yes" = "כן";
