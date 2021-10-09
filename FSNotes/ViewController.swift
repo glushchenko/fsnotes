@@ -12,6 +12,7 @@ import FSNotesCore_macOS
 import WebKit
 import LocalAuthentication
 import Foundation
+import UniformTypeIdentifiers
 
 class ViewController: NSViewController,
     NSTextViewDelegate,
@@ -1022,6 +1023,11 @@ class ViewController: NSViewController,
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
         panel.canCreateDirectories = false
+        if #available(macOS 11.0, *) {
+            panel.allowedContentTypes = self.storage.allowedExtensions.compactMap{ UTType(tag: $0, tagClass: .filenameExtension, conformingTo: nil) }
+        } else {
+            panel.allowedFileTypes = self.storage.allowedExtensions
+        }
         panel.begin { (result) -> Void in
             if result == NSApplication.ModalResponse.OK {
                 let urls = panel.urls
