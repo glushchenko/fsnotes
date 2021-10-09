@@ -8,7 +8,7 @@
 "Archive" = "Archivo";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "¿Seguro que quieres borrar %d etiqueta/s? Esta operación no se puede deshacer.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "¿Seguro que quieres borrar definitivamente %d notas?";
@@ -32,7 +32,7 @@
 "Check Spelling While Typing" = "Comprobar ortografía mientras se escribe";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"Clear" = "Limpiar";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Copiar HTML";
@@ -47,7 +47,7 @@
 "Correct Spelling Automatically" = "Corregir ortografía automáticamente";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "Fecha de creación:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "La contraseña actual no coincide con la contraseña en el Llavero";
@@ -56,7 +56,7 @@
 "Data Detectors" = "Detectores de datos";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "La carpeta de almacenamiento por defecto no puede ser un repositorio Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "Eliminar";
@@ -71,13 +71,13 @@
 "Detach storage" = "Separar el almacenamiento";
 
 /* No comment provided by engineer. */
-"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+"Do you want to move current notes in the new destination?" = "¿Quieres mover las notas al nuevo destino?";
 
 /* No comment provided by engineer. */
-"Documents" = "Documents";
+"Documents" = "Documentos";
 
 /* No comment provided by engineer. */
-"Edit Link…" = "Edit Link…";
+"Edit Link…" = "Editar enlace…";
 
 /* No comment provided by engineer. */
 "Empty password" = "Contraseña vacía";
@@ -86,10 +86,10 @@
 "Enter Master Password" = "Introduce la contraseña maestra";
 
 /* No comment provided by engineer. */
-"External Folders" = "External Folders";
+"External Folders" = "Carpetas externas";
 
 /* No comment provided by engineer. */
-"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
+"Folder with name '%@' already exist" = "Ya existe una carpeta nombrada '%@'";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [edición]";
@@ -104,7 +104,7 @@
 "iCloud Drive" = "iCloud Drive";
 
 /* No comment provided by engineer. */
-"Inbox" = "Inbox";
+"Inbox" = "Entrada";
 
 /* No comment provided by engineer. */
 "Link" = "Enlace";
@@ -134,7 +134,7 @@
 "No" = "No";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+"Note with name \"%@\" already exists in selected directory." = "Ya existe una carpeta nombrada '%@' en el directorio seleccionado.";
 
 /* Sidebar label */
 "Notes" = "Notas";
@@ -143,13 +143,13 @@
 "OK" = "OK";
 
 /* Document opened */
-"Open note" = "Open note";
+"Open note" = "Abrir nota";
 
 /* No comment provided by engineer. */
-"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+"Otherwise, the database of your notes will be available at: " = "De lo contrario la base de datos de tus notas estará disponible en: ";
 
 /* No comment provided by engineer. */
-"Path not available" = "Path not available";
+"Path not available" = "Carpeta no disponible";
 
 /* Edit area */
 "Please enter image title:" = "Por favor, introduce un título para la imagen:";
@@ -161,7 +161,7 @@
 "Please enter project name:" = "Por favor, introduce un nombre para el proyecto:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Por favor, introduce un nombre para la etiqueta:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Por favor, introduce las etiquetas (separadas por comas):";
@@ -176,16 +176,16 @@
 "Quit FSNotes" = "Salir de FSNotes";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Recientes";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Búqueda de Recientes";
 
 /* Delete menu */
 "Remove" = "Borrar";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Remove Link";
+"Remove Link" = "Eliminar enlace";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "Eliminar nota(s)";
@@ -243,7 +243,7 @@
 "This action cannot be undone." = "Esta operación no se puede deshacer.";
 
 /* No comment provided by engineer. */
-"Todo" = "Todo";
+"Todo" = "Pendientes";
 
 /* No comment provided by engineer. */
 "Toggle preview" = "Cambiar previsualización";
@@ -267,13 +267,13 @@
 "View" = "Visualización";
 
 /* No comment provided by engineer. */
-"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "Se ha detectado que la versión de FSNotes instalada es del Mac App Store, con almacenamiento por defecto en iCloud Drive. ¿Quieres mover la base de datos antigua a iCloud Drive?";
 
 /* No comment provided by engineer. */
-"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "No se puede mover \"{DST_PATH}\" porque ya existe en el destino seleccionado.";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "Repetición de contraseña incorrecta";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "Si";
