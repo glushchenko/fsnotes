@@ -8,7 +8,7 @@
 "Archive" = "Archivo";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "¿Seguro que quieres borrar %d etiquetas? Esta operación no se puede deshacer.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "¿Seguro que quieres borrar %d etiqueta/s? Esta operación no se puede deshacer.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "¿Seguro que quieres borrar definitivamente %d notas?";
