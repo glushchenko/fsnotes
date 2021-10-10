@@ -92,10 +92,10 @@
 "6dh-zS-Vam.title" = "استرجاع";
 
 /* Class = "NSTextFieldCell"; title = "Code Theme:"; ObjectID = "6F0-Cb-DVX"; */
-"6F0-Cb-DVX.title" = "Code Theme:";
+"6F0-Cb-DVX.title" = "Code ثيم:";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "70b-Zr-aVK"; */
-"70b-Zr-aVK.title" = "Force Delete";
+"70b-Zr-aVK.title" = "حذف اجباري";
 
 /* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "78Y-hA-62v"; */
 "78Y-hA-62v.title" = "تصحيح الإملاء تلقائيًا";
@@ -116,7 +116,7 @@
 "7od-TM-cUB.title" = "مجموعة";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "7xA-9l-dja"; */
-"7xA-9l-dja.title" = "Change";
+"7xA-9l-dja.title" = "التغيير";
 
 /* Class = "NSMenuItem"; title = "Small"; ObjectID = "8AQ-IN-Edm"; */
 "8AQ-IN-Edm.title" = "صغير";
@@ -149,13 +149,13 @@
 "AaQ-hp-VpR.title" = "monokai-sublime";
 
 /* Class = "NSTextFieldCell"; title = "Repositories:"; ObjectID = "ASf-hd-2fT"; */
-"ASf-hd-2fT.title" = "Repositories:";
+"ASf-hd-2fT.title" = "المستودعات:";
 
 /* Class = "NSMenu"; title = "History"; ObjectID = "auW-wa-jbc"; */
 "auW-wa-jbc.title" = "تاريخ";
 
 /* Class = "NSMenuItem"; title = "Format: yyyyMMddHHmmss"; ObjectID = "aVa-yH-IpC"; */
-"aVa-yH-IpC.title" = "Format: yyyyMMddHHmmss";
+"aVa-yH-IpC.title" = "التنسيق: yyyyMMddHHmmss";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "القائمة الرئيسية";
@@ -176,10 +176,10 @@
 "BOF-NM-1cW.title" = "التفضيلات ...";
 
 /* Class = "NSTextFieldCell"; title = "minutes"; ObjectID = "Bri-cl-z86"; */
-"Bri-cl-z86.title" = "minutes";
+"Bri-cl-z86.title" = "الدقائق";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Notes List"; ObjectID = "BtV-Z4-7Vq"; */
-"BtV-Z4-7Vq.title" = "Move Down In The Notes List";
+"BtV-Z4-7Vq.title" = "تحرك لأسفل في قائمة الملاحظات";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "استخدم التحديد للبحث";
@@ -281,13 +281,13 @@
 "eTL-dh-GvM.title" = "تاريخ الانشاء";
 
 /* Class = "NSButtonCell"; title = "Ascending"; ObjectID = "EYG-WM-BFN"; */
-"EYG-WM-BFN.title" = "Ascending";
+"EYG-WM-BFN.title" = "تصاعدي";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "F2S-fz-NVQ"; */
 "F2S-fz-NVQ.title" = "مساعدة";
 
 /* Class = "NSButtonCell"; title = "Show nested folders content"; ObjectID = "f33-1h-Hvh"; */
-"f33-1h-Hvh.title" = "Show nested folders content";
+"f33-1h-Hvh.title" = "إظهار محتوى المجلدات المتداخلة";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "فتح المجلد";
@@ -296,7 +296,7 @@
 "F6G-ua-MNX.title" = "اخفاء المعاينة";
 
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "fCZ-JX-nxF"; */
-"fCZ-JX-nxF.title" = "Underline";
+"fCZ-JX-nxF.title" = "ضع خطًا تحت";
 
 /* Class = "NSMenu"; title = "Substitutions"; ObjectID = "FeM-D8-WVr"; */
 "FeM-D8-WVr.title" = "تبديلات";
@@ -323,10 +323,10 @@
 "frt-CF-STi.title" = "تغيير";
 
 /* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
-"FS0-ZJ-WvJ.title" = "Files naming:";
+"FS0-ZJ-WvJ.title" = "تسمية الملفات:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
-"fsF-5N-tWg.title" = "Made with ❤️ in Ukraine 🇺🇦 ";
+"fsF-5N-tWg.title" = "مصنوع من ❤️ في أوكرانيا 🇺🇦 ";
 
 /* Class = "NSMenuItem"; title = "Sidebar"; ObjectID = "Fuh-qO-nt2"; */
 "Fuh-qO-nt2.title" = "مجلد";
@@ -422,7 +422,7 @@
 "IHG-4U-pF1.title" = "الوارد";
 
 /* Class = "NSMenuItem"; title = "Back Up Now"; ObjectID = "iIP-wI-OaZ"; */
-"iIP-wI-OaZ.title" = "Back up storage";
+"iIP-wI-OaZ.title" = "تخزين النسخ الاحتياطي";
 
 /* Class = "NSButtonCell"; title = "Lock on screen saver activated"; ObjectID = "IlF-tS-GFG"; */
 "IlF-tS-GFG.title" = "قفل عند تفعيل شاشة التوقف";
@@ -443,7 +443,7 @@
 "iUm-Zm-zeg.title" = "تباعد الاسطر";
 
 /* Class = "NSMenuItem"; title = "Format: Untitled Note"; ObjectID = "IWL-lp-G1M"; */
-"IWL-lp-G1M.title" = "Format: Untitled Note";
+"IWL-lp-G1M.title" = "التنسيق: Untitled Note";
 
 /* Class = "NSTextFieldCell"; title = "Line width:"; ObjectID = "Izt-6v-pKO"; */
 "Izt-6v-pKO.title" = "عرض الخط:";
@@ -467,7 +467,7 @@
 "jxT-CU-nIS.title" = "تنسيق";
 
 /* Class = "NSButtonCell"; title = "Top"; ObjectID = "K2F-dD-Jhr"; */
-"K2F-dD-Jhr.title" = "Top";
+"K2F-dD-Jhr.title" = "اعلى";
 
 /* Class = "NSMenuItem"; title = "Italic"; ObjectID = "k32-YP-yyI"; */
 "k32-YP-yyI.title" = "مائل";
@@ -527,10 +527,10 @@
 "mvt-gI-iG0.title" = "متقدمة";
 
 /* Class = "NSTextFieldCell"; title = "Container:"; ObjectID = "mXw-d9-js5"; */
-"mXw-d9-js5.title" = "Container:";
+"mXw-d9-js5.title" = "الحاوية:";
 
 /* Class = "NSMenuItem"; title = "Toggle Todo"; ObjectID = "n0M-SN-fzg"; */
-"n0M-SN-fzg.title" = "Toggle Todo";
+"n0M-SN-fzg.title" = "تبديل Todo";
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "تغيير";
@@ -545,19 +545,19 @@
 "NHv-lG-vxt.title" = "عام";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "NiN-n8-Y4W"; */
-"NiN-n8-Y4W.title" = "Text Cell";
+"NiN-n8-Y4W.title" = "خلية نصية";
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "NMo-om-nkz"; */
-"NMo-om-nkz.title" = "Services";
+"NMo-om-nkz.title" = "الخدمات";
 
 /* Class = "NSTextFieldCell"; title = "Touch ID:"; ObjectID = "Nw2-km-iDW"; */
 "Nw2-km-iDW.title" = "بصمة الاصبع:";
 
 /* Class = "NSButtonCell"; title = "Show in Terminal"; ObjectID = "o6a-px-wp7"; */
-"o6a-px-wp7.title" = "Show in Terminal";
+"o6a-px-wp7.title" = "اظهار فيTerminal";
 
 /* Class = "NSMenuItem"; title = "Save revision"; ObjectID = "o8V-Wi-IWO"; */
-"o8V-Wi-IWO.title" = "Save revision";
+"o8V-Wi-IWO.title" = "حفظ المراجعة";
 
 /* Class = "NSMenuItem"; title = "Import"; ObjectID = "O8Z-cg-XnH"; */
 "O8Z-cg-XnH.title" = "استيراد";
@@ -569,7 +569,7 @@
 "O9K-a1-3eu.title" = "العنوان";
 
 /* Class = "NSButtonCell"; title = "None (Use global settings)"; ObjectID = "oer-ZB-VOx"; */
-"oer-ZB-VOx.title" = "None (Use global settings)";
+"oer-ZB-VOx.title" = "لا شيء (استخدام الإعدادات العامة)";
 
 /* Class = "NSMenuItem"; title = "Hide FSNotes"; ObjectID = "Olw-nP-bQN"; */
 "Olw-nP-bQN.title" = "اخفاء FSNotes";
@@ -614,7 +614,7 @@
 "Psk-r4-JT5.title" = "الخلفية:";
 
 /* Class = "NSMenuItem"; title = "Back Up Now"; ObjectID = "PvQ-Pd-zsZ"; */
-"PvQ-Pd-zsZ.title" = "Back up storage";
+"PvQ-Pd-zsZ.title" = "تخزين النسخ الاحتياطي";
 
 /* Class = "NSViewController"; title = "Security"; ObjectID = "PXw-YJ-q6A"; */
 "PXw-YJ-q6A.title" = "الحماية";
@@ -698,13 +698,13 @@
 "S8Z-Js-fwB.title" = "ارفاق تخزين...";
 
 /* Class = "NSButtonCell"; title = "Back up every"; ObjectID = "sAn-Wm-FfY"; */
-"sAn-Wm-FfY.title" = "Back up every";
+"sAn-Wm-FfY.title" = "النسخ الاحتياطي كل";
 
 /* Class = "NSTextFieldCell"; title = "Notes list:"; ObjectID = "Scc-aD-CFQ"; */
 "Scc-aD-CFQ.title" = "قائمة الملاحظات";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Sidebar"; ObjectID = "sdE-ZM-6cq"; */
-"sdE-ZM-6cq.title" = "Move Up In The Sidebar";
+"sdE-ZM-6cq.title" = "تحرك لأعلى في الشريط الجانبي";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "SdL-vK-KjH"; */
 "SdL-vK-KjH.title" = "نافذة";
@@ -740,7 +740,7 @@
 "Tcg-83-bZN.title" = "عرض الاعدادات";
 
 /* Class = "NSButtonCell"; title = "Descending"; ObjectID = "TCI-Xs-mwm"; */
-"TCI-Xs-mwm.title" = "Descending";
+"TCI-Xs-mwm.title" = "تنازلي";
 
 /* Class = "NSMenuItem"; title = ".txt"; ObjectID = "TfH-z4-HHY"; */
 "TfH-z4-HHY.title" = ".txt";
@@ -797,10 +797,10 @@
 "vmV-6d-7jI.title" = "جعله حروف كبيرة";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Sidebar"; ObjectID = "vrs-XL-lyE"; */
-"vrs-XL-lyE.title" = "Move Down In The Sidebar";
+"vrs-XL-lyE.title" = "تحرك لأسفل في الشريط الجانبي";
 
 /* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
-"Vwq-Ek-K2v.title" = "Focus on Search bar when ESC is pressed";
+"Vwq-Ek-K2v.title" = "ركز على شريط البحث عند الضغط على ESC";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "تعديل";
@@ -866,7 +866,7 @@
 "Xz5-n4-O0W.title" = "ابحث ...";
 
 /* Class = "NSMenuItem"; title = "Find and Replace…"; ObjectID = "YEy-JH-Tfz"; */
-"YEy-JH-Tfz.title" = "Find and Replace…";
+"YEy-JH-Tfz.title" = "بحث واستبدال ...";
 
 /* Class = "NSMenuItem"; title = "Start Speaking"; ObjectID = "Ynk-f8-cLZ"; */
 "Ynk-f8-cLZ.title" = "بدء التحدث";
@@ -890,10 +890,10 @@
 "zcY-e5-gKs.title" = "فتح في محرر خارجي";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
-"zd2-Rs-DPm.title" = "Force Delete";
+"zd2-Rs-DPm.title" = "حذف اجباري";
 
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
-"Ze0-SZ-STw.title" = "Back up manually";
+"Ze0-SZ-STw.title" = "قم بعمل نسخة احتياطية يدويًا";
 
 /* Class = "NSButtonCell"; title = "Note auto selection when body text matched"; ObjectID = "ZqK-gu-KdQ"; */
 "ZqK-gu-KdQ.title" = "لاحظ التحديد التلقائي عند مطابقة النص الأساسي";

@@ -47,7 +47,7 @@
 "Correct Spelling Automatically" = "تصحيح الإملاء تلقائيًا";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "تاريخ الإنشاء:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "كلمة المرور الحالية لا تتطابق مع كلمة المرور في keychain";
@@ -56,7 +56,7 @@
 "Data Detectors" = "كاشفات البيانات";
 
 /* No comment provided by engineer. */
-"Default storage path should not be equal to Git path." = "Default storage path should not be equal to Git path.";
+"Default storage path should not be equal to Git path." = "يجب ألا يكون مسار التخزين الافتراضي مساويًا لمسار Git.";
 
 /* No comment provided by engineer. */
 "Delete" = "حذف";
@@ -68,16 +68,16 @@
 "Delete Tag" = "حذف العلامة";
 
 /* No comment provided by engineer. */
-"Detach storage" = "Detach storage";
+"Detach storage" = "فصل التخزين";
 
 /* No comment provided by engineer. */
-"Do you want to move current notes in the new destination?" = "Do you want to move current notes in the new destination?";
+"Do you want to move current notes in the new destination?" = "هل تريد نقل الملاحظات الحالية إلى الوجهة الجديدة؟";
 
 /* No comment provided by engineer. */
-"Documents" = "Documents";
+"Documents" = "المستندات";
 
 /* No comment provided by engineer. */
-"Edit Link…" = "Edit Link…";
+"Edit Link…" = "تحرير الرابط ...";
 
 /* No comment provided by engineer. */
 "Empty password" = "كلمة مرور فارغة";
@@ -86,10 +86,10 @@
 "Enter Master Password" = "ادخل كلمة المرور الاساسية";
 
 /* No comment provided by engineer. */
-"External Folders" = "External Folders";
+"External Folders" = "المجلدات الخارجية";
 
 /* No comment provided by engineer. */
-"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
+"Folder with name '%@' already exist" = "المجلد الذي يحمل الاسم '٪ @' موجود بالفعل";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [تعديل]";
@@ -134,7 +134,7 @@
 "No" = "No";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+"Note with name \"%@\" already exists in selected directory." = "ملاحظة بالاسم \ "٪ @ \" موجودة بالفعل في المجلد المحدد.";
 
 /* Sidebar label */
 "Notes" = "ملاحظات";
@@ -146,10 +146,10 @@
 "Open note" = "Open note";
 
 /* No comment provided by engineer. */
-"Otherwise, the database of your notes will be available at: " = "Otherwise, the database of your notes will be available at: ";
+"Otherwise, the database of your notes will be available at: " = "وإلا، ستكون قاعدة بيانات الملاحظات متوفرة على: ";
 
 /* No comment provided by engineer. */
-"Path not available" = "Path not available";
+"Path not available" = "المسار غير متوفر";
 
 /* Edit area */
 "Please enter image title:" = "الرجاء إدخال عنوان الصورة:";
@@ -161,7 +161,7 @@
 "Please enter project name:" = "الرجاء إدخال اسم المشروع:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "الرجاء إدخال اسم الوسم:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "رجاءً ادخل  وسوم (مفصولة بفارزة)";
@@ -176,16 +176,16 @@
 "Quit FSNotes" = "اغلاق FSNotes";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "الحديثة";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "البحث الأخير";
 
 /* Delete menu */
 "Remove" = "حذف";
 
 /* No comment provided by engineer. */
-"Remove Link" = "Remove Link";
+"Remove Link" = "حذف الرابط";
 
 /* No comment provided by engineer. */
 "Remove note(s)" = "حذف ملاحظة/ملاحظات";
@@ -267,13 +267,13 @@
 "View" = "عرض";
 
 /* No comment provided by engineer. */
-"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?";
+"We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "اكتشفنا أنك تقوم بتثبيت FSNotes من Mac App Store مع التخزين الافتراضي في iCloud Drive ، هل تريد نقل قاعدة البيانات القديمة في iCloud Drive؟";
 
 /* No comment provided by engineer. */
-"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "We can not move \"{DST_PATH}\" because this item already exist in selected destination.";
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "لا يمكننا نقل \ "{DST_PATH} \" لأن هذا العنصر موجود بالفعل في الوجهة المحددة.";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "عدم تطابق كلمة المرور";
 
 /* No comment provided by engineer. */
-"Yes" = "Yes";
+"Yes" = "نعم";
