@@ -8,19 +8,19 @@
 "Archive" = "Archive";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Êtes-vous sûr de vouloir supprimer %d libellé(s) ? Cette action est irréversible.";
 
 /* No comment provided by engineer. */
-"Are you sure you want to irretrievably delete %d note(s)?" = "Are you sure you want to irretrievably delete %d note(s)?";
+"Are you sure you want to irretrievably delete %d note(s)?" = "Êtes-vous sûr de vouloir supprimer définitivement %d notes(s) ?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to remove project \"%@\" and all files inside?" = "Are you sure you want to remove project \"%@\" and all files inside?";
+"Are you sure you want to remove project \"%@\" and all files inside?" = "Êtes-vous sûr de vouloir supprimer le projet \"%@\" et tous ses fichiers ?";
 
 /* No comment provided by engineer. */
 "Back up storage" = "Sauvegarder le stockage";
 
 /* Delete menu */
-"Cancel" = "Cancel";
+"Cancel" = "Annuler";
 
 /* Menu */
 "Change creation date" = "Changer la date de création";
@@ -65,7 +65,7 @@
 "Delete Folder" = "Supprimer le dossier";
 
 /* No comment provided by engineer. */
-"Delete Tag" = "Supprimer la balise";
+"Delete Tag" = "Supprimer le libellé";
 
 /* No comment provided by engineer. */
 "Detach storage" = "Detach storage";
@@ -191,16 +191,16 @@
 "Remove note(s)" = "Supprimer les notes";
 
 /* No comment provided by engineer. */
-"Remove Tags" = "Supprimer les balises";
+"Remove Tags" = "Supprimer les libellés";
 
 /* No comment provided by engineer. */
 "Rename Folder" = "Renommer le dossier";
 
 /* No comment provided by engineer. */
-"Rename Tag" = "Renommer la balise";
+"Rename Tag" = "Renommer le libellé";
 
 /* No comment provided by engineer. */
-"Rename Tags" = "Renommer les balises";
+"Rename Tags" = "Renommer les libelés";
 
 /* No comment provided by engineer. */
 "Search and create" = "Search and create";

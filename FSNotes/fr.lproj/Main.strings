@@ -179,13 +179,13 @@
 "Bri-cl-z86.title" = "minutes";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Notes List"; ObjectID = "BtV-Z4-7Vq"; */
-"BtV-Z4-7Vq.title" = "Move Down In The Notes List";
+"BtV-Z4-7Vq.title" = "Note suivante";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Utiliser la sélection pour Rechercher";
 
 /* Class = "NSMenuItem"; title = "Untagged"; ObjectID = "BX0-nb-tVk"; */
-"BX0-nb-tVk.title" = "Untagged";
+"BX0-nb-tVk.title" = "Sans libellé";
 
 /* Class = "NSTextFieldCell"; title = "Note list spacing:"; ObjectID = "bXK-wP-sZc"; */
 "bXK-wP-sZc.title" = "Espacement :";
@@ -287,7 +287,7 @@
 "F2S-fz-NVQ.title" = "Aide";
 
 /* Class = "NSButtonCell"; title = "Show nested folders content"; ObjectID = "f33-1h-Hvh"; */
-"f33-1h-Hvh.title" = "Show nested folders content";
+"f33-1h-Hvh.title" = "Afficher le contenu sous-jacent";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "Localiser dans le Finder";
@@ -323,7 +323,7 @@
 "frt-CF-STi.title" = "Changer";
 
 /* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
-"FS0-ZJ-WvJ.title" = "Files naming:";
+"FS0-ZJ-WvJ.title" = "Nommage des fichiers:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
 "fsF-5N-tWg.title" = "Fait avec ❤️ en Ukraine 🇺🇦 ";
@@ -404,7 +404,7 @@
 "hqQ-4C-VJL.title" = "WikiLinks";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Notes List"; ObjectID = "Hqu-Sx-xgo"; */
-"Hqu-Sx-xgo.title" = "Move Up In The Notes List";
+"Hqu-Sx-xgo.title" = "Note précédente";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
 "HyV-fh-RgO.title" = "Affichage";
@@ -704,7 +704,7 @@
 "Scc-aD-CFQ.title" = "Liste de notes :";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Sidebar"; ObjectID = "sdE-ZM-6cq"; */
-"sdE-ZM-6cq.title" = "Move Up In The Sidebar";
+"sdE-ZM-6cq.title" = "Élément précédent de la barre latérale";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "SdL-vK-KjH"; */
 "SdL-vK-KjH.title" = "Fenêtre";
@@ -797,7 +797,7 @@
 "vmV-6d-7jI.title" = "Passer en capitales";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Sidebar"; ObjectID = "vrs-XL-lyE"; */
-"vrs-XL-lyE.title" = "Move Down In The Sidebar";
+"vrs-XL-lyE.title" = "Élément suivant de la barre latérale";
 
 /* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
 "Vwq-Ek-K2v.title" = "Focus on Search bar when ESC is pressed";
@@ -821,7 +821,7 @@
 "wpr-3q-Mcd.title" = "Aide";
 
 /* Class = "NSMenuItem"; title = "Auto Rename By Title"; ObjectID = "wW6-4n-sve"; */
-"wW6-4n-sve.title" = "Auto rename by title";
+"wW6-4n-sve.title" = "Selon le titre";
 
 /* Class = "NSTabViewItem"; label = "Git"; ObjectID = "wxM-bE-TE9"; */
 "wxM-bE-TE9.label" = "Git";

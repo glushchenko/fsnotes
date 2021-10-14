@@ -77,7 +77,7 @@
 "Enter Master Password" = "Entrez le mot de passe principal";
 
 /* No comment provided by engineer. */
-"Enter new tag name" = "Entrez un nouveau nom de balise";
+"Enter new tag name" = "Entrez un nouveau nom de libellé";
 
 /* No comment provided by engineer. */
 "Enter note name" = "Entrer le nom de la note";
@@ -191,7 +191,7 @@
 "Remove folder" = "Supprimer le dossier";
 
 /* Main view popover table */
-"Remove tag" = "Enlever l'étiquette";
+"Remove tag" = "Enlever le libellé";
 
 /* No comment provided by engineer. */
 "Rename" = "Renommer";
@@ -206,10 +206,10 @@
 "Rename note:" = "Renommer la note";
 
 /* Main view popover table */
-"Rename tag" = "Renommer la balise";
+"Rename tag" = "Renommer le libellé";
 
 /* Popover table */
-"Rename tag:" = "Renommer la balise:";
+"Rename tag:" = "Renommer le libellé:";
 
 /* No comment provided by engineer. */
 "Save clipboard" = "Enregistrer le presse-papiers";
