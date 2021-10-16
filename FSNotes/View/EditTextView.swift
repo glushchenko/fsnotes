@@ -1200,7 +1200,15 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         // hasMarkedText added for Japanese hack https://yllan.org/blog/archives/231
         if event.keyCode == kVK_Tab && !hasMarkedText(){
             breakUndoCoalescing()
-            if UserDefaultsManagement.spacesInsteadTabs {
+            
+            if UserDefaultsManagement.indentUsing == "2 Spaces" {
+                let tab = TextFormatter.getAttributedCode(string: "  ")
+                insertText(tab, replacementRange: selectedRange())
+                breakUndoCoalescing()
+                return
+            }
+            
+            if UserDefaultsManagement.indentUsing == "4 Spaces" {
                 let tab = TextFormatter.getAttributedCode(string: "    ")
                 insertText(tab, replacementRange: selectedRange())
                 breakUndoCoalescing()

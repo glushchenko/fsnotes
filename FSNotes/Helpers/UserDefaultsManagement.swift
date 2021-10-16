@@ -79,6 +79,7 @@ public class UserDefaultsManagement {
         static let ImagesWidthKey = "imagesWidthKey"
         static let ImportURLsKey = "ImportURLs"
         static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
+        static let IndentUsing = "indentUsing"
         static let InlineTags = "inlineTags"
         static let LastNews = "lastNews"
         static let LastSelectedPath = "lastSelectedPath"
@@ -119,7 +120,6 @@ public class UserDefaultsManagement {
         static let SnapshotsIntervalMinutes = "snapshotsIntervalMinutes"
         static let SortBy = "sortBy"
         static let StorageType = "storageType"
-        static let SpacesInsteadTabs = "spacesInsteadTabs"
         static let StoragePathKey = "storageUrl"
         static let TableOrientation = "isUseHorizontalMode"
         static let TextMatchAutoSelection = "textMatchAutoSelection"
@@ -1137,15 +1137,15 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var spacesInsteadTabs: Bool {
+    static var indentUsing: String {
         get {
-            if let result = shared?.object(forKey: Constants.SpacesInsteadTabs) as? Bool {
+            if let result = shared?.object(forKey: Constants.IndentUsing) as? String {
                 return result
             }
-            return false
+            return "Tab"
         }
         set {
-            shared?.set(newValue, forKey: Constants.SpacesInsteadTabs)
+            shared?.set(newValue, forKey: Constants.IndentUsing)
         }
     }
 

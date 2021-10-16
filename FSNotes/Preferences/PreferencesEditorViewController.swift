@@ -15,13 +15,13 @@ class PreferencesEditorViewController: NSViewController {
     @IBOutlet weak var highlightIndentedCodeBlocks: NSButton!
     @IBOutlet weak var markdownCodeTheme: NSPopUpButton!
     @IBOutlet weak var liveImagesPreview: NSButton!
+    @IBOutlet weak var indentUsing: NSPopUpButton!
     @IBOutlet weak var inEditorFocus: NSButton!
     @IBOutlet weak var restoreCursorButton: NSButton!
     @IBOutlet weak var autocloseBrackets: NSButton!
     @IBOutlet weak var lineSpacing: NSSlider!
     @IBOutlet weak var imagesWidth: NSSlider!
     @IBOutlet weak var lineWidth: NSSlider!
-    @IBOutlet weak var spacesInsteadTab: NSButton!
     @IBOutlet weak var marginSize: NSSlider!
     @IBOutlet weak var inlineTags: NSButton!
 
@@ -45,7 +45,7 @@ class PreferencesEditorViewController: NSViewController {
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
-
+        indentUsing.selectItem(withTitle: UserDefaultsManagement.indentUsing)
         restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
 
         autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
@@ -55,8 +55,6 @@ class PreferencesEditorViewController: NSViewController {
         lineSpacing.floatValue = UserDefaultsManagement.editorLineSpacing
         imagesWidth.floatValue = UserDefaultsManagement.imagesWidth
         lineWidth.floatValue = UserDefaultsManagement.lineWidth
-
-        spacesInsteadTab.state = UserDefaultsManagement.spacesInsteadTabs ? .on : .off
 
         marginSize.floatValue = UserDefaultsManagement.marginSize
 
@@ -177,8 +175,12 @@ class PreferencesEditorViewController: NSViewController {
         fontManager.target = self
     }
 
-    @IBAction func spacesInsteadTab(_ sender: NSButton) {
-        UserDefaultsManagement.spacesInsteadTabs = (sender.state == .on)
+    @IBAction func indentUsing(_ sender: NSPopUpButton) {
+        guard let item = sender.selectedItem else {
+            return
+        }
+        
+        UserDefaultsManagement.indentUsing = item.title
     }
 
     @IBAction func marginSize(_ sender: NSSlider) {

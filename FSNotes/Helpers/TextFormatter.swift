@@ -411,7 +411,16 @@ public class TextFormatter {
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
         
-        let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
+        var padding = "\t"
+        
+        if UserDefaultsManagement.indentUsing == "2 Spaces" {
+            padding = "  "
+        }
+
+        if UserDefaultsManagement.indentUsing == "4 Spaces" {
+            padding = "    "
+        }
+        
         let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unLoadCheckboxes()
 
         let string = mutable.string
