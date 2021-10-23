@@ -1306,7 +1306,7 @@ class SidebarOutlineView: NSOutlineView,
     
     public func remove(tag: Tag) {
         if let i = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
-            self.removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+            self.removeItems(at: [i], inParent: nil, withAnimation: [])
             sidebarItems?.remove(at: i)
         }
     }
@@ -1322,14 +1322,14 @@ class SidebarOutlineView: NSOutlineView,
 
                 if count == 0 {
                     if let index = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent }) {
-                        removeItems(at: [index], inParent: nil, withAnimation: .effectFade)
+                        removeItems(at: [index], inParent: nil, withAnimation: [])
                         sidebarItems?.remove(at: index)
                     }
                 }
             } else if var foundTag = tag.find(name: tagName) {
                 while let parent = foundTag.getParent() {
                     if let i = parent.indexOf(child: foundTag) {
-                        removeItems(at: [i], inParent: parent, withAnimation: .effectFade)
+                        removeItems(at: [i], inParent: parent, withAnimation: [])
                         parent.remove(by: i)
                     }
 
@@ -1339,7 +1339,7 @@ class SidebarOutlineView: NSOutlineView,
                         let i = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.getName() == parent.getName() })
                     {
                         if isAllowTagRemoving(parent.getName()) {
-                            removeItems(at: [i], inParent: nil, withAnimation: .effectFade)
+                            removeItems(at: [i], inParent: nil, withAnimation: [])
                             sidebarItems?.remove(at: i)
                         }
 
@@ -1508,7 +1508,7 @@ class SidebarOutlineView: NSOutlineView,
                     tag = tagItem
 
                     if !isExist {
-                        insertItems(at: [position], inParent: tagItem.getParent(), withAnimation: .effectFade)
+                        insertItems(at: [position], inParent: tagItem.getParent(), withAnimation: [])
                     }
                 })
 
@@ -1521,7 +1521,7 @@ class SidebarOutlineView: NSOutlineView,
         let rootTag = Tag(name: tag)
         let position = getRootTagPosition(for: rootTag)
         sidebarItems?.insert(rootTag, at: position)
-        self.insertItems(at: [position], inParent: nil, withAnimation: .effectFade)
+        self.insertItems(at: [position], inParent: nil, withAnimation: [])
     }
 
     public func getRootTagPosition(for tag: Tag) -> Int {
@@ -1573,7 +1573,7 @@ class SidebarOutlineView: NSOutlineView,
 
         if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? Tag)?.name == subtags.first }) {
             sidebarItems?.remove(at: sidebarIndex)
-            removeItems(at: [sidebarIndex], inParent: nil, withAnimation: .effectFade)
+            removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
         }
     }
 
@@ -1598,11 +1598,11 @@ class SidebarOutlineView: NSOutlineView,
                 if let parentTag = tag.getParent() {
                     if let childIndex = tag.getParent()?.child.firstIndex(where: { $0 === tag }) {
                         tag.parent?.removeChild(tag: tag)
-                        removeItems(at: [childIndex], inParent: parentTag, withAnimation: .effectFade)
+                        removeItems(at: [childIndex], inParent: parentTag, withAnimation: [])
                     }
                 } else if let sidebarIndex = sidebarItems?.firstIndex(where: { ($0 as? Tag) === tag }) {
                     sidebarItems?.remove(at: sidebarIndex)
-                    removeItems(at: [sidebarIndex], inParent: nil, withAnimation: .effectFade)
+                    removeItems(at: [sidebarIndex], inParent: nil, withAnimation: [])
                 }
             }
         }
