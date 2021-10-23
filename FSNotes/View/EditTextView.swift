@@ -987,7 +987,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         // save cursor position
         let cursorLocation = selectedRanges[0].rangeValue.location
 
-        if let search = viewDelegate?.search.lastSearchQuery {
+        if let search = viewDelegate?.search.lastSearchQuery, search.count > 0  {
             let processor = NotesTextProcessor(storage: textStorage)
             processor.highlightKeyword(search: search, remove: true)
         }

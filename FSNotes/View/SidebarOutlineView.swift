@@ -1353,7 +1353,10 @@ class SidebarOutlineView: NSOutlineView,
     }
 
     public func addTags(_ tags: [String], shouldUnloadOld: Bool = false) {
-        guard tags.count > 0 else { return }
+        guard tags.count > 0 else {
+            unloadAllTags()
+            return
+        }
         
         beginUpdates()
 

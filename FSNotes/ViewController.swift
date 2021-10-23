@@ -1877,6 +1877,7 @@ class ViewController: NSViewController,
     
     func cleanSearchAndEditArea(shouldBecomeFirstResponder: Bool = true, completion: (() -> ())? = nil) {
         search.stringValue = ""
+        search.lastSearchQuery = ""
 
         if shouldBecomeFirstResponder {
             search.becomeFirstResponder()
