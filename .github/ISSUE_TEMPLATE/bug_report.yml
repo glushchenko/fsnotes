@@ -1,6 +1,7 @@
 name: Bug report
-description: Something is not working as expected.
+description: Create a report to help us improve
 labels: 'bug'
+assignees: 'glushchenko'
 
 body:
   - type: textarea
