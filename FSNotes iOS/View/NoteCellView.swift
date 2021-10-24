@@ -171,7 +171,12 @@ class NoteCellView: SwipeTableViewCell {
             if ["firstImageTop", "secondImageTop", "thirdImageTop"].contains(constraint.identifier) {
                 let ident = constraint.identifier
 
-                let height = position != nil ? tableView.cellHeights[IndexPath(row: position!, section: 0)]! : self.frame.height
+                var height = CGFloat(0)
+                if let position = position, let heightUnwrapped = tableView.cellHeights[IndexPath(row: position, section: 0)] {
+                    height = heightUnwrapped
+                } else {
+                    height = self.frame.height
+                }
 
                 self.contentView.removeConstraint(constraint)
                 var con = CGFloat(0)

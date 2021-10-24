@@ -21,8 +21,6 @@ class Storage {
     public var noteList = [Note]()
     private var projects = [Project]()
     private var imageFolders = [URL]()
-
-    public var tagNames = [String]()
     public var tags = [String]()
 
     var notesDict: [String: Note] = [:]

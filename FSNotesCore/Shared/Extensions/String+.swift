@@ -9,7 +9,19 @@
 import Foundation
 import CommonCrypto
 
+#if os(OSX)
+import Cocoa
+#else
+import UIKit
+#endif
+
 public extension String {
+    #if os(OSX)
+    typealias Font = NSFont
+    #else
+    typealias Font = UIFont
+    #endif
+
     func condenseWhitespace() -> String {
         let components = self.components(separatedBy: NSCharacterSet.whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
@@ -133,7 +145,7 @@ public extension String {
         return range.lowerBound == startIndex
     }
 
-    func widthOfString(usingFont font: NSFont, tabs: [NSTextTab]? = nil) -> CGFloat {
+    func widthOfString(usingFont font: Font, tabs: [NSTextTab]? = nil) -> CGFloat {
         let paragraph = NSMutableParagraphStyle()
         if let tabs = tabs {
             paragraph.tabStops = tabs
