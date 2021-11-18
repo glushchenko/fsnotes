@@ -778,9 +778,11 @@ public class Note: NSObject  {
     public func save(attributed: NSAttributedString) {
         Storage.sharedInstance().plainWriter.cancelAllOperations()
         Storage.sharedInstance().plainWriter.addOperation {
-            let mutable = NSMutableAttributedString(attributedString: attributed)
-            self.save(content: mutable)
-            usleep(100000)
+            if let copy = attributed.copy() as? NSAttributedString {
+                let mutable = NSMutableAttributedString(attributedString: copy)
+                self.save(content: mutable)
+                usleep(100000)
+            }
         }
     }
 
@@ -1265,16 +1267,19 @@ public class Note: NSObject  {
         var urls: [URL] = []
         var mdImages: [String] = []
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
+        let content = self.content.string
+
+        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
         {(result, flags, stop) -> Void in
 
+            let nsContent = content as NSString
             if let range = result?.range(at: 0) {
-                mdImages.append(self.content.attributedSubstring(from: range).string)
+                mdImages.append(nsContent.substring(with: range))
             }
 
-            guard let range = result?.range(at: 3), self.content.length >= range.location else { return }
+            guard let range = result?.range(at: 3), nsContent.length >= range.location else { return }
 
-            guard let imagePath = self.content.attributedSubstring(from: range).string.removingPercentEncoding else { return }
+            guard let imagePath = nsContent.substring(with: range).removingPercentEncoding else { return }
 
             if let url = self.getImageUrl(imageName: imagePath) {
                 if url.isRemote() {
@@ -1302,7 +1307,7 @@ public class Note: NSObject  {
             }
         })
 
-        var cleanText = content.string
+        var cleanText = content
         for image in mdImages {
             cleanText = cleanText.replacingOccurrences(of: image, with: "")
         }
