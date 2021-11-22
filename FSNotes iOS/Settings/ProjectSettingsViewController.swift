@@ -44,6 +44,16 @@ class ProjectSettingsViewController: UITableViewController {
 
         self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
 
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            navigationController?.navigationBar.standardAppearance = appearance
+
+            updateNavigationBarBackground()
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
+        
         super.viewDidLoad()
     }
 

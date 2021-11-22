@@ -22,7 +22,7 @@ class SidebarHeaderCellView: NSTableCellView {
     }
 
     public func applyBackgroundAndTextColors() {
-        guard let rowView = self.superview as? NSTableRowView else { return }
+        guard let rowView = self.superview as? SidebarTableRowView else { return }
 
         if rowView.isSelected {
 
@@ -49,7 +49,7 @@ class SidebarHeaderCellView: NSTableCellView {
     public func applySelectedFirstResponder() {
         label.textColor = .white
 
-        guard let rowView = self.superview as? NSTableRowView else { return }
+        guard let rowView = self.superview as? SidebarTableRowView else { return }
         rowView.backgroundColor = NSColor(named: "background_selected_fr")!
     }
 }

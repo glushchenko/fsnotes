@@ -190,7 +190,11 @@ class FolderPopoverViewControler : UITableViewController, UIDocumentPickerDelega
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
 
             mvc.sidebarTableView.removeRows(projects: [selectedProject])
-            try? FileManager.default.removeItem(at: selectedProject.url)
+
+            if !selectedProject.isExternal {
+                try? FileManager.default.removeItem(at: selectedProject.url)
+            }
+            
             Storage.shared().remove(project: selectedProject)
         }))
 

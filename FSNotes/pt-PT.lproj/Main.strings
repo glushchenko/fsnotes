@@ -95,7 +95,7 @@
 "6F0-Cb-DVX.title" = "Tema de código:";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "70b-Zr-aVK"; */
-"70b-Zr-aVK.title" = "Force Delete";
+"70b-Zr-aVK.title" = "Forçar Eliminar";
 
 /* Class = "NSMenuItem"; title = "Correct Spelling Automatically"; ObjectID = "78Y-hA-62v"; */
 "78Y-hA-62v.title" = "Corrigir Ortografia Automáticamente";
@@ -155,7 +155,7 @@
 "auW-wa-jbc.title" = "Histórico";
 
 /* Class = "NSMenuItem"; title = "Format: yyyyMMddHHmmss"; ObjectID = "aVa-yH-IpC"; */
-"aVa-yH-IpC.title" = "Format: yyyyMMddHHmmss";
+"aVa-yH-IpC.title" = "Formato: yyyyMMddHHmmss";
 
 /* Class = "NSMenu"; title = "Main Menu"; ObjectID = "AYu-sK-qS6"; */
 "AYu-sK-qS6.title" = "Menu Principal";
@@ -179,7 +179,7 @@
 "Bri-cl-z86.title" = "minutos";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Notes List"; ObjectID = "BtV-Z4-7Vq"; */
-"BtV-Z4-7Vq.title" = "Move Down In The Notes List";
+"BtV-Z4-7Vq.title" = "Descer na lista de Notas";
 
 /* Class = "NSMenuItem"; title = "Use Selection for Find"; ObjectID = "buJ-ug-pKt"; */
 "buJ-ug-pKt.title" = "Utilizar selecção para Procura";
@@ -191,7 +191,7 @@
 "bXK-wP-sZc.title" = "Espaçamento da lista:";
 
 /* Class = "NSMenu"; title = "Sidebar"; ObjectID = "BYI-2F-BJo"; */
-"BYI-2F-BJo.title" = "Pasta";
+"BYI-2F-BJo.title" = "Barra lateral";
 
 /* Class = "NSMenu"; title = "Transformations"; ObjectID = "c8a-y6-VQd"; */
 "c8a-y6-VQd.title" = "Transformações";
@@ -287,7 +287,7 @@
 "F2S-fz-NVQ.title" = "Ajuda";
 
 /* Class = "NSButtonCell"; title = "Show nested folders content"; ObjectID = "f33-1h-Hvh"; */
-"f33-1h-Hvh.title" = "Show nested folders content";
+"f33-1h-Hvh.title" = "Mostarr conteúdo das pastas contíguas";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "F5A-zs-zwP"; */
 "F5A-zs-zwP.title" = "Mostrar no Finder";
@@ -296,7 +296,7 @@
 "F6G-ua-MNX.title" = "Ocultar pré-visualização";
 
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "fCZ-JX-nxF"; */
-"fCZ-JX-nxF.title" = "Sublinar";
+"fCZ-JX-nxF.title" = "Sublinhar";
 
 /* Class = "NSMenu"; title = "Substitutions"; ObjectID = "FeM-D8-WVr"; */
 "FeM-D8-WVr.title" = "Substituições";
@@ -323,13 +323,13 @@
 "frt-CF-STi.title" = "Alterar";
 
 /* Class = "NSTextFieldCell"; title = "Files naming:"; ObjectID = "FS0-ZJ-WvJ"; */
-"FS0-ZJ-WvJ.title" = "Files naming:";
+"FS0-ZJ-WvJ.title" = "Nomenclatura de ficheiros:";
 
 /* Class = "NSTextFieldCell"; title = "Made with ❤️ in Ukraine 🇺🇦 "; ObjectID = "fsF-5N-tWg"; */
 "fsF-5N-tWg.title" = "Feito com ❤️ na Ucrânia 🇺🇦";
 
 /* Class = "NSMenuItem"; title = "Sidebar"; ObjectID = "Fuh-qO-nt2"; */
-"Fuh-qO-nt2.title" = "Pasta";
+"Fuh-qO-nt2.title" = "Barra lateral";
 
 /* Class = "NSMenuItem"; title = "Rename Folder"; ObjectID = "fzU-ZR-Ubv"; */
 "fzU-ZR-Ubv.title" = "Renomear pasta";
@@ -404,7 +404,7 @@
 "hqQ-4C-VJL.title" = "WikiLinks";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Notes List"; ObjectID = "Hqu-Sx-xgo"; */
-"Hqu-Sx-xgo.title" = "Move Up In The Notes List";
+"Hqu-Sx-xgo.title" = "Subir na lista de Notas";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "HyV-fh-RgO"; */
 "HyV-fh-RgO.title" = "Vista";
@@ -443,7 +443,7 @@
 "iUm-Zm-zeg.title" = "Espaçamento de linhas:";
 
 /* Class = "NSMenuItem"; title = "Format: Untitled Note"; ObjectID = "IWL-lp-G1M"; */
-"IWL-lp-G1M.title" = "Format: Untitled Note";
+"IWL-lp-G1M.title" = "Formato: Nota sem título";
 
 /* Class = "NSTextFieldCell"; title = "Line width:"; ObjectID = "Izt-6v-pKO"; */
 "Izt-6v-pKO.title" = "Largura da linha:";
@@ -635,7 +635,7 @@
 "qiO-vb-B9L.title" = "Versão de git:";
 
 /* Class = "NSMenuItem"; title = "Format: yyyy-MM-dd hh.mm.ss a"; ObjectID = "qn1-vy-8oB"; */
-"qn1-vy-8oB.title" = "Format: yyyy-MM-dd hh.mm.ss a";
+"qn1-vy-8oB.title" = "Formato: yyyy-MM-dd hh.mm.ss a";
 
 /* Class = "NSMenuItem"; title = "Back"; ObjectID = "qNE-oZ-zJr"; */
 "qNE-oZ-zJr.title" = "Voltar";
@@ -704,7 +704,7 @@
 "Scc-aD-CFQ.title" = "Lista de notas";
 
 /* Class = "NSMenuItem"; title = "Move Up In The Sidebar"; ObjectID = "sdE-ZM-6cq"; */
-"sdE-ZM-6cq.title" = "Move Up In The Sidebar";
+"sdE-ZM-6cq.title" = "Subir na barra lateral";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "SdL-vK-KjH"; */
 "SdL-vK-KjH.title" = "Janela";
@@ -797,10 +797,10 @@
 "vmV-6d-7jI.title" = "Transformar em Maiúsculas";
 
 /* Class = "NSMenuItem"; title = "Move Down In The Sidebar"; ObjectID = "vrs-XL-lyE"; */
-"vrs-XL-lyE.title" = "Move Down In The Sidebar";
+"vrs-XL-lyE.title" = "Descer na barra lateral";
 
 /* Class = "NSButtonCell"; title = "Focus on Search bar when ESC is pressed"; ObjectID = "Vwq-Ek-K2v"; */
-"Vwq-Ek-K2v.title" = "Focus on Search bar when ESC is pressed";
+"Vwq-Ek-K2v.title" = "Focar na barra de pesquisa quando pressionar ESC";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "W48-6f-4Dl"; */
 "W48-6f-4Dl.title" = "Editar";
@@ -821,7 +821,7 @@
 "wpr-3q-Mcd.title" = "Ajuda";
 
 /* Class = "NSMenuItem"; title = "Auto Rename By Title"; ObjectID = "wW6-4n-sve"; */
-"wW6-4n-sve.title" = "Auto rename by title";
+"wW6-4n-sve.title" = "Renomear automaticamente por título";
 
 /* Class = "NSTabViewItem"; label = "Git"; ObjectID = "wxM-bE-TE9"; */
 "wxM-bE-TE9.label" = "Git";
@@ -890,7 +890,7 @@
 "zcY-e5-gKs.title" = "Abrir no editor externo:";
 
 /* Class = "NSMenuItem"; title = "Force Delete"; ObjectID = "zd2-Rs-DPm"; */
-"zd2-Rs-DPm.title" = "Force Delete";
+"zd2-Rs-DPm.title" = "Forçar Apagar";
 
 /* Class = "NSButtonCell"; title = "Back up manually"; ObjectID = "Ze0-SZ-STw"; */
 "Ze0-SZ-STw.title" = "Cópia de segurança manual";

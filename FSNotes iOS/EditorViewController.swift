@@ -49,6 +49,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         navigationController?.navigationBar.mixedBarTintColor = Colors.Header
         navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
 
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            navigationController?.navigationBar.standardAppearance = appearance
+
+            updateNavigationBarBackground()
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
+
         self.navigationItem.rightBarButtonItems = [getMoreButton(), self.getPreviewButton()]
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
@@ -67,12 +77,24 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         self.addToolBar(textField: editArea, toolbar: self.getMarkdownToolbar())
 
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-
         NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
 
         editArea.keyboardDismissMode = .interactive
+    }
+
+    @objc func updateNavigationBarBackground() {
+        if #available(iOS 13.0, *) {
+            var color = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
+            if NightNight.theme == .night {
+                color = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
+            }
+
+            guard let navController = navigationController else { return }
+            navController.navigationBar.standardAppearance.backgroundColor = color
+            navController.navigationBar.scrollEdgeAppearance = navController.navigationBar.standardAppearance
+        }
     }
 
     @objc func rotated() {
@@ -1689,6 +1711,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.checkDarkMode()
+            self.updateNavigationBarBackground()
         }
     }
 

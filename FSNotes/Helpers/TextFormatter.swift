@@ -446,7 +446,12 @@ public class TextFormatter {
         let mutableResult = NSMutableAttributedString(string: result)
         mutableResult.loadCheckboxes()
 
-        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        #if os(OSX)
+            textView.textStorage?.removeAttribute(.todo, range: pRange)
+        #else
+            textView.textStorage.removeAttribute(.todo, range: pRange)
+        #endif
+
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
 
         storage.updateParagraphStyle(range: selectRange)
@@ -515,7 +520,12 @@ public class TextFormatter {
         let mutableResult = NSMutableAttributedString(string: result)
         mutableResult.loadCheckboxes()
 
-        textView.textStorage?.removeAttribute(.todo, range: pRange)
+        #if os(OSX)
+            textView.textStorage?.removeAttribute(.todo, range: pRange)
+        #else
+            textView.textStorage.removeAttribute(.todo, range: pRange)
+        #endif
+
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
         
         storage.updateParagraphStyle(range: selectRange)
@@ -709,9 +719,15 @@ public class TextFormatter {
                     let selectRange = NSRange(location: currentParagraphRange.location, length: 0)
 
                     insertText("", replacementRange: currentParagraphRange, selectRange: selectRange)
-                    textView.insertNewline(nil)
 
-                    textView.setSelectedRange(selectRange)
+                    #if os(OSX)
+                        textView.insertNewline(nil)
+                        textView.setSelectedRange(selectRange)
+                    #else
+                        textView.insertText("\n")
+                        textView.selectedRange = selectRange
+                    #endif
+
                     return
                 }
             }

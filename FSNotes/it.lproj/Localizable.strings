@@ -8,7 +8,7 @@
 "Archive" = "Archivio";
 
 /* No comment provided by engineer. */
-"Are you really want to remove %d tag(s)? This action can not be undone." = "Are you really want to remove %d tag(s)? This action can not be undone.";
+"Are you really want to remove %d tag(s)? This action can not be undone." = "Vuoi veramente rimuovere %d tag(s)? Questa azione non può essere annullata.";
 
 /* No comment provided by engineer. */
 "Are you sure you want to irretrievably delete %d note(s)?" = "Sei sicuro di voler eliminare in modo irreversibile la/e nota/e %d ?";
@@ -32,7 +32,7 @@
 "Check Spelling While Typing" = "Controlla l'ortografia durante la digitazione";
 
 /* No comment provided by engineer. */
-"Clear" = "Clear";
+"Clear" = "Pulisci";
 
 /* No comment provided by engineer. */
 "Copy HTML" = "Copia HTML";
@@ -47,7 +47,7 @@
 "Correct Spelling Automatically" = "Correggi ortografia automaticamente";
 
 /* Menu */
-"Creation date:" = "Creation date:";
+"Creation date:" = "Data di creazione:";
 
 /* No comment provided by engineer. */
 "Current password does not match with password in keychain" = "La password corrente non corrisponde alla password nel portachiavi";
@@ -74,7 +74,7 @@
 "Do you want to move current notes in the new destination?" = "Vuoi spostare le note correnti nella nuova destinazione?";
 
 /* No comment provided by engineer. */
-"Documents" = "Documents";
+"Documents" = "Documenti";
 
 /* No comment provided by engineer. */
 "Edit Link…" = "Modifica Link…";
@@ -86,10 +86,10 @@
 "Enter Master Password" = "Inserisci la Master Password";
 
 /* No comment provided by engineer. */
-"External Folders" = "External Folders";
+"External Folders" = "Cartelle esterne";
 
 /* No comment provided by engineer. */
-"Folder with name '%@' already exist" = "Folder with name '%@' already exist";
+"Folder with name '%@' already exist" = "La cartella con il nome '%@' già esiste";
 
 /* No comment provided by engineer. */
 "FSNotes [edit]" = "FSNotes [modifica]";
@@ -134,7 +134,7 @@
 "No" = "No";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "Note with name \"%@\" already exists in selected directory.";
+"Note with name \"%@\" already exists in selected directory." = "La nota con il nome \"%@\" già esiste nella cartella selazionata.";
 
 /* Sidebar label */
 "Notes" = "Note";
@@ -161,7 +161,7 @@
 "Please enter project name:" = "Inserisci il nome del progetto:";
 
 /* No comment provided by engineer. */
-"Please enter tag name:" = "Please enter tag name:";
+"Please enter tag name:" = "Inserisci il nome del tag:";
 
 /* Menu */
 "Please enter tags (comma separated):" = "Inserisci i tag (separati da virgole):";
@@ -176,10 +176,10 @@
 "Quit FSNotes" = "Esci da FSNotes";
 
 /* No comment provided by engineer. */
-"Recents" = "Recents";
+"Recents" = "Recenti";
 
 /* No comment provided by engineer. */
-"Recents Search" = "Recents Search";
+"Recents Search" = "Ricerche Recenti";
 
 /* Delete menu */
 "Remove" = "Rimuovi";

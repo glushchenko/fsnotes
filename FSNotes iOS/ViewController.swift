@@ -949,31 +949,20 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     func createNote(content: String? = nil, pasteboard: Bool? = nil) {
         var currentProject: Project
-        var tag: String?
-
         if let project = storage.getProjects().first {
             currentProject = project
         } else {
             return
         }
 
-        if let item = self.sidebarTableView.getSidebarItem() {
-            if item.type == .Tag {
-                tag = item.name
-            }
-
-            if let project = item.project,
-                !project.isTrash,
-                !project.isVirtual {
-                currentProject = project
-            }
+        if let item = self.sidebarTableView.getSidebarItem(),
+            let project = item.project,
+            !project.isTrash,
+            !project.isVirtual {
+            currentProject = project
         }
 
         let note = Note(name: "", project: currentProject)
-        if let tag = tag {
-            note.tagNames.append(tag)
-        }
-
         if let content = content {
             note.content = NSMutableAttributedString(string: content)
         }

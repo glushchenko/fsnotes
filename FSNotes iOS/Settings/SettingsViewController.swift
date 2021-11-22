@@ -94,6 +94,16 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         version.textAlignment = .center
 
         tableView.tableFooterView = version
+
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            navigationController?.navigationBar.standardAppearance = appearance
+
+            updateNavigationBarBackground()
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -358,5 +368,7 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
                 }
             }
         }
+
+        updateNavigationBarBackground()
     }
 }

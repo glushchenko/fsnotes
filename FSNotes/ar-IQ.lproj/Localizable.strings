@@ -134,7 +134,7 @@
 "No" = "No";
 
 /* No comment provided by engineer. */
-"Note with name \"%@\" already exists in selected directory." = "ملاحظة بالاسم \ "٪ @ \" موجودة بالفعل في المجلد المحدد.";
+"Note with name \"%@\" already exists in selected directory." = "ملاحظة بالاسم \"%@\" موجودة بالفعل في المجلد المحدد.";
 
 /* Sidebar label */
 "Notes" = "ملاحظات";
@@ -270,7 +270,7 @@
 "We are detect that you are install FSNotes from Mac App Store with default storage in iCloud Drive, do you want to move old database in iCloud Drive?" = "اكتشفنا أنك تقوم بتثبيت FSNotes من Mac App Store مع التخزين الافتراضي في iCloud Drive ، هل تريد نقل قاعدة البيانات القديمة في iCloud Drive؟";
 
 /* No comment provided by engineer. */
-"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "لا يمكننا نقل \ "{DST_PATH} \" لأن هذا العنصر موجود بالفعل في الوجهة المحددة.";
+"We can not move \"{DST_PATH}\" because this item already exist in selected destination." = "لا يمكننا نقل \"{DST_PATH}\" لأن هذا العنصر موجود بالفعل في الوجهة المحددة.";
 
 /* No comment provided by engineer. */
 "Wrong repeated password" = "عدم تطابق كلمة المرور";

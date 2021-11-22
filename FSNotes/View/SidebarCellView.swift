@@ -58,7 +58,7 @@ class SidebarCellView: NSTableCellView {
     }
 
     public func applyBackgroundAndTextColors() {
-        guard let rowView = self.superview as? NSTableRowView else { return }
+        guard let rowView = self.superview as? SidebarTableRowView else { return }
 
         if rowView.isSelected {
 
@@ -88,7 +88,7 @@ class SidebarCellView: NSTableCellView {
         label.textColor = .white
         icon.image = type?.getIcon(white: true)
 
-        guard let rowView = self.superview as? NSTableRowView else { return }
+        guard let rowView = self.superview as? SidebarTableRowView else { return }
         rowView.backgroundColor = NSColor(named: "background_selected_fr")!
     }
 }

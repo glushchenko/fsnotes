@@ -183,6 +183,9 @@ class ViewController: NSViewController,
 
         if sidebarOutlineView.isFirstLaunch, let x = UserDefaultsManagement.lastScreenX, let y = UserDefaultsManagement.lastScreenY {
             view.window?.setFrameOrigin(NSPoint(x: x, y: y))
+
+            UserDefaultsManagement.lastScreenX = nil
+            UserDefaultsManagement.lastScreenY = nil
         }
 
         if UserDefaultsManagement.fullScreen {
@@ -1877,6 +1880,7 @@ class ViewController: NSViewController,
     
     func cleanSearchAndEditArea(shouldBecomeFirstResponder: Bool = true, completion: (() -> ())? = nil) {
         search.stringValue = ""
+        search.lastSearchQuery = ""
 
         if shouldBecomeFirstResponder {
             search.becomeFirstResponder()

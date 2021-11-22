@@ -229,8 +229,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
     private func getTemplate(css: String) -> String? {
         var css = css
 
+        #if os(OSX)
         let tagColor = NSColor.tagColor.hexString
         css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
@@ -416,8 +418,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
     func htmlFromTemplate(_ htmlString: String, css: String) throws -> String {
         var css = css
+
+        #if os(OSX)
         let tagColor = NSColor.tagColor.hexString
         css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
         let url = NSURL.fileURL(withPath: path!)
