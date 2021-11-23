@@ -482,28 +482,30 @@ public class TextFormatter {
             var line = line
 
             if !line.isEmpty {
-                if line.first == "\t" {
-                    line = String(line.dropFirst())
-
+                var firstCharsToDrop: Int?
+                
+                if UserDefaultsManagement.indentUsing == "Tab" && line.first == "\t" {
+                    firstCharsToDrop = 1
+                }
+                
+                if UserDefaultsManagement.indentUsing == "2 Spaces" && line.starts(with: "  ") {
+                    firstCharsToDrop = 2
+                }
+                
+                if UserDefaultsManagement.indentUsing == "4 Spaces" && line.starts(with: "    ") {
+                    firstCharsToDrop = 4
+                }
+                
+                if let x = firstCharsToDrop {
+                    line = String(line.dropFirst(x))
+                    
                     if length == 0 {
                         dropChars = 0
                     } else {
                         if isFirstLine {
                             isFirstLine = false
                         } else {
-                            dropChars += 1
-                        }
-                    }
-                } else if line.starts(with: "    ") {
-                    line = String(line.dropFirst(4))
-
-                    if length == 0 {
-                        dropChars = 0
-                    } else {
-                        if isFirstLine {
-                            isFirstLine = false
-                        } else {
-                            dropChars += 4
+                            dropChars += x
                         }
                     }
                 }
@@ -784,21 +786,24 @@ public class TextFormatter {
         // New Line insertion
 
         var newLine = "\n"
-
-        if currentParagraph.string.starts(with: "\t"), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
-            if selectedRange.location != currentParagraphRange.location {
-                newLine += prefix
-            }
-
-            let string = TextFormatter.getAttributedCode(string: newLine)
-            self.insertText(string)
-            return
+        
+        var prefix: String?
+        
+        if UserDefaultsManagement.indentUsing == "Tab"  && currentParagraph.string.starts(with: "\t") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t")
         }
 
-        if currentParagraph.string.starts(with: "    "),
-            let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
+        if UserDefaultsManagement.indentUsing == "2 Spaces"  && currentParagraph.string.starts(with: "  ") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
+        }
+
+        if UserDefaultsManagement.indentUsing == "4 Spaces"  && currentParagraph.string.starts(with: "    ") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
+        }
+
+        if let x = prefix {
             if selectedRange.location != currentParagraphRange.location {
-                newLine += prefix
+                newLine += x
             }
 
             let string = TextFormatter.getAttributedCode(string: newLine)
