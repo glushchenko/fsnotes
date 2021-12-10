@@ -464,7 +464,7 @@ public class TextFormatter {
 
         if string.starts(with: "\t") {
             padding = 1
-        } else if string.starts(with: "   ") {
+        } else if string.starts(with: "    ") {
             padding = 4
         }
 
