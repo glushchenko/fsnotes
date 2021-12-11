@@ -475,9 +475,12 @@ public class TextFormatter {
             padding = 1
         } else if string.starts(with: "    ") {
             padding = 4
+        } else if string.starts(with: "  ") {
+            padding = 2
         }
 
         var isFirstLine = true
+        
         string.enumerateLines { (line, _) in
             var line = line
 
