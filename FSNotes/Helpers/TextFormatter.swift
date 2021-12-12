@@ -499,7 +499,7 @@ public class TextFormatter {
                     firstCharsToDrop = 2
                 }
                 
-                if line.starts(with: "    ") {
+                if UserDefaultsManagement.indentUsing == 0x02 && line.starts(with: "    ") {
                     firstCharsToDrop = 4
                 }
                 
