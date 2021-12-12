@@ -493,13 +493,9 @@ public class TextFormatter {
                 
                 if line.first == "\t" {
                     firstCharsToDrop = 1
-                }
-                
-                if UserDefaultsManagement.indentUsing == 0x01 && line.starts(with: "  ") {
+                } else if UserDefaultsManagement.indentUsing == 0x01 && line.starts(with: "  ") {
                     firstCharsToDrop = 2
-                }
-                
-                if UserDefaultsManagement.indentUsing == 0x02 && line.starts(with: "    ") {
+                } else if line.starts(with: "    ") {
                     firstCharsToDrop = 4
                 }
                 
