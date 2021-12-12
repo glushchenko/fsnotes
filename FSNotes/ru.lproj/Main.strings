@@ -7,6 +7,9 @@
 /* Class = "NSMenu"; title = "Find"; ObjectID = "1b7-l0-nxx"; */
 "1b7-l0-nxx.title" = "Найти";
 
+/* Class = "NSMenuItem"; title = "2 Spaces"; ObjectID = "1HB-X5-pmA"; */
+"1HB-X5-pmA.title" = "2 Spaces";
+
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "Заголовок";
 
@@ -517,6 +520,9 @@
 /* Class = "NSMenuItem"; title = "atom-one-light"; ObjectID = "ME1-My-h4q"; */
 "ME1-My-h4q.title" = "atom-one-light";
 
+/* Class = "NSMenuItem"; title = "4 Spaces"; ObjectID = "mK0-16-Mxo"; */
+"mK0-16-Mxo.title" = "4 Spaces";
+
 /* Class = "NSMenuItem"; title = "Check Grammar With Spelling"; ObjectID = "mK6-2p-4JG"; */
 "mK6-2p-4JG.title" = "Проверить грамматику с орфографией";
 
@@ -534,6 +540,9 @@
 
 /* Class = "NSButtonCell"; title = "Change"; ObjectID = "nBn-aV-7mt"; */
 "nBn-aV-7mt.title" = "Изменить";
+
+/* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
+"Ncv-c4-Dmg.title" = "Tab";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
 "nCW-CZ-qC7.title" = "Печать";
@@ -595,6 +604,9 @@
 /* Class = "NSTextFieldCell"; title = "Automatic snapshots:"; ObjectID = "P31-Ka-9HV"; */
 "P31-Ka-9HV.title" = "Стратегия резервного копирования:";
 
+/* Class = "NSTextFieldCell"; title = "Indent using:"; ObjectID = "P4M-cL-lfo"; */
+"P4M-cL-lfo.title" = "Отступы используя:";
+
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "pa3-QI-u2k"; */
 "pa3-QI-u2k.title" = "Удалить";
 
@@ -606,9 +618,6 @@
 
 /* Class = "NSMenuItem"; title = "Duplicate"; ObjectID = "pnm-dP-GKO"; */
 "pnm-dP-GKO.title" = "Создать копию";
-
-/* Class = "NSButtonCell"; title = "Use 4 spaces instead tab"; ObjectID = "Poh-KB-4ws"; */
-"Poh-KB-4ws.title" = "4 пробела вместо таба";
 
 /* Class = "NSTextFieldCell"; title = "Background:"; ObjectID = "Psk-r4-JT5"; */
 "Psk-r4-JT5.title" = "Фон:";
@@ -652,7 +661,7 @@
 /* Class = "NSButtonCell"; title = "Focus in editor when selecting note"; ObjectID = "r2R-xe-eCA"; */
 "r2R-xe-eCA.title" = "Фокус в редактор, при выборе заметки";
 
-/* Class = "NSTextFieldCell"; title = "Margin size: "; ObjectID = "r69-B6-vT3"; */
+/* Class = "NSTextFieldCell"; title = "Margin size:"; ObjectID = "r69-B6-vT3"; */
 "r69-B6-vT3.title" = "Отступ абзаца";
 
 /* Class = "NSMenuItem"; title = "Check Spelling While Typing"; ObjectID = "rbD-Rh-wIN"; */
