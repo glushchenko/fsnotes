@@ -1605,17 +1605,18 @@ class ViewController: NSViewController,
         for note in updateViews {
             notesTableView.reloadRow(note: note)
 
-            if UserDefaultsManagement.sort == .modificationDate
-                && UserDefaultsManagement.sortDirection == true
-                && note.project.sortBy == .none
-                && search.stringValue.count == 0 {
+            if search.stringValue.count == 0 {
+                if UserDefaultsManagement.sort == .modificationDate
+                    && UserDefaultsManagement.sortDirection == true
+                    && note.project.sortBy == .none {
 
-                if let index = notesTableView.noteList.firstIndex(of: note) {
-                    moveNoteToTop(note: index)
+                    if let index = notesTableView.noteList.firstIndex(of: note) {
+                        moveNoteToTop(note: index)
+                    }
+                } else {
+                    let project = getSidebarProject()
+                    sortAndMove(note: note, project: project)
                 }
-            } else {
-                let project = getSidebarProject()
-                sortAndMove(note: note, project: project)
             }
         }
 
