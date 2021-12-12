@@ -1202,14 +1202,14 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         if event.keyCode == kVK_Tab && !hasMarkedText(){
             breakUndoCoalescing()
             
-            if UserDefaultsManagement.indentUsing == "2 Spaces" {
+            if UserDefaultsManagement.indentUsing == 0x01 {
                 let tab = TextFormatter.getAttributedCode(string: "  ")
                 insertText(tab, replacementRange: selectedRange())
                 breakUndoCoalescing()
                 return
             }
             
-            if UserDefaultsManagement.indentUsing == "4 Spaces" {
+            if UserDefaultsManagement.indentUsing == 0x02 {
                 let tab = TextFormatter.getAttributedCode(string: "    ")
                 insertText(tab, replacementRange: selectedRange())
                 breakUndoCoalescing()

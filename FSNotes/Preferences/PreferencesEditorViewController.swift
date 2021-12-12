@@ -45,7 +45,7 @@ class PreferencesEditorViewController: NSViewController {
         liveImagesPreview.state = UserDefaultsManagement.liveImagesPreview ? NSControl.StateValue.on : NSControl.StateValue.off
 
         inEditorFocus.state = UserDefaultsManagement.focusInEditorOnNoteSelect ? NSControl.StateValue.on : NSControl.StateValue.off
-        indentUsing.selectItem(withTitle: UserDefaultsManagement.indentUsing)
+        indentUsing.selectItem(at: UserDefaultsManagement.indentUsing)
         restoreCursorButton.state = UserDefaultsManagement.restoreCursorPosition ? .on : .off
 
         autocloseBrackets.state = UserDefaultsManagement.autocloseBrackets ? .on : .off
@@ -180,7 +180,7 @@ class PreferencesEditorViewController: NSViewController {
             return
         }
         
-        UserDefaultsManagement.indentUsing = item.title
+        UserDefaultsManagement.indentUsing = item.tag
     }
 
     @IBAction func marginSize(_ sender: NSSlider) {

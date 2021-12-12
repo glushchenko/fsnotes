@@ -413,11 +413,11 @@ public class TextFormatter {
         
         var padding = "\t"
         
-        if UserDefaultsManagement.indentUsing == "2 Spaces" {
+        if UserDefaultsManagement.indentUsing == 0x01 {
             padding = "  "
         }
 
-        if UserDefaultsManagement.indentUsing == "4 Spaces" {
+        if UserDefaultsManagement.indentUsing == 0x02 {
             padding = "    "
         }
         
@@ -473,10 +473,14 @@ public class TextFormatter {
 
         if string.starts(with: "\t") {
             padding = 1
+        } else if string.starts(with: "  ") && UserDefaultsManagement.indentUsing == 0x01 {
+            padding = 2
         } else if string.starts(with: "    ") {
             padding = 4
-        } else if string.starts(with: "  ") {
-            padding = 2
+        }
+
+        if padding == 0 {
+            return
         }
 
         var isFirstLine = true
@@ -487,15 +491,15 @@ public class TextFormatter {
             if !line.isEmpty {
                 var firstCharsToDrop: Int?
                 
-                if UserDefaultsManagement.indentUsing == "Tab" && line.first == "\t" {
+                if line.first == "\t" {
                     firstCharsToDrop = 1
                 }
                 
-                if UserDefaultsManagement.indentUsing == "2 Spaces" && line.starts(with: "  ") {
+                if UserDefaultsManagement.indentUsing == 0x01 && line.starts(with: "  ") {
                     firstCharsToDrop = 2
                 }
                 
-                if UserDefaultsManagement.indentUsing == "4 Spaces" && line.starts(with: "    ") {
+                if line.starts(with: "    ") {
                     firstCharsToDrop = 4
                 }
                 
@@ -518,10 +522,19 @@ public class TextFormatter {
         }
 
         let diffLocation = location - padding
-        let selectLocation = diffLocation > 0 ? diffLocation : 0
         
-        let selectRange = NSRange(location: selectLocation, length: length - dropChars)
+        var selectLength = length - dropChars
+        var selectLocation = diffLocation > 0 ? diffLocation : 0
 
+        if selectLocation < pRange.location {
+            selectLocation = pRange.location
+        }
+
+        if selectLength > result.count {
+            selectLength = result.count
+        }
+
+        let selectRange = NSRange(location: selectLocation, length: selectLength)
         let mutableResult = NSMutableAttributedString(string: result)
         mutableResult.loadCheckboxes()
 
@@ -792,15 +805,15 @@ public class TextFormatter {
         
         var prefix: String?
         
-        if UserDefaultsManagement.indentUsing == "Tab"  && currentParagraph.string.starts(with: "\t") {
+        if UserDefaultsManagement.indentUsing == 0x00  && currentParagraph.string.starts(with: "\t") {
             prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t")
         }
 
-        if UserDefaultsManagement.indentUsing == "2 Spaces"  && currentParagraph.string.starts(with: "  ") {
+        if UserDefaultsManagement.indentUsing == 0x01  && currentParagraph.string.starts(with: "  ") {
             prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
         }
 
-        if UserDefaultsManagement.indentUsing == "4 Spaces"  && currentParagraph.string.starts(with: "    ") {
+        if UserDefaultsManagement.indentUsing == 0x02  && currentParagraph.string.starts(with: "    ") {
             prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
         }
 

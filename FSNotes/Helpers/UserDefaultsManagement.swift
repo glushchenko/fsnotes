@@ -1137,12 +1137,13 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var indentUsing: String {
+    static var indentUsing: Int {
         get {
-            if let result = shared?.object(forKey: Constants.IndentUsing) as? String {
+            if let result = shared?.integer(forKey: Constants.IndentUsing) {
                 return result
             }
-            return "Tab"
+
+            return 0
         }
         set {
             shared?.set(newValue, forKey: Constants.IndentUsing)

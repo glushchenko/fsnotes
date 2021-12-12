@@ -8,7 +8,7 @@
 "1b7-l0-nxx.title" = "Найти";
 
 /* Class = "NSMenuItem"; title = "2 Spaces"; ObjectID = "1HB-X5-pmA"; */
-"1HB-X5-pmA.title" = "2 Spaces";
+"1HB-X5-pmA.title" = "2 пробела";
 
 /* Class = "NSMenuItem"; title = "Title"; ObjectID = "1qV-pJ-ZQT"; */
 "1qV-pJ-ZQT.title" = "Заголовок";
@@ -521,7 +521,7 @@
 "ME1-My-h4q.title" = "atom-one-light";
 
 /* Class = "NSMenuItem"; title = "4 Spaces"; ObjectID = "mK0-16-Mxo"; */
-"mK0-16-Mxo.title" = "4 Spaces";
+"mK0-16-Mxo.title" = "4 пробела";
 
 /* Class = "NSMenuItem"; title = "Check Grammar With Spelling"; ObjectID = "mK6-2p-4JG"; */
 "mK6-2p-4JG.title" = "Проверить грамматику с орфографией";
@@ -542,7 +542,7 @@
 "nBn-aV-7mt.title" = "Изменить";
 
 /* Class = "NSMenuItem"; title = "Tab"; ObjectID = "Ncv-c4-Dmg"; */
-"Ncv-c4-Dmg.title" = "Tab";
+"Ncv-c4-Dmg.title" = "Таб";
 
 /* Class = "NSMenuItem"; title = "Print"; ObjectID = "nCW-CZ-qC7"; */
 "nCW-CZ-qC7.title" = "Печать";

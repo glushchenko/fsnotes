@@ -3225,10 +3225,10 @@ Will Pazner (github.com/pazner)</string>
                                             <menuItem title="Tab" state="on" id="Ncv-c4-Dmg">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="2 Spaces" id="1HB-X5-pmA">
+                                            <menuItem title="2 Spaces" tag="1" id="1HB-X5-pmA">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
-                                            <menuItem title="4 Spaces" id="mK0-16-Mxo">
+                                            <menuItem title="4 Spaces" tag="2" id="mK0-16-Mxo">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                         </items>
