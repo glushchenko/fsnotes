@@ -411,7 +411,16 @@ public class TextFormatter {
     public func tab() {
         guard let pRange = getParagraphRange() else { return }
         
-        let padding = UserDefaultsManagement.spacesInsteadTabs ? "    " : "\t"
+        var padding = "\t"
+        
+        if UserDefaultsManagement.indentUsing == 0x01 {
+            padding = "  "
+        }
+
+        if UserDefaultsManagement.indentUsing == 0x02 {
+            padding = "    "
+        }
+        
         let mutable = NSMutableAttributedString(attributedString: getAttributedString().attributedSubstring(from: pRange)).unLoadCheckboxes()
 
         let string = mutable.string
@@ -464,37 +473,42 @@ public class TextFormatter {
 
         if string.starts(with: "\t") {
             padding = 1
+        } else if string.starts(with: "  ") && UserDefaultsManagement.indentUsing == 0x01 {
+            padding = 2
         } else if string.starts(with: "    ") {
             padding = 4
         }
 
+        if padding == 0 {
+            return
+        }
+
         var isFirstLine = true
+        
         string.enumerateLines { (line, _) in
             var line = line
 
             if !line.isEmpty {
+                var firstCharsToDrop: Int?
+                
                 if line.first == "\t" {
-                    line = String(line.dropFirst())
-
-                    if length == 0 {
-                        dropChars = 0
-                    } else {
-                        if isFirstLine {
-                            isFirstLine = false
-                        } else {
-                            dropChars += 1
-                        }
-                    }
+                    firstCharsToDrop = 1
+                } else if UserDefaultsManagement.indentUsing == 0x01 && line.starts(with: "  ") {
+                    firstCharsToDrop = 2
                 } else if line.starts(with: "    ") {
-                    line = String(line.dropFirst(4))
-
+                    firstCharsToDrop = 4
+                }
+                
+                if let x = firstCharsToDrop {
+                    line = String(line.dropFirst(x))
+                    
                     if length == 0 {
                         dropChars = 0
                     } else {
                         if isFirstLine {
                             isFirstLine = false
                         } else {
-                            dropChars += 4
+                            dropChars += x
                         }
                     }
                 }
@@ -504,10 +518,19 @@ public class TextFormatter {
         }
 
         let diffLocation = location - padding
-        let selectLocation = diffLocation > 0 ? diffLocation : 0
         
-        let selectRange = NSRange(location: selectLocation, length: length - dropChars)
+        var selectLength = length - dropChars
+        var selectLocation = diffLocation > 0 ? diffLocation : 0
 
+        if selectLocation < pRange.location {
+            selectLocation = pRange.location
+        }
+
+        if selectLength > result.count {
+            selectLength = result.count
+        }
+
+        let selectRange = NSRange(location: selectLocation, length: selectLength)
         let mutableResult = NSMutableAttributedString(string: result)
         mutableResult.loadCheckboxes()
 
@@ -775,21 +798,24 @@ public class TextFormatter {
         // New Line insertion
 
         var newLine = "\n"
-
-        if currentParagraph.string.starts(with: "\t"), let prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t") {
-            if selectedRange.location != currentParagraphRange.location {
-                newLine += prefix
-            }
-
-            let string = TextFormatter.getAttributedCode(string: newLine)
-            self.insertText(string)
-            return
+        
+        var prefix: String?
+        
+        if UserDefaultsManagement.indentUsing == 0x00  && currentParagraph.string.starts(with: "\t") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: "\t")
         }
 
-        if currentParagraph.string.starts(with: "    "),
-            let prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ") {
+        if UserDefaultsManagement.indentUsing == 0x01  && currentParagraph.string.starts(with: "  ") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
+        }
+
+        if UserDefaultsManagement.indentUsing == 0x02  && currentParagraph.string.starts(with: "    ") {
+            prefix = currentParagraph.string.getPrefixMatchSequentially(char: " ")
+        }
+
+        if let x = prefix {
             if selectedRange.location != currentParagraphRange.location {
-                newLine += prefix
+                newLine += x
             }
 
             let string = TextFormatter.getAttributedCode(string: newLine)
