@@ -55,25 +55,28 @@ class FileSystemEventManager {
                 
                 self.removeNote(note: note)
             }
-            
+
+            let fullUrl = self.handleTextBundle(url: url)
+
+            // Resolve conflicts if exist
+            if let note = self.storage.getBy(url: fullUrl) {
+                self.resolveConflict(url: note.url)
+            }
+
             if event.fileRenamed || event.dirRenamed {
                 self.moveHandler(url: url, pathList: self.observedFolders)
                 return
             }
-            
-            guard self.checkFile(url: self.handleTextBundle(url: url), pathList: self.observedFolders) else {
-                return
-            }
-            
+
+            guard self.checkFile(url: fullUrl, pathList: self.observedFolders) else { return }
+
             // Order is important, invoke only before change
             if event.fileCreated {
-                self.importNote(self.handleTextBundle(url: url))
+                self.importNote(fullUrl)
                 return
             }
-            
-            if event.fileChange,
-                let note = self.storage.getBy(url: self.handleTextBundle(url: url))
-            {
+
+            if event.fileChange || event.dirChange, let note = self.storage.getBy(url: fullUrl) {
                 self.reloadNote(note: note)
             }
         }
@@ -238,10 +241,15 @@ class FileSystemEventManager {
     
     private func reloadNote(note: Note) {
         guard note.container != .encryptedTextPack else { return }
-        guard let fsContent = note.getContent() else { return }
-        
+
         let memoryContent = note.content.attributedSubstring(from: NSRange(0..<note.content.length))
-        
+        guard var fsContent = note.getContent() else { return }
+
+        // Trying load content from encrypted note with current password
+        if note.url.pathExtension == "etp", let password = note.password, note.unLock(password: password) {
+            fsContent = note.content
+        }
+
         if (
             note.isRTF() && fsContent != memoryContent)
             || (
@@ -295,5 +303,62 @@ class FileSystemEventManager {
 
     public func reloadObservedFolders() {
         self.observedFolders = self.storage.getProjectPaths()
+    }
+
+    public func resolveConflict(url: URL) {
+        if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
+            for conflict in conflicts {
+                guard let modificationDate = conflict.modificationDate else {
+                    continue
+                }
+
+                guard let localizedName = conflict.localizedName else {
+                    continue
+                }
+
+                let localizedUrl = URL(fileURLWithPath: localizedName)
+                let ext = url.pathExtension
+                let name = localizedUrl.deletingPathExtension().lastPathComponent
+
+                let dateFormatter = ISO8601DateFormatter()
+                dateFormatter.formatOptions = [
+                    .withYear,
+                    .withMonth,
+                    .withDay,
+                    .withTime
+                ]
+                let dateString: String = dateFormatter.string(from: modificationDate)
+                let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
+
+                let to = url.deletingLastPathComponent().appendingPathComponent(conflictName)
+
+                if FileManager.default.fileExists(atPath: to.path) {
+                    conflict.isResolved = true
+                    continue
+                }
+
+                // Reload current encrypted note
+                if let currentNote = EditTextView.note, currentNote.url == url {
+                    if let password = currentNote.password, ext == "etp" {
+                        _ = currentNote.unLock(password: password)
+                    }
+
+                    DispatchQueue.main.async {
+                        self.delegate.refillEditArea(force: true)
+                    }
+                }
+
+                do {
+                    try FileManager.default.copyItem(at: conflict.url, to: to)
+                    var attributes = [FileAttributeKey : Any]()
+                    attributes[.posixPermissions] = 0o777
+                    try FileManager.default.setAttributes(attributes, ofItemAtPath: to.path)
+                }catch let error {
+                    print("Conflict resolving error: ", error)
+                }
+
+                conflict.isResolved = true
+            }
+        }
     }
 }

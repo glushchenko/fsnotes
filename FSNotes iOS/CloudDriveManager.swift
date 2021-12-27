@@ -163,6 +163,11 @@ class CloudDriveManager {
                 {
                     note.modifiedLocalAt = date
 
+                    // Trying load content from encrypted note with current password
+                    if url.pathExtension == "etp", let password = note.password {
+                        _ = note.unLock(password: password)
+                    }
+
                     note.forceLoad()
                     delegate.refreshTextStorage(note: note)
                 }
@@ -312,6 +317,10 @@ class CloudDriveManager {
     public func resolveConflict(url: URL) {
         if let conflicts = NSFileVersion.unresolvedConflictVersionsOfItem(at: url as URL) {
             for conflict in conflicts {
+                guard let modificationDate = conflict.modificationDate else {
+                    continue
+                }
+
                 guard let localizedName = conflict.localizedName else {
                     continue
                 }
@@ -320,7 +329,6 @@ class CloudDriveManager {
                 let ext = url.pathExtension
                 let name = localizedUrl.deletingPathExtension().lastPathComponent
 
-                let date = Date.init()
                 let dateFormatter = ISO8601DateFormatter()
                 dateFormatter.formatOptions = [
                     .withYear,
@@ -328,20 +336,34 @@ class CloudDriveManager {
                     .withDay,
                     .withTime
                 ]
-                let dateString: String = dateFormatter.string(from: date)
+                let dateString: String = dateFormatter.string(from: modificationDate)
                 let conflictName = "\(name) (CONFLICT \(dateString)).\(ext)"
                 
                 let to = url.deletingLastPathComponent().appendingPathComponent(conflictName)
-                let project = Storage.sharedInstance().getMainProject()
-                let note = Note(url: conflict.url, with: project)
 
-                guard let conflictNote = Storage.sharedInstance().initNote(url: to) else { continue }
+                if FileManager.default.fileExists(atPath: to.path) {
+                    conflict.isResolved = true
+                    continue
+                }
 
-                note.load()
+                // Reload current encrypted note
+                if let currentNote = EditTextView.note, currentNote.url == url {
+                    if let password = currentNote.password, ext == "etp" {
+                        _ = currentNote.unLock(password: password)
+                    }
 
-                if note.content.length > 0 {
-                    conflictNote.content = note.content
-                    conflictNote.write()
+                    currentNote.forceLoad()
+                    delegate.refreshTextStorage(note: currentNote)
+                }
+
+                do {
+                    try FileManager.default.copyItem(at: conflict.url, to: to)
+                    var attributes = [FileAttributeKey : Any]()
+                    attributes[.posixPermissions] = 0o777
+
+                    try FileManager.default.setAttributes(attributes, ofItemAtPath: to.path)
+                } catch let error {
+                    print("Conflict resolving error: ", error)
                 }
 
                 conflict.isResolved = true

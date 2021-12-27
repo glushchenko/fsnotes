@@ -1290,6 +1290,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for note in notes {
                 var success: [Note]? = nil
                 if note.unLock(password: password) {
+                    note.password = password
+                    
                     success?.append(note)
                 }
 
@@ -1313,6 +1315,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for note in notes {
                 if note.container == .encryptedTextPack {
                     if note.unLock(password: password) {
+                        note.password = password
+
                         DispatchQueue.main.async {
                             self.notesTable.reloadRowForce(note: note)
                             UIApplication.getEVC().fill(note: note)
@@ -1321,6 +1325,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     }
                 } else {
                     if note.encrypt(password: password) {
+                        note.password = nil
+
                         DispatchQueue.main.async {
                             self.notesTable.reloadRowForce(note: note)
                         }
@@ -1337,6 +1343,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         for note in notes {
             if note.isUnlocked() {
                 if note.lock() && isFirst {
+                    note.password = nil
+
                     notesTable.reloadRowForce(note: note)
                 }
                 notes.removeAll { $0 === note }

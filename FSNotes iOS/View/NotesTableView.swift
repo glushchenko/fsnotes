@@ -623,6 +623,8 @@ class NotesTableView: UITableView,
             for note in notes {
                 if note.container == .encryptedTextPack {
                     let success = note.unEncrypt(password: password)
+                    note.password = nil
+
                     if success && isFirst {
                         DispatchQueue.main.async {
                             UIApplication.getEVC().refill()
