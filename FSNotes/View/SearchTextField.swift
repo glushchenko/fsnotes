@@ -187,6 +187,11 @@ class SearchTextField: NSSearchField, NSSearchFieldDelegate {
         vcDelegate.restoreCurrentPreviewState()
         
         search()
+
+        // Clean as lastSearchQuery used by highlighter
+        if stringValue.count == 0 {
+            lastSearchQuery = String()
+        }
     }
     
     public func suggestAutocomplete(_ note: Note, filter: String) {

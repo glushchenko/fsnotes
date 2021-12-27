@@ -1448,6 +1448,10 @@ class ViewController: NSViewController,
                         DispatchQueue.main.async {
                             self.editArea.clear()
                             self.focusTable()
+
+                            if notes.count == 1 {
+                                self.refillEditArea()
+                            }
                         }
                     }
                 }
