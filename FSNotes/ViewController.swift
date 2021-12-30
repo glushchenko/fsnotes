@@ -244,6 +244,8 @@ class ViewController: NSViewController,
                 }
 
                 if menuItem.identifier?.rawValue == "fileMenu.delete" {
+                    guard vc.view.window?.firstResponder == vc.notesTableView else { return false }
+
                     menuItem.keyEquivalentModifierMask =
                         UserDefaultsManagement.focusInEditorOnNoteSelect
                         ? [.command, .option]
@@ -1212,9 +1214,7 @@ class ViewController: NSViewController,
         }
 
         guard let vc = ViewController.shared() else { return }
-        guard let notes = vc.notesTableView.getSelectedNotes() else {
-            return
-        }
+        guard let notes = vc.notesTableView.getSelectedNotes() else { return }
 
         let si = vc.getSidebarItem()
         if si?.isTrash() == true || forceRemove {
