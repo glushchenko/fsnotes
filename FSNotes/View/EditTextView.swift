@@ -54,6 +54,8 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
     override func draw(_ dirtyRect: NSRect) {
         super.draw(dirtyRect)
 
+        guard UserDefaultsManagement.inlineTags else { return }
+        
         if #available(OSX 10.16, *) {
             let range = NSRange(location: 0, length: textStorage!.length)
             attributedString().enumerateAttributes(in: range, options: .reverse) {

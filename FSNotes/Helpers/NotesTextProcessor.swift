@@ -388,6 +388,8 @@ public class NotesTextProcessor {
 
     public static func convertAppTags(in content: NSMutableAttributedString) -> NSMutableAttributedString {
         let attributedString = content.mutableCopy() as! NSMutableAttributedString
+        guard UserDefaultsManagement.inlineTags else { return attributedString}
+
         let range = NSRange(0..<content.string.count)
         let tagQuery = "fsnotes://open/?tag="
 
@@ -951,37 +953,39 @@ public class NotesTextProcessor {
         }
 
         // Inline tags
-        NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
-            guard var range = result?.range(at: 1) else { return }
+        if UserDefaultsManagement.inlineTags {
+            NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+                guard var range = result?.range(at: 1) else { return }
 
-            // Skip if indented code block
-            let parRange = attributedString.mutableString.paragraphRange(for: range)
-            let parString = attributedString.mutableString.substring(with: parRange)
-            if parString.starts(with: "    ") || parString.starts(with: "\t") {
-                return
+                // Skip if indented code block
+                let parRange = attributedString.mutableString.paragraphRange(for: range)
+                let parString = attributedString.mutableString.substring(with: parRange)
+                if parString.starts(with: "    ") || parString.starts(with: "\t") {
+                    return
+                }
+
+                if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
+                    return
+                }
+
+                if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
+                    return
+                }
+
+                var substring = attributedString.mutableString.substring(with: range)
+                guard !substring.isNumber else { return }
+
+                range = NSRange(location: range.location - 1, length: range.length + 1)
+                substring = attributedString.mutableString.substring(with: range)
+                    .replacingOccurrences(of: "#", with: "")
+                    .replacingOccurrences(of: "\n", with: "")
+                    .trim()
+
+                guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+
+                attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
+                attributedString.addAttribute(.tag, value: "\(tag)", range: range)
             }
-
-            if NotesTextProcessor.getSpanCodeBlockRange(content: attributedString, range: range) != nil {
-                return
-            }
-
-            if NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: attributedString) != nil {
-                return
-            }
-
-            var substring = attributedString.mutableString.substring(with: range)
-            guard !substring.isNumber else { return }
-
-            range = NSRange(location: range.location - 1, length: range.length + 1)
-            substring = attributedString.mutableString.substring(with: range)
-                .replacingOccurrences(of: "#", with: "")
-                .replacingOccurrences(of: "\n", with: "")
-                .trim()
-
-            guard let tag = substring.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
-
-            attributedString.addAttribute(.link, value: "fsnotes://open/?tag=\(tag)", range: range)
-            attributedString.addAttribute(.tag, value: "\(tag)", range: range)
         }
 
         if !UserDefaultsManagement.liveImagesPreview {
