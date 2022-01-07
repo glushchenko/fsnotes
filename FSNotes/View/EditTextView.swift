@@ -61,6 +61,17 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
 
                 let tag = attributedString().attributedSubstring(from: range).string
                 guard attributes.index(forKey: .tag) != nil, let font = attributes[.font] as? NSFont else { return }
+                let parStyle = attributes[.paragraphStyle] as? NSMutableParagraphStyle
+
+                var lineSpacing = CGFloat(0)
+                if let line = parStyle?.lineSpacing {
+                    lineSpacing = line
+                }
+
+                let parRange = textStorage?.mutableString.paragraphRange(for: range)
+                if textStorage?.length == parRange?.upperBound && textStorage?.string.last != "\n" {
+                    lineSpacing = 0
+                }
 
                 guard let container = self.textContainer else { return }
                 guard let activeRange = self.layoutManager?.glyphRange(forCharacterRange: range, actualCharacterRange: nil) else { return }
@@ -72,43 +83,41 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
                 tagRect = self.convertToLayer(tagRect)
 
                 let tagAttributes = attributedString().attributes(at: range.location, effectiveRange: nil)
-                let oneCharSize = ("a" as NSString).size(withAttributes: tagAttributes)
+                let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes)
 
-                let height = oneCharSize.height > tagRect.size.height ? tagRect.size.height : oneCharSize.height
-                let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x-oneCharSize.width*0.1, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width+oneCharSize.width*0.3, height: height))
+                let height = tagRect.size.height - lineSpacing
+                let tagBorderRect = NSRect(origin: CGPoint(x: tagRect.origin.x, y: tagRect.origin.y), size: CGSize(width: tagRect.size.width + oneCharSize.width*0.25, height: height))
 
                 NSGraphicsContext.saveGraphicsState()
 
                 let path = NSBezierPath(roundedRect: tagBorderRect, xRadius: 3, yRadius: 3)
 
                 let fillColor = NSColor.tagColor
-                let strokeColor = NSColor.gray
                 let textColor = NSColor.white
 
                 path.addClip()
                 fillColor.setFill()
-                strokeColor.setStroke()
-                tagBorderRect.fill(using: .sourceOver)
+                tagBorderRect.fill(using: .sourceIn)
 
-    //            let transform = NSAffineTransform()
-    //            transform.translateX(by: 0.5, yBy: 0.5)
-    //            path.transform(using: transform as AffineTransform)
-    //            path.stroke()
-    //            transform.translateX(by: -1.5, yBy: -1.5)
-    //            path.transform(using: transform as AffineTransform)
-    //            path.stroke()
+//                let transform = NSAffineTransform()
+//                transform.translateX(by: 0.5, yBy: 0.5)
+//                path.transform(using: transform as AffineTransform)
+//                path.stroke()
+//                transform.translateX(by: -1.5, yBy: -1.5)
+//                path.transform(using: transform as AffineTransform)
+//                path.stroke()
 
-                let resFont = NSFontManager.shared.convert(font, toSize: font.pointSize)
                 let dict = NSMutableDictionary(dictionary: tagAttributes)
-
                 dict.addEntries(from: [
-                    NSAttributedString.Key.font: resFont,
-                    NSAttributedString.Key.foregroundColor: textColor
+                    NSAttributedString.Key.font: font,
+                    NSAttributedString.Key.foregroundColor: textColor,
+                    NSAttributedString.Key.baselineOffset: -(font.pointSize - 1)
                 ])
+
                 dict.removeObject(forKey: NSAttributedString.Key.link)
 
-                let newRect = tagRect.offsetBy(dx: 0, dy: -1)
-                (tag as NSString).draw(in: newRect, withAttributes: (dict as! [NSAttributedString.Key : Any]))
+                let newRect = tagBorderRect.offsetBy(dx: 1, dy: 0)
+                (tag as NSString).draw(with: newRect, options: .init(), attributes: (dict as! [NSAttributedString.Key : Any]))
 
                 NSGraphicsContext.restoreGraphicsState()
             }
