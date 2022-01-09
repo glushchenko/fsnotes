@@ -218,8 +218,10 @@ class PreferencesEditorViewController: NSViewController {
     }
 
     private func setCodeFont() {
-        codeFont.font = NSFont(name: UserDefaultsManagement.codeFont.fontName, size: 13)
-        codeFont.stringValue = "\(UserDefaultsManagement.codeFont.fontName) \(UserDefaultsManagement.codeFont.pointSize)pt"
+        let familyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
+
+        codeFont.font = NSFont(name: familyName, size: 13)
+        codeFont.stringValue = "\(familyName) \(UserDefaultsManagement.codeFont.pointSize)pt"
     }
 
     @IBAction func inlineTags(_ sender: NSButton) {

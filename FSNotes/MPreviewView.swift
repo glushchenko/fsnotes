@@ -468,7 +468,12 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        var familyName = UserDefaultsManagement.noteFont.familyName
+        let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
+        var familyName = UserDefaultsManagement.noteFont.familyName ?? "Helvetica Neue"
+
+        if familyName.starts(with: ".") {
+            familyName = "Helvetica Neue";
+        }
 
         #if os(iOS)
             if !UserDefaultsManagement.dynamicTypeFont {
@@ -491,11 +496,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                 width = 0
             }
 
-        if familyName!.starts(with: ".") {
-            familyName = "Helvetica Neue";
-        }
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName!)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(UserDefaultsManagement.codeFontName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: 30px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        // Line height compute
+        let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
+        let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
+        let lineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(lineHeight)px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
         #endif
     }
 }

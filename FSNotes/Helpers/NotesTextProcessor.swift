@@ -238,6 +238,7 @@ public class NotesTextProcessor {
         }
 
         highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
+        highlightr.theme.codeFont = UserDefaultsManagement.codeFont
 
         self.hl = highlightr
         
@@ -259,44 +260,40 @@ public class NotesTextProcessor {
 
     public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil) {
         guard let highlighter = NotesTextProcessor.getHighlighter() else { return }
+
         let codeString = attributedString.mutableString.substring(with: range)
-
         let preDefinedLanguage = language ?? getLanguage(codeString)
-
-        if UserDefaultsManagement.codeBlocksWithSyntaxHighlighting,
-           let code = highlighter.highlight(codeString, as: preDefinedLanguage)
-        {
-            if (range.location + range.length) > attributedString.length {
-                return
-            }
-
-            if attributedString.length >= range.upperBound && (code.string != attributedString.mutableString.substring(with: range)) {
-                return
-            }
-
-            code.enumerateAttributes(
-                in: NSMakeRange(0, code.length),
-                options: [],
-                using: { (attrs, locRange, stop) in
-                    var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
-                    fixedRange.length = (fixedRange.location + fixedRange.length < attributedString.length) ? fixedRange.length : attributedString.length-fixedRange.location
-                    fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
-
-                    for (key, value) in attrs {
-                        attributedString.addAttribute(key, value: value, range: fixedRange)
-                    }
-                }
-            )
-        }
 
         attributedString.mutableString.enumerateSubstrings(in: range, options: .byParagraphs) { string, range, _, _ in
             let rangeNewline = range.upperBound == attributedString.length ? range : NSRange(range.location..<range.upperBound + 1)
             attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: rangeNewline)
-
-            guard let font = NotesTextProcessor.codeFont else { return }
-            attributedString.addAttribute(.font, value: font, range: rangeNewline)
-            attributedString.fixAttributes(in: rangeNewline)
         }
+
+        guard UserDefaultsManagement.codeBlocksWithSyntaxHighlighting, let code = highlighter.highlight(codeString, as: preDefinedLanguage) else { return }
+
+        if (range.location + range.length) > attributedString.length { return }
+        if attributedString.length >= range.upperBound && (code.string != attributedString.mutableString.substring(with: range)) { return }
+
+        guard let codeFont = UserDefaultsManagement.codeFont else { return }
+        let codeFontBold = codeFont.codeBold()
+
+        code.enumerateAttributes(
+            in: NSMakeRange(0, code.length),
+            options: [],
+            using: { (attrs, locRange, stop) in
+                var fixedRange = NSMakeRange(range.location+locRange.location, locRange.length)
+                fixedRange.length = (fixedRange.location + fixedRange.length < attributedString.length) ? fixedRange.length : attributedString.length-fixedRange.location
+                fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
+
+                for (key, value) in attrs {
+                    if key == NSAttributedString.Key.font, let font = value as? Font, font.isBold {
+                        attributedString.addAttribute(key, value: codeFontBold, range: fixedRange)
+                    } else {
+                        attributedString.addAttribute(key, value: value, range: fixedRange)
+                    }
+                }
+            }
+        )
     }
 
     public static func applyCodeBlockStyle(attributedString: NSMutableAttributedString, range: NSRange) {
