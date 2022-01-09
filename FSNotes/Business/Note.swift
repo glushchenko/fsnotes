@@ -1983,7 +1983,7 @@ public class Note: NSObject  {
         save()
     }
 
-    public func cache() {
+    public func cache(backgroundThread: Bool = false) {
         if cachingInProgress {
             return
         }
@@ -1995,7 +1995,7 @@ public class Note: NSObject  {
             copy.removeAttribute(.backgroundColor, range: NSRange(0..<copy.length))
         
             NotesTextProcessor.highlightMarkdown(attributedString: copy, paragraphRange: NSRange(location: 0, length: copy.length), note: self)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy)
+            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy, backgroundThread: backgroundThread)
 
             if content.string.md5 == copy.string.md5 {
                 content = copy

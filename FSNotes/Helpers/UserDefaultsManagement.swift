@@ -196,7 +196,7 @@ public class UserDefaultsManagement {
         set {
             guard let newValue = newValue else {return}
 
-            self.codeFontName = newValue.fontName
+            self.codeFontName = newValue.familyName ?? "Source Code Pro"
             self.codeFontSize = Int(newValue.pointSize)
         }
     }

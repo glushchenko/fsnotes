@@ -520,7 +520,7 @@ class Storage {
         DispatchQueue.global(qos: .background).async {
             for note in self.noteList {
                 if note.type == .Markdown {
-                    note.cache()
+                    note.cache(backgroundThread: true)
                 }
             }
 

@@ -3045,7 +3045,22 @@ Will Pazner (github.com/pazner)</string>
                                             <menuItem title="atom-one-light" id="ME1-My-h4q">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
+                                            <menuItem title="atom-one-dark" id="Rog-4H-qth">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
                                             <menuItem title="monokai-sublime" id="AaQ-hp-VpR">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="xcode" id="1Tz-tN-qVO">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="zenburn" id="FCZ-jz-Xb0">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="tomorrow" id="g18-hs-VcA">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="agate" id="xpl-3U-eFW">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
                                         </items>

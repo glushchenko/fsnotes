@@ -59,6 +59,25 @@ extension NSFont {
     
         return UserDefaultsManagement.noteFont
     }
+
+    func codeBold() -> NSFont {
+        guard let family = UserDefaultsManagement.codeFont.familyName else {
+            return UserDefaultsManagement.codeFont
+        }
+
+        var mask = 0
+        if (isItalic) {
+            mask = NSFontBoldTrait|NSFontItalicTrait
+        } else {
+            mask = NSFontBoldTrait
+        }
+
+        if let font = NSFontManager().font(withFamily: family, traits: NSFontTraitMask(rawValue: NSFontTraitMask.RawValue(mask)), weight: 5, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            return font
+        }
+
+        return UserDefaultsManagement.codeFont
+    }
     
     func unBold() -> NSFont {
         guard let family = UserDefaultsManagement.noteFont.familyName else {

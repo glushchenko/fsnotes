@@ -121,7 +121,7 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
 
-        NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage)
+        NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage, language: language)
 
         if delta == 1 {
             let newChar = textStorage.mutableString.substring(with: editedRange)

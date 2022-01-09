@@ -52,11 +52,11 @@ public class NotesTextProcessor {
 
     public static var codeBackground: NSColor {
         get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "code")!
-            } else {
-                return NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+            if let theme = HighlighterTheme(rawValue: UserDefaultsManagement.codeTheme) {
+                return NSColor(hex: theme.backgroundHex)
             }
+
+            return NSColor(named: "code") ?? NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
         }
     }
 
@@ -227,9 +227,12 @@ public class NotesTextProcessor {
     }
 
     public static var hl: Highlightr? = nil
+    public static var backgroundHl: Highlightr? = nil
     
-    public static func getHighlighter() -> Highlightr? {
-        if let instance = self.hl {
+    public static func getHighlighter(backgroundThread: Bool = false) -> Highlightr? {
+        if backgroundThread, let instance = self.backgroundHl {
+            return instance
+        } else if let instance = self.hl, !backgroundThread {
             return instance
         }
 
@@ -240,7 +243,11 @@ public class NotesTextProcessor {
         highlightr.setTheme(to: UserDefaultsManagement.codeTheme)
         highlightr.theme.codeFont = UserDefaultsManagement.codeFont
 
-        self.hl = highlightr
+        if backgroundThread {
+            self.backgroundHl = highlightr
+        } else {
+            self.hl = highlightr
+        }
         
         return highlightr
     }
@@ -258,8 +265,8 @@ public class NotesTextProcessor {
     }
     #endif
 
-    public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil) {
-        guard let highlighter = NotesTextProcessor.getHighlighter() else { return }
+    public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil, backgroundThread: Bool = false) {
+        guard let highlighter = NotesTextProcessor.getHighlighter(backgroundThread: backgroundThread) else { return }
 
         let codeString = attributedString.mutableString.substring(with: range)
         let preDefinedLanguage = language ?? getLanguage(codeString)
@@ -436,7 +443,7 @@ public class NotesTextProcessor {
         highlightFencedAndIndentCodeBlocks(attributedString: note.content)
     }
 
-    public static func highlightFencedAndIndentCodeBlocks(attributedString: NSMutableAttributedString) {
+    public static func highlightFencedAndIndentCodeBlocks(attributedString: NSMutableAttributedString, backgroundThread: Bool = false) {
         let range = NSRange(0..<attributedString.length)
 
         if UserDefaultsManagement.codeBlockHighlight {
@@ -454,10 +461,12 @@ public class NotesTextProcessor {
                 range: range,
                 using: { (result, matchingFlags, stop) -> Void in
                     guard let r = result else { return }
-                    fencedRanges.append(r.range)
+                    fencedRanges.append(r.range(at: 2))
 
-                    NotesTextProcessor.highlightCode(attributedString: attributedString, range: r.range)
+                    let fullCode = attributedString.mutableString.substring(with: r.range)
+                    let preDefinedLanguage = getLanguage(fullCode)
 
+                    NotesTextProcessor.highlightCode(attributedString: attributedString, range: r.range(at: 2), language: preDefinedLanguage, backgroundThread: backgroundThread)
                     NotesTextProcessor.highlightFencedBackTick(range: r.range, attributedString: attributedString)
             })
 
@@ -478,9 +487,9 @@ public class NotesTextProcessor {
         }
     }
 
-    public static func highlightFencedBackTick(range: NSRange, attributedString: NSMutableAttributedString) {
+    public static func highlightFencedBackTick(range: NSRange, attributedString: NSMutableAttributedString, language: String? = nil) {
         let code = attributedString.mutableString.substring(with: range)
-        let language = NotesTextProcessor.getLanguage(code)
+        let language = language ?? NotesTextProcessor.getLanguage(code)
 
         var length = 3
         if let langLength = language?.count {
@@ -490,9 +499,14 @@ public class NotesTextProcessor {
         let openRange = NSRange(location: range.location, length: length)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openRange)
 
-        let closeRange = NSRange(location: range.upperBound - 4, length: 3)
+        let closeRange = NSRange(location: range.upperBound - 4, length: 4)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
 
+        // Colorize last new line
+        let lastParRange = attributedString.mutableString.paragraphRange(for: NSRange(location: range.location + range.length - 1, length: 0))
+        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: lastParRange)
+
+        // Colorize language name
         if let langLength = language?.count {
             let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)
             let range = NSRange(location: range.location + 3, length: langLength)
@@ -1357,7 +1371,7 @@ public class NotesTextProcessor {
      */
     public static let _codeQuoteBlockPattern = [
         "(?<=\\n|\\A)",
-        "(^```[\\S\\ \\(\\)]*\\n[\\s\\S]*?\\n```(?:\\n|\\Z))"
+        "(^```[\\S\\ \\(\\)]*\\n([\\s\\S]*?)\\n```(?:\\n|\\Z))"
         ].joined(separator: "\n")
             
     fileprivate static let codeSpanPattern = [
