@@ -60,6 +60,12 @@ public class NotesTextProcessor {
         }
     }
 
+    public static var codeSpanBackground: NSColor {
+        get {
+            return NSColor(named: "code") ?? NSColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+        }
+    }
+
     open var highlightColor: NSColor {
         get {
             if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
@@ -496,8 +502,10 @@ public class NotesTextProcessor {
             length += langLength
         }
 
-        let openRange = NSRange(location: range.location, length: length)
+        let openRange = NSRange(location: range.location, length: length + 1)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openRange)
+        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: openRange)
+        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: openRange)
 
         let closeRange = NSRange(location: range.upperBound - 4, length: 4)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
@@ -505,6 +513,7 @@ public class NotesTextProcessor {
         // Colorize last new line
         let lastParRange = attributedString.mutableString.paragraphRange(for: NSRange(location: range.location + range.length - 1, length: 0))
         attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: lastParRange)
+        attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: lastParRange)
 
         // Colorize language name
         if let langLength = language?.count {
@@ -1062,8 +1071,13 @@ public class NotesTextProcessor {
         if let codeFont = NotesTextProcessor.codeFont {
             NotesTextProcessor.codeSpanRegex.matches(styleApplier.string, range: range) { (result) -> Void in
                 guard let range = result?.range else { return }
+
+                if styleApplier.mutableString.substring(with: range).startsWith(string: "```") {
+                    return
+                }
+
                 styleApplier.addAttribute(.font, value: codeFont, range: range)
-                styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: range)
+                styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
 
                 NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
                     guard let innerRange = innerResult?.range else { return }
