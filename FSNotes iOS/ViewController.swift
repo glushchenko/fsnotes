@@ -1124,7 +1124,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         pvc.removeMPreviewView()
         MPreviewView.template = nil
         
-        UserDefaultsManagement.codeTheme = "atom-one-light"
+        UserDefaultsManagement.codeTheme = "github"
         NotesTextProcessor.hl = nil
         evc.refill()
 

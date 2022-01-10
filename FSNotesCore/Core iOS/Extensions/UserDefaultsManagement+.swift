@@ -33,7 +33,7 @@ extension UserDefaultsManagement {
                 return "monokai-sublime"
             }
 
-            return "atom-one-light"
+            return "github"
         }
         set {
             shared?.set(newValue, forKey: Constants.codeTheme)

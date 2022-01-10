@@ -234,7 +234,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         EditTextView.note = note
 
-        UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "atom-one-light"
+        UserDefaultsManagement.codeTheme = NightNight.theme == .night ? "monokai-sublime" : "github"
 
         setTitle(text: note.getShortTitle())
 

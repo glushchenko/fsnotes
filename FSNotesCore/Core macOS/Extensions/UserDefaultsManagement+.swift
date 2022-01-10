@@ -106,7 +106,7 @@ extension UserDefaultsManagement {
                 return theme
             }
 
-            return "atom-one-light"
+            return "github"
         }
         set {
             if #available(OSX 10.14, *) {

@@ -40,7 +40,7 @@ class PreferencesAdvancedViewController: NSViewController {
                     }
                 }
             } else {
-                UserDefaultsManagement.codeTheme = "atom-one-light"
+                UserDefaultsManagement.codeTheme = "github"
             }
         }
 

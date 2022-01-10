@@ -494,19 +494,21 @@ public class NotesTextProcessor {
     }
 
     public static func highlightFencedBackTick(range: NSRange, attributedString: NSMutableAttributedString, language: String? = nil) {
+
         let code = attributedString.mutableString.substring(with: range)
-        let language = language ?? NotesTextProcessor.getLanguage(code)
+        let langLength = (code.components(separatedBy: "\n").first?.count ?? 3) - 3
+        let length = langLength + 3
 
-        var length = 3
-        if let langLength = language?.count {
-            length += langLength
-        }
+        // Open range background
+        let openRangeBackground = NSRange(location: range.location, length: length + 1)
+        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: openRangeBackground)
 
+        // Open range font and foreground
         let openRange = NSRange(location: range.location, length: length + 1)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: openRange)
-        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: openRange)
         attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: openRange)
 
+        // Close range foreground
         let closeRange = NSRange(location: range.upperBound - 4, length: 4)
         attributedString.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: closeRange)
 
@@ -516,7 +518,7 @@ public class NotesTextProcessor {
         attributedString.addAttribute(.font, value: NotesTextProcessor.codeFont, range: lastParRange)
 
         // Colorize language name
-        if let langLength = language?.count {
+        if let langLength = NotesTextProcessor.getLanguage(code)?.count {
             let  color = Color.init(red: 0.18, green: 0.61, blue: 0.25, alpha: 1.00)
             let range = NSRange(location: range.location + 3, length: langLength)
             attributedString.addAttribute(.foregroundColor, value: color, range: range)
