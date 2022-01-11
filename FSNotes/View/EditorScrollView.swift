@@ -14,13 +14,12 @@ class EditorScrollView: NSScrollView {
     override var isFindBarVisible: Bool {
         set {
             // macOS 10.14 margin hack
-            
             if #available(OSX 10.14, *) {
                 if let clip = self.subviews.first as? NSClipView {
-                    clip.contentInsets.top = newValue ? 40 : 10
+                    clip.contentInsets.top = newValue ? 60 : 10
 
                     if newValue, let documentView = self.documentView {
-                        documentView.scroll(NSPoint(x: 0, y: -40))
+                        documentView.scroll(NSPoint(x: 0, y: -60))
                     }
                 }
             }
@@ -31,27 +30,27 @@ class EditorScrollView: NSScrollView {
             return super.isFindBarVisible
         }
     }
-
-
-    override func findBarViewDidChangeHeight() {
-       if #available(OSX 10.14, *) {
-            guard let currentHeight = findBarView?.frame.height else { return }
-
-            guard let initialHeight = self.initialHeight else {
-                self.initialHeight = currentHeight
-                return
-            }
-
-            if let clip = self.subviews.first as? NSClipView {
-                let margin = currentHeight > initialHeight ? 65 : 40
-                clip.contentInsets.top = CGFloat(margin)
-
-                if let documentView = self.documentView {
-                    documentView.scroll(NSPoint(x: 0, y: -margin))
-                }
-            }
-        } else {
-            super.findBarViewDidChangeHeight()
-        }
-    }
+//
+//
+//    override func findBarViewDidChangeHeight() {
+//       if #available(OSX 10.14, *) {
+//            guard let currentHeight = findBarView?.frame.height else { return }
+//
+//            guard let initialHeight = self.initialHeight else {
+//                self.initialHeight = currentHeight
+//                return
+//            }
+//
+//            if let clip = self.subviews.first as? NSClipView {
+//                let margin = currentHeight > initialHeight ? 65 : 40
+//                clip.contentInsets.top = CGFloat(margin)
+//
+//                if let documentView = self.documentView {
+//                    documentView.scroll(NSPoint(x: 0, y: -margin))
+//                }
+//            }
+//        } else {
+//            super.findBarViewDidChangeHeight()
+//        }
+//    }
 }
