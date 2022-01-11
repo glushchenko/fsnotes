@@ -111,7 +111,12 @@ extension NSTextStorage: NSTextStorageDelegate {
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
             highlight(textStorage: textStorage, indentedRange: codeBlockRanges, intersectedRange: intersectedRange, editedRange: editedRange)
         } else {
-            highlightParagraph(textStorage: textStorage, editedRange: editedRange)
+            if textStorage.attributedSubstring(from: editedRange).string == "\n" {
+                let editedParagraph = textStorage.mutableString.paragraphRange(for: NSRange(location: editedRange.location + 1, length: 0))
+                highlightParagraph(textStorage: textStorage, editedRange: editedParagraph)
+            } else {
+                highlightParagraph(textStorage: textStorage, editedRange: editedRange)
+            }
         }
     }
 
