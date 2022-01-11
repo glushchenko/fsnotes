@@ -114,9 +114,9 @@ extension NSTextStorage: NSTextStorageDelegate {
             if textStorage.attributedSubstring(from: editedRange).string == "\n" {
                 let editedParagraph = textStorage.mutableString.paragraphRange(for: NSRange(location: editedRange.location + 1, length: 0))
                 highlightParagraph(textStorage: textStorage, editedRange: editedParagraph)
-            } else {
-                highlightParagraph(textStorage: textStorage, editedRange: editedRange)
             }
+
+            highlightParagraph(textStorage: textStorage, editedRange: editedRange)
         }
     }
 
