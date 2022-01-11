@@ -656,7 +656,11 @@ public class NotesTextProcessor {
             guard var range = result?.range else { return }
             var substring = attributedString.mutableString.substring(with: range)
 
-            guard substring.lengthOfBytes(using: .utf8) > 0 && URL(string: substring) != nil else { return }
+            guard substring.lengthOfBytes(using: .utf8) > 0 else { return }
+
+            if substring.startsWith(string: "(") && substring.last == ")" {
+                range = NSRange(location: range.location + 1, length: range.length - 2)
+            }
 
             if ["!", "?", ";", ":", ".", ","].contains(substring.last) {
                 range = NSRange(location: range.location, length: range.length - 1)
@@ -1487,7 +1491,7 @@ public class NotesTextProcessor {
 
     public static let italicRegex = MarklightRegex(pattern: italicPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
-    fileprivate static let autolinkPattern = "((https?|ftp):[^'\">\\s]+)"
+    fileprivate static let autolinkPattern = "([\\(]*(https?|ftp):[^'\">\\s]+)"
     
     public static let autolinkRegex = MarklightRegex(pattern: autolinkPattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
     
