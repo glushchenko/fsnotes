@@ -626,6 +626,12 @@ public class NotesTextProcessor {
             }
         }
 
+        attributedString.enumerateAttribute(.tag, in: paragraphRange,  options: []) { (value, range, stop) -> Void in
+            if value != nil {
+                attributedString.removeAttribute(.tag, range: range)
+            }
+        }
+
         attributedString.addAttribute(.font, value: font, range: paragraphRange)
         attributedString.fixAttributes(in: paragraphRange)
 
