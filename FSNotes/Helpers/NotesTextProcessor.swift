@@ -472,6 +472,11 @@ public class NotesTextProcessor {
                     let fullCode = attributedString.mutableString.substring(with: r.range)
                     let preDefinedLanguage = getLanguage(fullCode)
 
+                    // If no code highlight empty line
+                    if r.range(at: 2).length == 0 {
+                        attributedString.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: r.range)
+                    }
+
                     NotesTextProcessor.highlightCode(attributedString: attributedString, range: r.range(at: 2), language: preDefinedLanguage, backgroundThread: backgroundThread)
                     NotesTextProcessor.highlightFencedBackTick(range: r.range, attributedString: attributedString)
             })
@@ -1369,7 +1374,7 @@ public class NotesTextProcessor {
             [^
                 \s          # no whitespace
                 \#          # no hashes
-                ,?!"`;:\.   # no punctuation
+                ,?!"`';:\.   # no punctuation
                 \\          # no backslash
                 (){}\[\]    # no bracket pairs
             ]+

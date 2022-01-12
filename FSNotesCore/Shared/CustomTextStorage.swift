@@ -113,7 +113,11 @@ extension NSTextStorage: NSTextStorageDelegate {
         } else {
             if textStorage.attributedSubstring(from: editedRange).string == "\n" {
                 let editedParagraph = textStorage.mutableString.paragraphRange(for: NSRange(location: editedRange.location + 1, length: 0))
-                highlightParagraph(textStorage: textStorage, editedRange: editedParagraph)
+
+                let nextLine = textStorage.attributedSubstring(from: editedParagraph).string
+                if !nextLine.startsWith(string: "```") && !nextLine.startsWith(string: "\t") && !nextLine.startsWith(string: "    ") {
+                    highlightParagraph(textStorage: textStorage, editedRange: editedParagraph)
+                }
             }
 
             highlightParagraph(textStorage: textStorage, editedRange: editedRange)
