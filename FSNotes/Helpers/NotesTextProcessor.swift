@@ -293,7 +293,7 @@ public class NotesTextProcessor {
         if (range.location + range.length) > attributedString.length { return }
         if attributedString.length >= range.upperBound && (code.string != attributedString.mutableString.substring(with: range)) { return }
 
-        guard let codeFont = UserDefaultsManagement.codeFont else { return }
+        let codeFont = UserDefaultsManagement.codeFont
         let codeFontBold = codeFont.codeBold()
 
         code.enumerateAttributes(
@@ -305,8 +305,12 @@ public class NotesTextProcessor {
                 fixedRange.length = (fixedRange.length >= 0) ? fixedRange.length : 0
 
                 for (key, value) in attrs {
-                    if key == NSAttributedString.Key.font, let font = value as? Font, font.isBold {
-                        attributedString.addAttribute(key, value: codeFontBold, range: fixedRange)
+                    if key == NSAttributedString.Key.font, let font = value as? Font {
+                        if font.isBold {
+                            attributedString.addAttribute(key, value: codeFontBold, range: fixedRange)
+                        } else {
+                            attributedString.addAttribute(key, value: codeFont, range: fixedRange)
+                        }
                     } else {
                         attributedString.addAttribute(key, value: value, range: fixedRange)
                     }

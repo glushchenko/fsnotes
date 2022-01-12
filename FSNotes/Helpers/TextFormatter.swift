@@ -538,6 +538,11 @@ public class TextFormatter {
             textView.textStorage?.removeAttribute(.todo, range: pRange)
         #else
             textView.textStorage.removeAttribute(.todo, range: pRange)
+
+            // Fixes font size issue #1271
+            let parFont = NotesTextProcessor.font
+            let parRange = NSRange(location: 0, length:   mutableResult.length)
+            mutableResult.addAttribute(.font, value: parFont, range: parRange)
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
@@ -1028,15 +1033,14 @@ public class TextFormatter {
         if selectedRange.length > 0 {
             let text = storage.attributedSubstring(from: selectedRange).string
             let string = "`\(text)`"
+            let codeFont = UserDefaultsManagement.codeFont
 
-            if let codeFont = UserDefaultsManagement.codeFont {
-                let mutableString = NSMutableAttributedString(string: string)
-                mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
+            let mutableString = NSMutableAttributedString(string: string)
+            mutableString.addAttribute(.font, value: codeFont, range: NSRange(0..<string.count))
 
-                EditTextView.shouldForceRescan = true
-                insertText(mutableString, replacementRange: selectedRange)
-                return
-            }
+            EditTextView.shouldForceRescan = true
+            insertText(mutableString, replacementRange: selectedRange)
+            return
         }
 
         insertText("``")

@@ -166,4 +166,29 @@ extension UserDefaultsManagement {
             shared?.set(newValue, forKey: Constants.editorState)
         }
     }
+
+    static var codeFont: UIFont {
+        get {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+                var font = Font.systemFont(ofSize: CGFloat(self.codeFontSize))
+
+                if let currentFont = Font(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                    font = currentFont
+                }
+
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                return fontMetrics.scaledFont(for: font)
+            }
+
+            if let font = UIFont(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                return font
+            }
+
+            return UIFont.systemFont(ofSize: CGFloat(self.codeFontSize))
+        }
+        set {
+            self.codeFontName = newValue.familyName
+            self.codeFontSize = Int(newValue.pointSize)
+        }
+    }
 }

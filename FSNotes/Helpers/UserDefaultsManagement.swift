@@ -185,22 +185,6 @@ public class UserDefaultsManagement {
         }
     }
 
-    static var codeFont: Font! {
-        get {
-            if let font = Font(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
-                return font
-            }
-
-            return Font.systemFont(ofSize: CGFloat(self.codeFontSize))
-        }
-        set {
-            guard let newValue = newValue else {return}
-
-            self.codeFontName = newValue.familyName ?? "Source Code Pro"
-            self.codeFontSize = Int(newValue.pointSize)
-        }
-    }
-
     static var noteFont: Font! {
         get {
             if let name = fontName, name.starts(with: ".") {

@@ -134,4 +134,18 @@ extension UserDefaultsManagement {
             UserDefaults.standard.set(newValue, forKey: Constants.dockIcon)
         }
     }
+
+    static var codeFont: NSFont {
+        get {
+            if let font = NSFont(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {
+                return font
+            }
+
+            return NSFont.systemFont(ofSize: CGFloat(self.codeFontSize))
+        }
+        set {
+            self.codeFontName = newValue.familyName ?? "Source Code Pro"
+            self.codeFontSize = Int(newValue.pointSize)
+        }
+    }
 }

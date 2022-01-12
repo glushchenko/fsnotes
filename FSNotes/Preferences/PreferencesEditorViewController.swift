@@ -167,9 +167,7 @@ class PreferencesEditorViewController: NSViewController {
 
     @IBAction func setFont(_ sender: NSButton) {
         let fontManager = NSFontManager.shared
-        if UserDefaultsManagement.codeFont != nil {
-            fontManager.setSelectedFont(UserDefaultsManagement.codeFont!, isMultiple: false)
-        }
+        fontManager.setSelectedFont(UserDefaultsManagement.codeFont, isMultiple: false)
 
         fontManager.orderFrontFontPanel(self)
         fontManager.target = self
@@ -203,7 +201,7 @@ class PreferencesEditorViewController: NSViewController {
         guard let vc = ViewController.shared() else { return }
 
         let fontManager = NSFontManager.shared
-        let newFont = fontManager.convert(UserDefaultsManagement.codeFont!)
+        let newFont = fontManager.convert(UserDefaultsManagement.codeFont)
         UserDefaultsManagement.codeFont = newFont
         NotesTextProcessor.codeFont = newFont
 
