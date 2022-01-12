@@ -79,4 +79,14 @@ extension UIFont {
         return font.bold()
     }
 
+    func codeBold() -> UIFont {
+        let descriptor = UIFontDescriptor(name: familyName, size: pointSize)
+
+        if let boldDescriptor = descriptor.withSymbolicTraits(.traitBold) {
+            return UIFont(descriptor: boldDescriptor, size: pointSize)
+        }
+
+        return self
+    }
+
 }

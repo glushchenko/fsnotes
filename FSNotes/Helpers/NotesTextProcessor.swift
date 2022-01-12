@@ -118,6 +118,12 @@ public class NotesTextProcessor {
             }
         }
     }
+
+    public static var codeSpanBackground: UIColor {
+        get {
+            return UIColor(named: "code") ?? UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+        }
+    }
     
     open var highlightColor: UIColor {
         get {
