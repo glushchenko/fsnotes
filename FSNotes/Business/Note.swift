@@ -1258,7 +1258,9 @@ public class Note: NSObject  {
     }
     #endif
 
-    public func loadPreviewInfo() {
+    public func loadPreviewInfo(text: String? = nil) {
+        let content = text ?? self.content.string
+
         if self.isParsed {
             return
         }
@@ -1266,8 +1268,6 @@ public class Note: NSObject  {
         var i = 0
         var urls: [URL] = []
         var mdImages: [String] = []
-
-        let content = self.content.string
 
         NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
         {(result, flags, stop) -> Void in

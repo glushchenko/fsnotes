@@ -289,11 +289,6 @@ public class NotesTextProcessor {
         )
     }
 
-    public static func applyCodeBlockStyle(attributedString: NSMutableAttributedString, range: NSRange) {
-        //let style = TextFormatter.getCodeParagraphStyle()
-        //attributedString.addAttribute(.paragraphStyle, value: style, range: range)
-    }
-
     fileprivate static var quoteIndendationStyle : NSParagraphStyle {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)

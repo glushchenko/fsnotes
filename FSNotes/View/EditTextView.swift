@@ -931,7 +931,6 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         }
 
         restoreCursorPosition()
-        applyLeftParagraphStyle()
 
         if UserDefaultsManagement.appearanceType == AppearanceType.Custom {
             backgroundColor = UserDefaultsManagement.bgColor
@@ -1928,15 +1927,7 @@ class EditTextView: NSTextView, NSTextFinderClient, NSSharingServicePickerDelega
         
         return .copy
     }
-    
-    public func applyLeftParagraphStyle() {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        typingAttributes[.paragraphStyle] = paragraphStyle
-        defaultParagraphStyle = paragraphStyle
-        textStorage?.updateParagraphStyle()
-    }
-    
+
     override func clicked(onLink link: Any, at charIndex: Int) {
         if let link = link as? String, link.isValidEmail(), let mail = URL(string: "mailto:\(link)") {
             NSWorkspace.shared.open(mail)

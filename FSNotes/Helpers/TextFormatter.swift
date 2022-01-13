@@ -453,8 +453,6 @@ public class TextFormatter {
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func unTab() {
@@ -546,8 +544,6 @@ public class TextFormatter {
         #endif
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
-        
-        storage.updateParagraphStyle(range: selectRange)
     }
     
     public func header(_ string: String) {
@@ -943,7 +939,6 @@ public class TextFormatter {
             self.textView.undoManager?.endUndoGrouping()
 
             guard let paragraph = getParagraphRange(for: location) else { return }
-            self.storage.updateParagraphStyle(range: paragraph)
             
             if todoAttr == 0 {
                 self.storage.addAttribute(.strikethroughStyle, value: 1, range: paragraph)
@@ -1293,16 +1288,6 @@ public class TextFormatter {
         #endif
     }
     
-    public static func getCodeParagraphStyle() -> NSMutableParagraphStyle {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
-        #if os(OSX)
-        paragraphStyle.textBlocks = [CodeBlock()]
-        #endif
-
-        return paragraphStyle
-    }
-
     private func insertText(_ string: Any, replacementRange: NSRange? = nil, selectRange: NSRange? = nil) {
         let range = replacementRange ?? self.textView.selectedRange
         

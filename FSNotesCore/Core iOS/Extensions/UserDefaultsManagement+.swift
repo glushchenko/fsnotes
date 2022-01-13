@@ -170,11 +170,10 @@ extension UserDefaultsManagement {
     static var noteFont: UIFont {
         get {
             if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                var font = UIFont.systemFont(ofSize: CGFloat(self.fontSize))
-                let fontSize = UserDefaultsManagement.fontSize
+                var font = UIFont.systemFont(ofSize: CGFloat(DefaultFontSize))
 
                 if let fontName = UserDefaultsManagement.fontName,
-                    let currentFont = UIFont(name: fontName, size: CGFloat(fontSize)) {
+                    let currentFont = UIFont(name: fontName, size: CGFloat(DefaultFontSize)) {
                     font = currentFont
                 }
 

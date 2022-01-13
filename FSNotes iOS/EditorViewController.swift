@@ -285,10 +285,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.attributedText = note.content
         }
 
-
         self.configureToolbar()
 
-        editArea.textStorage.updateFont()
+        if note.type == .RichText {
+            editArea.textStorage.updateFont()
+        }
+
         editArea.delegate = self
 
         let cursor = editArea.selectedTextRange
@@ -309,8 +311,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.typingAttributes[.foregroundColor] =
                 UIColor.black
         }
-
-        editArea.applyLeftParagraphStyle()
     }
 
     private func fillPreview(note: Note) {
@@ -805,9 +805,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                     return
                 }
 
-                note.save(attributed: text)
                 note.invalidateCache()
-                note.loadPreviewInfo()
+                note.loadPreviewInfo(text: text.string)
+                note.save(attributed: text)
             }
 
             vc.updateSpotlightIndex(notes: [note])

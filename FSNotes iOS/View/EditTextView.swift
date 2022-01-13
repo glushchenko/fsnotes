@@ -266,7 +266,6 @@ class EditTextView: UITextView, UITextViewDelegate {
                     undoManager?.registerUndo(withTarget: self, selector: #selector(undoImage), object: undo)
 
                     initUndoRedoButons()
-                    applyLeftParagraphStyle()
                     return
                 }
             }
