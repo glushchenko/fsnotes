@@ -75,12 +75,15 @@ class NoteCellView: SwipeTableViewCell {
             pin.isHidden = !note.isPinned
         }
 
-        if let font = UserDefaultsManagement.noteFont {
-            let fontMetrics = UIFontMetrics(forTextStyle: .headline)
-            let scaledFont = fontMetrics.scaledFont(for: font)
-            title.font = scaledFont
-            date.font = scaledFont
+        var font = UIFont.systemFont(ofSize: CGFloat(UserDefaultsManagement.fontSize))
+        if let name = UserDefaultsManagement.fontName, let unwrappedFont = UIFont(name: name, size: CGFloat(UserDefaultsManagement.fontSize)) {
+            font = unwrappedFont
         }
+
+        let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+        let scaledFont = fontMetrics.scaledFont(for: font)
+        title.font = scaledFont
+        date.font = scaledFont
     }
 
     public func getDate() -> String {

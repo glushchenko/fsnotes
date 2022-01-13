@@ -135,6 +135,24 @@ extension UserDefaultsManagement {
         }
     }
 
+    static var noteFont: NSFont {
+        get {
+            if let name = fontName, name.starts(with: ".") {
+                return NSFont.systemFont(ofSize: CGFloat(self.fontSize))
+            }
+
+            if let fontName = self.fontName, let font = NSFont(name: fontName, size: CGFloat(self.fontSize)) {
+                return font
+            }
+
+            return NSFont.systemFont(ofSize: CGFloat(self.fontSize))
+        }
+        set {
+            self.fontName = newValue.fontName
+            self.fontSize = Int(newValue.pointSize)
+        }
+    }
+
     static var codeFont: NSFont {
         get {
             if let font = NSFont(name: self.codeFontName, size: CGFloat(self.codeFontSize)) {

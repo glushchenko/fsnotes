@@ -98,14 +98,7 @@ public class NotesTextProcessor {
 #else
     public static var font: UIFont {
         get {
-            let font = UserDefaultsManagement.noteFont!
-
-            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                return fontMetrics.scaledFont(for: font)
-            }
-
-            return font
+            return UserDefaultsManagement.noteFont
         }
     }
 
@@ -153,25 +146,7 @@ public class NotesTextProcessor {
      */
     open var quoteIndendation : CGFloat = 20
     
-#if os(OSX)
-    public static var codeFont = NSFont(name: UserDefaultsManagement.codeFontName, size: CGFloat(UserDefaultsManagement.codeFontSize))
-#else
-    static var codeFont: UIFont? {
-        get {
-            if var font = UIFont(name: "Source Code Pro", size: CGFloat(UserDefaultsManagement.fontSize)) {
-    
-                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-    
-                return font
-            }
-    
-            return nil
-        }
-    }
-#endif
+    static var codeFont = UserDefaultsManagement.codeFont
     
     /**
      If the markdown syntax should be hidden or visible
@@ -266,14 +241,9 @@ public class NotesTextProcessor {
 
     #if os(iOS)
     public static func updateFont(note: Note) {
-        if var font = UserDefaultsManagement.noteFont {
-            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font)
-            }
-        
-            note.content.addAttribute(.font, value: font, range: NSRange(0..<note.content.length))
-        }
+        let font = UserDefaultsManagement.noteFont
+
+        note.content.addAttribute(.font, value: font, range: NSRange(0..<note.content.length))
     }
     #endif
 
@@ -578,8 +548,8 @@ public class NotesTextProcessor {
         let isFullScan = attributedString.length == paragraphRange.upperBound && paragraphRange.lowerBound == 0
         let string = attributedString.string
         
-        let codeFont = NotesTextProcessor.codeFont(CGFloat(UserDefaultsManagement.fontSize))
-        let quoteFont = NotesTextProcessor.quoteFont(CGFloat(UserDefaultsManagement.fontSize))
+        let codeFont = UserDefaultsManagement.noteFont
+        let quoteFont = UserDefaultsManagement.noteFont
         
     #if os(OSX)
         let boldFont = NSFont.boldFont()
@@ -588,29 +558,13 @@ public class NotesTextProcessor {
     #else
         var boldFont: UIFont {
             get {
-                var font = UserDefaultsManagement.noteFont.bold()
-                font.withSize(CGFloat(UserDefaultsManagement.fontSize))
-                
-                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-                
-                return font
+                return UserDefaultsManagement.noteFont.bold()
             }
         }
         
         var italicFont: UIFont {
             get {
-                var font = UserDefaultsManagement.noteFont.italic()
-                font.withSize(CGFloat(UserDefaultsManagement.fontSize))
-                
-                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-                
-                return font
+                return UserDefaultsManagement.noteFont.italic()
             }
         }
         
@@ -1088,32 +1042,32 @@ public class NotesTextProcessor {
         }
 
         styleApplier.enumerateAttribute(.backgroundColor, in: range) { (value, innerRange, _) in
-            if value != nil, let font = UserDefaultsManagement.noteFont {
+            if value != nil {
+                let font = UserDefaultsManagement.noteFont
                 styleApplier.removeAttribute(.backgroundColor, range: innerRange)
                 styleApplier.addAttribute(.font, value: font, range: innerRange)
                 styleApplier.fixAttributes(in: innerRange)
             }
         }
 
-        if let codeFont = NotesTextProcessor.codeFont {
-            NotesTextProcessor.codeSpanRegex.matches(styleApplier.string, range: range) { (result) -> Void in
-                guard let range = result?.range else { return }
+        let codeFont = NotesTextProcessor.codeFont
+        NotesTextProcessor.codeSpanRegex.matches(styleApplier.string, range: range) { (result) -> Void in
+            guard let range = result?.range else { return }
 
-                if styleApplier.mutableString.substring(with: range).startsWith(string: "```") {
-                    return
-                }
+            if styleApplier.mutableString.substring(with: range).startsWith(string: "```") {
+                return
+            }
 
-                styleApplier.addAttribute(.font, value: codeFont, range: range)
-                styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
+            styleApplier.addAttribute(.font, value: codeFont, range: range)
+            styleApplier.addAttribute(.backgroundColor, value: NotesTextProcessor.codeSpanBackground, range: range)
 
-                NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
-                NotesTextProcessor.codeSpanClosingRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
-                    guard let innerRange = innerResult?.range else { return }
-                    styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
-                }
+            NotesTextProcessor.codeSpanOpeningRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
+            }
+            NotesTextProcessor.codeSpanClosingRegex.matches(styleApplier.string, range: range) { (innerResult) -> Void in
+                guard let innerRange = innerResult?.range else { return }
+                styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
     }
@@ -1574,47 +1528,7 @@ public class NotesTextProcessor {
     fileprivate static func repeatString(_ text: String, _ count: Int) -> String {
         return Array(repeating: text, count: count).reduce("", +)
     }
-    
-    // We transform the user provided `codeFontName` `String` to a `NSFont`
-    fileprivate static func codeFont(_ size: CGFloat) -> Font {
-        if var font = UserDefaultsManagement.noteFont {
-            #if os(iOS)
-            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font)
-            }
-            #endif
-            
-            return font
-        } else {
-        #if os(OSX)
-            return NSFont.systemFont(ofSize: size)
-        #else
-            return UIFont.systemFont(ofSize: size)
-        #endif
-        }
-    }
-    
-    // We transform the user provided `quoteFontName` `String` to a `NSFont`
-    fileprivate static func quoteFont(_ size: CGFloat) -> Font {
-        if var font = UserDefaultsManagement.noteFont {
-            #if os(iOS)
-            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font)
-            }
-            #endif
-            
-            return font
-        } else {
-        #if os(OSX)
-            return NSFont.systemFont(ofSize: size)
-        #else
-            return UIFont.systemFont(ofSize: size)
-        #endif
-        }
-    }
-    
+        
     public func higlightLinks() {
         guard let storage = self.storage, let range = self.range else {
             return

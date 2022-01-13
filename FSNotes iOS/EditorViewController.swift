@@ -303,7 +303,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.selectedTextRange = cursor
 
         if note.type != .RichText {
-            editArea.typingAttributes[.font] = UIFont.bodySize()
+            editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
         } else {
             editArea.typingAttributes[.foregroundColor] =
                 UIColor.black
@@ -740,17 +740,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         self.editArea.typingAttributes[.font] = formatter.getTypingAttributes()
     }
 
-    private func getDefaultFont() -> UIFont {
-        var font = UserDefaultsManagement.noteFont!
-
-        if UserDefaultsManagement.dynamicTypeFont {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            font = fontMetrics.scaledFont(for: font)
-        }
-
-        return font
-    }
-
     private func deleteBackwardPressed(text: String) -> Bool {
         if !self.isUndo, let char = text.cString(using: String.Encoding.utf8), strcmp(char, "\\b") == -92 {
             return true
@@ -831,17 +820,9 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             }
         }
         self.storageQueue.addOperation(operation)
-        
-        if var font = UserDefaultsManagement.noteFont {
-            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                font = fontMetrics.scaledFont(for: font)
-            }
 
-            editArea.typingAttributes.removeValue(forKey: .backgroundColor)
-            editArea.typingAttributes[.font] = font
-        }
-        
+        editArea.typingAttributes.removeValue(forKey: .backgroundColor)
+        editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
         editArea.initUndoRedoButons()
         
         vc.cloudDriveManager?.metadataQuery.enableUpdates()

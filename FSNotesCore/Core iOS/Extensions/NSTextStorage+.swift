@@ -73,7 +73,7 @@ extension NSTextStorage {
 
         // https://github.com/glushchenko/fsnotes/issues/311
         let tabs = getTabStops()
-        let font = UserDefaultsManagement.noteFont!
+        let font = UserDefaultsManagement.noteFont
 
         mutableString.enumerateSubstrings(in: scanRange, options: .byParagraphs) { value, parRange, _, _ in
             var parRange = parRange

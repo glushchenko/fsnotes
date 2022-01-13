@@ -54,7 +54,7 @@ class FontViewController: UITableViewController {
             let fontSize = UserDefaultsManagement.fontSize
 
             if indexPath.row == 0 {
-                UserDefaultsManagement.noteFont = nil
+                UserDefaultsManagement.fontName = nil
             } else if let customFont = UIFont(name: fontFamily, size: CGFloat(fontSize)) {
                 UserDefaultsManagement.noteFont = customFont
             }

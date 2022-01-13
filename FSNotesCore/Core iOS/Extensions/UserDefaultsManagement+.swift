@@ -167,6 +167,37 @@ extension UserDefaultsManagement {
         }
     }
 
+    static var noteFont: UIFont {
+        get {
+            if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
+                var font = UIFont.systemFont(ofSize: CGFloat(self.fontSize))
+                let fontSize = UserDefaultsManagement.fontSize
+
+                if let fontName = UserDefaultsManagement.fontName,
+                    let currentFont = UIFont(name: fontName, size: CGFloat(fontSize)) {
+                    font = currentFont
+                }
+
+                let fontMetrics = UIFontMetrics(forTextStyle: .body)
+                return fontMetrics.scaledFont(for: font)
+            }
+
+            if let name = self.fontName, name.starts(with: ".") {
+                return UIFont.systemFont(ofSize: CGFloat(self.fontSize))
+            }
+
+            if let fontName = self.fontName, let font = UIFont(name: fontName, size: CGFloat(self.fontSize)) {
+                return font
+            }
+
+            return UIFont.systemFont(ofSize: CGFloat(self.fontSize))
+        }
+        set {
+            self.fontName = newValue.fontName
+            self.fontSize = Int(newValue.pointSize)
+        }
+    }
+
     static var codeFont: UIFont {
         get {
             if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {

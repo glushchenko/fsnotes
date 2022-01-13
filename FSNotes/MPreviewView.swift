@@ -463,39 +463,27 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         let theme = theme ?? UserDefaultsManagement.codeTheme
 
-        var codeStyle = ""
+        var codeStyle = String()
         if let hgPath = Bundle(for: Highlightr.self).path(forResource: theme + ".min", ofType: "css") {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? "Source Code Pro"
-        var familyName = UserDefaultsManagement.noteFont.familyName ?? "Helvetica Neue"
+        let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
+        var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
 
         if familyName.starts(with: ".") {
             familyName = "Helvetica Neue";
         }
 
         #if os(iOS)
-            if !UserDefaultsManagement.dynamicTypeFont {
-                let fs = UserDefaultsManagement.fontSize
-
-                return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
-            } else if let font = UserDefaultsManagement.noteFont {
-                let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                let fontSize = fontMetrics.scaledFont(for: font).pointSize
-                let fs = Int(fontSize) - 2
-
-                return "body {font: \(fs)px '\(familyName)'; padding: 10px 10px; } code, pre {font: \(fs)px Courier New; font-weight: bold; } img {display: block; margin: 0 auto;} \(codeStyle) .hljs {background: #f5f5f5;}"
-            } else {
-                return String()
-            }
+            var width = 0
         #else
             var width = ViewController.shared()!.editArea.getWidth()
+        #endif
 
-            if fullScreen {
-                width = 0
-            }
-
+        if fullScreen {
+            width = 0
+        }
 
         // Line height compute
         let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
@@ -503,7 +491,6 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         let lineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
 
         return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(lineHeight)px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
-        #endif
     }
 }
 

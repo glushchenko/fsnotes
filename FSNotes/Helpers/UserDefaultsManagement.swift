@@ -168,43 +168,14 @@ public class UserDefaultsManagement {
     
     static var fontSize: Int {
         get {
-        #if os(iOS)
-            if UserDefaultsManagement.dynamicTypeFont {
-                return self.DefaultFontSize
-            }
-        #endif
-
-            if let returnFontSize = shared?.object(forKey: Constants.FontSizeKey) {
-                return returnFontSize as! Int
+            if let returnFontSize = shared?.object(forKey: Constants.FontSizeKey) as? Int {
+                return returnFontSize
             } else {
                 return self.DefaultFontSize
             }
         }
         set {
             shared?.set(newValue, forKey: Constants.FontSizeKey)
-        }
-    }
-
-    static var noteFont: Font! {
-        get {
-            if let name = fontName, name.starts(with: ".") {
-                return Font.systemFont(ofSize: CGFloat(self.fontSize))
-            }
-
-            if let fontName = self.fontName, let font = Font(name: fontName, size: CGFloat(self.fontSize)) {
-                return font
-            }
-
-            return Font.systemFont(ofSize: CGFloat(self.fontSize))
-        }
-        set {
-            guard let newValue = newValue else {
-                self.fontName = nil
-                return
-            }
-            
-            self.fontName = newValue.fontName
-            self.fontSize = Int(newValue.pointSize)
         }
     }
     

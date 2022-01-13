@@ -1173,16 +1173,7 @@ public class TextFormatter {
         #endif
         
         if note.isMarkdown() {
-            if var font = UserDefaultsManagement.noteFont {
-                #if os(iOS)
-                if #available(iOS 11.0, *), UserDefaultsManagement.dynamicTypeFont {
-                    let fontMetrics = UIFontMetrics(forTextStyle: .body)
-                    font = fontMetrics.scaledFont(for: font)
-                }
-                #endif
-                
-                setTypingAttributes(font: font)
-            }
+            setTypingAttributes(font: UserDefaultsManagement.noteFont)
         }
         
         if self.shouldScanMarkdown, let paragraphRange = getParagraphRange() {
@@ -1251,7 +1242,7 @@ public class TextFormatter {
                 return typingFont
             }
 
-            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return self.getDefaultFont() }
+            guard textView.textStorage.length > 0, textView.selectedRange.location > 0 else { return UserDefaultsManagement.noteFont }
 
             let i = textView.selectedRange.location - 1
             let upper = textView.selectedRange.upperBound
@@ -1261,22 +1252,9 @@ public class TextFormatter {
                 return prevFont
             }
 
-            return self.getDefaultFont()
+            return UserDefaultsManagement.noteFont
         #endif
     }
-
-    #if os(iOS)
-    private func getDefaultFont() -> UIFont {
-        var font = UserDefaultsManagement.noteFont!
-
-        if UserDefaultsManagement.dynamicTypeFont {
-            let fontMetrics = UIFontMetrics(forTextStyle: .body)
-            font = fontMetrics.scaledFont(for: font)
-        }
-
-        return font
-    }
-    #endif
 
     #if os(OSX)
     private func getDefaultColor() -> NSColor {
