@@ -43,6 +43,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
+        editArea.textContainerInset = UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)
         
         navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
         navigationController?.navigationBar.mixedTintColor = Colors.buttonText
@@ -992,7 +993,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             }
         }
 
-        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 40))
+        let toolBar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: width, height: 50))
         toolBar.backgroundColor = .darkGray
         toolBar.isTranslucent = false
         toolBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)

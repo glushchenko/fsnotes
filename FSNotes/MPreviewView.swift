@@ -476,7 +476,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         }
 
         #if os(iOS)
-            var width = 0
+            var width = 10
         #else
             var width = ViewController.shared()!.editArea.getWidth()
         #endif
