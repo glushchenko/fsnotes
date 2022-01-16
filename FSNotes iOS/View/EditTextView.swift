@@ -223,13 +223,7 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
     
     public func initUndoRedoButons() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController,
-            let ea = evc.editArea,
-            let um = ea.undoManager else {
-                return
-        }
+        guard let ea = UIApplication.getEVC().editArea, let um = ea.undoManager else { return }
         
         let img = um.canUndo ? undoIcon : undoIcon?.alpha(0.5)
         let redoImg = um.canRedo ? redoIcon : redoIcon?.alpha(0.5)

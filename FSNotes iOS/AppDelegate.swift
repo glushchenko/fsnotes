@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     public var launchedShortcutItem: UIApplicationShortcutItem?
+    public var mainController: MainViewController?
+    public var listController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "listViewController") as! ViewController
+    public var editorController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "editorViewController") as! EditorViewController
+    public var previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "previewViewController") as! PreviewViewController
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
@@ -54,7 +58,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
-        
+
+        mainController = MainViewController(pages: [
+            listController,
+            UINavigationController(rootViewController: editorController),
+            UINavigationController(rootViewController: previewController)
+        ])
+
+        mainController?.startIndex = 0
+        mainController?.selectionBarWidth = 80
+        mainController?.selectionBarHeight = 3
+        mainController?.selectionBarColor = UIColor(red: 0.23, green: 0.55, blue: 0.92, alpha: 1.0)
+        mainController?.selectedButtonColor = UIColor(red: 0.23, green: 0.55, blue: 0.92, alpha: 1.0)
+        mainController?.equalSpaces = false
+
+        mainController?.pageController.view.subviews.compactMap({ $0 as? UIScrollView }).first?.isScrollEnabled = false
+
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = mainController
+        window?.makeKeyAndVisible()
+
+        // Controller outlets loading
+        editorController.loadViewIfNeeded()
+        previewController.loadViewIfNeeded()
+
+        mainController?.disableSwipe()
+        mainController?.restoreLastController()
+
         return shouldPerformAdditionalDelegateHandling
     }
     
@@ -136,10 +166,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard ShortcutIdentifier(fullType: shortcutItem.type) != nil else { return false }
         guard let shortCutType = shortcutItem.type as String? else { return false }
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return false }
-        
+        let vc = UIApplication.getVC()
+
         switch shortCutType {
         case ShortcutIdentifier.makeNew.type:
             vc.createNote()
@@ -152,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            pc.containerController.selectController(atIndex: 0, animated: true)
+            UIApplication.getMain()?.scrollInListVC()
             vc.searchView.isHidden = false
             vc.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
             handled = true
@@ -206,10 +234,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let note = note {
             UIApplication.getEVC().fill(note: note)
-
-            if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-                bvc.containerController.selectController(atIndex: 1, animated: true)
-            }
+            UIApplication.getMain()?.scrollInEditorVC()
 
             print("File imported: \(note.url)")
         }
@@ -229,26 +254,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func saveEditorState() {
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            let evc = UIApplication.getEVC()
-            let index = bvc.containerController.selectedIndex
+        guard let index = UIApplication.getMain()?.currentPageIndex else { return }
+        let evc = UIApplication.getEVC()
 
-            UserDefaultsManagement.currentController = index
+        UserDefaultsManagement.currentController = index
 
-            if let url = evc.note?.url {
-                if index == 1 {
-                    UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
-                    
-                    if evc.editArea.isFirstResponder {
-                        UserDefaultsManagement.currentRange = evc.editArea.selectedRange
-                    } else {
-                        UserDefaultsManagement.currentRange = nil
-                    }
+        if let url = evc.note?.url {
+            if index == 1 {
+                UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
+
+                if evc.editArea.isFirstResponder {
+                    UserDefaultsManagement.currentRange = evc.editArea.selectedRange
+                } else {
+                    UserDefaultsManagement.currentRange = nil
                 }
+            }
 
-                if index != 0 {
-                    UserDefaultsManagement.currentNote = url
-                }
+            if index != 0 {
+                UserDefaultsManagement.currentNote = url
             }
         }
     }

@@ -151,7 +151,8 @@ extension ViewController: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard var projectURL = Storage.sharedInstance().getCurrentProject()?.url else { return }
 
-        if let mvc = getVC(), let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
+        let mvc = UIApplication.getVC()
+        if let pURL = mvc.sidebarTableView.getSidebarItem()?.project?.url {
             projectURL = pURL
         }
 
@@ -161,14 +162,6 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         self.dismiss(animated: true, completion: nil)
-    }
-
-    private func getVC() -> ViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return nil }
-
-        return vc
     }
 
     private func importNote() {
@@ -181,8 +174,8 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     @objc public func openProjectSettings() {
-        guard let vc = getVC(),
-            let sidebarItem = vc.sidebarTableView.getSidebarItem()
+        let vc = UIApplication.getVC()
+        guard let sidebarItem = vc.sidebarTableView.getSidebarItem()
         else { return }
 
         let storage = Storage.shared()
@@ -210,8 +203,8 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func createFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let alertController = UIAlertController(title: NSLocalizedString("Create folder:", comment: ""), message: nil, preferredStyle: .alert)
@@ -264,8 +257,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func removeFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let alert = UIAlertController(
@@ -293,8 +287,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func renameFolder() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project
         else { return }
 
         let title = NSLocalizedString("Rename folder:", comment: "Popover table")
@@ -346,8 +341,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func removeTag() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project,
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project,
             let tag = mvc.searchQuery.tag
         else { return }
 
@@ -366,8 +362,9 @@ extension ViewController: UIDocumentPickerDelegate {
     }
 
     private func renameTag() {
-        guard let mvc = getVC(),
-            let selectedProject = mvc.searchQuery.project,
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project,
             let tag = mvc.searchQuery.tag
         else { return }
 

@@ -126,17 +126,9 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             }
 
 #if os(iOS)
-            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-
             if url.absoluteString.starts(with: "fsnotes://find?id=") {
                 UIApplication.getEVC().openWikiLink(query: url.absoluteString)
-
-                if let nav = bvc.containerController.selectedController as? UINavigationController, nil !=
-                    nav.viewControllers.first as? PreviewViewController {
-
-                    bvc.containerController.selectController(atIndex: 2, animated: true)
-                    return
-                }
+                return
             }
 
             UIApplication.shared.openURL(url)

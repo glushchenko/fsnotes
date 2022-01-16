@@ -219,10 +219,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         refreshControl.addTarget(self, action: #selector(togglseSearch), for: .valueChanged)
 
         notesTable.refreshControl = refreshControl
-
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            bvc.disableSwipe()
-        }
     }
 
     public func configureNotifications() {
@@ -661,8 +657,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             reloadNotesTable(with: searchQuery)
 
             if shouldReturnToControllerIndex != 0 {
-                guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-                bvc.containerController.selectController(atIndex: shouldReturnToControllerIndex, animated: true)
+                UIApplication.getMain()?.scrollToNextViewController(shouldReturnToControllerIndex)
 
                 shouldReturnToControllerIndex = 0
                 UIApplication.getEVC().refill()
@@ -683,14 +678,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         searchView.isHidden = true
         search.endEditing(true)
         search.text = nil
-    }
-
-    private func getEVC() -> EditorViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return nil }
-
-        return evc
     }
 
     public func configureIndicator(indicator: UIActivityIndicatorView, view: UIView) {
@@ -976,14 +963,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let storage = Storage.sharedInstance()
         storage.add(note)
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-           let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-           let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-        pc.containerController.selectController(atIndex: 1, animated: true)
-
+        let evc = UIApplication.getEVC()
         evc.note = note
         evc.fill(note: note)
+
+        UIApplication.getMain()?.scrollInEditorVC()
 
         if self.isActiveTableUpdating {
             self.delayedInsert = note
@@ -1083,12 +1067,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         NightNight.theme = .night
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return }
+        let vc = UIApplication.getVC()
+        let evc = UIApplication.getEVC()
+        let pvc = UIApplication.getPVC()
 
-        guard let pvc = UIApplication.getPVC() else { return }
         pvc.removeMPreviewView()
         MPreviewView.template = nil
 
@@ -1115,12 +1097,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         NightNight.theme = .normal
 
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController else { return }
+        let vc = UIApplication.getVC()
+        let evc = UIApplication.getEVC()
+        let pvc = UIApplication.getPVC()
 
-        guard let pvc = UIApplication.getPVC() else { return }
         pvc.removeMPreviewView()
         MPreviewView.template = nil
         
@@ -1142,9 +1122,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
 
         // check unfinished controllers animation
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController, !bvc.containerController.isMoveFinished {
-            return
-        }
+        //if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController, !bvc.containerController.isMoveFinished {
+        //    return
+        //}
 
         let notchWidth = getLeftInset()
 
@@ -1242,11 +1222,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func refreshTextStorage(note: Note) {
         DispatchQueue.main.async {
-            guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-                let nav = pc.containerController.viewControllers[1] as? UINavigationController,
-                let evc = nav.viewControllers.first as? EditorViewController else { return }
-
-            evc.fill(note: note)
+            UIApplication.getEVC().fill(note: note)
         }
     }
 
@@ -1306,7 +1282,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func toggleNotesLock(notes: [Note]) {
         var notes = notes
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
 
         notes = lockUnlocked(notes: notes)
         guard notes.count > 0 else { return }
@@ -1320,7 +1295,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                         DispatchQueue.main.async {
                             self.notesTable.reloadRowForce(note: note)
                             UIApplication.getEVC().fill(note: note)
-                            bvc.containerController.selectController(atIndex: 1, animated: true)
+                            UIApplication.getMain()?.scrollInEditorVC()
                         }
                     }
                 } else {

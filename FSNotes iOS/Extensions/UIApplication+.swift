@@ -9,21 +9,25 @@
 import UIKit
 
 extension UIApplication {
+
+    static func getMain() -> MainViewController? {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.mainController
+    }
+
     static func getVC() -> ViewController {
-        let pc = UIApplication.shared.windows[0].rootViewController as! BasicViewController
-        return pc.containerController.viewControllers[0] as! ViewController
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.listController
     }
 
     static func getEVC() -> EditorViewController {
-        let pc = UIApplication.shared.windows[0].rootViewController as! BasicViewController
-        let nav = pc.containerController.viewControllers[1] as! UINavigationController
-        return nav.viewControllers.first as! EditorViewController
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.editorController
     }
 
-    static func getPVC() -> PreviewViewController? {
-         let pc = UIApplication.shared.windows[0].rootViewController as! BasicViewController
-         let nav = pc.containerController.viewControllers[2] as! UINavigationController
-         return nav.viewControllers.first as? PreviewViewController
+    static func getPVC() -> PreviewViewController {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.previewController
     }
 
     class func getPresentedViewController() -> UIViewController? {

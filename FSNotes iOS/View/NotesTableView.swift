@@ -104,8 +104,6 @@ class NotesTableView: UITableView,
             u.removeAllActions()
         }
 
-        let index = UserDefaultsManagement.previewMode ? 2 : 1
-
         if note.container == .encryptedTextPack {
             viewDelegate?.unLock(notes: [note], completion: { notes in
                 DispatchQueue.main.async {
@@ -117,31 +115,25 @@ class NotesTableView: UITableView,
                     self.reloadRow(note: note)
                     NotesTextProcessor.highlight(note: note)
 
-                    self.fill(note: note, indexPath: indexPath, index: index)
+                    self.fill(note: note, indexPath: indexPath)
                 }
             })
             
             return
         }
 
-        fill(note: note, indexPath: indexPath, index: index)
+        fill(note: note, indexPath: indexPath)
     }
 
-    private func fill(note: Note, indexPath: IndexPath, index: Int) {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            return
-        }
+    private func fill(note: Note, indexPath: IndexPath) {
+        UIApplication.getMain()?.disableSwipe()
 
-        let evc = UIApplication.getEVC()
-        bvc.containerController.isEnabledInteractive = false
-
-        evc.fill(note: note, clearPreview: true) {
-            bvc.containerController.selectController(atIndex: index, animated: true)
+        UIApplication.getEVC().fill(note: note, clearPreview: true) {
+            UIApplication.getMain()?.scrollInEditorVC()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
-                bvc.containerController.isEnabledInteractive = true
-
+                UIApplication.getMain()?.enableSwipe()
             }
         }
     }
@@ -760,15 +752,12 @@ class NotesTableView: UITableView,
     }
 
     private func invalidPasswordAlert() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
-        else { return }
-
         let invalid = NSLocalizedString("Invalid Password", comment: "")
         let message = NSLocalizedString("Please enter valid password", comment: "")
         let alert = UIAlertController(title: invalid, message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
 
-        bvc.present(alert, animated: true, completion: nil)
+        UIApplication.getVC().present(alert, animated: true, completion: nil)
     }
 
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {

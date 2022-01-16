@@ -199,10 +199,7 @@ class SettingsEditorViewController: UITableViewController {
     }
 
     @IBAction func reloadNotesTable() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController else { return }
-
-        vc.notesTable.reloadData()
+        UIApplication.getVC().notesTable.reloadData()
     }
 }
 

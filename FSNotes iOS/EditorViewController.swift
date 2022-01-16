@@ -60,8 +60,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
 
-        self.navigationItem.rightBarButtonItems = [getMoreButton(), self.getPreviewButton()]
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
+        navigationItem.rightBarButtonItems = [getMoreButton(), self.getPreviewButton()]
+        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
         editArea.addGestureRecognizer(imageTap)
@@ -83,6 +83,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
 
         editArea.keyboardDismissMode = .interactive
+
+        UIApplication.getMain()?.onPreviewLoadingCallback {
+            UserDefaultsManagement.previewMode = true
+
+            if let note = EditTextView.note {
+                self.fillPreview(note: note)
+            }
+        }
     }
 
     @objc func updateNavigationBarBackground() {
@@ -136,9 +144,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
-        if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController {
-            bvc.enableSwipe()
-        }
+        UIApplication.getMain()?.enableSwipe()
 
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
@@ -204,7 +210,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         self.navigationItem.titleView = button
         self.navigationItem.title = text
 
-        UIApplication.getPVC()?.setTitle(text: text)
+        UIApplication.getPVC().setTitle(text: text)
     }
 
     public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
@@ -251,8 +257,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // prefill preview for parallax effect
         if clearPreview {
-            guard let pvc = UIApplication.getPVC() else { return }
-            pvc.clear()
+            UIApplication.getPVC().clear()
         }
     }
 
@@ -314,16 +319,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     private func fillPreview(note: Note) {
-        guard let pvc = UIApplication.getPVC() else { return }
-
-        pvc.loadPreview(force: true)
+        UIApplication.getPVC().loadPreview(force: true)
     }
 
     @objc public func clickOnButton() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let note = self.note
-        else { return }
+        let vc = UIApplication.getVC()
+        guard let note = self.note else { return }
 
         vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
     }
@@ -763,9 +764,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-           let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return }
+        let vc = UIApplication.getVC()
         
         vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
@@ -830,18 +829,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc private func updateCurrentRow() {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let note = self.note
-        else { return }
+        let vc = UIApplication.getVC()
+        guard let note = self.note else { return }
 
         vc.notesTable.moveRowUp(note: note)
     }
     
     func getSearchText() -> String {
-        if let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController,
-            let search = vc.search.text {
+        let vc = UIApplication.getVC()
+        if let search = vc.search.text {
             return search
         }
 
@@ -1494,16 +1490,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         } else if let note = Storage.instance?.getBy(fileName: query, exclude: note) {
             fill(note: note)
         } else {
+            let vc = UIApplication.getVC()
+            let mainVC = UIApplication.getMain()
 
-            guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-                let vc = pc.containerController.viewControllers[0] as? ViewController
-            else { return }
-
-            if let index = pc.containerController.selectedIndex {
-                vc.shouldReturnToControllerIndex = index
+            if let currentPageIndex = mainVC?.currentPageIndex {
+                vc.shouldReturnToControllerIndex = currentPageIndex
             }
 
-            pc.containerController.selectController(atIndex: 0, animated: true)
+            mainVC?.scrollInListVC()
 
             vc.search.text = query
             vc.reloadNotesTable(with: SearchQuery(filter: query)) {
@@ -1561,7 +1555,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getMoreButton() -> UIBarButtonItem {
-        let menuBtn = UIButton(type: .custom)
+        let menuBtn = SmallButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
         let image = UIImage(named: "more_row_action")!.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white)
 
@@ -1579,7 +1573,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func getPreviewButton() -> UIBarButtonItem {
-        let menuBtn = UIButton(type: .custom)
+        let menuBtn = SmallButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
         let image = UIImage(named: "preview_editor_controller")!.imageWithColor(color1: .white)
 
@@ -1597,21 +1591,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc public func cancel() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-
-        bvc.containerController.selectController(atIndex: 0, animated: true)
+        UIApplication.getMain()?.scrollInListVC()
     }
 
     @objc public func preview() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController
-        else { return }
+        UIApplication.getMain()?.scrollInPreviewVC()
 
         UserDefaultsManagement.previewMode = true
 
         editArea.endEditing(true)
 
-        UIApplication.getPVC()?.loadPreview()
-        bvc.containerController.selectController(atIndex: 2, animated: false)
+        UIApplication.getPVC().loadPreview()
 
         // Handoff needs update in cursor position cahnged
         userActivity?.needsSave = true
@@ -1725,22 +1715,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     public func load(note: Note) {
-        let index = UserDefaultsManagement.previewMode ? 2 : 1
         let evc = UIApplication.getEVC()
         evc.editArea.resignFirstResponder()
         evc.fill(note: note, clearPreview: true, enableHandoff: false) {
-            guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-                return
-            }
-            bvc.containerController.selectController(atIndex: index, animated: true)
+            UIApplication.getMain()?.scrollInEditorVC()
         }
     }
 
     override func restoreUserActivityState(_ activity: NSUserActivity) {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            return
-        }
-
         if let id = activity.userInfo?["kCSSearchableItemActivityIdentifier"] as? String {
             let url = URL(fileURLWithPath: id)
             if let note = Storage.shared().getBy(url: url) {
@@ -1757,20 +1739,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             let note = Storage.sharedInstance().getBy(name: name)
         else { return }
 
-        var index = 0
-        if state == "preview" {
-            UserDefaultsManagement.previewMode = true
-            index = 2
-        } else {
-            UserDefaultsManagement.previewMode = false
-            index = 1
-        }
-
         let evc = UIApplication.getEVC()
         evc.editArea.resignFirstResponder()
 
         evc.fill(note: note, clearPreview: true, enableHandoff: false) {
-            bvc.containerController.selectController(atIndex: index, animated: true)
+            UIApplication.getMain()?.scrollInEditorVC()
 
             if let pos = Int(position), pos > -1, evc.editArea.textStorage.length >= pos {
                 evc.editArea.becomeFirstResponder()

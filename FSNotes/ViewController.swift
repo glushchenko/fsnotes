@@ -1949,15 +1949,17 @@ class ViewController: NSViewController,
     }
     
     func moveNoteToTop(note index: Int) {
-        let isPinned = notesTableView.noteList[index].isPinned
-        let position = isPinned ? 0 : notesTableView.countVisiblePinned()
-        let note = notesTableView.noteList.remove(at: index)
+        DispatchQueue.main.async {
+            let isPinned = notesTableView.noteList[index].isPinned
+            let position = isPinned ? 0 : notesTableView.countVisiblePinned()
+            let note = notesTableView.noteList.remove(at: index)
 
-        notesTableView.noteList.insert(note, at: position)
+            notesTableView.noteList.insert(note, at: position)
 
-        notesTableView.reloadRow(note: note)
-        notesTableView.moveRow(at: index, to: position)
-        notesTableView.scrollRowToVisible(0)
+            notesTableView.reloadRow(note: note)
+            notesTableView.moveRow(at: index, to: position)
+            notesTableView.scrollRowToVisible(0)
+        }
     }
     
     func createNote(name: String = "", content: String = "", type: NoteType? = nil, project: Project? = nil, load: Bool = false) {

@@ -157,9 +157,7 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
             storage.assignTree(for: project)
             self.tableView.reloadData()
 
-            if let mvc = self.getMainVC() {
-                mvc.sidebarTableView.insertRows(projects: [project])
-            }
+            UIApplication.getVC().sidebarTableView.insertRows(projects: [project])
         }
 
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
@@ -178,14 +176,6 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
 
         documentPicker.delegate = self
         present(documentPicker, animated: true, completion: nil)
-    }
-
-    public func getMainVC() -> ViewController? {
-        guard let pc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = pc.containerController.viewControllers[0] as? ViewController
-        else { return nil }
-
-        return vc
     }
 
     private func delete(project: Project) {
@@ -221,10 +211,9 @@ class ProjectsViewController: UITableViewController, UIDocumentPickerDelegate {
         self.tableView.reloadData()
         Storage.sharedInstance().removeBy(project: project)
 
-        if let vc = self.getMainVC() {
-            vc.reloadNotesTable() {
-                vc.sidebarTableView.removeRows(projects: [project])
-            }
+        let vc = UIApplication.getVC()
+        vc.reloadNotesTable() {
+            vc.sidebarTableView.removeRows(projects: [project])
         }
     }
 

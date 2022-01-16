@@ -51,7 +51,7 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     public func getEditButton() -> UIBarButtonItem {
-        let menuBtn = UIButton(type: .custom)
+        let menuBtn = SmallButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 18, height: 18)
 
         let image = UIImage(named: "editMode")!.imageWithColor(color1: .white).resize(maxWidthHeight: 18)
@@ -70,18 +70,15 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @IBAction func editMode() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController
-        else { return }
+        let evc = UIApplication.getEVC()
 
         if let note = evc.note {
             UserDefaultsManagement.previewMode = false
 
-            UIApplication.getEVC().fill(note: note)
+            evc.fill(note: note)
         }
 
-        bvc.containerController.selectController(atIndex: 1, animated: false)
+        UIApplication.getMain()?.scrollInEditorVC()
 
         if evc.editArea != nil {
             evc.editArea.keyboardAppearance = NightNight.theme == .night ? .dark : .default
@@ -91,15 +88,11 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
         UserDefaultsManagement.previewMode = false
 
         // Handoff needs update in cursor position cahnged
-        UIApplication.getEVC().userActivity?.needsSave = true
+        evc.userActivity?.needsSave = true
     }
 
     @objc public func returnBack() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else { return }
-
-        guard bvc.containerController.isMoveFinished else { return }
-
-        bvc.containerController.selectController(atIndex: 0, animated: true)
+        UIApplication.getMain()?.scrollInListVC()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.clear()
@@ -126,11 +119,8 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     public func loadPreview(force: Bool = false) {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController,
-            let note = evc.note
-        else { return }
+        let evc = UIApplication.getEVC()
+        guard let note = evc.note else { return }
 
         let isForceRequest = note.modifiedLocalAt != modifiedAt || force
         modifiedAt = note.modifiedLocalAt
@@ -173,15 +163,13 @@ class PreviewViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 
     @objc func clickOnButton() {
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController,
-            let vc = bvc.containerController.viewControllers[0] as? ViewController,
-            let nav = bvc.containerController.viewControllers[1] as? UINavigationController,
-            let evc = nav.viewControllers.first as? EditorViewController,
-            let note = evc.note,
-            let navPVC = bvc.containerController.viewControllers[2] as? UINavigationController
-        else { return }
+        let vc = UIApplication.getVC()
+        let pvc = UIApplication.getPVC()
+        let evc = UIApplication.getEVC()
 
-        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: navPVC, back: true)
+        guard let note = evc.note else { return }
+
+        vc.notesTable.actionsSheet(notes: [note], showAll: true, presentController: pvc, back: true)
     }
 
     public func setTitle(text: String) {

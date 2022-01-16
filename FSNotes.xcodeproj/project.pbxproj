@@ -76,6 +76,7 @@
 		D7104A68230BD8C500B6D8EE /* SortDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7104A63230BD8C500B6D8EE /* SortDirection.swift */; };
 		D7104A69230BD8E600B6D8EE /* SortDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7104A63230BD8C500B6D8EE /* SortDirection.swift */; };
 		D7104A6A230BD8E700B6D8EE /* SortDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7104A63230BD8C500B6D8EE /* SortDirection.swift */; };
+		D7122F3D2790EBB400B238A4 /* SmallButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7122F3C2790EBB400B238A4 /* SmallButton.swift */; };
 		D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */; };
 		D712FED2206F67C500370BA4 /* NightMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D712FED1206F67C500370BA4 /* NightMode.swift */; };
 		D71353FE2042AE5F00E3776F /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = D71353FD2042AE5F00E3776F /* settings.png */; };
@@ -435,6 +436,9 @@
 		D76025BF204F078A000B9F59 /* bold@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BC204F078A000B9F59 /* bold@3x.png */; };
 		D76025C0204F078A000B9F59 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D76025C1204F078A000B9F59 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
+		D764045E2791E44200A8BB5A /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D764045D2791E44200A8BB5A /* TestViewController.swift */; };
+		D76404602791F9A700A8BB5A /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D764045F2791F9A700A8BB5A /* SwipeViewController.swift */; };
+		D7640462279202ED00A8BB5A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7640461279202ED00A8BB5A /* MainViewController.swift */; };
 		D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D76769292328D1F500304E15 /* git in Resources */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
 		D767692C2328D23000304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
@@ -535,10 +539,6 @@
 		D797004C1F3DD10700BAD94D /* EditTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D797004B1F3DD10700BAD94D /* EditTextView.swift */; };
 		D798027F2137C3D6008D6200 /* uncheckedbox.png in Resources */ = {isa = PBXBuildFile; fileRef = D798027D2137C3D5008D6200 /* uncheckedbox.png */; };
 		D79802802137C3D6008D6200 /* uncheckedbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */; };
-		D798DA7524770E77001381BE /* BasicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798DA7424770E77001381BE /* BasicViewController.swift */; };
-		D798DA792477CFF8001381BE /* SwiftyPageControllerAnimatorParallax.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798DA762477CFF6001381BE /* SwiftyPageControllerAnimatorParallax.swift */; };
-		D798DA7A2477CFF8001381BE /* SwiftyPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798DA772477CFF7001381BE /* SwiftyPageController.swift */; };
-		D798DA7B2477CFF8001381BE /* SwiftyPageControllerAnimatorDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = D798DA782477CFF7001381BE /* SwiftyPageControllerAnimatorDefault.swift */; };
 		D79F92121FA8B9E2008C297E /* PreviewTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CE196B1FA4BA5E004BF8EE /* PreviewTextField.swift */; };
 		D79FE8A21F77D04A00113CFD /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FE8A01F77D04A00113CFD /* Note.swift */; };
 		D7A0419722BB624A0074F6EC /* icon-ios-512x512@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */; };
@@ -1171,6 +1171,7 @@
 		D70E8D6823705C6200E64D62 /* tag2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tag2.png; sourceTree = "<group>"; };
 		D70FE12C20FE198200813F9E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D7104A63230BD8C500B6D8EE /* SortDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDirection.swift; sourceTree = "<group>"; };
+		D7122F3C2790EBB400B238A4 /* SmallButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallButton.swift; sourceTree = "<group>"; };
 		D712FECF206EB9DC00370BA4 /* NightModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeViewController.swift; sourceTree = "<group>"; };
 		D712FED1206F67C500370BA4 /* NightMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightMode.swift; sourceTree = "<group>"; };
 		D71353FD2042AE5F00E3776F /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
@@ -1307,6 +1308,9 @@
 		D76025BD204F078A000B9F59 /* bold@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bold@2x.png"; sourceTree = "<group>"; };
 		D76025BE204F078A000B9F59 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D76025C2204F2820000B9F59 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIFont+.swift"; path = "../../FSNotes/Extensions/UIFont+.swift"; sourceTree = "<group>"; };
+		D764045D2791E44200A8BB5A /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		D764045F2791F9A700A8BB5A /* SwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
+		D7640461279202ED00A8BB5A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagement.swift; sourceTree = "<group>"; };
 		D76769282328D1F400304E15 /* git */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = git; sourceTree = "<group>"; };
 		D7679375201F0BFD000F7BBF /* SortBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
@@ -1374,10 +1378,6 @@
 		D797004B1F3DD10700BAD94D /* EditTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTextView.swift; sourceTree = "<group>"; };
 		D798027D2137C3D5008D6200 /* uncheckedbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheckedbox.png; sourceTree = "<group>"; };
 		D798027E2137C3D5008D6200 /* uncheckedbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "uncheckedbox@2x.png"; sourceTree = "<group>"; };
-		D798DA7424770E77001381BE /* BasicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicViewController.swift; sourceTree = "<group>"; };
-		D798DA762477CFF6001381BE /* SwiftyPageControllerAnimatorParallax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyPageControllerAnimatorParallax.swift; sourceTree = "<group>"; };
-		D798DA772477CFF7001381BE /* SwiftyPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyPageController.swift; sourceTree = "<group>"; };
-		D798DA782477CFF7001381BE /* SwiftyPageControllerAnimatorDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyPageControllerAnimatorDefault.swift; sourceTree = "<group>"; };
 		D79FE8A01F77D04A00113CFD /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		D7A0419622BB624A0074F6EC /* icon-ios-512x512@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-ios-512x512@2x.png"; sourceTree = "<group>"; };
 		D7A415131F2FBDA00099B82C /* NotesTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableView.swift; sourceTree = "<group>"; };
@@ -2031,9 +2031,6 @@
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
 				D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */,
 				D7DCFECC2108C7850059B37B /* CoreNote.swift */,
-				D798DA772477CFF7001381BE /* SwiftyPageController.swift */,
-				D798DA782477CFF7001381BE /* SwiftyPageControllerAnimatorDefault.swift */,
-				D798DA762477CFF6001381BE /* SwiftyPageControllerAnimatorParallax.swift */,
 				D7163D3024E81D0100B1FC05 /* LaunchScreen.storyboard */,
 				D7163D2E24E81B5C00B1FC05 /* Main.storyboard */,
 				D7679397201F21F5000F7BBF /* Info.plist */,
@@ -2044,7 +2041,10 @@
 				D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */,
 				D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */,
 				D73794C023366F5200E75A28 /* ImageScrollView.swift */,
-				D798DA7424770E77001381BE /* BasicViewController.swift */,
+				D7122F3C2790EBB400B238A4 /* SmallButton.swift */,
+				D764045D2791E44200A8BB5A /* TestViewController.swift */,
+				D764045F2791F9A700A8BB5A /* SwipeViewController.swift */,
+				D7640461279202ED00A8BB5A /* MainViewController.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -3738,7 +3738,6 @@
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
-				D798DA7B2477CFF8001381BE /* SwiftyPageControllerAnimatorDefault.swift in Sources */,
 				D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
@@ -3748,11 +3747,13 @@
 				D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
+				D7640462279202ED00A8BB5A /* MainViewController.swift in Sources */,
 				D7153E0D2286B85B00A2C20F /* DefaultContainerViewController.swift in Sources */,
 				D7104A67230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */,
 				D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
+				D7122F3D2790EBB400B238A4 /* SmallButton.swift in Sources */,
 				D712FED0206EB9DC00370BA4 /* NightModeViewController.swift in Sources */,
 				D7CBAFF4214D42E5002ECD5A /* Colors.swift in Sources */,
 				D7FDA4F7236DBC6900C3B4AA /* Sidebar.swift in Sources */,
@@ -3783,27 +3784,26 @@
 				D7CDE9DE216178DE00DC5978 /* AppearanceType.swift in Sources */,
 				D7BDFE5D201F677B00897A58 /* UserDefaultsManagement.swift in Sources */,
 				D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */,
-				D798DA7524770E77001381BE /* BasicViewController.swift in Sources */,
 				D780207C231FA147007F14DC /* CodeTextProcessor.swift in Sources */,
 				D7C803EE2046DBBD005DA599 /* DefaultExtensionControllerView.swift in Sources */,
 				D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */,
 				D7CA2DA720C9B6EF00717769 /* NSMutableAttributedString+Font.swift in Sources */,
 				D76025B4204EEF64000B9F59 /* TextFormatter.swift in Sources */,
 				D78115672153D4D9004FA1CA /* ProjectsViewController.swift in Sources */,
-				D798DA7A2477CFF8001381BE /* SwiftyPageController.swift in Sources */,
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D7CD5CDE218330100009D63B /* Note+.swift in Sources */,
 				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
-				D798DA792477CFF8001381BE /* SwiftyPageControllerAnimatorParallax.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				D7B4AC612471253100F3888A /* NoteMeta.swift in Sources */,
+				D76404602791F9A700A8BB5A /* SwipeViewController.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D78DC70D2478415200C5BB43 /* MPreviewView.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
+				D764045E2791E44200A8BB5A /* TestViewController.swift in Sources */,
 				D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D781156B2153E05A004FA1CA /* ProjectSettingsViewController.swift in Sources */,

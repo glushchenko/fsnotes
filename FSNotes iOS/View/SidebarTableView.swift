@@ -748,10 +748,7 @@ class SidebarTableView: UITableView,
         guard let indexPath = getIndexPathBy(tag: tag) else { return }
         tableView(self, didSelectRowAt: indexPath)
 
-        guard let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController else {
-            return
-        }
-        bvc.containerController.selectController(atIndex: 0, animated: true)
+        UIApplication.getMain()?.scrollInListVC()
     }
 
     public func restoreSelection(for search: SearchQuery) {
