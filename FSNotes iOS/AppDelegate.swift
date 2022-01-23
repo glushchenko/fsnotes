@@ -16,10 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     public var window: UIWindow?
     public var launchedShortcutItem: UIApplicationShortcutItem?
-    public var mainController: MainViewController?
     public var listController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "listViewController") as! ViewController
     public var editorController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "editorViewController") as! EditorViewController
-    public var previewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "previewViewController") as! PreviewViewController
+
+    public var mainController: MainNavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         var shouldPerformAdditionalDelegateHandling = true
@@ -59,35 +59,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
 
-        mainController = MainViewController(pages: [
-            listController,
-            UINavigationController(rootViewController: editorController),
-            UINavigationController(rootViewController: previewController)
-        ])
+        let nav = MainNavigationController(rootViewController: listController)
+        nav.isNavigationBarHidden = false
 
-        mainController?.startIndex = 0
-        mainController?.selectionBarWidth = 80
-        mainController?.selectionBarHeight = 3
-        mainController?.selectionBarColor = UIColor(red: 0.23, green: 0.55, blue: 0.92, alpha: 1.0)
-        mainController?.selectedButtonColor = UIColor(red: 0.23, green: 0.55, blue: 0.92, alpha: 1.0)
-        mainController?.equalSpaces = false
-
-        mainController?.pageController.view.subviews.compactMap({ $0 as? UIScrollView }).first?.isScrollEnabled = false
-
+        mainController = nav
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = mainController
+        window?.rootViewController = nav
         window?.makeKeyAndVisible()
 
         // Controller outlets loading
         editorController.loadViewIfNeeded()
-        previewController.loadViewIfNeeded()
-
-        mainController?.disableSwipe()
-        mainController?.restoreLastController()
 
         return shouldPerformAdditionalDelegateHandling
     }
-    
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -180,9 +166,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             handled = true
             break
         case ShortcutIdentifier.search.type:
-            UIApplication.getMain()?.scrollInListVC()
-            vc.searchView.isHidden = false
-            vc.search.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0.5)
+            vc.loadViewIfNeeded()
+            vc.popViewController()
+            vc.loadSearchController()
             handled = true
             break
         default:
@@ -234,7 +220,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let note = note {
             UIApplication.getEVC().fill(note: note)
-            UIApplication.getMain()?.scrollInEditorVC()
+            UIApplication.getVC().openEditorViewController()
 
             print("File imported: \(note.url)")
         }
@@ -254,25 +240,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func saveEditorState() {
-        guard let index = UIApplication.getMain()?.currentPageIndex else { return }
         let evc = UIApplication.getEVC()
-
-        UserDefaultsManagement.currentController = index
+        guard evc.navigationController?.topViewController === evc else {return }
 
         if let url = evc.note?.url {
-            if index == 1 {
-                UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
+            UserDefaultsManagement.currentEditorState = evc.editArea.isFirstResponder
 
-                if evc.editArea.isFirstResponder {
-                    UserDefaultsManagement.currentRange = evc.editArea.selectedRange
-                } else {
-                    UserDefaultsManagement.currentRange = nil
-                }
+            if UserDefaultsManagement.previewMode {
+                UserDefaultsManagement.currentRange = nil
+            } else {
+                UserDefaultsManagement.currentRange = evc.editArea.selectedRange
             }
 
-            if index != 0 {
-                UserDefaultsManagement.currentNote = url
-            }
+            UserDefaultsManagement.currentNote = url
         }
     }
 }

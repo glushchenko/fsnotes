@@ -84,6 +84,8 @@
 		D71354022042AECD00E3776F /* settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D71354002042AECD00E3776F /* settings@3x.png */; };
 		D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71354032042AFC800E3776F /* SettingsViewController.swift */; };
 		D714496220C72D3500D7AD46 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714496120C72D3400D7AD46 /* UIImage+.swift */; };
+		D714749B279CE8EE001A8B29 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714749A279CE8EE001A8B29 /* MainNavigationController.swift */; };
+		D714749D279D7DBC001A8B29 /* SearchQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D714749C279D7DBC001A8B29 /* SearchQuery.swift */; };
 		D7153DFD2285A93300A2C20F /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153DFC2285A93300A2C20F /* AboutWindowController.swift */; };
 		D7153DFE2285A93300A2C20F /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153DFC2285A93300A2C20F /* AboutWindowController.swift */; };
 		D7153DFF2285A93300A2C20F /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153DFC2285A93300A2C20F /* AboutWindowController.swift */; };
@@ -436,9 +438,6 @@
 		D76025BF204F078A000B9F59 /* bold@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BC204F078A000B9F59 /* bold@3x.png */; };
 		D76025C0204F078A000B9F59 /* bold@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BD204F078A000B9F59 /* bold@2x.png */; };
 		D76025C1204F078A000B9F59 /* bold.png in Resources */ = {isa = PBXBuildFile; fileRef = D76025BE204F078A000B9F59 /* bold.png */; };
-		D764045E2791E44200A8BB5A /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D764045D2791E44200A8BB5A /* TestViewController.swift */; };
-		D76404602791F9A700A8BB5A /* SwipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D764045F2791F9A700A8BB5A /* SwipeViewController.swift */; };
-		D7640462279202ED00A8BB5A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7640461279202ED00A8BB5A /* MainViewController.swift */; };
 		D76447DC1F3A4F0700965F01 /* UserDefaultsManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */; };
 		D76769292328D1F500304E15 /* git in Resources */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
 		D767692C2328D23000304E15 /* git in CopyFiles */ = {isa = PBXBuildFile; fileRef = D76769282328D1F400304E15 /* git */; };
@@ -470,7 +469,6 @@
 		D76F0B452152C9A2008E5F2F /* done.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B432152C9A1008E5F2F /* done.png */; };
 		D76F0B462152C9A2008E5F2F /* done_white.png in Resources */ = {isa = PBXBuildFile; fileRef = D76F0B442152C9A1008E5F2F /* done_white.png */; };
 		D76F3682272563EC00D1FFB4 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D768D754245E854D0028F344 /* NSAttributedString+.swift */; };
-		D76F36902725A71700D1FFB4 /* UITableViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76F368F2725A71700D1FFB4 /* UITableViewController+.swift */; };
 		D772C8842217362C007E440B /* ViewController+Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = D772C8832217362C007E440B /* ViewController+Print.swift */; };
 		D772C8852217362C007E440B /* ViewController+Print.swift in Sources */ = {isa = PBXBuildFile; fileRef = D772C8832217362C007E440B /* ViewController+Print.swift */; };
 		D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7735B08213D01E000FACB12 /* Toolbar.swift */; };
@@ -621,7 +619,6 @@
 		D7C1C99A235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C1C99B235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
 		D7C1C99C235606CB0021A32D /* SidebarHeaderCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */; };
-		D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */; };
 		D7C2AB0721E116CE00B1AC0E /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C2AB0621E116CE00B1AC0E /* share.png */; };
 		D7C302C321F31E5F0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C221F31E5F0041627F /* ImageAttachment+.swift */; };
 		D7C302C521F320FD0041627F /* ImageAttachment+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C302C421F320FD0041627F /* ImageAttachment+.swift */; };
@@ -1179,6 +1176,8 @@
 		D71354002042AECD00E3776F /* settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@3x.png"; sourceTree = "<group>"; };
 		D71354032042AFC800E3776F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D714496120C72D3400D7AD46 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		D714749A279CE8EE001A8B29 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
+		D714749C279D7DBC001A8B29 /* SearchQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchQuery.swift; sourceTree = "<group>"; };
 		D7153DFC2285A93300A2C20F /* AboutWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
 		D7153E042285C09C00A2C20F /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		D7153E082285EC6100A2C20F /* TitleTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextField.swift; sourceTree = "<group>"; };
@@ -1308,9 +1307,6 @@
 		D76025BD204F078A000B9F59 /* bold@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bold@2x.png"; sourceTree = "<group>"; };
 		D76025BE204F078A000B9F59 /* bold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bold.png; sourceTree = "<group>"; };
 		D76025C2204F2820000B9F59 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIFont+.swift"; path = "../../FSNotes/Extensions/UIFont+.swift"; sourceTree = "<group>"; };
-		D764045D2791E44200A8BB5A /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		D764045F2791F9A700A8BB5A /* SwipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeViewController.swift; sourceTree = "<group>"; };
-		D7640461279202ED00A8BB5A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		D76447DB1F3A4F0700965F01 /* UserDefaultsManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManagement.swift; sourceTree = "<group>"; };
 		D76769282328D1F400304E15 /* git */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = git; sourceTree = "<group>"; };
 		D7679375201F0BFD000F7BBF /* SortBy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortBy.swift; sourceTree = "<group>"; };
@@ -1327,7 +1323,6 @@
 		D76F0B412152C73A008E5F2F /* more_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more_white.png; sourceTree = "<group>"; };
 		D76F0B432152C9A1008E5F2F /* done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done.png; sourceTree = "<group>"; };
 		D76F0B442152C9A1008E5F2F /* done_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = done_white.png; sourceTree = "<group>"; };
-		D76F368F2725A71700D1FFB4 /* UITableViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+.swift"; sourceTree = "<group>"; };
 		D772C8832217362C007E440B /* ViewController+Print.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Print.swift"; sourceTree = "<group>"; };
 		D7735B08213D01E000FACB12 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		D7735B0A213D06C400FACB12 /* strike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = strike.png; sourceTree = "<group>"; };
@@ -1425,7 +1420,6 @@
 		D7BE112722DB1C8600435866 /* padlock-unlocked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-unlocked-ios.png"; sourceTree = "<group>"; };
 		D7BE112822DB1C8600435866 /* padlock-locked-ios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "padlock-locked-ios.png"; sourceTree = "<group>"; };
 		D7C1C999235606CB0021A32D /* SidebarHeaderCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarHeaderCellView.swift; sourceTree = "<group>"; };
-		D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		D7C2AB0621E116CE00B1AC0E /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		D7C302C221F31E5F0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
 		D7C302C421F320FD0041627F /* ImageAttachment+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageAttachment+.swift"; sourceTree = "<group>"; };
@@ -2027,7 +2021,6 @@
 				D767938A201F21F5000F7BBF /* ViewController.swift */,
 				D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
-				D7C2AB0421E0FF1300B1AC0E /* PreviewViewController.swift */,
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
 				D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */,
 				D7DCFECC2108C7850059B37B /* CoreNote.swift */,
@@ -2042,9 +2035,7 @@
 				D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */,
 				D73794C023366F5200E75A28 /* ImageScrollView.swift */,
 				D7122F3C2790EBB400B238A4 /* SmallButton.swift */,
-				D764045D2791E44200A8BB5A /* TestViewController.swift */,
-				D764045F2791F9A700A8BB5A /* SwipeViewController.swift */,
-				D7640461279202ED00A8BB5A /* MainViewController.swift */,
+				D714749A279CE8EE001A8B29 /* MainNavigationController.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -2289,7 +2280,6 @@
 				D7C302C221F31E5F0041627F /* ImageAttachment+.swift */,
 				D7409FA4221DB91B0057C072 /* NSMutableAttributedString+Checkboxes.swift */,
 				D7F681B723452A2500F8F971 /* CustomTextStorage+Images.swift */,
-				D76F368F2725A71700D1FFB4 /* UITableViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2346,6 +2336,7 @@
 			isa = PBXGroup;
 			children = (
 				D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */,
+				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3747,7 +3738,6 @@
 				D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
-				D7640462279202ED00A8BB5A /* MainViewController.swift in Sources */,
 				D7153E0D2286B85B00A2C20F /* DefaultContainerViewController.swift in Sources */,
 				D7104A67230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */,
@@ -3760,7 +3750,6 @@
 				D71FD2252101CFD0008BEFA1 /* UITextView+.swift in Sources */,
 				D7194B872023863A0062F1E3 /* ImagesProcessor.swift in Sources */,
 				D7BDFE68201F67DA00897A58 /* NotesTextProcessor.swift in Sources */,
-				D76F36902725A71700D1FFB4 /* UITableViewController+.swift in Sources */,
 				D730BD30222DABA100E69C93 /* NoteContainer.swift in Sources */,
 				D76E10C3215A96080017F4A3 /* DayOneImportHelper.swift in Sources */,
 				D7D9503F209D846E001FB60B /* SidebarTableCellView.swift in Sources */,
@@ -3771,7 +3760,6 @@
 				D7470D092170E890006B2A92 /* CustomTextStorage.swift in Sources */,
 				D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */,
 				D7C6DB5B25AA880600F8F76F /* ViewController+More.swift in Sources */,
-				D7C2AB0521E0FF1300B1AC0E /* PreviewViewController.swift in Sources */,
 				D7680FB525D02B2C00810DA8 /* FileManager+.swift in Sources */,
 				D7BDFE6A201F68B700897A58 /* NotesTableView.swift in Sources */,
 				D730BD3E222DB9FC00E69C93 /* NameHelper.swift in Sources */,
@@ -3793,17 +3781,17 @@
 				D7BDFE60201F677B00897A58 /* NoteType.swift in Sources */,
 				D7CD5CDE218330100009D63B /* Note+.swift in Sources */,
 				D752D80B23454750006842F9 /* NSTextAttachment+.swift in Sources */,
+				D714749B279CE8EE001A8B29 /* MainNavigationController.swift in Sources */,
+				D714749D279D7DBC001A8B29 /* SearchQuery.swift in Sources */,
 				D706396A202230BB00BC8446 /* EditorViewController.swift in Sources */,
 				D7BDFE61201F677B00897A58 /* SortBy.swift in Sources */,
 				D76E10C1215A55CE0017F4A3 /* Date+.swift in Sources */,
 				D7BDFE59201F671900897A58 /* Storage.swift in Sources */,
 				D7B4AC612471253100F3888A /* NoteMeta.swift in Sources */,
-				D76404602791F9A700A8BB5A /* SwipeViewController.swift in Sources */,
 				6F13BB7920FEE6070005E120 /* UIFont+.swift in Sources */,
 				D78115632153B36C004FA1CA /* Buttons.swift in Sources */,
 				D78DC70D2478415200C5BB43 /* MPreviewView.swift in Sources */,
 				D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */,
-				D764045E2791E44200A8BB5A /* TestViewController.swift in Sources */,
 				D7EDEDFD21920402000B8C1A /* NoteCellView+.swift in Sources */,
 				D767938B201F21F5000F7BBF /* ViewController.swift in Sources */,
 				D781156B2153E05A004FA1CA /* ProjectSettingsViewController.swift in Sources */,

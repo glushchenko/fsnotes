@@ -10,7 +10,7 @@ import UIKit
 import NightNight
 import StoreKit
 
-class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate, UIDocumentPickerDelegate {
+class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
@@ -62,20 +62,13 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     ]
 
     var rowsInSection = [5, 2, 2, 4]
-    private var prevCount = 0
-        
+
     override func viewDidLoad() {
-        view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
-        
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
+        title = NSLocalizedString("Settings", comment: "Sidebar settings")
+        navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
 
         super.viewDidLoad()
-        
-        self.title = NSLocalizedString("Settings", comment: "Sidebar settings")
-
-        self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(done))
 
         let version = UILabel(frame: CGRect(x: 8, y: 30, width: tableView.frame.width, height: 60))
         version.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -94,17 +87,8 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         version.textAlignment = .center
 
         tableView.tableFooterView = version
-
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            navigationController?.navigationBar.standardAppearance = appearance
-
-            updateNavigationBarBackground()
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
     }
+
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -292,22 +276,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
         return headerView
     }
 
-    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let nc = navigationController?.viewControllers {
-            self.prevCount = nc.count
-            if nc.count == 1 {
-                self.dismiss(animated: true)
-            }
-        }
-
-        if gestureRecognizer.isEqual(navigationController?.interactivePopGestureRecognizer) {
-            navigationController?.popViewController(animated: true)
-        }
-
-        return false
-    }
-
-
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let storageUrl = UserDefaultsManagement.storageUrl else { return }
 
@@ -345,30 +313,6 @@ class SettingsViewController: UITableViewController, UIGestureRecognizerDelegate
     }
 
     @objc func done() {
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        guard UserDefaultsManagement.nightModeType == .system else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.checkDarkMode()
-        }
-    }
-
-    public func checkDarkMode() {
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                if NightNight.theme != .night {
-                    UIApplication.getVC().enableNightMode()
-                }
-            } else {
-                if NightNight.theme == .night {
-                    UIApplication.getVC().disableNightMode()
-                }
-            }
-        }
-
-        updateNavigationBarBackground()
+        navigationController?.popViewController(animated: true)
     }
 }

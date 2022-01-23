@@ -10,11 +10,6 @@ import UIKit
 
 extension UIApplication {
 
-    static func getMain() -> MainViewController? {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.mainController
-    }
-
     static func getVC() -> ViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         return appDelegate.listController
@@ -25,9 +20,9 @@ extension UIApplication {
         return appDelegate.editorController
     }
 
-    static func getPVC() -> PreviewViewController {
+    static func getNC() -> MainNavigationController? {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.previewController
+        return appDelegate.mainController
     }
 
     class func getPresentedViewController() -> UIViewController? {

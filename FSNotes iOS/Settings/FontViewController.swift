@@ -25,10 +25,6 @@ class FontViewController: UITableViewController {
         
         title = NSLocalizedString("Font Family", comment: "Settings")
         
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        
         super.viewDidLoad()
     }
     

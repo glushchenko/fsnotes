@@ -484,6 +484,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
 
         return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(lineHeight)px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
     }
+
+    public func clean() {
+        try? loadHTMLView("", css: "")
+    }
 }
 
 class HandlerSelection: NSObject, WKScriptMessageHandler {

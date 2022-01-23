@@ -33,9 +33,6 @@ class ProjectSettingsViewController: UITableViewController {
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-
         if dismiss {
             self.navigationItem.rightBarButtonItem = Buttons.getDone(target: self, selector: #selector(close))
         } else {
@@ -44,16 +41,7 @@ class ProjectSettingsViewController: UITableViewController {
 
         self.title = NSLocalizedString("Project", comment: "Settings") + " \"\(project.getFullLabel())\""
 
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            navigationController?.navigationBar.standardAppearance = appearance
 
-            updateNavigationBarBackground()
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-        
         super.viewDidLoad()
     }
 

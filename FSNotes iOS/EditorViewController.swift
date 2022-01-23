@@ -15,7 +15,7 @@ import Photos
 import DropDown
 import CoreSpotlight
 
-class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate {
+class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate {
     public var note: Note?
     
     private var isHighlighted: Bool = false
@@ -45,22 +45,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         storageQueue.maxConcurrentOperationCount = 1
         editArea.textContainerInset = UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)
         
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = Colors.buttonText
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        navigationController?.navigationBar.mixedBackgroundColor = Colors.Header
-
-        if #available(iOS 13.0, *) {
-            let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            navigationController?.navigationBar.standardAppearance = appearance
-
-            updateNavigationBarBackground()
-        }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
-
-        navigationItem.rightBarButtonItems = [getMoreButton(), self.getPreviewButton()]
+        navigationItem.rightBarButtonItems = [getMoreButton(), self.getTogglePreviewButton()]
         navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))
 
         let imageTap = SingleImageTouchDownGestureRecognizer(target: self, action: #selector(imageTapHandler(_:)))
@@ -69,6 +54,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let tap = SingleTouchDownGestureRecognizer(target: self, action: #selector(tapHandler(_:)))
         editArea.addGestureRecognizer(tap)
         editArea.textStorage.delegate = editArea.textStorage
+
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(editMode))
+        tapGR.delegate = self
+        tapGR.numberOfTapsRequired = 2
+        view.addGestureRecognizer(tapGR)
 
         EditTextView.imagesLoaderQueue.maxConcurrentOperationCount = 1
         EditTextView.imagesLoaderQueue.qualityOfService = .userInteractive
@@ -80,30 +70,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged), name: UIContentSizeCategory.didChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refill), name: NSNotification.Name(rawValue: "es.fsnot.external.file.changed"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
 
         editArea.keyboardDismissMode = .interactive
-
-        UIApplication.getMain()?.onPreviewLoadingCallback {
-            UserDefaultsManagement.previewMode = true
-
-            if let note = EditTextView.note {
-                self.fillPreview(note: note)
-            }
-        }
-    }
-
-    @objc func updateNavigationBarBackground() {
-        if #available(iOS 13.0, *) {
-            var color = UIColor(red: 0.15, green: 0.28, blue: 0.42, alpha: 1.00)
-            if NightNight.theme == .night {
-                color = UIColor(red: 0.15, green: 0.15, blue: 0.15, alpha: 1.00)
-            }
-
-            guard let navController = navigationController else { return }
-            navController.navigationBar.standardAppearance.backgroundColor = color
-            navController.navigationBar.scrollEdgeAppearance = navController.navigationBar.standardAppearance
-        }
     }
 
     @objc func rotated() {
@@ -122,15 +90,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-//    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//
-//        coordinator.animate(alongsideTransition: { (ctx) in
-//            self.refillToolbar()
-//            self.refill()
-//        })
-//    }
-
     override func viewDidAppear(_ animated: Bool) {
         editArea.isScrollEnabled = true
         
@@ -140,11 +99,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         
         super.viewDidAppear(animated)
 
-        if editArea.textStorage.length == 0 {
+        if editArea.textStorage.length == 0  && !UserDefaultsManagement.previewMode {
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
-        UIApplication.getMain()?.enableSwipe()
+        //UIApplication.getMain()?.enableSwipe()
 
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
@@ -164,6 +123,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewWillDisappear(_ animated: Bool) {
         self.deregisterFromKeyboardNotifications()
+        editArea.endEditing(true)
+    }
+
+    override var disablesAutomaticKeyboardDismissal: Bool {
+        return false
     }
 
     override var textInputMode: UITextInputMode? {
@@ -209,8 +173,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         button.addTarget(self, action: #selector(self.clickOnButton), for: .touchUpInside)
         self.navigationItem.titleView = button
         self.navigationItem.title = text
-
-        UIApplication.getPVC().setTitle(text: text)
     }
 
     public func fill(note: Note, clearPreview: Bool = false, enableHandoff: Bool = true, completion: (() -> ())? = nil) {
@@ -246,19 +208,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         setTitle(text: note.getShortTitle())
 
         if UserDefaultsManagement.previewMode {
-            self.fillPreview(note: note)
-
+            loadPreviewView()
             completion?()
             return
         }
         
         fillEditor(note: note)
         completion?()
-
-        // prefill preview for parallax effect
-        if clearPreview {
-            UIApplication.getPVC().clear()
-        }
     }
 
     private func fillEditor(note: Note) {
@@ -316,10 +272,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.typingAttributes[.foregroundColor] =
                 UIColor.black
         }
-    }
-
-    private func fillPreview(note: Note) {
-        UIApplication.getPVC().loadPreview(force: true)
     }
 
     @objc public func clickOnButton() {
@@ -836,8 +788,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
     
     func getSearchText() -> String {
-        let vc = UIApplication.getVC()
-        if let search = vc.search.text {
+        if let search = UIApplication.getVC().navigationItem.searchController?.searchBar.text {
             return search
         }
 
@@ -1491,21 +1442,15 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             fill(note: note)
         } else {
             let vc = UIApplication.getVC()
-            let mainVC = UIApplication.getMain()
 
-            if let currentPageIndex = mainVC?.currentPageIndex {
-                vc.shouldReturnToControllerIndex = currentPageIndex
-            }
+            navigationController?.popViewController(animated: true)
 
-            mainVC?.scrollInListVC()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                vc.navigationItem.searchController = nil
+                vc.shouldReturnToControllerIndex = true
 
-            vc.search.text = query
-            vc.reloadNotesTable(with: SearchQuery(filter: query)) {
-                if vc.searchView.isHidden {
-                    vc.searchView.isHidden = false
-                }
-
-                vc.search.becomeFirstResponder()
+                vc.loadSearchController(query: query)
+                vc.reloadNotesTable(with: SearchQuery(filter: query))
             }
         }
     }
@@ -1572,39 +1517,97 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         return menuBarItem
     }
 
-    public func getPreviewButton() -> UIBarButtonItem {
+    @IBAction func editMode() {
+        if UserDefaultsManagement.previewMode {
+            togglePreview()
+        }
+    }
+
+    public func getTogglePreviewButton() -> UIBarButtonItem {
+        let buttonName = UserDefaultsManagement.previewMode ? "editButton" : "previewButton"
+
         let menuBtn = SmallButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 20, height: 20)
-        let image = UIImage(named: "preview_editor_controller")!.imageWithColor(color1: .white)
+        let image = UIImage(named: buttonName)!.imageWithColor(color1: .white)
 
         menuBtn.setImage(image, for: .normal)
-        menuBtn.addTarget(self, action: #selector(preview), for: UIControl.Event.touchUpInside)
+        menuBtn.addTarget(self, action: #selector(togglePreview), for: UIControl.Event.touchUpInside)
 
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 24)
+        menuBarItem.tag = 5
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 22)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 24)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 22)
         currHeight?.isActive = true
 
         menuBarItem.tintColor = UIColor.white
         return menuBarItem
     }
 
-    @objc public func cancel() {
-        UIApplication.getMain()?.scrollInListVC()
+    public func getPreviewView() -> MPreviewView? {
+        for sub in self.view.subviews {
+            if sub.isKind(of: MPreviewView.self) {
+                if let view = sub as? MPreviewView {
+                    return view
+                }
+            }
+        }
+
+        return nil
     }
 
-    @objc public func preview() {
-        UIApplication.getMain()?.scrollInPreviewVC()
+    @objc public func cancel() {
+        navigationController?.popViewController(animated: true)
+    }
 
-        UserDefaultsManagement.previewMode = true
+    @objc public func togglePreview() {
+        guard let note = EditTextView.note else { return }
 
-        editArea.endEditing(true)
+        if UserDefaultsManagement.previewMode {
+            UserDefaultsManagement.previewMode = false
+            getPreviewView()?.removeFromSuperview()
+            fillEditor(note: note)
 
-        UIApplication.getPVC().loadPreview()
+        } else {
+            UserDefaultsManagement.previewMode = true
+            editArea.endEditing(true)
+            loadPreviewView()
+        }
 
-        // Handoff needs update in cursor position cahnged
+        let buttonName = UserDefaultsManagement.previewMode ? "editButton" : "previewButton"
+
+        if let buttonBar = navigationItem.rightBarButtonItems?.first(where: { $0.tag == 5 }), let button = buttonBar.customView as? UIButton {
+            if let image = UIImage(named: buttonName)?.resize(maxWidthHeight: 32)?.imageWithColor(color1: .white) {
+                button.setImage(image, for: .normal)
+            }
+        }
+
+        // Handoff needs update in cursor position changed
         userActivity?.needsSave = true
+    }
+
+    public func loadPreviewView() {
+        guard let note = EditTextView.note else { return }
+
+        var previewView: MPreviewView?
+        previewView = getPreviewView()
+
+        if previewView == nil {
+            let newView = MPreviewView(frame: self.view.frame, note: note, closure: {})
+            newView.backgroundColor = .white
+            view.addSubview(newView)
+
+            newView.translatesAutoresizingMaskIntoConstraints = false
+            view.leadingAnchor.constraint(equalTo: newView.leadingAnchor).isActive = true
+            view.trailingAnchor.constraint(equalTo: newView.trailingAnchor).isActive = true
+            view.topAnchor.constraint(equalTo: newView.topAnchor).isActive = true
+            view.bottomAnchor.constraint(equalTo: newView.bottomAnchor).isActive = true
+        }
+
+        guard let previewView = previewView else { return }
+        try? previewView.loadHTMLView("", css: "")
+
+        previewView.load(note: note, force: true)
     }
 
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
@@ -1676,31 +1679,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         }
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        guard UserDefaultsManagement.nightModeType == .system else { return }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            self.checkDarkMode()
-            self.updateNavigationBarBackground()
-        }
-    }
-
-    public func checkDarkMode() {
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle == .dark {
-                if NightNight.theme != .night {
-                    UIApplication.getVC().enableNightMode()
-                }
-            } else {
-                if NightNight.theme == .night {
-                    UIApplication.getVC().disableNightMode()
-                }
-            }
-        }
-    }
-
     /*
      Handoff methods
      */
@@ -1718,7 +1696,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         let evc = UIApplication.getEVC()
         evc.editArea.resignFirstResponder()
         evc.fill(note: note, clearPreview: true, enableHandoff: false) {
-            UIApplication.getMain()?.scrollInEditorVC()
+            UIApplication.getVC().openEditorViewController()
         }
     }
 
@@ -1735,7 +1713,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         guard let name = activity.userInfo?["note-file-name"] as? String,
             let position = activity.userInfo?["position"] as? String,
-            let state = activity.userInfo?["state"] as? String,
             let note = Storage.sharedInstance().getBy(name: name)
         else { return }
 
@@ -1743,7 +1720,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         evc.editArea.resignFirstResponder()
 
         evc.fill(note: note, clearPreview: true, enableHandoff: false) {
-            UIApplication.getMain()?.scrollInEditorVC()
+            UIApplication.getVC().openEditorViewController()
 
             if let pos = Int(position), pos > -1, evc.editArea.textStorage.length >= pos {
                 evc.editArea.becomeFirstResponder()

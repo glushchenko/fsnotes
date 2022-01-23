@@ -12,7 +12,6 @@ import NightNight
 extension UserDefaultsManagement {
     private struct Constants {
         static let codeTheme = "codeTheme"
-        static let currentController = "currentController"
         static let currentNote = "currentNote"
         static let currentLocation = "currentLocation"
         static let currentLength = "currentLength"
@@ -121,18 +120,6 @@ extension UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.currentNote)
-        }
-    }
-
-    static var currentController: Int? {
-        get {
-            if let controller = shared?.integer(forKey: Constants.currentController) {
-                return controller
-            }
-            return nil
-        }
-        set {
-            shared?.set(newValue, forKey: Constants.currentController)
         }
     }
 

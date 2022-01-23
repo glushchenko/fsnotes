@@ -127,7 +127,7 @@ class SidebarTableView: UITableView,
         }
 
         guard let vc = self.viewController else { return }
-        vc.turnOffSearch()
+        vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 
         if sidebarItem.name == NSLocalizedString("Settings", comment: "Sidebar settings") {
@@ -166,7 +166,7 @@ class SidebarTableView: UITableView,
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
-                vc.currentFolder.text = name
+                vc.setNavTitle(folder: name)
 
                 guard vc.notesTable.notes.count > 0 else {
                     self.unloadAllTags()
@@ -207,7 +207,7 @@ class SidebarTableView: UITableView,
 
         vc.reloadNotesTable(with: newQuery) {
             DispatchQueue.main.async {
-                vc.currentFolder.text = name
+                vc.setNavTitle(folder: name)
             }
         }
     }
@@ -748,7 +748,7 @@ class SidebarTableView: UITableView,
         guard let indexPath = getIndexPathBy(tag: tag) else { return }
         tableView(self, didSelectRowAt: indexPath)
 
-        UIApplication.getMain()?.scrollInListVC()
+        //UIApplication.getMain()?.scrollInListVC()
     }
 
     public func restoreSelection(for search: SearchQuery) {

@@ -13,10 +13,6 @@ class DefaultExtensionViewController: UITableViewController {
     private var extensions = ["markdown", "md", "txt", "rtf"]
     
     override func viewDidLoad() {
-        navigationController?.navigationBar.mixedTitleTextAttributes = [NNForegroundColorAttributeName: Colors.titleText]
-        navigationController?.navigationBar.mixedTintColor = MixedColor(normal: 0x4d8be6, night: 0x7eeba1)
-        navigationController?.navigationBar.mixedBarTintColor = Colors.Header
-        
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         
         super.viewDidLoad()

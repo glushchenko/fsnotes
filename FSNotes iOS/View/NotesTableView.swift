@@ -126,14 +126,12 @@ class NotesTableView: UITableView,
     }
 
     private func fill(note: Note, indexPath: IndexPath) {
-        UIApplication.getMain()?.disableSwipe()
-
         UIApplication.getEVC().fill(note: note, clearPreview: true) {
-            UIApplication.getMain()?.scrollInEditorVC()
+            UIApplication.getVC().openEditorViewController()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
-                UIApplication.getMain()?.enableSwipe()
+
             }
         }
     }
@@ -179,7 +177,7 @@ class NotesTableView: UITableView,
             note.togglePin()
             cell.configure(note: note)
 
-            let filter = self.viewDelegate?.search.text ?? ""
+            let filter = vc.navigationItem.searchController?.searchBar.text ?? ""
             let resorted = vc.storage.sortNotes(noteList: self.notes, filter: filter)
             guard let newIndex = resorted.firstIndex(of: note) else { return }
 
@@ -228,7 +226,7 @@ class NotesTableView: UITableView,
             self.turnOffEditing()
             self.removeAction(notes: notes, presentController: presentController)
 
-            if presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+            if presentController.isKind(of: EditorViewController.self) || back {
                 UIApplication.getEVC().cancel()
             }
         })
@@ -293,7 +291,7 @@ class NotesTableView: UITableView,
             let encryption = UIAlertAction(title: alertTitle, style: .default, handler: { _ in
                 self.viewDelegate?.toggleNotesLock(notes: [note])
 
-                if !note.isUnlocked(), presentController.isKind(of: EditorViewController.self) || presentController.isKind(of: PreviewViewController.self) || back {
+                if !note.isUnlocked(), presentController.isKind(of: EditorViewController.self) || back {
                     UIApplication.getEVC().cancel()
                 }
             })
@@ -739,13 +737,13 @@ class NotesTableView: UITableView,
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             vc.present(folderVC, animated: true)
-            if let pop = folderVC.popoverPresentationController {
-                pop.sourceView = (vc.currentFolder!)
-
-                var cgRect = (vc.currentFolder).bounds
-                cgRect.origin.y = cgRect.origin.y + 20
-                pop.sourceRect = cgRect
-            }
+//            if let pop = folderVC.popoverPresentationController {
+//                pop.sourceView = (vc.currentFolder!)
+//
+//                var cgRect = (vc.currentFolder).bounds
+//                cgRect.origin.y = cgRect.origin.y + 20
+//                pop.sourceRect = cgRect
+//            }
 
             AudioServicesPlaySystemSound(1519)
         }
