@@ -27,6 +27,8 @@ class MoveViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
+        initNavigationBackground()
+        
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
 
         self.navigationItem.leftBarButtonItem = Buttons.getBack(target: self, selector: #selector(cancel))

@@ -119,14 +119,21 @@ class SidebarTableView: UITableView,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let vc = self.viewController else { return }
+
         let selectedSection = SidebarSection(rawValue: indexPath.section)
         let sidebarItem = sidebar.items[indexPath.section][indexPath.row]
+
+
+        if let project = vc.searchQuery.project, getIndexPathBy(project: project) == indexPath, vc.notesTable.isEditing {
+            vc.notesTable.toggleSelectAll()
+            return
+        }
 
         guard sidebar.items.indices.contains(indexPath.section) && sidebar.items[indexPath.section].indices.contains(indexPath.row) else {
             return
         }
 
-        guard let vc = self.viewController else { return }
         vc.unloadSearchController()
         vc.notesTable.turnOffEditing()
 

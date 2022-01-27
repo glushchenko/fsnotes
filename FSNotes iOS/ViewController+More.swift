@@ -11,8 +11,23 @@ import UIKit
 
 extension ViewController: UIDocumentPickerDelegate {
     @IBAction public func openSidebarSettings() {
+        let mvc = UIApplication.getVC()
         if notesTable.isEditing {
-            notesTable.toggleSelectAll()
+            if let selectedRows = mvc.notesTable.selectedIndexPaths {
+                var notes = [Note]()
+                for indexPath in selectedRows {
+                    if mvc.notesTable.notes.indices.contains(indexPath.row) {
+                        let note = mvc.notesTable.notes[indexPath.row]
+                        notes.append(note)
+                    }
+                }
+
+                mvc.notesTable.selectedIndexPaths = nil
+                mvc.notesTable.actionsSheet(notes: notes, presentController: self)
+            } else {
+                mvc.notesTable.allowsMultipleSelectionDuringEditing = false
+                mvc.notesTable.setEditing(false, animated: true)
+            }
             return
         }
 
@@ -36,17 +51,17 @@ extension ViewController: UIDocumentPickerDelegate {
 
         switch type {
         case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder]
+            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection]
         case .All, .Todo:
-            actions = [.settingsFolder]
+            actions = [.settingsFolder, .multipleSelection]
         case .Archive:
-            actions = [.importNote, .settingsFolder]
+            actions = [.importNote, .settingsFolder, .multipleSelection]
         case .Trash:
-            actions = [.settingsFolder]
+            actions = [.settingsFolder, .multipleSelection]
         case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection]
         case .Tag:
-            actions = [.removeTag, .renameTag]
+            actions = [.removeTag, .renameTag, .multipleSelection]
         default: break
         }
 
@@ -77,6 +92,18 @@ extension ViewController: UIDocumentPickerDelegate {
                 settings.setValue(image, forKey: "image")
             }
             actionSheet.addAction(settings)
+        }
+
+        if actions.contains(.multipleSelection) {
+            let title = NSLocalizedString("Multiple selection", comment: "Main view popover table")
+            let multipleSelection = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.bulkEditing()
+            })
+            multipleSelection.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "navigationBulk")?.resize(maxWidthHeight: 23) {
+                multipleSelection.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(multipleSelection)
         }
 
         if actions.contains(.createFolder) {
@@ -200,6 +227,15 @@ extension ViewController: UIDocumentPickerDelegate {
 
         self.dismiss(animated: true, completion: nil)
         vc.present(controller, animated: true, completion: nil)
+    }
+
+    @objc func bulkEditing() {
+        let mvc = UIApplication.getVC()
+
+        if !mvc.notesTable.isEditing {
+            mvc.notesTable.allowsMultipleSelectionDuringEditing = true
+            mvc.notesTable.setEditing(true, animated: true)
+        }
     }
 
     private func createFolder() {

@@ -23,10 +23,16 @@ class MainNavigationController: UINavigationController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateNavigationBarBackground), name: NSNotification.Name(rawValue: NightNightThemeChangeNotification), object: nil)
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     override func popViewController(animated: Bool) -> UIViewController? {
         UserDefaultsManagement.currentNote = nil
 
         topViewController?.view.endEditing(true)
+        UIApplication.getVC().loadNotesFrame(keyboardHeight: nil)
+
         return super.popViewController(animated: animated)
     }
 

@@ -12,21 +12,17 @@ import MobileCoreServices
 class EditTextView: UITextView, UITextViewDelegate {
 
     public var isAllowedScrollRect = true
-    public var lastContentOffset: CGPoint?
-
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
-
     public var typingFont: UIFont?
-
     public static var note: Note?
     public static var isBusyProcessing: Bool = false
     public static var shouldForceRescan: Bool = false
     public static var lastRemoved: String?
-
     public var lasTouchPoint: CGPoint?
-
     public static var imagesLoaderQueue = OperationQueue.init()
+    public var keyboardIsOpened = true
+    public var callCounter = 0
 
     required init?(coder: NSCoder) {
         if #available(iOS 13.2, *) {
@@ -59,11 +55,23 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
-        if self.isAllowedScrollRect {
+        callCounter += 1
+        if keyboardIsOpened {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.8, delay: 0, options: .beginFromCurrentState, animations: {
+                    super.scrollRectToVisible(rect, animated: false)
+                })
+            }
+
+            if callCounter > 2 {
+                self.keyboardIsOpened = false
+                callCounter = 0
+            }
+        } else if self.isAllowedScrollRect {
             super.scrollRectToVisible(rect, animated: animated)
         }
     }
-    
+
     override func cut(_ sender: Any?) {
         guard let note = EditTextView.note else {
             super.cut(sender)

@@ -31,6 +31,8 @@ class ProjectSettingsViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
+        initNavigationBackground()
+
         view.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
 
         if dismiss {

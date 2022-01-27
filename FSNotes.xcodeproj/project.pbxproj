@@ -195,7 +195,6 @@
 		D7315ED5215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D7315ED6215ED95600AB49D4 /* NSAppearance+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */; };
 		D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
-		D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */; };
 		D735E5BD1F2EF66000173215 /* NoteCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BC1F2EF66000173215 /* NoteCellView.swift */; };
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
@@ -507,6 +506,8 @@
 		D781156B2153E05A004FA1CA /* ProjectSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */; };
 		D783B505208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
 		D783B506208A1BFD00328A41 /* EditorSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D783B504208A1BFD00328A41 /* EditorSplitView.swift */; };
+		D785805827A1FA0F000C1BAF /* UITableViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785805727A1FA0F000C1BAF /* UITableViewController+.swift */; };
+		D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */; };
 		D78678CB2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D78678CC2093AE10001A6620 /* UndoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78678CA2093AE10001A6620 /* UndoData.swift */; };
 		D7892AD12493C27800B3DDAE /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECC2108C7850059B37B /* CoreNote.swift */; };
@@ -1233,7 +1234,6 @@
 		D7315ECE215ECF3000AB49D4 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		D7315ED1215ED15500AB49D4 /* SidebarSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarSplitView.swift; sourceTree = "<group>"; };
 		D7315ED4215ED95600AB49D4 /* NSAppearance+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAppearance+.swift"; sourceTree = "<group>"; };
-		D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPopoverViewController.swift; sourceTree = "<group>"; };
 		D735BF2C227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		D735BF2E227EC4C8004C0B31 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D735E5BC1F2EF66000173215 /* NoteCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCellView.swift; sourceTree = "<group>"; };
@@ -1357,6 +1357,8 @@
 		D783B504208A1BFD00328A41 /* EditorSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSplitView.swift; sourceTree = "<group>"; };
 		D7855EE123486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = FSNotes/ko.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		D7855EE323486FF8000E96C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		D785805727A1FA0F000C1BAF /* UITableViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+.swift"; sourceTree = "<group>"; };
+		D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderPopoverActions.swift; sourceTree = "<group>"; };
 		D78678CA2093AE10001A6620 /* UndoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoData.swift; sourceTree = "<group>"; };
 		D78C6CBE246D7B78007AF7F2 /* wikilink.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wikilink.png; sourceTree = "<group>"; };
 		D78D20D41F934C05006DBBC3 /* FSNotes (CloudKit).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "FSNotes (CloudKit).entitlements"; sourceTree = "<group>"; };
@@ -2022,7 +2024,6 @@
 				D7C6DB5A25AA880600F8F76F /* ViewController+More.swift */,
 				D7063969202230BB00BC8446 /* EditorViewController.swift */,
 				D71AA0212143A4A8004AFD2A /* MoveViewController.swift */,
-				D73430C021E3D5C600A981B8 /* FolderPopoverViewController.swift */,
 				D7DCFECC2108C7850059B37B /* CoreNote.swift */,
 				D7163D3024E81D0100B1FC05 /* LaunchScreen.storyboard */,
 				D7163D2E24E81B5C00B1FC05 /* Main.storyboard */,
@@ -2036,6 +2037,7 @@
 				D73794C023366F5200E75A28 /* ImageScrollView.swift */,
 				D7122F3C2790EBB400B238A4 /* SmallButton.swift */,
 				D714749A279CE8EE001A8B29 /* MainNavigationController.swift */,
+				D785805727A1FA0F000C1BAF /* UITableViewController+.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -2337,6 +2339,7 @@
 			children = (
 				D7FDA4F6236DBC6900C3B4AA /* Sidebar.swift */,
 				D714749C279D7DBC001A8B29 /* SearchQuery.swift */,
+				D785805B27A3483B000C1BAF /* FolderPopoverActions.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -3402,9 +3405,12 @@
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/DKPhotoGallery/DKPhotoGallery.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SteviaLayout/Stevia.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyGif/SwiftyGif.framework",
 				"${BUILT_PRODUCTS_DIR}/SwipeCellKit/SwipeCellKit.framework",
+				"${BUILT_PRODUCTS_DIR}/YPImagePicker/YPImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -3419,9 +3425,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKPhotoGallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Stevia.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyGif.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeCellKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YPImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kanna.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3729,13 +3738,13 @@
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
+				D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */,
 				D7F681B823452A2500F8F971 /* CustomTextStorage+Images.swift in Sources */,
 				D7A549C324DD9D3400537544 /* SettingsEditorViewController.swift in Sources */,
 				D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */,
 				D74B7B672137D3A1007F5331 /* AttributedBox.swift in Sources */,
 				D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */,
 				D7D03BB0205C4DBA00D96A6D /* NoteAttribute.swift in Sources */,
-				D73430C121E3D5C600A981B8 /* FolderPopoverViewController.swift in Sources */,
 				D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */,
 				D7487FEB2174E62A00D09383 /* NSAttributedStringKey+.swift in Sources */,
 				D7153E0D2286B85B00A2C20F /* DefaultContainerViewController.swift in Sources */,
@@ -3766,6 +3775,7 @@
 				D7BDFE62201F678C00897A58 /* Note.swift in Sources */,
 				D71354042042AFC800E3776F /* SettingsViewController.swift in Sources */,
 				D7735B09213D01E000FACB12 /* Toolbar.swift in Sources */,
+				D785805827A1FA0F000C1BAF /* UITableViewController+.swift in Sources */,
 				D70716DC2307E82900B44B0D /* SingleImageTouchDownGestureRecognizer.swift in Sources */,
 				D71AA0222143A4A8004AFD2A /* MoveViewController.swift in Sources */,
 				D7F6CFF02056AC22008C584A /* LanguageViewController.swift in Sources */,

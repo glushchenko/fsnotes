@@ -126,8 +126,10 @@ class NotesTableView: UITableView,
     }
 
     private func fill(note: Note, indexPath: IndexPath) {
+        UIApplication.getVC().openEditorViewController()
+        
         UIApplication.getEVC().fill(note: note, clearPreview: true) {
-            UIApplication.getVC().openEditorViewController()
+
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 self.deselectRow(at: indexPath, animated: true)
@@ -211,8 +213,6 @@ class NotesTableView: UITableView,
 
     public func turnOffEditing() {
         if self.isEditing {
-            self.toggleSelectAll()
-
             self.allowsMultipleSelectionDuringEditing = false
             self.setEditing(false, animated: true)
         }
@@ -670,16 +670,7 @@ class NotesTableView: UITableView,
     }
 
     @objc public func toggleSelectAll() {
-        guard let vc = viewDelegate else { return }
-        guard self.isEditing else {
-            var indexPath: IndexPath?
-            if let tag = vc.searchQuery.tag {
-                indexPath = vc.sidebarTableView.getIndexPathBy(tag: tag)
-            }
-
-            openPopover(indexPath: indexPath)
-            return
-        }
+        guard self.isEditing else { return }
 
         if let selected = self.indexPathsForSelectedRows, (selected.count - 1) == self.notes.count {
             for indexPath in selected {
@@ -693,59 +684,6 @@ class NotesTableView: UITableView,
             }
 
             self.selectedIndexPaths = indexPathsForSelectedRows
-        }
-    }
-
-    public func openPopover(indexPath: IndexPath? = nil) {
-        guard let vc = viewDelegate else { return }
-        var type = vc.sidebarTableView.getSidebarItem()?.type
-
-        if let path = indexPath, path.section == SidebarSection.Tags.rawValue {
-            type = .Tag
-        }
-
-        guard type != .Label else { return }
-
-        let folderVC = FolderPopoverViewControler()
-        var actions = [FolderPopoverActions]()
-
-        switch type {
-        case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder]
-        case .All, .Todo:
-            actions = [.settingsFolder]
-        case .Archive:
-            actions = [.importNote, .settingsFolder]
-        case .Trash:
-            actions = [.settingsFolder]
-        case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder]
-        case .Tag:
-            actions = [.removeTag, .renameTag]
-        default: break
-        }
-
-        folderVC.setActions(actions)
-
-        let height = Int(folderVC.tableView.rowHeight) * folderVC.actions.count
-
-        folderVC.preferredContentSize = CGSize(width: 200, height: height)
-        folderVC.modalPresentationStyle = .popover
-        if let pres = folderVC.presentationController {
-            pres.delegate = viewDelegate
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            vc.present(folderVC, animated: true)
-//            if let pop = folderVC.popoverPresentationController {
-//                pop.sourceView = (vc.currentFolder!)
-//
-//                var cgRect = (vc.currentFolder).bounds
-//                cgRect.origin.y = cgRect.origin.y + 20
-//                pop.sourceRect = cgRect
-//            }
-
-            AudioServicesPlaySystemSound(1519)
         }
     }
 

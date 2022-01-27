@@ -25,7 +25,7 @@ extension UIApplication {
         return appDelegate.mainController
     }
 
-    class func getPresentedViewController() -> UIViewController? {
+    static func getPresentedViewController() -> UIViewController? {
         var presentViewController = UIApplication.shared.keyWindow?.rootViewController
         while let pVC = presentViewController?.presentedViewController
         {
@@ -33,5 +33,9 @@ extension UIApplication {
         }
 
         return presentViewController
+    }
+
+    static func isMainVCPresented() -> Bool {
+        return getPresentedViewController() == getVC()
     }
 }

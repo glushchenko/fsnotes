@@ -14,8 +14,9 @@ import MobileCoreServices
 import Photos
 import DropDown
 import CoreSpotlight
+import PhotosUI
 
-class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate {
+class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPickerDelegate, UIGestureRecognizerDelegate,  PHPickerViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
     public var note: Note?
     
     private var isHighlighted: Bool = false
@@ -25,8 +26,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     var inProgress = false
     var change = 0
-
-    private var initialKeyboardHeight: CGFloat = 0
 
     @IBOutlet weak var editArea: EditTextView!
 
@@ -103,8 +102,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             editArea.perform(#selector(becomeFirstResponder), with: nil, afterDelay: 0)
         }
 
-        //UIApplication.getMain()?.enableSwipe()
-
         if NightNight.theme == .night {
             editArea.keyboardAppearance = .dark
         } else {
@@ -115,14 +112,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         editArea.indicatorStyle = (NightNight.theme == .night) ? .white : .black
         editArea.flashScrollIndicators()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
         self.registerForKeyboardNotifications()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        self.deregisterFromKeyboardNotifications()
         editArea.endEditing(true)
     }
 
@@ -144,12 +138,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
-    private func deregisterFromKeyboardNotifications(){
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     public func getToolbar(for note: Note) -> UIToolbar {
@@ -802,30 +790,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         let keyboardHeight = keyboardFrame.height
 
-        if initialKeyboardHeight == 0 {
-            initialKeyboardHeight = keyboardHeight + 44
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight - 25, right: 0.0)
+            self.editArea.contentInset = contentInsets
+            self.editArea.scrollIndicatorInsets = contentInsets
         }
-
-        var padding: CGFloat = 0
-        if keyboardHeight < initialKeyboardHeight - 44 {
-            padding = 44
-        }
-
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight + padding, right: 0.0)
-        self.editArea.contentInset = contentInsets
-        self.editArea.scrollIndicatorInsets = contentInsets
-
-        guard let note = self.note else { return }
-
-        if let last = note.getLastSelectedRange() {
-            editArea.selectedRange = last
-        }
-
-        restoreContentOffset()
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        initialKeyboardHeight = 0
         let contentInsets = UIEdgeInsets.zero
         editArea.contentInset = contentInsets
         editArea.scrollIndicatorInsets = contentInsets
@@ -1126,6 +1098,17 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc func imagePressed() {
+        if #available(iOS 14, *) {
+            var conf = PHPickerConfiguration(photoLibrary: .shared())
+            conf.selectionLimit = 10
+
+            let picker = PHPickerViewController(configuration: conf)
+            picker.delegate = self
+
+            present(picker, animated: true, completion: nil)
+            return
+        }
+
         if let note = self.note {
             let pickerController = DKImagePickerController()
             pickerController.assetType = .allPhotos
@@ -1213,7 +1196,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                             note.save(attributed: self.editArea.attributedText)
                             UIApplication.getVC().notesTable.reloadRowForce(note: note)
-                            
+
                             note.isParsed = false
 
                             self.editArea.undoManager?.removeAllActions()
@@ -1520,6 +1503,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     @IBAction func editMode() {
         if UserDefaultsManagement.previewMode {
             togglePreview()
+
+            editArea.becomeFirstResponder()
         }
     }
 
@@ -1663,20 +1648,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        initialKeyboardHeight = 0
-    }
-
-    private func restoreContentOffset() {
-        if let co = self.editArea.lastContentOffset {
-           self.editArea.lastContentOffset = nil
-           self.editArea.setContentOffset(co, animated: false)
-       }
-    }
-
-    public func saveContentOffset() {
-        if editArea != nil {
-            editArea.lastContentOffset = editArea.contentOffset
-        }
+        editArea.keyboardIsOpened = true
+        editArea.callCounter = 0
     }
 
     /*
@@ -1743,5 +1716,67 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             ]
 
         activity.addUserInfoEntries(from: data)
+    }
+
+    @available(iOS 14, *)
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+
+        guard let note = self.note else { return }
+
+        var processed = 0
+        var markup = String()
+
+        for result in results {
+           result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
+               guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
+               let imageExt = "jpg"
+
+               if UserDefaultsManagement.liveImagesPreview {
+                   DispatchQueue.main.async {
+                       self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
+                   }
+
+                   if processed == results.count {
+                       note.save(attributed: self.editArea.attributedText)
+
+                       UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                       return
+                   }
+
+                   if results.count != 1 {
+                       self.editArea.insertText("\n\n")
+                   }
+
+                   DispatchQueue.main.async {
+                       self.dismiss(animated: true)
+                       self.editArea.becomeFirstResponder()
+                   }
+
+                   return
+               }
+
+               let path = "file:///tmp/" + UUID().uuidString + ".jpg"
+               let url = URL(fileURLWithPath: path)
+
+               guard let path = ImagesProcessor.writeFile(data: imageData, url: url, note: note, ext: imageExt) else { return }
+
+               markup += "![](\(path))\n\n"
+
+               guard processed == results.count else { return }
+
+               DispatchQueue.main.async {
+                   self.editArea.insertText(markup)
+
+                   note.save(attributed: self.editArea.attributedText)
+                   UIApplication.getVC().notesTable.reloadRowForce(note: note)
+
+                   note.isParsed = false
+
+                   self.editArea.undoManager?.removeAllActions()
+                   self.refill()
+               }
+           })
+        }
     }
 }

@@ -228,7 +228,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44" width="428" height="842"/>
+                                <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" keyboardAppearance="light" smartQuotesType="no"/>
@@ -239,7 +239,7 @@
                         <constraints>
                             <constraint firstItem="ecm-ZU-dhM" firstAttribute="top" secondItem="QrF-sP-UlZ" secondAttribute="top" id="N5x-s4-zby"/>
                             <constraint firstItem="QrF-sP-UlZ" firstAttribute="trailing" secondItem="ecm-ZU-dhM" secondAttribute="trailing" id="RB6-wy-4rq"/>
-                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" constant="6" id="TH4-jD-Xnb"/>
+                            <constraint firstItem="QrF-sP-UlZ" firstAttribute="bottom" secondItem="ecm-ZU-dhM" secondAttribute="bottom" id="TH4-jD-Xnb"/>
                             <constraint firstItem="ecm-ZU-dhM" firstAttribute="leading" secondItem="QrF-sP-UlZ" secondAttribute="leading" id="V6w-av-pPX"/>
                         </constraints>
                     </view>
@@ -250,21 +250,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihg-8y-LLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="928.79999999999995" y="133.5832083958021"/>
-        </scene>
-        <!--Preview View Controller-->
-        <scene sceneID="HXZ-PF-sPm">
-            <objects>
-                <viewController storyboardIdentifier="previewViewController" id="Oga-nk-3WY" customClass="PreviewViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Fn5-LP-Dsx">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="ByR-0t-POa"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="DZq-E6-XdK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1668" y="134"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="8HG-j4-oXm">
@@ -377,7 +362,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gGo-VN-Sc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2452" y="134"/>
+            <point key="canvasLocation" x="1689" y="132"/>
         </scene>
         <!--Image Preview View Controller-->
         <scene sceneID="OOK-4o-43g">
@@ -416,7 +401,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXN-5G-zCr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3216" y="134"/>
+            <point key="canvasLocation" x="2470" y="133"/>
         </scene>
     </scenes>
     <resources>
