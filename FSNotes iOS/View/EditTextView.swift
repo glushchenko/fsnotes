@@ -11,7 +11,7 @@ import MobileCoreServices
 
 class EditTextView: UITextView, UITextViewDelegate {
 
-    public var isAllowedScrollRect = true
+    public var isAllowedScrollRect: Bool?
     private var undoIcon = UIImage(named: "undo.png")
     private var redoIcon = UIImage(named: "redo.png")
     public var typingFont: UIFont?
@@ -55,7 +55,10 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {
+        guard isAllowedScrollRect == true else { return }
+
         callCounter += 1
+
         if keyboardIsOpened {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: 0.8, delay: 0, options: .beginFromCurrentState, animations: {
@@ -64,10 +67,10 @@ class EditTextView: UITextView, UITextViewDelegate {
             }
 
             if callCounter > 2 {
-                self.keyboardIsOpened = false
+                keyboardIsOpened = false
                 callCounter = 0
             }
-        } else if self.isAllowedScrollRect {
+        } else {
             super.scrollRectToVisible(rect, animated: animated)
         }
     }

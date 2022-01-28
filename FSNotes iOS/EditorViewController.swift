@@ -42,6 +42,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
     override func viewDidLoad() {
         storageQueue.maxConcurrentOperationCount = 1
+        storageQueue.qualityOfService = .userInitiated
+
         editArea.textContainerInset = UIEdgeInsets(top: 13, left: 10, bottom: 0, right: 10)
         
         navigationItem.rightBarButtonItems = [getMoreButton(), self.getTogglePreviewButton()]
@@ -1330,13 +1332,13 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     }
 
     @objc private func tapHandler(_ sender: SingleTouchDownGestureRecognizer) {
-        let myTextView = sender.view as! UITextView
+        let myTextView = sender.view as! EditTextView
         guard let characterIndex = sender.touchCharIndex else { return}
         let char = myTextView.textStorage.mutableString.substring(with: NSRange(location: characterIndex, length: 1))
 
         // Toggle todo on click
         if characterIndex + 1 < myTextView.textStorage.length, char != "\n", self.isTodo(location: characterIndex, textView: myTextView), let note = self.note {
-            self.editArea.isAllowedScrollRect = false
+
             let textFormatter = TextFormatter(textView: self.editArea!, note: note)
             textFormatter.toggleTodo(characterIndex)
 
@@ -1635,7 +1637,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         // Skip images (fixes glitch bug)
         let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
         let attr = textView.textStorage.attribute(pathKey, at: characterRange.location, effectiveRange: nil)
-        
+
         if attr != nil && !textView.isFirstResponder {
             return false
         }
@@ -1744,11 +1746,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                        return
                    }
 
-                   if results.count != 1 {
-                       self.editArea.insertText("\n\n")
-                   }
-
                    DispatchQueue.main.async {
+                       if results.count != 1 {
+                           self.editArea.insertText("\n\n")
+                       }
+
                        self.dismiss(animated: true)
                        self.editArea.becomeFirstResponder()
                    }

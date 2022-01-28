@@ -961,7 +961,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             notesTable.scrollTo(note: note)
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let evc = UIApplication.getEVC()
             evc.editArea.becomeFirstResponder()
         }

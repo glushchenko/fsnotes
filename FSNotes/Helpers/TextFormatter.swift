@@ -954,6 +954,8 @@ public class TextFormatter {
                     textView.typingAttributes[.strikethroughStyle] = strike
                 #endif
             }
+
+            storage.updateParagraphStyle(range: paragraph)
             
             return
         }
