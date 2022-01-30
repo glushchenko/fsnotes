@@ -11,6 +11,10 @@ import Punycode
 
 extension String {
     func idnaEncodeURL() -> String {
+        if URL(string: self) != nil {
+            return self
+        }
+
         var scheme: String?
         var host: String?
         var path: String?
@@ -40,13 +44,33 @@ extension String {
 
         guard let host = host else { return self }
 
-        let parts = host.components(separatedBy: ".")
-        let domain = parts[0].idnaEncoded!
-        let tld = parts[1].idnaEncoded!
+        let parts = host.components(separatedBy: ".").compactMap({ $0.idnaEncoded! })
+        let domain = parts.joined(separator: ".")
 
-        let unwrappedPath = path?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        let result = String("\(scheme)://\(domain).\(tld)/\(unwrappedPath)")
+        let encodedPath = getEncodedPath(path: path)
+        let result = String("\(scheme)://\(domain)/\(encodedPath)")
 
         return result
+    }
+
+    private func getEncodedPath(path: String?) -> String {
+        var unwrappedPath = String()
+
+        if let path = path {
+            var addPercentEncoding = false
+            for pathChar in path.unicodeScalars {
+                if !CharacterSet.urlPathAllowed.contains(pathChar) {
+                    addPercentEncoding = true
+                }
+            }
+
+            if addPercentEncoding, let pathPercentEncoded = path.removingPercentEncoding?.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) {
+                unwrappedPath = pathPercentEncoded
+            } else {
+                unwrappedPath = path
+            }
+        }
+
+        return unwrappedPath
     }
 }

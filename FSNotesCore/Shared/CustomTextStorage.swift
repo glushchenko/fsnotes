@@ -264,7 +264,9 @@ extension NSTextStorage: NSTextStorageDelegate {
 
         // Todo head indents
         enumerateAttribute(.paragraphStyle, in: scanRange, options: .init()) { value, range, _ in
-            if attributedSubstring(from: range).attribute(.todo, at: 0, effectiveRange: nil) != nil,
+
+            if attribute(.todo, at: range.location, effectiveRange: nil) != nil ||
+                (range.length > 1 && attribute(.todo, at: range.location + 1, effectiveRange: nil) != nil),
                 let parStyle = value as? NSMutableParagraphStyle {
 
                 parStyle.headIndent = font.pointSize + font.pointSize / 2 + spaceWidth
