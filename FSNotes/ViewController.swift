@@ -1950,15 +1950,15 @@ class ViewController: NSViewController,
     
     func moveNoteToTop(note index: Int) {
         DispatchQueue.main.async {
-            let isPinned = notesTableView.noteList[index].isPinned
-            let position = isPinned ? 0 : notesTableView.countVisiblePinned()
-            let note = notesTableView.noteList.remove(at: index)
+            let isPinned = self.notesTableView.noteList[index].isPinned
+            let position = isPinned ? 0 : self.notesTableView.countVisiblePinned()
+            let note = self.notesTableView.noteList.remove(at: index)
 
-            notesTableView.noteList.insert(note, at: position)
+            self.notesTableView.noteList.insert(note, at: position)
 
-            notesTableView.reloadRow(note: note)
-            notesTableView.moveRow(at: index, to: position)
-            notesTableView.scrollRowToVisible(0)
+            self.notesTableView.reloadRow(note: note)
+            self.notesTableView.moveRow(at: index, to: position)
+            self.notesTableView.scrollRowToVisible(0)
         }
     }
     

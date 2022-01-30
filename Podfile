@@ -1,6 +1,6 @@
 use_frameworks!
 
-MAC_TARGET_VERSION = '10.11'
+MAC_TARGET_VERSION = '10.12'
 IOS_TARGET_VERSION = '12'
 
 def mac_pods
@@ -20,6 +20,7 @@ def common_pods
     pod 'libcmark_gfm', :git => 'https://github.com/KristopherGBaker/libcmark_gfm.git', :branch => 'master' 
     pod 'RNCryptor', '~> 5.1.0'
     pod 'SSZipArchive', :git => 'https://github.com/glushchenko/ZipArchive.git', :branch => 'master'
+    pod 'Punycode'
 end
 
 def framework_pods

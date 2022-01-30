@@ -28,8 +28,6 @@ class MainNavigationController: UINavigationController {
     }
 
     override func popViewController(animated: Bool) -> UIViewController? {
-        let result = super.popViewController(animated: animated)
-
         UserDefaultsManagement.currentNote = nil
 
         topViewController?.view.endEditing(true)
@@ -39,7 +37,7 @@ class MainNavigationController: UINavigationController {
             UIApplication.getVC().loadPlusButton()
         }
 
-        return result
+        return super.popViewController(animated: animated)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

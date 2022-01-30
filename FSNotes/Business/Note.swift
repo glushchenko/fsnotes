@@ -446,8 +446,16 @@ public class Note: NSObject  {
     }
     #endif
 
+    public func getAttachPrefix(url: URL? = nil) -> String {
+        if let url = url, !url.isImage {
+            return "files/"
+        }
+
+        return "i/"
+    }
+
     public func move(from imageURL: URL, imagePath: String, to project: Project, copy: Bool = false) {
-        let dstPrefix = NotesTextProcessor.getAttachPrefix(url: imageURL)
+        let dstPrefix = getAttachPrefix(url: imageURL)
         let dest = project.url.appendingPathComponent(dstPrefix)
 
         if !FileManager.default.fileExists(atPath: dest.path) {
@@ -1119,7 +1127,7 @@ public class Note: NSObject  {
 
         do {
             let range = NSRange(location: 0, length: content.length)
-            let re = try NSRegularExpression(pattern: NotesTextProcessor.tagsPattern, options: options)
+            let re = try NSRegularExpression(pattern: FSParser.tagsPattern, options: options)
 
             re.enumerateMatches(
                 in: content.string,
@@ -1132,8 +1140,8 @@ public class Note: NSObject  {
 
                     range = NSRange(location: range.location - 1, length: range.length + 1)
 
-                    let codeBlock = NotesTextProcessor.getFencedCodeBlockRange(paragraphRange: range, string: content)
-                    let spanBlock = NotesTextProcessor.getSpanCodeBlockRange(content: content, range: range)
+                    let codeBlock = FSParser.getFencedCodeBlockRange(paragraphRange: range, string: content)
+                    let spanBlock = FSParser.getSpanCodeBlockRange(content: content, range: range)
 
                     if codeBlock == nil && spanBlock == nil && isValid(tag: cleanTag) {
 
@@ -1216,7 +1224,7 @@ public class Note: NSObject  {
         let content = content ?? self.content
         var res = [(url: URL, path: String)]()
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.length), using:
             {(result, flags, stop) -> Void in
 
             guard let range = result?.range(at: 3), content.length >= range.location else { return }
@@ -1269,7 +1277,7 @@ public class Note: NSObject  {
         var urls: [URL] = []
         var mdImages: [String] = []
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: content, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<content.count), using:
         {(result, flags, stop) -> Void in
 
             let nsContent = content as NSString
@@ -1981,29 +1989,6 @@ public class Note: NSObject  {
 
         content.append(NSAttributedString(string: prefix + "#" + name))
         save()
-    }
-
-    public func cache(backgroundThread: Bool = false) {
-        if cachingInProgress {
-            return
-        }
-
-        let hash = content.string.md5
-        cachingInProgress = true
-
-        if let copy = content.mutableCopy() as? NSMutableAttributedString {
-            copy.removeAttribute(.backgroundColor, range: NSRange(0..<copy.length))
-        
-            NotesTextProcessor.highlightMarkdown(attributedString: copy, paragraphRange: NSRange(location: 0, length: copy.length), note: self)
-            NotesTextProcessor.highlightFencedAndIndentCodeBlocks(attributedString: copy, backgroundThread: backgroundThread)
-
-            if content.string.md5 == copy.string.md5 {
-                content = copy
-                cacheHash = hash
-            }
-        }
-
-        cachingInProgress = false
     }
 
     public func resetAttributesCache() {

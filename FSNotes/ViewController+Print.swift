@@ -81,7 +81,7 @@ extension ViewController {
     public func assignBase64Images(note: Note, html: String) -> String {
         var html = html
 
-        NotesTextProcessor.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
+        FSParser.imageInlineRegex.regularExpression.enumerateMatches(in: note.content.string, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSRange(0..<note.content.length), using:
                 {(result, flags, stop) -> Void in
 
             guard let range = result?.range(at: 3), note.content.length >= range.location else { return }

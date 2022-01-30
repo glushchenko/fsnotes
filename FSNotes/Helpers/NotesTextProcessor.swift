@@ -85,16 +85,6 @@ public class NotesTextProcessor {
             }
         }
     }
-
-    public static var underlineColor: NSColor {
-        get {
-            if UserDefaultsManagement.appearanceType != AppearanceType.Custom, #available(OSX 10.13, *) {
-                return NSColor(named: "underlineColor")!
-            } else {
-                return NSColor.black
-            }
-        }
-    }
 #else
     public static var font: UIFont {
         get {
@@ -131,12 +121,6 @@ public class NotesTextProcessor {
     public static var quoteColor: UIColor {
         get {
             return UIColor.darkGray
-        }
-    }
-
-    public static var underlineColor: UIColor {
-        get {
-            return UIColor.black
         }
     }
 #endif
@@ -378,7 +362,7 @@ public class NotesTextProcessor {
         let range = NSRange(0..<content.string.count)
         let tagQuery = "fsnotes://open/?tag="
 
-        NotesTextProcessor.tagsInlineRegex.matches(content.string, range: range) { (result) -> Void in
+        FSParser.tagsInlineRegex.matches(content.string, range: range) { (result) -> Void in
             guard var range = result?.range(at: 1) else { return }
 
             var substring = attributedString.mutableString.substring(with: range)
@@ -631,6 +615,9 @@ public class NotesTextProcessor {
                 substring = String(substring.dropLast())
             }
 
+
+            substring = String(substring).idnaEncodeURL()
+            
             attributedString.addAttribute(.link, value: substring, range: range)
 
             if NotesTextProcessor.hideSyntax {
@@ -950,7 +937,7 @@ public class NotesTextProcessor {
 
         // Inline tags
         if UserDefaultsManagement.inlineTags {
-            NotesTextProcessor.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            FSParser.tagsInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
                 guard var range = result?.range(at: 1) else { return }
 
                 // Skip if indented code block
@@ -987,7 +974,7 @@ public class NotesTextProcessor {
         if !UserDefaultsManagement.liveImagesPreview {
             
             // We detect and process inline images
-            NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+            FSParser.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
                 guard let range = result?.range else { return }
 
                 if let linkRange = result?.range(at: 3) {
@@ -1065,14 +1052,6 @@ public class NotesTextProcessor {
                 styleApplier.addAttribute(.foregroundColor, value: NotesTextProcessor.syntaxColor, range: innerRange)
             }
         }
-    }
-
-    public static func getAttachPrefix(url: URL? = nil) -> String {
-        if let url = url, !url.isImage {
-            return "files/"
-        }
-
-        return "i/"
     }
 
     public static func isLink(attributedString: NSAttributedString, range: NSRange) -> Bool {
@@ -1304,43 +1283,6 @@ public class NotesTextProcessor {
         ].joined(separator: "\n")
     
     public static let imageClosingSquareRegex = MarklightRegex(pattern: imageClosingSquarePattern, options: [.allowCommentsAndWhitespace])
-    
-    fileprivate static let imageInlinePattern = [
-        "(                     # wrap whole match in $1",
-        "  !\\[",
-        "      ([^\\[\\]]*?)           # alt text = $2",
-        "  \\]",
-        "  \\s?                # one optional whitespace character",
-        "  \\(                 # literal paren",
-        "      \\p{Z}*",
-        "      (\(NotesTextProcessor.getNestedParensPattern()))    # href = $3",
-        "      \\p{Z}*",
-        "      (               # $4",
-        "      (['\"])         # quote char = $5",
-        "      (.*?)           # title = $6",
-        "      \\5             # matching quote",
-        "      \\p{Z}*",
-        "      )?              # title is optional",
-        "  \\)",
-        ")"
-        ].joined(separator: "\n")
-    
-    public static let imageInlineRegex = MarklightRegex(pattern: imageInlinePattern, options: [.allowCommentsAndWhitespace, .dotMatchesLineSeparators])
-
-    public static let tagsPattern = ###"""
-        (?:\A|\s)
-        \#(
-            [^
-                \s          # no whitespace
-                \#          # no hashes
-                ,?!"`';:\.   # no punctuation
-                \\          # no backslash
-                (){}\[\]    # no bracket pairs
-            ]+
-        )
-    """###
-
-    public static let tagsInlineRegex = MarklightRegex(pattern: tagsPattern, options: [.allowCommentsAndWhitespace, .anchorsMatchLines])
 
     fileprivate static let todoInlinePattern = "(^(-\\ \\[(?:\\ |x)\\])\\ )"
     

@@ -13,7 +13,7 @@ extension NSMutableAttributedString {
         let paragraphRange = NSRange(0..<length)
         var offset = 0
 
-        NotesTextProcessor.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
+        FSParser.imageInlineRegex.matches(string, range: paragraphRange) { (result) -> Void in
             guard var range = result?.range else { return }
 
             range = NSRange(location: range.location - offset, length: range.length)

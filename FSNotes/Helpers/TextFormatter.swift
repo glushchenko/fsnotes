@@ -273,11 +273,11 @@ public class TextFormatter {
                         attributedString.removeAttribute(.underlineStyle, range: range)
                     } else {
                         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                        attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                        attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                     }
                 } else {
                     attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: range)
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: range)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: range)
                 }
 
                 #if os(iOS)
@@ -298,7 +298,7 @@ public class TextFormatter {
                     attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: selectedRange)
 
 
-                    attributedString.addAttribute(.underlineColor, value: NotesTextProcessor.underlineColor, range: selectedRange)
+                    attributedString.addAttribute(.underlineColor, value: Colors.underlineColor, range: selectedRange)
 
                     
                     textView.typingAttributes[.underlineStyle] = 1
