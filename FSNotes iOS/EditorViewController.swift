@@ -78,16 +78,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     @objc func rotated() {
         guard isLandscape != nil else {
             isLandscape = UIDevice.current.orientation.isLandscape
-            navigationController?.isNavigationBarHidden = isLandscape!
+            //navigationController?.setNavigationBarHidden(isLandscape!, animated: true)
             return
         }
 
         let isLand = UIDevice.current.orientation.isLandscape
         if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
             isLandscape = isLand
-            navigationController?.isNavigationBarHidden = isLand
+            //navigationController?.setNavigationBarHidden(isLand, animated: true)
         } else {
-            navigationController?.isNavigationBarHidden = false
+            //navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
 
@@ -1581,7 +1581,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         if previewView == nil {
             let newView = MPreviewView(frame: self.view.frame, note: note, closure: {})
-            newView.backgroundColor = .white
+            newView.mixedBackgroundColor = MixedColor(normal: 0xfafafa, night: 0x000000)
             view.addSubview(newView)
 
             newView.translatesAutoresizingMaskIntoConstraints = false

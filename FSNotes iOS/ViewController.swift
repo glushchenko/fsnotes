@@ -1028,10 +1028,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         if let landscape = self.isLandscape, landscape != isLand, !UIDevice.current.orientation.isFlat {
             isLandscape = isLand
 
-            loadPlusButton()
-            loadNews()
-
             DispatchQueue.main.async {
+                self.loadPlusButton()
+                self.loadNews()
                 self.loadNotesFrame()
                 self.loadSidebarState()
             }
@@ -1133,6 +1132,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = true
             self.sidebarTableView.isUserInteractionEnabled = true
+
+            self.leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                )
         }
     }
 

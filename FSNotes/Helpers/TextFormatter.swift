@@ -838,7 +838,20 @@ public class TextFormatter {
         let mutable = NSMutableAttributedString(attributedString: attributedString).unLoadCheckboxes()
 
         if !attributedString.hasTodoAttribute() && selectedRange.length == 0 {
-            insertText(AttributedBox.getUnChecked()!)
+            var offset = 0
+            let symbols = ["\t", " "]
+            for char in mutable.string {
+                if symbols.contains(String(char)) {
+                    offset += 1
+                } else {
+                    break
+                }
+            }
+
+            let insertRange = NSRange(location: pRange.location + offset, length: 0)
+            let selectRange = NSRange(location: range.location + 2, length: range.length)
+            insertText(AttributedBox.getUnChecked()!, replacementRange: insertRange, selectRange: selectRange)
+            storage.updateParagraphStyle(range: getParagraphRange())
             return
         }
 
@@ -927,6 +940,7 @@ public class TextFormatter {
             : NSRange(location: pRange.location, length: mutableResult.length)
 
         insertText(mutableResult, replacementRange: pRange, selectRange: selectRange)
+        storage.updateParagraphStyle(range: getParagraphRange())
     }
 
     public func toggleTodo(_ location: Int? = nil) {

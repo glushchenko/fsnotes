@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.shortcutItems = [shortcutNew, shortcutNewClipboard, shortcutSearch]
 
         let nav = MainNavigationController(rootViewController: listController)
-        nav.isNavigationBarHidden = false
+        nav.setNavigationBarHidden(false, animated: false)
 
         mainController = nav
         
