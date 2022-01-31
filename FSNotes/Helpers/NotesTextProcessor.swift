@@ -913,7 +913,12 @@ public class NotesTextProcessor {
             guard let range = result?.range else { return }
             let substring = attributedString.mutableString.substring(with: range)
             guard substring.lengthOfBytes(using: .utf8) > 0, URL(string: substring) != nil else { return }
-            attributedString.addAttribute(.link, value: substring, range: range)
+
+            if substring.isValidEmail() {
+                attributedString.addAttribute(.link, value: "mailto:\(substring)", range: range)
+            } else {
+                attributedString.addAttribute(.link, value: substring, range: range)
+            }
             
             if NotesTextProcessor.hideSyntax {
                 NotesTextProcessor.mailtoRegex.matches(string, range: range) { (innerResult) -> Void in
