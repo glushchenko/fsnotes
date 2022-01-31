@@ -227,7 +227,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="ecm-ZU-dhM" customClass="EditTextView" customModule="FSNotes_iOS" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -372,36 +372,51 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T1T-1l-93q" customClass="ImageScrollView" customModule="FSNotes_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="882"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1T-1l-93q" customClass="ImageScrollView" customModule="FSNotes_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="428" height="755"/>
                             </scrollView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYe-LF-KuA">
-                                <rect key="frame" x="0.0" y="882" width="428" height="44"/>
+                                <rect key="frame" x="0.0" y="799" width="428" height="44"/>
                                 <items>
                                     <navigationItem id="nkb-GO-G7U"/>
                                 </items>
+                                <navigationBarAppearance key="standardAppearance"/>
+                                <navigationBarAppearance key="compactAppearance"/>
+                                <navigationBarAppearance key="scrollEdgeAppearance"/>
+                                <navigationBarAppearance key="compactScrollEdgeAppearance"/>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-Hg-o5c" userLabel="bottomSafeView">
+                                <rect key="frame" x="0.0" y="843" width="428" height="83"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DVk-Fs-Jhg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Gya-Hg-o5c" firstAttribute="leading" secondItem="Hcy-mV-Ewd" secondAttribute="leading" id="4Vc-ug-3Cg"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="leading" secondItem="gYe-LF-KuA" secondAttribute="leading" id="6df-aj-BVn"/>
                             <constraint firstAttribute="trailing" secondItem="gYe-LF-KuA" secondAttribute="trailing" id="YAG-UM-ijf"/>
                             <constraint firstItem="gYe-LF-KuA" firstAttribute="leading" secondItem="Hcy-mV-Ewd" secondAttribute="leading" id="ate-Ff-XmV"/>
-                            <constraint firstAttribute="bottom" secondItem="gYe-LF-KuA" secondAttribute="bottom" id="rlq-M4-xPb"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="top" secondItem="DVk-Fs-Jhg" secondAttribute="top" id="cNr-Hd-czf"/>
+                            <constraint firstAttribute="trailing" secondItem="Gya-Hg-o5c" secondAttribute="trailing" id="gV2-ca-fgg"/>
+                            <constraint firstItem="Gya-Hg-o5c" firstAttribute="top" secondItem="gYe-LF-KuA" secondAttribute="bottom" id="ls8-Ro-U1n"/>
+                            <constraint firstAttribute="bottom" secondItem="Gya-Hg-o5c" secondAttribute="bottom" id="oz1-Yo-NdV"/>
+                            <constraint firstItem="T1T-1l-93q" firstAttribute="trailing" secondItem="gYe-LF-KuA" secondAttribute="trailing" id="rbL-TE-CwV"/>
+                            <constraint firstItem="DVk-Fs-Jhg" firstAttribute="bottom" secondItem="gYe-LF-KuA" secondAttribute="bottom" id="rlq-M4-xPb"/>
+                            <constraint firstItem="gYe-LF-KuA" firstAttribute="top" secondItem="T1T-1l-93q" secondAttribute="bottom" id="xcV-nC-nL7"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="bottomSafeView" destination="Gya-Hg-o5c" id="HXa-y3-BkN"/>
                         <outlet property="imageScrollView" destination="T1T-1l-93q" id="sHb-Vp-jwF"/>
-                        <outlet property="navigation" destination="gYe-LF-KuA" id="P4L-eh-YMx"/>
-                        <outlet property="navigationBar" destination="nkb-GO-G7U" id="DJ1-0k-0oR"/>
+                        <outlet property="navItem" destination="nkb-GO-G7U" id="PLu-D4-Bfa"/>
+                        <outlet property="navigationBar" destination="gYe-LF-KuA" id="C0Q-hb-pPq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXN-5G-zCr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2470" y="133"/>
+            <point key="canvasLocation" x="2464.4859813084113" y="132.82937365010801"/>
         </scene>
     </scenes>
     <resources>

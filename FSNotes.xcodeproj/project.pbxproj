@@ -813,7 +813,7 @@
 		D7DA9E2121033489001CF0BE /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
 		D7DA9E2221033489001CF0BE /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
 		D7DA9E2321033834001CF0BE /* NSMutableAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */; };
-		D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */; };
+		D7DB5ED620248D5500E7E1B6 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7DB5ED520248D5500E7E1B6 /* Icons.xcassets */; };
 		D7DCFECD2108C7850059B37B /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECC2108C7850059B37B /* CoreNote.swift */; };
 		D7DCFECF2108CAC90059B37B /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECE2108CAC90059B37B /* CoreNote.swift */; };
 		D7DCFED02108CAC90059B37B /* CoreNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DCFECE2108CAC90059B37B /* CoreNote.swift */; };
@@ -1506,7 +1506,7 @@
 		D7D9503E209D846E001FB60B /* SidebarTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarTableCellView.swift; sourceTree = "<group>"; };
 		D7DA9E1D21031901001CF0BE /* OutlineHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineHeaderView.swift; sourceTree = "<group>"; };
 		D7DA9E2021033489001CF0BE /* NSMutableAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+.swift"; sourceTree = "<group>"; };
-		D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AppIcon.xcassets; sourceTree = "<group>"; };
+		D7DB5ED520248D5500E7E1B6 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		D7DCFECC2108C7850059B37B /* CoreNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreNote.swift; sourceTree = "<group>"; };
 		D7DCFECE2108CAC90059B37B /* CoreNote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreNote.swift; sourceTree = "<group>"; };
 		D7DCFED22108E3210059B37B /* Note+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+.swift"; sourceTree = "<group>"; };
@@ -2050,7 +2050,7 @@
 				D7679397201F21F5000F7BBF /* Info.plist */,
 				D70FE12E20FE198200813F9E /* InfoPlist.strings */,
 				D70FE12B20FE198200813F9E /* Localizable.strings */,
-				D7DB5ED520248D5500E7E1B6 /* AppIcon.xcassets */,
+				D7DB5ED520248D5500E7E1B6 /* Icons.xcassets */,
 				D76E10C2215A96080017F4A3 /* DayOneImportHelper.swift */,
 				D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */,
 				D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */,
@@ -2967,7 +2967,7 @@
 				D76F0B462152C9A2008E5F2F /* done_white.png in Resources */,
 				D7D79B0324DE72BB003C61AF /* settings-icons-home.png in Resources */,
 				D70E8D6B23705C6200E64D62 /* tag2.png in Resources */,
-				D7DB5ED620248D5500E7E1B6 /* AppIcon.xcassets in Resources */,
+				D7DB5ED620248D5500E7E1B6 /* Icons.xcassets in Resources */,
 				D73CEC842278ECA500D549F7 /* checkbox_flipped@2x.png in Resources */,
 				D73CEC902278ECA500D549F7 /* checkbox_flipped_white@2x.png in Resources */,
 				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,

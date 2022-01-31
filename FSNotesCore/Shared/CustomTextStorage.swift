@@ -263,14 +263,13 @@ extension NSTextStorage: NSTextStorageDelegate {
         let spaceWidth = " ".widthOfString(usingFont: font, tabs: tabs)
 
         // Todo head indents
-        enumerateAttribute(.paragraphStyle, in: scanRange, options: .init()) { value, range, _ in
-
-            if attribute(.todo, at: range.location, effectiveRange: nil) != nil ||
-                (range.length > 1 && attribute(.todo, at: range.location + 1, effectiveRange: nil) != nil),
-                let parStyle = value as? NSMutableParagraphStyle {
-
+        enumerateAttribute(.attachment, in: scanRange, options: .init()) { value, range, _ in
+            if attribute(.todo, at: range.location, effectiveRange: nil) != nil {
+                let parRange = mutableString.paragraphRange(for: NSRange(location: range.location, length: 0))
+                let parStyle = NSMutableParagraphStyle()
                 parStyle.headIndent = font.pointSize + font.pointSize / 2 + spaceWidth
-                self.addAttribute(.paragraphStyle, value: parStyle, range: range)
+                parStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+                self.addAttribute(.paragraphStyle, value: parStyle, range: parRange)
             }
         }
 

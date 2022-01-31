@@ -49,7 +49,7 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         isOpaque = false
         backgroundColor = UIColor.clear
         scrollView.backgroundColor = UIColor.clear
-        scrollView.bounces = false
+        scrollView.bounces = true
 #endif
 
         load(note: note, force: force)
