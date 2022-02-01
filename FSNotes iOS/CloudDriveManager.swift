@@ -117,6 +117,7 @@ class CloudDriveManager {
             let index = metadataQuery.index(ofResult: item)
             let itemUrl = item.value(forAttribute: NSMetadataItemURLKey) as? URL
             let contentChangeDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
+            let creationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
 
             if status == NSMetadataUbiquitousItemDownloadingStatusCurrent {
                 completed += 1
@@ -173,6 +174,10 @@ class CloudDriveManager {
                 }
 
                 print("File changed: \(url)")
+
+                // Not updates in FS attributes, must be loaded from Cloud Drive Meta
+                note.creationDate = creationDate
+
                 notesModificationQueue.append(note)
                 resolveConflict(url: url)
 
@@ -391,7 +396,7 @@ class CloudDriveManager {
         }
 
         for note in change {
-            note.forceLoad()
+            note.forceLoad(skipCreateDate: true)
         }
 
         DispatchQueue.main.async {

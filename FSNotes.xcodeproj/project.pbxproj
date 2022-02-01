@@ -839,6 +839,7 @@
 		D7E6ACEA20832D41003599A2 /* AppDelegate+URLRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E6ACE820832D40003599A2 /* AppDelegate+URLRoutes.swift */; };
 		D7E6D9D320808623003ECAFC /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7F62078B22D0055F159 /* SidebarItem.swift */; };
 		D7E6D9D42080862F003ECAFC /* SidebarItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D75EE7FF2078E0C60055F159 /* SidebarItemType.swift */; };
+		D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E7DB3227A9B16F00408725 /* DatePickerViewController.swift */; };
 		D7E81C2E1F925B5F00416A91 /* PrefsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D779C7BA1F415BE300FADEE1 /* PrefsWindowController.swift */; };
 		D7E81C2F1F925B5F00416A91 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7793C741F211C6000CA39B7 /* ViewController.swift */; };
 		D7E81C301F925B5F00416A91 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DD5A871F88D4EA00CE947E /* FileWatcher.swift */; };
@@ -1522,6 +1523,7 @@
 		D7E378802147A05C00D6D7DD /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
 		D7E51712220D814D00A9CAD9 /* UTI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UTI.swift; sourceTree = "<group>"; };
 		D7E6ACE820832D40003599A2 /* AppDelegate+URLRoutes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AppDelegate+URLRoutes.swift"; sourceTree = "<group>"; };
+		D7E7DB3227A9B16F00408725 /* DatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
 		D7E81C5A1F925B5F00416A91 /* FSNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FSNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7EA59EC213EAD8700582BD9 /* image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image@3x.png"; sourceTree = "<group>"; };
 		D7EA59ED213EAD8700582BD9 /* image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "image@2x.png"; sourceTree = "<group>"; };
@@ -2058,6 +2060,7 @@
 				D7122F3C2790EBB400B238A4 /* SmallButton.swift */,
 				D714749A279CE8EE001A8B29 /* MainNavigationController.swift */,
 				D785805727A1FA0F000C1BAF /* UITableViewController+.swift */,
+				D7E7DB3227A9B16F00408725 /* DatePickerViewController.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -3840,6 +3843,7 @@
 				D7B34F9A25195D7E0007877E /* PreviewState.swift in Sources */,
 				D7EFAF6B278B310300175A2F /* HighlighterTheme.swift in Sources */,
 				D7D00E79248FBFF7009AE455 /* UIView+.swift in Sources */,
+				D7E7DB3327A9B17000408725 /* DatePickerViewController.swift in Sources */,
 				D7CD5CDB21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D7679389201F21F5000F7BBF /* AppDelegate.swift in Sources */,
 				D730BD46223510A900E69C93 /* KeychainConfiguration.swift in Sources */,

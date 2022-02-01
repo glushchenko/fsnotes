@@ -1298,18 +1298,9 @@ class ViewController: NSViewController,
         vc.alert?.addButton(withTitle: "OK")
         vc.alert?.beginSheetModal(for: window) { (returnCode: NSApplication.ModalResponse) -> Void in
             if returnCode == NSApplication.ModalResponse.alertFirstButtonReturn {
-                let date = field.stringValue
-                let userDate = formatter.date(from: date)
-                let attributes = [FileAttributeKey.creationDate: userDate]
-
                 for note in notes {
-                    do {
-                        try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: note.url.path)
-
-                        note.creationDate = userDate
+                    if note.setCreationDate(string: field.stringValue) {
                         self.notesTableView.reloadRow(note: note)
-                    } catch {
-                        print(error)
                     }
                 }
             }

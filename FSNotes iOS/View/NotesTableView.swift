@@ -238,6 +238,15 @@ class NotesTableView: UITableView,
 
         actionSheet.addAction(remove)
 
+        let creationDate = UIAlertAction(title: NSLocalizedString("Date created", comment: ""), style: .default, handler: { _ in
+            self.dateAction(notes: notes, presentController: presentController)
+        })
+        creationDate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        if let image = UIImage(named: "dateAction")?.resize(maxWidthHeight: 25) {
+            creationDate.setValue(image, forKey: "image")
+        }
+        actionSheet.addAction(creationDate)
+
         if showAll {
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
                 self.renameAction(note: note, presentController: presentController)
@@ -539,6 +548,15 @@ class NotesTableView: UITableView,
         let moveController = MoveViewController(notes: notes, notesTableView: self)
         let controller = UINavigationController(rootViewController:moveController)
         presentController.present(controller, animated: true, completion: nil)
+    }
+
+    private func dateAction(notes: [Note], presentController: UIViewController) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "datePickerViewController") as! DatePickerViewController
+        datePickerViewController.notes = notes
+
+        let nvc = UIApplication.getNC()
+        nvc?.present(datePickerViewController, animated: true )
     }
 
     private func copyAction(note: Note, presentController: UIViewController) {

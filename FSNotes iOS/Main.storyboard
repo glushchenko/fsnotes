@@ -380,10 +380,6 @@
                                 <items>
                                     <navigationItem id="nkb-GO-G7U"/>
                                 </items>
-                                <navigationBarAppearance key="standardAppearance"/>
-                                <navigationBarAppearance key="compactAppearance"/>
-                                <navigationBarAppearance key="scrollEdgeAppearance"/>
-                                <navigationBarAppearance key="compactScrollEdgeAppearance"/>
                             </navigationBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gya-Hg-o5c" userLabel="bottomSafeView">
                                 <rect key="frame" x="0.0" y="843" width="428" height="83"/>
@@ -417,6 +413,66 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mXN-5G-zCr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2464.4859813084113" y="132.82937365010801"/>
+        </scene>
+        <!--Date Picker View Controller-->
+        <scene sceneID="jHG-aO-26B">
+            <objects>
+                <viewController storyboardIdentifier="datePickerViewController" id="87i-Hr-AGk" customClass="DatePickerViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="fXr-M2-3VJ">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o8u-8v-9Mn">
+                                <rect key="frame" x="0.0" y="44" width="428" height="44"/>
+                                <items>
+                                    <navigationItem title="Изменить дату" id="yAb-Kj-DPE">
+                                        <barButtonItem key="leftBarButtonItem" title="Отмена" id="qRg-Ec-FNt"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Сохранить" id="ULP-St-I3z"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WqV-qb-GJ8">
+                                <rect key="frame" x="0.0" y="88" width="428" height="838"/>
+                                <subviews>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="B67-S8-Rt3">
+                                        <rect key="frame" x="46" y="63" width="336" height="353.33333333333331"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="336" id="haA-TD-qz3"/>
+                                        </constraints>
+                                    </datePicker>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="top" secondItem="rPa-h8-uvG" secondAttribute="top" constant="63" id="F2B-aV-bsx"/>
+                                    <constraint firstItem="rPa-h8-uvG" firstAttribute="bottom" secondItem="B67-S8-Rt3" secondAttribute="bottom" id="Ija-an-Pdr"/>
+                                    <constraint firstItem="QWE-fY-3WC" firstAttribute="trailing" secondItem="B67-S8-Rt3" secondAttribute="trailing" constant="46" id="SFc-02-2Kg"/>
+                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="leading" secondItem="QWE-fY-3WC" secondAttribute="leading" constant="46" id="SeY-Xq-wKr"/>
+                                    <constraint firstItem="B67-S8-Rt3" firstAttribute="centerX" secondItem="rPa-h8-uvG" secondAttribute="centerX" id="pkV-gU-0Sx"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="rPa-h8-uvG"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="QWE-fY-3WC"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iVW-EM-nqi"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="leading" secondItem="o8u-8v-9Mn" secondAttribute="leading" id="3l9-ep-b2e"/>
+                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="top" secondItem="o8u-8v-9Mn" secondAttribute="bottom" id="4sV-Tg-hxw"/>
+                            <constraint firstItem="o8u-8v-9Mn" firstAttribute="leading" secondItem="fXr-M2-3VJ" secondAttribute="leading" id="8Xf-75-Jm7"/>
+                            <constraint firstItem="o8u-8v-9Mn" firstAttribute="centerX" secondItem="fXr-M2-3VJ" secondAttribute="centerX" id="LJv-xS-847"/>
+                            <constraint firstAttribute="bottom" secondItem="WqV-qb-GJ8" secondAttribute="bottom" id="Q82-yL-nKk"/>
+                            <constraint firstItem="WqV-qb-GJ8" firstAttribute="trailing" secondItem="o8u-8v-9Mn" secondAttribute="trailing" id="yai-qL-FIp"/>
+                            <constraint firstItem="o8u-8v-9Mn" firstAttribute="top" secondItem="iVW-EM-nqi" secondAttribute="top" id="zhH-KR-Il0"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cancelBarButton" destination="qRg-Ec-FNt" id="d6w-a7-Bqf"/>
+                        <outlet property="datePicker" destination="B67-S8-Rt3" id="NSu-4a-7mZ"/>
+                        <outlet property="saveBarButton" destination="ULP-St-I3z" id="qW1-Lh-E3G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hlq-lK-G9X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3278.9719626168221" y="131.53347732181427"/>
         </scene>
     </scenes>
     <resources>

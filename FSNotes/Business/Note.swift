@@ -159,10 +159,47 @@ public class Note: NSObject  {
         }
     }
 
-    public func forceLoad() {
+    public func forceLoad(skipCreateDate: Bool = false) {
         invalidateCache()
         load()
-        loadFileAttributes()
+
+        if !skipCreateDate {
+            loadCreationDate()
+        }
+        
+        loadModifiedLocalAt()
+    }
+
+    public func setCreationDate(string: String) -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let userDate = formatter.date(from: string)
+        let attributes = [FileAttributeKey.creationDate: userDate]
+
+        do {
+            try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
+
+            creationDate = userDate
+            return true
+        } catch {
+            print(error)
+            return false
+        }
+    }
+
+    public func setCreationDate(date: Date) -> Bool {
+        let attributes = [FileAttributeKey.creationDate: date]
+
+        do {
+            try FileManager.default.setAttributes(attributes as [FileAttributeKey : Any], ofItemAtPath: url.path)
+
+            creationDate = date
+            return true
+        } catch {
+            print(error)
+            return false
+        }
     }
 
     func fastLoad() {

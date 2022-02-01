@@ -116,15 +116,6 @@ class Sidebar {
 
         // Tags - section 2
         items.append([])
-
-        // Settings - section 3
-        items.append(
-            [SidebarItem(
-                name: NSLocalizedString("Settings", comment: "Sidebar settings"),
-                type: .Label,
-                icon: getImage(named: "settings_white")
-            )]
-        )
     }
 
     private func getImage(named: String) -> Image? {

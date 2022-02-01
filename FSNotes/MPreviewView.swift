@@ -222,8 +222,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var css = css
 
         #if os(OSX)
-        let tagColor = NSColor.tagColor.hexString
-        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+            let tagColor = NSColor.tagColor.hexString
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #else
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
         #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -412,8 +414,10 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var css = css
 
         #if os(OSX)
-        let tagColor = NSColor.tagColor.hexString
-        css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+            let tagColor = NSColor.tagColor.hexString
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: \(tagColor); }"
+        #else
+            css += " a[href^=\"fsnotes://open/?tag=\"] { background: #6692cb; }"
         #endif
 
         let path = Bundle.main.path(forResource: "DownView", ofType: ".bundle")
@@ -460,8 +464,13 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             codeStyle = try! String.init(contentsOfFile: hgPath)
         }
 
-        let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
-        var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
+        #if os(iOS)
+            let codeFamilyName = UserDefaultsManagement.codeFont.familyName
+            var familyName = UserDefaultsManagement.noteFont.familyName
+        #else
+            let codeFamilyName = UserDefaultsManagement.codeFont.familyName ?? ""
+            var familyName = UserDefaultsManagement.noteFont.familyName ?? ""
+        #endif
 
         if familyName.starts(with: ".") {
             familyName = "Helvetica Neue";
