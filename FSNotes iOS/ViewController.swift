@@ -15,6 +15,12 @@ import CoreSpotlight
 
 class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizerDelegate, UISearchControllerDelegate {
 
+    @IBOutlet weak var sidebarTableBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var notesTableBottomContraint: NSLayoutConstraint!
+    @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sidebarTableLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sidebarTableWidth: NSLayoutConstraint!
+
     @IBOutlet weak var search: UISearchBar!
     @IBOutlet weak var bulkButton: UIButton!
     @IBOutlet weak var notesTable: NotesTableView!
@@ -74,8 +80,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         // If return from editor
         UIApplication.getEVC().userActivity?.invalidate()
 
-
-        loadSidebarState()
         loadPreSafeArea()
         
         super.viewDidAppear(animated)
@@ -142,8 +146,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             UserDefaultsManagement.fontName = "Avenir Next"
             UserDefaultsManagement.isFirstLaunch = false
         }
-
-        loadNotesFrame()
 
         self.metadataQueue.qualityOfService = .userInteractive
 
@@ -321,6 +323,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         sidebarTableView.delegate = self.sidebarTableView
         sidebarTableView.viewController = self
         maxSidebarWidth = self.calculateLabelMaxWidth()
+
+        initSidebar()
 
         if UserDefaultsManagement.sidebarIsOpened {
             resizeSidebar()
@@ -520,39 +524,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return left
     }
 
-    public func loadSidebarState() {
-        if UserDefaultsManagement.sidebarIsOpened {
-            notesTable.frame.origin.x = getLeftInset() + maxSidebarWidth
-        } else {
-            notesTable.frame.origin.x = getLeftInset()
-        }
-    }
-
-    public func loadNotesFrame(keyboardHeight: CGFloat? = nil) {
-        let screenWidth = UIScreen.main.bounds.width
-        let screenHeight = UIScreen.main.bounds.height
-        let navHeight: CGFloat = UIApplication.getVC().navigationController?.navigationBar.frame.size.height ?? 0
-        let right = UIApplication.shared.windows.first?.safeAreaInsets.right ?? 0
-        let left = UIApplication.shared.windows.first?.safeAreaInsets.left ?? 0
-        let keyboardHeight = keyboardHeight ?? 0
-
-        notesTable.translatesAutoresizingMaskIntoConstraints = true
-        sidebarTableView.translatesAutoresizingMaskIntoConstraints = true
-
-        notesTable.frame.origin.x = left
-        notesTable.frame.origin.y = navHeight
-        notesTable.frame.size.width = screenWidth - left - right
-        notesTable.frame.size.height = screenHeight - keyboardHeight - navHeight
-
-        sidebarTableView.frame.origin.x = left
-        sidebarTableView.frame.origin.y = navHeight
-        sidebarTableView.frame.size.width = screenWidth - left - right
-        sidebarTableView.frame.size.height = screenHeight - keyboardHeight - navHeight
-
-        loadPreSafeArea()
-        loadSidebarState()
-    }
-
     public func loadNotches() {
         rightPreSafeArea.mixedBackgroundColor =
             MixedColor(
@@ -575,8 +546,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     normal: .white,
                     night: .black
                 )
-
-            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset() - maxSidebarWidth
         } else {
             leftPreSafeArea.mixedBackgroundColor =
                 MixedColor(
@@ -589,8 +558,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     normal: .white,
                     night: .black
                 )
-
-            notesTable.frame.size.width = self.view.frame.width - self.getLeftInset()
         }
     }
 
@@ -1042,8 +1009,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             DispatchQueue.main.async {
                 self.loadPlusButton()
                 self.loadNews()
-                self.loadNotesFrame()
-                self.loadSidebarState()
             }
         }
     }
@@ -1070,35 +1035,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     @objc func handleSidebarSwipe(_ swipe: UIPanGestureRecognizer) {
-
-        // check unfinished controllers animation
-        //if let bvc = UIApplication.shared.windows[0].rootViewController as? BasicViewController, !bvc.containerController.isMoveFinished {
-        //    return
-        //}
-
         let notchWidth = getLeftInset()
-
         let translation = swipe.translation(in: notesTable)
-        let halfSidebar = -(self.maxSidebarWidth / 2)
 
         if swipe.state == .began {
-            self.sidebarTableView.isUserInteractionEnabled = true
-
-            if UserDefaultsManagement.sidebarIsOpened {
-                self.notesTable.frame.size.width = self.view.frame.width - notchWidth
-                self.sidebarTableView.frame.origin.x = 0 + notchWidth
-            } else
-            {
-
-                // blue/blck pre safe area
-                leftPreSafeArea.mixedBackgroundColor =
-                    MixedColor(
-                        normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
-                        night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
-                    )
-
-                self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
-            }
+            sidebarTableView.isUserInteractionEnabled = true
+            initSidebar()
             return
         }
 
@@ -1108,16 +1050,15 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 || !UserDefaultsManagement.sidebarIsOpened && translation.x + notchWidth > 0 && translation.x + notchWidth < maxSidebarWidth
             else { return }
 
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: .beginFromCurrentState, animations: {
-                self.notesTable.frame.origin.x =
-                    (translation.x + notchWidth > 0 ? -self.sidebarWidth : self.maxSidebarWidth)
-                    + translation.x + notchWidth
-
+            UIView.animate(withDuration: 0.075, delay: 0.0, options: .beginFromCurrentState, animations: {
                 if translation.x + notchWidth > 0 {
-                    self.sidebarTableView.frame.origin.x = halfSidebar + (translation.x + notchWidth) / 2 + notchWidth
+                    self.notesTableLeadingConstraint.constant = translation.x
+                    self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth/2 + translation.x/2
                 } else {
-                    self.sidebarTableView.frame.origin.x = translation.x / 2 + notchWidth
+                    self.notesTableLeadingConstraint.constant = self.maxSidebarWidth + translation.x
+                    self.sidebarTableLeadingConstraint.constant = translation.x/2
                 }
+                self.view.layoutIfNeeded()
             })
             return
         }
@@ -1133,13 +1074,28 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         }
     }
 
-    private func showSidebar() {
-        let notchWidth = getLeftInset()
+    private func initSidebar() {
+        if UserDefaultsManagement.sidebarIsOpened {
+            self.sidebarTableLeadingConstraint.constant = 0
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+        } else {
+            self.notesTableLeadingConstraint.constant = 0
+            self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
 
+            // blue/blck pre safe area
+            leftPreSafeArea.mixedBackgroundColor =
+                MixedColor(
+                    normal: UIColor(red: 0.27, green: 0.51, blue: 0.64, alpha: 1.00),
+                    night: UIColor(red: 0.14, green: 0.14, blue: 0.14, alpha: 1.00)
+                )
+        }
+    }
+
+    private func showSidebar() {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-            self.notesTable.frame.origin.x = self.maxSidebarWidth + notchWidth
-            self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
-            self.sidebarTableView.frame.origin.x = 0 + notchWidth
+            self.notesTableLeadingConstraint.constant = self.maxSidebarWidth
+            self.sidebarTableLeadingConstraint.constant = 0
+            self.view.layoutIfNeeded()
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = true
             self.sidebarTableView.isUserInteractionEnabled = true
@@ -1153,13 +1109,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     private func hideSidebar() {
-        let notchWidth = getLeftInset()
-        let halfSidebar = -(self.maxSidebarWidth / 2)
-
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .init(), animations: {
-            self.notesTable.frame.origin.x = 0 + notchWidth
-            self.notesTable.frame.size.width = self.view.frame.width - notchWidth
-            self.sidebarTableView.frame.origin.x = halfSidebar + notchWidth
+            self.notesTableLeadingConstraint.constant = 0
+            self.sidebarTableLeadingConstraint.constant = -self.maxSidebarWidth
+            self.view.layoutIfNeeded()
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = false
             self.sidebarTableView.isUserInteractionEnabled = false
@@ -1175,18 +1128,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.view.frame.size.height = UIScreen.main.bounds.height
-            self.view.frame.size.height -= keyboardSize.height
-
+            notesTableBottomContraint.constant = keyboardSize.height
+            sidebarTableBottomConstraint.constant = keyboardSize.height
             loadPlusButton()
-            loadNotesFrame(keyboardHeight: keyboardSize.height)
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        self.view.frame.size.height = UIScreen.main.bounds.height
+        notesTableBottomContraint.constant = 0
+        sidebarTableBottomConstraint.constant = 0
         loadPlusButton()
-        loadNotesFrame()
     }
 
     public func refreshTextStorage(note: Note) {
@@ -1363,7 +1314,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {
-        let currentSidebarWidth = self.notesTable.frame.origin.x
+        let currentSidebarWidth = self.sidebarTableWidth.constant
         let width = calculateLabelMaxWidth()
         maxSidebarWidth = width
 
@@ -1377,22 +1328,19 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             maxSidebarWidth = view.frame.size.width / 2
         }
 
-        let notchWidth = getLeftInset()
-
         if (withAnimation) {
             UIView.animate(withDuration: 0.3, delay: 0, options: .beginFromCurrentState, animations: {
-                self.notesTable.frame.origin.x = self.maxSidebarWidth + notchWidth
-                self.notesTable.frame.size.width = self.view.frame.width - notchWidth - self.maxSidebarWidth
-                self.sidebarTableView.frame.origin.x = 0 + notchWidth
+                let width = self.maxSidebarWidth
+                self.notesTableLeadingConstraint.constant = width
+                self.sidebarTableLeadingConstraint.constant = 0
+                self.sidebarTableWidth.constant = width
             }) { _ in
 
             }
         } else {
-            notesTable.frame.origin.x = maxSidebarWidth + notchWidth
-            notesTable.frame.size.width = view.frame.width - notchWidth - maxSidebarWidth
-            sidebarTableView.frame.origin.x = 0 + notchWidth
+            notesTableLeadingConstraint.constant = maxSidebarWidth
+            sidebarTableWidth.constant = notesTableLeadingConstraint.constant
         }
-
     }
 
     public func checkProjectsCacheDiff() {

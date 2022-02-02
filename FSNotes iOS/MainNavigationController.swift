@@ -33,7 +33,6 @@ class MainNavigationController: UINavigationController {
         topViewController?.view.endEditing(true)
 
         DispatchQueue.main.async {
-            UIApplication.getVC().loadNotesFrame(keyboardHeight: nil)
             UIApplication.getVC().loadPlusButton()
         }
 
