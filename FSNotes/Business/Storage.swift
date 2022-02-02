@@ -395,7 +395,7 @@ class Storage {
     public func loadAllTags() {
         for note in noteList {
             note.load()
-            note.loadTags()
+            _ = note.loadTags()
         }
 
         isFinishedTagsLoading = true
@@ -403,7 +403,7 @@ class Storage {
 
     public func loadAllTagsOnly() {
         for note in noteList {
-            note.loadTags()
+            _ = note.loadTags()
         }
 
         isFinishedTagsLoading = true
@@ -1462,6 +1462,7 @@ class Storage {
         return nil
     }
 
+    #if os(OSX)
     public func saveProjectsExpandState() {
         var urls = [URL]()
         for project in projects {
@@ -1489,6 +1490,7 @@ class Storage {
             }
         }
     }
+    #endif
 }
 
 extension String: Error {}

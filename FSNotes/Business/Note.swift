@@ -1135,7 +1135,7 @@ public class Note: NSObject  {
     }
 #else
     public func loadTags() -> Bool {
-        let sharedStorage = Storage.sharedInstance()
+        _ = Storage.sharedInstance()
 
         if UserDefaultsManagement.inlineTags {
             let changes = scanContentTags()

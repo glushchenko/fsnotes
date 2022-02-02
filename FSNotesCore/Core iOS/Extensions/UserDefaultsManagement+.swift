@@ -20,6 +20,8 @@ extension UserDefaultsManagement {
         static let editorState = "editorState"
         static let editorSuggestions = "editorSuggestions"
         static let IsFirstLaunch = "isFirstLaunch"
+        static let ImportURLsKey = "ImportURLs"
+        static let ProjectsKeyNew = "ProjectsKeyNew"
     }
 
     static var codeTheme: String {
@@ -207,5 +209,76 @@ extension UserDefaultsManagement {
             self.codeFontName = newValue.familyName
             self.codeFontSize = Int(newValue.pointSize)
         }
+    }
+
+    @available(iOS 11.0, *)
+    static var importURLs: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? Data,
+                let urls = NSArray.unsecureUnarchived(from: result) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ImportURLsKey)
+            }
+        }
+    }
+
+    static var fontColor: Color {
+        get {
+            return self.DefaultFontColor
+        }
+    }
+
+    static var bgColor: Color {
+        get {
+            return self.DefaultBgColor
+        }
+    }
+
+    @available(iOS 11.0, *)
+    static var projects: [URL] {
+        get {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
+
+            if let data = defaults.data(forKey: Constants.ProjectsKeyNew), let urls = try? NSKeyedUnarchiver.unarchivedObject(ofClasses: [NSArray.self, NSURL.self], from: data) as? [URL] {
+                return urls
+            }
+
+            return []
+        }
+        set {
+            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
+
+            if let data = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
+                defaults.set(data, forKey: Constants.ProjectsKeyNew)
+            }
+        }
+    }
+}
+
+extension NSCoding where Self: NSObject {
+    @available(iOS 11.0, *)
+    static func unsecureUnarchived(from data: Data) -> Self? {
+        do {
+            let unarchiver = try NSKeyedUnarchiver(forReadingFrom: data)
+            unarchiver.requiresSecureCoding = false
+            let obj = unarchiver.decodeObject(of: self, forKey: NSKeyedArchiveRootObjectKey)
+            if let error = unarchiver.error {
+                print("Error:\(error)")
+            }
+            return obj
+        } catch {
+            print("Error:\(error)")
+        }
+        return nil
     }
 }

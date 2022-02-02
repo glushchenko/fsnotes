@@ -77,7 +77,6 @@ public class UserDefaultsManagement {
         static let HidePreviewKey = "hidePreview"
         static let HidePreviewImages = "hidePreviewImages"
         static let ImagesWidthKey = "imagesWidthKey"
-        static let ImportURLsKey = "ImportURLs"
         static let IndentedCodeBlockHighlighting = "IndentedCodeBlockHighlighting"
         static let IndentUsing = "indentUsing"
         static let InlineTags = "inlineTags"
@@ -176,34 +175,6 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.FontSizeKey)
-        }
-    }
-    
-    static var fontColor: Color {
-        get {
-            if let returnFontColor = shared?.object(forKey: Constants.FontColorKey), let color = NSKeyedUnarchiver.unarchiveObject(with: returnFontColor as! Data) as? Color {
-                return color
-            } else {
-                return self.DefaultFontColor
-            }
-        }
-        set {
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            shared?.set(data, forKey: Constants.FontColorKey)
-        }
-    }
-
-    static var bgColor: Color {
-        get {
-            if let returnBgColor = shared?.object(forKey: Constants.BgColorKey), let color = NSKeyedUnarchiver.unarchiveObject(with: returnBgColor as! Data) as? Color {
-                return color
-            } else {
-                return self.DefaultBgColor
-            }
-        }
-        set {
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            shared?.set(data, forKey: Constants.BgColorKey)
         }
     }
     
@@ -701,14 +672,14 @@ public class UserDefaultsManagement {
     static var editorLineSpacing: Float {
         get {
             #if os(iOS)
-            return 5
+                return 5
+            #else
+                if let result = shared?.object(forKey: Constants.LineSpacingEditorKey) as? Float {
+                    return Float(Int(result))
+                } else {
+                    return 4
+                }
             #endif
-            
-            if let result = shared?.object(forKey: Constants.LineSpacingEditorKey) as? Float {
-                return Float(Int(result))
-            }
-            
-            return 4
         }
         set {
             shared?.set(newValue, forKey: Constants.LineSpacingEditorKey)
@@ -916,42 +887,6 @@ public class UserDefaultsManagement {
             #endif
 
             shared?.set(newValue.rawValue, forKey: Constants.NoteContainer)
-        }
-    }
-
-    static var projects: [URL] {
-        get {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
-
-            if let result = defaults.object(forKey: Constants.ProjectsKey) as? Data, let urls = NSKeyedUnarchiver.unarchiveObject(with: result) as? [URL] {
-                return urls
-            }
-
-            return []
-        }
-        set {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
-
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            defaults.set(data, forKey: Constants.ProjectsKey)
-        }
-    }
-
-    static var importURLs: [URL] {
-        get {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return [] }
-
-            if let result = defaults.object(forKey: Constants.ImportURLsKey) as? Data, let urls = NSKeyedUnarchiver.unarchiveObject(with: result) as? [URL] {
-                return urls
-            }
-
-            return []
-        }
-        set {
-            guard let defaults = UserDefaults.init(suiteName: "group.es.fsnot.user.defaults") else { return }
-
-            let data = NSKeyedArchiver.archivedData(withRootObject: newValue)
-            defaults.set(data, forKey: Constants.ImportURLsKey)
         }
     }
 

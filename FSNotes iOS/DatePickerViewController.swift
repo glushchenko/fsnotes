@@ -22,6 +22,10 @@ class DatePickerViewController: UIViewController {
         saveBarButton.action = #selector(saveDate)
         cancelBarButton.action = #selector(cancel)
 
+        if #available(iOS 14.0, *) {
+            datePicker.preferredDatePickerStyle = .inline
+        }
+
         if let date = notes?.first?.creationDate {
             datePicker.date = date
         }

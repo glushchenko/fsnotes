@@ -1726,7 +1726,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         guard let note = self.note else { return }
 
-        var processed = 0
+        let processed = 0
         var markup = String()
 
         for result in results {

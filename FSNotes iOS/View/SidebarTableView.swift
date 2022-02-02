@@ -12,7 +12,6 @@ import UIKit
 import NightNight
 import AudioToolbox
 
-@IBDesignable
 class SidebarTableView: UITableView,
     UITableViewDelegate,
     UITableViewDataSource,
