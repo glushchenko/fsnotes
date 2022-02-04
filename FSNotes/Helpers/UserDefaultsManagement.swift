@@ -101,7 +101,7 @@ public class UserDefaultsManagement {
         static let NightModeType = "nightModeType"
         static let NightModeAuto = "nightModeAuto"
         static let NightModeBrightnessLevel = "nightModeBrightnessLevel"
-        static let NonContiguousLayout = "nonContiguousLayout"
+        static let NonContiguousLayout = "allowsNonContiguousLayout"
         static let NoteContainer = "noteContainer"
         static let PinListKey = "pinList"
         static let Preview = "preview"
@@ -1391,7 +1391,11 @@ public class UserDefaultsManagement {
 
     static var nonContiguousLayout: Bool {
         get {
-            return false
+            if let result = shared?.object(forKey: Constants.NonContiguousLayout), let data = result as? Bool {
+                return data
+            }
+
+            return true
         }
         set {
             shared?.set(newValue, forKey: Constants.NonContiguousLayout)
