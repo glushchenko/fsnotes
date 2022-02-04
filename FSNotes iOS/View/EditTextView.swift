@@ -45,13 +45,24 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func caretRect(for position: UITextPosition) -> CGRect {
-        var superRect = super.caretRect(for: position)
-        guard let font = self.font else { return superRect }
+        var caretRect = super.caretRect(for: position)
+        let characterIndex = offset(from: beginningOfDocument, to: position)
 
-        // "descender" is expressed as a negative value,
-        // so to add its height you must subtract its value
-        superRect.size.height = font.pointSize - font.descender
-        return superRect
+        guard layoutManager.isValidGlyphIndex(characterIndex) else {
+            return caretRect
+        }
+
+        let glyphIndex = layoutManager.glyphIndexForCharacter(at: characterIndex)
+        let usedLineFragment = layoutManager.lineFragmentUsedRect(forGlyphAt: glyphIndex, effectiveRange: nil)
+
+        guard !usedLineFragment.isEmpty else {
+            return caretRect
+        }
+
+        caretRect.origin.y = usedLineFragment.origin.y + textContainerInset.top
+        caretRect.size.height = usedLineFragment.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing) / 2
+
+        return caretRect
     }
 
     override func scrollRectToVisible(_ rect: CGRect, animated: Bool) {

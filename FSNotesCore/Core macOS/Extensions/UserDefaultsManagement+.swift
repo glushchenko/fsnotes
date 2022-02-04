@@ -21,6 +21,9 @@ extension UserDefaultsManagement {
         static let NewNoteKeyCode = "newNoteKeyCode"
         static let SearchNoteKeyCode = "searchNoteKeyCode"
         static let SearchNoteKeyModifier = "searchNoteKeyModifier"
+        static let ProjectsKey = "projects"
+        static let FontColorKey = "fontColorKeyed"
+        static let BgColorKey = "bgColorKeyed"
     }
 
     static var appearanceType: AppearanceType {

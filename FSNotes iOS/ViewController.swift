@@ -941,6 +941,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             let evc = UIApplication.getEVC()
+            if UserDefaultsManagement.previewMode {
+                evc.togglePreview()
+            }
             evc.editArea.becomeFirstResponder()
         }
     }

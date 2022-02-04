@@ -318,8 +318,14 @@ extension ViewController: UIDocumentPickerDelegate {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
         }))
 
-        self.dismiss(animated: true, completion: nil)
-        mvc.present(alert, animated: true, completion: nil)
+        if selectedProject.isExternal {
+            let bookmark = SandboxBookmark.sharedInstance()
+            bookmark.remove(url: selectedProject.url)
+
+            mvc.sidebarTableView.removeRows(projects: [selectedProject])
+        } else {
+            mvc.present(alert, animated: true, completion: nil)
+        }
     }
 
     private func renameFolder() {

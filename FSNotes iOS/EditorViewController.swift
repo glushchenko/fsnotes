@@ -360,6 +360,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             paragraphStyle.alignment = .left
             paragraphStyle.lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
             editArea.typingAttributes[.paragraphStyle] = paragraphStyle
+            editArea.typingAttributes.removeValue(forKey: .link)
         }
 
         // Tab
@@ -1726,12 +1727,14 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         guard let note = self.note else { return }
 
-        let processed = 0
+        var processed = 0
         var markup = String()
 
         for result in results {
            result.itemProvider.loadObject(ofClass: UIImage.self, completionHandler: { (object, error) in
                guard let photo = object as? UIImage, let imageData = photo.jpgData else { return }
+
+               processed += 1
                let imageExt = "jpg"
 
                if UserDefaultsManagement.liveImagesPreview {
@@ -1741,7 +1744,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                    if processed == results.count {
                        note.save(attributed: self.editArea.attributedText)
-
                        UIApplication.getVC().notesTable.reloadRowForce(note: note)
                        return
                    }

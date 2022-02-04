@@ -200,7 +200,7 @@
 "Rename folder" = "Переименовать папку";
 
 /* Popover table */
-"Rename folder:" = "Удалить папку:";
+"Rename folder:" = "Переименовать папку:";
 
 /* No comment provided by engineer. */
 "Rename note:" = "Переименовать заметку:";
