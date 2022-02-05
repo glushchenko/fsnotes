@@ -1743,8 +1743,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                    }
 
                    if processed == results.count {
-                       note.save(attributed: self.editArea.attributedText)
-                       UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                       DispatchQueue.main.async {
+                           note.save(attributed: self.editArea.attributedText)
+                           UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                       }
                        return
                    }
 
