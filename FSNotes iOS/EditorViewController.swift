@@ -789,6 +789,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
         let text = self.editArea.attributedText
+        let plainText = text?.string
         
         self.storageQueue.cancelAllOperations()
         let operation = BlockOperation()
@@ -807,7 +808,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                 note.save(attributed: text)
                 note.invalidateCache()
-                note.loadPreviewInfo()
+                note.loadPreviewInfo(text: plainText)
             }
 
             vc.updateSpotlightIndex(notes: [note])
