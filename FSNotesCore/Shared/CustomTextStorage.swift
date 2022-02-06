@@ -201,13 +201,12 @@ extension NSTextStorage: NSTextStorageDelegate {
             let code = textStorage.mutableString.substring(with: fencedRange)
             let language = NotesTextProcessor.getLanguage(code)
 
-            NotesTextProcessor.highlightCode(attributedString: textStorage, range: parRange, language: language)
-            textStorage.addAttribute(.backgroundColor, value: NotesTextProcessor.codeBackground, range: parRange)
-
+            NotesTextProcessor.highlightCode(attributedString: textStorage, range: fencedRange, language: language)
             NotesTextProcessor.highlightFencedBackTick(range: fencedRange, attributedString: textStorage)
-
-        } else if UserDefaultsManagement.indentedCodeBlockHighlighting, let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
+        } else if UserDefaultsManagement.indentedCodeBlockHighlighting,
+            let codeBlockRanges = codeTextProcessor.getCodeBlockRanges(),
             let intersectedRange = codeTextProcessor.getIntersectedRange(range: parRange, ranges: codeBlockRanges) {
+
             let checkRange = intersectedRange.length > 1000 ? editedRange : intersectedRange
             NotesTextProcessor.highlightCode(attributedString: textStorage, range: checkRange)
         } else {
