@@ -236,7 +236,11 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         guard var template = try? NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue) else { return nil }
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
+        var platform = String()
+
 #if os(iOS)
+        platform = "ios"
+
         if NightNight.theme == .night {
             template =
                 template
@@ -244,10 +248,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
                     .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
+        platform = "macos"
+
         if UserDataService.instance.isDark {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
 #endif
+
+        template = template.replacingOccurrences(of: "T_PLATFORM", with: platform) as NSString
 
         return template as String
     }
