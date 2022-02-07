@@ -436,19 +436,26 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
         var template = try NSString(contentsOf: baseURL, encoding: String.Encoding.utf8.rawValue)
         template = template.replacingOccurrences(of: "DOWN_CSS", with: css) as NSString
 
+        var platform = String()
+
 #if os(iOS)
+        platform = "ios"
+
         if NightNight.theme == .night {
             template = template
                 .replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode")
                 .replacingOccurrences(of: "IS_IOS", with: "true") as NSString
         }
 #else
+        platform = "macos"
+
         if UserDataService.instance.isDark {
             template = template.replacingOccurrences(of: "CUSTOM_CSS", with: "darkmode") as NSString
         }
 #endif
-
-        template = template.replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
+        template = template
+            .replacingOccurrences(of: "T_PLATFORM", with: platform)
+            .replacingOccurrences(of: "MATH_JAX_JS", with: MPreviewView.getMathJaxJS()) as NSString
 
         return template.replacingOccurrences(of: "DOWN_HTML", with: htmlString)
     }

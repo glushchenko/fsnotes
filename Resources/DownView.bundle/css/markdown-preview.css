@@ -524,6 +524,10 @@ body > ul, body > ol {
         margin-left: 0;
     }
 
+.macos.darkmode input[type='checkbox'] { border: 1px solid white;}
+.ios.darkmode input[type=checkbox] { background-color: white; }
+.ios.darkmode input[type=checkbox]:checked:after { border-bottom: 1px solid black; border-right: 1px solid black; }
+
 .ios input[type=checkbox] {
     width: 23px;
     -webkit-appearance: none;
@@ -598,14 +602,6 @@ body > ul, body > ol {
         font-weight: normal;
         transform: scale(1.1);
     }
-
-.ios.darkmode input[type='checkbox'],
-.macos.darkmode input[type='checkbox'] {
-    border: 1px solid white;
-}
-
-.ios.darkmode input[type=checkbox]:checked { background-color: black; }
-.ios.darkmode input[type=checkbox]:checked:after { border-bottom: 1px solid white; border-right: 1px solid white; }
 
 li {
     list-style-position: outside;
