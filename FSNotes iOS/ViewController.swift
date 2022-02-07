@@ -609,7 +609,9 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         sidebarTableView.restoreSelection(for: searchQuery)
         reloadNotesTable(with: searchQuery)
+    }
 
+    public func callbackSearchController() {
         if shouldReturnToControllerIndex {
             shouldReturnToControllerIndex = false
 
@@ -645,6 +647,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         unloadSearchController()
+        callbackSearchController()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -1189,6 +1192,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             for note in notes {
                 var success: [Note]? = nil
                 if note.unLock(password: password) {
+                    self.savePassword(password)
                     note.password = password
                     
                     success?.append(note)
@@ -1220,9 +1224,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                             UIApplication.getEVC().fill(note: note)
                             UIApplication.getVC().openEditorViewController()
                         }
+
+                        self.savePassword(password)
                     }
                 } else {
                     if note.encrypt(password: password) {
+                        self.savePassword(password)
                         note.password = nil
 
                         DispatchQueue.main.async {
@@ -1253,7 +1260,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         return notes
     }
 
-    public func getMasterPassword(completion: @escaping (String) -> ()) {
+    public func getMasterPassword(isUnlock: Bool = false, completion: @escaping (String) -> ()) {
         let context = LAContext()
         context.localizedFallbackTitle = NSLocalizedString("Enter Master Password", comment: "")
 
@@ -1285,7 +1292,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     private func masterPasswordPrompt(completion: @escaping (String) -> ()) {
         DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Master password:", message: nil, preferredStyle: .alert)
+            let title = NSLocalizedString("Master password:", comment: "")
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
 
             alertController.addTextField(configurationHandler: {
                 [] (textField: UITextField) in
@@ -1296,11 +1304,6 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 guard let password = alertController.textFields?[0].text, password.count > 0 else {
                     return
                 }
-
-                let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
-                do {
-                    try item.savePassword(password)
-                } catch {}
 
                 completion(password)
             }
@@ -1314,6 +1317,13 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 alertController.textFields![0].selectAll(nil)
             }
         }
+    }
+
+    public func savePassword(_ value: String) {
+        let item = KeychainPasswordItem(service: KeychainConfiguration.serviceName, account: "Master Password")
+        do {
+           try item.savePassword(value)
+        } catch {}
     }
 
     public func resizeSidebar(withAnimation: Bool = false) {

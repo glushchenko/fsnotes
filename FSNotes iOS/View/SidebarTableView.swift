@@ -753,8 +753,6 @@ class SidebarTableView: UITableView,
     public func select(tag: String) {
         guard let indexPath = getIndexPathBy(tag: tag) else { return }
         tableView(self, didSelectRowAt: indexPath)
-
-        //UIApplication.getMain()?.scrollInListVC()
     }
 
     public func restoreSelection(for search: SearchQuery) {

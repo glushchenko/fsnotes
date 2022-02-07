@@ -634,6 +634,8 @@ class NotesTableView: UITableView,
                     note.password = nil
 
                     if success && isFirst {
+                        vc.savePassword(password)
+
                         DispatchQueue.main.async {
                             UIApplication.getEVC().refill()
                         }

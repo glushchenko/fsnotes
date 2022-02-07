@@ -180,6 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if url.host == "open" {
             if let tag = url["tag"]?.removingPercentEncoding {
                 vc.sidebarTableView.select(tag: tag)
+                mainController?.popToRootViewController(animated: true)
                 return true
             }
         }

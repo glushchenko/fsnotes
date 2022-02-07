@@ -1392,13 +1392,12 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 return
             }
 
-//            if path.starts(with: "fsnotes://open/?tag=") {
-//                if let url = URL(string: path) {
-//                    UIApplication.shared.open(url, options: [:])
-//                }
-//
-//                return
-//            }
+            if path.starts(with: "fsnotes://open/?tag=") {
+                if let url = URL(string: path) {
+                    UIApplication.shared.open(url, options: [:])
+                }
+                return
+            }
 
             if self.editArea.isFirstResponder {
                 DispatchQueue.main.async {
