@@ -266,7 +266,17 @@ public class Project: Equatable {
     
     func fileExist(fileName: String, ext: String) -> Bool {        
         let fileURL = url.appendingPathComponent(fileName + "." + ext)
-        
+
+        return FileManager.default.fileExists(atPath: fileURL.path)
+    }
+
+    func fileExistCaseInsensitive(fileName: String, ext: String) -> Bool {
+        let fileURL = url.appendingPathComponent(fileName + "." + ext)
+
+        if let note = storage.getBy(url: fileURL) {
+            return FileManager.default.fileExists(atPath: note.url.path)
+        }
+
         return FileManager.default.fileExists(atPath: fileURL.path)
     }
 

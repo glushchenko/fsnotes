@@ -472,7 +472,14 @@ class NotesTableView: UITableView,
         var name = name
         var i = 1
 
-        while note.project.fileExist(fileName: name, ext: note.url.pathExtension) {
+        
+        while note.project.fileExistCaseInsensitive(fileName: name, ext: note.url.pathExtension) {
+
+            // disables renaming loop
+            if note.fileName.startsWith(string: name) {
+                return
+            }
+            
             let items = name.split(separator: " ")
 
             if let last = items.last, let position = Int(last) {

@@ -818,8 +818,17 @@ class Storage {
         return noteList.count
     }
     
-    func getBy(url: URL) -> Note? {
+    func getBy(url: URL, caseSensitive: Bool = false) -> Note? {
         let standardized = url.standardized
+
+        if caseSensitive {
+            return
+                noteList.first(where: {
+                    return (
+                        $0.url.path == standardized.path
+                    )
+                })
+        }
 
         return
             noteList.first(where: {
