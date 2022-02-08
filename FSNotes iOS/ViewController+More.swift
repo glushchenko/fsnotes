@@ -51,15 +51,15 @@ extension ViewController: UIDocumentPickerDelegate {
 
         switch type {
         case .Inbox:
-            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection]
+            actions = [.importNote, .settingsFolder, .createFolder, .multipleSelection, .openInFiles]
         case .All, .Todo:
             actions = [.settingsFolder, .multipleSelection]
         case .Archive:
-            actions = [.importNote, .settingsFolder, .multipleSelection]
+            actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
-            actions = [.settingsFolder, .multipleSelection]
+            actions = [.settingsFolder, .multipleSelection, .openInFiles]
         case .Category:
-            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection]
+            actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles]
         case .Tag:
             actions = [.removeTag, .renameTag, .multipleSelection]
         default: break
@@ -161,6 +161,18 @@ extension ViewController: UIDocumentPickerDelegate {
             })
             alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
             if let image = UIImage(named: "sidebarRenameTag")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+
+        if actions.contains(.openInFiles) {
+            let title = NSLocalizedString("Open in Files.app", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .default, handler: { _ in
+                self.openInFiles()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "openInFiles")?.resize(maxWidthHeight: 23) {
                 alertAction.setValue(image, forKey: "image")
             }
             actionSheet.addAction(alertAction)
@@ -454,6 +466,17 @@ extension ViewController: UIDocumentPickerDelegate {
         self.dismiss(animated: true, completion: nil)
         mvc.present(alertController, animated: true) {
             alertController.textFields![0].selectAll(nil)
+        }
+    }
+
+    private func openInFiles() {
+        let mvc = UIApplication.getVC()
+
+        guard let selectedProject = mvc.searchQuery.project else { return }
+        guard let path = selectedProject.url.path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlPathAllowed) else { return }
+
+        if let projectUrl = URL(string: "shareddocuments://" + path) {
+            UIApplication.shared.open(projectUrl, options: [:])
         }
     }
 }

@@ -709,7 +709,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
     func textViewDidChange(_ textView: UITextView) {
         let vc = UIApplication.getVC()
         
-        vc.cloudDriveManager?.metadataQuery.disableUpdates()
+        //vc.cloudDriveManager?.metadataQuery.disableUpdates()
         
         guard let note = self.note else { return }
         
@@ -769,7 +769,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.typingAttributes[.font] = UserDefaultsManagement.noteFont
         editArea.initUndoRedoButons()
         
-        vc.cloudDriveManager?.metadataQuery.enableUpdates()
+        //vc.cloudDriveManager?.metadataQuery.enableUpdates()
     }
 
     @objc private func updateCurrentRow() {

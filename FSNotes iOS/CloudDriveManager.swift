@@ -152,7 +152,7 @@ class CloudDriveManager {
             guard storage.isValidNote(url: url) else { continue }
 
             // Note already exist and update completed
-            if let note = storage.getBy(url: url) {
+            if let note = storage.getBy(url: url, caseSensitive: true) {
                 if note.isTextBundle() && !note.isFullLoadedTextBundle() {
                     continue
                 }

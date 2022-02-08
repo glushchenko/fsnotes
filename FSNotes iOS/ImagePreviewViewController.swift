@@ -110,7 +110,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         if let url = url {
-            try? image.jpegData(compressionQuality: 1)?.write(to: url)
+            try? image.jpegData(compressionQuality: 0.6)?.write(to: url)
             let cacheImage = NoteAttachment.getCacheUrl(from: url, prefix: "ThumbnailsBigInline")
 
             if let path = cacheImage?.path, FileManager.default.fileExists(atPath: path) {
