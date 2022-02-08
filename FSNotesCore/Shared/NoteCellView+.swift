@@ -20,20 +20,27 @@ extension NoteCellView {
 
         note.loadPreviewInfo()
 
-        let imageURLs = urls ?? note.imageUrl
-        let imagesFound = imageURLs?.count ?? 0
-
         guard
             !UserDefaultsManagement.hidePreviewImages &&
             !UserDefaultsManagement.horizontalOrientation else {
             return
         }
 
-        hideUnusedImagesPreview(quantity: imagesFound)
+        let imageURLs = urls ?? note.imageUrl
+
+        guard isImagesChanged(imageURLs: imageURLs) else {
+            attachHeaders(note: note)
+            fixTopConstraint(position: position, note: note)
+            return
+        }
+
+        hideUnusedImagesPreview()
+        imageKeys = []
 
         DispatchQueue.global(qos: .userInteractive).async {
             let current = Date().toMillis()
             self.timestamp = current
+            var paths = [String]()
 
             if let images = imageURLs, images.count > 0 {
                 let resizedImages = self.getResizedPreviewImages(note: note, images: images, timestamp: current!)
@@ -43,6 +50,11 @@ extension NoteCellView {
                         return
                     }
 
+                    for imageUrl in images {
+                        paths.append(imageUrl.path)
+                    }
+
+                    self.imageKeys = paths
                     self.attachImagesPreview(resizedImages: resizedImages)
                     self.fixTopConstraint(position: position, note: note)
                 }
@@ -50,7 +62,27 @@ extension NoteCellView {
         }
     }
 
-    private func hideUnusedImagesPreview(quantity: Int) {
+    private func isImagesChanged(imageURLs: [URL]? = nil) -> Bool {
+        var needsImagesReloading = false
+
+        if let imageURLs = imageURLs {
+            for imageUrl in imageURLs {
+                if !self.imageKeys.contains(imageUrl.path) {
+                    needsImagesReloading = true
+                }
+            }
+
+            for imageKey in self.imageKeys {
+                if imageURLs.first(where: {$0.path == imageKey}) == nil {
+                    needsImagesReloading = true
+                }
+            }
+        }
+
+        return needsImagesReloading
+    }
+
+    private func hideUnusedImagesPreview() {
         self.imagePreviewThird.image = nil
         self.imagePreviewThird.isHidden = true
 

@@ -732,10 +732,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 }
             }
 
-            if notes.isEmpty {
-                self.notesTable.notes.removeAll()
-            } else {
-                self.notesTable.notes =
+            var modifiedNotesList = [Note]()
+
+            if !notes.isEmpty {
+                modifiedNotesList =
                     self.storage.sortNotes(
                         noteList: notes,
                         filter: query.getFilter(),
@@ -756,6 +756,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                     return
                 }
 
+                self.notesTable.notes = modifiedNotesList
                 self.notesTable.reloadData()
 
                 if let note = self.delayedInsert {

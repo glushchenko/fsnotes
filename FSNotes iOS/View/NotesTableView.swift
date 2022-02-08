@@ -21,7 +21,6 @@ class NotesTableView: UITableView,
 
     var notes = [Note]()
     var viewDelegate: ViewController? = nil
-    var cellHeights = [IndexPath:CGFloat]()
     public var selectedIndexPaths: [IndexPath]?
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,11 +44,11 @@ class NotesTableView: UITableView,
                     if note.getTitle() != nil {
 
                         // Title + image
-                        return 130
+                        return 132
                     }
 
                     // Images only
-                    return 110
+                    return 120
                 }
 
                 // Title + Prevew + Images
@@ -112,7 +111,7 @@ class NotesTableView: UITableView,
                         return
                     }
 
-                    self.reloadRow(note: note)
+                    self.reloadRows(notes: [note])
                     NotesTextProcessor.highlight(note: note)
 
                     self.fill(note: note, indexPath: indexPath)
@@ -206,9 +205,6 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
-
-        let frame = tableView.rectForRow(at: indexPath)
-        self.cellHeights[indexPath] = frame.size.height
     }
 
     public func turnOffEditing() {
@@ -417,35 +413,21 @@ class NotesTableView: UITableView,
     }
 
     public func reloadRows(notes: [Note]) {
-        var indexPaths = [IndexPath]()
+        beginUpdates()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
-                indexPaths.append(indexPath)
-                
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
                     cell.configure(note: note)
                     cell.updateView()
                 }
             }
         }
+        endUpdates()
 
         viewDelegate?.updateSpotlightIndex(notes: notes)
     }
     
-    public func reloadRow(note: Note) {
-        DispatchQueue.main.async {
-            if let i = self.notes.firstIndex(where: {$0 === note}) {
-                let indexPath = IndexPath(row: i, section: 0)
-
-                if let cell = self.cellForRow(at: indexPath) as? NoteCellView {
-                    cell.configure(note: note)
-                    cell.updateView()
-                }
-            }
-        }
-    }
-
     public func reloadRowForce(note: Note) {
         note.invalidateCache()
         note.loadPreviewInfo()
@@ -524,7 +506,9 @@ class NotesTableView: UITableView,
             note.addPin()
         }
 
-        self.reloadRow(note: note)
+        DispatchQueue.main.async {
+            self.reloadRows(notes: [note])
+        }
 
         if presentController.isKind(of: EditorViewController.self), let evc = presentController as? EditorViewController {
             evc.setTitle(text: note.getShortTitle())
@@ -612,9 +596,12 @@ class NotesTableView: UITableView,
                     notes.removeAll { $0 === note }
 
                     note.invalidateCache()
-                    reloadRow(note: note)
                 }
             }
+        }
+
+        DispatchQueue.main.async {
+            self.reloadRows(notes: notes)
         }
 
         return notes
@@ -641,8 +628,11 @@ class NotesTableView: UITableView,
                         }
                     }
                 }
-                self.reloadRow(note: note)
                 isFirst = false
+            }
+
+            DispatchQueue.main.async {
+                self.reloadRows(notes: notes)
             }
         }
     }
@@ -676,7 +666,9 @@ class NotesTableView: UITableView,
             moveRow(at: atIndexPath, to: toIndexPath)
         }
 
-        reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
+        if atIndexPath != toIndexPath {
+            reloadRows(at: [atIndexPath, toIndexPath], with: .automatic)
+        }
 
         // scroll to hack
         // https://stackoverflow.com/questions/26244293/scrolltorowatindexpath-with-uitableview-does-not-work

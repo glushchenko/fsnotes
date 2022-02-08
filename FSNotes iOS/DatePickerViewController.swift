@@ -35,9 +35,11 @@ class DatePickerViewController: UIViewController {
         guard let notes = self.notes else { return }
 
         for note in notes {
-            if note.setCreationDate(date: datePicker.date) {
-                UIApplication.getVC().notesTable.reloadRow(note: note)
-            }
+            _ = note.setCreationDate(date: datePicker.date)
+        }
+
+        DispatchQueue.main.async {
+            UIApplication.getVC().notesTable.reloadRows(notes: notes)
         }
 
         self.notes = nil
