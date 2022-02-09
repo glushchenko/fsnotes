@@ -243,6 +243,15 @@ class NotesTableView: UITableView,
         }
         actionSheet.addAction(creationDate)
 
+        let duplicate = UIAlertAction(title: NSLocalizedString("Duplicate", comment: ""), style: .default, handler: { _ in
+            self.duplicateAction(notes: notes, presentController: presentController)
+        })
+        duplicate.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+        if let image = UIImage(named: "duplicateAction")?.resize(maxWidthHeight: 22) {
+            duplicate.setValue(image, forKey: "image")
+        }
+        actionSheet.addAction(duplicate)
+
         if showAll {
             let rename = UIAlertAction(title: NSLocalizedString("Rename", comment: ""), style: .default, handler: { _ in
                 self.renameAction(note: note, presentController: presentController)
@@ -408,16 +417,21 @@ class NotesTableView: UITableView,
 
         vc.storage.loadPins(notes: notes)
         self.notes = sorted
-        
+
         insertRows(at: indexPaths, with: .fade)
+        reloadRows(notes: notes, resetKeys: true)
     }
 
-    public func reloadRows(notes: [Note]) {
+    public func reloadRows(notes: [Note], resetKeys: Bool = false) {
         beginUpdates()
         for note in notes {
             if let i = self.notes.firstIndex(where: {$0 === note}) {
                 let indexPath = IndexPath(row: i, section: 0)
                 if let cell = cellForRow(at: indexPath) as? NoteCellView {
+                    if resetKeys {
+                        cell.imageKeys = []
+                    }
+
                     cell.configure(note: note)
                     cell.updateView()
                 }
@@ -559,21 +573,15 @@ class NotesTableView: UITableView,
     public func shareAction(note: Note, presentController: UIViewController, isHTML: Bool = false) {
         AudioServicesPlaySystemSound(1519)
 
-        var string = note.content.string
-        if isHTML {
-            string = renderMarkdownHTML(markdown:  note.content.unLoadImages().string)!
-        }
-
         var tempURL = note.url
         if note.isTextBundle() {
             tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("\(note.getName()).zip")
             SSZipArchive.createZipFile(atPath: tempURL.path, withContentsOfDirectory: note.url.path, keepParentDirectory: true)
         }
 
-        let objectsToShare = [string, tempURL] as [Any]
+        let objectsToShare = [tempURL] as [Any]
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList
-        ]
+        activityVC.excludedActivityTypes = [ UIActivity.ActivityType.addToReadingList ]
 
         presentController.present(activityVC, animated: true, completion: nil)
 
@@ -592,6 +600,38 @@ class NotesTableView: UITableView,
             popOver.sourceView = rowView
             popOver.sourceRect = CGRect(x: presentController.view.bounds.midX, y: rowView.frame.height, width: 10, height: 10)
         }
+    }
+
+    public func duplicateAction(notes: [Note], presentController: UIViewController) {
+        var dupes = [Note]()
+        for note in notes {
+            let src = note.url
+            let dst = NameHelper.generateCopy(file: note.url)
+
+            if note.isTextBundle() || note.isEncrypted() {
+                try? FileManager.default.copyItem(at: src, to: dst)
+                continue
+            }
+
+            let name = dst.deletingPathExtension().lastPathComponent
+            let noteDupe = Note(name: name, project: note.project, type: note.type, cont: note.container)
+            noteDupe.content = NSMutableAttributedString(string: note.content.string)
+
+            // Clone images
+            if note.type == .Markdown && note.container == .none {
+                let images = note.getAllImages()
+                for image in images {
+                    noteDupe.move(from: image.url, imagePath: image.path, to: note.project, copy: true)
+                }
+            }
+
+            noteDupe.save()
+
+            viewDelegate?.storage.add(noteDupe)
+            dupes.append(noteDupe)
+        }
+
+        insertRows(notes: dupes)
     }
 
     private func decryptUnlocked(notes: [Note]) -> [Note] {

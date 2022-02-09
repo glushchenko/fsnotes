@@ -259,6 +259,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let longTapOnSidebar = UILongPressGestureRecognizer(target: self, action: #selector(sidebarLongPress))
         longTapOnSidebar.minimumPressDuration = 0.5
         view.addGestureRecognizer(longTapOnSidebar)
+
+        let longTapOnNotes = UILongPressGestureRecognizer(target: self, action: #selector(notesLongPress))
+        longTapOnNotes.minimumPressDuration = 0.5
+        notesTable.addGestureRecognizer(longTapOnNotes)
+        notesTable.dragInteractionEnabled = UserDefaultsManagement.sidebarIsOpened
     }
 
     public func configureSearchController() {
@@ -294,6 +299,22 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         } else {
             showSidebar()
         }
+    }
+
+    @IBAction public func notesLongPress(gesture: UILongPressGestureRecognizer) {
+        guard !UserDefaultsManagement.sidebarIsOpened else { return }
+
+        let p = gesture.location(in: self.notesTable)
+
+        if let indexPath = notesTable.indexPathForRow(at: p) {
+            let note = notesTable.notes[indexPath.row]
+
+            if gesture.state == .began {
+                notesTable.actionsSheet(notes: [note], presentController: self)
+            }
+        }
+
+        gesture.state = .ended
     }
 
     @IBAction public func sidebarLongPress(gesture: UILongPressGestureRecognizer) {
@@ -1105,6 +1126,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.view.layoutIfNeeded()
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = true
+
+            self.notesTable.dragInteractionEnabled = true
             self.sidebarTableView.isUserInteractionEnabled = true
 
             self.leftPreSafeArea.mixedBackgroundColor =
@@ -1122,6 +1145,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             self.view.layoutIfNeeded()
         }) { _ in
             UserDefaultsManagement.sidebarIsOpened = false
+
+            self.notesTable.dragInteractionEnabled = false
             self.sidebarTableView.isUserInteractionEnabled = false
 
             // white pre safe area
