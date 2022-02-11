@@ -22,7 +22,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     var rows = [
         [
             NSLocalizedString("Extension", comment: "Settings"),
-            NSLocalizedString("Container", comment: "Settings"),
             NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
             NSLocalizedString("Files Naming", comment: "Settings"),
             NSLocalizedString("Editor", comment: "Settings")
@@ -43,7 +42,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     var icons = [
         [
             "settings-icons-format",
-            "settings-icons-container",
             "settings-icons-keyboard",
             "settings-icons-naming",
             "settings-icons-editor"
@@ -61,7 +59,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [5, 2, 2, 4]
+    var rowsInSection = [4, 2, 2, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -135,8 +133,6 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
                 cell.accessoryType = .disclosureIndicator
             case 3:
                 cell.accessoryType = .disclosureIndicator
-            case 4:
-                cell.accessoryType = .disclosureIndicator
             default:
                 return cell
             }
@@ -186,12 +182,10 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 0:
                 lvc = DefaultExtensionViewController()
             case 1:
-                lvc = DefaultContainerViewController()
-            case 2:
                 lvc = LanguageViewController()
-            case 3:
+            case 2:
                 lvc = NamingViewController()
-            case 4:
+            case 3:
                 lvc = SettingsEditorViewController()
             default:
                 return

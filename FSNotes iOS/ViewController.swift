@@ -310,7 +310,7 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
             let note = notesTable.notes[indexPath.row]
 
             if gesture.state == .began {
-                notesTable.actionsSheet(notes: [note], presentController: self)
+                notesTable.actionsSheet(notes: [note], showAll: true, presentController: self)
             }
         }
 

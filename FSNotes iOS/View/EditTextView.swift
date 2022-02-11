@@ -44,6 +44,42 @@ class EditTextView: UITextView, UITextViewDelegate {
         spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
     }
 
+    override func selectionRects(for range: UITextRange) -> [UITextSelectionRect] {
+        let selectionRects = super.selectionRects(for: range)
+
+        let fontHeight = UserDefaultsManagement.noteFont.lineHeight
+        let lineSpacing = CGFloat(UserDefaultsManagement.editorLineSpacing)
+        let endCharacterIndex = offset(from: beginningOfDocument, to: range.end)
+        let endParRange = textStorage.mutableString.paragraphRange(for: NSRange(location: endCharacterIndex, length: 0))
+
+        var lastWideRect: UITextSelectionRect?
+        if selectionRects.count > 2 {
+            lastWideRect = selectionRects[selectionRects.count - 3]
+        }
+
+        var result = [UITextSelectionRect]()
+        for selectionRect in selectionRects {
+            if selectionRect.rect.width == 0 {
+                let customRect = CGRect(x: selectionRect.rect.origin.x, y: selectionRect.rect.origin.y - lineSpacing / 2, width: 0, height: fontHeight + lineSpacing)
+                let sel = EditorSelectionRect(originalRect: selectionRect, rect: customRect)
+                result.append(sel)
+            } else {
+                var heightOffset = CGFloat(0)
+
+                if endParRange.upperBound == textStorage.length && lastWideRect == selectionRect {
+                    heightOffset += lineSpacing
+                }
+
+                let customRect = CGRect(x: selectionRect.rect.origin.x, y: selectionRect.rect.origin.y - lineSpacing / 2, width: selectionRect.rect.width, height: selectionRect.rect.height + heightOffset)
+
+                let selectionRect = EditorSelectionRect(originalRect: selectionRect, rect: customRect)
+                result.append(selectionRect)
+            }
+        }
+
+        return result
+    }
+
     override func caretRect(for position: UITextPosition) -> CGRect {
         var caretRect = super.caretRect(for: position)
         let characterIndex = offset(from: beginningOfDocument, to: position)

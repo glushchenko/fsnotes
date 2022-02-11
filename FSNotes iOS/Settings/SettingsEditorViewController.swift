@@ -12,16 +12,29 @@ import NightNight
 class SettingsEditorViewController: UITableViewController {
     private var noteTableUpdater = Timer()
 
+    private var sections = [
+        NSLocalizedString("UI", comment: ""),
+        NSLocalizedString("Line spacing", comment: "Settings"),
+        NSLocalizedString("Typography", comment: "")
+    ]
+
+    private var rowsInSection = [5, 1, 2]
+
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
     private var rows = [
-        NSLocalizedString("Autocorrection", comment: "Settings"),
-        NSLocalizedString("Spell Checking", comment: "Settings"),
-        NSLocalizedString("Code block live highlighting", comment: "Settings"),
-        NSLocalizedString("Live images preview", comment: "Settings"),
-        NSLocalizedString("Use inline tags", comment: "Settings"),
-        NSLocalizedString("Dynamic Type", comment: "Settings"),
-        NSLocalizedString("Font size", comment: "Settings")
+        [
+            NSLocalizedString("Autocorrection", comment: "Settings"),
+            NSLocalizedString("Spell Checking", comment: "Settings"),
+            NSLocalizedString("Code block live highlighting", comment: "Settings"),
+            NSLocalizedString("Live images preview", comment: "Settings"),
+            NSLocalizedString("Use inline tags", comment: "Settings"),
+        ],
+        [""],
+        [
+            NSLocalizedString("Dynamic Type", comment: "Settings"),
+            NSLocalizedString("Font size", comment: "Settings")
+        ]
     ]
 
     override func viewDidLoad() {
@@ -38,6 +51,22 @@ class SettingsEditorViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rowsInSection[section]
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
         cell.textLabel?.mixedTextColor = MixedColor(normal: 0x000000, night: 0xffffff)
@@ -52,77 +81,94 @@ class SettingsEditorViewController: UITableViewController {
         uiSwitch.addTarget(self, action: #selector(switchValueDidChange(_:)), for: .valueChanged)
         
         let cell = UITableViewCell()
-        cell.textLabel?.text = rows[indexPath.row]
+        cell.textLabel?.text = rows[indexPath.section][indexPath.row]
 
         let view = UIView()
         view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
         cell.selectedBackgroundView = view
 
-        switch indexPath.row {
-        case 0:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.editorAutocorrection
-        case 1:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.editorSpellChecking
-        case 2:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
-        case 3:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
-        case 4:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.inlineTags
-        case 5:
-            cell.accessoryView = uiSwitch
-            uiSwitch.isOn = UserDefaultsManagement.dynamicTypeFont
-        case 6:
-            if UserDefaultsManagement.dynamicTypeFont {
-                cell.isHidden = true
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.editorAutocorrection
+            case 1:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.editorSpellChecking
+            case 2:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
+            case 3:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
+            case 4:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.inlineTags
+            default:
                 return cell
             }
+        }
 
-            let stepper = UIStepper(frame: CGRect(x: 20, y: 20, width: 100, height: 20))
-            stepper.stepValue = 1
-            stepper.minimumValue = 10
-            stepper.maximumValue = 40
-            stepper.value = Double(UserDefaultsManagement.fontSize)
-            stepper.translatesAutoresizingMaskIntoConstraints = false
-            stepper.addTarget(self, action: #selector(fontSizeChanged), for: .valueChanged)
+        if indexPath.section == 1 {
+            let brightness = UserDefaultsManagement.editorLineSpacing
+            let slider = UISlider(frame: CGRect(x: 10, y: 3, width: tableView.frame.width - 20, height: 40))
+            slider.minimumValue = 0
+            slider.maximumValue = 25
+            slider.addTarget(self, action: #selector(didChangeLineSpacingSlider), for: .touchUpInside)
+            slider.setValue(brightness, animated: true)
+            cell.addSubview(slider)
 
-            let label = UILabel()
-            label.text = ""
-            label.translatesAutoresizingMaskIntoConstraints = false
+            print(UserDefaultsManagement.editorLineSpacing)
+        }
 
-            counter.text = String(Double(UserDefaultsManagement.fontSize))
-            counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
-            counter.translatesAutoresizingMaskIntoConstraints = false
+        if indexPath.section == 2 {
+            switch indexPath.row {
+            case 0:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.dynamicTypeFont
+            case 1:
+                if UserDefaultsManagement.dynamicTypeFont {
+                    cell.isHidden = true
+                    return cell
+                }
 
-            cell.contentView.addSubview(label)
-            cell.contentView.addSubview(counter)
-            cell.contentView.addSubview(stepper)
-            cell.selectionStyle = .none
-            cell.accessoryType = .none
+                let stepper = UIStepper(frame: CGRect(x: 20, y: 20, width: 100, height: 20))
+                stepper.stepValue = 1
+                stepper.minimumValue = 10
+                stepper.maximumValue = 40
+                stepper.value = Double(UserDefaultsManagement.fontSize)
+                stepper.translatesAutoresizingMaskIntoConstraints = false
+                stepper.addTarget(self, action: #selector(fontSizeChanged), for: .valueChanged)
 
-            let views = ["name" : label, "counter": counter, "stepper" : stepper] as [String : Any]
+                let label = UILabel()
+                label.text = ""
+                label.translatesAutoresizingMaskIntoConstraints = false
 
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[name]-[counter(40)]-15-[stepper(100)]-20-|", options:  NSLayoutConstraint.FormatOptions.alignAllCenterY, metrics: nil, views: views))
+                counter.text = String(Double(UserDefaultsManagement.fontSize))
+                counter.mixedTextColor = MixedColor(normal: UIColor.gray, night: UIColor.white)
+                counter.translatesAutoresizingMaskIntoConstraints = false
 
-            cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[name(stepper)]-10-|", options: [], metrics: nil, views: views))
-        default:
-            return cell
+                cell.contentView.addSubview(label)
+                cell.contentView.addSubview(counter)
+                cell.contentView.addSubview(stepper)
+                cell.selectionStyle = .none
+                cell.accessoryType = .none
+
+                let views = ["name" : label, "counter": counter, "stepper" : stepper] as [String : Any]
+
+                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[name]-[counter(40)]-15-[stepper(100)]-20-|", options:  NSLayoutConstraint.FormatOptions.alignAllCenterY, metrics: nil, views: views))
+
+                cell.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[name(stepper)]-10-|", options: [], metrics: nil, views: views))
+            default:
+                return cell
+            }
         }
 
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rows.count
-    }
-
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.row == 0x06 && UserDefaultsManagement.dynamicTypeFont) {
+        if (indexPath.section == 2 && indexPath.row == 1 && UserDefaultsManagement.dynamicTypeFont) {
             return 0
         }
 
@@ -134,54 +180,70 @@ class SettingsEditorViewController: UITableViewController {
             let tableView = cell.superview as? UITableView,
             let indexPath = tableView.indexPath(for: cell) else { return }
 
-        switch indexPath.row {
-        case 0:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.editorAutocorrection = uiSwitch.isOn
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.editorAutocorrection = uiSwitch.isOn
 
-            UIApplication.getEVC().editArea.autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
-        case 1:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.editorSpellChecking = uiSwitch.isOn
+                UIApplication.getEVC().editArea.autocorrectionType = UserDefaultsManagement.editorAutocorrection ? .yes : .no
+            case 1:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.editorSpellChecking = uiSwitch.isOn
 
-            UIApplication.getEVC().editArea.spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
-        case 2:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
-        case 3:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
-        case 4:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.inlineTags = uiSwitch.isOn
+                UIApplication.getEVC().editArea.spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
+            case 2:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
+            case 3:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
+            case 4:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.inlineTags = uiSwitch.isOn
 
-            let vc = UIApplication.getVC()
-            if UserDefaultsManagement.inlineTags {
-                vc.sidebarTableView.loadAllTags()
-            } else {
-                vc.sidebarTableView.unloadAllTags()
+                let vc = UIApplication.getVC()
+                if UserDefaultsManagement.inlineTags {
+                    vc.sidebarTableView.loadAllTags()
+                } else {
+                    vc.sidebarTableView.unloadAllTags()
+                }
+
+                vc.resizeSidebar(withAnimation: true)
+
+                UIApplication.getEVC().resetToolbar()
+            default:
+                return
             }
+        }
 
-            vc.resizeSidebar(withAnimation: true)
+        if indexPath.section == 1 {
+            return
+        }
 
-            UIApplication.getEVC().resetToolbar()
-        case 5:
-            guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-            UserDefaultsManagement.dynamicTypeFont = uiSwitch.isOn
+        if indexPath.section == 2 {
+            switch indexPath.row {
+            case 0:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.dynamicTypeFont = uiSwitch.isOn
+                if uiSwitch.isOn {
+                    UserDefaultsManagement.fontSize = 17
+                }
 
-            if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 6, section: 0)) {
-                dynamicCell.isHidden = uiSwitch.isOn
+                if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 1, section: 2)) {
+                    dynamicCell.isHidden = uiSwitch.isOn
+                }
+
+                tableView.reloadRows(at: [IndexPath(row: 1, section: 2)], with: .automatic)
+
+                noteTableUpdater.invalidate()
+                noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
+                return
+            case 1:
+                return
+            default:
+                return
             }
-
-            tableView.reloadRows(at: [IndexPath(row: 6, section: 0)], with: .automatic)
-
-            noteTableUpdater.invalidate()
-            noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
-            return
-        case 6:
-            return
-        default:
-            return
         }
     }
 
@@ -196,6 +258,11 @@ class SettingsEditorViewController: UITableViewController {
 
     @IBAction func reloadNotesTable() {
         UIApplication.getVC().notesTable.reloadData()
+    }
+
+    @objc func didChangeLineSpacingSlider(sender: UISlider) {
+        MPreviewView.template = nil
+        UserDefaultsManagement.editorLineSpacing = sender.value
     }
 }
 

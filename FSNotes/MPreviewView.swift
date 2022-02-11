@@ -501,12 +501,14 @@ class MPreviewView: WKWebView, WKUIDelegate, WKNavigationDelegate {
             width = 0
         }
 
-        // Line height compute
         let tagAttributes = [NSAttributedString.Key.font: UserDefaultsManagement.codeFont]
         let oneCharSize = ("A" as NSString).size(withAttributes: tagAttributes as [NSAttributedString.Key : Any])
-        let lineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
+        let codeLineHeight = UserDefaultsManagement.editorLineSpacing / 2 + Float(oneCharSize.height)
 
-        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(lineHeight)px;} img {display: block; margin: 0 auto;} \(codeStyle) \(css)"
+        // Line height compute
+        let lineHeight = Int(UserDefaultsManagement.editorLineSpacing) + Int(UserDefaultsManagement.noteFont.lineHeight)
+
+        return "body {font: \(UserDefaultsManagement.fontSize)px '\(familyName)', '-apple-system'; margin: 0 \(width + 5)px; } code, pre {font: \(UserDefaultsManagement.codeFontSize)px '\(codeFamilyName)', Courier, monospace, 'Liberation Mono', Menlo; line-height: \(codeLineHeight)px; } img {display: block; margin: 0 auto;} p, li, blockquote, dl, ol, ul { line-height: \(lineHeight)px; } \(codeStyle) \(css)"
     }
 
     public func clean() {

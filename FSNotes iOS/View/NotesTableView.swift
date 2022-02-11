@@ -62,6 +62,7 @@ class NotesTableView: UITableView,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! NoteCellView
 
+        cell.imageKeys = []
         cell.delegate = self
 
         guard self.notes.indices.contains(indexPath.row) else { return cell }
@@ -610,6 +611,12 @@ class NotesTableView: UITableView,
 
             if note.isTextBundle() || note.isEncrypted() {
                 try? FileManager.default.copyItem(at: src, to: dst)
+
+                let noteDupe = Note(url: dst, with: note.project)
+                noteDupe.load()
+
+                viewDelegate?.storage.add(noteDupe)
+                dupes.append(noteDupe)
                 continue
             }
 
@@ -632,6 +639,10 @@ class NotesTableView: UITableView,
         }
 
         insertRows(notes: dupes)
+
+        if let scrollTo = dupes.first {
+            viewDelegate?.notesTable.scrollTo(note: scrollTo)
+        }
     }
 
     private func decryptUnlocked(notes: [Note]) -> [Note] {
