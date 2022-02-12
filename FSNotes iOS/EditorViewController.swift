@@ -116,6 +116,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         editArea.flashScrollIndicators()
 
         self.registerForKeyboardNotifications()
+
+        initSwipes()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -1783,6 +1785,19 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                    self.refill()
                }
            })
+        }
+    }
+
+    // Swipe controller from UITextView center
+    // https://stackoverflow.com/questions/22244688/navigation-pop-view-when-swipe-right-like-instagram-iphone-app-how-i-achieve-thi/22244990#22244990
+    
+    public func initSwipes() {
+        guard let popGestureRecognizer = self.navigationController?.interactivePopGestureRecognizer else { return }
+        if let targets = popGestureRecognizer.value(forKey: "targets") as? NSMutableArray {
+            let gestureRecognizer = UIPanGestureRecognizer()
+            gestureRecognizer.setValue(targets, forKey: "targets")
+            self.view.gestureRecognizers?.removeAll()
+            self.view.addGestureRecognizer(gestureRecognizer)
         }
     }
 }

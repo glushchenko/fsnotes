@@ -57,7 +57,7 @@ extension ViewController: UIDocumentPickerDelegate {
         case .Archive:
             actions = [.importNote, .settingsFolder, .multipleSelection, .openInFiles]
         case .Trash:
-            actions = [.settingsFolder, .multipleSelection, .openInFiles]
+            actions = [.settingsFolder, .multipleSelection, .openInFiles, .emptyBin]
         case .Category:
             actions = [.importNote, .settingsFolder, .createFolder, .removeFolder, .renameFolder, .multipleSelection, .openInFiles]
         case .Tag:
@@ -68,6 +68,18 @@ extension ViewController: UIDocumentPickerDelegate {
         let mainTitle = type != .Tag ? projectLabel : sidebarItem?.getName()
         let actionSheet = UIAlertController(title: mainTitle, message: nil, preferredStyle: .actionSheet)
 
+        if actions.contains(.emptyBin) {
+            let title = NSLocalizedString("Empty Bin", comment: "Main view popover table")
+            let alertAction = UIAlertAction(title:title, style: .destructive, handler: { _ in
+                self.emptyBin()
+            })
+            alertAction.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "emptyBin")?.resize(maxWidthHeight: 23) {
+                alertAction.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(alertAction)
+        }
+        
         if actions.contains(.importNote) {
             let title = NSLocalizedString("Import notes", comment: "Main view popover table")
             let importNote = UIAlertAction(title:title, style: .default, handler: { _ in
@@ -95,7 +107,7 @@ extension ViewController: UIDocumentPickerDelegate {
         }
 
         if actions.contains(.multipleSelection) {
-            let title = NSLocalizedString("Multiple selection", comment: "Main view popover table")
+            let title = NSLocalizedString("Multiple Selection", comment: "Main view popover table")
             let multipleSelection = UIAlertAction(title:title, style: .default, handler: { _ in
                 self.bulkEditing()
             })
@@ -477,6 +489,14 @@ extension ViewController: UIDocumentPickerDelegate {
 
         if let projectUrl = URL(string: "shareddocuments://" + path) {
             UIApplication.shared.open(projectUrl, options: [:])
+        }
+    }
+
+    private func emptyBin() {
+        let notes = storage.getAllTrash()
+
+        storage.removeNotes(notes: notes, fsRemove: true, completely: true) { [self]_ in
+            self.notesTable.removeRows(notes: notes)
         }
     }
 }

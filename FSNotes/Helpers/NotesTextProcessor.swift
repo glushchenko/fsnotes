@@ -318,7 +318,7 @@ public class NotesTextProcessor {
 
     public static func convertAppLinks(in content: NSMutableAttributedString) -> NSMutableAttributedString {
         let attributedString = content.mutableCopy() as! NSMutableAttributedString
-        let range = NSRange(0..<content.string.count)
+        let range = NSRange(0..<content.string.utf16.count)
         let tagQuery = "fsnotes://find?id="
 
         NotesTextProcessor.appUrlRegex.matches(content.string, range: range, completion: { (result) -> (Void) in
@@ -363,7 +363,7 @@ public class NotesTextProcessor {
         let attributedString = content.mutableCopy() as! NSMutableAttributedString
         guard UserDefaultsManagement.inlineTags else { return attributedString}
 
-        let range = NSRange(0..<content.string.count)
+        let range = NSRange(0..<content.string.utf16.count)
         let tagQuery = "fsnotes://open/?tag="
 
         FSParser.tagsInlineRegex.matches(content.string, range: range) { (result) -> Void in

@@ -20,12 +20,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
     @IBOutlet weak var notesTableLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var sidebarTableLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var sidebarTableWidth: NSLayoutConstraint!
-
-    @IBOutlet weak var search: UISearchBar!
-    @IBOutlet weak var bulkButton: UIButton!
     @IBOutlet weak var notesTable: NotesTableView!
     @IBOutlet weak var sidebarTableView: SidebarTableView!
-
     @IBOutlet weak var leftPreSafeArea: UIView!
     @IBOutlet weak var rightPreSafeArea: UIView!
 
