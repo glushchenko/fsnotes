@@ -10,7 +10,7 @@ import Foundation
 
 class FSParser {
     public static let tagsPattern = ###"""
-        (?:\A|\s)
+        (?:\A|\s|\()
         \#(
             [^
                 \s          # no whitespace

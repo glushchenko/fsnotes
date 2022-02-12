@@ -122,7 +122,7 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         self.imageScrollView.display(image: image)
 
-        dismiss(animated: true)
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
     }
 }
 

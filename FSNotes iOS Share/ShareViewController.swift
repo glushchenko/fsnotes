@@ -91,14 +91,24 @@ class ShareViewController: SLComposeServiceViewController {
 
                         if attachRow.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
                             attachRow.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
-                                if let data = url as? NSURL, let textLink = data.absoluteString {
-                                    self.checkInstagram(data: data)
+                                guard let url = url as? URL else { return }
 
-                                    DispatchQueue.main.async {
-                                        let preview = self.urlPreview ?? String()
-                                        self.textView.text = "\(preview)\n\n\(textLink)".trimmingCharacters(in: .whitespacesAndNewlines)
-
+                                guard !url.absoluteString.startsWith(string: "file:///") else {
+                                    if let fileContent = try? Data(contentsOf: url), let text = String(data: fileContent, encoding: String.Encoding.utf8) {
+                                        DispatchQueue.main.async {
+                                            self.textView.text = text
+                                        }
                                     }
+                                    return
+                                }
+
+                                let data = url as NSURL
+                                self.checkInstagram(data: data)
+
+                                DispatchQueue.main.async {
+                                    let preview = self.urlPreview ?? String()
+                                    self.textView.text = "\(preview)\n\n\(url.absoluteString)".trimmingCharacters(in: .whitespacesAndNewlines)
+
                                 }
                             })
                         }
@@ -238,8 +248,33 @@ class ShareViewController: SLComposeServiceViewController {
                                 return
                             }
                         })
-                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) || provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeURL as String) {
+                        if !imagesFound, let contentText = self.contentText {
 
+                            guard let url = URL(string: contentText) else {
+                                // File URL provided, but text is loaded in textView
+                                note.append(string: NSMutableAttributedString(string: contentText))
+                                note.write()
+                                self.close()
+                                return
+                            }
+
+                            let data = try? Data(contentsOf: url)
+
+                            if let data = data, let image = UIImage(data: data), image.size.width > 0 {
+                                note.append(image: data)
+                            } else {
+                                let prefix = self.getPrefix(for: note)
+                                let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
+                                note.append(string: string)
+                            }
+
+                            note.write()
+                            self.close()
+                            return
+                        }
+
+                    } else if provider.hasItemConformingToTypeIdentifier(kUTTypeText as String) {
                         if !imagesFound, let contentText = self.contentText {
                             let prefix = self.getPrefix(for: note)
                             let string = NSMutableAttributedString(string: "\(prefix)\(contentText)")
@@ -252,7 +287,15 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             }
         }
+
+        self.close()
     }
+
+//    private func checkImage() -> UIImage {
+//        attachRow.loadItem(forTypeIdentifier: kUTTypeURL as String, options: nil, completionHandler: { (url, error) in
+//
+//        })
+//    }
 
     public func close() {
         if let context = self.extensionContext {

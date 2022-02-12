@@ -299,7 +299,7 @@ class NotesTableView: UITableView,
 
         if showAll {
             let alertTitle =
-                !note.isUnlocked() || (note.isUnlocked() && note.isEncrypted())
+                (note.isUnlocked() && note.isEncrypted()) || !note.isEncrypted()
                     ? NSLocalizedString("Lock", comment: "")
                     : NSLocalizedString("Unlock", comment: "")
 
@@ -647,19 +647,20 @@ class NotesTableView: UITableView,
 
     private func decryptUnlocked(notes: [Note]) -> [Note] {
         var notes = notes
+        var toReload = [Note]()
 
         for note in notes {
             if note.isUnlocked() {
                 if note.unEncryptUnlocked() {
                     notes.removeAll { $0 === note }
-
+                    toReload.append(note)
                     note.invalidateCache()
                 }
             }
         }
 
         DispatchQueue.main.async {
-            self.reloadRows(notes: notes)
+            self.reloadRows(notes: toReload, resetKeys: true)
         }
 
         return notes
@@ -690,7 +691,7 @@ class NotesTableView: UITableView,
             }
 
             DispatchQueue.main.async {
-                self.reloadRows(notes: notes)
+                self.reloadRows(notes: notes, resetKeys: true)
             }
         }
     }
