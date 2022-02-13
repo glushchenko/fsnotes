@@ -524,6 +524,10 @@ body > ul, body > ol {
         margin-left: 0;
     }
 
+body.ios > ul, body.ios > ol { margin-left: 25px; }
+.ios ul.cb li { margin: 0 0 0 27px; }
+.ios ul.cb li input[type=checkbox] { margin: 0 0 0 -28px; }
+
 .macos.darkmode input[type='checkbox'] { border: 1px solid white;}
 .ios.darkmode input[type=checkbox] { background-color: white; }
 .ios.darkmode input[type=checkbox]:checked:after { border-bottom: 1px solid black; border-right: 1px solid black; }
