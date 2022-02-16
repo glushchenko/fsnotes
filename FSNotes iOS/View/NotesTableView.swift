@@ -228,12 +228,21 @@ class NotesTableView: UITableView,
             }
         })
         remove.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
-
         if let image = UIImage(named: "removeAction")?.resize(maxWidthHeight: 22) {
             remove.setValue(image, forKey: "image")
         }
-
         actionSheet.addAction(remove)
+
+        if showAll {
+            let history = UIAlertAction(title: NSLocalizedString("History", comment: ""), style: .default, handler: { _ in
+                self.historyAction(note: notes.first!, presentController: presentController)
+            })
+            history.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
+            if let image = UIImage(named: "historyAction")?.resize(maxWidthHeight: 25) {
+                history.setValue(image, forKey: "image")
+            }
+            actionSheet.addAction(history)
+        }
 
         let creationDate = UIAlertAction(title: NSLocalizedString("Date created", comment: ""), style: .default, handler: { _ in
             self.dateAction(notes: notes, presentController: presentController)
@@ -560,6 +569,15 @@ class NotesTableView: UITableView,
         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "datePickerViewController") as! DatePickerViewController
         datePickerViewController.notes = notes
+
+        let nvc = UIApplication.getNC()
+        nvc?.present(datePickerViewController, animated: true )
+    }
+
+    private func historyAction(note: Note, presentController: UIViewController) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let datePickerViewController = storyBoard.instantiateViewController(withIdentifier: "revisionsViewController") as! RevisionsViewController
+        datePickerViewController.note = note
 
         let nvc = UIApplication.getNC()
         nvc?.present(datePickerViewController, animated: true )

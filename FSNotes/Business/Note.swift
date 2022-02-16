@@ -651,6 +651,26 @@ public class Note: NSObject  {
         
         return nil
     }
+
+    func getAltContent(url: URL) -> NSAttributedString? {
+        guard container != .encryptedTextPack else { return nil }
+
+        do {
+            let options = getDocOptions()
+
+            return try NSAttributedString(url: url, options: options, documentAttributes: nil)
+        } catch {
+
+            if let data = try? Data(contentsOf: url) {
+            let encoding = NSString.stringEncoding(for: data, encodingOptions: nil, convertedString: nil, usedLossyConversion: nil)
+
+                let options = getDocOptions(with: String.Encoding.init(rawValue: encoding))
+                return try? NSAttributedString(url: url, options: options, documentAttributes: nil)
+            }
+        }
+
+        return nil
+    }
         
     func isRTF() -> Bool {
         return type == .RichText
@@ -1275,6 +1295,29 @@ public class Note: NSObject  {
         })
 
         return res
+    }
+
+    public func dropImagesCache() {
+        let urls = getAllImages()
+
+        for url in urls {
+            var temporary = URL(fileURLWithPath: NSTemporaryDirectory())
+            temporary.appendPathComponent("ThumbnailsBigInline")
+
+            let cacheUrl = temporary.appendingPathComponent(url.0.absoluteString.md5 + "." + url.0.pathExtension)
+            try? FileManager.default.removeItem(at: cacheUrl)
+        }
+    }
+
+    public func countCheckSum() -> String {
+        let urls = getAllImages()
+        var size = UInt64(0)
+
+        for url in urls {
+            size += url.0.fileSize
+        }
+
+        return content.string.md5 + String(size)
     }
 
     #if os(OSX)

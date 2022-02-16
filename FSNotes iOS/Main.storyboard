@@ -351,7 +351,7 @@
                                                 <rect key="frame" x="20" y="5" width="103" height="34.333333333333336"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Отменить"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
                                                 <connections>
                                                     <action selector="closeController:" destination="87i-Hr-AGk" eventType="touchUpInside" id="SLe-6E-Igk"/>
                                                 </connections>
@@ -362,7 +362,7 @@
                                                 <rect key="frame" x="298.66666666666669" y="5" width="109.33333333333331" height="34.333333333333336"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Сохранить"/>
+                                                <buttonConfiguration key="configuration" style="plain" title="Save"/>
                                                 <connections>
                                                     <action selector="saveDate:" destination="87i-Hr-AGk" eventType="touchUpInside" id="WNZ-4k-cL1"/>
                                                 </connections>
@@ -404,6 +404,56 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hlq-lK-G9X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2550" y="131.53347732181427"/>
+        </scene>
+        <!--Revisions View Controller-->
+        <scene sceneID="YOZ-ux-Jhh">
+            <objects>
+                <viewController storyboardIdentifier="revisionsViewController" id="RLs-pU-4VS" customClass="RevisionsViewController" customModule="FSNotes_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="83N-TZ-3cS">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5J-hy-i2L" userLabel="bottomSafeView">
+                                <rect key="frame" x="0.0" y="892" width="428" height="34"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Jj-x2-SeW" userLabel="bottomNavigationBar">
+                                <rect key="frame" x="0.0" y="848" width="428" height="44"/>
+                                <items>
+                                    <navigationItem id="ZCa-T5-BwJ"/>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="L3S-P5-2Qs" userLabel="revisionList">
+                                <rect key="frame" x="0.0" y="44" width="428" height="804"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1oV-Zs-iUv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="L3S-P5-2Qs" firstAttribute="trailing" secondItem="1oV-Zs-iUv" secondAttribute="trailing" id="Hnp-vG-gtB"/>
+                            <constraint firstItem="Z5J-hy-i2L" firstAttribute="top" secondItem="1oV-Zs-iUv" secondAttribute="bottom" id="LSE-2O-sPz"/>
+                            <constraint firstItem="Z5J-hy-i2L" firstAttribute="top" secondItem="1Jj-x2-SeW" secondAttribute="bottom" id="N9h-3s-ePn"/>
+                            <constraint firstItem="L3S-P5-2Qs" firstAttribute="leading" secondItem="1oV-Zs-iUv" secondAttribute="leading" id="OYy-sg-B62"/>
+                            <constraint firstItem="Z5J-hy-i2L" firstAttribute="trailing" secondItem="83N-TZ-3cS" secondAttribute="trailing" id="VwZ-al-u3Y"/>
+                            <constraint firstItem="Z5J-hy-i2L" firstAttribute="leading" secondItem="83N-TZ-3cS" secondAttribute="leading" id="Zx1-sP-aey"/>
+                            <constraint firstItem="L3S-P5-2Qs" firstAttribute="top" secondItem="1oV-Zs-iUv" secondAttribute="top" id="cQJ-rU-iga"/>
+                            <constraint firstItem="1Jj-x2-SeW" firstAttribute="top" secondItem="L3S-P5-2Qs" secondAttribute="bottom" id="e37-96-iei"/>
+                            <constraint firstAttribute="bottom" secondItem="Z5J-hy-i2L" secondAttribute="bottom" id="pCr-cz-upn"/>
+                            <constraint firstItem="1Jj-x2-SeW" firstAttribute="leading" secondItem="83N-TZ-3cS" secondAttribute="leading" id="ub4-jI-nsU"/>
+                            <constraint firstItem="1Jj-x2-SeW" firstAttribute="trailing" secondItem="83N-TZ-3cS" secondAttribute="trailing" id="uzF-LM-q13"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="bottomSafeView" destination="Z5J-hy-i2L" id="a3o-Sh-DJs"/>
+                        <outlet property="navItem" destination="ZCa-T5-BwJ" id="sA6-2o-2OU"/>
+                        <outlet property="navigationBar" destination="1Jj-x2-SeW" id="ppe-tT-Cg0"/>
+                        <outlet property="revisionsTable" destination="L3S-P5-2Qs" id="tBS-Bn-YUF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SIA-sI-2vZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3347.663551401869" y="132.82937365010801"/>
         </scene>
     </scenes>
     <resources>

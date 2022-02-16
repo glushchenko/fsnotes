@@ -199,6 +199,8 @@
 		D735E5BF1F2F001500173215 /* NoteRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D735E5BE1F2F001500173215 /* NoteRowView.swift */; };
 		D73673A820D10CF2000BA61D /* CloudDriveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73673A720D10CF2000BA61D /* CloudDriveManager.swift */; };
 		D736DDA927B5DD370012ED70 /* EditorSelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */; };
+		D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAA27BABFF80012ED70 /* RevisionsViewController.swift */; };
+		D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
 		D73794BF2336642500E75A28 /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */; };
 		D73794C123366F5200E75A28 /* ImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73794C023366F5200E75A28 /* ImageScrollView.swift */; };
 		D738356D2242871400B260DD /* MasterPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D738356C2242871400B260DD /* MasterPasswordViewController.swift */; };
@@ -1256,6 +1258,8 @@
 		D735E5BE1F2F001500173215 /* NoteRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteRowView.swift; sourceTree = "<group>"; };
 		D73673A720D10CF2000BA61D /* CloudDriveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudDriveManager.swift; sourceTree = "<group>"; };
 		D736DDA827B5DD370012ED70 /* EditorSelectionRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorSelectionRect.swift; sourceTree = "<group>"; };
+		D736DDAA27BABFF80012ED70 /* RevisionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevisionsViewController.swift; sourceTree = "<group>"; };
+		D736DDAC27BAC7940012ED70 /* Note+History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+History.swift"; sourceTree = "<group>"; };
 		D73794BC233625FB00E75A28 /* CustomTextStorage+Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextStorage+Images.swift"; sourceTree = "<group>"; };
 		D73794BE2336642500E75A28 /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 		D73794C023366F5200E75A28 /* ImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageScrollView.swift; sourceTree = "<group>"; };
@@ -1697,6 +1701,7 @@
 				D7B4AC5D2471253100F3888A /* NoteMeta.swift */,
 				D74D479E256DF2EB00D97647 /* FSNTextAttahcmentCell.swift */,
 				D792DD8127A6C980006ADC01 /* FSParser.swift */,
+				D736DDAC27BAC7940012ED70 /* Note+History.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -2063,6 +2068,7 @@
 				D714749A279CE8EE001A8B29 /* MainNavigationController.swift */,
 				D785805727A1FA0F000C1BAF /* UITableViewController+.swift */,
 				D7E7DB3227A9B16F00408725 /* DatePickerViewController.swift */,
+				D736DDAA27BABFF80012ED70 /* RevisionsViewController.swift */,
 			);
 			path = "FSNotes iOS";
 			sourceTree = "<group>";
@@ -3771,6 +3777,7 @@
 				D73290BA2099F0AB0003F647 /* UndoData.swift in Sources */,
 				D752D81223463950006842F9 /* NSMutableAttributedString+Attachments.swift in Sources */,
 				D74B7B692137EFA9007F5331 /* SingleTouchDownGestureRecognizer.swift in Sources */,
+				D736DDAD27BAC7940012ED70 /* Note+History.swift in Sources */,
 				D730BD45223510A700E69C93 /* KeychainPasswordItem.swift in Sources */,
 				D7CBAFFE214D5A1C002ECD5A /* ShortcutIdentifier.swift in Sources */,
 				D785805C27A3483B000C1BAF /* FolderPopoverActions.swift in Sources */,
@@ -3785,6 +3792,7 @@
 				D7153E0D2286B85B00A2C20F /* DefaultContainerViewController.swift in Sources */,
 				D7104A67230BD8C500B6D8EE /* SortDirection.swift in Sources */,
 				D75627D126D1165A000AF6EA /* ImageFormat.swift in Sources */,
+				D736DDAB27BABFFB0012ED70 /* RevisionsViewController.swift in Sources */,
 				D730BD37222DB11E00E69C93 /* TextBundleInfo.swift in Sources */,
 				D7D03BAF205C250500D96A6D /* FontViewController.swift in Sources */,
 				D7122F3D2790EBB400B238A4 /* SmallButton.swift in Sources */,

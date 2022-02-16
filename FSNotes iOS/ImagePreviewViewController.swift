@@ -16,6 +16,10 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
     public var image: UIImage?
     public var url: URL?
+    public var note: Note?
+    public var imageUrls = [URL]()
+
+    private var currentIndex = 0
 
     @IBOutlet weak var bottomSafeView: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -55,8 +59,68 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         DispatchQueue.main.async {
             self.rotated()
         }
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        imageScrollView.addGestureRecognizer(tapGesture)
+
+        var urls = [URL]()
+        if let result = note?.getAllImages() {
+            for item in result {
+                urls.append(item.url)
+            }
+        }
+
+        imageUrls = urls
+
+        if let url = url, let index = imageUrls.firstIndex(of: url) {
+            currentIndex = index
+        }
     }
 
+    @objc public func tapGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        let center = gestureRecognizer.location(in: gestureRecognizer.view)
+        var selectedUrl: URL?
+
+        if let zoomView = imageScrollView.zoomView, zoomView.frame.width > view.frame.width {
+            return
+        }
+
+        if center.x < 40 {
+            selectedUrl = prevImage()
+        }
+
+        if center.x > imageScrollView.frame.width - 40 {
+            selectedUrl = nextImage()
+        }
+
+        if let url = selectedUrl, let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+            imageScrollView.display(image: image)
+            self.image = image
+            self.url = selectedUrl
+        }
+    }
+
+    private func nextImage() -> URL {
+        currentIndex += 1
+
+        if currentIndex >= imageUrls.count {
+            currentIndex = 0
+        }
+
+        return imageUrls[currentIndex]
+    }
+
+    private func prevImage() -> URL {
+        currentIndex -= 1
+
+        if currentIndex < 0 {
+            currentIndex = imageUrls.count - 1
+        }
+
+        return imageUrls[currentIndex]
+    }
+    
     @IBAction func share() {
         guard let url = self.url else { return }
 

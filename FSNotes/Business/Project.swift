@@ -592,4 +592,10 @@ public class Project: Equatable {
 
         return projects
     }
+
+    public func getHistoryURL() -> URL? {
+        let url = storage.getRevisionsHistory()
+        guard let relPath = getRelativePath() else { return nil }
+        return url.appendingPathComponent(relPath)
+    }
 }

@@ -1379,6 +1379,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                 imagePreviewViewController.image = someImage
                 imagePreviewViewController.url = url
+                imagePreviewViewController.note = note
                 present(imagePreviewViewController, animated: true, completion: nil)
             }
 

@@ -134,6 +134,11 @@ class Storage {
 
         ciphertextWriter.maxConcurrentOperationCount = 1
         ciphertextWriter.qualityOfService = .userInteractive
+
+        let revHistory = getRevisionsHistory()
+        if !FileManager.default.directoryExists(atUrl: revHistory) {
+            try? FileManager.default.createDirectory(at: revHistory, withIntermediateDirectories: true, attributes: nil)
+        }
     }
 
     public static func shared() -> Storage {
@@ -1500,6 +1505,13 @@ class Storage {
         }
     }
     #endif
+
+    public func getRevisionsHistory() -> URL {
+        let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
+        let revisionsUrl = documentDir.appendingPathComponent(".revisions")
+
+        return revisionsUrl
+    }
 }
 
 extension String: Error {}
