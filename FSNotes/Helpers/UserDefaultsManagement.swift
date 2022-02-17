@@ -43,6 +43,7 @@ public class UserDefaultsManagement {
         static let AppearanceTypeKey = "appearanceType"
         static let ArchiveDirectoryKey = "archiveDirectory"
         static let AutoInsertHeader = "autoInsertHeader"
+        static let AutoVersioning = "autoVersioning"
         static let AutomaticSpellingCorrection = "automaticSpellingCorrection"
         static let AutomaticQuoteSubstitution = "automaticQuoteSubstitution"
         static let AutomaticDataDetection = "automaticDataDetection"
@@ -1410,6 +1411,18 @@ public class UserDefaultsManagement {
         }
         set {
             shared?.set(newValue, forKey: Constants.SearchHighlight)
+        }
+    }
+
+    static var autoVersioning: Bool {
+        get {
+            if let result = shared?.object(forKey: Constants.AutoVersioning) as? Bool {
+                return result
+            }
+            return true
+        }
+        set {
+            shared?.set(newValue, forKey: Constants.AutoVersioning)
         }
     }
 }

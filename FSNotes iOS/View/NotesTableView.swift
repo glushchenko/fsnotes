@@ -123,6 +123,10 @@ class NotesTableView: UITableView,
         }
 
         fill(note: note, indexPath: indexPath)
+
+        DispatchQueue.global().async {
+            note.saveRevision()
+        }
     }
 
     private func fill(note: Note, indexPath: IndexPath) {
@@ -233,7 +237,7 @@ class NotesTableView: UITableView,
         }
         actionSheet.addAction(remove)
 
-        if showAll {
+        if showAll && UserDefaultsManagement.autoVersioning && !note.isEncrypted() {
             let history = UIAlertAction(title: NSLocalizedString("History", comment: ""), style: .default, handler: { _ in
                 self.historyAction(note: notes.first!, presentController: presentController)
             })
@@ -521,6 +525,7 @@ class NotesTableView: UITableView,
 
         let isPinned = note.isPinned
         let dst = note.getNewURL(name: name)
+        let src = note.url
 
         note.removePin()
 
@@ -531,6 +536,8 @@ class NotesTableView: UITableView,
         if note.move(to: dst) {
             note.url = dst
             note.parseURL()
+            
+            note.moveHistory(src: src, dst: dst)
         }
 
         if isPinned {

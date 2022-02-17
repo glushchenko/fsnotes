@@ -47,8 +47,30 @@ class RevisionsViewController: UIViewController, UITableViewDelegate, UITableVie
         let leftString = NSLocalizedString("Cancel", comment: "")
         navItem.leftBarButtonItem = UIBarButtonItem(title: leftString, style: .plain, target: self, action: #selector(closeController))
 
-        let rightString = NSLocalizedString("Save Revision", comment: "")
-        navItem.rightBarButtonItem = UIBarButtonItem(title: rightString, style: .plain, target: self, action: #selector(saveRevision))
+        let dropImage = UIImage(named: "trashButton")?.resize(maxWidthHeight: 32)
+        let dropBarButton = UIBarButtonItem(image: dropImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(dropRevisions))
+
+        let saveImage = UIImage(named: "saveButton")?.resize(maxWidthHeight: 32)
+        let saveBarButton = UIBarButtonItem(image: saveImage, landscapeImagePhone: nil, style: .done, target: self, action: #selector(saveRevision))
+
+        navItem.rightBarButtonItems = [saveBarButton, dropBarButton]
+    }
+
+    @IBAction func dropRevisions() {
+        let title = NSLocalizedString("Versions removing", comment: "")
+        let message = NSLocalizedString("Are you sure you want to remove all versions of this note?", comment: "")
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
+            self.note?.dropRevisions()
+            self.dismiss(animated: true)
+        })
+
+        let cancel = NSLocalizedString("Cancel", comment: "")
+        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
 
     @IBAction func saveRevision() {

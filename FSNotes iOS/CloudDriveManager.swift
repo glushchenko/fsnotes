@@ -202,8 +202,11 @@ class CloudDriveManager {
                 print("File moved to new url: \(url)")
 
                 notesDeletionQueue.append(note)
+
+                let srcUrl = note.url
                 note.url = url
                 note.parseURL()
+                note.moveHistory(src: srcUrl, dst: url)
 
                 resultsDict[index] = url
                 notesInsertionQueue.append(note)

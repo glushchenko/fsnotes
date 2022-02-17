@@ -359,9 +359,15 @@ public class Note: NSObject  {
 
     public func remove() {
         if !isTrash() && !isEmpty() {
+            let src = url
             if let trashURLs = removeFile() {
-                self.url = trashURLs[0]
+                let dst = trashURLs[0]
+                self.url = dst
                 parseURL()
+
+                #if os(iOS)
+                    moveHistory(src: src, dst: dst)
+                #endif
             }
         } else {
             _ = removeFile()
@@ -369,6 +375,10 @@ public class Note: NSObject  {
             if self.isPinned {
                 removePin()
             }
+
+            #if os(iOS)
+                dropRevisions()
+            #endif
         }
     }
 

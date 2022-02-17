@@ -63,6 +63,8 @@ class MoveViewController: UITableViewController {
                         return
                     }
 
+                    note.moveHistory(src: note.url, dst: dstURL)
+
                     note.url = dstURL
                     note.parseURL()
                     note.project = project

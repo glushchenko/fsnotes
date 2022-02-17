@@ -13,12 +13,12 @@ class SettingsEditorViewController: UITableViewController {
     private var noteTableUpdater = Timer()
 
     private var sections = [
-        NSLocalizedString("UI", comment: ""),
-        NSLocalizedString("Line spacing", comment: "Settings"),
-        NSLocalizedString("Typography", comment: "")
+        NSLocalizedString("Settings", comment: ""),
+        NSLocalizedString("Line Spacing", comment: "Settings"),
+        NSLocalizedString("Font Size", comment: "")
     ]
 
-    private var rowsInSection = [5, 1, 2]
+    private var rowsInSection = [6, 1, 2]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
@@ -29,6 +29,7 @@ class SettingsEditorViewController: UITableViewController {
             NSLocalizedString("Code block live highlighting", comment: "Settings"),
             NSLocalizedString("Live images preview", comment: "Settings"),
             NSLocalizedString("Use inline tags", comment: "Settings"),
+            NSLocalizedString("Auto versioning", comment: "Settings"),
         ],
         [""],
         [
@@ -104,6 +105,9 @@ class SettingsEditorViewController: UITableViewController {
             case 4:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.inlineTags
+            case 5:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.autoVersioning
             default:
                 return cell
             }
@@ -117,8 +121,6 @@ class SettingsEditorViewController: UITableViewController {
             slider.addTarget(self, action: #selector(didChangeLineSpacingSlider), for: .touchUpInside)
             slider.setValue(brightness, animated: true)
             cell.addSubview(slider)
-
-            print(UserDefaultsManagement.editorLineSpacing)
         }
 
         if indexPath.section == 2 {
@@ -212,6 +214,13 @@ class SettingsEditorViewController: UITableViewController {
                 vc.resizeSidebar(withAnimation: true)
 
                 UIApplication.getEVC().resetToolbar()
+            case 5:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.autoVersioning = uiSwitch.isOn
+
+                if !uiSwitch.isOn {
+                    autoVersioningPrompt()
+                }
             default:
                 return
             }
@@ -263,6 +272,29 @@ class SettingsEditorViewController: UITableViewController {
     @objc func didChangeLineSpacingSlider(sender: UISlider) {
         MPreviewView.template = nil
         UserDefaultsManagement.editorLineSpacing = sender.value
+    }
+
+    private func autoVersioningPrompt() {
+        let title = NSLocalizedString("History removing", comment: "")
+        let message = NSLocalizedString("Do you want to remove history of all notes?", comment: "")
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
+            let revisions = Storage.shared().getRevisionsHistory()
+            do {
+                try FileManager.default.removeItem(at: revisions)
+            } catch {
+                print("History clear: \(error)")
+            }
+
+            self.dismiss(animated: true)
+        })
+
+        let cancel = NSLocalizedString("Cancel", comment: "")
+        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
+        }))
+
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

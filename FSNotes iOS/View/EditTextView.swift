@@ -81,20 +81,20 @@ class EditTextView: UITextView, UITextViewDelegate {
     }
 
     override func caretRect(for position: UITextPosition) -> CGRect {
-        var caretRect = super.caretRect(for: position)
         let characterIndex = offset(from: beginningOfDocument, to: position)
 
         guard layoutManager.isValidGlyphIndex(characterIndex) else {
-            return caretRect
+            return super.caretRect(for: position)
         }
 
         let glyphIndex = layoutManager.glyphIndexForCharacter(at: characterIndex)
         let usedLineFragment = layoutManager.lineFragmentUsedRect(forGlyphAt: glyphIndex, effectiveRange: nil)
 
         guard !usedLineFragment.isEmpty else {
-            return caretRect
+            return super.caretRect(for: position)
         }
 
+        var caretRect = super.caretRect(for: position)
         caretRect.origin.y = usedLineFragment.origin.y + textContainerInset.top
         caretRect.size.height = usedLineFragment.size.height - CGFloat(UserDefaultsManagement.editorLineSpacing) / 2
 

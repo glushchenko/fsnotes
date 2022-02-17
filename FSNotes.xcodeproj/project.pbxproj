@@ -784,6 +784,10 @@
 		D7D372F5207B5B0F00AFBD9F /* SidebarNotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F3207B5B0F00AFBD9F /* SidebarNotesView.swift */; };
 		D7D372F7207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarOutlineView.swift */; };
 		D7D372F8207BB09500AFBD9F /* SidebarOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D372F6207BB09500AFBD9F /* SidebarOutlineView.swift */; };
+		D7D3D2A427BEEA61001C1497 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
+		D7D3D2A527BEEA62001C1497 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
+		D7D3D2A627BEEA62001C1497 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
+		D7D3D2A727BEEA64001C1497 /* Note+History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D736DDAC27BAC7940012ED70 /* Note+History.swift */; };
 		D7D3D5181F44799400D152FE /* makeNote.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5171F44794A00D152FE /* makeNote.png */; };
 		D7D3D51A1F4483F500D152FE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D3D5191F4483EA00D152FE /* pin.png */; };
 		D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D79AFC24DE71FA003C61AF /* settings-icons-support.png */; };
@@ -3610,6 +3614,7 @@
 				D7CAD81D231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D75E337C22462442006AD1C1 /* ViewController.swift in Sources */,
 				D75E337D22462442006AD1C1 /* FileWatcher.swift in Sources */,
+				D7D3D2A627BEEA62001C1497 /* Note+History.swift in Sources */,
 				D75E337E22462442006AD1C1 /* NotesTextProcessor.swift in Sources */,
 				D792DD8427A6C980006ADC01 /* FSParser.swift in Sources */,
 				D75E337F22462442006AD1C1 /* RuntimeError.swift in Sources */,
@@ -3756,6 +3761,7 @@
 				D792DD8627A6C980006ADC01 /* FSParser.swift in Sources */,
 				D730BD3F222DB9FC00E69C93 /* NameHelper.swift in Sources */,
 				D7737393223D59CF00154B9E /* KeychainConfiguration.swift in Sources */,
+				D7D3D2A727BEEA64001C1497 /* Note+History.swift in Sources */,
 				D7CD5CDC21832C190009D63B /* UserDefaultsManagement+.swift in Sources */,
 				D7BAC631249D1204008D29AA /* SettingsFilesNaming.swift in Sources */,
 				D730BD31222DABA100E69C93 /* NoteContainer.swift in Sources */,
@@ -3887,6 +3893,7 @@
 				D7CAD81B231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D7793C751F211C6000CA39B7 /* ViewController.swift in Sources */,
 				D7DD5A881F88D4EA00CE947E /* FileWatcher.swift in Sources */,
+				D7D3D2A427BEEA61001C1497 /* Note+History.swift in Sources */,
 				D7F95F3A1FF2759300E2A447 /* NotesTextProcessor.swift in Sources */,
 				D792DD8227A6C980006ADC01 /* FSParser.swift in Sources */,
 				D730BD5A223BFEB200E69C93 /* RuntimeError.swift in Sources */,
@@ -4006,6 +4013,7 @@
 				D7CAD81C231D44C10006BE1C /* CodeTextProcessor.swift in Sources */,
 				D708AC682000F0E100A1760F /* NoteType.swift in Sources */,
 				D7B6E59B207912E300FE0E20 /* Project.swift in Sources */,
+				D7D3D2A527BEEA62001C1497 /* Note+History.swift in Sources */,
 				D730BD5B223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D792DD8327A6C980006ADC01 /* FSParser.swift in Sources */,
 				D7FFD09C1FF677ED0064CBA6 /* NotesTextProcessor.swift in Sources */,

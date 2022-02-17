@@ -36,6 +36,16 @@ extension Note {
         }
     }
 
+    public func dropRevisions() {
+        do {
+            if let repository = getRepositoryUrl() {
+                try FileManager.default.removeItem(at: repository)
+            }
+        } catch {
+            print("Repository removing \(error)")
+        }
+    }
+
     public func restoreRevision(url: URL) {
         guard !isEncrypted() else { return }
 
@@ -133,6 +143,41 @@ extension Note {
         guard let url = project.getHistoryURL() else { return nil }
 
         return url.appendingPathComponent(name)
+    }
+
+    public func moveHistory(src: URL, dst: URL) {
+        let srcFileName = src.lastPathComponent
+        let dstFileName = dst.lastPathComponent
+
+        var srcProject = project.getHistoryURL()
+        var dstProject = project.getHistoryURL()
+
+        if let dstHistory = project.storage.getProjectBy(url: dst.deletingLastPathComponent())?.getHistoryURL() {
+
+            if !FileManager.default.directoryExists(atUrl: dstHistory) {
+                try? FileManager.default.createDirectory(at: dstHistory, withIntermediateDirectories: true, attributes: nil)
+            }
+
+            dstProject = dstHistory
+        }
+
+        if let srcHistory = project.storage.getProjectBy(url: src.deletingLastPathComponent())?.getHistoryURL(),
+            FileManager.default.directoryExists(atUrl: srcHistory) {
+
+            srcProject = srcHistory
+        }
+
+        guard let srcDir = srcProject?.appendingPathComponent(srcFileName),
+              FileManager.default.fileExists(atPath: srcDir.path),
+              let dstDir = dstProject?.appendingPathComponent(dstFileName),
+              !FileManager.default.directoryExists(atUrl: dstDir)
+        else { return }
+
+        do {
+            try FileManager.default.moveItem(at: srcDir, to: dstDir)
+        } catch {
+            print("History transfer \(error)")
+        }
     }
 
     private func dropInlineFiles() {
