@@ -165,12 +165,17 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         let appSettings = UIBarButtonItem(image: appSettingsImage, style: .plain, target: self, action: #selector(toggleSidebar))
         appSettings.tintColor = .white
 
+        let searchButtonImage = UIImage(named: "searchButton")?.resize(maxWidthHeight: 25)?.imageWithColor(color1: .white)
+        let searchButton = UIBarButtonItem(image: searchButtonImage, style: .plain, target: self, action: #selector(openSearchController))
+        searchButton.tintColor = .white
+        searchButton.imageInsets = UIEdgeInsets(top: 0.0, left: 20, bottom: 0, right: 0)
+
         let generalSettingsImage = UIImage(named: "navigationSettings")?.resize(maxWidthHeight: 23)?.imageWithColor(color1: .white)
         let generalSettings = UIBarButtonItem(image: generalSettingsImage, style: .plain, target: self, action: #selector(openSettings))
         generalSettings.tintColor = .white
 
         navigationItem.leftBarButtonItems = [appSettings, generalSettings]
-        navigationItem.rightBarButtonItems = [navSettings]
+        navigationItem.rightBarButtonItems = [navSettings, searchButton]
 
         setNavTitle(folder: NSLocalizedString("Inbox", comment: ""))
 
@@ -287,6 +292,10 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         self.searchController = searchController
 
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+
+    @IBAction public func openSearchController() {
+        loadSearchController()
     }
 
     @IBAction public func toggleSidebar() {

@@ -1799,6 +1799,11 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
             gestureRecognizer.setValue(targets, forKey: "targets")
             self.view.gestureRecognizers?.removeAll()
             self.view.addGestureRecognizer(gestureRecognizer)
+
+            let tapGR = UITapGestureRecognizer(target: self, action: #selector(editMode))
+            tapGR.delegate = self
+            tapGR.numberOfTapsRequired = 2
+            self.view.addGestureRecognizer(tapGR)
         }
     }
 }
