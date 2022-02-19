@@ -301,6 +301,7 @@ class Storage {
             url.lastPathComponent != "i",
             url.lastPathComponent != "files",
             !url.path.contains(".git"),
+            !url.path.contains(".revisions"),
             !url.path.contains(".Trash"),
             !url.path.contains(".cache"),
             !url.path.contains("Trash"),
@@ -1050,6 +1051,7 @@ class Storage {
                 && !$0.path.contains("/.Trash")
                 && !$0.path.contains("/Trash")
                 && !$0.path.contains(".textbundle")
+                && !$0.path.contains(".revisions")
             })
 
         var fin = [URL]()

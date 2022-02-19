@@ -732,28 +732,26 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
         // Prevent textStorage refresh in CloudDriveManager
         note.modifiedLocalAt = Date()
-        let text = self.editArea.attributedText
-        let plainText = text?.string
-
         self.storageQueue.cancelAllOperations()
+
+        let text = self.editArea.attributedText.copy() as? NSAttributedString
+
         let operation = BlockOperation()
         operation.addExecutionBlock { [weak self] in
-            guard let self = self else {return}
+            guard let self = self, let text = text else {return}
 
-            if let text = text {
+            note.saveSync(copy: text)
 
-                if note.isEncrypted() && !note.isUnlocked() {
-                    DispatchQueue.main.async {
-                        self.cancel()
-                    }
-
-                    return
+            if note.isEncrypted() && !note.isUnlocked() {
+                DispatchQueue.main.async {
+                    self.cancel()
                 }
 
-                note.invalidateCache()
-                note.loadPreviewInfo(text: plainText)
-                note.save(attributed: text)
+                return
             }
+
+            note.invalidateCache()
+            note.loadPreviewInfo(text: note.content.string)
 
             vc.updateSpotlightIndex(notes: [note])
 
@@ -764,6 +762,8 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 self.tagsTimer?.invalidate()
                 self.tagsTimer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(self.scanTags), userInfo: nil, repeats: false)
             }
+
+            usleep(100000)
         }
         self.storageQueue.addOperation(operation)
 
@@ -779,6 +779,7 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         guard let note = self.note else { return }
 
         vc.notesTable.moveRowUp(note: note)
+        vc.notesTable.reloadRows(notes: [note])
     }
     
     func getSearchText() -> String {
@@ -1178,9 +1179,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                             self.editArea.saveImageClipboard(data: imageData, note: note, ext: imageExt)
 
                             if processed == assets.count {
-                                note.save(attributed: self.editArea.attributedText)
+                                note.saveSync(copy: self.editArea.attributedText)
+                                note.invalidateCache()
 
-                                UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                                UIApplication.getVC().notesTable.reloadRows(notes: [note])
                                 return
                             }
 
@@ -1200,10 +1202,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                         DispatchQueue.main.async {
                             self.editArea.insertText(markup)
 
-                            note.save(attributed: self.editArea.attributedText)
-                            UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                            note.saveSync(copy: self.editArea.attributedText)
+                            note.invalidateCache()
 
-                            note.isParsed = false
+                            UIApplication.getVC().notesTable.reloadRows(notes: [note])
 
                             self.editArea.undoManager?.removeAllActions()
                             self.refill()
@@ -1245,9 +1247,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 self.editArea.saveImageClipboard(data: data, note: note, ext: imageExt)
 
                 if processed == urls.count {
-                    note.save(attributed: self.editArea.attributedText)
+                    note.saveSync(copy: self.editArea.attributedText)
+                    note.invalidateCache()
 
-                    UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                    UIApplication.getVC().notesTable.reloadRows(notes: [note])
                     continue
                 }
 
@@ -1414,8 +1417,6 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
-
-
     }
 
     public func openWikiLink(query: String) {
@@ -1747,8 +1748,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
 
                    if processed == results.count {
                        DispatchQueue.main.async {
-                           note.save(attributed: self.editArea.attributedText)
-                           UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                           note.saveSync(copy: self.editArea.attributedText)
+                           note.invalidateCache()
+
+                           UIApplication.getVC().notesTable.reloadRows(notes: [note])
                        }
                        return
                    }
@@ -1777,8 +1780,10 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
                DispatchQueue.main.async {
                    self.editArea.insertText(markup)
 
-                   note.save(attributed: self.editArea.attributedText)
-                   UIApplication.getVC().notesTable.reloadRowForce(note: note)
+                   note.saveSync(copy: self.editArea.attributedText)
+                   note.invalidateCache()
+
+                   UIApplication.getVC().notesTable.reloadRows(notes: [note])
 
                    note.isParsed = false
 

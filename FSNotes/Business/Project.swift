@@ -464,6 +464,10 @@ public class Project: Equatable {
         return nil
     }
 
+    public func getMd5CheckSum() -> String {
+        return url.path.md5
+    }
+
     public func getGitPath() -> String? {
         if isArchive || parent == nil {
             return nil
@@ -595,7 +599,7 @@ public class Project: Equatable {
 
     public func getHistoryURL() -> URL? {
         let url = storage.getRevisionsHistory()
-        guard let relPath = getRelativePath() else { return nil }
-        return url.appendingPathComponent(relPath)
+
+        return url.appendingPathComponent(getMd5CheckSum())
     }
 }

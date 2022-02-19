@@ -77,7 +77,8 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
         UIApplication.getEVC().userActivity?.invalidate()
 
         loadPreSafeArea()
-        
+        loadPlusButton()
+
         super.viewDidAppear(animated)
     }
 
@@ -627,7 +628,12 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.navigationItem.searchController?.searchBar.becomeFirstResponder()
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.loadPlusButton()
+            }
         }
+
     }
 
     public func unloadSearchController() {
@@ -635,6 +641,11 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
         sidebarTableView.restoreSelection(for: searchQuery)
         reloadNotesTable(with: searchQuery)
+
+        // iOS 12 compatibility
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.loadPlusButton()
+        }
     }
 
     public func callbackSearchController() {
@@ -980,6 +991,14 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
 
     public func openEditorViewController() {
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
+
+        if let controllers = navigationController?.viewControllers {
+            for controller in controllers {
+                if let _ = controller as? EditorViewController {
+                    return
+                }
+            }
+        }
 
         let evc = UIApplication.getEVC()
         navigationController?.pushViewController(evc, animated: true)

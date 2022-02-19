@@ -862,6 +862,14 @@ public class Note: NSObject  {
         }
     }
 
+    public func saveSync(copy: NSAttributedString) {
+        let mutableCopy = NSMutableAttributedString(attributedString: copy)
+        let unloadedCopy = mutableCopy.unLoad()
+
+        self.content = unloadedCopy
+        self.save(content: unloadedCopy)
+    }
+
     public func save(content: NSMutableAttributedString) {
         if isRTF() {
             #if os(OSX)
