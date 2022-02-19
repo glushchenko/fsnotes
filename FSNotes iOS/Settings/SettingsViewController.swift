@@ -14,20 +14,16 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
     var sections = [
         NSLocalizedString("General", comment: "Settings"),
-        NSLocalizedString("UI", comment: "Settings"),
         NSLocalizedString("Storage", comment: "Settings"),
-        "FSNotes"
+        NSLocalizedString("FSNotes", comment: "Settings")
     ]
 
     var rows = [
         [
             NSLocalizedString("Extension", comment: "Settings"),
-            NSLocalizedString("Default Keyboard In Editor", comment: "Settings"),
-            NSLocalizedString("Files Naming", comment: "Settings"),
-            NSLocalizedString("Editor", comment: "Settings")
-        ], [
-            NSLocalizedString("Font", comment: "Settings"),
-            NSLocalizedString("Night Mode", comment: "Settings")
+            NSLocalizedString("Editor", comment: "Settings"),
+            NSLocalizedString("Night Mode", comment: "Settings"),
+            NSLocalizedString("Pro", comment: "Settings"),
         ], [
             NSLocalizedString("Projects", comment: "Settings"),
             NSLocalizedString("Import notes", comment: "Settings")
@@ -42,12 +38,9 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
     var icons = [
         [
             "settings-icons-format",
-            "settings-icons-keyboard",
-            "settings-icons-naming",
-            "settings-icons-editor"
-        ], [
-            "settings-icons-font",
-            "settings-icons-night"
+            "settings-icons-editor",
+            "settings-icons-night",
+            "settings-icons-pro",
         ], [
             "settings-icons-projects",
             "settings-icons-import"
@@ -59,7 +52,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         ]
     ]
 
-    var rowsInSection = [4, 2, 2, 4]
+    var rowsInSection = [4, 2, 4]
 
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -89,7 +82,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
 
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -124,32 +117,11 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
         cell.imageView?.image = image(UIImage(named: iconName)!, withSize: CGSize(width: 40, height: 40))
 
         if indexPath.section == 0x00 {
-            switch indexPath.row {
-            case 0:
-                cell.accessoryType = .disclosureIndicator
-            case 1:
-                cell.accessoryType = .disclosureIndicator
-            case 2:
-                cell.accessoryType = .disclosureIndicator
-            case 3:
-                cell.accessoryType = .disclosureIndicator
-            default:
-                return cell
-            }
-        }
-                
-        if indexPath.section == 0x01 {
-            switch indexPath.row {
-            case 0:
-                cell.accessoryType = .disclosureIndicator
-            case 1:
-                cell.accessoryType = .disclosureIndicator
-            default:
-                return cell
-            }
+            cell.accessoryType = .disclosureIndicator
+            return cell
         }
 
-        if indexPath.section == 0x02 {
+        if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
                 cell.accessoryType = .disclosureIndicator
@@ -182,28 +154,17 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             case 0:
                 lvc = DefaultExtensionViewController()
             case 1:
-                lvc = LanguageViewController()
-            case 2:
-                lvc = NamingViewController()
-            case 3:
                 lvc = SettingsEditorViewController()
+            case 2:
+                lvc = NightModeViewController(style: .grouped)
+            case 3:
+                lvc = ProViewController()
             default:
                 return
             }
         }
-        
-        if indexPath.section == 0x01 {
-            switch indexPath.row {
-            case 0:
-                lvc = FontViewController()
-            case 1:
-                lvc = NightModeViewController(style: .grouped)
-            default: break
-                
-            }
-        }
 
-        if indexPath.section == 0x02 {
+        if indexPath.section == 0x01 {
             switch indexPath.row {
             case 0:
                 lvc = ProjectsViewController()
@@ -221,7 +182,7 @@ class SettingsViewController: UITableViewController, UIDocumentPickerDelegate {
             }
         }
 
-        if indexPath.section == 0x03 {
+        if indexPath.section == 0x02 {
             var url: URL?
 
             switch indexPath.row {

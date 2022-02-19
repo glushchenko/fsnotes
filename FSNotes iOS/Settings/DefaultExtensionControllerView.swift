@@ -11,13 +11,21 @@ import NightNight
 
 class DefaultExtensionViewController: UITableViewController {
     private var sections = [
-        NSLocalizedString("Container", comment: ""),
-        NSLocalizedString("Extension", comment: "")
+        NSLocalizedString("Container", comment: "Settings"),
+        NSLocalizedString("Extension", comment: "Settings"),
+        NSLocalizedString("Files Naming", comment: "Settings"),
     ]
 
-    private var rowsInSection = [1, 4]
+    private var rowsInSection = [1, 4, 4]
 
     private var extensions = ["markdown", "md", "txt", "rtf"]
+
+    private var naming = [
+        NSLocalizedString("Auto Rename By Title", comment: "Settings"),
+        NSLocalizedString("Format: Untitled Note", comment: "Settings"),
+        NSLocalizedString("Format: yyyyMMddHHmmss", comment: "Settings"),
+        NSLocalizedString("Format: yyyy-MM-dd hh.mm.ss a", comment: "Settings"),
+    ]
     
     override func viewDidLoad() {
         view.mixedBackgroundColor = MixedColor(normal: 0xffffff, night: 0x000000)
@@ -51,10 +59,34 @@ class DefaultExtensionViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath), let label = cell.textLabel, let ext = label.text {
-            UserDefaultsManagement.noteExtension = ext
-            UserDefaultsManagement.fileFormat = NoteType.withExt(rawValue: ext)
+            if indexPath.section == 1 {
+                
+                UserDefaultsManagement.noteExtension = ext
+                UserDefaultsManagement.fileFormat = NoteType.withExt(rawValue: ext)
 
-            self.navigationController?.popViewController(animated: true)
+                for index in 0...rowsInSection[indexPath.section] {
+                    let indexPath = IndexPath(row: index, section: 1)
+                    if let cell = tableView.cellForRow(at: indexPath) {
+                        cell.accessoryType = .none
+                        tableView.deselectRow(at: indexPath, animated: false)
+                    }
+                }
+
+                cell.accessoryType = .checkmark
+            } else if indexPath.section == 2 {
+                for index in 0...rowsInSection[indexPath.section] {
+                    let indexPath = IndexPath(row: index, section: 2)
+                    if let cell = tableView.cellForRow(at: indexPath) {
+                        cell.accessoryType = .none
+                        tableView.deselectRow(at: indexPath, animated: false)
+                    }
+                }
+
+                if let id = SettingsFilesNaming(rawValue: cell.tag) {
+                    UserDefaultsManagement.naming = id
+                    cell.accessoryType = .checkmark
+                }
+            }
         }
     }
     
@@ -64,8 +96,18 @@ class DefaultExtensionViewController: UITableViewController {
 
         guard let text = cell.textLabel?.text else { return }
 
-        if UserDefaultsManagement.noteExtension == text {
-            cell.accessoryType = .checkmark
+        if indexPath.section == 1 {
+            if UserDefaultsManagement.noteExtension == text {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
+        } else if indexPath.section == 2 {
+            if UserDefaultsManagement.naming == SettingsFilesNaming(rawValue: cell.tag) {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
         }
     }
     
@@ -85,6 +127,13 @@ class DefaultExtensionViewController: UITableViewController {
             cell.selectedBackgroundView = view
         } else if indexPath.section == 1 {
             cell.textLabel?.text = extensions[indexPath.row]
+
+            let view = UIView()
+            view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)
+            cell.selectedBackgroundView = view
+        } else if indexPath.section == 2 {
+            cell.textLabel?.text = naming[indexPath.row]
+            cell.tag = indexPath.row + 1
 
             let view = UIView()
             view.mixedBackgroundColor = MixedColor(normal: 0xe2e5e4, night: 0x686372)

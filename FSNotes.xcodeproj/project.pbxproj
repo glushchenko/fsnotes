@@ -538,6 +538,8 @@
 		D792DD9727A6D71C006ADC01 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD9527A6D71C006ADC01 /* String+Punycode.swift */; };
 		D792DD9827A6D71C006ADC01 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD9527A6D71C006ADC01 /* String+Punycode.swift */; };
 		D792DD9927A6D71C006ADC01 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D792DD9527A6D71C006ADC01 /* String+Punycode.swift */; };
+		D794558E27C05743000C283F /* ProViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D794558D27C05743000C283F /* ProViewController.swift */; };
+		D794559027C05F81000C283F /* settings-icons-pro.png in Resources */ = {isa = PBXBuildFile; fileRef = D794558F27C05F81000C283F /* settings-icons-pro.png */; };
 		D7958A3922ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
 		D7958A3A22ED512D00EDBDDC /* SandboxBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */; };
 		D7958A3C22EDA35700EDBDDC /* attach.png in Resources */ = {isa = PBXBuildFile; fileRef = D7958A3B22EDA35700EDBDDC /* attach.png */; };
@@ -1396,6 +1398,8 @@
 		D792DD8127A6C980006ADC01 /* FSParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FSParser.swift; sourceTree = "<group>"; };
 		D792DD8F27A6D3BE006ADC01 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D792DD9527A6D71C006ADC01 /* String+Punycode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Punycode.swift"; sourceTree = "<group>"; };
+		D794558D27C05743000C283F /* ProViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProViewController.swift; sourceTree = "<group>"; };
+		D794558F27C05F81000C283F /* settings-icons-pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings-icons-pro.png"; sourceTree = "<group>"; };
 		D7958A3822ED512D00EDBDDC /* SandboxBookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SandboxBookmark.swift; sourceTree = "<group>"; };
 		D7958A3B22EDA35700EDBDDC /* attach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach.png; sourceTree = "<group>"; };
 		D79651B02517741400333AD4 /* ProgressState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressState.swift; sourceTree = "<group>"; };
@@ -1895,6 +1899,7 @@
 			children = (
 				D71C79BC253F3BF5003BD724 /* close-window.png */,
 				D7D79B0624DE738C003C61AF /* settings-icons-container.png */,
+				D794558F27C05F81000C283F /* settings-icons-pro.png */,
 				D7D79B0A24DE738D003C61AF /* settings-icons-format.png */,
 				D7D79B0924DE738D003C61AF /* settings-icons-keyboard.png */,
 				D7D79B0824DE738D003C61AF /* settings-icons-naming.png */,
@@ -2366,6 +2371,7 @@
 				D781156A2153E05A004FA1CA /* ProjectSettingsViewController.swift */,
 				D73A1FFC249941A200CFC376 /* NamingViewController.swift */,
 				D7A549C224DD9D3400537544 /* SettingsEditorViewController.swift */,
+				D794558D27C05743000C283F /* ProViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2926,6 +2932,7 @@
 				D70BA87720599D1300875E9C /* header.png in Resources */,
 				D70BA87920599D1300875E9C /* header@2x.png in Resources */,
 				D7D79AFD24DE71FA003C61AF /* settings-icons-support.png in Resources */,
+				D794559027C05F81000C283F /* settings-icons-pro.png in Resources */,
 				D78DC71F247AE47D00C5BB43 /* plus@2x.png in Resources */,
 				D7C2AB0721E116CE00B1AC0E /* share.png in Resources */,
 				D71AA02021439A8C004AFD2A /* todo_sidebar.png in Resources */,
@@ -3870,6 +3877,7 @@
 				D730BD5C223BFEB200E69C93 /* RuntimeError.swift in Sources */,
 				D7B2B6EA245EEA620084B78D /* LanguageType.swift in Sources */,
 				D7D88192214AACF40054586C /* UINote.swift in Sources */,
+				D794558E27C05743000C283F /* ProViewController.swift in Sources */,
 				D7BDFE6C201F6DC200897A58 /* EditTextView.swift in Sources */,
 				D7D9503D209D806F001FB60B /* SidebarTableView.swift in Sources */,
 				D7B6E59D20794B8C00FE0E20 /* Project.swift in Sources */,

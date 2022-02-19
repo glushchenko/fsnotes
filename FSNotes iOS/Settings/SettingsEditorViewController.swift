@@ -14,11 +14,12 @@ class SettingsEditorViewController: UITableViewController {
 
     private var sections = [
         NSLocalizedString("Settings", comment: ""),
+        NSLocalizedString("View", comment: ""),
         NSLocalizedString("Line Spacing", comment: "Settings"),
-        NSLocalizedString("Font Size", comment: "")
+        NSLocalizedString("Font", comment: "")
     ]
 
-    private var rowsInSection = [6, 1, 2]
+    private var rowsInSection = [2, 2, 1, 3]
 
     private var counter = UILabel(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
@@ -26,13 +27,14 @@ class SettingsEditorViewController: UITableViewController {
         [
             NSLocalizedString("Autocorrection", comment: "Settings"),
             NSLocalizedString("Spell Checking", comment: "Settings"),
+        ],
+        [
             NSLocalizedString("Code block live highlighting", comment: "Settings"),
             NSLocalizedString("Live images preview", comment: "Settings"),
-            NSLocalizedString("Use inline tags", comment: "Settings"),
-            NSLocalizedString("Auto versioning", comment: "Settings"),
         ],
         [""],
         [
+            NSLocalizedString("Family", comment: "Settings"),
             NSLocalizedString("Dynamic Type", comment: "Settings"),
             NSLocalizedString("Font size", comment: "Settings")
         ]
@@ -74,6 +76,11 @@ class SettingsEditorViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 3 && indexPath.row == 0 {
+            let controller = FontViewController()
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+
         tableView.deselectRow(at: indexPath, animated: false)
     }
 
@@ -96,24 +103,25 @@ class SettingsEditorViewController: UITableViewController {
             case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.editorSpellChecking
-            case 2:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
-            case 3:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
-            case 4:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.inlineTags
-            case 5:
-                cell.accessoryView = uiSwitch
-                uiSwitch.isOn = UserDefaultsManagement.autoVersioning
             default:
                 return cell
             }
         }
 
         if indexPath.section == 1 {
+            switch indexPath.row {
+            case 0:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.codeBlockHighlight
+            case 1:
+                cell.accessoryView = uiSwitch
+                uiSwitch.isOn = UserDefaultsManagement.liveImagesPreview
+            default:
+                return cell
+            }
+        }
+
+        if indexPath.section == 2 {
             let brightness = UserDefaultsManagement.editorLineSpacing
             let slider = UISlider(frame: CGRect(x: 10, y: 3, width: tableView.frame.width - 20, height: 40))
             slider.minimumValue = 0
@@ -123,12 +131,14 @@ class SettingsEditorViewController: UITableViewController {
             cell.addSubview(slider)
         }
 
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             switch indexPath.row {
             case 0:
+                cell.accessoryType = .disclosureIndicator
+            case 1:
                 cell.accessoryView = uiSwitch
                 uiSwitch.isOn = UserDefaultsManagement.dynamicTypeFont
-            case 1:
+            case 2:
                 if UserDefaultsManagement.dynamicTypeFont {
                     cell.isHidden = true
                     return cell
@@ -170,7 +180,7 @@ class SettingsEditorViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if (indexPath.section == 2 && indexPath.row == 1 && UserDefaultsManagement.dynamicTypeFont) {
+        if (indexPath.section == 3 && indexPath.row == 2 && UserDefaultsManagement.dynamicTypeFont) {
             return 0
         }
 
@@ -194,61 +204,49 @@ class SettingsEditorViewController: UITableViewController {
                 UserDefaultsManagement.editorSpellChecking = uiSwitch.isOn
 
                 UIApplication.getEVC().editArea.spellCheckingType = UserDefaultsManagement.editorSpellChecking ? .yes : .no
-            case 2:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
-            case 3:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
-            case 4:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.inlineTags = uiSwitch.isOn
-
-                let vc = UIApplication.getVC()
-                if UserDefaultsManagement.inlineTags {
-                    vc.sidebarTableView.loadAllTags()
-                } else {
-                    vc.sidebarTableView.unloadAllTags()
-                }
-
-                vc.resizeSidebar(withAnimation: true)
-
-                UIApplication.getEVC().resetToolbar()
-            case 5:
-                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
-                UserDefaultsManagement.autoVersioning = uiSwitch.isOn
-
-                if !uiSwitch.isOn {
-                    autoVersioningPrompt()
-                }
             default:
                 return
             }
         }
 
         if indexPath.section == 1 {
-            return
+            switch indexPath.row {
+            case 1:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.codeBlockHighlight = uiSwitch.isOn
+            case 2:
+                guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
+                UserDefaultsManagement.liveImagesPreview = uiSwitch.isOn
+            default:
+                return
+            }
         }
 
         if indexPath.section == 2 {
+            return
+        }
+
+        if indexPath.section == 3 {
             switch indexPath.row {
             case 0:
+                return
+            case 1:
                 guard let uiSwitch = cell.accessoryView as? UISwitch else { return }
                 UserDefaultsManagement.dynamicTypeFont = uiSwitch.isOn
                 if uiSwitch.isOn {
                     UserDefaultsManagement.fontSize = 17
                 }
 
-                if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 1, section: 2)) {
+                if let dynamicCell = tableView.cellForRow(at: IndexPath(row: 2, section: 3)) {
                     dynamicCell.isHidden = uiSwitch.isOn
                 }
 
-                tableView.reloadRows(at: [IndexPath(row: 1, section: 2)], with: .automatic)
+                tableView.reloadRows(at: [IndexPath(row: 2, section: 3)], with: .automatic)
 
                 noteTableUpdater.invalidate()
                 noteTableUpdater = Timer.scheduledTimer(timeInterval: 1.2, target: self, selector: #selector(self.reloadNotesTable), userInfo: nil, repeats: false)
                 return
-            case 1:
+            case 2:
                 return
             default:
                 return
@@ -272,29 +270,6 @@ class SettingsEditorViewController: UITableViewController {
     @objc func didChangeLineSpacingSlider(sender: UISlider) {
         MPreviewView.template = nil
         UserDefaultsManagement.editorLineSpacing = sender.value
-    }
-
-    private func autoVersioningPrompt() {
-        let title = NSLocalizedString("History removing", comment: "")
-        let message = NSLocalizedString("Do you want to remove history of all notes?", comment: "")
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
-            let revisions = Storage.shared().getRevisionsHistory()
-            do {
-                try FileManager.default.removeItem(at: revisions)
-            } catch {
-                print("History clear: \(error)")
-            }
-
-            self.dismiss(animated: true)
-        })
-
-        let cancel = NSLocalizedString("Cancel", comment: "")
-        alert.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { (action: UIAlertAction!) in
-        }))
-
-        self.present(alert, animated: true, completion: nil)
     }
 }
 
