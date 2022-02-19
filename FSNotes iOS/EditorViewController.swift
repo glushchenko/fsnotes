@@ -1361,16 +1361,16 @@ class EditorViewController: UIViewController, UITextViewDelegate, UIDocumentPick
         if self.editArea.isImage(at: characterIndex) && myTextView.textStorage.attribute(.todo, at: characterIndex, effectiveRange: nil) == nil {
 
             // Select and show menu
-            guard !self.editArea.isFirstResponder else {
-                self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
-
-                guard let lasTouchPoint = self.editArea.lasTouchPoint else { return }
-                let rect = CGRect(x: self.editArea.frame.width / 2, y: lasTouchPoint.y, width: 0, height: 0)
-
-                UIMenuController.shared.setTargetRect(rect, in: self.view)
-                UIMenuController.shared.setMenuVisible(true, animated: true)
-                return
-            }
+//            guard !self.editArea.isFirstResponder else {
+//                self.editArea.selectedRange = NSRange(location: characterIndex, length: 1)
+//
+//                guard let lasTouchPoint = self.editArea.lasTouchPoint else { return }
+//                let rect = CGRect(x: self.editArea.frame.width / 2, y: lasTouchPoint.y, width: 0, height: 0)
+//
+//                UIMenuController.shared.setTargetRect(rect, in: self.view)
+//                UIMenuController.shared.setMenuVisible(true, animated: true)
+//                return
+//            }
 
             let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.path")
 

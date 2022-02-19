@@ -49,12 +49,14 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
 
         let shareButton = UIBarButtonItem.menuButton(self, action: #selector(share), imageName: "shareButton", size: CGSize(width: 26, height: 26), tintColor: nil)
 
+        let cropButton = UIBarButtonItem.menuButton(self, action: #selector(crop), imageName: "cropButton", size: CGSize(width: 30, height: 30), tintColor: nil)
+
+        let dropButton = UIBarButtonItem.menuButton(self, action: #selector(trashBin), imageName: "trashButton", size: CGSize(width: 30, height: 30), tintColor: nil)
+
         let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         space.width = 20
 
-        let cropButton = UIBarButtonItem.menuButton(self, action: #selector(crop), imageName: "cropButton", size: CGSize(width: 30, height: 30), tintColor: nil)
-
-        navItem.rightBarButtonItems = [shareButton, space, cropButton]
+        navItem.rightBarButtonItems = [shareButton, space, cropButton, space, dropButton]
 
         DispatchQueue.main.async {
             self.rotated()
@@ -146,6 +148,39 @@ class ImagePreviewViewController: UIViewController, CropViewControllerDelegate {
         cropViewController.modalTransitionStyle = .crossDissolve
         cropViewController.transitioningDelegate = nil
         present(cropViewController, animated: true, completion: nil)
+    }
+
+    @IBAction func trashBin() {
+        let messageText = NSLocalizedString("Are you really want to remove this picture? This action can not be undone.", comment: "")
+
+        let alertController = UIAlertController(title: NSLocalizedString("Picture removing", comment: ""), message: messageText, preferredStyle: .alert)
+
+        let confirmAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            if let url = self.url, let note = self.note {
+                let evc = UIApplication.getEVC()
+
+                if let imageRange = evc.editArea.textStorage.getImageRange(url: url) {
+                    evc.editArea.selectedRange = imageRange
+                    evc.editArea.insertText("")
+
+                    if let copy = evc.editArea.attributedText.copy() as? NSAttributedString {
+                        note.saveSync(copy: copy)
+                        note.invalidateCache()
+                    }
+
+                    UIApplication.getVC().notesTable.reloadRows(notes: [note])
+                }
+            }
+
+            self.dismiss(animated: true)
+        }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) { (_) in }
+
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
 
     @objc func rotated() {

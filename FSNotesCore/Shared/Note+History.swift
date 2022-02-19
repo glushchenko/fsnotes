@@ -34,7 +34,7 @@ extension Note {
 
             let noteUrl = versionUrl.appendingPathComponent("file.data")
 
-            if #available(iOS 13.0, *) {
+            if #available(iOS 13.0, macOS 10.15, *) {
                 let data = NSData(contentsOf: url)
                 if let compressed = try? data?.compressed(using: .lz4) {
                     try? compressed.write(to: noteUrl, options: .atomic)
@@ -80,7 +80,7 @@ extension Note {
 
             let src = url.appendingPathComponent("file.data")
 
-            if #available(iOS 13.0, *) {
+            if #available(iOS 13.0, macOS 10.15, *) {
                 let data = NSData(contentsOf: src)
                 if let content = try? data?.decompressed(using: .lz4) {
                     let options = getDocOptions()

@@ -216,6 +216,25 @@ extension NSTextStorage: NSTextStorageDelegate {
         }
     }
 
+    public func getImageRange(url: URL) -> NSRange? {
+        let affectedRange = NSRange(0..<length)
+        var foundRange: NSRange?
+
+        enumerateAttribute(.attachment, in: affectedRange) { (value, range, stop) in
+            if value as? NSTextAttachment != nil, attribute(.todo, at: range.location, effectiveRange: nil) == nil {
+
+                let pathKey = NSAttributedString.Key(rawValue: "co.fluder.fsnotes.image.url")
+                if let result = attribute(pathKey, at: range.location, effectiveRange: nil) as? URL, url.path == result.path {
+
+                    foundRange = range
+                    stop.pointee = true
+                }
+            }
+        }
+
+        return foundRange
+    }
+
     private func loadImages(textStorage: NSTextStorage, checkRange: NSRange) {
         var start = checkRange.lowerBound
         var finish = checkRange.upperBound

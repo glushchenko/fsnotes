@@ -227,14 +227,6 @@ public class NotesTextProcessor {
         return highlightr
     }
 
-    #if os(iOS)
-    public static func updateFont(note: Note) {
-        let font = UserDefaultsManagement.noteFont
-
-        note.content.addAttribute(.font, value: font, range: NSRange(0..<note.content.length))
-    }
-    #endif
-
     public static func highlightCode(attributedString: NSMutableAttributedString, range: NSRange, language: String? = nil, backgroundThread: Bool = false) {
         guard let highlighter = NotesTextProcessor.getHighlighter(backgroundThread: backgroundThread) else { return }
 
