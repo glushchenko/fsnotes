@@ -1,17 +1,17 @@
 /* Settings */
-"Add External Folder" = "Add External Folder";
+"Add External Folder" = "Cartella esterna";
 
 /* Archive in sidebar */
 "Archive" = "Archivio";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete all versions of this note?" = "Are you sure you want to delete all versions of this note?";
+"Are you sure you want to delete all versions of this note?" = "Sei sicuro di voler eliminare tutte le versioni di questa nota?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete the history of all notes?" = "Are you sure you want to delete the history of all notes?";
+"Are you sure you want to delete the history of all notes?" = "Sei sicuro di voler eliminare la cronologia di tutte le note?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete this image?" = "Are you sure you want to delete this image?";
+"Are you sure you want to delete this image?" = "Sei sicuro di voler eliminare questa immagine?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Dalla luminosità dello schermo";
@@ -20,10 +20,10 @@
 "Auto rename by title" = "Rinomina automaticamente per titolo";
 
 /* Settings */
-"Auto Rename By Title" = "Auto Rename By Title";
+"Auto Rename By Title" = "Rinomina per titolo";
 
 /* No comment provided by engineer. */
-"Auto versioning" = "Auto versioning";
+"Auto versioning" = "Versione automatica";
 
 /* Settings */
 "Autocorrection" = "Autocorrezione";
@@ -59,13 +59,13 @@
 "Creation date" = "Data di creazione";
 
 /* No comment provided by engineer. */
-"Date created" = "Date created";
+"Date created" = "Data di creazione";
 
 /* Settings */
 "Default Container" = "Container predefinito";
 
 /* No comment provided by engineer. */
-"Default keyboard in editor" = "Default keyboard in editor";
+"Default keyboard in editor" = "Tastiera predefinita";
 
 /* Table row action */
 "Delete" = "Elimina";
@@ -77,16 +77,16 @@
 "Documents" = "Documenti";
 
 /* No comment provided by engineer. */
-"Duplicate" = "Duplicate";
+"Duplicate" = "Duplicare";
 
 /* Settings */
 "Dynamic Type" = "Tipizzazione dinamica";
 
 /* Settings */
-"Editor" = "Editor";
+"Editor" = "Editrice";
 
 /* Main view popover table */
-"Empty Bin" = "Empty Bin";
+"Empty Bin" = "Cestino vuoto";
 
 /* No comment provided by engineer. */
 "Enabled" = "Abilitato";
@@ -107,10 +107,10 @@
 "Extension" = "Estensione";
 
 /* Settings */
-"Family" = "Family";
+"Family" = "Famiglia di font";
 
 /* Settings */
-"File format" = "File format";
+"File format" = "Formato del file";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Il file con questo nome già esiste";
@@ -137,13 +137,13 @@
 "Font size" = "Dimensione carattere";
 
 /* Settings */
-"Format: Untitled Note" = "Format: Untitled Note";
+"Format: Untitled Note" = "Formato: Untitled Note";
 
 /* Settings */
-"Format: yyyy-MM-dd hh.mm.ss a" = "Format: yyyy-MM-dd hh.mm.ss a";
+"Format: yyyy-MM-dd hh.mm.ss a" = "Formato: yyyy-MM-dd hh.mm.ss a";
 
 /* Settings */
-"Format: yyyyMMddHHmmss" = "Format: yyyyMMddHHmmss";
+"Format: yyyyMMddHHmmss" = "Formato: yyyyMMddHHmmss";
 
 /* Settings */
 "FSNotes" = "FSNotes";
@@ -152,7 +152,7 @@
 "General" = "Generali";
 
 /* No comment provided by engineer. */
-"History" = "History";
+"History" = "Storia";
 
 /* Settings */
 "Homepage" = "Homepage sito web";
@@ -173,7 +173,7 @@
 "Invalid Password" = "Password non valida";
 
 /* Settings */
-"Line Spacing" = "Line Spacing";
+"Line Spacing" = "Interlinea";
 
 /* Settings */
 "Live images preview" = "Antemprima delle immagini";
@@ -182,7 +182,7 @@
 "Lock" = "Blocca";
 
 /* No comment provided by engineer. */
-"Master password:" = "Master password:";
+"Master password:" = "Password principale:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Data di modifica";
@@ -206,7 +206,7 @@
 "Notes list" = "Lista note";
 
 /* Main view popover table */
-"Open in Files.app" = "Open in Files.app";
+"Open in Files.app" = "Apri in Files.app";
 
 /* Document opened */
 "Open note" = "Apri nota";
@@ -215,7 +215,7 @@
 "Photos" = "Foto";
 
 /* No comment provided by engineer. */
-"Picture removing" = "Picture removing";
+"Picture removing" = "Rimozione dell'immagine";
 
 /* Table row action */
 "Pin" = "Fissa";
@@ -227,7 +227,7 @@
 "Preview" = "Antemprima";
 
 /* Settings */
-"Pro" = "Pro";
+"Pro" = "Esteso";
 
 /* Settings */
 "Project" = "Progetto";
@@ -281,7 +281,7 @@
 "Search or create" = "Cerca o crea";
 
 /* Main view popover table */
-"Select" = "Select";
+"Select" = "Selezionare";
 
 /* Sidebar settings */
 "Settings" = "Impostazioni";
@@ -350,4 +350,4 @@
 "Visibility" = "Visibilità";
 
 /* No comment provided by engineer. */
-"Сlearing history" = "Сlearing history";
+"Сlearing history" = "Sto imparando la storia";

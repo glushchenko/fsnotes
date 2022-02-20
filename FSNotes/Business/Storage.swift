@@ -41,7 +41,7 @@ class Storage {
     private var trashURL = URL(string: String())
     private var archiveURL = URL(string: String())
 
-    private let lastNewsDate = "2020-06-20"
+    private let lastNewsDate = "2022-02-20"
     public var isFinishedTagsLoading = false
     public var isCrashedLastTime = false
 
@@ -1362,7 +1362,7 @@ class Storage {
     }
 
     public func getNews() -> URL? {
-        let file = "FSNotes 4.0 Change Log.textbundle"
+        let file = "FSNotes 5.0 Change Log.textbundle"
 
         guard let src = Bundle.main.resourceURL?.appendingPathComponent("Initial/\(file)") else { return nil }
 

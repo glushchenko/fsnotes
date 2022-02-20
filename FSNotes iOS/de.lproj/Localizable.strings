@@ -1,17 +1,17 @@
 /* Settings */
-"Add External Folder" = "Add External Folder";
+"Add External Folder" = "Externer Ordner";
 
 /* Archive in sidebar */
 "Archive" = "Archiv";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete all versions of this note?" = "Are you sure you want to delete all versions of this note?";
+"Are you sure you want to delete all versions of this note?" = "Möchten Sie wirklich alle Versionen dieser Notiz löschen?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete the history of all notes?" = "Are you sure you want to delete the history of all notes?";
+"Are you sure you want to delete the history of all notes?" = "Möchten Sie den Verlauf aller Notizen wirklich löschen?";
 
 /* No comment provided by engineer. */
-"Are you sure you want to delete this image?" = "Are you sure you want to delete this image?";
+"Are you sure you want to delete this image?" = "Möchten Sie dieses Bild wirklich löschen?";
 
 /* No comment provided by engineer. */
 "Auto by screen brightness" = "Automatisch nach Bildschirmhelligkeit";
@@ -20,10 +20,10 @@
 "Auto rename by title" = "Automatisch nach Title";
 
 /* Settings */
-"Auto Rename By Title" = "Auto Rename By Title";
+"Auto Rename By Title" = "Nach Titel umbenennen";
 
 /* No comment provided by engineer. */
-"Auto versioning" = "Auto versioning";
+"Auto versioning" = "Automatische Versionierung";
 
 /* Settings */
 "Autocorrection" = "Autokorrektur";
@@ -59,7 +59,7 @@
 "Creation date" = "Erstelldatum";
 
 /* No comment provided by engineer. */
-"Date created" = "Date created";
+"Date created" = "Datum erstellt";
 
 /* Settings */
 "Default Container" = "Standartcontainer";
@@ -77,16 +77,16 @@
 "Documents" = "Dokumente";
 
 /* No comment provided by engineer. */
-"Duplicate" = "Duplicate";
+"Duplicate" = "Duplikat";
 
 /* Settings */
-"Dynamic Type" = "Dynamic Font";
+"Dynamic Type" = "Dynamische Schriftart";
 
 /* Settings */
-"Editor" = "Editor";
+"Editor" = "Editorin";
 
 /* Main view popover table */
-"Empty Bin" = "Empty Bin";
+"Empty Bin" = "Leerer Behälter";
 
 /* No comment provided by engineer. */
 "Enabled" = "Aktiviert";
@@ -107,10 +107,10 @@
 "Extension" = "Dateiformat";
 
 /* Settings */
-"Family" = "Family";
+"Family" = "Schriftfamilie";
 
 /* Settings */
-"File format" = "File format";
+"File format" = "Datei Format";
 
 /* No comment provided by engineer. */
 "File with this name already exist" = "Eine Datei mit diesem Namen existiert bereits";
@@ -152,7 +152,7 @@
 "General" = "Allgemein";
 
 /* No comment provided by engineer. */
-"History" = "History";
+"History" = "Geschichte";
 
 /* Settings */
 "Homepage" = "Homepage";
@@ -173,7 +173,7 @@
 "Invalid Password" = "Ungültiges Passwort";
 
 /* Settings */
-"Line Spacing" = "Line Spacing";
+"Line Spacing" = "Zeilenabstand";
 
 /* Settings */
 "Live images preview" = "Bilder аnzeigen";
@@ -182,7 +182,7 @@
 "Lock" = "Sperren";
 
 /* No comment provided by engineer. */
-"Master password:" = "Master password:";
+"Master password:" = "Master Passwort:";
 
 /* No comment provided by engineer. */
 "Modification date" = "Änderungsdatum";
@@ -206,7 +206,7 @@
 "Notes list" = "Notizenliste";
 
 /* Main view popover table */
-"Open in Files.app" = "Open in Files.app";
+"Open in Files.app" = "In Files.app öffnen";
 
 /* Document opened */
 "Open note" = "Geöffnete Notiz";
@@ -215,7 +215,7 @@
 "Photos" = "Fotos";
 
 /* No comment provided by engineer. */
-"Picture removing" = "Picture removing";
+"Picture removing" = "Bild entfernen";
 
 /* Table row action */
 "Pin" = "Fixieren";
@@ -272,7 +272,7 @@
 "Save clipboard" = "Kopieren";
 
 /* No comment provided by engineer. */
-"Saved versions" = "Saved versions";
+"Saved versions" = "Gespeicherte Versionen";
 
 /* No comment provided by engineer. */
 "Search" = "Suchen";
@@ -341,7 +341,7 @@
 "Version" = "Version";
 
 /* No comment provided by engineer. */
-"View" = "View";
+"View" = "Sicht";
 
 /* Main view popover table */
 "View settings" = "Einstellungen";
@@ -350,4 +350,4 @@
 "Visibility" = "Sichtbarkeit";
 
 /* No comment provided by engineer. */
-"Сlearing history" = "Сlearing history";
+"Сlearing history" = "Verlauf löschen";
