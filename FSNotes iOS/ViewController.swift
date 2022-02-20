@@ -1460,9 +1460,16 @@ class ViewController: UIViewController, UISearchBarDelegate, UIGestureRecognizer
                 if FileManager.default.fileExists(atPath: noteURL.path),
                    let project = Storage.shared().getProjectByNote(url: noteURL)
                 {
-                    let note = Note(url: noteURL, with: project)
+                    var note = Storage.shared().getBy(url: noteURL)
 
-                    guard !note.isEncrypted()  else { return }
+                    if note == nil {
+                        note = Note(url: noteURL, with: project)
+                        if let unwrapped = note {
+                            Storage.shared().add(unwrapped)
+                        }
+                    }
+
+                    guard let note = note, !note.isEncrypted()  else { return }
 
                     UIApplication.getVC().openEditorViewController()
 
